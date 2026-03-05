@@ -1,0 +1,17 @@
+# IDE and OS
+.vscode/
+.idea/
+*.iml
+.DS_Store
+
+# Maven
+target/
+*.jar
+*.war
+*.ear
+*.class
+
+# Node / Angular
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/

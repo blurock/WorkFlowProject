@@ -1,0 +1,192 @@
+.chat-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background-size: cover;
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 16px !important;
+}
+
+/* ========================================================================= */
+/* Login View Styles                                                         */
+/* ========================================================================= */
+
+.login-box {
+  padding: 2.5rem;
+  max-width: 450px;
+  width: 100%;
+  text-align: center;
+}
+
+.login-box mat-card-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #3f51b5;
+}
+
+.auth-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.auth-options button {
+  padding: 0.5rem 1rem;
+  font-size: 1.05rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.google-btn {
+  background-color: #fff !important;
+  color: #3c4043 !important;
+}
+
+.github-btn {
+  background-color: #24292e !important;
+  color: #fff !important;
+}
+
+/* ========================================================================= */
+/* Authenticated Chat View Styles                                            */
+/* ========================================================================= */
+
+.chat-box {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 800px;
+  height: 85vh;
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+/* Header */
+.chat-header {
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.header-image {
+  background-size: cover;
+  margin-right: 15px;
+}
+
+/* Message List */
+.message-list-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 !important;
+}
+
+.message-list {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Custom Scrollbar */
+.message-list-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.message-list-content::-webkit-scrollbar-thumb {
+  background: rgba(63, 81, 181, 0.3);
+  border-radius: 4px;
+}
+
+.message-bubble {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.75rem;
+  max-width: 80%;
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.msg-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+.message-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.sender-name {
+  margin-bottom: 0.25rem;
+  margin-left: 0.5rem;
+  color: #757575;
+}
+
+.message-bubble.received {
+  align-self: flex-start;
+}
+
+.message-bubble.received .message-text {
+  background: #ffffff;
+  color: #333;
+  padding: 0.85rem 1.1rem;
+  border-radius: 18px 18px 18px 4px;
+}
+
+.message-bubble.sent {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.message-bubble.sent .message-text {
+  background: #3f51b5;
+  /* Material Primary Color */
+  color: #fff;
+  padding: 0.85rem 1.1rem;
+  border-radius: 18px 18px 4px 18px;
+}
+
+/* Input Area */
+.chat-actions {
+  padding: 1rem 1.5rem !important;
+}
+
+.message-form {
+  width: 100%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+/* Adjust mat-form-field bottom padding inside flex */
+::ng-deep .chat-actions .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
