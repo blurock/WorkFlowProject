@@ -1,0 +1,92 @@
+main:
+  params: [args]
+  steps:
+    - init:
+        assign:
+          # Extract variables from the request (sent by the Java OrchestrationController)
+          - prompt: ${args.prompt}
+          - environment: ${default(args.environment, "dev")}
+          - executionId: ${default(sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID"), "test-exec-123")}
+          - firestore_collection: ${if(environment == "prod", "workflows", "workflows_" + environment)}
+          - base_api_url: "https://my-java-backend-315685320181.europe-west1.run.app"
+    - write_processing_status:
+        # Write "processing" state to Firestore using the Firestore REST API
+        call: http.post
+        args:
+          url: ${"https://firestore.googleapis.com/v1/projects/" + sys.get_env("GOOGLE_CLOUD_PROJECT_ID") + "/databases/(default)/documents/" + firestore_collection}
+          auth:
+            type: OAuth2
+          query:
+            documentId: ${executionId}
+          body:
+            fields:
+              status:
+                stringValue: "processing"
+              timestamp:
+                timestampValue: ${time.format(sys.now())}
+
+    - call_search_task:
+        # Call the standalone Java Task we built
+        call: http.post
+        args:
+          url: ${base_api_url + "/api/tasks/dictionary-search"}
+          auth:
+            type: OIDC
+          body:
+            prompt: ${prompt}
+        result: searchResultResponse
+
+    - setup_callback:
+        # Ask Google Workflows to generate a native callback HTTP endpoint for us
+        call: events.create_callback_endpoint
+        args:
+          http_callback_method: "POST"
+        result: callback_details
+
+    - write_waiting_status:
+        # Update Firestore to tell Angular the result and the callback URL
+        call: http.patch
+        args:
+          url: ${"https://firestore.googleapis.com/v1/projects/" + sys.get_env("GOOGLE_CLOUD_PROJECT_ID") + "/databases/(default)/documents/" + firestore_collection + "/" + executionId}
+          auth:
+            type: OAuth2
+          body:
+            fields:
+              status:
+                stringValue: "waiting_for_user"
+              keyword:
+                stringValue: "FindTask"
+              result:
+                stringValue: ${searchResultResponse.body.bestMatch}
+              callbackUrl:
+                stringValue: ${callback_details.url}
+
+    - await_user_callback:
+        # Put the workflow completely to sleep. You do not pay for compute time while it sleeps!
+        call: events.await_callback
+        args:
+          callback: ${callback_details}
+          timeout: 3600 # Wait up to 1 hour for the user to type the summary
+        result: callback_request
+
+    - process_summary:
+        assign:
+          - user_summary: ${callback_request.http_request.body.summary}
+
+    - write_completed_status:
+        # Update Firestore with the final complete status and the user's summary
+        call: http.patch
+        args:
+          url: ${"https://firestore.googleapis.com/v1/projects/" + sys.get_env("GOOGLE_CLOUD_PROJECT_ID") + "/databases/(default)/documents/" + firestore_collection + "/" + executionId}
+          auth:
+            type: OAuth2
+          body:
+            fields:
+              status:
+                stringValue: "completed"
+              finalSummary:
+                stringValue: ${user_summary}
+
+    - return_result:
+        return: ${user_summary}
+

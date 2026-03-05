@@ -39,7 +39,7 @@ export class WorkflowService {
 
             // Otherwise, Start a brand new Workflow via the Java Backend Orchestrator
             const response = await this.http.post<any>(`${environment.apiUrl}/orchestration/start`,
-                { prompt: promptText },
+                { prompt: promptText, mode: environment.mode },
                 { headers: { 'Authorization': `Bearer ${token}` } }
             ).toPromise();
 
@@ -55,7 +55,8 @@ export class WorkflowService {
     }
 
     private listenToWorkflow(executionId: string) {
-        const workflowDocRef = doc(this.firestore, `workflows_dev/${executionId}`);
+        const collectionName = environment.mode === 'prod' ? 'workflows' : `workflows_${environment.mode}`;
+        const workflowDocRef = doc(this.firestore, `${collectionName}/${executionId}`);
 
         if (this.stateService.workflowUnsubscribe) {
             this.stateService.workflowUnsubscribe();

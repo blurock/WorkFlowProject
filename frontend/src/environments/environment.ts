@@ -9,5 +9,6 @@ export const environment = {
     messagingSenderId: "315685320181",
     measurementId: "REPLACE_WITH_REAL_MEASUREMENT_ID"
   },
-  apiUrl: 'http://localhost:8080/api'
+  apiUrl: 'https://my-java-backend-315685320181.europe-west1.run.app/api',
+  mode: 'dev'
 };

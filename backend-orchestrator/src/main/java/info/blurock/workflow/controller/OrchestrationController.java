@@ -25,6 +25,7 @@ public class OrchestrationController {
     @PostMapping("/start")
     public ResponseEntity<Map<String, String>> startWorkflow(@RequestBody Map<String, String> request) {
         String prompt = request.get("prompt");
+        String mode = request.getOrDefault("mode", "dev"); // Default to dev if missing
 
         if (prompt == null || prompt.trim().isEmpty()) {
             return ResponseEntity.badRequest().build();
@@ -36,7 +37,7 @@ public class OrchestrationController {
             // Create the JSON arguments to pass into the Google Workflow
             Map<String, Object> workflowArgs = new HashMap<>();
             workflowArgs.put("prompt", prompt);
-            workflowArgs.put("environment", "dev"); // Inform the workflow to use the dev Firestore collections
+            workflowArgs.put("environment", mode); // Pass the mode from frontend to workflow
 
             ObjectMapper objectMapper = new ObjectMapper();
             String argumentJson = objectMapper.writeValueAsString(workflowArgs);
