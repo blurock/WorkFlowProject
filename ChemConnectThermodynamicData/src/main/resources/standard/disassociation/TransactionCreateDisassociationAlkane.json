@@ -1,0 +1,23 @@
+{
+	"prov:activity": "dataset:TransactionInterpretTextBlock",
+	"dataset:activityinfo": {
+		"dataset:collectionobjecttype": "dataset:JThermodynamicsDisassociationEnergyOfStructureDatabase",
+		"dataset:catalogobjectmaintainer": "Administrator",
+		"dataset:uniquegenericname": "DisassociationEnergyAlkanes",
+		"dataset:datasetobjecttype": "dataset:JThermodynamicsDisassociationEnergyOfStructureDataSet",
+		"dataset:filesourceformat": "dataset:JThermodynamicsDisassociationEnergy",
+		"dataset:blockinterpretationmethod": "dataset:ParseLinesJThermodynamicsDisassociationEnergy",
+		"dcterms:title": "The standard set of Disassociation energies for alkanes",
+		"dataset:dataobjstatus": "CatalogObjectStatusCurrent",
+		"dataset:speciespectype": "dataset:SpeciesSpecificationNancyLinearForm",
+		"dataset:hdisassociationparameter": {
+			"qudt:Unit": {
+				"qudt:SystemOfQuantities": "quantitykind:MolarEnergy",
+				"qudt:QuantityKind": "unit:KiloCAL-PER-MOL"
+			},
+			"dataset:dynamicType": "FixedParameter",
+			"skos:prefLabel": "Hydrogen Disassociation Energy",
+			"dataset:uncertainty": "dataset:EstimatedAbsoluteUncertainty"
+		}
+	}
+}

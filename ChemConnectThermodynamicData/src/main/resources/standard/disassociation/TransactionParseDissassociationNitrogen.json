@@ -1,0 +1,13 @@
+{
+	"prov:activity": "dataset:PartiionSetWithinRepositoryFile",
+	"dataset:activityinfo": {
+		"dataset:collectionobjecttype": "dataset:JThermodynamicsDisassociationEnergyOfStructureDatabase",
+			"dataset:catalogobjectmaintainer": "Administrator",
+			"dataset:uniquegenericname": "DisassociationEnergyNitrogen",
+			"dataset:datasetobjecttype": "dataset:JThermodynamicsDisassociationEnergyOfStructureDataSet",
+		"dataset:filepartitionmethod": "dataset:PartitionToLineSet",
+		"dataset:filesourceformat": "dataset:JThermodynamicsDisassociationEnergy",
+		"dcterms:title": "Standard disassociation energy for Alkanes: Table 6 from McMillen, D F; Golden, D M (1982)",
+		"dataset:blocklinecount": "2"
+	}
+}

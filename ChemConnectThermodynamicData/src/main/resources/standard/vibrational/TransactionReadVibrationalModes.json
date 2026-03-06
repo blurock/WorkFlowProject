@@ -1,0 +1,33 @@
+{
+	"prov:activity": "dataset:InitialReadInLocalStorageSystem",
+	"dataset:transreqobj": {},
+	"dataset:activityinfo": {
+		"dataset:descrfilestaging": {
+			"dataset:purposefilestaging": {
+				"dataset:purposekeyfilestaging": "dataset:PurposeFileStaging",
+				"dataset:dataconceptstaging": "dataset:ConceptFileStaging"
+			},
+			"dataset:keywordfilestaging": [],
+			"dataset:titlestaging": "Carbon-Hydrogen-Oxygen species thermodynamics from Benson Thermochemical Kinetics",
+			"dataset:abstractstaging": "A set of Carbon-Hydrogen-Oxygen species temperature dependent thermodynamics in Benson thermodynamic form. This from Benson Thermochemical Kinetics.",
+			"dcterms:created": "today"
+		},
+		"dataset:uploadsrc": "dataset:ResourceFileSystem",
+		"dataset:filesourceformat": "dataset:JThermodynamicsVibrationalModes",
+		"dataset:fileidentifier": "/resources/standard/vibrational/data/VibrationalModeStandard.txt",
+		"dataset:filemediatype": "dataset:FileTypeText",
+		"dcterms:title": "Vibrational Modes used to calculate corrections to radical thermodynamics of the JTherGas method. The frequencies are from Benson's book, Table A.13 ",
+		"dataset:filesourcesubtype": "",
+		"dataset:collectionobjecttype": "dataset:JThermodynamicsVibrationalStructureDatabase",
+		"dataset:catalogobjectmaintainer": "Administrator",
+		"dataset:uniquegenericname": "BensonVibrationalModesStandard",
+		"dataset:datasetobjecttype": "dataset:JThermodynamicsVibrationalStructureDataSet",
+		"dcterms:identifier": "initialrepositorylocal",
+		"dcterms:BibliographicResource": [
+			{
+				"datacite:PrimaryResourceIdentifier": "ISBN-13: 9780471067818",
+				"dataset:bibliographiclinktype": "dataset:ISBNPublicationLink"
+			}
+		]
+	}
+}

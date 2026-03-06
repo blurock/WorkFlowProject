@@ -1,0 +1,12 @@
+{
+	"prov:activity": "dataset:PartiionSetWithinRepositoryFile",
+	"dataset:activityinfo": {
+			"dataset:catalogobjectmaintainer": "Administrator",
+			"dataset:uniquegenericname": "TableA1HalogenCHORules",
+			"dataset:datasetobjecttype": "dataset:ThermodynamicBensonRuleDefinitionDataSet",
+		"dataset:collectionobjecttype": "dataset:ThermodynamicBensonRuleDefinitionDatabase",
+		"dataset:filepartitionmethod": "dataset:PartitionTherGasThermodynamics",
+		"dataset:filesourceformat": "dataset:TherGasBensonRules",
+		"dcterms:title": "Parse the standard Halogen atom benson rules. This is group 4 of the original THERGAS file."
+	}
+}

@@ -1,0 +1,12 @@
+{
+	"prov:activity": "dataset:PartiionSetWithinRepositoryFile",
+	"dataset:activityinfo": {
+		"dataset:catalogobjectmaintainer": "Administrator",
+		"dataset:uniquegenericname": "TableA1NitrogenCHO",
+		"dataset:datasetobjecttype": "dataset:ThermodynamicBensonRuleDefinitionDataSet",
+		"dataset:collectionobjecttype": "dataset:ThermodynamicBensonRuleDefinitionDatabase",
+		"dataset:filepartitionmethod": "dataset:PartitionTherGasThermodynamics",
+		"dataset:filesourceformat": "dataset:TherGasBensonRules",
+		"dcterms:title": "Parse the standard Nitrogen atom benson rules. This is group 3 of the original THERGAS file."
+	}
+}

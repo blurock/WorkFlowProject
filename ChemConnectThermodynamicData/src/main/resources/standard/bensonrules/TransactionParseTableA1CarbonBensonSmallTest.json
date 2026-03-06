@@ -1,0 +1,12 @@
+{
+	"prov:activity": "dataset:PartiionSetWithinRepositoryFile",
+	"dataset:activityinfo": {
+		"dataset:catalogobjectmaintainer": "Administrator",
+		"dataset:uniquegenericname": "SmallTableA1CarbonBensonRules",
+		"dataset:datasetobjecttype": "dataset:ThermodynamicBensonRuleDefinitionDataSet",
+		"dataset:collectionobjecttype": "dataset:ThermodynamicBensonRuleDefinitionDatabase",
+		"dataset:filepartitionmethod": "dataset:PartitionTherGasThermodynamics",
+		"dataset:filesourceformat": "dataset:TherGasBensonRules",
+		"dcterms:title": "Test: Parse Carbon-Hydrogen Benson Rules set"
+	}
+}

@@ -1,0 +1,197 @@
+
+<list xmlns:dataset="http://esblurock.info/dataset">
+	<dataset:JThermodynamicsSymmetryDefinitionFormat>
+		<dataset:symmetrydefinition>
+			<dataset:structuresymmetryfactor>3</dataset:structuresymmetryfactor>
+			<dataset:structuresymmetrytype>dataset:StructureExternalSymmetry</dataset:structuresymmetrytype>
+			<dataset:symmetrydefinitionlabel>ExternalCyclic-C3(Z1Z2)(Z1Z2)(Z1Z2)</dataset:symmetrydefinitionlabel>
+			<dataset:nodegroupdefinition>
+				<dataset:symdefinitiontype> dataset:SymmetryNodeTypeX </dataset:symdefinitiontype>
+				<dataset:symgrouplabel> a4 </dataset:symgrouplabel>
+				<dataset:symnodelabel> 0</dataset:symnodelabel>
+			</dataset:nodegroupdefinition>
+			<dataset:nodegroupdefinition>
+				<dataset:symdefinitiontype> dataset:SymmetryNodeTypeX </dataset:symdefinitiontype>
+				<dataset:symgrouplabel> a5 </dataset:symgrouplabel>
+				<dataset:symnodelabel> 1</dataset:symnodelabel>
+			</dataset:nodegroupdefinition>
+			<dataset:nodegroupdefinition>
+				<dataset:symdefinitiontype> dataset:SymmetryNodeTypeX </dataset:symdefinitiontype>
+				<dataset:symgrouplabel> a6 </dataset:symgrouplabel>
+				<dataset:symnodelabel> 0</dataset:symnodelabel>
+			</dataset:nodegroupdefinition>
+			<dataset:nodegroupdefinition>
+				<dataset:symdefinitiontype> dataset:SymmetryNodeTypeX </dataset:symdefinitiontype>
+				<dataset:symgrouplabel> a7 </dataset:symgrouplabel>
+				<dataset:symnodelabel> 1</dataset:symnodelabel>
+			</dataset:nodegroupdefinition>
+			<dataset:nodegroupdefinition>
+				<dataset:symdefinitiontype> dataset:SymmetryNodeTypeX </dataset:symdefinitiontype>
+				<dataset:symgrouplabel> a8 </dataset:symgrouplabel>
+				<dataset:symnodelabel> 0</dataset:symnodelabel>
+			</dataset:nodegroupdefinition>
+			<dataset:nodegroupdefinition>
+				<dataset:symdefinitiontype> dataset:SymmetryNodeTypeX </dataset:symdefinitiontype>
+				<dataset:symgrouplabel> a9 </dataset:symgrouplabel>
+				<dataset:symnodelabel> 1</dataset:symnodelabel>
+			</dataset:nodegroupdefinition>
+		</dataset:symmetrydefinition>
+		<molecule>
+			<atomArray>
+				<atom id="a1" elementType="C" x3="-10.954472" y3="8.209697"
+					z3="0.305712" />
+				<atom id="a2" elementType="C" x3="-6.556533" y3="5.962066"
+					z3="0.258284" />
+				<atom id="a3" elementType="C" x3="-10.220927" y3="3.149073"
+					z3="-0.038793" />
+				<atom id="a4" elementType="R" x3="-5.964202" y3="5.955283"
+					z3="1.149350" />
+				<atom id="a5" elementType="R" x3="-5.681550" y3="6.085318"
+					z3="-0.345135" />
+				<atom id="a6" elementType="R" x3="-10.475493" y3="2.515876"
+					z3="0.785317" />
+				<atom id="a7" elementType="R" x3="-10.532485" y3="2.387685"
+					z3="-0.722986" />
+				<atom id="a8" elementType="R" x3="-11.291355" y3="8.773971"
+					z3="-0.538684" />
+				<atom id="a9" elementType="R" x3="-11.484646" y3="8.884769"
+					z3="0.944534" />
+			</atomArray>
+			<bondArray>
+				<bond atomRefs2="a1 a2" order="1" />
+				<bond atomRefs2="a2 a3" order="1" />
+				<bond atomRefs2="a2 a4" order="1" />
+				<bond atomRefs2="a2 a5" order="1" />
+				<bond atomRefs2="a3 a1" order="1" />
+				<bond atomRefs2="a3 a6" order="1" />
+				<bond atomRefs2="a3 a7" order="1" />
+				<bond atomRefs2="a1 a8" order="1" />
+				<bond atomRefs2="a1 a9" order="1" />
+			</bondArray>
+		</molecule>
+	</dataset:JThermodynamicsSymmetryDefinitionFormat>
+	<dataset:JThermodynamicsSymmetryDefinitionFormat>
+		<dataset:symmetrydefinition>
+			<dataset:structuresymmetryfactor>2</dataset:structuresymmetryfactor>
+			<dataset:structuresymmetrytype>dataset:StructureExternalSymmetry</dataset:structuresymmetrytype>
+			<dataset:symmetrydefinitionlabel>ExternalCyclic-C3(Z3Z3)(Z1Z1)(Z1Z1)</dataset:symmetrydefinitionlabel>
+			<dataset:nodegroupdefinition>
+				<dataset:symdefinitiontype> dataset:SymmetryNodeTypeX </dataset:symdefinitiontype>
+				<dataset:symgrouplabel> a4 </dataset:symgrouplabel>
+				<dataset:symnodelabel> 0</dataset:symnodelabel>
+			</dataset:nodegroupdefinition>
+			<dataset:nodegroupdefinition>
+				<dataset:symdefinitiontype> dataset:SymmetryNodeTypeX </dataset:symdefinitiontype>
+				<dataset:symgrouplabel> a5 </dataset:symgrouplabel>
+				<dataset:symnodelabel> 0</dataset:symnodelabel>
+			</dataset:nodegroupdefinition>
+			<dataset:nodegroupdefinition>
+				<dataset:symdefinitiontype> dataset:SymmetryNodeTypeX </dataset:symdefinitiontype>
+				<dataset:symgrouplabel> a6 </dataset:symgrouplabel>
+				<dataset:symnodelabel> 1</dataset:symnodelabel>
+			</dataset:nodegroupdefinition>
+			<dataset:nodegroupdefinition>
+				<dataset:symdefinitiontype> dataset:SymmetryNodeTypeX </dataset:symdefinitiontype>
+				<dataset:symgrouplabel> a7 </dataset:symgrouplabel>
+				<dataset:symnodelabel> 1</dataset:symnodelabel>
+			</dataset:nodegroupdefinition>
+			<dataset:nodegroupdefinition>
+				<dataset:symdefinitiontype> dataset:SymmetryNodeTypeX </dataset:symdefinitiontype>
+				<dataset:symgrouplabel> a8 </dataset:symgrouplabel>
+				<dataset:symnodelabel> 1</dataset:symnodelabel>
+			</dataset:nodegroupdefinition>
+			<dataset:nodegroupdefinition>
+				<dataset:symdefinitiontype> dataset:SymmetryNodeTypeX </dataset:symdefinitiontype>
+				<dataset:symgrouplabel> a9 </dataset:symgrouplabel>
+				<dataset:symnodelabel> 1</dataset:symnodelabel>
+			</dataset:nodegroupdefinition>
+		</dataset:symmetrydefinition>
+		<molecule>
+			<atomArray>
+				<atom id="a1" elementType="C" x3="-10.954472" y3="8.209697"
+					z3="0.305712" />
+				<atom id="a2" elementType="C" x3="-6.556533" y3="5.962066"
+					z3="0.258284" />
+				<atom id="a3" elementType="C" x3="-10.220927" y3="3.149073"
+					z3="-0.038793" />
+				<atom id="a4" elementType="R" x3="-5.964202" y3="5.955283"
+					z3="1.149350" />
+				<atom id="a5" elementType="R" x3="-5.681550" y3="6.085318"
+					z3="-0.345135" />
+				<atom id="a6" elementType="R" x3="-10.475493" y3="2.515876"
+					z3="0.785317" />
+				<atom id="a7" elementType="R" x3="-10.532485" y3="2.387685"
+					z3="-0.722986" />
+				<atom id="a8" elementType="R" x3="-11.291355" y3="8.773971"
+					z3="-0.538684" />
+				<atom id="a9" elementType="R" x3="-11.484646" y3="8.884769"
+					z3="0.944534" />
+			</atomArray>
+			<bondArray>
+				<bond atomRefs2="a1 a2" order="1" />
+				<bond atomRefs2="a2 a3" order="1" />
+				<bond atomRefs2="a2 a4" order="1" />
+				<bond atomRefs2="a2 a5" order="1" />
+				<bond atomRefs2="a3 a1" order="1" />
+				<bond atomRefs2="a3 a6" order="1" />
+				<bond atomRefs2="a3 a7" order="1" />
+				<bond atomRefs2="a1 a8" order="1" />
+				<bond atomRefs2="a1 a9" order="1" />
+			</bondArray>
+		</molecule>
+	</dataset:JThermodynamicsSymmetryDefinitionFormat>
+	<dataset:JThermodynamicsSymmetryDefinitionFormat>
+		<dataset:symmetrydefinition>
+			<dataset:structuresymmetryfactor>2</dataset:structuresymmetryfactor>
+			<dataset:structuresymmetrytype>dataset:StructureExternalSymmetry</dataset:structuresymmetrytype>
+			<dataset:symmetrydefinitionlabel>ExternalCyclic-C3(Z1)(Z2Z2)(Z1)</dataset:symmetrydefinitionlabel>
+			<dataset:nodegroupdefinition>
+				<dataset:symdefinitiontype> dataset:SymmetryNodeTypeX </dataset:symdefinitiontype>
+				<dataset:symgrouplabel> a4 </dataset:symgrouplabel>
+				<dataset:symnodelabel> 1</dataset:symnodelabel>
+			</dataset:nodegroupdefinition>
+			<dataset:nodegroupdefinition>
+				<dataset:symdefinitiontype> dataset:SymmetryNodeTypeX </dataset:symdefinitiontype>
+				<dataset:symgrouplabel> a5 </dataset:symgrouplabel>
+				<dataset:symnodelabel> 0</dataset:symnodelabel>
+			</dataset:nodegroupdefinition>
+			<dataset:nodegroupdefinition>
+				<dataset:symdefinitiontype> dataset:SymmetryNodeTypeX </dataset:symdefinitiontype>
+				<dataset:symgrouplabel> a6 </dataset:symgrouplabel>
+				<dataset:symnodelabel> 1</dataset:symnodelabel>
+			</dataset:nodegroupdefinition>
+			<dataset:nodegroupdefinition>
+				<dataset:symdefinitiontype> dataset:SymmetryNodeTypeX </dataset:symdefinitiontype>
+				<dataset:symgrouplabel> a7 </dataset:symgrouplabel>
+				<dataset:symnodelabel> 1</dataset:symnodelabel>
+			</dataset:nodegroupdefinition>
+		</dataset:symmetrydefinition>
+		<molecule>
+			<atomArray>
+				<atom id="a1" elementType="C" x3="8.173776" y3="4.878282"
+					z3="-3.527901" />
+				<atom id="a2" elementType="C" x3="-2.478156" y3="8.967177"
+					z3="5.340148" />
+				<atom id="a3" elementType="C" x3="6.698839" y3="14.817417"
+					z3="1.531820" />
+				<atom id="a4" elementType="R" x3="8.671154" y3="4.210069"
+					z3="-4.137106" />
+				<atom id="a5" elementType="R" x3="6.501227" y3="15.653423"
+					z3="0.893898" />
+				<atom id="a6" elementType="R" x3="7.416234" y3="15.332183"
+					z3="2.136189" />
+				<atom id="a7" elementType="R" x3="-3.350174" y3="8.839516"
+					z3="5.877095" />
+			</atomArray>
+			<bondArray>
+				<bond atomRefs2="a1 a2" order="2" />
+				<bond atomRefs2="a3 a1" order="1" />
+				<bond atomRefs2="a1 a4" order="1" />
+				<bond atomRefs2="a3 a2" order="1" />
+				<bond atomRefs2="a3 a5" order="1" />
+				<bond atomRefs2="a3 a6" order="1" />
+				<bond atomRefs2="a2 a7" order="1" />
+			</bondArray>
+		</molecule>
+	</dataset:JThermodynamicsSymmetryDefinitionFormat>
+</list>

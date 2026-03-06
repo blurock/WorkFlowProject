@@ -1,0 +1,12 @@
+{
+	"prov:activity": "dataset:PartiionSetWithinRepositoryFile",
+	"dataset:activityinfo": {
+		"dataset:collectionobjecttype": "dataset:JThermodynamicsSymmetryStructureDefinitionDatabase",
+		"dataset:catalogobjectmaintainer": "Administrator",
+		"dataset:uniquegenericname": "InternalSymmetryCarbonAtom",
+		"dataset:datasetobjecttype": "dataset:JThermodynamicsSymmetryStructureDefinitionDataSet",
+		"dataset:filepartitionmethod": "dataset:PartitionXMLListOfCatalogObjects",
+		"dataset:filesourceformat": "dataset:JThermodynamicsSymmetryDefinitionFormat",
+		"dcterms:title": "Internal Symmetry Rules for Carbon Atom. The source of these rules is an extropolation of TherGas rules for symmetry contributions as outlined in the thesis"
+	}
+}

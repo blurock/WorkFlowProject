@@ -1,0 +1,33 @@
+{
+	"prov:activity": "dataset:InitialReadInLocalStorageSystem",
+	"dataset:activityinfo": {
+		"dataset:descrfilestaging": {
+			"dataset:purposefilestaging": {
+				"dataset:purposekeyfilestaging": "dataset:PurposeFileStaging",
+				"dataset:dataconceptstaging": "dataset:ConceptFileStaging"
+			},
+			"dataset:keywordfilestaging": [],
+			"dataset:titlestaging": "Read in a Benson Meta atom set",
+			"dataset:abstractstaging": "Read in a Benson Meta atom set. The set of substructures",
+			"dcterms:created": "today"
+		},
+		"dataset:catalogobjectmaintainer": "Administrator",
+		"dataset:uniquegenericname": "MetaAtomsForBensonAtoms",
+		"dataset:datasetobjecttype": "dataset:JThermodynamicsMetaAtomDefinitionDataSet",
+		"dataset:collectionobjecttype": "dataset:JThermodynamicsMetaAtomDefinitionDatabase",
+		
+		"dataset:fileidentifier": "/resources/standard/metaatoms/data/MetaAtomBensonAtom.txt",
+		"dataset:uploadsrc": "dataset:ResourceFileSystem",
+		"dataset:filemediatype": "dataset:FileTypeText",
+		"dataset:filesourcesubtype": "",
+		"dataset:filesourceformat": "dataset:JThermodynamicsMetaAtomFormat",
+		"dcterms:title": "Benson Meta atom set",
+		"dcterms:identifier": "initialrepositorylocal",
+		"dcterms:BibliographicResource": [
+			{
+				"datacite:PrimaryResourceIdentifier": "ISBN-13: 9780471067818",
+				"dataset:bibliographiclinktype": "dataset:PublicationDOILink"
+			}
+		]
+	}
+}

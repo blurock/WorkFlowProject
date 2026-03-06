@@ -1,0 +1,13 @@
+{
+	"prov:activity": "dataset:PartiionSetWithinRepositoryFile",
+	"dataset:activityinfo": {
+		"dataset:collectionobjecttype": "dataset:JThermodynamicsDisassociationEnergyOfStructureDatabase",
+			"dataset:catalogobjectmaintainer": "Administrator",
+			"dataset:uniquegenericname": "DisassociationEnergyCHO",
+			"dataset:datasetobjecttype": "dataset:JThermodynamicsDisassociationEnergyOfStructureDataSet",
+		"dataset:filepartitionmethod": "dataset:PartitionToLineSet",
+		"dataset:filesourceformat": "dataset:JThermodynamicsDisassociationEnergy",
+		"dcterms:title": "Read in standard disassociation energy for alkanes with oxygen: Table 4 from McMillen, D F; Golden, D M (1982)",
+		"dataset:blocklinecount": "2"
+	}
+}

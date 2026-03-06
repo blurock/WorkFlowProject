@@ -1,0 +1,33 @@
+{
+	"prov:activity": "dataset:InitialReadInLocalStorageSystem",
+	"dataset:transreqobj": {},
+	"dataset:activityinfo": {
+		"dataset:descrfilestaging": {
+			"dataset:purposefilestaging": {
+				"dataset:purposekeyfilestaging": "dataset:PurposeFileStaging",
+				"dataset:dataconceptstaging": "dataset:ConceptFileStaging"
+			},
+			"dataset:keywordfilestaging": [],
+			"dataset:titlestaging": "Linear Meta atom set",
+			"dataset:abstractstaging": "Linear Meta atom set definitions. The set of substructures",
+			"dcterms:created": "today"
+		},
+		"dataset:collectionobjecttype": "dataset:JThermodynamicsMetaAtomDefinitionDatabase",
+		"dataset:catalogobjectmaintainer": "Administrator",
+		"dataset:uniquegenericname": "MetaAtomsForLinearAtoms",
+		"dataset:datasetobjecttype": "dataset:JThermodynamicsMetaAtomDefinitionDataSet",
+		"dataset:uploadsrc": "dataset:ResourceFileSystem",
+		"dataset:filesourceformat": "dataset:JThermodynamicsMetaAtoms",
+		"dataset:fileidentifier": "/resources/standard/metaatoms/data/MetaAtomLinearAtom.txt",
+		"dataset:filemediatype": "dataset:FileTypeText",
+		"dcterms:title": "Linear Meta atom set",
+		"dataset:filesourcesubtype": "",
+		"dcterms:identifier": "initialrepositorylocal",
+		"dcterms:BibliographicResource": [
+			{
+				"datacite:PrimaryResourceIdentifier": "ISBN-13: 9780471067818",
+				"dataset:bibliographiclinktype": "dataset:PublicationDOILink"
+			}
+		]
+	}
+}

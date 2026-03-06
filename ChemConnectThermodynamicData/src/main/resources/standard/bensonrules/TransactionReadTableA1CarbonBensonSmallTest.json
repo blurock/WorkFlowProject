@@ -1,0 +1,37 @@
+{
+	"prov:activity": "dataset:InitialReadInLocalStorageSystem",
+	"dataset:transreqobj": {},
+	"dataset:activityinfo": {
+		"dataset:descrfilestaging": {
+			"dataset:purposefilestaging": {
+				"dataset:purposekeyfilestaging": "dataset:PurposeFileStaging",
+				"dataset:dataconceptstaging": "dataset:ConceptFileStaging"
+			},
+			"dataset:keywordfilestaging": [],
+			"dataset:titlestaging": "Standard Carbon-Hydrogen atom benson rules from table A.1 from Benson Thermochemical Kinetics",
+			"dataset:abstractstaging": "A small test to read the standard Carbon-Hydrogen atom benson rules. This is Table A.1 from Benson Thermochemical Kinetics.",
+			"dcterms:created": "today"
+		},
+		"dataset:uploadsrc": "dataset:ResourceFileSystem",
+		"dataset:filesourceformat": "dataset:TherGasBensonRules",
+		"dataset:filemediatype": "dataset:FileTypeText",
+		"dcterms:title": "Test: Carbon-Hydrogen Benson Rules set",
+		"dataset:filesourcesubtype": "",
+		"dataset:fileidentifier": "/resources/standard/bensonrules/data/tableA1CarbonBensonSmallTest.txt",
+		"dataset:collectionobjecttype": "dataset:ThermodynamicBensonRuleDefinitionDatabase",
+		"dataset:catalogobjectmaintainer": "Administrator",
+		"dataset:uniquegenericname": "SmallTableA1CarbonBensonRules",
+		"dataset:datasetobjecttype": "dataset:ThermodynamicBensonRuleDefinitionDataSet",
+		"dcterms:identifier": "initialrepositorylocal",
+		"dataset:bibliographicreferencelink": [
+			{
+				"dataset:bibliographiclinktype": "dataset:ISBNPublicationLink",
+				"dataset:bibliographiclink": "9780471067818"
+			},
+		{
+			"dataset:bibliographiclinktype": "dataset:PublicationDOILink",
+			"dataset:bibliographiclink": "10.1016/j.cscee.2024.101001"
+		}
+		]
+	}
+}

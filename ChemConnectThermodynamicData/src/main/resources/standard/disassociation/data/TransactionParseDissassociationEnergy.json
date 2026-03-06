@@ -1,0 +1,15 @@
+{
+	"prov:activity": "dataset:PartiionSetWithinRepositoryFile",
+	"dataset:activityinfo": {
+		"dataset:collectionobjecttype": "dataset:JThermodynamicsDisassociationEnergyOfStructureDatabase",
+		"dataset:specificationfordataset": {
+			"dataset:catalogobjectmaintainer": "Administrator",
+			"dataset:uniquegenericname": "DisassociationEnergyAlkanes",
+			"dataset:datasetobjecttype": "dataset:JThermodynamicsDisassociationEnergyOfStructureDataSet"
+		},
+		"dataset:filepartitionmethod": "dataset:PartitionToLineSet",
+		"dataset:filesourceformat": "dataset:JThermodynamicsDisassociationEnergy",
+		"dcterms:title": "The standard set of Disassociation energies",
+		"dataset:blocklinecount": "2"
+	}
+}

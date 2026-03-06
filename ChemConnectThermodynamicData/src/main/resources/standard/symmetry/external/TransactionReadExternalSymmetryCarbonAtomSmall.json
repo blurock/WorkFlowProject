@@ -1,0 +1,49 @@
+{
+	"prov:activity": "dataset:InitialReadInLocalStorageSystem",
+	"dataset:transreqobj": {},
+	"dataset:activityinfo": {
+		"dataset:descrfilestaging": {
+			"dataset:purposefilestaging": {
+				"dataset:purposekeyfilestaging": "dataset:PurposeFileStaging",
+				"dataset:dataconceptstaging": "dataset:ConceptFileStaging"
+			},
+			"dataset:keywordfilestaging": ["ResourceRead","ExternalSymmetry","THERGAS"],
+			"dataset:titlestaging": "Read in External Symmetry Rules for Carbon Atom",
+			"dataset:abstractstaging": "Read in External Symmetry Rules for Carbon Atom. The source of these rules is an extropolation of TherGas rules for symmetry contributions as outlined in the thesis",
+			"dcterms:created": "today"
+		},
+		"dataset:uploadsrc": "dataset:ResourceFileSystem",
+		"dataset:filesourceformat": "dataset:JThermodynamicsSymmetryDefinitionFormat",
+		"dataset:fileidentifier": "/resources/standard/symmetry/external/data/ExternalSymmetryCarbonAtomSmall.xml",
+		"dataset:filemediatype": "dataset:FileTypeText",
+		"dcterms:title": "External Symmetry Rules for Carbon Atom",
+		"dataset:filesourcesubtype": "",
+		"dataset:catalogobjectmaintainer": "Administrator",
+		"dataset:uniquegenericname": "ExternalSymmetryCarbonAtomSmall",
+		"dataset:datasetobjecttype": "dataset:JThermodynamicsSymmetryStructureDefinitionDataSet",
+		"dataset:collectionobjecttype": "dataset:JThermodynamicsSymmetryStructureDefinitionDatabase",
+		"dcterms:identifier": "initialrepositorylocal",
+		"foaf:page": [
+			{
+			"dataset:HttpAddress": "https://doi.org/10.17605/OSF.IO/63DW5",
+			"dataset:httpinformationtype": "dataset:OpenScienceFrameworkRepository",
+			"dataset:httpdescriptiontitle": "JThermodynamics External Symmetry Structure Definition in the Open Science Framework Repository"
+		},
+			{
+			"dataset:HttpAddress": "https://github.com/blurock/Angular/blob/master/ChemConnectCoreOntologyBase/src/main/java/resources/standard/symmetry/external/data/ExternalSymmetryCarbonAtom.xml",
+			"dataset:httpinformationtype": "dataset:GitHubDataReference",
+			"dataset:httpdescriptiontitle": "JThermodynamics External Symmetry Structure Definition in the Github Repository"
+		}		
+		],
+		"dcterms:BibliographicResource": [
+			{
+				"datacite:PrimaryResourceIdentifier": "https://doi.org/10.1016/j.energy.2012.01.072",
+				"dataset:bibliographiclinktype": "dataset:PublicationDOILink"
+					},
+				{
+				"datacite:PrimaryResourceIdentifier": "https://theses.fr/1995INPL010N",
+				"dataset:bibliographiclinktype": "dataset:DataSiteLink"
+			}
+		]
+	}
+}

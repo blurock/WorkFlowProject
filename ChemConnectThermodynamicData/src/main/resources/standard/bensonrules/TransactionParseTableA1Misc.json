@@ -1,0 +1,12 @@
+{
+	"prov:activity": "dataset:PartiionSetWithinRepositoryFile",
+	"dataset:activityinfo": {
+			"dataset:catalogobjectmaintainer": "Administrator",
+			"dataset:uniquegenericname": "tableA1MiscRules",
+			"dataset:datasetobjecttype": "dataset:ThermodynamicBensonRuleDefinitionDataSet",
+		"dataset:collectionobjecttype": "dataset:ThermodynamicBensonRuleDefinitionDatabase",
+		"dataset:filepartitionmethod": "dataset:PartitionTherGasThermodynamics",
+		"dataset:filesourceformat": "dataset:TherGasBensonRules",
+		"dcterms:title": "Parse Miscellaneous benson rules, including Sn, Po, Pb, Zn, V, Cd, Al, Hg, Ge, P, Pn, B and Si Rules set"
+	}
+}

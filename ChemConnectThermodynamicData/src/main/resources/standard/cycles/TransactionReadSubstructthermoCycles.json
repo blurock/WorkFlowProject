@@ -1,0 +1,33 @@
+{
+	"prov:activity": "dataset:InitialReadInLocalStorageSystem",
+	"dataset:transreqobj": {},
+	"dataset:activityinfo": {
+		"dataset:descrfilestaging": {
+			"dataset:purposefilestaging": {
+				"dataset:purposekeyfilestaging": "dataset:PurposeFileStaging",
+				"dataset:dataconceptstaging": "dataset:ConceptFileStaging"
+			},
+			"dataset:keywordfilestaging": [],
+			"dataset:titlestaging": "Read in rings strain thermodynamics from Benson Thermochemical Kinetics",
+			"dataset:abstractstaging": "A set of temperature dependent ring strain thermodynamics for cycles substructures in Benson thermodynamic form. This from Table A.1 in Benson Thermochemical Kinetics.",
+			"dcterms:created": "today"
+		},
+		"dataset:uploadsrc": "dataset:ResourceFileSystem",
+		"dataset:filesourceformat": "dataset:ThergasSpeciesThermodynamics",
+		"dataset:fileidentifier": "/resources/standard/cycles/data/substructthermoCycles.txt",
+		"dataset:filemediatype": "dataset:FileTypeText",
+		"dcterms:title": "Ring Strain Correction Thermodynamics ",
+		"dataset:filesourcesubtype": "",
+		"dataset:collectionobjecttype": "dataset:JThermodynamics2DSubstructureThermodynamicsDatabase",
+		"dataset:catalogobjectmaintainer": "Administrator",
+		"dataset:uniquegenericname": "SubstructthermoCyclesThermodynamics",
+		"dataset:datasetobjecttype": "dataset:JThermodynamics2DSubstructureThermodynamicsDataSet",
+		"dcterms:identifier": "initialrepositorylocal",
+		"dcterms:BibliographicResource": [
+			{
+				"datacite:PrimaryResourceIdentifier": "ISBN-13: 9780471067818",
+				"dataset:bibliographiclinktype": "dataset:ISBNPublicationLink"
+			}
+		]
+	}
+}

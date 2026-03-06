@@ -1,0 +1,39 @@
+{
+	"prov:activity": "dataset:InitialReadInLocalStorageSystem",
+	"dataset:transreqobj": {},
+	"dataset:activityinfo": {
+		"dataset:descrfilestaging": {
+			"dataset:purposefilestaging": {
+				"dataset:purposekeyfilestaging": "dataset:PurposeFileStaging",
+				"dataset:dataconceptstaging": "dataset:ConceptFileStaging"
+			},
+			"dataset:keywordfilestaging": [],
+			"dataset:titlestaging": "Read in standard disassociation energy for compounds containing sulfur: Table 5 from McMillen, D F; Golden, D M (1982)",
+			"dataset:abstractstaging": "Read the standard disassociation energy set. The set of substructures with disassociation energy",
+			"dcterms:created": "today"
+		},
+		"dataset:uploadsrc": "dataset:ResourceFileSystem",
+		"dataset:filesourceformat": "dataset:JThermodynamicsDisassociationEnergyFormat",
+		"dataset:fileidentifier": "/resources/standard/disassociation/data/HDisassociationSulfur.txt",
+		"dataset:filemediatype": "dataset:FileTypeText",
+		"dcterms:title": "Read in standard disassociation energy for compounds containing sulfur: Table 5 from McMillen, D F; Golden, D M (1982)",
+		"dataset:filesourcesubtype": "",
+		"dataset:collectionobjecttype": "dataset:JThermodynamicsDisassociationEnergyOfStructureDatabase",
+			"dataset:catalogobjectmaintainer": "Administrator",
+			"dataset:uniquegenericname": "DisassociationEnergySulfur",
+			"dataset:datasetobjecttype": "dataset:JThermodynamicsDisassociationEnergyOfStructureDataSet",
+		"dcterms:identifier": "initialrepositorylocal",
+		"dcterms:BibliographicResource": [
+			{
+			"datacite:PrimaryResourceIdentifier": "doi:10.1146/annurev.pc.33.100182.002425",
+			"dataset:bibliographiclinktype": "dataset:PublicationDOILink"
+			}
+		],
+		"foaf:page": [
+			{
+				"dataset:HttpAddress": "doi:10.1146/annurev.pc.33.100182.002425",
+				"dataset:httpinformationtype": "dataset:DOI"
+			}
+		]
+	}
+}

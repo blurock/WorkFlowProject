@@ -1,0 +1,37 @@
+{
+	"prov:activity": "dataset:InitialReadInLocalStorageSystem",
+	"dataset:transreqobj": {},
+	"dataset:activityinfo": {
+		"dataset:descrfilestaging": {
+			"dataset:purposefilestaging": {
+				"dataset:purposekeyfilestaging": "dataset:PurposeFileStaging",
+				"dataset:dataconceptstaging": "dataset:ConceptFileStaging"
+			},
+			"dataset:keywordfilestaging": [],
+			"dataset:titlestaging": "Read in Optical Isomer Symmetry Rules",
+			"dataset:abstractstaging": "Optical Isomer Symmetry Rules. The source of these rules is an extropolation of TherGas rules for symmetry contributions as outlined in the thesis",
+			"dcterms:created": "today"
+		},
+		"dataset:uploadsrc": "dataset:ResourceFileSystem",
+		"dataset:filesourceformat": "dataset:JThermodynamicSymmetry",
+		"dataset:fileidentifier": "/resources/standard/symmetry/optical/data/OpticalIsomerSymmetry.xml",
+		"dataset:filemediatype": "dataset:FileTypeText",
+		"dcterms:title": "Optical Isomer Symmetry Rules: extropolation of TherGas rules for symmetry contributions as outlined in the Muller thesis",
+		"dataset:filesourcesubtype": "",
+		"dataset:collectionobjecttype": "dataset:JThermodynamicsSymmetryStructureDefinitionDatabase",
+		"dataset:catalogobjectmaintainer": "Administrator",
+		"dataset:uniquegenericname": "OpticalIsomerSymmetry",
+		"dataset:datasetobjecttype": "dataset:JThermodynamicsSymmetryStructureDefinitionDataSet",
+		"dcterms:identifier": "initialrepositorylocal",
+		"dcterms:BibliographicResource": [
+			{
+				"datacite:PrimaryResourceIdentifier": "https://doi.org/10.1016/j.energy.2012.01.072",
+				"dataset:bibliographiclinktype": "dataset:PublicationDOILink"
+			},
+			{
+				"datacite:PrimaryResourceIdentifier": "https://theses.fr/1995INPL010N",
+				"dataset:bibliographiclinktype": "dataset:DataSiteLink"
+			}
+		]
+	}
+}

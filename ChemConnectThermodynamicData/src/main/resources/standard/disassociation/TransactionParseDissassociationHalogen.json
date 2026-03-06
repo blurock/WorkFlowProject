@@ -1,0 +1,13 @@
+{
+	"prov:activity": "dataset:PartiionSetWithinRepositoryFile",
+	"dataset:activityinfo": {
+		"dataset:collectionobjecttype": "dataset:JThermodynamicsDisassociationEnergyOfStructureDatabase",
+			"dataset:catalogobjectmaintainer": "Administrator",
+			"dataset:uniquegenericname": "DisassociationEnergyHalogens",
+			"dataset:datasetobjecttype": "dataset:JThermodynamicsDisassociationEnergyOfStructureDataSet",
+		"dataset:filepartitionmethod": "dataset:PartitionToLineSet",
+		"dataset:filesourceformat": "dataset:JThermodynamicsDisassociationEnergy",
+		"dcterms:title": "Parse file for standard disassociation energy for Halogens: Table 7 from McMillen, D F; Golden, D M (1982)",
+		"dataset:blocklinecount": "2"
+	}
+}

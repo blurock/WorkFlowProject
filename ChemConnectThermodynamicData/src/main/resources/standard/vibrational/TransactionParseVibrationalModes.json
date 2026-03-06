@@ -1,0 +1,13 @@
+{
+	"prov:activity": "dataset:PartiionSetWithinRepositoryFile",
+	"dataset:activityinfo": {
+		"dataset:collectionobjecttype": "dataset:JThermodynamicsVibrationalStructureDatabase",
+		"dataset:catalogobjectmaintainer": "Administrator",
+		"dataset:uniquegenericname": "BensonVibrationalModesStandard",
+		"dataset:datasetobjecttype": "dataset:JThermodynamicsVibrationalStructureDataSet",
+		"dataset:filepartitionmethod": "dataset:PartitionToLineSet",
+		"dataset:blocklinecount": "1",
+		"dataset:filesourceformat": "dataset:JThermodynamicsVibrationalModes",
+		"dcterms:title": "Vibrational Modes used to calculate corrections to radical thermodynamics of the JTherGas method."
+	}
+}

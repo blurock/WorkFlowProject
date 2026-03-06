@@ -1,0 +1,23 @@
+{
+	"prov:activity": "dataset:TransactionInterpretTextBlock",
+	"dataset:activityinfo": {
+		"dataset:collectionobjecttype": "dataset:JThermodynamicsDisassociationEnergyOfStructureDatabase",
+			"dataset:catalogobjectmaintainer": "Administrator",
+			"dataset:uniquegenericname": "DisassociationEnergyNitrogen",
+			"dataset:datasetobjecttype": "dataset:JThermodynamicsDisassociationEnergyOfStructureDataSet",
+		"dataset:filesourceformat": "dataset:JThermodynamicsDisassociationEnergy",
+		"dataset:blockinterpretationmethod": "dataset:ParseLinesJThermodynamicsDisassociationEnergy",
+		"dcterms:title": "standard disassociation energy for Alkanes: Table 6 from McMillen, D F; Golden, D M (1982)",
+		"dataset:dataobjstatus": "CatalogObjectStatusCurrent",
+		"dataset:speciespectype": "dataset:SpeciesSpecificationNancyLinearForm",
+		"dataset:hdisassociationparameter": {
+			"qudt:Unit": {
+				"qudt:SystemOfQuantities": "quantitykind:MolarEnergy",
+				"qudt:QuantityKind": "unit:KiloCAL-PER-MOL"
+			},
+			"dataset:dynamicType": "FixedParameter",
+			"skos:prefLabel": "Hydrogen Disassociation Energy",
+			"dataset:uncertainty": "dataset:EstimatedAbsoluteUncertainty"
+		}
+	}
+}

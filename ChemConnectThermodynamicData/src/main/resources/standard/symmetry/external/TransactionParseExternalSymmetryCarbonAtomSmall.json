@@ -1,0 +1,12 @@
+{
+	"prov:activity": "dataset:PartiionSetWithinRepositoryFile",
+		"dataset:activityinfo": {
+		"dataset:collectionobjecttype": "dataset:JThermodynamicsSymmetryStructureDefinitionDatabase",
+		"dataset:catalogobjectmaintainer": "Administrator",
+		"dataset:uniquegenericname": "ExternalSymmetryCarbonAtomSmall",
+		"dataset:datasetobjecttype": "dataset:JThermodynamicsSymmetryStructureDefinitionDataSet",
+		"dataset:filepartitionmethod": "dataset:PartitionXMLListOfCatalogObjects",
+		"dataset:filesourceformat": "dataset:JThermodynamicsSymmetryDefinitionFormat",
+		"dcterms:title": "External Symmetry Rules for Carbon Atom: extropolation of TherGas rules for symmetry contributions as outlined in the Muller thesis"
+	}
+}

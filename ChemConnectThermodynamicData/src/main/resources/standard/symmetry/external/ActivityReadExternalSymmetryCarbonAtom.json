@@ -1,0 +1,36 @@
+{
+	"prov:activity": "dataset:InitialReadInOfRepositoryFile",
+	"dataset:transreqobj": {},
+	"dataset:activityinfo": {
+	"descr-filestaging": {
+		"dataset:purpose-filestaging": {
+			"dataset:purposekey-filestaging": "dataset:PurposeFileStaging",
+			"dataset:dataconcept-staging": "dataset:ConceptFileStaging"
+		},
+		"dataset:keyword-filestaging": [],
+		"dataset:title-staging": "Read in External Symmetry Rules for Carbon Atom",
+		"dataset:abstract-staging": "Read in External Symmetry Rules for Carbon Atom. The source of these rules is an extropolation of TherGas rules for symmetry contributions as outlined in the thesis",
+		"dcterms:created": "today"
+	},
+	"dataset:uploadsrc": "dataset:ResourceFileSystem",
+	"dataset:filesourceformat": "dataset:JThermodynamicsSymmetryDefinitionFormat",
+	"dataset:filemediatype": "dataset:FileTypeText",
+	"dcterms:title": "External Symmetry Rules for Carbon Atom: The source of these rules is an extropolation of TherGas rules for symmetry contributions as outlined in the thesis",
+	"dataset:filesourcesubtype": "",
+		"dataset:collectionobjecttype": "dataset:JThermodynamicsSymmetryStructureDefinitionDatabase",
+			"dataset:catalogobjectmaintainer": "Administrator",
+			"dataset:uniquegenericname": "ExternalSymmetryCarbonAtom",
+			"dataset:datasetobjecttype": "dataset:JThermodynamicsSymmetryStructureDefinitionDataSet",
+	"dcterms:identifier": "initialrepositorylocal",
+	"dcterms:BibliographicResource": [
+		{
+			"datacite:PrimaryResourceIdentifier": "https://doi.org/10.1016/j.energy.2012.01.072",
+			"dataset:bibliographiclinktype": "dataset:PublicationDOILink"
+		},
+		{
+			"datacite:PrimaryResourceIdentifier": "https://theses.fr/1995INPL010N",
+			"dataset:bibliographiclinktype": "dataset:DataSiteLink"
+		}
+	]
+}
+}

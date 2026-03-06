@@ -1,0 +1,13 @@
+{
+	"prov:activity": "dataset:PartiionSetWithinRepositoryFile",
+	"dataset:activityinfo": {
+		"dataset:collectionobjecttype": "dataset:JThermodynamicsDisassociationEnergyOfStructureDatabase",
+			"dataset:catalogobjectmaintainer": "Administrator",
+			"dataset:uniquegenericname": "DisassociationEnergySulfur",
+			"dataset:datasetobjecttype": "dataset:JThermodynamicsDisassociationEnergyOfStructureDataSet",
+		"dataset:filepartitionmethod": "dataset:PartitionToLineSet",
+		"dataset:filesourceformat": "dataset:JThermodynamicsDisassociationEnergy",
+		"dcterms:title": "Parse file with standard disassociation energy for compounds containing sulfur: Table 5 from McMillen, D F; Golden, D M (1982)",
+		"dataset:blocklinecount": "2"
+	}
+}

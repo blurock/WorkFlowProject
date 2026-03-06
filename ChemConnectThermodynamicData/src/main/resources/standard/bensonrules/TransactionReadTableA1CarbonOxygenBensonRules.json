@@ -1,0 +1,33 @@
+{
+	"prov:activity": "dataset:InitialReadInLocalStorageSystem",
+	"dataset:transreqobj": {},
+	"dataset:activityinfo": {
+		"dataset:descrfilestaging": {
+			"dataset:purposefilestaging": {
+				"dataset:purposekeyfilestaging": "dataset:PurposeFileStaging",
+				"dataset:dataconceptstaging": "dataset:ConceptFileStaging"
+			},
+			"dataset:keywordfilestaging": [],
+			"dataset:titlestaging": "Read in standard Carbon-Hydrogen-Oxygen atom benson rules from table A.1 from Benson Thermochemical Kinetics",
+			"dataset:abstractstaging": "Read the sstandard Carbon-Hydrogen-Oxygen atom benson rules. This is group 2 of the original THERGAS file. This is Table A.1 from Benson Thermochemical Kinetics.",
+			"dcterms:created": "today"
+		},
+		"dataset:uploadsrc": "dataset:ResourceFileSystem",
+		"dataset:filesourceformat": "dataset:TherGasBensonRules",
+		"dataset:filemediatype": "dataset:FileTypeText",
+		"dcterms:title": "Carbon-Hydrogen-Oxygen Benson Rules set",
+		"dataset:filesourcesubtype": "",
+		"dataset:fileidentifier": "/resources/standard/bensonrules/data/tableA1CHOAtoms.txt",
+		"dataset:collectionobjecttype": "dataset:ThermodynamicBensonRuleDefinitionDatabase",
+		"dataset:catalogobjectmaintainer": "Administrator",
+		"dataset:uniquegenericname": "TableA1CarbonOxygenHydrogenBensonRules",
+		"dataset:datasetobjecttype": "dataset:ThermodynamicBensonRuleDefinitionDataSet",
+		"dcterms:identifier": "initialrepositorylocal",
+		"dcterms:BibliographicResource": [
+			{
+				"datacite:PrimaryResourceIdentifier": "ISBN-13: 9780471067818",
+				"dataset:bibliographiclinktype": "dataset:PublicationDOILink"
+			}
+		]
+	}
+}

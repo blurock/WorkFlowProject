@@ -1,0 +1,13 @@
+{
+	"prov:activity": "dataset:PartiionSetWithinRepositoryFile",
+	"dataset:activityinfo": {
+		"dataset:collectionobjecttype": "dataset:JThermodynamicsMetaAtomDefinitionDatabase",
+		"dataset:catalogobjectmaintainer": "Administrator",
+		"dataset:uniquegenericname": "MetaAtomsForLinearAtoms",
+		"dataset:datasetobjecttype": "dataset:JThermodynamicsMetaAtomDefinitionDataSet",
+		"dataset:filepartitionmethod": "dataset:PartitionToLineSet",
+		"dataset:filesourceformat": "dataset:JThermodynamicsMetaAtoms",
+		"dcterms:title": "The standard set of Linear Meta atoms",
+		"dataset:blocklinecount": "1"
+	}
+	}

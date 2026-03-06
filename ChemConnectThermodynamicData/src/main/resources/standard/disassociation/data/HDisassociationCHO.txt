@@ -1,0 +1,82 @@
+  4  1 119.0 1.0 oh(.)
+l oh(.)
+  4  2 104.4 1.0 ch3/o(.)
+l ch3/o(.)
+  4  3 104.2 1.0 o/c2h5
+l o(.)/ch2/ch3
+  4  4 103.4 1.0 o-n-c3h7
+l o(.)/ch2/ch2/ch3
+  4  5 102.9 1.0 o-n-c4h9
+l o(.)/ch2/ch2/ch2/ch3
+  4  6 104.7 1.0 o-i-c3h7
+l o(.)/ch(ch3)2
+  4  7 105.5 1.0 o-s-c4h9
+l o(.)/ch(ch3)/ch2/ch3
+  4  8 105.1 1.0 o/c(ch3)3
+l o(.)/c(ch3)3
+  4 10 102.3 1.5 o/ch2/c(ch3)3
+l o(.)/ch2/c(ch3)3
+  4 11  88.0 2.0 phi/o(.)
+l c(#1)(/o(.))&ch&ch&ch&ch&ch&1
+  4 14  88.1 1.0 o2h
+l o(.)/oh
+  4 15 105.8 2.0 co(ch3)/o(.)
+l o(.)/co/ch3
+  4 16 106.4 2.0 co(c2h5)/o(.)
+l o(.)/co/ch2/ch3
+  4 17 105.9 2.0 co(n-c3h7)/o(.)
+l o(.)/co/ch2/ch2/ch3
+  4 18  89.9 1.0 cho
+l cho(.)
+  4 19  88.9 0.8 ch3/co(.)
+l co(.)/ch3
+  4 20  87.1 1.0 ch2//ch/co(.)
+l ch2//ch/co(.)
+  4 21  87.4 1.0 co(.)/c2h5
+l co(.)/ch2/ch3
+  4 22  86.9 1.0 co(.)/phi
+l c(#1)(co(.))&ch&ch&ch&ch&ch&1
+  4 23  91.0 2.0 cf3/co(.)
+l cf3/co(.)
+  4 24  98.3 1.8 ch3/co/ch2(.)
+l ch3/co/ch2(.)
+  4 25  92.3 1.4 ch3/co/ch(.)/ch3
+l ch3/co/ch(.)/ch3
+  4 26  97.9 2.0 ch2(.)/oh
+l ch2(.)/oh
+  4 27  94.8 1.0 ch(oh)(.)/ch3
+l ch3/ch(.)/oh
+  4 28  93.0 1.0 c(.)(ch3)2(oh)
+l c(.)(ch3)2/oh
+  4 29  96.5 1.0 ch3/o/ch2(.)
+l ch3/o/ch2(.)
+  4 30  92.0 1.0 tetrahydrofuron-2-yi
+l c(#1)h(.)/o/ch2/ch2/ch2/1
+  4 31  81.6 1.8 ch2//ch/ch(.)(oh)
+l ch2//ch/ch(.)/oh
+  4 32  96.5 1.0 co(.)/o/ch3
+l co(.)/o/ch3
+  4 33  99.0 2.0 ch3/co/o/ch2(.)
+l  ch3/co/o/ch2(.)
+  4 34  94.4 2.0 ch3/ch(.)/cho
+l ch3/ch(.)/cho
+  4 35  87.2 2.0 ch3/ch2/o/o(.)
+l ch3/ch2/o/o(.)
+  4 36  87.2 2.0 ch3/o/o(.)
+l ch3/o/o(.)
+  4 37  87.2 2.0 ch3/ch(/oh)/o/o(.)
+l ch3/ch(/oh)/o/o(.)
+  4 38  87.2 0.8 ch3/co/o/o(.)
+l ch3/co/o/o(.)
+  4 39 100.9 1.0 ch2//ch/ch(o/oh)/ch2/ch2(.)
+l ch2//ch/ch(o/oh)/ch2/ch2(.)
+  4 40  87.2 0.8 peroxy-cyclo-hexanol
+l c(#1)h2/c(/oh)(/o/o(.))/ch2/ch2/ch2/ch2/1
+  4 41  96.5 2.0 co(.)/oh
+l co(.)/oh
+  4 42  94.3 2.0 ch3/ch(.)/co/oh
+l  ch3/ch(.)/co/oh
+  4 43  96.7 2.0 ch2(.)/co/oh
+l  ch2(.)/co/oh
+  4 44 100.2 1.3 phi/co/o/ch2(.)
+l c(#1)&ch&ch&ch&ch&ch&1,1/co/o/ch2(.)

@@ -1,0 +1,12 @@
+{
+	"prov:activity": "dataset:PartiionSetWithinRepositoryFile",
+	"dataset:activityinfo": {
+		"dataset:collectionobjecttype": "dataset:ThermodynamicBensonRuleDefinitionDatabase",
+		"dataset:catalogobjectmaintainer": "Administrator",
+		"dataset:uniquegenericname": "HBIBurke2015",
+		"dataset:datasetobjecttype": "dataset:JThermodynamics2DSubstructureThermodynamicsDataSet",
+		"dataset:filepartitionmethod": "dataset:PartitionTherGasThermodynamics",
+		"dataset:filesourceformat": "dataset:ThergasSpeciesThermodynamics",
+		"dcterms:title": "HBI Rules from Burke et. al 2015"
+	}
+}

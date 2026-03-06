@@ -1,0 +1,53 @@
+{
+	"prov:activity": "dataset:TransactionInterpretTextBlock",
+	"dataset:activityinfo": {
+			"dataset:catalogobjectmaintainer": "Administrator",
+			"dataset:uniquegenericname": "HBIBurke2015",
+			"dataset:datasetobjecttype": "dataset:JThermodynamics2DSubstructureThermodynamicsDataSet",
+		"dataset:filesourceformat": "dataset:ThergasSpeciesThermodynamics",
+		"dataset:blockinterpretationmethod": "dataset:ParseLinesJThermodynamicsSubstructures",
+		"dcterms:title": "HBI Rules from Burke et. al 2015",
+		"dataset:dataobjstatus": "CatalogObjectStatusCurrent",
+		"dataset:speciespectype": "dataset:SpeciesSpecificationNancyLinearForm",
+		"dataset:substructurecorrectiontype": "dataset:HBISubstructure",
+		"dataset:bensontemperaturelist": [
+			300,400,500,600,800,1000,1500
+		],
+		"dataset:thermotemperature": {
+			"qudt:Unit": {
+				"qudt:SystemOfQuantities": "quantitykind:Temperature",
+				"qudt:QuantityKind": "unit:K"
+			},
+			"dataset:dynamicType": "dataset:FixedParameter",
+			"skos:prefLabel": "Temperature",
+			"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty"
+		},
+		"dataset:paramspecenthalpy": {
+			"qudt:Unit": {
+				"qudt:SystemOfQuantities": "qudt:MolarEnergyUnit",
+				"qudt:QuantityKind": "qudt:KilocaloriePerMole"
+			},
+			"dataset:dynamicType": "FixedParameter",
+			"skos:prefLabel": "Enthaply",
+			"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty"
+		},
+		"dataset:paramspecentropy": {
+			"qudt:Unit": {
+				"qudt:SystemOfQuantities": "qudt:MolarEnergyUnit",
+				"qudt:QuantityKind": "qudt:caloriePerMole"
+			},
+			"dataset:dynamicType": "FixedParameter",
+			"skos:prefLabel": "Entropy",
+			"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty"
+		},
+		"dataset:paramspecheatcapacity": {
+			"qudt:Unit": {
+				"qudt:SystemOfQuantities": "qudt:MolarEnergyUnit",
+				"qudt:QuantityKind": "qudt:caloriePerMole"
+			},
+			"dataset:dynamicType": "FixedParameter",
+			"skos:prefLabel": "Heat Capacity",
+			"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty"
+		}
+	}
+}
