@@ -1,0 +1,935 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://qudt.org/2.1/vocab/prefix#"
+     xml:base="http://qudt.org/2.1/vocab/prefix"
+     xmlns:sp="http://spinrdf.org/sp#"
+     xmlns:arg="http://spinrdf.org/arg#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:spl="http://spinrdf.org/spl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:qudt="http://qudt.org/schema/qudt/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:spin="http://spinrdf.org/spin#"
+     xmlns:vaem="http://www.linkedmodel.org/schema/vaem#"
+     xmlns:terms="http://purl.org/dc/terms/">
+    <owl:Ontology rdf:about="http://qudt.org/2.1/vocab/prefix">
+        <owl:versionIRI rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <owl:imports rdf:resource="http://qudt.org/2.1/schema/facade/qudt"/>
+        <vaem:hasGraphMetadata rdf:resource="http://www.linkedmodel.org/schema/vaem#GMD_QUDT-PREFIXES"/>
+        <rdfs:label>QUDT VOCAB Decimal Prefixes Release 2.1.37</rdfs:label>
+        <owl:versionInfo>Created with TopBraid Composer</owl:versionInfo>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.org/dc/terms/contributor -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/contributor"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/created -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/created"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/creator -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/creator"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/description -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/description"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/modified -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/modified"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/rights -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/rights"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/subject -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/subject"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/title -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/title"/>
+    
+
+
+    <!-- http://qudt.org/schema/qudt/dbpediaMatch -->
+
+    <owl:AnnotationProperty rdf:about="http://qudt.org/schema/qudt/dbpediaMatch"/>
+    
+
+
+    <!-- http://qudt.org/schema/qudt/exactMatch -->
+
+    <owl:AnnotationProperty rdf:about="http://qudt.org/schema/qudt/exactMatch"/>
+    
+
+
+    <!-- http://qudt.org/schema/qudt/informativeReference -->
+
+    <owl:AnnotationProperty rdf:about="http://qudt.org/schema/qudt/informativeReference"/>
+    
+
+
+    <!-- http://qudt.org/schema/qudt/prefixMultiplier -->
+
+    <owl:AnnotationProperty rdf:about="http://qudt.org/schema/qudt/prefixMultiplier"/>
+    
+
+
+    <!-- http://qudt.org/schema/qudt/siExactMatch -->
+
+    <owl:AnnotationProperty rdf:about="http://qudt.org/schema/qudt/siExactMatch"/>
+    
+
+
+    <!-- http://qudt.org/schema/qudt/symbol -->
+
+    <owl:AnnotationProperty rdf:about="http://qudt.org/schema/qudt/symbol"/>
+    
+
+
+    <!-- http://qudt.org/schema/qudt/ucumCode -->
+
+    <owl:AnnotationProperty rdf:about="http://qudt.org/schema/qudt/ucumCode"/>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#description -->
+
+    <owl:AnnotationProperty rdf:about="http://www.linkedmodel.org/schema/vaem#description"/>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#graphName -->
+
+    <owl:AnnotationProperty rdf:about="http://www.linkedmodel.org/schema/vaem#graphName"/>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#graphTitle -->
+
+    <owl:AnnotationProperty rdf:about="http://www.linkedmodel.org/schema/vaem#graphTitle"/>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#hasGraphMetadata -->
+
+    <owl:AnnotationProperty rdf:about="http://www.linkedmodel.org/schema/vaem#hasGraphMetadata"/>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#hasGraphRole -->
+
+    <owl:AnnotationProperty rdf:about="http://www.linkedmodel.org/schema/vaem#hasGraphRole"/>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#hasOwner -->
+
+    <owl:AnnotationProperty rdf:about="http://www.linkedmodel.org/schema/vaem#hasOwner"/>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#hasSteward -->
+
+    <owl:AnnotationProperty rdf:about="http://www.linkedmodel.org/schema/vaem#hasSteward"/>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#intent -->
+
+    <owl:AnnotationProperty rdf:about="http://www.linkedmodel.org/schema/vaem#intent"/>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#isMetadataFor -->
+
+    <owl:AnnotationProperty rdf:about="http://www.linkedmodel.org/schema/vaem#isMetadataFor"/>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#latestPublishedVersion -->
+
+    <owl:AnnotationProperty rdf:about="http://www.linkedmodel.org/schema/vaem#latestPublishedVersion"/>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#logo -->
+
+    <owl:AnnotationProperty rdf:about="http://www.linkedmodel.org/schema/vaem#logo"/>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#namespace -->
+
+    <owl:AnnotationProperty rdf:about="http://www.linkedmodel.org/schema/vaem#namespace"/>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#namespacePrefix -->
+
+    <owl:AnnotationProperty rdf:about="http://www.linkedmodel.org/schema/vaem#namespacePrefix"/>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#owner -->
+
+    <owl:AnnotationProperty rdf:about="http://www.linkedmodel.org/schema/vaem#owner"/>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#previousPublishedVersion -->
+
+    <owl:AnnotationProperty rdf:about="http://www.linkedmodel.org/schema/vaem#previousPublishedVersion"/>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#revision -->
+
+    <owl:AnnotationProperty rdf:about="http://www.linkedmodel.org/schema/vaem#revision"/>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#specificity -->
+
+    <owl:AnnotationProperty rdf:about="http://www.linkedmodel.org/schema/vaem#specificity"/>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#turtleFileURL -->
+
+    <owl:AnnotationProperty rdf:about="http://www.linkedmodel.org/schema/vaem#turtleFileURL"/>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#urlForHTML -->
+
+    <owl:AnnotationProperty rdf:about="http://www.linkedmodel.org/schema/vaem#urlForHTML"/>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#usesNonImportedResource -->
+
+    <owl:AnnotationProperty rdf:about="http://www.linkedmodel.org/schema/vaem#usesNonImportedResource"/>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#website -->
+
+    <owl:AnnotationProperty rdf:about="http://www.linkedmodel.org/schema/vaem#website"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Datatypes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://qudt.org/schema/qudt/LatexString -->
+
+    <rdfs:Datatype rdf:about="http://qudt.org/schema/qudt/LatexString"/>
+    
+
+
+    <!-- http://www.w3.org/2001/XMLSchema#date -->
+
+    <rdfs:Datatype rdf:about="http://www.w3.org/2001/XMLSchema#date"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://qudt.org/schema/qudt/BinaryPrefix -->
+
+    <owl:Class rdf:about="http://qudt.org/schema/qudt/BinaryPrefix"/>
+    
+
+
+    <!-- http://qudt.org/schema/qudt/DecimalPrefix -->
+
+    <owl:Class rdf:about="http://qudt.org/schema/qudt/DecimalPrefix"/>
+    
+
+
+    <!-- http://qudt.org/schema/qudt/Prefix -->
+
+    <owl:Class rdf:about="http://qudt.org/schema/qudt/Prefix"/>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#GraphMetaData -->
+
+    <owl:Class rdf:about="http://www.linkedmodel.org/schema/vaem#GraphMetaData"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Atto -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Atto">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/DecimalPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">&quot;atto&quot; is a decimal prefix for expressing a value with a scaling of \(10^{-18}\).</terms:description>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Atto</qudt:dbpediaMatch>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://en.wikipedia.org/wiki/Atto?oldid=412748080</qudt:informativeReference>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0E-18</qudt:prefixMultiplier>
+        <qudt:siExactMatch rdf:resource="https://si-digital-framework.org/SI/prefixes/atto"/>
+        <qudt:symbol>a</qudt:symbol>
+        <qudt:ucumCode>a</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Atto</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Centi -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Centi">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/DecimalPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">&apos;centi&apos; is a decimal prefix for expressing a value with a scaling of \(10^{-2}\).</terms:description>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Centi-</qudt:dbpediaMatch>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://en.wikipedia.org/wiki/Centi-?oldid=480291808</qudt:informativeReference>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.01</qudt:prefixMultiplier>
+        <qudt:siExactMatch rdf:resource="https://si-digital-framework.org/SI/prefixes/centi"/>
+        <qudt:symbol>c</qudt:symbol>
+        <qudt:ucumCode>c</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Centi</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Deca -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Deca">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/DecimalPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Deca</qudt:dbpediaMatch>
+        <qudt:exactMatch rdf:resource="http://qudt.org/vocab/prefix/Deka"/>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">10.0</qudt:prefixMultiplier>
+        <qudt:siExactMatch rdf:resource="https://si-digital-framework.org/SI/prefixes/deca"/>
+        <qudt:symbol>da</qudt:symbol>
+        <qudt:ucumCode>da</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Deca</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Deci -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Deci">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/DecimalPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">&quot;deci&quot; is a decimal prefix for expressing a value with a scaling of \(10^{-1}\).</terms:description>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Deci-</qudt:dbpediaMatch>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://en.wikipedia.org/wiki/Deci-?oldid=469980160</qudt:informativeReference>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.1</qudt:prefixMultiplier>
+        <qudt:siExactMatch rdf:resource="https://si-digital-framework.org/SI/prefixes/deci"/>
+        <qudt:symbol>d</qudt:symbol>
+        <qudt:ucumCode>d</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Deci</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Deka -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Deka">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/DecimalPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">&lt;strong&gt;deka&lt;/strong&gt; is a decimal prefix for expressing a value with a scaling of \(10^{1}\).</terms:description>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Deca</qudt:dbpediaMatch>
+        <qudt:exactMatch rdf:resource="http://qudt.org/vocab/prefix/Deca"/>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://en.wikipedia.org/wiki/Deca?oldid=480093935</qudt:informativeReference>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">10.0</qudt:prefixMultiplier>
+        <qudt:siExactMatch rdf:resource="https://si-digital-framework.org/SI/prefixes/deca"/>
+        <qudt:symbol>da</qudt:symbol>
+        <qudt:ucumCode>da</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Deka</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Exa -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Exa">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/DecimalPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">&apos;exa&apos; is a decimal prefix for expressing a value with a scaling of \(10^{18}\).</terms:description>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Exa-</qudt:dbpediaMatch>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://en.wikipedia.org/wiki/Exa-?oldid=494400216</qudt:informativeReference>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0E18</qudt:prefixMultiplier>
+        <qudt:siExactMatch rdf:resource="https://si-digital-framework.org/SI/prefixes/exa"/>
+        <qudt:symbol>E</qudt:symbol>
+        <qudt:ucumCode>E</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Exa</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Exbi -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Exbi">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/BinaryPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">A binary prefix for expressing a value with a scaling of $1024^{6}$, or $2^{60}$.</terms:description>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.52921504606846976E17</qudt:prefixMultiplier>
+        <qudt:symbol>Ei</qudt:symbol>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Exbi</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Femto -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Femto">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/DecimalPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">&apos;femto&apos; is a decimal prefix for expressing a value with a scaling of \(10^{-15}\).</terms:description>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Femto-</qudt:dbpediaMatch>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://en.wikipedia.org/wiki/Femto-?oldid=467211359</qudt:informativeReference>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0E-15</qudt:prefixMultiplier>
+        <qudt:siExactMatch rdf:resource="https://si-digital-framework.org/SI/prefixes/femto"/>
+        <qudt:symbol>f</qudt:symbol>
+        <qudt:ucumCode>f</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Femto</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Gibi -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Gibi">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/BinaryPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">A binary prefix for expressing a value with a scaling of $1024^{3}$, or $2^{30}$.</terms:description>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.073741824E9</qudt:prefixMultiplier>
+        <qudt:symbol>Gi</qudt:symbol>
+        <qudt:ucumCode>Gi</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Gibi</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Giga -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Giga">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/DecimalPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">&apos;giga&apos; is a decimal prefix for expressing a value with a scaling of \(10^{9}\).</terms:description>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Giga-</qudt:dbpediaMatch>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://en.wikipedia.org/wiki/Giga-?oldid=473222816</qudt:informativeReference>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0E9</qudt:prefixMultiplier>
+        <qudt:siExactMatch rdf:resource="https://si-digital-framework.org/SI/prefixes/giga"/>
+        <qudt:symbol>G</qudt:symbol>
+        <qudt:ucumCode>G</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Giga</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Hecto -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Hecto">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/DecimalPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">&apos;hecto&apos; is a decimal prefix for expressing a value with a scaling of \(10^{2}\).</terms:description>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Hecto-</qudt:dbpediaMatch>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://en.wikipedia.org/wiki/Hecto-?oldid=494711166</qudt:informativeReference>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">100.0</qudt:prefixMultiplier>
+        <qudt:siExactMatch rdf:resource="https://si-digital-framework.org/SI/prefixes/hecto"/>
+        <qudt:symbol>h</qudt:symbol>
+        <qudt:ucumCode>h</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Hecto</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Kibi -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Kibi">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/BinaryPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">A binary prefix for expressing a value with a scaling of $1024$, or $2^{10}$.</terms:description>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1024.0</qudt:prefixMultiplier>
+        <qudt:symbol>Ki</qudt:symbol>
+        <qudt:ucumCode>Ki</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Kibi</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Kilo -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Kilo">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/DecimalPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">&quot;kilo&quot; is a decimal prefix for expressing a value with a scaling of \(10^{3}&quot;\).</terms:description>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Kilo</qudt:dbpediaMatch>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://en.wikipedia.org/wiki/Kilo?oldid=461428121</qudt:informativeReference>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1000.0</qudt:prefixMultiplier>
+        <qudt:siExactMatch rdf:resource="https://si-digital-framework.org/SI/prefixes/kilo"/>
+        <qudt:symbol>k</qudt:symbol>
+        <qudt:ucumCode>k</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Kilo</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Mebi -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Mebi">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/BinaryPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">A binary prefix for expressing a value with a scaling of $1024^{2}$, or $2^{20}$.</terms:description>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1048576.0</qudt:prefixMultiplier>
+        <qudt:symbol>Mi</qudt:symbol>
+        <qudt:ucumCode>Mi</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Mebi</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Mega -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Mega">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/DecimalPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">&apos;mega&apos; is a decimal prefix for expressing a value with a scaling of \(10^{6}\).</terms:description>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Mega</qudt:dbpediaMatch>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://en.wikipedia.org/wiki/Mega?oldid=494040441</qudt:informativeReference>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1000000.0</qudt:prefixMultiplier>
+        <qudt:siExactMatch rdf:resource="https://si-digital-framework.org/SI/prefixes/mega"/>
+        <qudt:symbol>M</qudt:symbol>
+        <qudt:ucumCode>M</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Mega</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Micro -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Micro">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/DecimalPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">&quot;micro&quot; is a decimal prefix for expressing a value with a scaling of \(10^{-6}\).</terms:description>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Micro</qudt:dbpediaMatch>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://en.wikipedia.org/wiki/Micro?oldid=491618374</qudt:informativeReference>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0E-6</qudt:prefixMultiplier>
+        <qudt:siExactMatch rdf:resource="https://si-digital-framework.org/SI/prefixes/micro"/>
+        <qudt:symbol>μ</qudt:symbol>
+        <qudt:ucumCode>u</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Micro</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Milli -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Milli">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/DecimalPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">&apos;milli&apos; is a decimal prefix for expressing a value with a scaling of \(10^{-3}\).</terms:description>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Milli-</qudt:dbpediaMatch>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://en.wikipedia.org/wiki/Milli-?oldid=467190544</qudt:informativeReference>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.001</qudt:prefixMultiplier>
+        <qudt:siExactMatch rdf:resource="https://si-digital-framework.org/SI/prefixes/milli"/>
+        <qudt:symbol>m</qudt:symbol>
+        <qudt:ucumCode>m</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Milli</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Nano -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Nano">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/DecimalPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">&apos;nano&apos; is a  decimal prefix for expressing a value with a scaling of \(10^{-9}\).</terms:description>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Nano</qudt:dbpediaMatch>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://en.wikipedia.org/wiki/Nano?oldid=489001692</qudt:informativeReference>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0E-9</qudt:prefixMultiplier>
+        <qudt:siExactMatch rdf:resource="https://si-digital-framework.org/SI/prefixes/nano"/>
+        <qudt:symbol>n</qudt:symbol>
+        <qudt:ucumCode>n</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Nano</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Pebi -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Pebi">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/BinaryPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">A binary prefix for expressing a value with a scaling of $1024^{5}$, or $2^{50}$.</terms:description>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.25899906842624E14</qudt:prefixMultiplier>
+        <qudt:symbol>Pi</qudt:symbol>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Pebi</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Peta -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Peta">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/DecimalPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">&apos;peta&apos; is a decimal prefix for expressing a value with a scaling of \(10^{15}\).</terms:description>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Peta</qudt:dbpediaMatch>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://en.wikipedia.org/wiki/Peta?oldid=488263435</qudt:informativeReference>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0E15</qudt:prefixMultiplier>
+        <qudt:siExactMatch rdf:resource="https://si-digital-framework.org/SI/prefixes/peta"/>
+        <qudt:symbol>P</qudt:symbol>
+        <qudt:ucumCode>P</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Peta</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Pico -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Pico">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/DecimalPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">&apos;pico&apos; is a decimal prefix for expressing a value with a scaling of \(10^{-12}\).</terms:description>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Pico</qudt:dbpediaMatch>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://en.wikipedia.org/wiki/Pico?oldid=485697614</qudt:informativeReference>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0E-12</qudt:prefixMultiplier>
+        <qudt:siExactMatch rdf:resource="https://si-digital-framework.org/SI/prefixes/pico"/>
+        <qudt:symbol>p</qudt:symbol>
+        <qudt:ucumCode>p</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Pico</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Quecto -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Quecto">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/DecimalPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">&apos;quecto&apos; is a decimal prefix for expressing a value with a scaling of \(10^{-30}\).</terms:description>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Quecto</qudt:dbpediaMatch>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://www.nist.gov/pml/owm/metric-si-prefixes</qudt:informativeReference>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0E-30</qudt:prefixMultiplier>
+        <qudt:siExactMatch rdf:resource="https://si-digital-framework.org/SI/prefixes/quecto"/>
+        <qudt:symbol>q</qudt:symbol>
+        <qudt:ucumCode>q</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Quecto</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Quetta -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Quetta">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/DecimalPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">&apos;quetta&apos; is a decimal prefix for expressing a value with a scaling of \(10^{30}\).</terms:description>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Quetta</qudt:dbpediaMatch>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://www.nist.gov/pml/owm/metric-si-prefixes</qudt:informativeReference>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0E30</qudt:prefixMultiplier>
+        <qudt:siExactMatch rdf:resource="https://si-digital-framework.org/SI/prefixes/quetta"/>
+        <qudt:symbol>Q</qudt:symbol>
+        <qudt:ucumCode>Q</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Quetta</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Ronna -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Ronna">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/DecimalPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">&apos;ronna&apos; is a decimal prefix for expressing a value with a scaling of \(10^{27}\).</terms:description>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Ronna</qudt:dbpediaMatch>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://www.nist.gov/pml/owm/metric-si-prefixes</qudt:informativeReference>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0E27</qudt:prefixMultiplier>
+        <qudt:siExactMatch rdf:resource="https://si-digital-framework.org/SI/prefixes/ronna"/>
+        <qudt:symbol>R</qudt:symbol>
+        <qudt:ucumCode>R</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Ronna</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Ronto -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Ronto">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/DecimalPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">&apos;ronto&apos; is a decimal prefix for expressing a value with a scaling of \(10^{-27}\).</terms:description>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Ronto</qudt:dbpediaMatch>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://www.nist.gov/pml/owm/metric-si-prefixes</qudt:informativeReference>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0E-27</qudt:prefixMultiplier>
+        <qudt:siExactMatch rdf:resource="https://si-digital-framework.org/SI/prefixes/ronto"/>
+        <qudt:symbol>r</qudt:symbol>
+        <qudt:ucumCode>r</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Ronto</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Tebi -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Tebi">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/BinaryPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">A binary prefix for expressing a value with a scaling of $1024^4}$, or $2^{40}$.</terms:description>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.099511627776E12</qudt:prefixMultiplier>
+        <qudt:symbol>Ti</qudt:symbol>
+        <qudt:ucumCode>Ti</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Tebi</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Tera -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Tera">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/DecimalPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">&apos;tera&apos; is a decimal prefix for expressing a value with a scaling of \(10^{12}\).</terms:description>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Tera</qudt:dbpediaMatch>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://en.wikipedia.org/wiki/Tera?oldid=494204788</qudt:informativeReference>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0E12</qudt:prefixMultiplier>
+        <qudt:siExactMatch rdf:resource="https://si-digital-framework.org/SI/prefixes/tera"/>
+        <qudt:symbol>T</qudt:symbol>
+        <qudt:ucumCode>T</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Tera</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Yobi -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Yobi">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/BinaryPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">A binary prefix for expressing a value with a scaling of $1024^{8}$, or $2^{80}$.</terms:description>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.2089258196146292E24</qudt:prefixMultiplier>
+        <qudt:symbol>Yi</qudt:symbol>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Yobi</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Yocto -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Yocto">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/DecimalPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">&apos;yocto&apos; is a decimal prefix for expressing a value with a scaling of \(10^{-24}\).</terms:description>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Yocto-</qudt:dbpediaMatch>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://en.wikipedia.org/wiki/Yocto-?oldid=488155799</qudt:informativeReference>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0E-24</qudt:prefixMultiplier>
+        <qudt:siExactMatch rdf:resource="https://si-digital-framework.org/SI/prefixes/yocto"/>
+        <qudt:symbol>y</qudt:symbol>
+        <qudt:ucumCode>y</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Yocto</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Yotta -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Yotta">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/DecimalPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">&apos;yotta&apos; is a decimal prefix for expressing a value with a scaling of \(10^{24}\).</terms:description>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Yotta-</qudt:dbpediaMatch>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://en.wikipedia.org/wiki/Yotta-?oldid=494538119</qudt:informativeReference>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0E24</qudt:prefixMultiplier>
+        <qudt:siExactMatch rdf:resource="https://si-digital-framework.org/SI/prefixes/yotta"/>
+        <qudt:symbol>Y</qudt:symbol>
+        <qudt:ucumCode>Y</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Yotta</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Zebi -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Zebi">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/BinaryPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">A binary prefix for expressing a value with a scaling of $1024^{7}$, or $2^{70}$.</terms:description>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.1805916207174113E21</qudt:prefixMultiplier>
+        <qudt:symbol>Zi</qudt:symbol>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Zebi</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Zepto -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Zepto">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/DecimalPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">&apos;zepto&apos; is a decimal prefix for expressing a value with a scaling of \(10^{-21}\).</terms:description>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Zepto-</qudt:dbpediaMatch>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://en.wikipedia.org/wiki/Zepto-?oldid=476974663</qudt:informativeReference>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0E-21</qudt:prefixMultiplier>
+        <qudt:siExactMatch rdf:resource="https://si-digital-framework.org/SI/prefixes/zepto"/>
+        <qudt:symbol>z</qudt:symbol>
+        <qudt:ucumCode>z</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Zepto</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/prefix/Zetta -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/prefix/Zetta">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/DecimalPrefix"/>
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/Prefix"/>
+        <terms:description rdf:datatype="http://qudt.org/schema/qudt/LatexString">&apos;zetta&apos; is a decimal prefix for expressing a value with a scaling of \(10^{21}\).</terms:description>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Zetta-</qudt:dbpediaMatch>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://en.wikipedia.org/wiki/Zetta-?oldid=495223080</qudt:informativeReference>
+        <qudt:prefixMultiplier rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0E21</qudt:prefixMultiplier>
+        <qudt:siExactMatch rdf:resource="https://si-digital-framework.org/SI/prefixes/zetta"/>
+        <qudt:symbol>Z</qudt:symbol>
+        <qudt:ucumCode>Z</qudt:ucumCode>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label xml:lang="en">Zetta</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#GMD_QUDT-PREFIXES -->
+
+    <owl:NamedIndividual rdf:about="http://www.linkedmodel.org/schema/vaem#GMD_QUDT-PREFIXES">
+        <rdf:type rdf:resource="http://www.linkedmodel.org/schema/vaem#GraphMetaData"/>
+        <terms:contributor>Jack Hodges</terms:contributor>
+        <terms:contributor>Michael Ringel</terms:contributor>
+        <terms:contributor>Ralph Hodgson</terms:contributor>
+        <terms:contributor>Simon J D Cox</terms:contributor>
+        <terms:contributor>Steve Ray</terms:contributor>
+        <terms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-07-15</terms:created>
+        <terms:creator>Steve Ray</terms:creator>
+        <terms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2024-03-22T17:08:06.843-04:00</terms:modified>
+        <terms:rights>The QUDT Ontologies are issued under a Creative Commons Attribution 4.0 International License (CC BY 4.0), available at https://creativecommons.org/licenses/by/4.0/. Attribution should be made to QUDT.org</terms:rights>
+        <terms:subject>Prefixes</terms:subject>
+        <terms:title>QUDT Prefixes Version 2.1 Vocabulary</terms:title>
+        <vaem:description>The Prefixes vocabulary defines the prefixes commonly prepended to units to connote multiplication, either decimal or binary.</vaem:description>
+        <vaem:graphName>prefix</vaem:graphName>
+        <vaem:graphTitle>QUDT Prefixes Version 2.1.37</vaem:graphTitle>
+        <vaem:hasGraphRole rdf:resource="http://www.linkedmodel.org/schema/vaem#VocabularyGraph"/>
+        <vaem:hasOwner rdf:resource="http://www.linkedmodel.org/schema/vaem#QUDT.org"/>
+        <vaem:hasSteward rdf:resource="http://www.linkedmodel.org/schema/vaem#QUDT.org"/>
+        <vaem:intent>Provides a vocabulary of prefixes for both human and machine use</vaem:intent>
+        <vaem:isMetadataFor rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <vaem:latestPublishedVersion rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://qudt.org/doc/2024/03/DOC_VOCAB-PREFIXES-v2.1.html</vaem:latestPublishedVersion>
+        <vaem:logo rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://qudt.org/linkedmodels.org/assets/lib/lm/images/logos/qudt_logo-300x110.png</vaem:logo>
+        <vaem:namespace rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://qudt.org/vocab/prefix/</vaem:namespace>
+        <vaem:namespacePrefix>prefix</vaem:namespacePrefix>
+        <vaem:owner>QUDT.org</vaem:owner>
+        <vaem:previousPublishedVersion rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://qudt.org/doc/2024/02/DOC_VOCAB-PREFIXES-v2.1.html</vaem:previousPublishedVersion>
+        <vaem:revision>2.1</vaem:revision>
+        <vaem:specificity rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</vaem:specificity>
+        <vaem:turtleFileURL rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://qudt.org/2.1/vocab/prefix</vaem:turtleFileURL>
+        <vaem:urlForHTML rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://qudt.org/2.1/vocab/prefix.html</vaem:urlForHTML>
+        <vaem:usesNonImportedResource rdf:resource="http://purl.org/dc/terms/abstract"/>
+        <vaem:usesNonImportedResource rdf:resource="http://purl.org/dc/terms/created"/>
+        <vaem:usesNonImportedResource rdf:resource="http://purl.org/dc/terms/creator"/>
+        <vaem:usesNonImportedResource rdf:resource="http://purl.org/dc/terms/modified"/>
+        <vaem:usesNonImportedResource rdf:resource="http://purl.org/dc/terms/title"/>
+        <vaem:website rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://qudt.org/2.1/vocab/prefix.ttl</vaem:website>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <rdfs:label>QUDT Prefix Vocabulary Version Metadata 2.1.37</rdfs:label>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.26.2023-07-17T20:34:13Z) https://github.com/owlcs/owlapi -->
+

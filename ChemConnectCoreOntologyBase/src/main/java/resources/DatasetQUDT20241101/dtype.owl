@@ -1,0 +1,567 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.linkedmodel.org/schema/dtype#"
+     xml:base="http://www.linkedmodel.org/schema/dtype"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:vaem="http://www.linkedmodel.org/schema/vaem#"
+     xmlns:dtype="http://www.linkedmodel.org/schema/dtype#"
+     xmlns:terms="http://purl.org/dc/terms/">
+    <owl:Ontology rdf:about="http://www.linkedmodel.org/schema/dtype">
+        <owl:versionIRI rdf:resource="http://www.linkedmodel.org/1.1/schema/dtype"/>
+        <owl:imports rdf:resource="http://www.linkedmodel.org/schema/vaem"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/author -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/author"/>
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/description -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/description"/>
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/subject -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/subject"/>
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/title -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/title"/>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/dtype#orderIndex -->
+
+    <owl:AnnotationProperty rdf:about="http://www.linkedmodel.org/schema/dtype#orderIndex">
+        <vaem:comment>The property &quot;dtype:orderIndex&quot; is an annotation property to specify a position that some value or structure will have. One use is to specify the place that a resource has in a sequence. One use is on property occurrences in class axioms. Here &quot;vaem:orderIndex&quot; is placed on a restriction to specify how that property may be transformed into a representation where ordering has some importance, for example, in XML Schema sequences.</vaem:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/1.1/schema/dtype"/>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/schema/dtype"/>
+        <rdfs:label>order index</rdfs:label>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#nonNegativeInteger"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#dateCreated -->
+
+    <owl:AnnotationProperty rdf:about="http://www.linkedmodel.org/schema/vaem#dateCreated"/>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#lastUpdated -->
+
+    <owl:AnnotationProperty rdf:about="http://www.linkedmodel.org/schema/vaem#lastUpdated"/>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#cardinality -->
+
+    <owl:AnnotationProperty rdf:about="http://www.w3.org/2002/07/owl#cardinality"/>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#maxCardinality -->
+
+    <owl:AnnotationProperty rdf:about="http://www.w3.org/2002/07/owl#maxCardinality"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Datatypes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/dtype#numericUnion -->
+
+    <rdfs:Datatype rdf:about="http://www.linkedmodel.org/schema/dtype#numericUnion">
+        <owl:equivalentClass>
+            <rdfs:Datatype>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.w3.org/2001/XMLSchema#decimal"/>
+                    <rdf:Description rdf:about="http://www.w3.org/2001/XMLSchema#double"/>
+                    <rdf:Description rdf:about="http://www.w3.org/2001/XMLSchema#float"/>
+                    <rdf:Description rdf:about="http://www.w3.org/2001/XMLSchema#integer"/>
+                </owl:unionOf>
+            </rdfs:Datatype>
+        </owl:equivalentClass>
+    </rdfs:Datatype>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#dateUnion -->
+
+    <rdfs:Datatype rdf:about="http://www.linkedmodel.org/schema/vaem#dateUnion"/>
+    
+
+
+    <!-- http://www.w3.org/2001/XMLSchema#anySimpleType -->
+
+    <rdfs:Datatype rdf:about="http://www.w3.org/2001/XMLSchema#anySimpleType"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/dtype#compositeOf -->
+
+    <owl:ObjectProperty rdf:about="http://www.linkedmodel.org/schema/dtype#compositeOf">
+        <vaem:comment>Aproperty for constructing composite data structures</vaem:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/1.1/schema/dtype"/>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/schema/dtype"/>
+        <rdfs:label>composite of</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/dtype#defaultValue -->
+
+    <owl:ObjectProperty rdf:about="http://www.linkedmodel.org/schema/dtype#defaultValue">
+        <vaem:comment>The property &quot;dtype:defaultValue&quot; is a general property for specifying a value in situations where none is specified, or can be determined. In some cases of use, this property could have a scalar value and in other cases may need to refer to a first class concept that holds a &quot;value object&quot;.  For this reason, the  type of this property is set as &quot;rdf:Property&quot; and the property is rangeless.</vaem:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/1.1/schema/dtype"/>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/schema/dtype"/>
+        <rdfs:label>default value</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/dtype#derivedFrom -->
+
+    <owl:ObjectProperty rdf:about="http://www.linkedmodel.org/schema/dtype#derivedFrom">
+        <vaem:comment>A property for specifying a derivation relationship.</vaem:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/1.1/schema/dtype"/>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/schema/dtype"/>
+        <rdfs:label>derived from</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/dtype#hasMember -->
+
+    <owl:ObjectProperty rdf:about="http://www.linkedmodel.org/schema/dtype#hasMember">
+        <vaem:comment>A property for specifying how member elements make up a data structure.</vaem:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/1.1/schema/dtype"/>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/schema/dtype"/>
+        <rdfs:label>has member</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/dtype#refersTo -->
+
+    <owl:ObjectProperty rdf:about="http://www.linkedmodel.org/schema/dtype#refersTo">
+        <vaem:comment>An indirection pointer for relating a slot in am occurrence data structure, such as &quot;dtype:ValueReference&quot; with another resource.</vaem:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/1.1/schema/dtype"/>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/schema/dtype"/>
+        <rdfs:label>refers to</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/dtype#type -->
+
+    <owl:ObjectProperty rdf:about="http://www.linkedmodel.org/schema/dtype#type">
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/1.1/schema/dtype"/>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/schema/dtype"/>
+        <rdfs:label>datatype</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/dtype#value -->
+
+    <owl:ObjectProperty rdf:about="http://www.linkedmodel.org/schema/dtype#value">
+        <vaem:comment>The property &quot;dtype:value&quot; is a general property that in some cases could have scalar values and in other cases may refer to a first class concept that is a &quot;value object&quot;. For this reason, the  type of this property is set as &quot;rdf:Property&quot; and the property is rangeless.</vaem:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/1.1/schema/dtype"/>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/schema/dtype"/>
+        <rdfs:label>value</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/dtype#code -->
+
+    <owl:DatatypeProperty rdf:about="http://www.linkedmodel.org/schema/dtype#code">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#anySimpleType"/>
+        <vaem:comment>A property for expressing an encoded value. The range has been set to &quot;xsd:anySimpleType&quot; to allow for a variety of scalar datatypes.</vaem:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/1.1/schema/dtype"/>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/schema/dtype"/>
+        <rdfs:label>code</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/dtype#isInvalid -->
+
+    <owl:DatatypeProperty rdf:about="http://www.linkedmodel.org/schema/dtype#isInvalid">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+        <vaem:comment>A boolean flag to state that a value is invalid with respect to its type.</vaem:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/1.1/schema/dtype"/>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/schema/dtype"/>
+        <rdfs:label>is invalid</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/dtype#literal -->
+
+    <owl:DatatypeProperty rdf:about="http://www.linkedmodel.org/schema/dtype#literal">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <vaem:comment>A general purpose property for holding string literals.</vaem:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/1.1/schema/dtype"/>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/schema/dtype"/>
+        <rdfs:label>literal</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/dtype#order -->
+
+    <owl:DatatypeProperty rdf:about="http://www.linkedmodel.org/schema/dtype#order">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#nonNegativeInteger"/>
+        <vaem:comment>The property &quot;dtype:order&quot; provides a means to specify a precedence. One use of order is in specifying ordered enumerations such as &quot;voag:ConfidentialityLevel&quot;.  A similar property, but with an important type difference, is &quot;vaem:orderIndex&quot;. This is for use on property occurrences in class axioms where it can be placed on a restriction to specify how that property may be transformed into other representations where ordering has some importance, for example, in XML Schema sequences.  Whereas &quot;vaem:order&quot; is a datatype property, &quot;vaem:orderIndex&quot; is an annotation property.</vaem:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/1.1/schema/dtype"/>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/schema/dtype"/>
+        <rdfs:label>order</rdfs:label>
+        <rdfs:seeAlso rdf:resource="http://www.linkedmodel.org/schema/dtype#orderIndex"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/dtype#position -->
+
+    <owl:DatatypeProperty rdf:about="http://www.linkedmodel.org/schema/dtype#position">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#nonNegativeInteger"/>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/1.1/schema/dtype"/>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/schema/dtype"/>
+        <rdfs:label>position</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/dtype#CodeList -->
+
+    <owl:Class rdf:about="http://www.linkedmodel.org/schema/dtype#CodeList">
+        <rdfs:subClassOf rdf:resource="http://www.linkedmodel.org/schema/dtype#Enumeration"/>
+        <vaem:comment>A codelist is a controlled vocabulary of terms that are used to represent permissible values of a variable in information systems. The representaiton of codes in &quot;dtype&quot; has been influenced by CCTS and UBL.</vaem:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/1.1/schema/dtype"/>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/schema/dtype"/>
+        <rdfs:label>Codelist</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/dtype#CompositeCodeList -->
+
+    <owl:Class rdf:about="http://www.linkedmodel.org/schema/dtype#CompositeCodeList">
+        <rdfs:subClassOf rdf:resource="http://www.linkedmodel.org/schema/dtype#CodeList"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.linkedmodel.org/schema/dtype#compositeOf"/>
+                <owl:allValuesFrom rdf:resource="http://www.linkedmodel.org/schema/dtype#CodeList"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="http://www.linkedmodel.org/schema/dtype#DerivedCodeList"/>
+        <owl:disjointWith rdf:resource="http://www.linkedmodel.org/schema/dtype#SimpleCodeList"/>
+        <vaem:comment>A composite codelist is a codelist made up of other codelists. It does not introduce any new codes.</vaem:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/1.1/schema/dtype"/>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/schema/dtype"/>
+        <rdfs:label>Composite Code List</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/dtype#DerivedCodeList -->
+
+    <owl:Class rdf:about="http://www.linkedmodel.org/schema/dtype#DerivedCodeList">
+        <rdfs:subClassOf rdf:resource="http://www.linkedmodel.org/schema/dtype#CodeList"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.linkedmodel.org/schema/dtype#derivedFrom"/>
+                <owl:allValuesFrom rdf:resource="http://www.linkedmodel.org/schema/dtype#CodeList"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.linkedmodel.org/schema/dtype#hasMember"/>
+                <owl:allValuesFrom rdf:resource="http://www.linkedmodel.org/schema/dtype#ValueReference"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.linkedmodel.org/schema/dtype#derivedFrom"/>
+                <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="http://www.linkedmodel.org/schema/dtype#SimpleCodeList"/>
+        <vaem:comment>A derived codelist is a sublist of another codelist. The members that it has must be members of the source list.</vaem:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/1.1/schema/dtype"/>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/schema/dtype"/>
+        <rdfs:label>Derived Code List</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/dtype#EnumeratedValue -->
+
+    <owl:Class rdf:about="http://www.linkedmodel.org/schema/dtype#EnumeratedValue">
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.linkedmodel.org/schema/vaem#url"/>
+                <owl:minCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.linkedmodel.org/schema/dtype#code"/>
+                <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.linkedmodel.org/schema/dtype#order"/>
+                <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.linkedmodel.org/schema/dtype#position"/>
+                <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.linkedmodel.org/schema/vaem#description"/>
+                <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.linkedmodel.org/schema/vaem#name"/>
+                <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:description>The base class for datatypes that have values that are restriced to a set of literals or tokens. The members of the restriction may themselve be restriced by facets that apply to scalar data types.</dc:description>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/1.1/schema/dtype"/>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/schema/dtype"/>
+        <rdfs:label>DTYPE Enumerated value</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/dtype#Enumeration -->
+
+    <owl:Class rdf:about="http://www.linkedmodel.org/schema/dtype#Enumeration">
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.linkedmodel.org/schema/dtype#defaultValue"/>
+                <owl:allValuesFrom rdf:resource="http://www.linkedmodel.org/schema/dtype#EnumeratedValue"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.linkedmodel.org/schema/dtype#value"/>
+                <owl:allValuesFrom rdf:resource="http://www.linkedmodel.org/schema/dtype#EnumeratedValue"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <vaem:comment>A type that serves as a container for the enumerated values of an enumeration. This enables the enumeration itself to be referenceable. One need for this is in determing the default value of an enumeration , another need is in the management of sub-enumerations and composite enumerations.</vaem:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/1.1/schema/dtype"/>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/schema/dtype"/>
+        <rdfs:label>DTYPE Enumeration</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/dtype#SimpleCodeList -->
+
+    <owl:Class rdf:about="http://www.linkedmodel.org/schema/dtype#SimpleCodeList">
+        <rdfs:subClassOf rdf:resource="http://www.linkedmodel.org/schema/dtype#CodeList"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.linkedmodel.org/schema/dtype#hasMember"/>
+                <owl:allValuesFrom rdf:resource="http://www.linkedmodel.org/schema/dtype#EnumeratedValue"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <vaem:comment>A simple codelist is one made up only of enumerated values.</vaem:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/1.1/schema/dtype"/>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/schema/dtype"/>
+        <rdfs:label>Simple Code List</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/dtype#ValueReference -->
+
+    <owl:Class rdf:about="http://www.linkedmodel.org/schema/dtype#ValueReference">
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.linkedmodel.org/schema/dtype#refersTo"/>
+                <owl:allValuesFrom rdf:resource="http://www.linkedmodel.org/schema/dtype#EnumeratedValue"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.linkedmodel.org/schema/dtype#refersTo"/>
+                <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.linkedmodel.org/schema/dtype#position"/>
+                <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <vaem:comment>A value reference is a pointer to an Enumerated Value. The original position of the value can be overridden by the position attribute.</vaem:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/1.1/schema/dtype"/>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/schema/dtype"/>
+        <rdfs:label>Value Reference</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/dtype#numericUnion -->
+
+    <owl:Class rdf:about="http://www.linkedmodel.org/schema/dtype#numericUnion">
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/2000/01/rdf-schema#Resource"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2000/01/rdf-schema#Resource -->
+
+    <owl:Class rdf:about="http://www.w3.org/2000/01/rdf-schema#Resource"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://voag.linkedmodel.org/voag#CC-SHAREALIKE_3PT0-US -->
+
+    <owl:NamedIndividual rdf:about="http://voag.linkedmodel.org/voag#CC-SHAREALIKE_3PT0-US"/>
+    
+
+
+    <!-- http://www.linkedmodel.org/1.1/schema/dtype -->
+
+    <owl:NamedIndividual rdf:about="http://www.linkedmodel.org/1.1/schema/dtype">
+        <vaem:hasGraphRole rdf:resource="http://www.linkedmodel.org/schema/vaem#SchemaGraph"/>
+        <vaem:hasLicenseType rdf:resource="http://voag.linkedmodel.org/voag#CC-SHAREALIKE_3PT0-US"/>
+        <vaem:description>The ontology &quot;dtype&quot; provides a specification of simple data types such as enumerations and codelists. These are needed in support of the conversion of XML Schemas and UML Models to OWL. The purpose of &quot;dtype&quot; is to provide a foundation for expressing rich data types. These data types are typically needed when dealing with OWL representations of data structures derived from XML Schema.</vaem:description>
+        <vaem:name>DTYPE</vaem:name>
+        <vaem:namespace rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://www.linkedmodel.org/schema/dtype</vaem:namespace>
+        <vaem:namespacePrefix>dtype</vaem:namespacePrefix>
+        <vaem:owner>TopQuadrant</vaem:owner>
+        <vaem:revision>1.1</vaem:revision>
+        <dc:author>Ralph Hodgson</dc:author>
+        <dc:subject>Datatype schema</dc:subject>
+        <dc:title>Datatype Ontology</dc:title>
+        <vaem:dateCreated rdf:datatype="http://www.linkedmodel.org/schema/vaem#dateUnion">2011-05-29</vaem:dateCreated>
+        <vaem:lastUpdated rdf:datatype="http://www.linkedmodel.org/schema/vaem#dateUnion">2014-06-28</vaem:lastUpdated>
+        <vaem:usesNonImportedResource rdf:resource="http://purl.org/dc/elements/1.1/author"/>
+        <vaem:usesNonImportedResource rdf:resource="http://purl.org/dc/elements/1.1/contributor"/>
+        <vaem:usesNonImportedResource rdf:resource="http://purl.org/dc/elements/1.1/description"/>
+        <vaem:usesNonImportedResource rdf:resource="http://purl.org/dc/elements/1.1/subject"/>
+        <vaem:usesNonImportedResource rdf:resource="http://purl.org/dc/elements/1.1/title"/>
+        <vaem:withAttributionTo rdf:resource="http://voag.linkedmodel.org/voag#TopQuadrantAttribution"/>
+        <rdfs:label>Datatype Ontology</rdfs:label>
+        <owl:versionInfo>Created with TopBraid Composer</owl:versionInfo>
+    </owl:NamedIndividual>
+    <rdf:Description>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+    </rdf:Description>
+    <rdf:Description>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+    </rdf:Description>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotations
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description rdf:about="http://www.linkedmodel.org/schema/dtype#numericUnion">
+        <dc:description>A datatype that is the union of numeric xsd data types. &quot;numericUnion&quot; is equivalent to the xsd specification that uses an xsd:union of memberTypes=&quot;xsd:decimal xsd:double xsd:float xsd:integer&quot;.</dc:description>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/1.1/schema/dtype"/>
+        <rdfs:isDefinedBy rdf:resource="http://www.linkedmodel.org/schema/dtype"/>
+        <rdfs:label>numeric union</rdfs:label>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi -->
+

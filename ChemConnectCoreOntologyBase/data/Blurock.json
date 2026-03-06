@@ -1,0 +1,79 @@
+{
+  "vcard:Location": {
+    "geo:location": {
+      "geo:long": "55.70584",
+      "geo:lat": "13.19321"
+    },
+    "vcard:postal-code": "22594",
+    "vcard:street-address": "Bandelsvagen 1",
+    "vcard:locality": "Lund",
+    "vcard:country-name": "Sweden"
+  },
+  "dataset:title-person": "Edward S. Blurock",
+  "foaf:Person": {
+    "vcard:role": "Researcher",
+    "foaf:name": {
+      "foaf:title": "Dr.",
+      "foaf:givenName": "Edward Samuel",
+      "foaf:familyName": "Blurock"
+    }
+  },
+  "dataset:descr-person": {
+    "dataset:purpose-person": {
+      "dataset:purposekey-person": "dataset:PurposePrincipleInvestigator",
+      "dataset:dataconcept-person": "dataset:ConceptResearcher"
+    },
+    "dataset:abstract-person": "Edward S. Blurock is the principle developer of the ChemConnect System",
+    "dataset:keyword-person": "Researcher, Chemist, Combustion",
+    "dataset:title-person": "Edward S. Blurock",
+    "dcterms:created": "2021028"
+  },
+  "dataset:ContactInfoData": [
+    {
+      "dataset:ContactType": "dataset:EmailContactType",
+      "vcard:Contact": "edward.blurock@gmail.com"
+    }
+  ],
+  "foaf:page": [
+    {
+      "dataset:HttpAddressSourceLocation": "Unassigned classification: dataset",
+      "dataset:HttpAddress": "not assigned"
+    }
+  ],
+  "skos:mappingRelation": [
+    {
+      "qb:concept": "Unassigned classification: dataset:DataTypeConcept",
+      "dataset:catalogtype": "not assigned",
+      "dataset:catobjid": "not assigned"
+    }
+  ],
+  "terms:BibliographicResource": [
+    {
+      "datacite:PrimaryResourceIdentifier": "not assigned",
+      "dcterms:description": "not assigned",
+      "dc:creator": [
+        {
+          "dataset:ObjectLinkToContact": [
+            "not assigned"
+          ],
+          "foaf:title": "Unassigned classification: dataset:UserTitle",
+          "foaf:givenName": "not assigned",
+          "foaf:familyName": "not assigned"
+        }
+      ],
+      "dcterms:title": "not assigned"
+    }
+  ],
+  "dataset:firestorecatalog": {
+    "dataset:collectiondocpair": [
+      {
+        "dataset:documentid": "not assigned",
+        "dataset:collectionid": "not assigned",
+        "dataset:idlevel": "not assigned"
+      }
+    ],
+    "skos:inScheme": "Unassigned classification: dataset:DataCatalog",
+    "qb:DataSet": "not assigned"
+  },
+  "dcterms:identifier": "vcard:Individual"
+}

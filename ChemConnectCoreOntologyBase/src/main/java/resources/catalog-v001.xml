@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <uri id="User Entered Import Resolution" name="urn:absolute:respecth" uri="respecthV1.ttl"/>
+    <uri id="Imports Wizard Entry" name="http://www.w3.org/ns/sosa/" uri="https://www.w3.org/ns/sosa/"/>
+    <uri id="Imports Wizard Entry" name="http://www.w3.org/ns/dcat" uri="https://www.w3.org/ns/dcat2.ttl"/>
+    <uri id="Imports Wizard Entry" name="http://www.w3.org/ns/ssn/" uri="https://www.w3.org/ns/ssn/"/>
+    <uri id="Imports Wizard Entry" name="http://www.w3.org/ns/dcat3" uri="https://raw.githubusercontent.com/w3c/dxwg/gh-pages/dcat/rdf/dcat3.rdf"/>
+    <uri id="Imports Wizard Entry" name="http://www.w3.org/ns/dcat3" uri="file:/Users/edwardblurock/Downloads/dcat3.rdf"/>
+    <uri id="Imports Wizard Entry" name="http://owl.man.ac.uk/2006/07/sssw/people" uri="http://owl.man.ac.uk/2006/07/sssw/people.owl"/>
+    <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
+        <uri id="Automatically generated entry, Timestamp=1731609591117" name="http://esblurock.info/respecth" uri="collection/respecthV1.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1731609591117" name="http://www.esblurock.info/respecth" uri="collection/Respecth.ttl"/>
+        <uri id="Automatically generated entry, Timestamp=1731609591117" name="http://www.linkedmodel.org/schema/dtype" uri="dtype.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1731609591117" name="http://www.w3.org/ns/dcat" uri="dcat.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1731609591117" name="http://www.w3.org/ns/sosa/" uri="sosa.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1731609591117" name="http://www.w3.org/ns/ssn/" uri="ssn.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1731609591117" name="shadowed:http://www.linkedmodel.org/schema/dtype" uri="DatasetQUDT/dtype.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1731609591117" name="shadowed:http://www.linkedmodel.org/schema/dtype" uri="DatasetQUDT20241101/dtype.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1731609591117" name="shadowed:http://www.linkedmodel.org/schema/dtype" uri="collection/dtype.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1731609591117" name="shadowed:http://www.linkedmodel.org/schema/dtype" uri="localcopy/dtype.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1731609591117" name="shadowed:http://www.w3.org/ns/dcat" uri="collection/dcat2.ttl"/>
+        <uri id="Automatically generated entry, Timestamp=1731609591117" name="shadowed:http://www.w3.org/ns/sosa/" uri="localcopyV21/respecthUnitsV1.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1731609591117" name="shadowed:http://www.w3.org/ns/ssn/" uri="localcopyV21/Untitled.owl"/>
+    </group>
+</catalog>

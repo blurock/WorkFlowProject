@@ -1,0 +1,11 @@
+{
+  "foaf:Person": {
+    "foaf:name": {
+      "foaf:givenName": "Edward",
+      "foaf:title": "Dr.",
+      "foaf:familyName": "Blurock"
+    },
+    "vcard:role": "Researcher"
+  },
+  "dataset:title-person": "Edward S. Blurock"
+}

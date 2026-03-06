@@ -1,0 +1,455 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://qudt.org/2.1/vocab/sou#"
+     xml:base="http://qudt.org/2.1/vocab/sou"
+     xmlns:sp="http://spinrdf.org/sp#"
+     xmlns:arg="http://spinrdf.org/arg#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:spl="http://spinrdf.org/spl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:qudt="http://qudt.org/schema/qudt/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:spin="http://spinrdf.org/spin#"
+     xmlns:vaem="http://www.linkedmodel.org/schema/vaem#"
+     xmlns:terms="http://purl.org/dc/terms/">
+    <owl:Ontology rdf:about="http://qudt.org/2.1/vocab/sou">
+        <owl:imports rdf:resource="http://qudt.org/2.1/schema/facade/qudt"/>
+        <owl:imports rdf:resource="http://qudt.org/2.1/vocab/prefix"/>
+        <vaem:hasGraphMetadata rdf:resource="http://www.linkedmodel.org/schema/vaem#GMD_QUDT-SOU"/>
+        <rdfs:label>QUDT VOCAB Systems of Units Release 2.1.37</rdfs:label>
+        <owl:versionInfo>Created with TopBraid Composer</owl:versionInfo>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://qudt.org/schema/qudt/abbreviation -->
+
+    <owl:AnnotationProperty rdf:about="http://qudt.org/schema/qudt/abbreviation"/>
+    
+
+
+    <!-- http://qudt.org/schema/qudt/deprecated -->
+
+    <owl:AnnotationProperty rdf:about="http://qudt.org/schema/qudt/deprecated"/>
+    
+
+
+    <!-- http://qudt.org/schema/qudt/hasBaseUnit -->
+
+    <owl:AnnotationProperty rdf:about="http://qudt.org/schema/qudt/hasBaseUnit"/>
+    
+
+
+    <!-- http://qudt.org/schema/qudt/prefix -->
+
+    <owl:AnnotationProperty rdf:about="http://qudt.org/schema/qudt/prefix"/>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#name -->
+
+    <owl:AnnotationProperty rdf:about="http://www.linkedmodel.org/schema/vaem#name"/>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#url -->
+
+    <owl:AnnotationProperty rdf:about="http://www.linkedmodel.org/schema/vaem#url"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Datatypes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML -->
+
+    <rdfs:Datatype rdf:about="http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://qudt.org/schema/qudt/SystemOfUnits -->
+
+    <owl:Class rdf:about="http://qudt.org/schema/qudt/SystemOfUnits"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://qudt.org/vocab/sou/ASU -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/sou/ASU">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/SystemOfUnits"/>
+        <terms:description rdf:datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML">The astronomical system of units, formally called the IAU (1976) System of Astronomical Constants, is a system of measurement developed for use in astronomy. It was adopted by the International Astronomical Union (IAU) in 1976, and has been slightly updated since then. The system was developed because of the difficulties in measuring and expressing astronomical data in International System of Units (SI units). In particular, there is a huge quantity of very precise data relating to the positions of objects within the solar system which cannot conveniently be expressed or processed in SI units. Through a number of modifications, the astronomical system of units now explicitly recognizes the consequences of general relativity, which is a necessary addition to the International System of Units in order to accurately treat astronomical data. The astronomical system of units is a tridimensional system, in that it defines units of length, mass and time. The associated astronomical constants also fix the different frames of reference that are needed to report observations. The system is a conventional system, in that neither the unit of length nor the unit of mass are true physical constants, and there are at least three different measures of time.</terms:description>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://www.iau.org/public/themes/measuring/</qudt:informativeReference>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/sou"/>
+        <rdfs:label xml:lang="en">Astronomic System Of Units</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/sou/CGS -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/sou/CGS">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/SystemOfUnits"/>
+        <terms:description rdf:datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML">&lt;p&gt;The centimetre-gram-second system (abbreviated CGS or cgs) is a variant of the metric system of physical units based on centimetre as the unit of length, gram as a unit of mass, and second as a unit of time. All CGS mechanical units are unambiguously derived from these three base units, but there are several different ways of extending the CGS system to cover electromagnetism. The CGS system has been largely supplanted by the MKS system, based on metre, kilogram, and second. Note that the term cgs is ambiguous, since there are several variants with conflicting definitions of electromagnetic quantities and units. The unqualified term is generally associated with the Gaussian system of units, so this more precise URI is preferred.&lt;/p&gt;</terms:description>
+        <qudt:abbreviation>CGS</qudt:abbreviation>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Centimetre_gram_second_system_of_units</qudt:dbpediaMatch>
+        <qudt:hasBaseUnit rdf:resource="http://qudt.org/vocab/unit/CentiM"/>
+        <qudt:hasBaseUnit rdf:resource="http://qudt.org/vocab/unit/GM"/>
+        <qudt:hasBaseUnit rdf:resource="http://qudt.org/vocab/unit/SEC"/>
+        <qudt:hasBaseUnit rdf:resource="http://qudt.org/vocab/unit/UNITLESS"/>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://en.wikipedia.org/wiki/Centimetre–gram–second_system_of_units</qudt:informativeReference>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://scienceworld.wolfram.com/physics/cgs.html</qudt:informativeReference>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://www.tf.uni-kiel.de/matwis/amat/mw1_ge/kap_2/basics/b2_1_14.html</qudt:informativeReference>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/sou"/>
+        <rdfs:label xml:lang="en">CGS System of Units</rdfs:label>
+        <rdfs:seeAlso rdf:resource="http://qudt.org/vocab/sou/CGS-EMU"/>
+        <rdfs:seeAlso rdf:resource="http://qudt.org/vocab/sou/CGS-ESU"/>
+        <rdfs:seeAlso rdf:resource="http://qudt.org/vocab/sou/CGS-GAUSS"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/sou/CGS-EMU -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/sou/CGS-EMU">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/SystemOfUnits"/>
+        <terms:description rdf:datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML">The units in this system are formed in a manner similar to that of the cgs electrostatic system of units: the unit of electric current was defined using the law that describes the force between current-carrying wires. To do this, the permeability of free space (the magnetic constant, relating the magnetic flux density in a vacuum to the strength of the external magnetic field), was set at 1. To distinguish cgs electromagnetic units from units in the international system, they were often given the prefix “ab-”. However, most are often referred to purely descriptively as the &apos;e.m. unit of capacitance&apos;, etc. </terms:description>
+        <qudt:abbreviation>CGS-EMU</qudt:abbreviation>
+        <qudt:hasBaseUnit rdf:resource="http://qudt.org/vocab/unit/BIOT"/>
+        <qudt:hasBaseUnit rdf:resource="http://qudt.org/vocab/unit/CentiM"/>
+        <qudt:hasBaseUnit rdf:resource="http://qudt.org/vocab/unit/GM"/>
+        <qudt:hasBaseUnit rdf:resource="http://qudt.org/vocab/unit/SEC"/>
+        <qudt:hasBaseUnit rdf:resource="http://qudt.org/vocab/unit/UNITLESS"/>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://www.sizes.com/units/sys_cgs_em.htm</qudt:informativeReference>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/sou"/>
+        <rdfs:label xml:lang="en">CGS System of Units - EMU</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/sou/CGS-ESU -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/sou/CGS-ESU">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/SystemOfUnits"/>
+        <terms:description rdf:datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML">The electrostatic system of units is a system of units used to measure electrical quantities of electric charge, current, and voltage, within the centimeter gram second (or &quot;CGS&quot;) metric system of units. In electrostatic units, electrical charge is defined via the force it exerts on other charges. The various units of the e.s.u. system have specific names obtained by prefixing more familiar names with $stat$, but are often referred to purely descriptively as the &apos;e.s. unit of capacitance&apos;, etc. </terms:description>
+        <qudt:abbreviation>CGS-ESU</qudt:abbreviation>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Electrostatic_units</qudt:dbpediaMatch>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://www.oxfordreference.com/view/10.1093/acref/9780198605225.001.0001/acref-9780198605225-e-399#</qudt:informativeReference>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://www.sizes.com/units/sys_cgs_stat.htm</qudt:informativeReference>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/sou"/>
+        <rdfs:label xml:lang="en">CGS System of Units ESU</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/sou/CGS-GAUSS -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/sou/CGS-GAUSS">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/SystemOfUnits"/>
+        <terms:description rdf:datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML">Gaussian units constitute a metric system of physical units. This system is the most common of the several electromagnetic unit systems based on cgs (centimetre–gram–second) units. It is also called the Gaussian unit system, Gaussian-cgs units, or often just cgs units. The term &quot;cgs units&quot; is ambiguous and therefore to be avoided if possible: there are several variants of cgs with conflicting definitions of electromagnetic quantities and units. [Wikipedia]</terms:description>
+        <qudt:abbreviation>CGS-GAUSS</qudt:abbreviation>
+        <qudt:hasBaseUnit rdf:resource="http://qudt.org/vocab/unit/CentiM"/>
+        <qudt:hasBaseUnit rdf:resource="http://qudt.org/vocab/unit/GM"/>
+        <qudt:hasBaseUnit rdf:resource="http://qudt.org/vocab/unit/SEC"/>
+        <qudt:hasBaseUnit rdf:resource="http://qudt.org/vocab/unit/UNITLESS"/>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.wikipedia.org/wiki/Gaussian_units</qudt:informativeReference>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/sou"/>
+        <rdfs:label xml:lang="en">CGS System of Units - Gaussian</rdfs:label>
+        <rdfs:seeAlso rdf:resource="http://qudt.org/vocab/sou/CGS"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/sou/IMPERIAL -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/sou/IMPERIAL">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/SystemOfUnits"/>
+        <terms:description rdf:datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML">A system of units formerly widely used in the UK and the rest of the English-speaking world. It includes the pound (lb), quarter (qt), hundredweight (cwt), and ton (ton); the foot (ft), yard (yd), and mile (mi); and the gallon (gal), British thermal unit (btu), etc. These units have been largely replaced by metric units, although Imperial units persist in some contexts. In January 2000 an EU regulation outlawing the sale of goods in Imperial measures was adopted into British law; an exception was made for the sale of beer and milk in pints. </terms:description>
+        <qudt:abbreviation>Imperial</qudt:abbreviation>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Imperial_units</qudt:dbpediaMatch>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://www.oxfordreference.com/view/10.1093/acref/9780199234899.001.0001/acref-9780199234899-e-3147</qudt:informativeReference>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/sou"/>
+        <rdfs:label xml:lang="en">Imperial System of Units</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/sou/PLANCK -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/sou/PLANCK">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/SystemOfUnits"/>
+        <terms:description rdf:datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML">In physics, Planck units are physical units of measurement defined exclusively in terms of five universal physical constants listed below, in such a manner that these five physical constants take on the numerical value of 1 when expressed in terms of these units. Planck units elegantly simplify particular algebraic expressions appearing in physical law.  
+Originally proposed in 1899 by German physicist Max Planck, these units are also known as natural units because the origin of their definition comes only from properties of nature and not from any human construct. Planck units are unique among systems of natural units, because they are not defined in terms of properties of any prototype, physical object, or even elementary particle.
+Unlike the meter and second, which exist as fundamental units in the SI system for (human) historical reasons, the Planck length and Planck time are conceptually linked at a fundamental physical level. Natural units help physicists to reframe questions.</terms:description>
+        <qudt:abbreviation>PLANCK</qudt:abbreviation>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/Planck_units</qudt:dbpediaMatch>
+        <qudt:hasBaseUnit rdf:resource="http://qudt.org/vocab/unit/PlanckCharge"/>
+        <qudt:hasBaseUnit rdf:resource="http://qudt.org/vocab/unit/PlanckLength"/>
+        <qudt:hasBaseUnit rdf:resource="http://qudt.org/vocab/unit/PlanckMass"/>
+        <qudt:hasBaseUnit rdf:resource="http://qudt.org/vocab/unit/PlanckTemperature"/>
+        <qudt:hasBaseUnit rdf:resource="http://qudt.org/vocab/unit/PlanckTime"/>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://en.wikipedia.org/wiki/Planck_units?oldid=495407713</qudt:informativeReference>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/sou"/>
+        <rdfs:label xml:lang="en">Planck System of Units</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/sou/SI -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/sou/SI">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/SystemOfUnits"/>
+        <terms:description rdf:datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML">The International System of Units (abbreviated $SI$ from French: Système international d&apos;unités) is the modern form of the metric system and is generally a system of units of measurement devised around seven base units and the convenience of the number ten. The older metric system included several groups of units. The SI was established in 1960, based on the metre-kilogram-second system, rather than the centimetre-gram-second system, which, in turn, had a few variants.</terms:description>
+        <qudt:abbreviation>SI</qudt:abbreviation>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/International_System_of_Units</qudt:dbpediaMatch>
+        <qudt:hasBaseUnit rdf:resource="http://qudt.org/vocab/unit/A"/>
+        <qudt:hasBaseUnit rdf:resource="http://qudt.org/vocab/unit/CD"/>
+        <qudt:hasBaseUnit rdf:resource="http://qudt.org/vocab/unit/K"/>
+        <qudt:hasBaseUnit rdf:resource="http://qudt.org/vocab/unit/KiloGM"/>
+        <qudt:hasBaseUnit rdf:resource="http://qudt.org/vocab/unit/M"/>
+        <qudt:hasBaseUnit rdf:resource="http://qudt.org/vocab/unit/MOL"/>
+        <qudt:hasBaseUnit rdf:resource="http://qudt.org/vocab/unit/SEC"/>
+        <qudt:hasBaseUnit rdf:resource="http://qudt.org/vocab/unit/UNITLESS"/>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://aurora.regenstrief.org/~ucum/ucum.html</qudt:informativeReference>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://physics.info/system-international/</qudt:informativeReference>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://physics.nist.gov/Pubs/SP811</qudt:informativeReference>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://www.nist.gov/pml/pubs/sp811/index.cfm</qudt:informativeReference>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://www.oxfordreference.com/view/10.1093/acref/9780198605225.001.0001/acref-9780198605225-e-1292</qudt:informativeReference>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://www.oxfordreference.com/view/10.1093/acref/9780199233991.001.0001/acref-9780199233991-appendix-0003</qudt:informativeReference>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://www.oxfordreference.com/view/10.1093/acref/9780199233991.001.0001/acref-9780199233991-e-2791</qudt:informativeReference>
+        <qudt:informativeReference rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://www.govinfo.gov/content/pkg/GOVPUB-C13-f10c2ff9e7af2091314396a2d53213e4/pdf/GOVPUB-C13-f10c2ff9e7af2091314396a2d53213e4.pdf</qudt:informativeReference>
+        <qudt:prefix rdf:resource="http://qudt.org/vocab/prefix/Atto"/>
+        <qudt:prefix rdf:resource="http://qudt.org/vocab/prefix/Centi"/>
+        <qudt:prefix rdf:resource="http://qudt.org/vocab/prefix/Deca"/>
+        <qudt:prefix rdf:resource="http://qudt.org/vocab/prefix/Deci"/>
+        <qudt:prefix rdf:resource="http://qudt.org/vocab/prefix/Deka"/>
+        <qudt:prefix rdf:resource="http://qudt.org/vocab/prefix/Exa"/>
+        <qudt:prefix rdf:resource="http://qudt.org/vocab/prefix/Femto"/>
+        <qudt:prefix rdf:resource="http://qudt.org/vocab/prefix/Giga"/>
+        <qudt:prefix rdf:resource="http://qudt.org/vocab/prefix/Hecto"/>
+        <qudt:prefix rdf:resource="http://qudt.org/vocab/prefix/Kilo"/>
+        <qudt:prefix rdf:resource="http://qudt.org/vocab/prefix/Mega"/>
+        <qudt:prefix rdf:resource="http://qudt.org/vocab/prefix/Micro"/>
+        <qudt:prefix rdf:resource="http://qudt.org/vocab/prefix/Milli"/>
+        <qudt:prefix rdf:resource="http://qudt.org/vocab/prefix/Nano"/>
+        <qudt:prefix rdf:resource="http://qudt.org/vocab/prefix/Peta"/>
+        <qudt:prefix rdf:resource="http://qudt.org/vocab/prefix/Pico"/>
+        <qudt:prefix rdf:resource="http://qudt.org/vocab/prefix/Quecto"/>
+        <qudt:prefix rdf:resource="http://qudt.org/vocab/prefix/Quetta"/>
+        <qudt:prefix rdf:resource="http://qudt.org/vocab/prefix/Ronna"/>
+        <qudt:prefix rdf:resource="http://qudt.org/vocab/prefix/Ronto"/>
+        <qudt:prefix rdf:resource="http://qudt.org/vocab/prefix/Tera"/>
+        <qudt:prefix rdf:resource="http://qudt.org/vocab/prefix/Yocto"/>
+        <qudt:prefix rdf:resource="http://qudt.org/vocab/prefix/Yotta"/>
+        <qudt:prefix rdf:resource="http://qudt.org/vocab/prefix/Zepto"/>
+        <qudt:prefix rdf:resource="http://qudt.org/vocab/prefix/Zetta"/>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/sou"/>
+        <rdfs:label xml:lang="en">International System of Units</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/sou/SOU_ASU -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/sou/SOU_ASU">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/SystemOfUnits"/>
+        <qudt:deprecated rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</qudt:deprecated>
+        <rdfs:label>Astronomical System of Units (deprecated URI)</rdfs:label>
+        <rdfs:seeAlso rdf:resource="http://qudt.org/vocab/sou/ASU"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/sou/SOU_CGS -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/sou/SOU_CGS">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/SystemOfUnits"/>
+        <qudt:deprecated rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</qudt:deprecated>
+        <rdfs:label>CGS System of Units (deprecated URI)</rdfs:label>
+        <rdfs:seeAlso rdf:resource="http://qudt.org/vocab/sou/CGS"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/sou/SOU_CGS-EMU -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/sou/SOU_CGS-EMU">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/SystemOfUnits"/>
+        <qudt:deprecated rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</qudt:deprecated>
+        <rdfs:label>CGS-EMU System of Units (deprecated URI)</rdfs:label>
+        <rdfs:seeAlso rdf:resource="http://qudt.org/vocab/sou/CGS-EMU"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/sou/SOU_CGS-ESU -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/sou/SOU_CGS-ESU">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/SystemOfUnits"/>
+        <qudt:deprecated rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</qudt:deprecated>
+        <rdfs:label>CGS-ESU System of Units (deprecated URI)</rdfs:label>
+        <rdfs:seeAlso rdf:resource="http://qudt.org/vocab/sou/CGS-ESU"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/sou/SOU_CGS-GAUSS -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/sou/SOU_CGS-GAUSS">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/SystemOfUnits"/>
+        <qudt:deprecated rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</qudt:deprecated>
+        <rdfs:label>CGS-Gauss System of Units (deprecated URI)</rdfs:label>
+        <rdfs:seeAlso rdf:resource="http://qudt.org/vocab/sou/CGS-GAUSS"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/sou/SOU_IMPERIAL -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/sou/SOU_IMPERIAL">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/SystemOfUnits"/>
+        <qudt:deprecated rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</qudt:deprecated>
+        <rdfs:label>Imperial System of Units (deprecated URI)</rdfs:label>
+        <rdfs:seeAlso rdf:resource="http://qudt.org/vocab/sou/IMPERIAL"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/sou/SOU_PLANCK -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/sou/SOU_PLANCK">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/SystemOfUnits"/>
+        <qudt:deprecated rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</qudt:deprecated>
+        <rdfs:label>Planck System of Units (deprecated URI)</rdfs:label>
+        <rdfs:seeAlso rdf:resource="http://qudt.org/vocab/sou/PLANCK"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/sou/SOU_SI -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/sou/SOU_SI">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/SystemOfUnits"/>
+        <qudt:deprecated rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</qudt:deprecated>
+        <rdfs:label>SI System of Units (deprecated URI)</rdfs:label>
+        <rdfs:seeAlso rdf:resource="http://qudt.org/vocab/sou/SI"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/sou/SOU_USCS -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/sou/SOU_USCS">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/SystemOfUnits"/>
+        <qudt:deprecated rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</qudt:deprecated>
+        <rdfs:label>US Customary System of Units (deprecated URI)</rdfs:label>
+        <rdfs:seeAlso rdf:resource="http://qudt.org/vocab/sou/USCS"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/sou/UNSTATED -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/sou/UNSTATED">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/SystemOfUnits"/>
+        <terms:description rdf:datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML">This placeholder system of units is for all units that do not fit will into any other system of units as modeled here.</terms:description>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/sou"/>
+        <rdfs:label xml:lang="en">Unstated System Of Units</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://qudt.org/vocab/sou/USCS -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/sou/USCS">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt/SystemOfUnits"/>
+        <terms:description rdf:datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML">United States customary units are a system of measurements commonly used in the United States. Many U.S. units are virtually identical to their imperial counterparts, but the U.S. customary system developed from English units used in the British Empire before the system of imperial units was standardized in 1824. Several numerical differences from the imperial system are present. The vast majority of U.S. customary units have been defined in terms of the meter and the kilogram since the Mendenhall Order of 1893 (and, in practice, for many years before that date). These definitions were refined in 1959. The United States is the only industrialized nation that does not mainly use the metric system in its commercial and standards activities, although the International System of Units (SI, often referred to as &quot;metric&quot;) is commonly used in the U.S. Armed Forces, in fields relating to science, and increasingly in medicine, aviation, and government as well as various sectors of industry. [Wikipedia]</terms:description>
+        <qudt:abbreviation>US Customary</qudt:abbreviation>
+        <qudt:dbpediaMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://dbpedia.org/resource/United_States_customary_units</qudt:dbpediaMatch>
+        <vaem:url rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://en.wikipedia.org/wiki/US_customary_units</vaem:url>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/sou"/>
+        <rdfs:label xml:lang="en">US Customary Unit System</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.linkedmodel.org/schema/vaem#GMD_QUDT-SOU -->
+
+    <owl:NamedIndividual rdf:about="http://www.linkedmodel.org/schema/vaem#GMD_QUDT-SOU">
+        <rdf:type rdf:resource="http://www.linkedmodel.org/schema/vaem#GraphMetaData"/>
+        <terms:contributor>Jack Hodges</terms:contributor>
+        <terms:contributor>Steve Ray</terms:contributor>
+        <terms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2016-07-04</terms:created>
+        <terms:creator>Ralph Hodgson</terms:creator>
+        <terms:description rdf:datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML">QUDT Systems of Units Vocabulary Version 2.1.37</terms:description>
+        <terms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2024-03-22T17:09:17.517-04:00</terms:modified>
+        <terms:rights>The QUDT Ontologies are issued under a Creative Commons Attribution 4.0 International License (CC BY 4.0), available at https://creativecommons.org/licenses/by/4.0/. Attribution should be made to QUDT.org</terms:rights>
+        <terms:subject>Systems of Units</terms:subject>
+        <terms:title>QUDT Systems of Units Version 2.1 Vocabulary</terms:title>
+        <vaem:graphTitle>QUDT Systems of Units Version 2.1.37</vaem:graphTitle>
+        <vaem:hasGraphRole rdf:resource="http://www.linkedmodel.org/schema/vaem#VocabularyGraph"/>
+        <vaem:hasOwner rdf:resource="http://www.linkedmodel.org/schema/vaem#QUDT"/>
+        <vaem:hasSteward rdf:resource="http://www.linkedmodel.org/schema/vaem#QUDT"/>
+        <vaem:intent>The intent of this graph is the specification of all Systems of Units</vaem:intent>
+        <vaem:isMetadataFor rdf:resource="http://qudt.org/2.1/vocab/sou"/>
+        <vaem:latestPublishedVersion rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://qudt.org/doc/2024/03/DOC_VOCAB-SYSTEMS-OF-UNITS-v2.1.html</vaem:latestPublishedVersion>
+        <vaem:logo rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://qudt.org/linkedmodels.org/assets/lib/lm/images/logos/qudt_logo-300x110.png</vaem:logo>
+        <vaem:name>sou</vaem:name>
+        <vaem:namespace rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://qudt.org/vocab/sou/</vaem:namespace>
+        <vaem:namespacePrefix>sou</vaem:namespacePrefix>
+        <vaem:owner>qudt.org</vaem:owner>
+        <vaem:previousPublishedVersion rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://qudt.org/doc/2024/02/DOC_VOCAB-SYSTEMS-OF-UNITS-v2.1.html</vaem:previousPublishedVersion>
+        <vaem:revision>2.1</vaem:revision>
+        <vaem:turtleFileURL rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://qudt.org/2.1/vocab/sou</vaem:turtleFileURL>
+        <vaem:usesNonImportedResource rdf:resource="http://www.w3.org/ns/prov#wasInfluencedBy"/>
+        <vaem:usesNonImportedResource rdf:resource="http://www.w3.org/ns/prov#wasInformedBy"/>
+        <rdfs:isDefinedBy rdf:resource="http://qudt.org/2.1/vocab/sou"/>
+        <rdfs:label>QUDT System of Units Vocabulary Metadata Version v2.1.37</rdfs:label>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.26.2023-07-17T20:34:13Z) https://github.com/owlcs/owlapi -->
+
