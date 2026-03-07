@@ -7,15 +7,11 @@
     </div>
 
     <mat-card class="form-card">
-        <mat-card-header>
-            <mat-card-title>Term Specification</mat-card-title>
-            <mat-card-subtitle>Define the ontology mapping</mat-card-subtitle>
-        </mat-card-header>
         <mat-card-content>
-            <form [formGroup]="termsForm" (ngSubmit)="onSubmit()">
+            <form [formGroup]="termsForm" (ngSubmit)="onSubmit()" class="relative-container">
                 <!-- ... form contents ... -->
                 <div class="form-row">
-                    <mat-form-field appearance="outline" class="half-width">
+                    <mat-form-field appearance="outline" class="class-field">
                         <mat-label>Classname</mat-label>
                         <input matInput formControlName="classname" placeholder="Ex. dataset:DataTypeComponent">
                         <mat-icon matSuffix>class</mat-icon>
@@ -24,7 +20,7 @@
                         </mat-error>
                     </mat-form-field>
 
-                    <mat-form-field appearance="outline" class="half-width">
+                    <mat-form-field appearance="outline" class="type-field">
                         <mat-label>Datatype</mat-label>
                         <input matInput formControlName="datatype" placeholder="Ex. xsd:string">
                         <mat-icon matSuffix>data_object</mat-icon>
@@ -32,21 +28,28 @@
                             Datatype is required
                         </mat-error>
                     </mat-form-field>
+
+                    <div class="checkbox-container">
+                        <mat-checkbox formControlName="writeToDatastore" matTooltip="Write to Datastore">
+                        </mat-checkbox>
+                    </div>
+
+                    <div class="inline-actions">
+                        <button mat-mini-fab color="primary" type="submit" [disabled]="!termsForm.valid || isLoading"
+                            matTooltip="Save Terms">
+                            <mat-icon>save</mat-icon>
+                        </button>
+                        <button mat-mini-fab color="warn" type="button" (click)="goBack()" [disabled]="isLoading"
+                            matTooltip="Cancel">
+                            <mat-icon>cancel</mat-icon>
+                        </button>
+                    </div>
                 </div>
 
-                <div class="actions">
-                    <button mat-raised-button color="primary" type="submit" [disabled]="!termsForm.valid">
-                        SAVE TERMS
-                    </button>
-                    <button mat-button type="button" (click)="goBack()">CANCEL</button>
+                <div *ngIf="isLoading" class="loading-overlay">
+                    <mat-spinner diameter="40"></mat-spinner>
                 </div>
             </form>
-
-            <div *ngIf="sanitizedMessage" class="response-panel"
-                [ngClass]="{'success': isSuccessful, 'error': !isSuccessful}">
-                <h3>Service Response</h3>
-                <div class="rendered-content" [innerHTML]="sanitizedMessage"></div>
-            </div>
 
             <div *ngIf="termsList.length > 0" class="terms-matrix-container mat-elevation-z2">
                 <h3>Terms Matrix</h3>
@@ -66,6 +69,12 @@
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                     </table>
                 </div>
+            </div>
+
+            <div *ngIf="sanitizedMessage" class="response-panel"
+                [ngClass]="{'success': isSuccessful, 'error': !isSuccessful}">
+                <h3>Service Response</h3>
+                <div class="rendered-content" [innerHTML]="sanitizedMessage"></div>
             </div>
         </mat-card-content>
     </mat-card>

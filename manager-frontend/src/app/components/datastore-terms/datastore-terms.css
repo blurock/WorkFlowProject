@@ -16,23 +16,41 @@
 
 .form-row {
     display: flex;
-    gap: 20px;
+    gap: 15px;
     flex-wrap: wrap;
     margin-top: 20px;
+    align-items: flex-start;
+    /* Aligning to top for mat-error space */
 }
 
-.half-width {
-    flex: 1;
-    min-width: 300px;
-}
-
-.actions {
+.checkbox-container {
     display: flex;
-    gap: 15px;
-    margin-top: 30px;
-    justify-content: flex-end;
+    align-items: center;
+    padding-top: 15px;
+    /* Aligns with the vertical center of the form fields */
+    margin-right: 15px;
 }
 
+/* Ensure icons align with the input field center */
+.inline-actions {
+    display: flex;
+    gap: 10px;
+    padding-top: 12px;
+    /* Adjusted to align with the center of mat-form-field inputs */
+    align-items: center;
+}
+
+.class-field {
+    flex: 3;
+    min-width: 250px;
+}
+
+.type-field {
+    flex: 1.5;
+    min-width: 150px;
+}
+
+/* Redefining these to clean up the CSS */
 .response-panel {
     margin-top: 30px;
     padding: 20px;
@@ -98,4 +116,22 @@ tr.mat-header-row {
 
 td.mat-cell {
     padding: 12px 8px;
+}
+
+.relative-container {
+    position: relative;
+}
+
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    border-radius: 8px;
 }
