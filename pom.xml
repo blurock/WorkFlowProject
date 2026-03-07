@@ -14,7 +14,9 @@
     <!-- Map out the nested sub-modules here -->
     <modules>
         <module>backend-orchestrator</module>
-        <!-- As you copy in core-ontology, neo4j-utils, etc., add them here! -->
+        <module>backend-data-manager</module>
+        <module>ChemConnectCoreOntologyBase</module>
+        <module>ChemConnectThermodynamicData</module>
     </modules>
 
 </project>

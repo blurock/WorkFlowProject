@@ -1,0 +1,40 @@
+<div class="page-container">
+    <mat-tab-group dynamicHeight>
+        <mat-tab label="Administration">
+            <div class="admin-tab-content">
+                <div class="hero-section">
+                    <h1>System Administration</h1>
+                    <p>Manage ontologies, datastores, and system configurations from a single interface.</p>
+                </div>
+                <mat-card class="explanation-card">
+                    <mat-card-content>
+                        <h2>Welcome to the Manager Portal</h2>
+                        <p>This dashboard allows you to oversee the entire ChemConnect ecosystem. Use the 'Tasks' tab to
+                            access specific administrative functions such as setting up datastore terms from the
+                            ontology.</p>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </mat-tab>
+        <mat-tab label="Tasks">
+            <div class="tasks-tab-content">
+                <div class="card-grid">
+                    <mat-card class="clickable-card" (click)="goToDatastoreTerms()">
+                        <mat-card-header>
+                            <div mat-card-avatar class="task-icon"><mat-icon>settings_input_component</mat-icon></div>
+                            <mat-card-title>Datastore Terms</mat-card-title>
+                            <mat-card-subtitle>Ontology Setup</mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <p>Configure datastore terms directly from the system ontology. Define class names and data
+                                types for seamless integration.</p>
+                        </mat-card-content>
+                        <mat-card-actions>
+                            <button mat-button color="primary">CONFIGURE</button>
+                        </mat-card-actions>
+                    </mat-card>
+                </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>

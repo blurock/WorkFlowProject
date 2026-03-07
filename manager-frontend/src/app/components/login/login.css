@@ -1,0 +1,66 @@
+.login-card {
+    width: 400px;
+    padding: 20px;
+}
+
+.full-width {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+mat-card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+button {
+    height: 50px;
+    font-size: 1.1rem;
+}
+
+.divider-row {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.divider-row .line {
+    flex: 1;
+    height: 1px;
+    background-color: #e0e0e0;
+}
+
+.divider-row .text {
+    margin: 0 15px;
+    color: #757575;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.social-login-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.social-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background-color 0.2s;
+}
+
+.social-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.google-btn:hover {
+    background-color: #f8f9fa;
+}
+
+.github-btn:hover {
+    background-color: #f1f3f5;
+}

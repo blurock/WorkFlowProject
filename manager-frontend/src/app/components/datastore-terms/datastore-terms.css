@@ -1,0 +1,101 @@
+.header-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.header-row h1 {
+    margin: 0 0 0 15px;
+    font-size: 1.8rem;
+    color: #3f51b5;
+}
+
+.form-card {
+    width: 100%;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.half-width {
+    flex: 1;
+    min-width: 300px;
+}
+
+.actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    justify-content: flex-end;
+}
+
+.response-panel {
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 6px solid #ccc;
+    background-color: #f5f5f5;
+}
+
+.response-panel.success {
+    background-color: #e8f5e9;
+    border-left-color: #4caf50;
+}
+
+.response-panel.error {
+    background-color: #ffebee;
+    border-left-color: #f44336;
+}
+
+.response-panel h3 {
+    margin: 0 0 10px 0;
+}
+
+pre {
+    background: rgba(255, 255, 255, 0.6);
+    padding: 10px;
+    border-radius: 4px;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.terms-matrix-container {
+    margin-top: 30px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 15px;
+}
+
+.table-scroll {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #eee;
+}
+
+.full-width-table {
+    width: 100%;
+}
+
+.mat-column-term {
+    width: 30%;
+    font-weight: 500;
+}
+
+.mat-column-description {
+    width: 70%;
+    color: #555;
+    line-height: 1.4;
+}
+
+tr.mat-header-row {
+    background-color: #f8f9fa;
+}
+
+td.mat-cell {
+    padding: 12px 8px;
+}
