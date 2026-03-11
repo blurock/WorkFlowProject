@@ -13,34 +13,42 @@ public class CreateDataStoreTermSet {
     public static DictionaryTermSet createDataStoreDataObjectTermSet(String topclassname, String datatype) {
         DictionaryTermSet terms = new DictionaryTermSet();
         Set<String> keysInList = new HashSet<String>();
-        addToDataStoreTermSet(terms, keysInList, topclassname, datatype);
+        Set<String> processed = new HashSet<String>();
+        addToDataStoreTermSet(terms, processed, keysInList, topclassname, datatype);
         return terms;
     }
 
-    public static void addToDataStoreTermSet(DictionaryTermSet terms, Set<String> keysInList, String classname, String datatype) {
+    public static void addToDataStoreTermSet(DictionaryTermSet terms, Set<String> processed, Set<String> keysInList, String classname, String datatype) {
         JsonObject template = CreateDocumentTemplate.createTemplateWithAnnotations(classname);
         JsonObject annotations = template.getAsJsonObject("annotations");
-        Set<String> keys = annotations.keySet();
+        Set<String> allkeys = annotations.keySet();
+        
+        // processed is used to prevent infinite recursion on classes
+        if (processed.contains(classname)) return;
+        processed.add(classname);
+
+        Set<String> keys = new HashSet<>();
+        for (String key : allkeys) {
+            if (OntologyUtilityRoutines.isSubClassOf(key, "dataset:ChemConnectPrimitiveDataStructure", false)) {
+                keys.add(key);
+            }
+        }
+        
+        System.out.println("Processing terms for Class: " + classname + ", terms identified: " + keys.size());
         for (String key : keys) {
-           JsonObject element = annotations.getAsJsonObject(key);
-           
-           // Identifier is usually required, but let's be safe.
-           String identifier = element.has(AnnotationObjectsLabels.identifier) ? element.get(AnnotationObjectsLabels.identifier).getAsString() : key;
-           
-           // Many elements in the ontology miss a label or comment, we must check before getting them!
-           //String label = element.has(AnnotationObjectsLabels.label) ? element.get(AnnotationObjectsLabels.label).getAsString() : identifier;
-           String comment = element.has(AnnotationObjectsLabels.comment) ? element.get(AnnotationObjectsLabels.comment).getAsString() : "";
+            JsonObject element = annotations.getAsJsonObject(key);
+            String identifier = element.has(AnnotationObjectsLabels.identifier) ? element.get(AnnotationObjectsLabels.identifier).getAsString() : key;
+            String comment = element.has(AnnotationObjectsLabels.comment) ? element.get(AnnotationObjectsLabels.comment).getAsString() : "";
 
-           if(!keysInList.contains(identifier)) {
-               keysInList.add(identifier);
-               DictionaryTerm term = new DictionaryTerm(identifier, key, comment, datatype);
-               terms.addTerm(term);
-           }
+            String name = key.substring(key.lastIndexOf(":") + 1);
+            // DictionaryTermSet.addTerm now handles merging datatypes into a List
+            DictionaryTerm term = new DictionaryTerm(name, key, comment, datatype);
+            terms.addTerm(term);
         }
-        List<String> subclassifications = OntologyUtilityRoutines.listOfSubClasses(classname, true);   
+
+        List<String> subclassifications = OntologyUtilityRoutines.listOfSubClasses(classname, true);  
         for(String subclassification : subclassifications) {
-            addToDataStoreTermSet(terms, keysInList, subclassification, datatype);
+            addToDataStoreTermSet(terms, processed, keysInList, subclassification, datatype);
         }
-
     }
 }

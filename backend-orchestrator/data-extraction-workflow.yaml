@@ -1,0 +1,88 @@
+main:
+  params: [args]
+  steps:
+    - init:
+        assign:
+          - prompt: ${args.prompt}
+          - datatype: ${default(args.datatype, "catalogobjects")}
+          - environment: ${default(args.environment, "dev")}
+          - executionId: ${default(sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID"), "test-exec-123")}
+          - firestore_collection: ${if(environment == "prod", "workflows", "workflows_" + environment)}
+           - orchestrator_url: "https://my-java-backend-315685320181.europe-west1.run.app"
+          - data_manager_url: "https://backend-data-manager-315685320181.europe-west1.run.app"
+    
+    - write_processing_status:
+        call: http.post
+        args:
+          url: ${"https://firestore.googleapis.com/v1/projects/" + sys.get_env("GOOGLE_CLOUD_PROJECT_ID") + "/databases/(default)/documents/" + firestore_collection}
+          auth:
+            type: OAuth2
+          query:
+            documentId: ${executionId}
+          body:
+            fields:
+              status:
+                stringValue: "processing"
+              timestamp:
+                timestampValue: ${time.format(sys.now())}
+
+    - call_extraction_api:
+        # Call the new Extract Description endpoint
+        call: http.post
+        args:
+          url: ${data_manager_url + "/api/datastore/extract-description"}
+          auth:
+            type: OIDC
+          body:
+            prompt: ${prompt}
+            datatype: ${datatype}
+        result: extractionResponse
+
+    - setup_callback:
+        call: events.create_callback_endpoint
+        args:
+          http_callback_method: "POST"
+        result: callback_details
+
+    - write_waiting_status:
+        # Update Firestore with AI results and callback URL
+        call: http.patch
+        args:
+          url: ${"https://firestore.googleapis.com/v1/projects/" + sys.get_env("GOOGLE_CLOUD_PROJECT_ID") + "/databases/(default)/documents/" + firestore_collection + "/" + executionId}
+          auth:
+            type: OAuth2
+          body:
+            fields:
+              status:
+                stringValue: "waiting_for_user"
+              keyword:
+                stringValue: "VerifyExtraction"
+              title:
+                stringValue: ${extractionResponse.body["dataset:simpcatobj"].title}
+              suggestedKeyword:
+                stringValue: ${extractionResponse.body["dataset:simpcatobj"].keyword}
+              callbackUrl:
+                stringValue: ${callback_details.url}
+
+    - await_user_callback:
+        call: events.await_callback
+        args:
+          callback: ${callback_details}
+          timeout: 3600
+        result: callback_request
+
+    - write_completed_status:
+        call: http.patch
+        args:
+          url: ${"https://firestore.googleapis.com/v1/projects/" + sys.get_env("GOOGLE_CLOUD_PROJECT_ID") + "/databases/(default)/documents/" + firestore_collection + "/" + executionId}
+          auth:
+            type: OAuth2
+          body:
+            fields:
+              status:
+                stringValue: "completed"
+              finalResult:
+                stringValue: "Confirmed by user"
+
+    - return_result:
+        return: ${callback_request.http_request.body}

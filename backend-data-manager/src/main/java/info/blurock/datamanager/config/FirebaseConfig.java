@@ -17,6 +17,7 @@ public class FirebaseConfig {
             if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseOptions options = FirebaseOptions.builder()
                         .setCredentials(GoogleCredentials.getApplicationDefault())
+                        .setProjectId("blurock-database")
                         .build();
                 FirebaseApp.initializeApp(options);
                 System.out.println("Firebase has been initialized");

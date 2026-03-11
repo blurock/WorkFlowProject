@@ -12,6 +12,7 @@ public class TestGenerateSimpleClassification {
 
 	@Test
 	public void test() {
+		/* 
 		System.out.println("-------------------------------------");
 		String classification = "dataset:UserTitleChoices";
 		JsonObject obj = GenerateSimpleClassification.generateSimpleListFromChoices(classification);
@@ -20,9 +21,10 @@ public class TestGenerateSimpleClassification {
 		String classification2 = "dataset:PersonClassification";
 		JsonObject obj2 = GenerateSimpleClassification.generateSimpleListFromChoices(classification2);
 		System.out.println(JsonObjectUtilities.toString(obj2));
+		*/
 		System.out.println("-------------------------------------");
-		String classification3 = "dataset:UserClassification";
-		JsonObject obj3 = GenerateSimpleClassification.generateSimpleListFromDataType(classification3);
+		String classification3 = "dataset:ChemConnectDataStructure";
+		JsonObject obj3 = GenerateSimpleClassification.generateHierarchyClassname(classification3);
 		System.out.println(JsonObjectUtilities.toString(obj3));
 	}
 

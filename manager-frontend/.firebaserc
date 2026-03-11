@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "blurock-database"
+  },
+  "targets": {
+    "blurock-database": {
+      "hosting": {
+        "admin": [
+          "blurock-admin"
+        ]
+      }
+    }
+  }
+}

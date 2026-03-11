@@ -1,0 +1,30 @@
+main:
+  params: [args]
+  steps:
+    - init:
+        assign:
+          - projectId: ${sys.get_env("GOOGLE_CLOUD_PROJECT_ID")}
+          - location: "europe-west1"
+          - childWorkflow: "chat-workflow"
+          - prompt: ${args.prompt}
+
+    - start_child_workflow:
+        # This is how you call one workflow from another in Google Cloud
+        call: http.post
+        args:
+          url: ${"https://workflowexecutions.googleapis.com/v1/projects/" + projectId + "/locations/" + location + "/workflows/" + childWorkflow + "/executions"}
+          auth:
+            type: OAuth2
+          body:
+            argument: ${json.encode_to_string({"prompt":prompt, "mode":"prod"})}
+        result: executionResponse
+
+    - wait_for_child:
+        # Optional: You can poll for completion or just return the execution ID
+        assign:
+          - childExecutionId: ${executionResponse.body.name}
+
+    - finish:
+        return: 
+          message: "Triggered child workflow successfully"
+          childExecution: ${childExecutionId}

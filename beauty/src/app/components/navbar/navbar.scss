@@ -1,0 +1,60 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(49, 27, 146, 0.85); // Deep purple with transparency
+    backdrop-filter: blur(10px);
+    transition: background 0.3s ease;
+    height: 70px;
+}
+
+.nav-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 3px;
+    cursor: pointer;
+    color: white;
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+
+    @media (max-width: 768px) {
+        display: none; // Simplified for this task, usually we'd add a mobile menu
+    }
+
+    button {
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: 300;
+        letter-spacing: 1px;
+
+        &:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+        }
+    }
+
+    .book-now {
+        background-color: #03A9F4;
+        color: white;
+        margin-left: 10px;
+
+        &:hover {
+            background-color: #039BE5;
+        }
+    }
+}

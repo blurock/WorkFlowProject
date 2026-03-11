@@ -47,6 +47,13 @@
       <version>2.38.0</version>
     </dependency>
 
+    <!-- Vertex AI / Gemini -->
+    <dependency>
+      <groupId>com.google.cloud</groupId>
+      <artifactId>google-cloud-vertexai</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+
     <!-- Ontology Engine Base Module -->
     <dependency>
         <groupId>info.esblurock</groupId>
@@ -59,6 +66,12 @@
         <groupId>info.esblurock.reaction</groupId>
         <artifactId>ChemConnectThermodynamicData</artifactId>
         <version>1.0-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.cloud</groupId>
+      <artifactId>google-cloud-discoveryengine</artifactId>
+      <version>0.42.0</version>
     </dependency>
 
     <dependency>
@@ -76,4 +89,83 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>deploy</id>
+      <build>
+        <plugins>
+          <!-- Jib builds the container image from local artifacts and pushes to GCR -->
+          <plugin>
+            <groupId>com.google.cloud.tools</groupId>
+            <artifactId>jib-maven-plugin</artifactId>
+            <version>3.4.0</version>
+            <configuration>
+              <to>
+                <image>gcr.io/blurock-database/backend-data-manager</image>
+              </to>
+              <container>
+                <mainClass>info.blurock.datamanager.DataManagerApplication</mainClass>
+                <ports>
+                  <port>8085</port>
+                </ports>
+                <environment>
+                  <SERVER_PORT>8085</SERVER_PORT>
+                </environment>
+              </container>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>build</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.1.0</version>
+            <executions>
+              <execution>
+                <id>cloud-run-deploy</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <executable>gcloud</executable>
+                  <arguments>
+                    <argument>run</argument>
+                    <argument>deploy</argument>
+                    <argument>backend-data-manager</argument>
+                    <argument>--image</argument>
+                    <argument>gcr.io/blurock-database/backend-data-manager</argument>
+                    <argument>--project</argument>
+                    <argument>blurock-database</argument>
+                    <argument>--region</argument>
+                    <argument>europe-west1</argument>
+                    <argument>--allow-unauthenticated</argument>
+                    <argument>--port</argument>
+                    <argument>8085</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- Skip the standard maven-deploy-plugin to avoid Nexus/Artifactory errors -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-deploy-plugin</artifactId>
+            <version>3.1.1</version>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

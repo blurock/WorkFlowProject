@@ -5,12 +5,14 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "deploy": "ng build && firebase deploy --only hosting",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
   "private": true,
   "packageManager": "npm@11.7.0",
   "dependencies": {
+    "@angular/animations": "^21.2.1",
     "@angular/cdk": "^21.2.1",
     "@angular/common": "^21.2.0",
     "@angular/compiler": "^21.2.0",

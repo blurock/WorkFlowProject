@@ -1,0 +1,17 @@
+{
+    "hosting": {
+        "site": "blue-orchid-spa",
+        "public": "dist/beauty/browser",
+        "ignore": [
+            "firebase.json",
+            "**/.*",
+            "**/node_modules/**"
+        ],
+        "rewrites": [
+            {
+                "source": "**",
+                "destination": "/index.html"
+            }
+        ]
+    }
+}

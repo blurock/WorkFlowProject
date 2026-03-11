@@ -1,0 +1,82 @@
+<div class="my-bookings-container">
+    <div class="header-section">
+        <h1>Your Spa Journey</h1>
+        <p>Manage your upcoming and past serenity sessions.</p>
+    </div>
+
+    <mat-card class="bookings-card">
+        <mat-card-header>
+            <mat-card-title>Upcoming & Past Appointments</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div class="loading-spinner" *ngIf="isLoading()">
+                <mat-spinner diameter="40"></mat-spinner>
+                <p>Retrieving your sessions...</p>
+            </div>
+
+            <div class="table-container" *ngIf="!isLoading() && bookings().length > 0">
+                <table mat-table [dataSource]="bookings()" class="mat-elevation-z0">
+
+                    <!-- Service Column -->
+                    <ng-container matColumnDef="service">
+                        <th mat-header-cell *matHeaderCellDef>Service</th>
+                        <td mat-cell *matCellDef="let booking">
+                            <div class="service-cell">
+                                <mat-icon class="service-icon">spa</mat-icon>
+                                <span>{{booking.service}}</span>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <!-- Date Column -->
+                    <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef>Date</th>
+                        <td mat-cell *matCellDef="let booking">{{formatDate(booking.date)}}</td>
+                    </ng-container>
+
+                    <!-- Time Column -->
+                    <ng-container matColumnDef="time">
+                        <th mat-header-cell *matHeaderCellDef>Time</th>
+                        <td mat-cell *matCellDef="let booking">{{booking.time}}</td>
+                    </ng-container>
+
+                    <!-- Status Column -->
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef>Status</th>
+                        <td mat-cell *matCellDef="let booking">
+                            <mat-chip-set>
+                                <mat-chip [ngClass]="booking.status">
+                                    {{booking.status | uppercase}}
+                                </mat-chip>
+                            </mat-chip-set>
+                        </td>
+                    </ng-container>
+
+                    <!-- Actions Column -->
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef>Actions</th>
+                        <td mat-cell *matCellDef="let booking">
+                            <button mat-icon-button color="warn" matTooltip="Cancel Appointment"
+                                *ngIf="booking.status === 'pending' || booking.status === 'confirmed'">
+                                <mat-icon>cancel</mat-icon>
+                            </button>
+                            <button mat-icon-button color="primary" matTooltip="View Details">
+                                <mat-icon>visibility</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+
+            <div class="no-bookings" *ngIf="!isLoading() && bookings().length === 0">
+                <mat-icon>event_busy</mat-icon>
+                <p>You have no scheduled sessions yet.</p>
+                <button mat-raised-button color="primary" routerLink="/booking">BOOK NOW</button>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

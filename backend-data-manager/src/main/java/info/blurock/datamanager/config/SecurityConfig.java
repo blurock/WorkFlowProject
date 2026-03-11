@@ -50,7 +50,9 @@ public class SecurityConfig {
                 "http://localhost:4200",
                 "http://localhost:4201",
                 "https://blurock-database.web.app",
-                "https://blurock-database.firebaseapp.com"
+                "https://blurock-database.firebaseapp.com",
+                "https://blurock-admin.web.app",
+                "https://blurock-admin.firebaseapp.com"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));

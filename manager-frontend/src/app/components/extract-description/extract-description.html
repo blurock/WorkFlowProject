@@ -1,0 +1,71 @@
+<div class="page-container">
+    <div class="header-row">
+        <button mat-icon-button (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h1>Extract Title and Keyword from Description</h1>
+    </div>
+
+    <mat-card class="form-card">
+        <mat-card-content>
+            <form [formGroup]="extractForm" (ngSubmit)="onSubmit()" class="relative-container">
+                <div class="form-column">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Description Prompt</mat-label>
+                        <textarea matInput formControlName="prompt" placeholder="Enter the full text description here..." rows="6"></textarea>
+                        <mat-error *ngIf="extractForm.get('prompt')?.hasError('required')">
+                            Description is required
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Datatype (Optimization Context)</mat-label>
+                        <input matInput formControlName="datatype" placeholder="Ex. catalogobjects">
+                        <mat-error *ngIf="extractForm.get('datatype')?.hasError('required')">
+                            Datatype is required
+                        </mat-error>
+                    </mat-form-field>
+
+                    <div class="actions">
+                        <button mat-raised-button color="primary" type="submit" [disabled]="!extractForm.valid || isLoading">
+                            <mat-icon>auto_awesome</mat-icon>
+                            Extract Info
+                        </button>
+                        <button mat-stroked-button color="warn" type="button" (click)="goBack()" [disabled]="isLoading">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+
+                <div *ngIf="isLoading" class="loading-overlay">
+                    <mat-spinner diameter="40"></mat-spinner>
+                    <p>Analyzing with AI...</p>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+
+    <div *ngIf="extractionResult" class="result-container animation-fade-in">
+        <mat-card class="result-card">
+            <mat-card-header>
+                <mat-icon mat-card-avatar color="accent">insights</mat-icon>
+                <mat-card-title>Extraction Result</mat-card-title>
+                <mat-card-subtitle>AI-Generated Summary</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="result-item">
+                    <label>Generated Title:</label>
+                    <div class="result-value highlight">{{ extractionResult.title }}</div>
+                </div>
+                <div class="result-item">
+                    <label>Generated Keyword:</label>
+                    <div class="result-value code">{{ extractionResult.keyword }}</div>
+                </div>
+                <div class="result-item">
+                    <label>Original Description:</label>
+                    <div class="result-value quote">{{ extractionResult.description }}</div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

@@ -1,0 +1,92 @@
+<div class="container animation-fade-in">
+    <div class="header-row">
+        <button mat-icon-button (click)="goBack()" matTooltip="Back to Home">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h1>Ontology Object Fill-In</h1>
+    </div>
+
+    <mat-card class="form-card mat-elevation-z4">
+        <mat-card-header>
+            <mat-icon mat-card-avatar color="primary">auto_fix_high</mat-icon>
+            <mat-card-title>Automated Property Mapping</mat-card-title>
+            <mat-card-subtitle>Extract values from natural language using AI</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+            <form [formGroup]="fillInForm" (ngSubmit)="onFillIn()" class="fill-in-form">
+                <div class="input-row">
+                    <mat-form-field appearance="outline" class="flex-2">
+                        <mat-label>Ontology Classname</mat-label>
+                        <input matInput formControlName="classname"
+                            placeholder="Ex: dataset:ActivityRepositoryInitialReadLocalFile">
+                        <mat-icon matSuffix>account_tree</mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="flex-1">
+                        <mat-label>Datastore Type</mat-label>
+                        <input matInput formControlName="datatype" placeholder="Ex: thermodynamics">
+                        <mat-icon matSuffix>filter_alt</mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Natural Language Prompt</mat-label>
+                    <textarea matInput formControlName="prompt" rows="5"
+                        placeholder="Describe the object... e.g., 'The title is My Experiment and the ID is exp_001'"></textarea>
+                    <mat-hint>Provide a description containing property-value pairs.</mat-hint>
+                </mat-form-field>
+
+                <div class="actions">
+                    <button mat-flat-button color="primary" type="submit" [disabled]="!fillInForm.valid || isLoading">
+                        <mat-icon>psychology</mat-icon> Analyze & Extract
+                    </button>
+                    <button mat-stroked-button color="warn" type="button" (click)="clearAll()" [disabled]="isLoading">
+                        <mat-icon>delete_sweep</mat-icon> Clear
+                    </button>
+                </div>
+            </form>
+
+            <div *ngIf="isLoading" class="loading-container">
+                <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                <p>AI is analyzing your input and mapping to ontology terms...</p>
+            </div>
+
+            <div *ngIf="assignedProperties.length > 0 || unassignedProperties.length > 0" class="results-container">
+                <mat-divider></mat-divider>
+
+                <div class="results-grid">
+                    <!-- Assigned Properties -->
+                    <div class="result-section assigned">
+                        <h3>
+                            <mat-icon color="primary">check_circle</mat-icon>
+                            Assigned Properties
+                        </h3>
+                        <div class="property-list">
+                            <div *ngFor="let prop of assignedProperties" class="property-item mat-elevation-z1">
+                                <span class="property-key">{{ prop.key }}</span>
+                                <span class="property-value">{{ prop.value }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Unassigned Properties -->
+                    <div class="result-section unassigned">
+                        <h3>
+                            <mat-icon color="warn">help_outline</mat-icon>
+                            Unassigned Properties
+                        </h3>
+                        <mat-chip-set>
+                            <mat-chip *ngFor="let prop of unassignedProperties" class="unassigned-chip">
+                                {{ prop }}
+                            </mat-chip>
+                        </mat-chip-set>
+                        <p *ngIf="unassignedProperties.length === 0" class="empty-msg">
+                            All properties were successfully mapped!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

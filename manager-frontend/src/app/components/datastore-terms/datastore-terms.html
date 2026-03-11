@@ -29,8 +29,23 @@
                         </mat-error>
                     </mat-form-field>
 
+                    <mat-form-field appearance="outline" class="source-field">
+                        <mat-label>Source</mat-label>
+                        <mat-select formControlName="source">
+                            <mat-option value="terms">Terms</mat-option>
+                            <mat-option value="classes">Classes</mat-option>
+                        </mat-select>
+                        <mat-icon matSuffix>source</mat-icon>
+                    </mat-form-field>
+
                     <div class="checkbox-container">
-                        <mat-checkbox formControlName="writeToDatastore" matTooltip="Write to Datastore">
+                        <mat-checkbox formControlName="writeToDatastore"
+                            matTooltip="Write to Firestore & Discovery Engine">
+                            Write
+                        </mat-checkbox>
+                        <mat-checkbox formControlName="clearFirestore" color="warn"
+                            matTooltip="Clear existing terms (DANGEROUS)">
+                            Clear
                         </mat-checkbox>
                     </div>
 
@@ -57,7 +72,10 @@
                     <table mat-table [dataSource]="termsList" class="full-width-table">
                         <ng-container matColumnDef="term">
                             <th mat-header-cell *matHeaderCellDef>Term</th>
-                            <td mat-cell *matCellDef="let element">{{element.term}}</td>
+                            <td mat-cell *matCellDef="let element" class="clickable-term"
+                                (click)="showTermDetails(element)">
+                                {{element.term}}
+                            </td>
                         </ng-container>
 
                         <ng-container matColumnDef="description">
@@ -75,6 +93,73 @@
                 [ngClass]="{'success': isSuccessful, 'error': !isSuccessful}">
                 <h3>Service Response</h3>
                 <div class="rendered-content" [innerHTML]="sanitizedMessage"></div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="test-search-card mat-elevation-z3">
+        <mat-card-header>
+            <mat-icon mat-card-avatar color="accent">search</mat-icon>
+            <mat-card-title>Test Data Store Terms</mat-card-title>
+            <mat-card-subtitle>Verify search capability for current terms</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <form [formGroup]="testSearchForm" (ngSubmit)="onTestSearch()" class="test-form">
+                <div class="test-form-row">
+                    <mat-form-field appearance="fill" class="test-query-field">
+                        <mat-label>Search Query / Prompt</mat-label>
+                        <input matInput formControlName="query" placeholder="Ex. Unit for temperature">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="test-type-field">
+                        <mat-label>Datatype filter</mat-label>
+                        <input matInput formControlName="datatype" placeholder="Ex. ChemConnectThermodynamicData">
+                    </mat-form-field>
+
+                    <div class="test-search-row">
+                        <button mat-raised-button color="accent" type="submit"
+                            [disabled]="!testSearchForm.valid || isSearchLoading">
+                            <mat-icon>smart_display</mat-icon>
+                            Test Search
+                        </button>
+                        <button mat-stroked-button color="primary" type="button" (click)="onListTerms()"
+                            [disabled]="!testSearchForm.get('datatype')?.valid || isSearchLoading">
+                            <mat-icon>list</mat-icon>
+                            List All Terms
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <div *ngIf="isSearchLoading" class="search-spinner">
+                <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                <p>Querying Discovery Engine...</p>
+            </div>
+
+            <div *ngIf="testSearchResult" class="test-result-box animation-fade-in">
+                <div class="result-header">
+                    <mat-icon>auto_awesome</mat-icon>
+                    <strong>Best Match Result:</strong>
+                </div>
+                <div class="result-body">
+                    <span class="term-name">{{ testSearchResult }}</span>
+                    <span *ngIf="testSearchTopResult?.score" class="score-badge">
+                        Score: {{ testSearchTopResult.score | number:'1.4-4' }}
+                    </span>
+                </div>
+
+                <div *ngIf="testSearchChoices.length > 0" class="alternative-choices">
+                    <div class="choices-header">
+                        <mat-icon>list</mat-icon>
+                        <span>Alternative Choices:</span>
+                    </div>
+                    <ol class="choices-list">
+                        <li *ngFor="let choice of testSearchChoices">
+                            <span class="choice-term">{{ choice.term }}</span>
+                            <span class="choice-score">({{ choice.score | number:'1.4-4' }})</span>
+                        </li>
+                    </ol>
+                </div>
             </div>
         </mat-card-content>
     </mat-card>

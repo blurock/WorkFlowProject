@@ -2,13 +2,14 @@ package info.esblurock.reaction.core.ontology.base.classification;
 
 import java.util.Iterator;
 import java.util.Set;
+import java.util.Map;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import info.esblurock.reaction.core.ontology.base.constants.AnnotationObjectsLabels;
 import info.esblurock.reaction.core.ontology.base.constants.ClassLabelConstants;
-import info.esblurock.reaction.core.ontology.base.dataset.CreateDocumentTemplate;
 import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
 import info.esblurock.reaction.core.ontology.base.dataset.annotations.BaseAnnotationObjects;
 
@@ -35,7 +36,7 @@ public class GenerateSimpleClassification {
 	 * 
 	 */
 	public static JsonObject generateSimpleListFromChoices(String classname) {
-		String classificationinfo = "dataset:ClassificationInfo";
+		//String classificationinfo = "dataset:ClassificationInfo";
 		JsonObject anno = new JsonObject();
 		JsonArray lst = new JsonArray();
 		ClassificationHierarchy hier = DatabaseOntologyClassification.getClassificationHierarchy(classname);
@@ -66,5 +67,35 @@ public class GenerateSimpleClassification {
 
 		return information;
 	}
+
+	public static JsonObject generateHierarchyClassname(String classname) {
+		JsonObject total = new JsonObject();
+		if (!total.has("dataobject")) {
+			total.add("dataobject", new JsonArray());
+		}
+		if (!total.has("annotations")) {
+			total.add("annotations", new JsonObject());
+		}
+		generateHierarchyClassname(classname, total);
+		return total;
+	}
+
+
+	public static void generateHierarchyClassname(String classname, JsonObject total) {
+		JsonObject information = generateSimpleListFromChoices(classname);
+		JsonArray lst = information.get("dataobject").getAsJsonArray();
+		JsonObject anno = information.get("annotations").getAsJsonObject();
+
+		total.get("dataobject").getAsJsonArray().addAll(lst);
+		JsonObject annotations = total.get("annotations").getAsJsonObject();
+		for (Map.Entry<String, JsonElement> entry : anno.entrySet()) {
+			annotations.add(entry.getKey(), entry.getValue());
+		}
+		for (int i = 0; i < lst.size(); i++) {
+			String subname = lst.get(i).getAsString();
+			generateHierarchyClassname(subname, total);
+		}
+	}
+	
 	
 }

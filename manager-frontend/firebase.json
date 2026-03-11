@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "target": "admin",
+    "public": "dist/manager-frontend/browser",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

@@ -1,0 +1,61 @@
+<div class="editor-container">
+    <div class="editor-header">
+        <h1>Edit Your Profile</h1>
+        <p>Keep your contact details and preferences up to date.</p>
+    </div>
+
+    <mat-card class="editor-card">
+        <mat-card-content>
+            <form [formGroup]="profileForm" (ngSubmit)="onSave()">
+                <div class="form-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Full Name</mat-label>
+                        <input matInput formControlName="name" placeholder="Edward Blurock">
+                        <mat-icon matSuffix>person</mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                    <mat-form-field appearance="outline" class="half-width">
+                        <mat-label>Email Address</mat-label>
+                        <input matInput formControlName="email">
+                        <mat-icon matSuffix>email</mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="half-width">
+                        <mat-label>Phone Number</mat-label>
+                        <input matInput formControlName="phone">
+                        <mat-icon matSuffix>phone</mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="preferences-section">
+                    <h3>Your Spa Preferences</h3>
+                    <p class="hint">Press Enter or comma to add a new preference</p>
+
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>Spa Preferences</mat-label>
+                        <mat-chip-grid #chipGrid aria-label="Preference selection">
+                            <mat-chip-row *ngFor="let pref of preferences" (removed)="removePreference(pref)">
+                                {{pref}}
+                                <button matChipRemove [attr.aria-label]="'remove ' + pref">
+                                    <mat-icon>cancel</mat-icon>
+                                </button>
+                            </mat-chip-row>
+                        </mat-chip-grid>
+                        <input placeholder="Add preference..." [matChipInputFor]="chipGrid"
+                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            (matChipInputTokenEnd)="addPreference($event)" />
+                    </mat-form-field>
+                </div>
+
+                <div class="actions">
+                    <button mat-button type="button" routerLink="/profile">CANCEL</button>
+                    <button mat-raised-button color="primary" type="submit" [disabled]="profileForm.invalid">
+                        SAVE TO FIRESTORE
+                    </button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

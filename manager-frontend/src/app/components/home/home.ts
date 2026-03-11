@@ -25,4 +25,16 @@ export class HomeComponent {
   goToDatastoreTerms() {
     this.router.navigate(['/datastore-terms']);
   }
+
+  goToTermExtraction() {
+    this.router.navigate(['/term-extraction']);
+  }
+
+  goToFillInOntology() {
+    this.router.navigate(['/fill-in-ontology']);
+  }
+
+  goToExtractDescription() {
+    this.router.navigate(['/extract-description']);
+  }
 }

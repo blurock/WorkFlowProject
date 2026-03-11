@@ -1,0 +1,185 @@
+<div class="page-container">
+    <div class="header-row">
+        <button mat-icon-button (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <div class="header-text">
+            <h1>Term Extraction Agent</h1>
+            <span class="subtitle">Identify and assign values to terms from a prompt</span>
+        </div>
+    </div>
+
+    <mat-card class="form-card mat-elevation-z3">
+        <mat-card-header>
+            <mat-icon mat-card-avatar class="header-icon">auto_awesome</mat-icon>
+            <mat-card-title>Input</mat-card-title>
+            <mat-card-subtitle>Enter a prompt and select the term set to search</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <form [formGroup]="extractionForm" (ngSubmit)="onExtract()" class="form">
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Prompt</mat-label>
+                    <textarea matInput formControlName="prompt"
+                        placeholder="Ex. The temperature is 300 K and pressure is 1 atm." rows="4">
+                    </textarea>
+                    <mat-icon matSuffix>edit_note</mat-icon>
+                    <mat-error *ngIf="extractionForm.get('prompt')?.hasError('required')">Prompt is required</mat-error>
+                </mat-form-field>
+
+                <div class="form-row">
+                    <mat-form-field appearance="outline" class="term-set-field">
+                        <mat-label>Term Set (Datatype)</mat-label>
+                        <input matInput formControlName="termSet" placeholder="Ex. ChemConnectThermodynamicData">
+                        <mat-icon matSuffix>dataset</mat-icon>
+                        <mat-error *ngIf="extractionForm.get('termSet')?.hasError('required')">Term set is
+                            required</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="max-field">
+                        <mat-label>Max Results</mat-label>
+                        <input matInput type="number" formControlName="maxResults" min="1" max="50">
+                        <mat-icon matSuffix>filter_list</mat-icon>
+                    </mat-form-field>
+
+                    <div class="action-buttons">
+                        <button mat-raised-button color="primary" type="submit"
+                            [disabled]="!extractionForm.valid || isLoading">
+                            <mat-icon>hub</mat-icon>
+                            Extract Terms
+                        </button>
+                        <button mat-icon-button color="warn" type="button" (click)="clearResults()"
+                            matTooltip="Clear results" *ngIf="results.length > 0">
+                            <mat-icon>clear_all</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="loading-section">
+        <mat-progress-bar mode="indeterminate" color="primary"></mat-progress-bar>
+        <p class="loading-text">
+            <mat-icon class="spin-icon">sync</mat-icon>
+            Querying Discovery Engine...
+        </p>
+    </div>
+
+    <!-- GROUP 1: Matched Terms (have extracted values), ordered best → worst -->
+    <mat-card *ngIf="matchedTerms.length > 0" class="results-card matched-card mat-elevation-z3 animation-fade-in">
+        <mat-card-header>
+            <mat-icon mat-card-avatar class="results-icon matched-icon">check_circle</mat-icon>
+            <mat-card-title>Matched Terms with Values ({{ matchedTerms.length }})</mat-card-title>
+            <mat-card-subtitle>{{ statusMessage }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <table mat-table [dataSource]="matchedTerms" class="results-table mat-elevation-z1">
+                <ng-container matColumnDef="score">
+                    <th mat-header-cell *matHeaderCellDef>Match Score</th>
+                    <td mat-cell *matCellDef="let row">
+                        <span class="score-chip">{{ row.relevanceScore | number:'1.3-3' }}</span>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="term">
+                    <th mat-header-cell *matHeaderCellDef>Term (Namespaced)</th>
+                    <td mat-cell *matCellDef="let row">
+                        <span class="term-chip">{{ row.namespacedTerm || row.term }}</span>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="value">
+                    <th mat-header-cell *matHeaderCellDef>Extracted Value</th>
+                    <td mat-cell *matCellDef="let row">
+                        <span class="value-chip">{{ row.value }}</span>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="description">
+                    <th mat-header-cell *matHeaderCellDef>Description</th>
+                    <td mat-cell *matCellDef="let row" class="desc-cell">{{ row.description }}</td>
+                </ng-container>
+                <ng-container matColumnDef="document">
+                    <th mat-header-cell *matHeaderCellDef>Doc</th>
+                    <td mat-cell *matCellDef="let row" class="doc-cell">
+                        <button mat-icon-button class="doc-btn" (click)="toggleDocument(row)"
+                            [matTooltip]="row._expanded ? 'Collapse' : 'View Firestore Document'">
+                            <mat-icon>{{ row._expanded ? 'expand_less' : 'description' }}</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <div *ngIf="expandedRow && matchedTerms.includes(expandedRow)" class="doc-panel animation-fade-in">
+                <div class="doc-panel-header">
+                    <mat-icon>article</mat-icon>
+                    <strong>Firestore Document — {{ expandedRow.namespacedTerm || expandedRow.term }}</strong>
+                    <button mat-icon-button (click)="expandedRow = null"><mat-icon>close</mat-icon></button>
+                </div>
+                <pre class="doc-json">{{ expandedRow.document | json }}</pre>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- GROUP 2: Candidate Terms (no value extracted), ordered best → worst -->
+    <mat-card *ngIf="candidateTerms.length > 0" class="results-card candidate-card mat-elevation-z2 animation-fade-in">
+        <mat-card-header>
+            <mat-icon mat-card-avatar class="results-icon candidate-icon">manage_search</mat-icon>
+            <mat-card-title>Candidate Terms — No Value Found ({{ candidateTerms.length }})</mat-card-title>
+            <mat-card-subtitle>Ordered from best to worst match</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <table mat-table [dataSource]="candidateTerms" class="results-table mat-elevation-z1">
+                <ng-container matColumnDef="score">
+                    <th mat-header-cell *matHeaderCellDef>Match Score</th>
+                    <td mat-cell *matCellDef="let row">
+                        <span class="score-chip dim">{{ row.relevanceScore | number:'1.3-3' }}</span>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="term">
+                    <th mat-header-cell *matHeaderCellDef>Term (Namespaced)</th>
+                    <td mat-cell *matCellDef="let row">
+                        <span class="term-chip dim">{{ row.namespacedTerm || row.term }}</span>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="value">
+                    <th mat-header-cell *matHeaderCellDef>Extracted Value</th>
+                    <td mat-cell *matCellDef="let row">
+                        <span class="no-value">—</span>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="description">
+                    <th mat-header-cell *matHeaderCellDef>Description</th>
+                    <td mat-cell *matCellDef="let row" class="desc-cell">{{ row.description }}</td>
+                </ng-container>
+                <ng-container matColumnDef="document">
+                    <th mat-header-cell *matHeaderCellDef>Doc</th>
+                    <td mat-cell *matCellDef="let row" class="doc-cell">
+                        <button mat-icon-button class="doc-btn" (click)="toggleDocument(row)"
+                            [matTooltip]="row._expanded ? 'Collapse' : 'View Firestore Document'">
+                            <mat-icon>{{ row._expanded ? 'expand_less' : 'description' }}</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <div *ngIf="expandedRow && candidateTerms.includes(expandedRow)" class="doc-panel animation-fade-in">
+                <div class="doc-panel-header">
+                    <mat-icon>article</mat-icon>
+                    <strong>Firestore Document — {{ expandedRow.namespacedTerm || expandedRow.term }}</strong>
+                    <button mat-icon-button (click)="expandedRow = null"><mat-icon>close</mat-icon></button>
+                </div>
+                <pre class="doc-json">{{ expandedRow.document | json }}</pre>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- Error state -->
+    <div *ngIf="errorMessage" class="error-panel animation-fade-in">
+        <mat-icon>error_outline</mat-icon>
+        <p>{{ errorMessage }}</p>
+    </div>
+</div>

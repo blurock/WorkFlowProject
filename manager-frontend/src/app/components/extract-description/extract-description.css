@@ -1,0 +1,129 @@
+.page-container {
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.header-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.header-row h1 {
+    margin: 0 0 0 15px;
+    font-size: 1.8rem;
+    color: #3f51b5;
+}
+
+.form-card {
+    margin-bottom: 30px;
+    border-radius: 12px;
+}
+
+.form-column {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.relative-container {
+    position: relative;
+    padding: 10px 0;
+}
+
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    border-radius: 8px;
+    gap: 15px;
+}
+
+.result-container {
+    margin-top: 30px;
+}
+
+.result-card {
+    border-left: 6px solid #4caf50;
+    border-radius: 12px;
+}
+
+.result-item {
+    margin-bottom: 20px;
+}
+
+.result-item label {
+    display: block;
+    font-weight: 500;
+    color: #666;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.result-value {
+    padding: 12px 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    color: #2c3e50;
+    border: 1px solid #eee;
+}
+
+.result-value.highlight {
+    font-weight: 600;
+    background: #e8f5e9;
+    color: #2e7d32;
+    border-color: #c8e6c9;
+}
+
+.result-value.code {
+    font-family: 'Courier New', Courier, monospace;
+    background: #fff3e0;
+    color: #e65100;
+    border-color: #ffe0b2;
+}
+
+.result-value.quote {
+    font-style: italic;
+    font-size: 1rem;
+    line-height: 1.5;
+    background: #f3f4f6;
+    color: #4b5563;
+}
+
+/* Animation */
+.animation-fade-in {
+    animation: fadeIn 0.5s ease-out both;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

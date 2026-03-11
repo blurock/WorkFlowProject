@@ -1,0 +1,11 @@
+export const environment = {
+  production: false,
+  firebase: {
+    projectId: "blurock-database",
+    appId: "1:315685320181:web:212000ed2f64b4c730419d",
+    storageBucket: "blurock-database.firebasestorage.app",
+    apiKey: "AIzaSyBFHXqA8MXdv-KbON_IU78BItS9KangM1Y",
+    authDomain: "blurock-database.firebaseapp.com",
+    messagingSenderId: "315685320181"
+  }
+};

@@ -23,52 +23,50 @@ public class OrchestrationController {
     private final String workflowName = "chat-workflow"; // The name we will give the YAML deployed to GCP
 
     @PostMapping("/start")
-    public ResponseEntity<Map<String, String>> startWorkflow(@RequestBody Map<String, String> request) {
-        String prompt = request.get("prompt");
-        String mode = request.getOrDefault("mode", "dev"); // Default to dev if missing
-
-        if (prompt == null || prompt.trim().isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<Map<String, String>> startWorkflow(@RequestBody Map<String, Object> request) {
+        // Dynamic workflow name from request, default to chat-workflow if not provided
+        String targetWorkflow = (String) request.getOrDefault("workflowName", workflowName);
+        String mode = (String) request.getOrDefault("mode", "dev");
 
         try (ExecutionsClient executionsClient = ExecutionsClient.create()) {
-            WorkflowName workflow = WorkflowName.of(projectId, location, workflowName);
+            WorkflowName workflow = WorkflowName.of(projectId, location, targetWorkflow);
 
-            // Create the JSON arguments to pass into the Google Workflow
-            Map<String, Object> workflowArgs = new HashMap<>();
-            workflowArgs.put("prompt", prompt);
-            workflowArgs.put("environment", mode); // Pass the mode from frontend to workflow
+            // Forward all other parameters as workflow arguments
+            Map<String, Object> workflowArgs = new HashMap<>(request);
+            workflowArgs.put("environment", mode);
+            // Remove meta-params that shouldn't be passed as args
+            workflowArgs.remove("workflowName");
+            workflowArgs.remove("mode");
 
             ObjectMapper objectMapper = new ObjectMapper();
             String argumentJson = objectMapper.writeValueAsString(workflowArgs);
+
+            System.out.println("Triggering workflow: " + targetWorkflow + " with args: " + argumentJson);
 
             Execution execution = Execution.newBuilder()
                     .setArgument(argumentJson)
                     .build();
 
-            // Trigger the workflow execution in Google Cloud
             CreateExecutionRequest createExecutionRequest = CreateExecutionRequest.newBuilder()
                     .setParent(workflow.toString())
                     .setExecution(execution)
                     .build();
 
             Execution response = executionsClient.createExecution(createExecutionRequest);
-
-            // Extract the unique Execution ID (which looks like
-            // projects/.../executions/12345)
-            // We just want the UUID at the end to use as our Firestore Document ID
             String executionName = response.getName();
             String executionId = executionName.substring(executionName.lastIndexOf("/") + 1);
 
-            System.out.println("Triggered Google Cloud Workflow! Execution ID: " + executionId);
+            System.out.println("Triggered! Workflow: " + targetWorkflow + ", Execution ID: " + executionId);
 
             Map<String, String> responseBody = new HashMap<>();
             responseBody.put("executionId", executionId);
+            responseBody.put("workflow", targetWorkflow);
 
             return ResponseEntity.ok(responseBody);
 
         } catch (IOException e) {
-            System.err.println("Failed to trigger Google Cloud Workflow: " + e.getMessage());
+            System.err.println("Failed to trigger Workflow " + targetWorkflow + ": " + e.getMessage());
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
     }

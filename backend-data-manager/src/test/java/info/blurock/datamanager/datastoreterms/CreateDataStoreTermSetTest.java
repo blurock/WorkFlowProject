@@ -10,8 +10,8 @@ public class CreateDataStoreTermSetTest {
     public void testCreateDataStoreTermSetBasic() {
         // Simple assertion to ensure test framework is wired up and the test directory is found.
         // A true dictionary load test requires actual ontology instances and likely specific base class names.
-        String baseClass = "dataset:ChemConnectDatabaseBaseElement";
-        String datatype = "ChemConnectDatabaseBaseElement";
+        String baseClass = "dataset:ActivityInformationRecordThermodynamics";
+        String datatype = "terms";
         DictionaryTermSet result = CreateDataStoreTermSet.createDataStoreDataObjectTermSet(baseClass, datatype);
         System.out.println("Number of terms: " + result.getTerms().size());
 

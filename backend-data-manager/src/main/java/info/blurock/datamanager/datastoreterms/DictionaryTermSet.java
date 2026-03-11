@@ -7,36 +7,47 @@ import com.google.gson.JsonArray;
 
 public class DictionaryTermSet {
 
-	List<DictionaryTerm> terms;
+	private java.util.Map<String, DictionaryTerm> termMap;
 	
 	public DictionaryTermSet() {
-		this.terms = new ArrayList<DictionaryTerm>();
+		this.termMap = new java.util.LinkedHashMap<>();
 	}
 	
 	public List<DictionaryTerm> getTerms() {
-		return terms;
+		return new ArrayList<>(termMap.values());
 	}
 	
 	public void setTerms(List<DictionaryTerm> terms) {
-		this.terms = terms;
+		termMap.clear();
+		for (DictionaryTerm t : terms) addTerm(t);
 	}
 
 	public void addTerm(DictionaryTerm term) {
-		this.terms.add(term);
+		if (termMap.containsKey(term.getId())) {
+			// Merge datatypes if term already exists
+			DictionaryTerm existing = termMap.get(term.getId());
+			java.util.List<String> existingTypes = (java.util.List<String>) existing.getMetadataValue("datatype");
+			java.util.List<String> newTypes = (java.util.List<String>) term.getMetadataValue("datatype");
+			
+			java.util.Set<String> combined = new java.util.HashSet<>(existingTypes);
+			combined.addAll(newTypes);
+			existing.addMetadata("datatype", new java.util.ArrayList<>(combined));
+		} else {
+			termMap.put(term.getId(), term);
+		}
 	}
 	
 	public List<Map<String, Object>> toMapList() {
 		List<Map<String, Object>> mapList = new ArrayList<>();
-		for (DictionaryTerm term : terms) {
-			Map<String, Object> termMap = term.toMap();
-			mapList.add(termMap);
+		for (DictionaryTerm term : termMap.values()) {
+			mapList.add(term.toMap());
 		}
 		return mapList;
 	}
 
 	public JsonArray toJsonArray() {
 		JsonArray jsonArray = new JsonArray();
-		for (DictionaryTerm term : terms) {
+		for (DictionaryTerm term : termMap.values()) {
 			jsonArray.add(term.toJsonObject());
 		}
 		return jsonArray;

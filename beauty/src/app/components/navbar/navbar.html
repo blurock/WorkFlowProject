@@ -1,0 +1,17 @@
+<mat-toolbar color="primary" class="navbar">
+    <div class="nav-container">
+        <span class="logo" [routerLink]="['/']">BLUE ORCHID SPA</span>
+
+        <div class="nav-links">
+            <button mat-button routerLink="/">HOME</button>
+            <button mat-button>SERVICES</button>
+            <button mat-button routerLink="/my-bookings">MY BOOKINGS</button>
+            <button mat-button routerLink="/profile">PROFILE</button>
+            <button mat-button>ABOUT</button>
+            <button mat-raised-button color="accent" class="book-now" routerLink="/booking">BOOK NOW</button>
+            <button mat-icon-button class="user-avatar" routerLink="/profile">
+                <mat-icon>account_circle</mat-icon>
+            </button>
+        </div>
+    </div>
+</mat-toolbar>

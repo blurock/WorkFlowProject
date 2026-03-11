@@ -1,0 +1,149 @@
+.container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    gap: 15px;
+}
+
+.header-row h1 {
+    margin: 0;
+    font-size: 2rem;
+    color: #3f51b5;
+    font-weight: 600;
+}
+
+.form-card {
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.fill-in-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.input-row {
+    display: flex;
+    gap: 20px;
+}
+
+.flex-2 {
+    flex: 2;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.loading-container {
+    margin-top: 30px;
+    text-align: center;
+    color: #666;
+}
+
+.loading-container p {
+    margin-top: 10px;
+    font-style: italic;
+}
+
+.results-container {
+    margin-top: 40px;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 30px;
+    margin-top: 25px;
+}
+
+.result-section h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.property-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.property-item {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    border-left: 4px solid #3f51b5;
+}
+
+.property-key {
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 4px;
+}
+
+.property-value {
+    font-size: 1.1rem;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.unassigned-chip {
+    font-size: 0.8rem !important;
+    background: #fff3f3 !important;
+}
+
+.empty-msg {
+    color: #4caf50;
+    font-weight: 500;
+}
+
+.animation-fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 800px) {
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .input-row {
+        flex-direction: column;
+        gap: 0;
+    }
+}

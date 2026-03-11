@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "blurock-database"
+  },
+  "targets": {
+    "blurock-database": {
+      "hosting": {
+        "main": [
+          "blurock-database"
+        ]
+      }
+    }
   }
 }

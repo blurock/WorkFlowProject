@@ -1,0 +1,67 @@
+<section class="hero-section">
+    <div class="overlay"></div>
+    <div class="hero-content">
+        <h1 class="fade-in">Blue Orchid Spa</h1>
+        <p class="subtitle fade-in">Calming. Personalized. Refined.</p>
+        <p class="description fade-in">
+            Indulge in a sanctuary of tranquility where every treatment is tailored to your unique needs.
+            From rejuvenating facials to deep relaxation massages, our expert therapists are dedicated to your
+            well-being.
+        </p>
+        <div class="hero-actions fade-in">
+            <button mat-raised-button color="primary" class="cta-button" routerLink="/booking">
+                BOOK YOUR ESCAPE
+            </button>
+            <button mat-stroked-button class="secondary-button">
+                EXPLORE SERVICES
+            </button>
+        </div>
+    </div>
+</section>
+
+<section class="services-section">
+    <div class="section-header">
+        <h2>Our Signature Services</h2>
+        <div class="divider"></div>
+    </div>
+
+    <div class="services-grid">
+        <mat-card *ngFor="let service of services" class="service-card">
+            <mat-card-header>
+                <div mat-card-avatar class="service-icon">
+                    <mat-icon>{{service.icon}}</mat-icon>
+                </div>
+                <mat-card-title>{{service.title}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p>{{service.description}}</p>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-button color="primary">LEARN MORE</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</section>
+
+<section class="about-section">
+    <div class="about-container">
+        <div class="about-text">
+            <h2>Why Choose Blue Orchid?</h2>
+            <p>
+                At Blue Orchid Spa, we believe that beauty is an experience, not just a service.
+                Our calming environment and personalized approach ensure that you leave feeling not just
+                refreshed, but truly balanced.
+            </p>
+            <ul class="benefit-list">
+                <li><mat-icon>check_circle</mat-icon> Personalized consultation for every client</li>
+                <li><mat-icon>check_circle</mat-icon> Premium, natural skin care products</li>
+                <li><mat-icon>check_circle</mat-icon> Highly trained and certified therapists</li>
+                <li><mat-icon>check_circle</mat-icon> State-of-the-art facilities</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <p>&copy; 2026 Blue Orchid Spa. All rights reserved.</p>
+</footer>
