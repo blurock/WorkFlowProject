@@ -5,6 +5,7 @@ import { DatastoreTermsComponent } from './components/datastore-terms/datastore-
 import { TermExtractionComponent } from './components/term-extraction/term-extraction';
 import { FillInOntologyComponent } from './components/fill-in-ontology/fill-in-ontology';
 import { ExtractDescriptionComponent } from './components/extract-description/extract-description';
+import { PrimitiveShowcaseComponent } from './components/primitives/showcase/primitive-showcase';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -14,4 +15,5 @@ export const routes: Routes = [
     { path: 'term-extraction', component: TermExtractionComponent },
     { path: 'fill-in-ontology', component: FillInOntologyComponent },
     { path: 'extract-description', component: ExtractDescriptionComponent },
+    { path: 'primitives', component: PrimitiveShowcaseComponent },
 ];

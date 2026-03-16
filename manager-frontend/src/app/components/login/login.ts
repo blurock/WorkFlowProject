@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -24,6 +25,7 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   private fb = inject(FormBuilder);
   private router = inject(Router);
+  private authService = inject(AuthService);
 
   loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -33,19 +35,28 @@ export class LoginComponent {
   login() {
     if (this.loginForm.valid) {
       console.log('Logging in...', this.loginForm.value);
+      // Traditional email login logic could go here if needed
       this.router.navigate(['/home']);
     }
   }
 
-  loginWithGoogle() {
+  async loginWithGoogle() {
     console.log('Logging in with Google...');
-    // Real implementation will follow after adding Firebase
-    this.router.navigate(['/home']);
+    try {
+      await this.authService.loginWithGoogle();
+      this.router.navigate(['/home']);
+    } catch (error) {
+      console.error('Google login failed', error);
+    }
   }
 
-  loginWithGithub() {
-    console.log('Logging in with Github...');
-    // Real implementation will follow after adding Firebase
-    this.router.navigate(['/home']);
+  async loginWithGithub() {
+    console.log('Logging in with GitHub...');
+    try {
+      await this.authService.loginWithGitHub();
+      this.router.navigate(['/home']);
+    } catch (error) {
+      console.error('GitHub login failed', error);
+    }
   }
 }

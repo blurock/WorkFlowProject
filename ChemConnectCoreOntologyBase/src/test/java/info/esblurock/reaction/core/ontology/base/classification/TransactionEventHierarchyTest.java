@@ -1,7 +1,5 @@
 package info.esblurock.reaction.core.ontology.base.classification;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 import com.google.gson.JsonObject;

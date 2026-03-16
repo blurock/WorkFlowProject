@@ -37,4 +37,8 @@ export class HomeComponent {
   goToExtractDescription() {
     this.router.navigate(['/extract-description']);
   }
+
+  goToPrimitives() {
+    this.router.navigate(['/primitives']);
+  }
 }

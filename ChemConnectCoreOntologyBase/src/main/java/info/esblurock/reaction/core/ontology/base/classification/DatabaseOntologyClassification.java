@@ -60,11 +60,14 @@ public class DatabaseOntologyClassification {
         if(label.length() == 0) {
             label = subclassname;
         }
-        clsobj.addProperty(AnnotationObjectsLabels.label, label);
+        obj.addProperty(AnnotationObjectsLabels.label, label);
         String comment = subannotations.getComment();
         if(comment.length() == 0) {
             comment = label;
         }
+        obj.addProperty(AnnotationObjectsLabels.comment, comment);
+
+        clsobj.addProperty(AnnotationObjectsLabels.label, label);
         clsobj.addProperty(AnnotationObjectsLabels.comment, comment);
         clsobj.addProperty(ClassLabelConstants.CatalogElementType, subclassname);
         annotations.add(subclassname,  clsobj);

@@ -2,7 +2,6 @@ package info.blurock.datamanager.datastoreterms;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import info.esblurock.reaction.core.ontology.base.utilities.JsonObjectUtilities;
 
 public class CreateDataStoreTermSetTest {
 

@@ -86,7 +86,7 @@ public class GenericSimpleQueries {
 	 */
 	public static String classFromIdentifier(String identifier) {
 		String query = "SELECT ?type\n" + 
-				"			WHERE {?type <http://purl.org/dc/terms/identifier> \"" +  identifier +"\"^^xsd:string }";
+				"			WHERE {?type <http://purl.org/dc/elements/1.1/identifier> \"" +  identifier +"\"^^xsd:string }";
 		List<String> lst = OntologyBase.isolateProperty(query,"type");
 		String type = null;
 		if(lst.size() > 0) {

@@ -14,6 +14,7 @@ import info.blurock.datamanager.datastoreterms.DataStoreImporter;
 import info.blurock.datamanager.datastoreterms.DictionarySearchService;
 import info.blurock.datamanager.datastoreterms.FillInOntologyObject;
 import info.blurock.datamanager.datastoreterms.ExtractDescription;
+import info.esblurock.reaction.core.ontology.base.dataset.DocumentTemplateForUI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,6 +35,30 @@ public class DataStoreController {
 
     @Autowired
     private ExtractDescription extractDescriptionService;
+
+    @PostMapping(value = "/ui-template", produces = "application/json")
+    public String getUITemplate(@RequestBody Map<String, Object> params) {
+        try {
+            org.dom4j.Document doc = MessageConstructor.startDocument("UITemplate");
+            String classname = (String) params.get("classname");
+            
+            System.out.println("Generating UI Template for Class: " + classname);
+
+            JsonObject template = DocumentTemplateForUI.createUIDocumentTemplate(classname);
+            
+            JsonObject response = StandardResponse.standardServiceResponse(doc, "Template generated successfully", template);
+            
+            return response.toString();
+        } catch (Throwable e) {
+            System.err.println("CRITICAL ERROR in getUITemplate:");
+            e.printStackTrace();
+            
+            JsonObject errorResponse = new JsonObject();
+            errorResponse.addProperty("dataset:servicesuccessful", "false");
+            errorResponse.addProperty("dataset:serviceresponsemessage", "Template-side exception (" + e.getClass().getSimpleName() + "): " + e.getMessage());
+            return errorResponse.toString();
+        }
+    }
 
     @PostMapping(value = "/terms", produces = "application/json")
     public String getDataStoreTerms(@RequestBody Map<String, Object> params) {
