@@ -1,0 +1,46 @@
+{
+	"prov:activity": "dataset:TransactionInterpretTextBlock",
+	"dataset:activityinfo": {
+		"dataset:datasettransactionspecification": {
+			"dataset:catalogobjectmaintainer": "Administrator",
+			"dataset:datasetname": "Standard",
+			"dataset:datasetversion": "1.0",
+			"dataset:uniquegenericname": "tableA1CarbonBensonRules"
+		},
+		"dataset:filesourceformat": "dataset:TherGasBensonRules",
+		"dataset:blockinterpretationmethod": "dataset:ParseLinesJThermodynamicsBensonRules",
+		"dcterms:title": "Carbon-Hydrogen Benson Rules set from Table A1 from Benson Thermochemical Kinetics",
+		"dataset:dataobjstatus": "CatalogObjectStatusCurrent",
+		"dataset:speciespectype": "NANCY",
+		"dataset:bensontemperaturelist": [
+			300,400,500,600,800,1000,1500
+		],
+		"dataset:paramspecenthalpy": {
+			"qudt:Unit": {
+				"qudt:SystemOfQuantities": "quantitykind:MolarEnergy",
+				"qudt:QuantityKind": "unit:KiloCAL-PER-MOL"
+			},
+			"dataset:dynamicType": "FixedParameter",
+			"skos:prefLabel": "Enthaply",
+			"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty"
+		},
+		"dataset:paramspecentropy": {
+			"qudt:Unit": {
+				"qudt:SystemOfQuantities": "quantitykind:MolarEntropy",
+				"qudt:QuantityKind": "unit:J-PER-MOL-K"
+			},
+			"dataset:dynamicType": "FixedParameter",
+			"skos:prefLabel": "Entropy",
+			"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty"
+		},
+		"dataset:paramspecheatcapacity": {
+			"qudt:Unit": {
+				"qudt:SystemOfQuantities": "quantitykind:MolarHeatCapacity",
+				"qudt:QuantityKind": "unit:J-PER-MOL-K"
+			},
+			"dataset:dynamicType": "FixedParameter",
+			"skos:prefLabel": "Heat Capacity",
+			"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty"
+		}
+	}
+}

@@ -1,0 +1,25 @@
+{
+	"prov:activity": "dataset:TransactionInterpretTextBlock",
+	"dataset:activityinfo": {
+		"dataset:datasettransactionspecification": {
+			"dataset:catalogobjectmaintainer": "Administrator",
+			"dataset:datasetname": "Standard",
+			"dataset:datasetversion": "2.0",
+			"dataset:uniquegenericname": "vibrationalMode"
+		},
+		"dataset:filesourceformat": "dataset:JThermodynamicsVibrationalModes",
+		"dataset:blockinterpretationmethod": "dataset:ParseLinesJThermodynamicsVibrationalStructure",
+		"dcterms:title": "Vibrational Modes, version 2.0,  used to calculate corrections to radical thermodynamics of the JTherGas method. The frequencies are from Benson's book, Table A.13 ",
+		"dataset:dataobjstatus": "CatalogObjectStatusCurrent",
+		"dataset:speciespectype": "dataset:SpeciesSpecificationNancyLinearForm",
+		"dataset:paramspecfrequency": {
+			"qudt:Unit": {
+				"qudt:SystemOfQuantities": "qudt:FrequencyUnit",
+				"qudt:QuantityKind": "dataset:cmMinus1"
+			},
+			"dataset:dynamicType": "FixedParameter",
+			"skos:prefLabel": "Frequency",
+			"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty"
+		}
+	}
+}

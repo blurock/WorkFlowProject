@@ -1,0 +1,62 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package thermo.data.structure.structure.symmetry;
+
+import thermo.data.structure.structure.symmetry.utilities.DetermineSetOfSymmetryAssignments;
+import org.openscience.cdk.interfaces.IAtomContainer;
+import org.openscience.cdk.exception.CDKException;
+import thermo.data.structure.structure.symmetry.utilities.DetermineSymmetryAssignmentsFromConnections;
+
+/** DetermineSymmetryFromSingleDefinition
+ *
+ * @author blurock
+ */
+public class DetermineSymmetryFromSingleDefinition {
+	boolean symmdebug = false;
+    SymmetryDefinition symmetryDefinition;
+    DetermineSetOfSymmetryAssignments determineSymmetryAssignments;
+    IAtomContainer structure;
+    SetOfSymmetryMatches symmetryMatches;
+    DetermineSymmetryAssignmentsFromConnections matchAssignments;
+
+    public SetOfSymmetryMatches getSymmetryMatches() {
+        return symmetryMatches;
+    }
+    public SymmetryDefinition getSymmetryDefinition() {
+    	return symmetryDefinition;
+    }
+    
+    public DetermineSymmetryFromSingleDefinition() {
+        matchAssignments = new DetermineSymmetryAssignmentsFromConnections();
+    }
+    
+    public int determineSymmetry(SymmetryDefinition symmetry, IAtomContainer struct)  throws CDKException {
+        structure = struct;
+        symmetryDefinition = symmetry;
+        determineSymmetryAssignments = new DetermineSetOfSymmetryAssignments(symmetryDefinition,matchAssignments);
+        determineSymmetryAssignments.setDebug(symmdebug);
+        symmetryDefinition = symmetry;
+        determineSetOfSymmetryAssignments(structure);
+        return symmetryMatches.size();
+    }
+    public double computeSymmetryContribution(int symmetry) {
+        double symmD = (double) symmetry;
+        return symmD * symmetryDefinition.getInternalSymmetryFactor();
+    }
+    public void determineSetOfSymmetryAssignments(IAtomContainer struct) throws CDKException {
+        structure = struct;
+        //StructureAsCML cml = new StructureAsCML(struct);
+        //System.out.println(cml.toString());
+        symmetryMatches = determineSymmetryAssignments.findIfMatchInStructures(struct);
+        if(symmdebug) {
+        	System.out.println("---------------------------");
+        	System.out.println("SymmetryDefinition: \n" + symmetryDefinition.toString());
+        	System.out.println("SymmetryMatches:\n" + symmetryMatches.toString());
+        	System.out.println("---------------------------");
+        }
+    }
+
+}

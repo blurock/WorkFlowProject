@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ketcher Molecule Editor Integration - WorkFlowProject</title>
+    <link rel="stylesheet" href="../src/style.css">
+    <style>
+        .screenshot-img {
+            width: 100%;
+            max-width: 900px;
+            display: block;
+            margin: 24px auto;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+        }
+        .arch-img {
+            width: 100%;
+            max-width: 680px;
+            display: block;
+            margin: 24px auto;
+            border-radius: 12px;
+        }
+        .protocol-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.9rem;
+        }
+        .protocol-table th {
+            background: rgba(255,255,255,0.08);
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+        }
+        .protocol-table td {
+            padding: 10px 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            vertical-align: top;
+        }
+        .protocol-table tr:last-child td { border-bottom: none; }
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-family: monospace;
+            background: rgba(100,200,255,0.15);
+            color: #7dd3fc;
+            margin: 2px 2px 2px 0;
+        }
+        .warn-box {
+            background: rgba(255,170,0,0.1);
+            border: 1px solid rgba(255,170,0,0.3);
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin: 16px 0;
+            font-size: 0.9rem;
+        }
+        .warn-box strong { color: #fbbf24; }
+    </style>
+</head>
+<body>
+    <div class="glow-bg"></div>
+    <div class="container">
+        <header>
+            <a href="../index.html" class="back-link">← Back to WorkFlowProject</a>
+            <h1 class="hero-title">Ketcher Molecule Editor</h1>
+            <p class="hero-summary">Embedding the open-source Ketcher chemical structure editor inside an Angular component, bridged via the postMessage API and integrated with the Firestore workflow pattern for backend molecule processing.</p>
+        </header>
+
+        <main class="technical-content">
+
+            <!-- Screenshot -->
+            <section class="tech-section">
+                <h2>Running Application</h2>
+                <p>The Ketcher editor (left panel) is embedded in the Angular <code>manager-frontend</code> via an <code>&lt;iframe&gt;</code>. The right control panel captures the drawn structure, displays its SMILES representation, and submits it as a Firestore task for backend processing.</p>
+                <img src="../src/assets/Screenshot 2026-03-19 at 08.25.00.png" alt="Ketcher Angular Integration Screenshot" class="screenshot-img">
+            </section>
+
+            <!-- Architecture -->
+            <section class="tech-section">
+                <h2>Architecture</h2>
+                <p>The integration follows a clean separation of concerns — Ketcher handles molecule drawing while Angular owns all communication, workflow logic, and UI context.</p>
+
+                <img src="../src/assets/ketcher_architecture.png" alt="Ketcher Integration Architecture Diagram" class="arch-img">
+
+                <div class="logic-card" style="margin-top: 24px;">
+                    <h3>Design Decision: iframe + postMessage</h3>
+                    <p>Rather than embedding <code>ketcher-react</code> as an npm dependency (which would require bridging React into Angular), the Ketcher standalone server is embedded as an <code>&lt;iframe&gt;</code>. All communication goes through the browser's <code>postMessage</code> API — a standard cross-origin messaging mechanism. This approach:</p>
+                    <ul style="margin-top:12px; padding-left: 1.4rem;">
+                        <li>Adds <strong>zero React dependencies</strong> to the Angular app</li>
+                        <li>Works <strong>across origins</strong> (different ports in dev, different domains in prod)</li>
+                        <li>Decouples the editor — it can be swapped for any other tool later</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- postMessage Protocol -->
+            <section class="tech-section">
+                <h2>postMessage API Protocol</h2>
+                <p>A custom message bridge was added to Ketcher's <code>App.tsx</code> inside the <code>onInit</code> callback. This allows the Angular parent to request structure data without ever accessing the cross-origin <code>contentWindow</code> directly.</p>
+
+                <table class="protocol-table">
+                    <tr>
+                        <th>Direction</th>
+                        <th>Event Type</th>
+                        <th>Payload</th>
+                    </tr>
+                    <tr>
+                        <td>Angular → Ketcher</td>
+                        <td><span class="tag">GET_STRUCTURE</span></td>
+                        <td><em>none</em></td>
+                    </tr>
+                    <tr>
+                        <td>Ketcher → Angular</td>
+                        <td><span class="tag">STRUCTURE_RESPONSE</span></td>
+                        <td><code>{ smiles, molfile }</code></td>
+                    </tr>
+                    <tr>
+                        <td>Angular → Ketcher</td>
+                        <td><span class="tag">SET_STRUCTURE</span></td>
+                        <td><code>{ smiles?, molfile? }</code></td>
+                    </tr>
+                    <tr>
+                        <td>Ketcher → Angular</td>
+                        <td><span class="tag">init</span></td>
+                        <td><em>fired when Ketcher is ready</em></td>
+                    </tr>
+                </table>
+
+                <div class="code-block">
+                    <div class="code-header">Ketcher App.tsx — message bridge (added to onInit)</div>
+                    <pre><code>window.addEventListener('message', async (event) => {
+  if (event.data?.eventType === 'GET_STRUCTURE') {
+    const [smiles, molfile] = await Promise.all([
+      ketcher.getSmiles(),
+      ketcher.getMolfile(),
+    ]);
+    safePostMessage({ eventType: 'STRUCTURE_RESPONSE', smiles, molfile });
+  }
+
+  if (event.data?.eventType === 'SET_STRUCTURE') {
+    await ketcher.setMolecule(
+      event.data.molfile || event.data.smiles || '',
+    );
+  }
+});</code></pre>
+                </div>
+
+                <div class="warn-box">
+                    <strong>Cross-Origin Fix:</strong> <code>safePostMessage.ts</code> was updated to use <code>'*'</code> as the target origin when the parent window's origin cannot be read (cross-origin restriction). The original code incorrectly fell back to Ketcher's own origin, causing <em>"target origin does not match"</em> errors.
+                </div>
+            </section>
+
+            <!-- Firestore Workflow -->
+            <section class="tech-section">
+                <h2>Firestore Workflow Integration</h2>
+                <p>Once a structure is captured, <code>KetcherEditorComponent</code> follows the same Firestore-based task pattern as Cloud Workflow callbacks — write a document, then watch it with <code>onSnapshot()</code>.</p>
+
+                <div class="logic-card">
+                    <h3>Firestore Document Schema — <code>molecule-tasks/{id}</code></h3>
+                    <pre><code>{
+  "smiles":   "C1CCCCC1",
+  "molfile":  "...",
+  "status":   "pending | processing | complete | error",
+  "type":     "molecule-calculation",
+  "createdAt": "&lt;timestamp&gt;",
+  "result":   "&lt;populated by backend&gt;",
+  "error":    "&lt;populated on failure&gt;"
+}</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header">Angular component — submit & monitor task</div>
+                    <pre><code>// 1. Write the task document
+const docRef = await addDoc(collection(firestore, 'molecule-tasks'), {
+  smiles, molfile, status: 'pending', type: taskType, createdAt: new Date()
+});
+
+// 2. Monitor for backend result (same pattern as workflow callbacks)
+onSnapshot(doc(firestore, 'molecule-tasks', docRef.id), (snapshot) => {
+  const data = snapshot.data();
+  if (data.status === 'complete') displayResult(data.result);
+  if (data.status === 'error')    displayError(data.error);
+});</code></pre>
+                </div>
+            </section>
+
+            <!-- Radical Feature -->
+            <section class="tech-section">
+                <h2>Bonus: Custom Radical Toolbar Button</h2>
+                <p>As part of this implementation, a custom <strong>"Mark as Radical"</strong> button was added to Ketcher's toolbar — implemented exactly like the existing charge buttons.</p>
+
+                <div class="logic-card">
+                    <h3>Key insight — Enum value mapping</h3>
+                    <p>Ketcher's schema maps radical values non-intuitively:</p>
+                    <table class="protocol-table" style="margin-top:8px;">
+                        <tr><th>Value</th><th>Meaning</th></tr>
+                        <tr><td><code>0</code></td><td>No radical</td></tr>
+                        <tr><td><code>2</code></td><td>Monoradical ← correct value for single dot</td></tr>
+                        <tr><td><code>1</code></td><td>Diradical singlet (two dots — the wrong default)</td></tr>
+                        <tr><td><code>3</code></td><td>Diradical triplet</td></tr>
+                    </table>
+                    <p style="margin-top:12px;">Setting <code>radical: 2</code> gives one dot without removing bonds.</p>
+                </div>
+
+                <p>Files added to <code>packages/ketcher-react/src/</code>:</p>
+                <ul style="padding-left: 1.4rem;">
+                    <li><code>assets/icons/files/radical.svg</code> — new icon</li>
+                    <li><code>script/editor/tool/radical.ts</code> — <code>RadicalTool</code> class</li>
+                    <li><code>script/editor/tool/index.ts</code> — registered tool</li>
+                    <li><code>script/ui/action/tools.js</code> — toolbar action</li>
+                    <li><code>script/ui/views/toolbars/LeftToolbar/LeftToolbar.tsx</code> — button placement</li>
+                </ul>
+            </section>
+
+            <!-- Running Locally -->
+            <section class="tech-section">
+                <h2>Running Locally</h2>
+
+                <div class="logic-card">
+                    <h3>Terminal 1 — Ketcher Standalone (port 4002)</h3>
+                    <pre><code>cd ketcher
+# First time or after source changes:
+npm run build:example:standalone
+# Then serve:
+npm run serve:standalone</code></pre>
+                </div>
+
+                <div class="logic-card" style="margin-top:16px;">
+                    <h3>Terminal 2 — Angular Frontend (port 4200)</h3>
+                    <pre><code>cd manager-frontend
+ng serve</code></pre>
+                    <p style="margin-top: 10px;">Navigate to: <strong>Home → Tasks → Molecule Editor</strong><br>
+                    or directly: <code>http://localhost:4200/molecule-editor</code></p>
+                </div>
+
+                <div class="warn-box">
+                    <strong>Firestore Rules:</strong> The <code>molecule-tasks</code> collection requires explicit write permissions for authenticated users. Add the following rule in the Firebase Console → Firestore Database → Rules:<br><br>
+                    <code>match /molecule-tasks/{id} { allow create, read, update: if request.auth != null; }</code>
+                </div>
+            </section>
+
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <p>© 2026 WorkFlowProject - Blurock Consulting AB</p>
+                <p>Developer Reference: angular_ketcher_integration.md</p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

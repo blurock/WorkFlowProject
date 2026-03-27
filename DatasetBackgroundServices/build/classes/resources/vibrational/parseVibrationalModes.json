@@ -1,0 +1,15 @@
+{
+	"prov:activity": "dataset:PartiionSetWithinRepositoryFile",
+	"dataset:activityinfo": {
+	    	"dataset:datasettransactionspecification": {
+			"dataset:catalogobjectmaintainer": "Administrator",
+			"dataset:datasetname": "Standard",
+			"dataset:datasetversion": "1.0",
+			"dataset:uniquegenericname": "vibrationalMode"
+		},
+		"dataset:filepartitionmethod": "dataset:PartitionToLineSet",
+		"dataset:blocklinecount": "1",
+		"dataset:filesourceformat": "dataset:JThermodynamicsVibrationalModes",
+		"dcterms:title": "Vibrational Modes used to calculate corrections to radical thermodynamics of the JTherGas method."
+	}
+}

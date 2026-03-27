@@ -1,0 +1,14 @@
+{
+	"prov:activity": "dataset:PartiionSetWithinRepositoryFile",
+		"dataset:activityinfo": {
+		"dataset:collectionobjecttype": "dataset:JThermodynamicsSymmetryStructureDefinitionDatabase",
+		"dataset:specificationfordataset": {
+			"dataset:catalogobjectmaintainer": "Administrator",
+			"dataset:uniquegenericname": "InternalSymmetryCarbonAtom",
+			"dataset:datasetobjecttype": "dataset:JThermodynamicsSymmetryStructureDefinitionDataSet"
+		},
+		"dataset:filepartitionmethod": "dataset:PartitionXMLListOfCatalogObjects",
+		"dataset:filesourceformat": "dataset:JThermodynamicsSymmetryDefinitionFormat",
+		"dcterms:title": "Internal Symmetry Rules for Carbon Atom"
+	}
+}

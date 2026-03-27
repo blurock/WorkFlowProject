@@ -1,0 +1,6 @@
+{
+	"service": "FindSetOfMetaAtoms",
+	"dataset:catalogobjectmaintainer": "Administrator",
+	"dataset:datasetname": "StandardDataset",
+	"dataset:metaatomtype": "LinearStructure"
+}

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Retrieval Augmented Generation (RAG) - WorkFlowProject</title>
+    <link rel="stylesheet" href="../src/style.css">
+  </head>
+  <body>
+    <div class="glow-bg"></div>
+    <div class="container">
+      <header>
+        <button class="back-btn" onclick="location.href='../index.html'">← Back to Overview</button>
+        <h1 class="hero-title">Retrieval Augmented Generation (RAG)</h1>
+        <p class="hero-summary">
+          Grounding Large Language Models in formal ontology through precise semantic retrieval.
+        </p>
+      </header>
+      <main class="page-content">
+        <!-- Visual Flow Section -->
+        <section class="visual-flow" style="margin: 40px 0; text-align: center;">
+          <div class="flow-container" style="position: relative; display: inline-block; width: 100%; max-width: 700px;">
+            <img src="/assets/rag_architecture_flow_1773752529764.png" alt="RAG Architecture Flow Diagram" class="flow-image" style="width: 100%; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            <div class="flow-labels" style="margin-top: 15px; display: flex; justify-content: space-between; font-weight: bold; color: var(--accent-color); font-size: 0.9rem;">
+              <span class="label">Knowledge Base</span>
+              <span class="label">Search Grounding</span>
+              <span class="label">AI Generation</span>
+            </div>
+          </div>
+        </section>
+        <section class="info-content">
+          <h2>Overview</h2>
+          <p>
+            Effective data management requires mapping domain-specific terms (from the ontology) 
+            to physical datastore schemas. This system extracts dictionary terms from formal 
+            ontology classes and indexes them for high-performance semantic retrieval. 
+          </p>
+
+          <div class="rag-overview-box">
+            <h4>What is Retrieval-Augmented Generation?</h4>
+            <p>
+              Retrieval-Augmented Generation (RAG) is a technique that grants Large Language Models 
+              access to external, trusted data sources. Instead of relying solely on its training 
+              data, the model "retrieves" relevant information to "augment" its "generation" of 
+              responses, ensuring accuracy and grounding in specialized domains.
+            </p>
+            <p>
+              <a href="https://cloud.google.com/use-cases/retrieval-augmented-generation" target="_blank" class="external-link">Learn more about RAG on Google Cloud →</a>
+            </p>
+          </div>
+        </section>
+
+        <section class="demo-section">
+          <div class="demo-header">
+            <span class="badge">Live Demonstration</span>
+            <h2>Example: catalogobjects</h2>
+          </div>
+
+          <!-- Non-Technical Perspective -->
+          <div class="perspective-box user-perspective">
+            <div class="perspective-label">User Perspective (Non-Technical)</div>
+            <h3>Natural Language to Data Objects</h3>
+            <p>
+              The primary benefit of this system is that it bridges the gap between scientific intent 
+              and technical storage. A user does not need to know the specific technical terms or 
+              object IDs; they only need to describe what they are looking for in natural language.
+            </p>
+
+            <!-- Example 1 -->
+            <div class="demo-result">
+              <div class="search-box">
+                <span class="search-label">Natural Language Search:</span>
+                <span class="search-value">"symmetry definition dataset"</span>
+              </div>
+              <div class="result-card">
+                <div class="result-score">96% Match</div>
+                <h4>Catalog Data Object Identified:</h4>
+                <code>dataset:JThermodynamicsSymmetryStructureDefinitionDataSet</code>
+                <p class="match-text">"This is the symmetry definition for the data set. This includes the generic structure and the entropy correction."</p>
+              </div>
+            </div>
+
+            <p style="text-align: center; color: var(--text-secondary); margin: 10px 0;">— OR —</p>
+
+            <!-- Example 2 -->
+            <div class="demo-result">
+              <div class="search-box">
+                <span class="search-label">Natural Language Search:</span>
+                <span class="search-value">"entropy correction"</span>
+              </div>
+              <div class="result-card">
+                <div class="result-score">92% Match</div>
+                <h4>Catalog Data Object Identified:</h4>
+                <code>dataset:JThermodynamicsSymmetryStructureDefinitionDataSet</code>
+                <p class="match-text">"This is the symmetry definition for the data set. This includes the generic structure and the entropy correction."</p>
+              </div>
+            </div>
+
+            <p><strong>The Core Goal:</strong> In both cases, the system correctly identifies the exact data object (or task) within the system. The user is empowered to work naturally, while the system ensures rigorous data integrity behind the scenes.</p>
+          </div>
+
+          <!-- Technical Perspective -->
+          <div class="perspective-box tech-perspective">
+            <div class="perspective-label">Technical Perspective</div>
+            <h3>Storage & Semantic Search</h3>
+            <p>
+              The backend leverages two primary Google Cloud services to manage these terms:
+            </p>
+            <ul>
+              <li><strong><a href="https://firebase.google.com/docs/firestore" target="_blank">Firestore:</a></strong> Used as the metadata repository to store the definitive list of terms and their relationships.</li>
+              <li><strong><a href="https://cloud.google.com/generative-ai-app-builder/docs/create-datastore-ingest" target="_blank">Discovery Engine (Data Store):</a></strong> Provides the semantic search layer (Vector Search) that allows for natural language matching beyond simple keyword lookups.</li>
+            </ul>
+
+            <h4>The Terms Matrix</h4>
+            <div class="matrix-wrapper">
+              <table class="demo-table">
+                <thead>
+                  <tr>
+                    <th>Term ID</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>dataset:JThermodynamicsSymmetryStructureDefinitionDataSet</code></td>
+                    <td>Symmetry definition for the data set, including generic structure and entropy correction.</td>
+                  </tr>
+                  <tr>
+                    <td><code>dataset:ThermodynamicBensonRuleDefinitionDataSet</code></td>
+                    <td>Specific definitions for Benson's group additivity rules used in thermodynamic calculations.</td>
+                  </tr>
+                  <tr>
+                    <td><code>dataset:JThermodynamicsTherGasBlockInterpretation</code></td>
+                    <td>Logic for interpreting and parsing thermodynamic gas block data structures.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h4>Implementation Snippet</h4>
+            <p>The following Java code handles the semantic search using the <a href="https://cloud.google.com/generative-ai-app-builder/docs/builder-apis" target="_blank">Discovery Engine API</a>:</p>
+            <pre class="code-block"><code>// Semantic search via Google Discovery Engine
+public JsonObject searchDictionaryTerm(String query, String datatype) {
+    // Creating a SearchRequest to query the Data Store
+    // See official documentation: https://cloud.google.com/java/docs/reference/google-cloud-discoveryengine/latest/com.google.cloud.discoveryengine.v1.SearchRequest
+    SearchRequest request = SearchRequest.newBuilder()
+            .setServingConfig(servingConfig)
+            .setQuery(query)
+            .setFilter("metadata.datatype: ANY(\"" + datatype + "\")")
+            .setPageSize(1)
+            .build();
+
+    SearchPagedResponse response = searchServiceClient.search(request);
+    // ... processing results to find top semantic match ...
+}</code></pre>
+          </div>
+        </section>
+
+        <section class="footer-navigation" style="margin-top: 60px; text-align: center; padding: 40px; border-top: 1px solid var(--glass-border);">
+          <div class="perspective-label" style="margin-bottom: 20px;">For Software Engineers</div>
+          <h3>Implementation Details</h3>
+          <p style="margin-bottom: 24px;">Dive into the technical flow, from ontology extraction and Firestore indexing to Discovery Engine retrieval.</p>
+          <a href="rag-technical.html" class="external-link" style="font-size: 1.2rem;">View Technical Documentation →</a>
+        </section>
+      </main>
+    </div>
+    <style>
+      .back-btn { background: none; border: 1px solid var(--glass-border); color: var(--accent-color); padding: 8px 16px; border-radius: 8px; cursor: pointer; margin-bottom: 24px; }
+      .page-content { max-width: 800px; margin: 0 auto; padding-bottom: 100px; }
+    </style>
+  </body>
+</html>

@@ -6,6 +6,7 @@ import { TermExtractionComponent } from './components/term-extraction/term-extra
 import { FillInOntologyComponent } from './components/fill-in-ontology/fill-in-ontology';
 import { ExtractDescriptionComponent } from './components/extract-description/extract-description';
 import { PrimitiveShowcaseComponent } from './components/primitives/showcase/primitive-showcase';
+import { KetcherEditorComponent } from './components/ketcher-editor/ketcher-editor.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -16,4 +17,5 @@ export const routes: Routes = [
     { path: 'fill-in-ontology', component: FillInOntologyComponent },
     { path: 'extract-description', component: ExtractDescriptionComponent },
     { path: 'primitives', component: PrimitiveShowcaseComponent },
+    { path: 'molecule-editor', component: KetcherEditorComponent },
 ];

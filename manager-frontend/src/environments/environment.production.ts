@@ -9,5 +9,6 @@ export const environment = {
     authDomain: "blurock-database.firebaseapp.com",
     messagingSenderId: "315685320181",
     measurementId: "REPLACE_WITH_REAL_MEASUREMENT_ID"
-  }
+  },
+  ketcherUrl: 'https://blurock-ketcher.web.app'
 };

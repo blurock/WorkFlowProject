@@ -196,6 +196,11 @@ public class JsonObjectUtilities {
 		return jsonObject;
 	}
 	
+	public static JsonObject jsonObjectFromReader(java.io.Reader reader) {
+		JsonObject jsonObject = new JsonParser().parse(reader).getAsJsonObject();
+		return jsonObject;
+	}
+	
 	public static JsonObject jsonObjectFromFile(String path) throws IOException {
 		Path fileName = Path.of(path);
 		JsonObject obj = null;

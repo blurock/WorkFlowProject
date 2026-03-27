@@ -1,0 +1,14 @@
+{
+	"prov:activity": "dataset:PartiionSetWithinRepositoryFile",
+	"dataset:activityinfo": {
+		"dataset:datasettransactionspecification": {
+			"dataset:catalogobjectmaintainer": "Administrator",
+			"dataset:datasetname": "Standard",
+			"dataset:datasetversion": "1.0",
+			"dataset:uniquegenericname": "tableA1CarbonBensonRules"
+		},
+		"dataset:filepartitionmethod": "dataset:PartitionTherGasThermodynamics",
+		"dataset:filesourceformat": "dataset:TherGasBensonRules",
+		"dcterms:title": "Carbon-Hydrogen Benson Rules set from Table A1 from Benson Thermochemical Kinetics"
+	}
+}

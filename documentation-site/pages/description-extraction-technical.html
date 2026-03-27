@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Description Extraction Technical - WorkFlowProject</title>
+    <link rel="stylesheet" href="../src/style.css">
+  </head>
+  <body>
+    <div class="glow-bg"></div>
+    <div class="container">
+      <header>
+        <button class="back-btn" onclick="location.href='description-extraction.html'">← Back to Extraction Overview</button>
+        <h1 class="hero-title">Technical Deep Dive</h1>
+        <p class="hero-summary">
+          Detailed breakdown of the <code>ExtractDescription</code> service, Google Discovery Engine API integration, and JSON parsing logic.
+        </p>
+      </header>
+      
+      <main class="page-content tech-doc">
+        
+        <!-- Java Implementation -->
+        <section class="doc-section">
+          <div class="section-badge">Implementation</div>
+          <h2>The ExtractDescription Class</h2>
+          <p>
+            The core logic is implemented in the <code>ExtractDescription</code> service. This class serves as the bridge 
+            between raw user input and the <a href="https://cloud.google.com/vertex-ai-search-and-conversation/docs/introduction" target="_blank" class="external-link">Discovery Engine API</a>.
+          </p>
+          <div class="tech-box">
+            <h3>Method Breakdown: <code>extract(String prompt, String datatype)</code></h3>
+            <p>
+              This method orchestrates the call to the LLM agent. It uses <code>SearchServiceClient</code> 
+              from the <a href="https://cloud.google.com/java/docs/reference/google-cloud-discoveryengine/latest/com.google.cloud.discoveryengine.v1" target="_blank" class="external-link">Google Cloud Discovery Engine Library</a>.
+            </p>
+            <div class="tech-box">
+              <h3>Resource Path Breakdown</h3>
+              <p>The <code>servingConfig</code> string is a fully qualified resource name. It tells the Google Cloud API exactly which infrastructure to use for the retrieval process.</p>
+              <table class="config-table">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th>Role</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>projects/</code></td>
+                    <td>The <a href="https://cloud.google.com/resource-manager/docs/creating-managing-projects" target="_blank" class="external-link">Google Cloud Project ID</a> (e.g., <code>blurock-database</code>). This defines the billing and IAM context.</td>
+                  </tr>
+                  <tr>
+                    <td><code>locations/</code></td>
+                    <td>The geographic <a href="https://cloud.google.com/vertex-ai-search-and-conversation/docs/locations" target="_blank" class="external-link">Data Residency Location</a> (typically <code>global</code>).</td>
+                  </tr>
+                  <tr>
+                    <td><code>collections/</code></td>
+                    <td>The <a href="https://cloud.google.com/vertex-ai-search-and-conversation/docs/collections" target="_blank" class="external-link">Data Store Collection</a> (usually <code>default_collection</code>). Collections allow you to group multiple data stores and engines under a single logical unit.</td>
+                  </tr>
+                  <tr>
+                    <td><code>engines/</code></td>
+                    <td>The unique <strong>Agent ID</strong> (or Engine ID). This is the cerebral center that connects your prompt to the underlying data stores.</td>
+                  </tr>
+                  <tr>
+                    <td><code>servingConfigs/</code></td>
+                    <td>The <a href="https://cloud.google.com/vertex-ai-search-and-conversation/docs/serving-config" target="_blank" class="external-link">Serving Configuration</a> (typically <code>default_search</code>), which defines the ranking, filtering, and summarization behavior.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- Agent ID Setup -->
+          <section class="doc-section">
+            <div class="section-badge">Configuration</div>
+            <h2>The Role of the Agent ID</h2>
+            <p>
+              The <strong>Agent ID</strong> (Engine) is the most critical component in the RAG pipeline. 
+              While a Data Store holds the raw documents, the <strong>Agent</strong> provides the intelligence 
+              to search, summarize, and interpret queries.
+            </p>
+            <div class="tech-box">
+              <h3>Connecting Data to Intelligence</h3>
+              <p>To set up an Agent ID in the Google Cloud Console:</p>
+              <ol class="setup-list">
+                <li>Navigate to <strong>Vertex AI Search & Conversation</strong>.</li>
+                <li>Create a <strong>New App</strong> of type <strong>Search</strong>.</li>
+                <li>Connect one or more <strong>Data Stores</strong> to this app.</li>
+                <li>Once created, the <strong>Engine ID</strong> (which we call Agent ID) is visible in the App Configuration settings.</li>
+              </ol>
+            </div>
+
+            <div class="tech-box" style="background: rgba(var(--accent-color-rgb), 0.05);">
+              <h3>Why Link a Data Store?</h3>
+              <p>
+                Linking a <strong>Data Store</strong> to the Agent is what transforms a generic AI model into a specialized scientific assistant. 
+                The Data Store acts as the "External Memory" or **Ground Truth** for the Agent.
+              </p>
+              
+              <h4>1. What information is provided?</h4>
+              <p>
+                The Data Store provides the agent with the specific <strong>Dictionary Terms</strong> and <strong>Semantic Descriptions</strong> extracted from our formal ontologies. 
+                This includes project-specific categories (like <code>catalogobjects</code>) and scientific definitions that the base LLM may not have encountered during its initial training.
+              </p>
+
+              <h4>2. How the Agent uses it (The RAG Flow)</h4>
+              <p>
+                When a user submits a prompt, the Agent performs a two-step process:
+              </p>
+              <ul>
+                <li><strong>Retrieval:</strong> It searches the linked Data Store for the most relevant documents (terms) that match the user's intent.</li>
+                <li><strong>Augmentation:</strong> It "stretches" the prompt by injecting the retrieved scientific context into the hidden instructions sent to the LLM.</li>
+              </ul>
+              <p>
+                The Agent doesn't just "guess" a title; it looks at similar items in our database to ensure the generated <strong>Title</strong> and <strong>Keyword</strong> align with our existing scientific indexing standards.
+              </p>
+
+              <h4>3. Risk of Omission: What if we didn't link a Data Store?</h4>
+              <p>
+                If the Data Store were omitted, the system would revert to a generic LLM search. This leads to several critical failures in a scientific context:
+              </p>
+              <ul>
+                <li><strong>Hallucinations:</strong> The model might invent keywords that don't exist in our project's ontology.</li>
+                <li><strong>Lack of Domain Precision:</strong> It might use common English meanings for terms that have very specific, technical definitions within JThermodynamicsCloud.</li>
+                <li><strong>Context Blindness:</strong> The model would be unable to distinguish between different <code>datatypes</code>, resulting in metadata that cannot be used for faceted browsing or structured searches.</li>
+              </ul>
+            </div>
+          </section>
+
+          <!-- Generative Search Summaries -->
+          <section class="doc-section">
+            <div class="section-badge">Generative AI</div>
+            <h2>Understanding Generative Summaries</h2>
+            <p>
+              Our implementation leverages the <strong>Generative Search</strong> capabilities of Vertex AI. 
+              According to the official Google documentation on <a href="https://cloud.google.com/generative-ai-app-builder/docs/get-search-summaries" target="_blank" class="external-link">Getting Search Summaries</a>, 
+              this feature allows the agent to synthesize a response based on the top search results, a process commonly known as <strong>Grounding</strong>.
+            </p>
+            <div class="tech-box">
+              <h3>Grounded Summarization Logic</h3>
+              <p>
+                Unlike a traditional search that returns a list of links, a generative response uses an LLM to "read" the results and generate a new, concise output. 
+                In our system, we use this to transform a multi-page raw description into a strictly formatted JSON title and keyword. 
+                This is configured via the <a href="https://cloud.google.com/java/docs/reference/google-cloud-discoveryengine/latest/com.google.cloud.discoveryengine.v1.SearchRequest.ContentSearchSpec.SummarySpec" target="_blank" class="external-link">SummarySpec</a> and 
+                <a href="https://cloud.google.com/java/docs/reference/google-cloud-discoveryengine/latest/com.google.cloud.discoveryengine.v1.SearchRequest.ContentSearchSpec.SummarySpec.ModelPromptSpec" target="_blank" class="external-link">ModelPromptSpec</a> parameters.
+              </p>
+              
+              <h4>Request Configuration (JSON)</h4>
+              <p>The following JSON object represents the <code>ContentSearchSpec</code> we send to the API. It tells the agent to use the top 5 documents as context and apply our custom instructions.</p>
+              <pre class="code-block" style="font-size: 0.8rem;"><code>"contentSearchSpec": {
+  "summarySpec": {
+    "summaryResultCount": 5,
+    "modelPromptSpec": {
+      "preamble": "ROLE: You are a Content Summarization Agent..."
+    },
+    "ignoreAdversarialQuery": true,
+    "includeCitations": false
+  }
+}</code></pre>
+
+              <h4>Response Metadata (JSON)</h4>
+              <p>The resulting <code>SearchResponse</code> includes a unique <code>summary</code> block. The <code>summaryText</code> field contains the generated JSON string that we then sanitize and parse in Java.</p>
+              <pre class="code-block" style="font-size: 0.8rem;"><code>"summary": {
+  "summaryText": "{\"title\": \"Heat Capacity of Propane\", \"keyword\": \"HeatCapacity\"}",
+  "summarySkippedReasons": []
+}</code></pre>
+            </div>
+            <p style="margin-top: 15px;">
+              By setting <code>summaryResultCount</code> to 5, we ensure the agent has enough scientific context to be accurate, 
+              but remains focused enough to provide a concise summary rather than an essay.
+            </p>
+          </section>
+
+        <!-- Prompt Configuration -->
+        <section class="doc-section">
+          <div class="section-badge">Prompting</div>
+          <h2>Model Instruction (The Preamble)</h2>
+          <p>
+            The <code>PREAMBLE</code> is the foundational instruction set for the LLM. It defines the agent's identity 
+            and strict operational constraints.
+          </p>
+          <div class="tech-box">
+            <pre class="code-block"><code>private static final String PREAMBLE = """
+    ROLE: You are a Content Summarization Agent.
+    TASK: Analyze the USER QUERY and provide a concise title and a single keyword.
+    
+    RULES:
+    1. TITLE: Create a brief, descriptive title...
+    2. KEYWORD: Provide a single keyword... (e.g., 'HeatCapacityCalculation').
+    3. OUTPUT: Return ONLY a valid JSON object. No markdown, no explanations.
+    
+    FORMAT: {"title": "Summary Title", "keyword": "KeyWord"}
+    
+    USER QUERY: {query}
+    """;</code></pre>
+            <p style="margin-top: 15px;">
+              By explicitly defining the <strong>RULES</strong> and <strong>FORMAT</strong>, we minimize the risk of 
+              non-JSON output, which is critical for automated downstream processing.
+            </p>
+          </div>
+        </section>
+
+        <!-- SearchRequest Configuration -->
+        <section class="doc-section">
+          <div class="section-badge">API Usage</div>
+          <h2>Customizing the SearchRequest</h2>
+          <p>
+            The <a href="https://cloud.google.com/java/docs/reference/google-cloud-discoveryengine/latest/com.google.cloud.discoveryengine.v1.SearchRequest" target="_blank" class="external-link">SearchRequest</a> 
+            is configured to trigger the summarization model rather than just standard retrieval.
+          </p>
+          <div class="tech-box">
+            <pre class="code-block" style="font-size: 0.8rem;"><code>SearchRequest request = SearchRequest.newBuilder()
+    .setServingConfig(servingConfig)
+    .setQuery(searchQuery)
+    .setFilter(filter)
+    .setPageSize(10)
+    .setContentSearchSpec(SearchRequest.ContentSearchSpec.newBuilder()
+        .setSummarySpec(SearchRequest.ContentSearchSpec.SummarySpec.newBuilder()
+            .setSummaryResultCount(5)
+            .setModelPromptSpec(
+                SearchRequest.ContentSearchSpec.SummarySpec.ModelPromptSpec.newBuilder()
+                    .setPreamble(PREAMBLE)
+                    .build())
+            .build())
+        .build())
+    .build();</code></pre>
+            <ul class="spec-list">
+              <li><strong>setContentSearchSpec:</strong> Signals that we want an AI-generated summary across results.</li>
+              <li><strong>setSummaryResultCount(5):</strong> Ground the AI in the top 5 most relevant documents found in the data store.</li>
+              <li><strong>setModelPromptSpec:</strong> Injects our custom <code>PREAMBLE</code> to guide the summary.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- SearchResponse Handling -->
+        <section class="doc-section">
+          <div class="section-badge">Data Handling</div>
+          <h2>Parsing the Agent Output</h2>
+          <p>
+            The response from Discovery Engine contains a <a href="https://cloud.google.com/java/docs/reference/google-cloud-discoveryengine/latest/com.google.cloud.discoveryengine.v1.SearchResponse.Summary" target="_blank" class="external-link">Summary</a> 
+            object. The <code>summaryText</code> field contains the JSON string we requested.
+          </p>
+          <div class="tech-box">
+            <h3>Response Sanitization</h3>
+            <pre class="code-block"><code>// 1. Get raw text from the summary field
+String rawJson = response.getSummary().getSummaryText();
+
+// 2. Clean markdown artifacts (e.g. ```json blocks)
+String cleanJson = rawJson.replaceAll("```json|```", "").trim();
+
+// 3. Extract purely the JSON block
+int start = cleanJson.indexOf("{");
+int end = cleanJson.lastIndexOf("}");
+if (start >= 0 && end > start) {
+    cleanJson = cleanJson.substring(start, end + 1);
+}</code></pre>
+            <p style="margin-top: 15px;">
+              <strong>Note:</strong> We distinguish between <strong>Structured Data</strong> (the raw fields found in documents) 
+              and <strong>Summary Text</strong> (the natural language output generated by the LLM grounded in those documents).
+            </p>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <style>
+      .tech-doc { max-width: 900px; margin: 0 auto; padding-bottom: 100px; }
+      .doc-section { margin-bottom: 60px; }
+      .section-badge { 
+        display: inline-block; 
+        padding: 4px 12px; 
+        background: var(--accent-color); 
+        color: white; 
+        border-radius: 4px; 
+        font-weight: bold; 
+        margin-bottom: 16px;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+      }
+      .tech-box { 
+        background: rgba(255, 255, 255, 0.03); 
+        border: 1px solid var(--glass-border); 
+        border-radius: 12px; 
+        padding: 24px; 
+        margin: 20px 0;
+      }
+      .spec-list { margin-top: 20px; padding-left: 20px; }
+      .spec-list li { margin-bottom: 10px; }
+      .back-btn { background: none; border: 1px solid var(--glass-border); color: var(--accent-color); padding: 8px 16px; border-radius: 8px; cursor: pointer; margin-bottom: 24px; }
+    </style>
+  </body>
+</html>

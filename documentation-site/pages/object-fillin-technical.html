@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Value and Term Extraction Technical - WorkFlowProject</title>
+    <link rel="stylesheet" href="../src/style.css">
+  </head>
+  <body>
+    <div class="glow-bg"></div>
+    <div class="container">
+      <header>
+        <button class="back-btn" onclick="location.href='object-fillin.html'">← Back to Extraction Overview</button>
+        <h1 class="hero-title">Technical Deep Dive</h1>
+        <p class="hero-summary">
+          Detailed breakdown of the <code>TermExtractionService</code> class, internal LLM grounding, and data enrichment logic.
+        </p>
+      </header>
+      
+      <main class="page-content tech-doc">
+
+        <!-- Comparative Analysis -->
+        <section class="doc-section">
+          <div class="section-badge">Comparative Analysis</div>
+          <h2>Building Block Architecture</h2>
+          <p>
+            The <strong>Value and Term Extraction</strong> is the most advanced application in our documentation suite. 
+            It is not a standalone tool, but rather a functional evolution that builds upon the foundations laid by 
+            <a href="rag-technical.html">RAG (Retrieval Augmented Generation)</a> and 
+            <a href="description-extraction-technical.html">Description Extraction</a>.
+          </p>
+
+          <div class="tech-box" style="background: rgba(255,255,255,0.02);">
+            <h3>Application Evolution</h3>
+            <table class="config-table">
+              <thead>
+                <tr>
+                  <th>Concept</th>
+                  <th>Core Focus</th>
+                  <th>Key Technology</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>RAG</strong></td>
+                  <td>Creating the <strong>Context</strong>. Mapping formal ontologies to physical data stores.</td>
+                  <td>Vector Search & SearchRequest Filters</td>
+                </tr>
+                <tr>
+                  <td><strong>Description Extraction</strong></td>
+                  <td>Using <strong>Generative AI</strong> to summarize and distill natural language.</td>
+                  <td>SummarySpec & Narrative Preambles</td>
+                </tr>
+                <tr>
+                  <td><strong>Value and Term Extraction</strong></td>
+                  <td>The <strong>Grounded Extraction</strong> which uses Context to drive Generative JSON output.</td>
+                  <td>ModelPromptSpec (Few-Shot Data Extraction)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="info-card">
+            <h3>Shared Tools & Divergent Uses</h3>
+            <p>
+              While all three systems share the <strong>Google Discovery Engine SDK</strong> and use the <code>SearchServiceClient</code>, they utilize the <code>SearchRequest</code> in fundamentally different ways:
+            </p>
+            <ul>
+              <li><strong>Search Grounding:</strong> RAG and Fill-In both use <code>.setFilter()</code> to restrict the AI's "vision" to scientifically valid terms. Description Extraction typically operates on a broader context.</li>
+              <li><strong>The Preamble Strategy:</strong> Extraction uses the Preamble to create readable prose. Fill-In uses a <strong>Strict Format Preamble</strong> to force the LLM into returning a machine-readable JSON mapping.</li>
+              <li><strong>Data Synthesis:</strong> RAG returns existing data; Extraction generates new text; Fill-In performs a <strong>Dynamic Join</strong> between new user input and existing dictionary fields.</li>
+            </ul>
+          </div>
+        </section>
+        
+        <!-- Java Implementation -->
+        <section class="doc-section">
+          <div class="section-badge">Implementation</div>
+          <h2>The TermExtractionService Class</h2>
+          <p>
+            The core logic for extracting data models resides in the <a href="https://github.com/example/TermExtractionService.java" target="_blank" class="external-link">TermExtractionService</a>. 
+            This service utilizes the <a href="https://cloud.google.com/java/docs/reference/google-cloud-discoveryengine/latest/com.google.cloud.discoveryengine.v1.SearchServiceClient" target="_blank" class="external-link">SearchServiceClient</a> 
+            to perform atomic search-and-summarize operations.
+          </p>
+          
+          <div class="tech-box">
+            <h3>Data Model: <code>ExtractedTerm</code></h3>
+            <p>Each result is encapsulated in an <code>ExtractedTerm</code> object, which stores the relationship between the grounded dictionary entry and the extracted user value.</p>
+            <pre class="code-block" style="font-size: 0.8rem;"><code>public class ExtractedTerm {
+    private String term;           // Short name (e.g. "Enthalpy")
+    private String namespacedTerm; // Full identifier (e.g. "dataset:Enthalpy")
+    private String value;          // The extracted scientific value
+    private JsonObject document;   // Full Firestore record context
+    private double relevanceScore; // Search confidence
+}</code></pre>
+          </div>
+        </section>
+
+        <!-- Prompt Engineering -->
+        <section class="doc-section">
+          <div class="section-badge">Prompting</div>
+          <h2>Prompt Engineering (The Preamble)</h2>
+          <p>
+            The accuracy of the extraction depends on the <code>PREAMBLE</code> instructions. We use <strong>Few-Shot Learning</strong> 
+            by providing concrete examples within the prompt itself to ground the LLM's behavior.
+          </p>
+          <div class="tech-box">
+            <pre class="code-block" style="font-size: 0.8rem;"><code>private static final String PREAMBLE = """
+    ROLE: Data Extraction Assistant for scientific data.
+    RULES:
+    1. KEY: Select the 'term' from search results.
+    2. VALUE: Extract numeric/string value directly from query.
+    
+    EXAMPLES:
+    User Input: "temperature is 300 K"
+    Model Output: {"TemperatureC": "300"}
+    
+    USER QUERY: {query}
+    """;</code></pre>
+          </div>
+        </section>
+
+        <!-- SearchRequest & SummarySpec -->
+        <section class="doc-section">
+          <div class="section-badge">API Usage</div>
+          <h2>The SearchRequest Configuration</h2>
+          <p>
+            We configure the <a href="https://cloud.google.com/java/docs/reference/google-cloud-discoveryengine/latest/com.google.cloud.discoveryengine.v1.SearchRequest" target="_blank" class="external-link">SearchRequest</a> 
+            with a <a href="https://cloud.google.com/java/docs/reference/google-cloud-discoveryengine/latest/com.google.cloud.discoveryengine.v1.SearchRequest.ContentSearchSpec.SummarySpec" target="_blank" class="external-link">SummarySpec</a> 
+            to trigger the internal summarization engine.
+          </p>
+          <div class="tech-box">
+            <pre class="code-block" style="font-size: 0.8rem;"><code>SearchRequest request = SearchRequest.newBuilder()
+    .setServingConfig(servingConfig)
+    .setQuery(prompt)
+    .setFilter(filter)
+    .setContentSearchSpec(SearchRequest.ContentSearchSpec.newBuilder()
+        .setSummarySpec(SearchRequest.ContentSearchSpec.SummarySpec.newBuilder()
+            .setSummaryResultCount(maxResults) // Ground in top X results
+            .setModelPromptSpec(
+                SearchRequest.ContentSearchSpec.SummarySpec.ModelPromptSpec.newBuilder()
+                    .setPreamble(PREAMBLE)
+                    .build())
+            .build())
+        .build())
+    .build();</code></pre>
+          </div>
+        </section>
+
+        <!-- Enrichment Logic -->
+        <section class="doc-section">
+          <div class="section-badge">Data Handling</div>
+          <h2>Data Enrichment Logic</h2>
+          <p>
+            Because the LLM returns JSON while the search returns <code>SearchResult</code> objects, we must 
+            perform a <strong>Case-Insensitive Join</strong> to merge the extracted values back into our 
+            rich Firestore metadata.
+          </p>
+          <div class="tech-box">
+            <h3>Method: <code>enrichWithValues</code></h3>
+            <pre class="code-block" style="font-size: 0.8rem;"><code>private List<ExtractedTerm> enrichWithValues(List&lt;ExtractedTerm&gt; terms, String llmJson) {
+    JsonObject json = JsonParser.parseString(llmJson).getAsJsonObject();
+    
+    // Build a lowercase map for case-insensitive matching
+    Map&lt;String, String&gt; valueMap = json.entrySet().stream()
+        .collect(Collectors.toMap(
+            e -> e.getKey().toLowerCase(),
+            e -> e.getValue().getAsString()
+        ));
+
+    for (ExtractedTerm t : terms) {
+        String val = valueMap.get(t.getTerm().toLowerCase());
+        t.setValue(val != null ? val : "");
+    }
+}</code></pre>
+            <p style="margin-top: 15px;">
+              <strong>Sanitization:</strong> We use <code>rawJson.replaceAll("```json|```", "").trim()</code> 
+              to handle potential markdown artifacts if the model returns a formatted code block.
+            </p>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <style>
+      .tech-doc { max-width: 900px; margin: 0 auto; padding-bottom: 100px; }
+      .doc-section { margin-bottom: 60px; }
+      .section-badge { display: inline-block; padding: 4px 12px; background: var(--accent-color); color: white; border-radius: 4px; font-weight: bold; margin-bottom: 16px; font-size: 0.8rem; text-transform: uppercase; }
+      .tech-box { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 12px; padding: 24px; margin: 20px 0; }
+      .back-btn { background: none; border: 1px solid var(--glass-border); color: var(--accent-color); padding: 8px 16px; border-radius: 8px; cursor: pointer; margin-bottom: 24px; }
+    </style>
+  </body>
+</html>

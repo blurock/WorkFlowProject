@@ -1,0 +1,8 @@
+/target/
+/functions/
+/public/
+/node_modules/
+/firestore-debug.log
+/firebase-debug.log
+/database-debug.log
+

@@ -1,0 +1,17 @@
+{
+	"prov:activity": "dataset:TransactionReadMetaDataDefinition",
+	"dataset:activityinfo": {
+		"dataset:filesourceformat": "dataset:JThermodynamicsMetaAtoms",
+		"dcterms:title": "The standard set of Meta Atom Definitions"
+	},
+	"dataset:transreqobj": {
+		"dataset:parsetofixsize": {
+			"dcterms:identifier": "dataset:firestorecatalog",
+			"skos:inScheme": "transactionobject",
+			"qb:DataSet": "43bc18ce-7b3a-46a8-85ac-93181e5e85f9",
+			"dataset:addressidpairs": {
+				"dataset:collectiondocpair": []
+			}
+		}
+	}
+}

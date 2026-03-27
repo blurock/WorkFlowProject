@@ -1,0 +1,29 @@
+{
+  "dataset:fileidentifier": "tableA1CarbonBensonRules.txt",
+  "dataset:filesourcesubtype": "",
+  "dataset:filemediatype": "dataset:FileTypeText",
+  "dataset:uploadsrc": "dataset:LocalFileSystem",
+  "dcterms:title": "Carbon Benson Rules",
+  "dataset:title-staging": "Carbon Benson Rules",
+  "dataset:abstract-staging": "These are the benson rules for carbon from Table A1 in Benson's book",
+  "dataset:filesourceformat": "dataset:TherGasBensonRules",
+  "descr-filestaging": {
+    "dataset:purpose-filestaging": {
+      "dataset:purposekey-filestaging": "dataset:PurposeRepositoryDataOrigin",
+      "dataset:dataconcept-staging": "dataset:ChemConnectConceptChemicalStructure"
+    },
+    "dataset:abstract-staging": "These are the benson rules for carbon from Table A1 in Benson's book",
+    "dataset:title-staging": "Carbon Benson Rules",
+    "dataset:keyword-filestaging": "",
+    "dcterms:created": "2022-10-18T12:15:58.267Z"
+  },
+  "dataset:datasettransactionspecification": {
+    "dataset:dataobjstatus": "dataset:CatalogObjectStatusCurrent",
+    "dataset:datasetname": "StandardData",
+    "dataset:datasetversion": "1.0",
+    "dataset:uniquegenericname": "tableA1CarbonBensonRules"
+  },
+  "dcterms:BibliographicResource": [],
+  "foaf:page": [],
+  "skos:mappingRelation": []
+}

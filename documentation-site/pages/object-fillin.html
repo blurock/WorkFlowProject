@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Value and Term Extraction - WorkFlowProject</title>
+    <link rel="stylesheet" href="../src/style.css">
+  </head>
+  <body>
+    <div class="glow-bg"></div>
+    <div class="container">
+      <header>
+        <button class="back-btn" onclick="location.href='../index.html'">← Back to Overview</button>
+        <h1 class="hero-title">Value and Term Extraction</h1>
+        <p class="hero-summary">
+          Automating the transition from natural language scientific descriptions to high-precision structured data models.
+        </p>
+      </header>
+
+      <main class="page-content">
+        <!-- Visual Flow Section -->
+        <section class="visual-flow">
+          <div class="flow-container">
+            <img src="/assets/intelligent_data_fillin_flow_1773751623403.png" alt="Data Fill-In Flow Diagram" class="flow-image">
+            <div class="flow-labels">
+              <span class="label input-label">Researcher Input</span>
+              <span class="label agent-label">Grounded AI Extraction</span>
+              <span class="label output-label">Structured Schema</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Low Level Overview -->
+        <section class="doc-section level-1">
+          <div class="section-badge">Low Level Overview</div>
+          <h2>Bridging Language and Logic</h2>
+          <p>
+            When entering scientific data, researchers often describe their experiments in natural language. 
+            The <strong>Value and Term Extraction</strong> system automates the tedious task of mapping these 
+            descriptions to specific database fields. For example, if a researcher writes "The pressure was recorded at 1.5 atm," 
+            the system automatically identifies the <code>Pressure</code> parameter and extracts the value <code>1.5</code>.
+          </p>
+          <div class="info-card">
+            <h3>The Concept of Data Grounding</h3>
+            <p>
+              Traditional AI might "guess" what a term means. Our system uses a technique called 
+              <strong>Data Grounding</strong>. Before the AI even attempts to extract values, it searches our 
+              <a href="datastore-terms.html">Scientific Dictionary</a> to find the exact, formal definitions 
+              that exist in our ontology. This ensures the AI is grounded in scientific reality, not statistics.
+            </p>
+          </div>
+        </section>
+
+        <!-- Higher Level Overview -->
+        <section class="doc-section level-2">
+          <div class="section-badge">Higher Level Overview</div>
+          <h2>Internal RAG Integration</h2>
+          <p>
+            Unlike other systems that use multiple disparate API calls, our "Fill-In" logic uses an 
+            <strong>Internal RAG</strong> (Retrieval Augmented Generation) loop powered by Discovery Engine.
+          </p>
+          <div class="tech-box">
+            <h3>1. The Grounding Search</h3>
+            <p>The system first executes a semantic search to retrieve the most relevant <code>DictionaryTerm</code> objects based on the user's prompt.</p>
+            
+            <h3>2. The Augmented Extraction</h3>
+            <p>The retrieved terms are passed as "context" to the internal model using a specialized <code>PREAMBLE</code>. This guides the model to return a structured JSON mapping.</p>
+            
+            <pre class="code-block"><code>// Example Instruction (Preamble)
+ROLE: Data Extraction Assistant...
+RULES:
+1. KEY: Select the 'term' from the search results.
+2. VALUE: Extract numeric/string value from QUERY.
+FORMAT: {"Term": "Value"}</code></pre>
+          </div>
+          <p>
+            By combining search and summarization in a single atomic request, we maximize both speed 
+            and accuracy, following 
+            <a href="https://cloud.google.com/generative-ai-app-builder/docs/get-search-summaries" target="_blank" class="external-link">Google's generative search best practices</a>.
+          </p>
+        </section>
+
+        <!-- Technical Deep Dive Link -->
+        <section class="footer-navigation">
+          <div class="perspective-label">For Software Engineers</div>
+          <h3>Detailed Implementation</h3>
+          <p>Explore the <code>TermExtractionService</code> implementation, JSON mapping logic, and SDK configurations.</p>
+          <a href="object-fillin-technical.html" class="external-link" style="font-size: 1.2rem;">View Technical Deep Dive →</a>
+        </section>
+      </main>
+    </div>
+
+    <style>
+      .page-content { max-width: 900px; margin: 0 auto; padding-bottom: 100px; }
+      .visual-flow { margin: 40px 0; text-align: center; }
+      .flow-container { position: relative; display: inline-block; width: 100%; max-width: 600px; }
+      .flow-image { width: 100%; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+      .flow-labels { margin-top: 15px; display: flex; justify-content: space-between; font-weight: bold; color: var(--accent-color); font-size: 0.9rem; }
+      
+      .doc-section { margin-bottom: 60px; }
+      .section-badge { display: inline-block; padding: 4px 12px; background: var(--accent-color); color: white; border-radius: 4px; font-weight: bold; margin-bottom: 16px; font-size: 0.8rem; text-transform: uppercase; }
+      .info-card { background: rgba(255,255,255,0.02); border-left: 3px solid var(--accent-color); padding: 20px; margin: 20px 0; border-radius: 0 12px 12px 0; }
+      .info-card h3 { margin-bottom: 8px; font-size: 1.1rem; color: var(--accent-color); }
+      .tech-box { background: rgba(0,0,0,0.2); padding: 20px; border-radius: 12px; border: 1px solid var(--glass-border); margin: 20px 0; }
+      .back-btn { background: none; border: 1px solid var(--glass-border); color: var(--accent-color); padding: 8px 16px; border-radius: 8px; cursor: pointer; margin-bottom: 24px; }
+      .footer-navigation { text-align: center; padding: 40px; border-top: 1px solid var(--glass-border); }
+    </style>
+  </body>
+</html>

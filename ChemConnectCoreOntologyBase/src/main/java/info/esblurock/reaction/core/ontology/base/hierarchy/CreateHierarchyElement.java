@@ -51,6 +51,23 @@ public class CreateHierarchyElement {
 	 * @return FirestoreCatalogID with generated CollectionDocumentIDPair
 	 */
 	public static JsonObject searchForCatalogObjectInHierarchyTemplate(JsonObject json) {
+		return searchForCatalogObjectInHierarchyTemplate(json, topOfHierarchy);
+	}
+
+	/**
+	 * Generate the FirestoreCatalogID from the class
+	 * 
+	 * The classname and the catalog object is used to generate the
+	 * FirestoreCatalogID. The catalog object and classname elements may be used in
+	 * deteriming the document and collection names of the firestore hierarchy.
+	 * 
+	 * @param catalogC The classname of the catalog object
+	 * @param json     The catalog object
+	 * @param top      The top of the hierarchy
+	 * 
+	 * @return FirestoreCatalogID with generated CollectionDocumentIDPair
+	 */
+	public static JsonObject searchForCatalogObjectInHierarchyTemplate(JsonObject json, String top) {
 		JsonObject firestoreaddress = null;
 		JsonArray pairs = new JsonArray();
 		JsonObject pair = initialCollectionDocumentIDPair();
@@ -60,9 +77,9 @@ public class CreateHierarchyElement {
 			System.err.println("System Error: Identifier as class not found: " + identifier);
 		} else {
 			ClassificationHierarchy hierarchy = DatabaseOntologyClassification
-					.getClassificationHierarchy(topOfHierarchy);
+					.getClassificationHierarchy(top);
 
-			if (search(hierarchy, json, pairs, pair, catalogC)) {
+			if (search(hierarchy, json, pairs, pair, catalogC, top)) {
 				int basenum = pairs.size() - 1;
 				firestoreaddress = CreateDocumentTemplate.createTemplate(firestoreid);
 				JsonArray subpairs = new JsonArray();
@@ -111,11 +128,10 @@ public class CreateHierarchyElement {
 	 *         FirestoreCatalogID is being filled in
 	 */
 	private static boolean search(ClassificationHierarchy hierarchy, JsonObject json, JsonArray pairs, JsonObject pair,
-			String catalogC) {
+			String catalogC, String top) {
 		boolean foundB = false;
 		String member = OntologyUtilityRoutines.exactlyOnePropertySingle(hierarchy.getClassification(),
 				OntologyObjectLabels.member);
-
 		if (member != null) {
 			if (member.equals(catalogC)) {
 				foundB = true;
@@ -130,16 +146,16 @@ public class CreateHierarchyElement {
 			Iterator<ClassificationHierarchy> iter = hierarchy.getSubclassificatons().iterator();
 			while (iter.hasNext() && !foundB) {
 				ClassificationHierarchy hier = iter.next();
-				foundB = search(hier, json, pairs, pair, catalogC);
+				foundB = search(hier, json, pairs, pair, catalogC, top);
 			}
 			if (foundB) {
-				if (!hierarchy.getClassification().equals(topOfHierarchy)) {
+				if (!hierarchy.getClassification().equals(top)) {
 					String genname = generateHierarchyName(hierarchy.getClassification(), catalogC, json);
 					UpdateHierarchyList(hierarchy.getClassification(), genname, pair, pairs);
 				}
 			}
 		}
-		if (hierarchy.getClassification().equals(topOfHierarchy)) {
+		if (hierarchy.getClassification().equals(top)) {
 			addPairToArray(pair, pairs);
 		}
 		return foundB;
@@ -251,13 +267,73 @@ public class CreateHierarchyElement {
 					OntologyObjectLabels.isDefinedBy);
 			String isdefinedbyShort = isdefinedby.substring(8);
 			name = GenerateStringLabel.valueOf(isdefinedbyShort).deriveName(hierclass, classname, json);
-
-			String key = json.get(ClassLabelConstants.CatalogObjectKey).getAsString();
 		} catch (Exception ex) {
 			System.err.println("generateHierarchyName(" + hierclass + ", " + classname + ")");
 			System.err.println(ex.toString());
 		}
 		return name;
+	}
+
+	/**
+	 * Generate a Firestore path string from a FirestoreCatalogID JsonObject
+	 * 
+	 * @param firestoreID The JsonObject representing the FirestoreCatalogID
+	 * @return The Firestore path string
+	 */
+	public static String getPathFromFirestoreID(JsonObject firestoreID) {
+		StringBuilder build = new StringBuilder();
+		JsonObject addressidpairs = firestoreID.get(ClassLabelConstants.CollectionDocumentIDPairAddress)
+				.getAsJsonObject();
+		JsonArray pairs = addressidpairs.get(ClassLabelConstants.CollectionDocumentIDPair).getAsJsonArray();
+
+		// Sort pairs by level ascending
+		java.util.ArrayList<JsonObject> sortedPairs = new java.util.ArrayList<>();
+		for (JsonElement ele : pairs) {
+			sortedPairs.add(ele.getAsJsonObject());
+		}
+		sortedPairs.sort((o1, o2) -> {
+			int l1 = o1.get(ClassLabelConstants.DatasetIDLevel).getAsInt();
+			int l2 = o2.get(ClassLabelConstants.DatasetIDLevel).getAsInt();
+			return l1 - l2;
+		});
+
+		for (JsonObject pair : sortedPairs) {
+			build.append("/");
+			build.append(pair.get(ClassLabelConstants.DatasetCollectionID).getAsString());
+			build.append("/");
+			build.append(pair.get(ClassLabelConstants.DatasetDocumentID).getAsString());
+		}
+
+		// Add the base
+		build.append("/");
+		build.append(firestoreID.get(ClassLabelConstants.DataCatalog).getAsString());
+		build.append("/");
+		build.append(firestoreID.get(ClassLabelConstants.SimpleCatalogName).getAsString());
+
+		return build.toString();
+	}
+
+	/**
+	 * Search for the Firestore path given the classname and session IDs
+	 * 
+	 * @param classname The class name of the catalog object
+	 * @param uid       The user UID (optional)
+	 * @param sessionid The session ID (optional)
+	 * @return The generated Firestore path string
+	 */
+	public static String searchForPath(String classname, String uid, String sessionid) {
+		JsonObject json = CreateDocumentTemplate.createTemplate(classname);
+		if (uid != null) {
+			json.addProperty(ClassLabelConstants.UID, uid);
+		}
+		if (sessionid != null) {
+			json.addProperty(ClassLabelConstants.SessionId, sessionid);
+		}
+		JsonObject firestoreID = searchForCatalogObjectInHierarchyTemplate(json);
+		if (firestoreID != null) {
+			return getPathFromFirestoreID(firestoreID);
+		}
+		return null;
 	}
 
 }

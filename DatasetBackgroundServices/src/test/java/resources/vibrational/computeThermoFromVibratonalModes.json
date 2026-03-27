@@ -1,0 +1,36 @@
+{
+		"service": "ComputeThermodynamicsFromVibrationalModes",
+	"dataset:catalogobjectmaintainer": "Administrator",
+	"dataset:datasetname": "StandardDataset",
+	"dataset:structuredef": "ch3/ch2/ch2/ch2(.)",
+	"dataset:structurename": "pentane",
+	"dataset:speciespectype": "dataset:SpeciesSpecificationNancyLinearForm",
+	"dataset:paramspecenthalpy": {
+		"qudt:Unit": {
+			"qudt:SystemOfQuantities": "quantitykind:MolarEnergy",
+			"qudt:QuantityKind": "unit:KiloCAL-PER-MOL"
+		},
+		"dataset:dynamicType": "FixedParameter",
+		"skos:prefLabel": "Enthaply",
+		"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty"
+	},
+	"dataset:paramspecentropy": {
+		"qudt:Unit": {
+			"qudt:SystemOfQuantities": "quantitykind:MolarEntropy",
+			"qudt:QuantityKind": "unit:J-PER-MOL-K"
+		},
+		"dataset:dynamicType": "FixedParameter",
+		"skos:prefLabel": "Entropy",
+		"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty"
+	},
+	"dataset:paramspecheatcapacity": {
+		"qudt:Unit": {
+			"qudt:SystemOfQuantities": "quantitykind:MolarHeatCapacity",
+			"qudt:QuantityKind": "unit:J-PER-MOL-K"
+		},
+		"dataset:dynamicType": "FixedParameter",
+		"skos:prefLabel": "Heat Capacity",
+		"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty"
+	}
+
+}

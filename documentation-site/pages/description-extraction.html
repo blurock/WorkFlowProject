@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Description Extraction - WorkFlowProject</title>
+    <link rel="stylesheet" href="../src/style.css">
+  </head>
+  <body>
+    <div class="glow-bg"></div>
+    <div class="container">
+      <header>
+        <button class="back-btn" onclick="location.href='../index.html'">← Back to Overview</button>
+        <h1 class="hero-title">Description Extraction</h1>
+        <p class="hero-summary">
+          Leveraging AI agents and advanced prompt engineering to automate discovery and classification of scientific data.
+        </p>
+      </header>
+
+      <main class="page-content">
+        <!-- Visual Flow Section -->
+        <section class="visual-flow">
+          <div class="flow-container">
+            <img src="/assets/description_extraction_flow_1773749085270.png" alt="Data Flow Diagram" class="flow-image">
+            <div class="flow-labels">
+              <span class="label input-label">User Prompt</span>
+              <span class="label agent-label">AI Extraction Agent</span>
+              <span class="label output-label">Structured Metadata</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Low Level Overview -->
+        <section class="doc-section level-1">
+          <div class="section-badge">Low Level Overview</div>
+          <h2>Simplifying Scientific Discovery</h2>
+          <p>
+            In scientific research, finding relevant data often depends on how well it is tagged. 
+            The <strong>Description Extraction</strong> system takes a natural language prompt—essentially 
+            a researcher's conversational description of a task or dataset—and automatically extracts 
+            a concise <strong>Title</strong> and <strong>Keyword</strong>.
+          </p>
+          <div class="info-card">
+            <h3>What is an AI Agent?</h3>
+            <p>
+              An <a href="https://cloud.google.com/vertex-ai/docs/generative-ai/agents/overview" target="_blank" class="external-link">AI Agent</a> 
+              is an autonomous system that uses Large Language Models (LLMs) to perform specific tasks. 
+              Instead of just chatting, an agent interacts with tools and data to provide structured 
+              solutions—in our case, summarizing complex thermodynamics data.
+            </p>
+          </div>
+          <div class="info-card">
+            <h3>What is Prompt Engineering?</h3>
+            <p>
+              <a href="https://cloud.google.com/vertex-ai/docs/generative-ai/prompt-engineering-strategies" target="_blank" class="external-link">Prompt Engineering</a> 
+              is the art of refining instructions (prompts) to get the most accurate results from an LLM. 
+              By providing specific roles ("You are a Content Summarization Agent") and strict formatting rules, 
+              we ensure the agent returns scientific metadata that is both precise and machine-readable.
+            </p>
+          </div>
+        </section>
+
+        <!-- Higher Level Overview -->
+        <section class="doc-section level-2">
+          <div class="section-badge">Higher Level Overview</div>
+          <h2>The Anatomy of a Prompt</h2>
+          <p>
+            Effective extraction relies on a carefully constructed prompt that grounds the AI agent 
+            in its mission. The system uses a <strong>Preamble</strong> to define boundaries and output formats.
+          </p>
+          <div class="tech-box">
+            <h3>The Summarization Prompt</h3>
+            <pre class="code-block"><code>ROLE: You are a Content Summarization Agent.
+TASK: Analyze the USER QUERY and provide a concise title and a single keyword.
+
+RULES:
+1. TITLE: Create a brief, descriptive title...
+2. KEYWORD: Provide a single keyword... (e.g., 'HeatCapacityCalculation')
+3. OUTPUT: Return ONLY a valid JSON object.
+
+FORMAT: {"title": "Summary Title", "keyword": "KeyWord"}
+
+USER QUERY: {query}</code></pre>
+          </div>
+          <p>
+            Following <a href="https://developers.google.com/machine-learning/resources/prompt-eng" target="_blank" class="external-link">Google's prompted engineering best practices</a>, 
+            we use **few-shot cues** and **role-based grounding** to eliminate ambiguity, ensuring the 
+            agent does not hallucinate or include conversational filler in its output.
+          </p>
+        </section>
+
+        <!-- Technical Deep Dive Link -->
+        <section class="footer-navigation">
+          <div class="perspective-label">For Software Engineers</div>
+          <h3>Technical Implementation</h3>
+          <p>Explore the Java implementation, SearchRequest specs, and Response parsing logic.</p>
+          <a href="description-extraction-technical.html" class="external-link" style="font-size: 1.2rem;">View Technical Deep Dive →</a>
+        </section>
+      </main>
+    </div>
+
+    <style>
+      .page-content { max-width: 900px; margin: 0 auto; padding-bottom: 100px; }
+      .visual-flow { margin: 40px 0; text-align: center; }
+      .flow-container { position: relative; display: inline-block; width: 100%; max-width: 600px; }
+      .flow-image { width: 100%; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+      .flow-labels { margin-top: 15px; display: flex; justify-content: space-between; font-weight: bold; color: var(--accent-color); font-size: 0.9rem; }
+      
+      .doc-section { margin-bottom: 60px; }
+      .section-badge { 
+        display: inline-block; 
+        padding: 4px 12px; 
+        background: var(--accent-color); 
+        color: white; 
+        border-radius: 4px; 
+        font-weight: bold; 
+        margin-bottom: 16px;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+      }
+      .info-card { 
+        background: rgba(255,255,255,0.02); 
+        border-left: 3px solid var(--accent-color); 
+        padding: 20px; 
+        margin: 20px 0; 
+        border-radius: 0 12px 12px 0; 
+      }
+      .info-card h3 { margin-bottom: 8px; font-size: 1.1rem; color: var(--accent-color); }
+      .tech-box { background: rgba(0,0,0,0.2); padding: 20px; border-radius: 12px; border: 1px solid var(--glass-border); margin: 20px 0; }
+      .footer-navigation { text-align: center; padding: 40px; border-top: 1px solid var(--glass-border); }
+      .back-btn { background: none; border: 1px solid var(--glass-border); color: var(--accent-color); padding: 8px 16px; border-radius: 8px; cursor: pointer; margin-bottom: 24px; }
+    </style>
+  </body>
+</html>

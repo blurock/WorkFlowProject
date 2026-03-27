@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RAG Technical Documentation - WorkFlowProject</title>
+    <link rel="stylesheet" href="../src/style.css">
+  </head>
+  <body>
+    <div class="glow-bg"></div>
+    <div class="container">
+      <header>
+        <button class="back-btn" onclick="location.href='datastore-terms.html'">← Back to RAG Overview</button>
+        <h1 class="hero-title">Implementation Details</h1>
+        <p class="hero-summary">
+          A technical guide for software engineers on the end-to-end flow of the Retrieval-Augmented Generation system.
+        </p>
+      </header>
+      
+      <main class="page-content tech-doc">
+
+        
+        <!-- Stage 1 -->
+        <section class="doc-section">
+          <div class="section-badge">Stage 1</div>
+          <h2>Ontology Term Extraction</h2>
+          <p>
+            The process begins by traversing the formal scientific ontology to identify terms that should be 
+            searchable by the RAG system. This is primarily handled by <code>CreateDataStoreTermSet</code>.
+          </p>
+          <div class="tech-box">
+            <h3>Logical Flow</h3>
+            <p>
+              The <code>addToDataStoreTermSet</code> method performs a recursive descent into ontology classes. 
+              It specifically targets subclasses of <code>dataset:ChemConnectPrimitiveDataStructure</code>.
+            </p>
+            <pre class="code-block"><code>// Extraction logic from CreateDataStoreTermSet.java
+public static void addToDataStoreTermSet(DictionaryTermSet terms, Set&lt;String&gt; processed, String classname, String datatype) {
+    JsonObject template = CreateDocumentTemplate.createTemplateWithAnnotations(classname);
+    JsonObject annotations = template.getAsJsonObject("annotations");
+    
+    for (String key : annotations.keySet()) {
+        if (OntologyUtilityRoutines.isSubClassOf(key, "dataset:ChemConnectPrimitiveDataStructure", false)) {
+            // Extract identifier, label, and description
+            JsonObject element = annotations.getAsJsonObject(key);
+            String comment = element.get(AnnotationObjectsLabels.comment).getAsString();
+            DictionaryTerm term = new DictionaryTerm(name, key, comment, datatype);
+            terms.addTerm(term);
+        }
+    }
+}</code></pre>
+          </div>
+          <p>
+            The <code>CreateDocumentTemplate</code> class extracts <strong>Labels</strong>, <strong>Identifiers</strong>, 
+            and <strong>Comments</strong> (which serve as the semantic description) from the OWL ontology files, 
+            converting them into a JSON structure for easy processing.
+          </p>
+        </section>
+
+        <!-- Stage 2 -->
+        <section class="doc-section">
+          <div class="section-badge">Stage 2</div>
+          <h2>Data Modeling for Semantic Context</h2>
+          <p>
+            Extracted terms are encapsulated into standard POJOs (Plain Old Java Objects) to ensure strict typing 
+            and metadata consistency. This structure is critical for <a href="https://cloud.google.com/vertex-ai/docs/generative-ai/data-extensions/rag/overview" target="_blank" class="external-link">Retrieval-Augmented Generation</a> 
+            as it defines the "ground truth" the LLM will reference.
+          </p>
+          <div class="tech-box">
+            <h3>DictionaryTerm Structure</h3>
+            <ul>
+              <li><strong>ID:</strong> The formal ontology URI (e.g., <code>dataset:ChemSubstance</code>), acting as the unique document key.</li>
+              <li><strong>Term:</strong> Human-readable label (e.g., "Chemical Substance") used for user-facing results.</li>
+              <li><strong>Description:</strong> The semantic heart of the term. This natural language string is what the embedding model processes for vector search.</li>
+              <li><strong>Metadata:</strong> Contains the <code>datatype</code> (e.g., <code>catalogobjects</code>), enabling faceted filtering during retrieval.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Stage 3 -->
+        <section class="doc-section">
+          <div class="section-badge">Stage 3</div>
+          <h2>Persistence to Cloud Firestore</h2>
+          <p>
+            The system persists terms to <a href="https://firebase.google.com/docs/firestore" target="_blank" class="external-link">Google Cloud Firestore</a>. 
+            To handle thousands of ontology terms efficiently, we use a high-throughput initialization and batch strategy.
+          </p>
+          <div class="tech-box">
+            <h3>Initialization & Batched Writes</h3>
+            <p>
+              The <code>FirestoreClient</code> is initialized using Application Default Credentials (ADC). We then use 
+              <a href="https://firebase.google.com/docs/firestore/manage-data/transactions#batched-writes" target="_blank" class="external-link">WriteBatch</a> 
+              to commit terms in chunks of 500, which is the Firestore atomic limit.
+            </p>
+            <pre class="code-block"><code>// Firestore Initialization (via Firebase Admin SDK)
+Firestore db = FirestoreClient.getFirestore();
+CollectionReference collection = db.collection("dictionary_terms");
+
+// Merge-on-Write Strategy in WriteDictionaryTerms.java
+// 1. Fetch existing document to prevent overwriting cross-dataset links
+DocumentSnapshot existing = db.collection(COLLECTION_NAME).document(term.getId()).get().get();
+
+// 2. Prepare the Batch
+WriteBatch batch = db.batch();
+for (DictionaryTerm term : subList) {
+    // ... merge logic for metadata.datatype List ...
+    batch.set(collection.document(term.getId()), term.toMap());
+}
+batch.commit();</code></pre>
+          </div>
+        </section>
+
+        <!-- Stage 4 -->
+        <section class="doc-section">
+          <div class="section-badge">Stage 4</div>
+          <h2>Data Store Configuration & Replication</h2>
+          <p>
+            The semantic retrieval layer is powered by <a href="https://cloud.google.com/vertex-ai-search-and-conversation/docs/introduction" target="_blank" class="external-link">Vertex AI Search (Discovery Engine)</a>. 
+            Follow these steps to replicate the data store setup for scientific retrieval:
+          </p>
+          
+          <div class="replication-guide">
+            <div class="guide-card">
+              <h4>1. Create the Data Store</h4>
+              <p>In the Google Cloud Console, navigate to <strong>Search & Conversation</strong> and create a new Data Store of type <strong>Firestore</strong>.</p>
+              <p><a href="https://cloud.google.com/generative-ai-app-builder/docs/create-datastore-ingest#firestore" target="_blank" class="external-link small">View Data Store Setup Guide →</a></p>
+            </div>
+
+            <div class="guide-card">
+              <h4>2. Configure Schema & Indexing</h4>
+              <p>The schema defines how Discovery Engine interprets your Firestore documents. Marking fields as <strong>Indexable</strong> allows them to be used in filters, while <strong>Searchable</strong> makes them part of the vector search space.</p>
+              <pre class="code-block" style="font-size: 0.8rem;"><code>// Explicit DataStore Schema Definition
+{
+  "id": "string",          // Unique formal URI
+  "term": "string",        // Human label
+  "description": {         // Semantic source
+    "type": "string",
+    "searchable": true,    // Required for Vector Search
+    "indexable": true
+  },
+  "metadata": {
+    "datatype": {
+      "type": "array",
+      "indexable": true,   // Required for filtering
+      "retrievable": true
+    }
+  }
+}</code></pre>
+              <p><a href="https://cloud.google.com/generative-ai-app-builder/docs/provide-schema" target="_blank" class="external-link small">Schema Mapping Docs →</a></p>
+            </div>
+
+            <div class="guide-card">
+              <h4>3. Create the Search App</h4>
+              <p>Create a "Generic Search" app and connect it to your newly created Data Store. Note the <strong>Data Store ID</strong> and <strong>Location</strong> for your Java configuration.</p>
+            </div>
+
+            <div class="guide-card">
+              <h4>4. Serving Config Tuning</h4>
+              <p>Ensure the <code>default_config</code> is active. For precise scientific matching, we rely on <strong>Vector Search</strong> rather than keyword matching.</p>
+              <p><a href="https://cloud.google.com/generative-ai-app-builder/docs/serving-config" target="_blank" class="external-link small">Serving Config Docs →</a></p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Stage 5 -->
+        <section class="doc-section">
+          <div class="section-badge">Stage 5</div>
+          <h2>Retrieval via Discovery Engine</h2>
+          <p>
+            The final step is the runtime retrieval where the user query is matched against the indexed terms.
+          </p>
+          <div class="tech-box">
+            <h3>1. Constructing the ServingConfig</h3>
+            <p>
+              The <a href="https://cloud.google.com/java/docs/reference/google-cloud-discoveryengine/latest/com.google.cloud.discoveryengine.v1.ServingConfig" target="_blank" class="external-link">ServingConfig</a> 
+              is the fully qualified resource name that identifies your Project, Data Store instance, and the specific Search Configuration to use.
+            </p>
+            <pre class="code-block"><code>// Resource format for ServingConfig
+String servingConfigS = String.format(
+    "projects/%s/locations/%s/collections/%s/engines/%s/servingConfigs/%s",
+    "blurock-database",    // GCM Project ID
+    "global",               // Location
+    "default_collection",   // Collection ID
+    "analyseterms_...",     // Engine (Agent) ID
+    "default_search"        // Serving Config ID
+);</code></pre>
+          </div>
+
+          <div class="tech-box">
+            <h3>2. Building the SearchRequest</h3>
+            <p>
+              The <a href="https://cloud.google.com/java/docs/reference/google-cloud-discoveryengine/latest/com.google.cloud.discoveryengine.v1.SearchRequest" target="_blank" class="external-link">SearchRequest</a> 
+              defines what we are looking for and how results should be restricted. 
+              The <code>query</code> parameter shown below is the natural language prompt provided by the user to be interpreted using the RAG method.
+            </p>
+            <pre class="code-block"><code>SearchRequest request = SearchRequest.newBuilder()
+    .setServingConfig(servingConfigS)
+    .setQuery(query) // The natural language prompt from the user
+    .setFilter("metadata.datatype: ANY(\"" + datatype + "\")")
+    .setPageSize(6)
+    .build();</code></pre>
+            <div class="explanation-box" style="margin-top: 15px; border-left: 2px solid var(--accent-color); padding-left: 15px;">
+              <p><strong>.setQuery(query):</strong> This is the prompt provided by the user. Discovery Engine converts this text into a vector embedding and performs a similarity search against the <code>description</code> field in the index.</p>
+              <p><strong>.setFilter(...):</strong> This ensures total scientific precision. Even if a term like "Thermodynamic" exists in multiple datasets, the <code>ANY()</code> filter restricts the vector search to only those documents that belong to the specified <code>datatype</code> (e.g., <code>catalogobjects</code>).</p>
+            </div>
+          </div>
+
+
+          <div class="tech-box">
+            <h3>3. Parsing the SearchPagedResponse</h3>
+            <p>
+              When <code>searchServiceClient.search(request)</code> returns, the result is an encapsulated 
+              <a href="https://cloud.google.com/java/docs/reference/google-cloud-discoveryengine/latest/com.google.cloud.discoveryengine.v1.SearchServiceClient.SearchPagedResponse" target="_blank" class="external-link">SearchPagedResponse</a>. 
+              The most critical part is extracting the <strong>Structured Data</strong>, which is a key-value mapping of your original Firestore fields.
+            </p>
+            
+            <div class="code-comparison">
+              <div class="code-column">
+                <h4>Actual JSON Data</h4>
+                <pre class="code-block" style="font-size: 0.8rem;"><code>{
+  "id": "dataset:ChemSubstance",
+  "term": "Chemical Substance",
+  "metadata": {
+    "datatype": ["catalogobjects"]
+  }
+}</code></pre>
+              </div>
+              <div class="code-column">
+                <h4>Java Access Logic</h4>
+                <pre class="code-block" style="font-size: 0.8rem;"><code>// Extracting from Map&lt;String, Value&gt;
+Map&lt;String, Value&gt; fields = result.getDocument()
+    .getStructData().getFieldsMap();
+
+// 1. Simple String Access
+String id = fields.get("id").getStringValue();
+
+// 2. Nested Struct Access (metadata)
+Struct meta = fields.get("metadata").getStructValue();
+
+// 3. Array Access (datatype)
+ListValue types = meta.getFieldsMap().get("datatype")
+    .getListValue();
+String firstType = types.getValues(0).getStringValue();</code></pre>
+              </div>
+            </div>
+
+            <div class="tech-box" style="background: rgba(0,0,0,0.2);">
+              <h4>Derived Data & Ranking</h4>
+              <p>
+                Beyond the raw fields, Discovery Engine provides "Derived Data"—system-generated scores that are essential for RAG confidence filtering.
+              </p>
+              <pre class="code-block"><code>// Extracting the clearbox relevance score
+Struct derived = result.getDocument().getDerivedStructData();
+double score = derived.getFieldsOrThrow("clearbox_escorer_score").getNumberValue();
+
+if (score > 0.8) {
+    // High confidence scientific match
+}</code></pre>
+            </div>
+          </div>
+
+        </section>
+
+      </main>
+    </div>
+
+    <style>
+      .tech-doc { max-width: 900px; margin: 0 auto; padding-bottom: 100px; }
+      .doc-section { margin-bottom: 60px; position: relative; }
+      .section-badge { 
+        display: inline-block; 
+        padding: 4px 12px; 
+        background: var(--accent-color); 
+        color: white; 
+        border-radius: 4px; 
+        font-weight: bold; 
+        margin-bottom: 16px;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+      }
+      .tech-box { 
+        background: rgba(255, 255, 255, 0.03); 
+        border: 1px solid var(--glass-border); 
+        border-radius: 12px; 
+        padding: 24px; 
+        margin: 20px 0;
+      }
+      .tech-box h3 { margin-bottom: 16px; color: var(--accent-color); }
+      .setup-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px; }
+      .step-card { 
+        background: rgba(255, 255, 255, 0.02); 
+        border: 1px solid var(--glass-border); 
+        padding: 20px; 
+        border-radius: 12px;
+      }
+      .step-card h4 { color: var(--accent-color); margin-bottom: 10px; }
+      .back-btn { background: none; border: 1px solid var(--glass-border); color: var(--accent-color); padding: 8px 16px; border-radius: 8px; cursor: pointer; margin-bottom: 24px; }
+    </style>
+  </body>
+</html>

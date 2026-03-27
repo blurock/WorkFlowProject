@@ -1,0 +1,42 @@
+{
+  "dataset:fileidentifier": "tableA1CarbonBensonRules.txt",
+  "dataset:filesourcesubtype": "",
+  "dataset:filemediatype": "dataset:FileTypeText",
+  "dataset:uploadsrc": "dataset:LocalFileSystem",
+  "dcterms:title": "Standard Carbon-Hydrogen atom Benson Rules",
+  "dataset:title-staging": "Standard Carbon-Hydrogen atom Benson Rules",
+  "dataset:abstract-staging": "Read the standard Carbon-Hydrogen atom benson rules. This is Table A.1 from Benson Thermochemical Kinetics.",
+  "dataset:filesourceformat": "dataset:TherGasBensonRules",
+  "descr-filestaging": {
+    "dataset:purpose-filestaging": {
+      "dataset:purposekey-filestaging": "dataset:PurposeRepositoryDataOrigin",
+      "dataset:dataconcept-staging": "dataset:ChemConnectConceptChemicalStructure"
+    },
+    "dataset:abstract-staging": "Read the standard Carbon-Hydrogen atom benson rules. This is Table A.1 from Benson Thermochemical Kinetics.",
+    "dataset:title-staging": "Standard Carbon-Hydrogen atom Benson Rules",
+    "dataset:keyword-filestaging": "",
+    "dcterms:created": "2022-10-18T18:15:51.565Z"
+  },
+  "dataset:datasettransactionspecification": {
+    "dataset:dataobjstatus": "dataset:CatalogObjectStatusCurrent",
+    "dataset:datasetname": "StandardData",
+    "dataset:datasetversion": "1.0",
+    "dataset:uniquegenericname": "tableA1CarbonBensonRules"
+  },
+  "dcterms:BibliographicResource": [
+    {
+      "datacite:PrimaryResourceIdentifier": "ISBN-13: 9780471067818",
+      "dataset:referencestring": "Benson, Sidney W. (1976). Thermochemical Kinetics: Methods for the Estimation of Thermochemical Data and Rate Parameters, 2nd Ed.",
+      "dataset:referencetitle": "Thermochemical Kinetics: Methods for the Estimation of Thermochemical Data and Rate Parameters",
+      "dc:creator": [
+        {
+          "dataset:authorfamilyname": "Benson",
+          "dataset:authorgivenname": "Sidney W.",
+          "dataset:authortitle": "dataset:Professor"
+        }
+      ]
+    }
+  ],
+  "foaf:page": [],
+  "skos:mappingRelation": []
+}

@@ -1,0 +1,15 @@
+{
+	"prov:activity": "dataset:PartiionSetWithinRepositoryFile",
+	"dataset:activityinfo": {
+		"dataset:datasettransactionspecification": {
+			"dataset:catalogobjectmaintainer": "Administrator",
+			"dataset:datasetname": "Standard",
+			"dataset:datasetversion": "1.0",
+			"dataset:uniquegenericname": "metaAtomsForBensonAtoms"
+		},
+		"dataset:filepartitionmethod": "dataset:PartitionToLineSet",
+		"dataset:filesourceformat": "dataset:JThermodynamicsMetaAtoms",
+		"dcterms:title": "The standard set of Benson Meta atoms",
+		"dataset:blocklinecount": "1"
+	}
+	}

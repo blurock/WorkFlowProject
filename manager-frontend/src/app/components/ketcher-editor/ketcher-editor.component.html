@@ -1,0 +1,157 @@
+<div class="ketcher-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <button mat-icon-button (click)="goBack()" matTooltip="Back to Home">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="header-text">
+      <h1>Molecule Editor</h1>
+      <p>Draw a molecule, then capture and submit it for processing.</p>
+    </div>
+  </div>
+
+  <div class="editor-layout">
+
+    <!-- Left: Ketcher iframe -->
+    <mat-card class="editor-card">
+      <mat-card-content class="editor-content">
+        <div class="iframe-container">
+          <div *ngIf="!isEditorReady" class="loading-overlay">
+            <mat-spinner diameter="48"></mat-spinner>
+            <p>Loading Ketcher editor…</p>
+          </div>
+          <iframe
+            #ketcherFrame
+            [src]="safeKetcherUrl"
+            class="ketcher-iframe"
+            [class.visible]="isEditorReady"
+            (load)="onFrameLoad()"
+            title="Ketcher Molecular Editor"
+            allow="clipboard-read; clipboard-write"
+          ></iframe>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Right: Control panel -->
+    <div class="control-panel">
+
+      <!-- Structure capture -->
+      <mat-card class="control-card">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>biotech</mat-icon>
+          <mat-card-title>Capture Structure</mat-card-title>
+          <mat-card-subtitle>Get molecule from editor</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <button
+            mat-raised-button
+            color="primary"
+            class="action-button"
+            (click)="getStructure()"
+            [disabled]="!isEditorReady || isLoadingStructure"
+          >
+            <mat-icon>science</mat-icon>
+            <span *ngIf="!isLoadingStructure">Get Structure</span>
+            <span *ngIf="isLoadingStructure">
+              <mat-spinner diameter="18" class="inline-spinner"></mat-spinner>
+              Reading…
+            </span>
+          </button>
+
+          <button
+            mat-stroked-button
+            class="action-button secondary"
+            (click)="clearStructure()"
+            [disabled]="!isEditorReady"
+            matTooltip="Clear canvas and captured structure"
+          >
+            <mat-icon>clear</mat-icon> Clear
+          </button>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- SMILES display -->
+      <mat-card class="control-card result-card" *ngIf="currentSmiles">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>text_snippet</mat-icon>
+          <mat-card-title>SMILES</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="smiles-display" (click)="copyToClipboard(currentSmiles!)">
+            <code>{{ currentSmiles }}</code>
+            <mat-icon class="copy-icon" matTooltip="Copy SMILES">content_copy</mat-icon>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Task submission -->
+      <mat-card class="control-card" *ngIf="currentSmiles || currentMolfile">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>send</mat-icon>
+          <mat-card-title>Submit Task</mat-card-title>
+          <mat-card-subtitle>Write to Firestore for processing</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <button
+            mat-raised-button
+            color="accent"
+            class="action-button"
+            (click)="submitMoleculeTask('molecule-calculation')"
+            [disabled]="isSubmittingTask"
+          >
+            <mat-icon>calculate</mat-icon>
+            <span *ngIf="!isSubmittingTask">Submit for Calculation</span>
+            <span *ngIf="isSubmittingTask">
+              <mat-spinner diameter="18" class="inline-spinner"></mat-spinner>
+              Waiting…
+            </span>
+          </button>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Task result -->
+      <mat-card class="control-card result-card" *ngIf="taskStatus">
+        <mat-card-header>
+          <mat-icon mat-card-avatar [class]="'status-icon ' + taskStatus">
+            {{ taskStatus === 'complete' ? 'check_circle' : taskStatus === 'error' ? 'error' : 'hourglass_top' }}
+          </mat-icon>
+          <mat-card-title>Task Status</mat-card-title>
+          <mat-card-subtitle>
+            <mat-chip [class]="'status-chip ' + taskStatus">{{ taskStatus }}</mat-chip>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div *ngIf="taskResult" class="result-display">
+            <h4>Result</h4>
+            <pre>{{ taskResult }}</pre>
+          </div>
+          <div *ngIf="taskMolfile" class="molfile-result-display">
+            <h4>Stored Molfile</h4>
+            <div class="result-mol-container" (click)="copyToClipboard(taskMolfile!)">
+              <pre class="molfile-text">{{ taskMolfile }}</pre>
+              <mat-icon class="copy-icon">content_copy</mat-icon>
+            </div>
+          </div>
+          <div *ngIf="taskError" class="error-display">
+            <h4>Error</h4>
+            <p>{{ taskError }}</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Help card -->
+      <mat-card class="control-card help-card">
+        <mat-card-content>
+          <p class="help-text">
+            <mat-icon class="help-icon">info</mat-icon>
+            Requires Ketcher standalone server running on port 4002.<br>
+            Start it with: <code>npm run serve:standalone</code> in the ketcher directory.
+          </p>
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+  </div>
+</div>

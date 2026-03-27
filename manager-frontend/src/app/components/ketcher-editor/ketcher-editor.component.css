@@ -1,0 +1,270 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.ketcher-page {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 64px);
+  padding: 16px;
+  gap: 16px;
+  background: var(--mat-sys-surface-container-lowest, #f5f5f5);
+}
+
+/* ── Header ── */
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-text h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.header-text p {
+  margin: 2px 0 0;
+  color: var(--mat-sys-on-surface-variant, #666);
+  font-size: 0.875rem;
+}
+
+/* ── Two-column layout ── */
+.editor-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 16px;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ── Editor card (iframe side) ── */
+.editor-card {
+  height: 100%;
+  overflow: hidden;
+}
+
+.editor-card mat-card-content.editor-content {
+  padding: 0 !important;
+  height: 100%;
+}
+
+.iframe-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+}
+
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.9);
+  z-index: 10;
+  gap: 16px;
+  color: #666;
+}
+
+.ketcher-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.ketcher-iframe.visible {
+  opacity: 1;
+}
+
+/* ── Control panel (right side) ── */
+.control-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+.control-card {
+  flex-shrink: 0;
+}
+
+.control-card mat-card-content {
+  padding-top: 8px !important;
+}
+
+/* ── Buttons ── */
+.action-button {
+  width: 100%;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.action-button.secondary {
+  margin-bottom: 0;
+}
+
+.inline-spinner {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+/* ── SMILES display ── */
+.smiles-display {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px;
+  background: var(--mat-sys-surface-container, #f0f0f0);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+  word-break: break-all;
+}
+
+.smiles-display:hover {
+  background: var(--mat-sys-surface-container-high, #e0e0e0);
+}
+
+.smiles-display code {
+  flex: 1;
+  font-family: monospace;
+  font-size: 0.8rem;
+}
+
+.copy-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  color: #888;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ── Status chips ── */
+.status-chip {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  text-transform: uppercase;
+}
+
+.status-chip.pending { background: #fff3e0; color: #e65100; }
+.status-chip.processing { background: #e3f2fd; color: #1565c0; }
+.status-chip.complete { background: #e8f5e9; color: #2e7d32; }
+.status-chip.error { background: #fce4ec; color: #c62828; }
+
+.status-icon { font-size: 24px; }
+.status-icon.complete { color: #2e7d32; }
+.status-icon.error { color: #c62828; }
+.status-icon.pending { color: #e65100; }
+.status-icon.processing { color: #1565c0; }
+
+/* ── Result / error display ── */
+.result-display pre,
+.error-display p {
+  background: var(--mat-sys-surface-container, #f0f0f0);
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  margin: 4px 0 0;
+}
+
+.error-display p {
+  background: #fce4ec;
+  color: #c62828;
+}
+
+/* ── Molfile result display ── */
+.molfile-result-display {
+  margin-top: 12px;
+}
+
+.molfile-result-display h4 {
+  margin: 0 0 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.result-mol-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px;
+  background: #2b2b2b;
+  color: #a9b7c6;
+  border-radius: 6px;
+  cursor: pointer;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.molfile-text {
+  flex: 1;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.75rem;
+  white-space: pre;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.molfile-text::-webkit-scrollbar {
+  width: 6px;
+}
+
+.molfile-text::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.2);
+  border-radius: 3px;
+}
+
+/* ── Help card ── */
+.help-card {
+  background: var(--mat-sys-surface-container, #f9f9f9);
+}
+
+.help-text {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.help-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  color: #888;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.help-text code {
+  background: rgba(0,0,0,0.08);
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-size: 0.75rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .editor-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: 450px auto;
+  }
+}

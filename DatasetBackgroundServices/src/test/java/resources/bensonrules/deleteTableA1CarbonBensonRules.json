@@ -1,0 +1,9 @@
+{
+	"prov:activity": "dataset:PartiionSetWithinRepositoryFile",
+	"dataset:datasettransactionspecification": {
+		"dataset:catalogobjectmaintainer": "Administrator",
+		"dataset:datasetname": "Standard",
+		"dataset:datasetversion": "1.0",
+		"dataset:uniquegenericname": "tableA1CarbonBensonRules"
+	}
+}

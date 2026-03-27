@@ -1,0 +1,5 @@
+c(o)(.)//o         BensonCO2Radical                    co2/r  BensonAtom
+cR3/cR//o          BensonCCO                           cco    BensonAtom
+cR(.)//cR2         BensonCDRadical                     c/dr   BensonAtom
+cR(.)//o           BensonCORadical                     co/r   BensonAtom
+CR(.)//c//o        BensonCCORadical                    cco/r  BensonAtom

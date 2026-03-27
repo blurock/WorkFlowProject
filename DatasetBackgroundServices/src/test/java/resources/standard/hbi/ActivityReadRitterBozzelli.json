@@ -1,0 +1,48 @@
+{
+  "dataset:fileidentifier": "No file selected",
+  "dataset:filesourcesubtype": "",
+  "dataset:filemediatype": "dataset:FileTypeText",
+  "dataset:uploadsrc": "dataset:LocalFileSystem",
+  "dcterms:title": "HBI Structures from Ritter and Bozzelli",
+  "dataset:title-staging": "HBI Structures from Ritter and Bozzelli",
+  "dataset:abstract-staging": "The original THERM HBI structures from Ritter and Bozzelli: THERM: Thermodynamic property estimation for gas phase radicals and molecules.\n\n",
+  "dataset:filesourceformat": "dataset:TherGasSubstructureThermodynamics",
+  "descr-filestaging": {
+    "dataset:purpose-filestaging": {
+      "dataset:purposekey-filestaging": "dataset:PurposeRepositoryDataOrigin",
+      "dataset:dataconcept-staging": "dataset:ChemConnectConceptChemicalStructure"
+    },
+    "dataset:abstract-staging": "The original THERM HBI structures from Ritter and Bozzelli: THERM: Thermodynamic property estimation for gas phase radicals and molecules.\n\n",
+    "dataset:title-staging": "HBI Structures from Ritter and Bozzelli",
+    "dataset:keyword-filestaging": [],
+    "dcterms:created": "2023-03-04T10:59:55.947Z"
+  },
+  "dataset:datasettransactionspecification": {
+    "dataset:dataobjstatus": "dataset:CatalogObjectStatusCurrent",
+    "dataset:datasetname": "StandardData",
+    "dataset:datasetversion": "1.0",
+    "dataset:uniquegenericname": "RitterBozzelli1995",
+    "dataset:catalogobjectmaintainer": "1ZRLfqweIHdT7f8LWHgd02s4ovJ8"
+  },
+  "dcterms:BibliographicResource": [
+    {
+      "datacite:PrimaryResourceIdentifier": " https://doi.org/10.1002/kin.550230903",
+      "dataset:referencestring": "E. R. Ritter and J. W. Bozzelli, Int. J. Chem. Kinet. 23, 767 (1991)",
+      "dataset:referencetitle": "THERM: Thermodynamic property estimation for gas phase radicals and molecules",
+      "dc:creator": [
+        {
+          "dataset:authorfamilyname": "Ritter",
+          "dataset:authorgivenname": "Edward R.",
+          "dataset:authortitle": "dataset:Professor"
+        },
+        {
+          "dataset:authorfamilyname": "Bozzelli",
+          "dataset:authorgivenname": "Joseph W.",
+          "dataset:authortitle": ""
+        }
+      ]
+    }
+  ],
+  "foaf:page": [],
+  "skos:mappingRelation": []
+}

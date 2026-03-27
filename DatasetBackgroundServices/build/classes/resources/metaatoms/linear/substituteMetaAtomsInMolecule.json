@@ -1,0 +1,8 @@
+{
+	"service": "SubstituteMetaAtomsInMolecule",
+	"dataset:catalogobjectmaintainer": "Administrator",
+	"dataset:datasetname": "StandardDataset",
+	"dataset:metaatomtype": "LinearStructure",
+	"dataset:speciespectype": "dataset:SpeciesSpecificationNancyLinearForm",
+	"dataset:structuredef": "h/c///c/h"
+}

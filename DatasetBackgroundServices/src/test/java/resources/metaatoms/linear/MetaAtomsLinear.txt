@@ -1,0 +1,6 @@
+R/c///c/R   LinearGeneralEthyne    L-CtC   LinearStructure
+R/c///n     LinearGeneralNitrile   L-CN    LinearStructure
+R/h         LinearHydrogenAtom     L-H     LinearStructure
+R/'br'      LinearBromineAtom      L-Br    LinearStructure
+R/'cl'      LinearChlorineAtom     L-Cl    LinearStructure
+R/'i'       LinearIodineAtom       L-I     LinearStructure

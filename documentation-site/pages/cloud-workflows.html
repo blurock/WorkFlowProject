@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Orchestrated Workflows - WorkFlowProject</title>
+    <link rel="stylesheet" href="../src/style.css">
+  </head>
+  <body>
+    <div class="glow-bg"></div>
+    <div class="container">
+      <header>
+        <button class="back-btn" onclick="location.href='../index.html'">← Back to Overview</button>
+        <h1 class="hero-title">Orchestrated Workflows</h1>
+        <p class="hero-summary">
+          Coordinating complex chemical calculations and data storage using Google Cloud.
+        </p>
+      </header>
+      <main class="page-content">
+        <section class="info-content">
+          <h2>The Backbone</h2>
+          <p>
+            Complex research tasks often require multiple steps: file validation, data parsing, 
+            storage, and indexing. We use Google Cloud Workflows to create resilient, 
+            fault-tolerant pipelines.
+          </p>
+          <div class="pub-item">
+            <h4>Workflow Highlights</h4>
+            <p>
+              Our workflows coordinate authentication, call backend Spring Boot microservices, 
+              and handle asynchronous callbacks, ensuring that long-running thermodynamic 
+              calculations complete reliably.
+            </p>
+          </div>
+        </section>
+      </main>
+    </div>
+    <style>
+      .back-btn { background: none; border: 1px solid var(--glass-border); color: var(--accent-color); padding: 8px 16px; border-radius: 8px; cursor: pointer; margin-bottom: 24px; }
+      .page-content { max-width: 800px; margin: 0 auto; padding-bottom: 100px; }
+    </style>
+  </body>
+</html>

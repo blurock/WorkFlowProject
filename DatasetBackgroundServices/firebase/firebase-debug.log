@@ -1,0 +1,60 @@
+[debug] [2024-10-20T16:08:09.924Z] ----------------------------------------------------------------------
+[debug] [2024-10-20T16:08:09.927Z] Command:       /usr/local/bin/node /usr/local/bin/firebase init
+[debug] [2024-10-20T16:08:09.928Z] CLI Version:   13.22.1
+[debug] [2024-10-20T16:08:09.928Z] Platform:      darwin
+[debug] [2024-10-20T16:08:09.928Z] Node Version:  v23.0.0
+[debug] [2024-10-20T16:08:09.929Z] Time:          Sun Oct 20 2024 18:08:09 GMT+0200 (Central European Summer Time)
+[debug] [2024-10-20T16:08:09.930Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-10-20T16:08:10.001Z] Object ".emulators.firestore" in "firebase.json" has unknown property: {"additionalProperty":"dataDir"}
+[debug] [2024-10-20T16:08:10.007Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-10-20T16:08:10.009Z] > authorizing via signed-in user (edward.blurock@gmail.com)
+[debug] [2024-10-20T16:08:10.010Z] Object ".emulators.firestore" in "firebase.json" has unknown property: {"additionalProperty":"dataDir"}
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /Users/edwardblurock/git/Angular/DatasetBackgroundServices
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2024-10-20T16:08:48.007Z] Using project from CLI flag: blurock-database
+[debug] [2024-10-20T16:08:48.011Z] Checked if tokens are valid: false, expires at: 1712914757632
+[debug] [2024-10-20T16:08:48.011Z] Checked if tokens are valid: false, expires at: 1712914757632
+[debug] [2024-10-20T16:08:48.011Z] > refreshing access token with scopes: []
+[debug] [2024-10-20T16:08:48.014Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2024-10-20T16:08:48.014Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-10-20T16:08:48.291Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 400
+[debug] [2024-10-20T16:08:48.291Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-10-20T16:08:48.291Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/blurock-database [none]
+[debug] [2024-10-20T16:08:48.501Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/blurock-database 401
+[debug] [2024-10-20T16:08:48.502Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/blurock-database {"error":{"code":401,"message":"Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.","status":"UNAUTHENTICATED"}}
+[debug] [2024-10-20T16:08:48.502Z] Got a 401 Unauthenticated error for a call that required authentication. Refreshing tokens.
+[debug] [2024-10-20T16:08:48.502Z] Checked if tokens are valid: false, expires at: 1712914757632
+[debug] [2024-10-20T16:08:48.502Z] Checked if tokens are valid: false, expires at: 1712914757632
+[debug] [2024-10-20T16:08:48.502Z] > refreshing access token with scopes: []
+[debug] [2024-10-20T16:08:48.503Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2024-10-20T16:08:48.503Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-10-20T16:08:48.579Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 400
+[debug] [2024-10-20T16:08:48.579Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-10-20T16:08:48.581Z] HTTP Error: 401, Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.
+[debug] [2024-10-20T16:08:48.805Z] FirebaseError: HTTP Error: 401, Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.
+    at responseToError (/usr/local/lib/node_modules/firebase-tools/lib/responseToError.js:49:12)
+    at RetryOperation._fn (/usr/local/lib/node_modules/firebase-tools/lib/apiv2.js:312:77)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[error] 
+[error] Error: Failed to get Firebase project blurock-database. Please make sure the project exists and your account has permission to access it.

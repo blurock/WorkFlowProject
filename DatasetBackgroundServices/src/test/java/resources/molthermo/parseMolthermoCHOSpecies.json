@@ -1,0 +1,14 @@
+{
+	"prov:activity": "dataset:PartiionSetWithinRepositoryFile",
+		"dataset:activityinfo": {
+		"dataset:datasettransactionspecification": {
+			"dataset:catalogobjectmaintainer": "Administrator",
+			"dataset:datasetname": "Standard",
+			"dataset:datasetversion": "1.0",
+			"dataset:uniquegenericname": "molthermCHOSpecies"
+		},
+		"dataset:filepartitionmethod": "dataset:PartitionTherGasThermodynamics",
+		"dataset:filesourceformat": "dataset:ThergasSpeciesThermodynamics",
+		"dcterms:title": "A set of Carbon-Hydrogen-Oxygen species temperature dependent thermodynamics in Benson thermodynamic form"
+	}
+}

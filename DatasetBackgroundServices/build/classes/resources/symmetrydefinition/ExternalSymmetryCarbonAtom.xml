@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<list>
+<dataset:JThermodynamicsSymmetryDefinitionFormat>
+	<dataset:symmetrydefinition>
+		<dataset:structuresymmetryfactor>12</dataset:structuresymmetryfactor>
+		<dataset:structuresymmetrytype>dataset:StructureExternalSymmetry</dataset:structuresymmetrytype>
+		<dataset:symmetrydefinitionlabel>ExternalSymmetry-C(B1)(B1)(B1)(B1)-L</dataset:symmetrydefinitionlabel>
+		<dataset:nodegroupdefinition>
+			<dataset:symdefinitiontype> dataset:SymmetryNodeTypeL </dataset:symdefinitiontype>
+			<dataset:symgrouplabel> a1 </dataset:symgrouplabel>
+			<dataset:symnodelabel> 0</dataset:symnodelabel>
+		</dataset:nodegroupdefinition>
+		<dataset:nodegroupdefinition>
+			<dataset:symdefinitiontype> dataset:SymmetryNodeTypeL </dataset:symdefinitiontype>
+			<dataset:symgrouplabel> a2 </dataset:symgrouplabel>
+			<dataset:symnodelabel> 0</dataset:symnodelabel>
+		</dataset:nodegroupdefinition>
+		<dataset:nodegroupdefinition>
+			<dataset:symdefinitiontype> dataset:SymmetryNodeTypeL </dataset:symdefinitiontype>
+			<dataset:symgrouplabel> a3 </dataset:symgrouplabel>
+			<dataset:symnodelabel> 0</dataset:symnodelabel>
+		</dataset:nodegroupdefinition>
+		<dataset:nodegroupdefinition>
+			<dataset:symdefinitiontype> dataset:SymmetryNodeTypeL </dataset:symdefinitiontype>
+			<dataset:symgrouplabel> a4 </dataset:symgrouplabel>
+			<dataset:symnodelabel> 0</dataset:symnodelabel>
+		</dataset:nodegroupdefinition>
+	</dataset:symmetrydefinition>
+	<molecule id="CarbonAtom"
+		xmlns="http://www.xml-cml.org/schema">
+		<atomArray>
+			<atom id="a0" elementType="C" formalCharge="0" />
+			<atom id="a1" elementType="R" formalCharge="0" />
+			<atom id="a2" elementType="R" formalCharge="0" />
+			<atom id="a3" elementType="R" formalCharge="0" />
+			<atom id="a4" elementType="R" formalCharge="0" />
+		</atomArray>
+		<bondArray>
+			<bond id="b1" atomRefs2="a1 a0" order="S" />
+			<bond id="b2" atomRefs2="a2 a0" order="S" />
+			<bond id="b3" atomRefs2="a3 a0" order="S" />
+			<bond id="b4" atomRefs2="a4 a0" order="S" />
+		</bondArray>
+	</molecule>
+</dataset:JThermodynamicsSymmetryDefinitionFormat>
+<dataset:JThermodynamicsSymmetryDefinitionFormat>
+	<dataset:symmetrydefinition>
+		<dataset:structuresymmetryfactor>12</dataset:structuresymmetryfactor>
+		<dataset:structuresymmetrytype>dataset:StructureExternalSymmetry</dataset:structuresymmetrytype>
+		<dataset:symmetrydefinitionlabel>ExternalSymmetry-C(B1)(B1)(B1)(B1)-3</dataset:symmetrydefinitionlabel>
+		<dataset:nodegroupdefinition>
+			<dataset:symdefinitiontype> dataset:SymmetryNodeType3 </dataset:symdefinitiontype>
+			<dataset:symgrouplabel> a1 </dataset:symgrouplabel>
+			<dataset:symnodelabel> 0</dataset:symnodelabel>
+		</dataset:nodegroupdefinition>
+		<dataset:nodegroupdefinition>
+			<dataset:symdefinitiontype> dataset:SymmetryNodeType3 </dataset:symdefinitiontype>
+			<dataset:symgrouplabel> a2 </dataset:symgrouplabel>
+			<dataset:symnodelabel> 0</dataset:symnodelabel>
+		</dataset:nodegroupdefinition>
+		<dataset:nodegroupdefinition>
+			<dataset:symdefinitiontype> dataset:SymmetryNodeType3 </dataset:symdefinitiontype>
+			<dataset:symgrouplabel> a3 </dataset:symgrouplabel>
+			<dataset:symnodelabel> 0</dataset:symnodelabel>
+		</dataset:nodegroupdefinition>
+		<dataset:nodegroupdefinition>
+			<dataset:symdefinitiontype> dataset:SymmetryNodeType3 </dataset:symdefinitiontype>
+			<dataset:symgrouplabel> a4 </dataset:symgrouplabel>
+			<dataset:symnodelabel> 0</dataset:symnodelabel>
+		</dataset:nodegroupdefinition>
+	</dataset:symmetrydefinition>
+	<molecule id="CarbonAtom"
+		xmlns="http://www.xml-cml.org/schema">
+		<atomArray>
+			<atom id="a0" elementType="C" formalCharge="0" />
+			<atom id="a1" elementType="R" formalCharge="0" />
+			<atom id="a2" elementType="R" formalCharge="0" />
+			<atom id="a3" elementType="R" formalCharge="0" />
+			<atom id="a4" elementType="R" formalCharge="0" />
+		</atomArray>
+		<bondArray>
+			<bond id="b1" atomRefs2="a1 a0" order="S" />
+			<bond id="b2" atomRefs2="a2 a0" order="S" />
+			<bond id="b3" atomRefs2="a3 a0" order="S" />
+			<bond id="b4" atomRefs2="a4 a0" order="S" />
+		</bondArray>
+	</molecule>
+</dataset:JThermodynamicsSymmetryDefinitionFormat>
+<dataset:JThermodynamicsSymmetryDefinitionFormat>
+	<dataset:symmetrydefinition>
+		<dataset:structuresymmetryfactor>4</dataset:structuresymmetryfactor>
+		<dataset:structuresymmetrytype>dataset:StructureExternalSymmetry</dataset:structuresymmetrytype>
+		<dataset:symmetrydefinitionlabel>ExternalSymmetry-C(B1)(B1)(B1)(B1)-X</dataset:symmetrydefinitionlabel>
+		<dataset:nodegroupdefinition>
+			<dataset:symdefinitiontype> dataset:SymmetryNodeTypeX </dataset:symdefinitiontype>
+			<dataset:symgrouplabel> a1 </dataset:symgrouplabel>
+			<dataset:symnodelabel> 0</dataset:symnodelabel>
+		</dataset:nodegroupdefinition>
+		<dataset:nodegroupdefinition>
+			<dataset:symdefinitiontype> dataset:SymmetryNodeTypeX </dataset:symdefinitiontype>
+			<dataset:symgrouplabel> a2 </dataset:symgrouplabel>
+			<dataset:symnodelabel> 0</dataset:symnodelabel>
+		</dataset:nodegroupdefinition>
+		<dataset:nodegroupdefinition>
+			<dataset:symdefinitiontype> dataset:SymmetryNodeTypeX </dataset:symdefinitiontype>
+			<dataset:symgrouplabel> a3 </dataset:symgrouplabel>
+			<dataset:symnodelabel> 0</dataset:symnodelabel>
+		</dataset:nodegroupdefinition>
+		<dataset:nodegroupdefinition>
+			<dataset:symdefinitiontype> dataset:SymmetryNodeTypeX </dataset:symdefinitiontype>
+			<dataset:symgrouplabel> a4 </dataset:symgrouplabel>
+			<dataset:symnodelabel> 0</dataset:symnodelabel>
+		</dataset:nodegroupdefinition>
+	</dataset:symmetrydefinition>
+	<molecule id="CarbonAtom"
+		xmlns="http://www.xml-cml.org/schema">
+		<atomArray>
+			<atom id="a0" elementType="C" formalCharge="0" />
+			<atom id="a1" elementType="R" formalCharge="0" />
+			<atom id="a2" elementType="R" formalCharge="0" />
+			<atom id="a3" elementType="R" formalCharge="0" />
+			<atom id="a4" elementType="R" formalCharge="0" />
+		</atomArray>
+		<bondArray>
+			<bond id="b1" atomRefs2="a1 a0" order="S" />
+			<bond id="b2" atomRefs2="a2 a0" order="S" />
+			<bond id="b3" atomRefs2="a3 a0" order="S" />
+			<bond id="b4" atomRefs2="a4 a0" order="S" />
+		</bondArray>
+	</molecule>
+</dataset:JThermodynamicsSymmetryDefinitionFormat>
+<dataset:JThermodynamicsSymmetryDefinitionFormat>
+	<dataset:symmetrydefinition>
+		<dataset:structuresymmetryfactor>3</dataset:structuresymmetryfactor>
+		<dataset:structuresymmetrytype>dataset:StructureExternalSymmetry</dataset:structuresymmetrytype>
+		<dataset:symmetrydefinitionlabel>ExternalSymmetry-C(B1)(B2)(B2)(B2)-3</dataset:symmetrydefinitionlabel>
+		<dataset:nodegroupdefinition>
+			<dataset:symdefinitiontype> dataset:SymmetryNodeType3 </dataset:symdefinitiontype>
+			<dataset:symgrouplabel> a1 </dataset:symgrouplabel>
+			<dataset:symnodelabel> 0</dataset:symnodelabel>
+		</dataset:nodegroupdefinition>
+		<dataset:nodegroupdefinition>
+			<dataset:symdefinitiontype> dataset:SymmetryNodeTypeN </dataset:symdefinitiontype>
+			<dataset:symgrouplabel> a2 </dataset:symgrouplabel>
+			<dataset:symnodelabel> 1</dataset:symnodelabel>
+		</dataset:nodegroupdefinition>
+		<dataset:nodegroupdefinition>
+			<dataset:symdefinitiontype> dataset:SymmetryNodeTypeN </dataset:symdefinitiontype>
+			<dataset:symgrouplabel> a3 </dataset:symgrouplabel>
+			<dataset:symnodelabel> 1</dataset:symnodelabel>
+		</dataset:nodegroupdefinition>
+		<dataset:nodegroupdefinition>
+			<dataset:symdefinitiontype> dataset:SymmetryNodeTypeN </dataset:symdefinitiontype>
+			<dataset:symgrouplabel> a4 </dataset:symgrouplabel>
+			<dataset:symnodelabel> 1</dataset:symnodelabel>
+		</dataset:nodegroupdefinition>
+	</dataset:symmetrydefinition>
+	<molecule id="CarbonAtom"
+		xmlns="http://www.xml-cml.org/schema">
+		<atomArray>
+			<atom id="a0" elementType="C" formalCharge="0" />
+			<atom id="a1" elementType="R" formalCharge="0" />
+			<atom id="a2" elementType="R" formalCharge="0" />
+			<atom id="a3" elementType="R" formalCharge="0" />
+			<atom id="a4" elementType="R" formalCharge="0" />
+		</atomArray>
+		<bondArray>
+			<bond id="b1" atomRefs2="a1 a0" order="S" />
+			<bond id="b2" atomRefs2="a2 a0" order="S" />
+			<bond id="b3" atomRefs2="a3 a0" order="S" />
+			<bond id="b4" atomRefs2="a4 a0" order="S" />
+		</bondArray>
+	</molecule>
+</dataset:JThermodynamicsSymmetryDefinitionFormat>
+<dataset:JThermodynamicsSymmetryDefinitionFormat>
+	<dataset:symmetrydefinition>
+		<dataset:structuresymmetryfactor>3</dataset:structuresymmetryfactor>
+		<dataset:structuresymmetrytype>dataset:StructureExternalSymmetry</dataset:structuresymmetrytype>
+		<dataset:symmetrydefinitionlabel>ExternalSymmetry-C(B1)(B2)(B2)(B2)-L</dataset:symmetrydefinitionlabel>
+		<dataset:nodegroupdefinition>
+			<dataset:symdefinitiontype> dataset:SymmetryNodeTypeL </dataset:symdefinitiontype>
+			<dataset:symgrouplabel> a1 </dataset:symgrouplabel>
+			<dataset:symnodelabel> 0</dataset:symnodelabel>
+		</dataset:nodegroupdefinition>
+		<dataset:nodegroupdefinition>
+			<dataset:symdefinitiontype> dataset:SymmetryNodeTypeN </dataset:symdefinitiontype>
+			<dataset:symgrouplabel> a2 </dataset:symgrouplabel>
+			<dataset:symnodelabel> 1</dataset:symnodelabel>
+		</dataset:nodegroupdefinition>
+		<dataset:nodegroupdefinition>
+			<dataset:symdefinitiontype> dataset:SymmetryNodeTypeN </dataset:symdefinitiontype>
+			<dataset:symgrouplabel> a3 </dataset:symgrouplabel>
+			<dataset:symnodelabel> 1</dataset:symnodelabel>
+		</dataset:nodegroupdefinition>
+		<dataset:nodegroupdefinition>
+			<dataset:symdefinitiontype> dataset:SymmetryNodeTypeN </dataset:symdefinitiontype>
+			<dataset:symgrouplabel> a4 </dataset:symgrouplabel>
+			<dataset:symnodelabel> 1</dataset:symnodelabel>
+		</dataset:nodegroupdefinition>
+	</dataset:symmetrydefinition>
+	<molecule id="CarbonAtom"
+		xmlns="http://www.xml-cml.org/schema">
+		<atomArray>
+			<atom id="a0" elementType="C" formalCharge="0" />
+			<atom id="a1" elementType="R" formalCharge="0" />
+			<atom id="a2" elementType="R" formalCharge="0" />
+			<atom id="a3" elementType="R" formalCharge="0" />
+			<atom id="a4" elementType="R" formalCharge="0" />
+		</atomArray>
+		<bondArray>
+			<bond id="b1" atomRefs2="a1 a0" order="S" />
+			<bond id="b2" atomRefs2="a2 a0" order="S" />
+			<bond id="b3" atomRefs2="a3 a0" order="S" />
+			<bond id="b4" atomRefs2="a4 a0" order="S" />
+		</bondArray>
+	</molecule>
+</dataset:JThermodynamicsSymmetryDefinitionFormat>
+<dataset:JThermodynamicsSymmetryDefinitionFormat>
+	<dataset:symmetrydefinition>
+		<dataset:structuresymmetryfactor>2</dataset:structuresymmetryfactor>
+		<dataset:structuresymmetrytype>dataset:StructureExternalSymmetry</dataset:structuresymmetrytype>
+		<dataset:symmetrydefinitionlabel>ExternalSymmetry-C(B1)(B1)(B2)(B2)</dataset:symmetrydefinitionlabel>
+		<dataset:nodegroupdefinition>
+			<dataset:symdefinitiontype> dataset:SymmetryNodeTypeX </dataset:symdefinitiontype>
+			<dataset:symgrouplabel> a1 </dataset:symgrouplabel>
+			<dataset:symnodelabel> 0</dataset:symnodelabel>
+		</dataset:nodegroupdefinition>
+		<dataset:nodegroupdefinition>
+			<dataset:symdefinitiontype> dataset:SymmetryNodeTypeX </dataset:symdefinitiontype>
+			<dataset:symgrouplabel> a2 </dataset:symgrouplabel>
+			<dataset:symnodelabel> 0</dataset:symnodelabel>
+		</dataset:nodegroupdefinition>
+		<dataset:nodegroupdefinition>
+			<dataset:symdefinitiontype> dataset:SymmetryNodeTypeX </dataset:symdefinitiontype>
+			<dataset:symgrouplabel> a3 </dataset:symgrouplabel>
+			<dataset:symnodelabel> 1</dataset:symnodelabel>
+		</dataset:nodegroupdefinition>
+		<dataset:nodegroupdefinition>
+			<dataset:symdefinitiontype> dataset:SymmetryNodeTypeX </dataset:symdefinitiontype>
+			<dataset:symgrouplabel> a4 </dataset:symgrouplabel>
+			<dataset:symnodelabel> 1</dataset:symnodelabel>
+		</dataset:nodegroupdefinition>
+	</dataset:symmetrydefinition>
+	<molecule id="CarbonAtom"
+		xmlns="http://www.xml-cml.org/schema">
+		<atomArray>
+			<atom id="a0" elementType="C" formalCharge="0" />
+			<atom id="a1" elementType="R" formalCharge="0" />
+			<atom id="a2" elementType="R" formalCharge="0" />
+			<atom id="a3" elementType="R" formalCharge="0" />
+			<atom id="a4" elementType="R" formalCharge="0" />
+		</atomArray>
+		<bondArray>
+			<bond id="b1" atomRefs2="a1 a0" order="S" />
+			<bond id="b2" atomRefs2="a2 a0" order="S" />
+			<bond id="b3" atomRefs2="a3 a0" order="S" />
+			<bond id="b4" atomRefs2="a4 a0" order="S" />
+		</bondArray>
+	</molecule>
+</dataset:JThermodynamicsSymmetryDefinitionFormat>
+</list>

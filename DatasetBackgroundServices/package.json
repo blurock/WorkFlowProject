@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "firebase-admin": "^3.0.0",
+    "firebase-tools": "^11.0.1",
+    "kill-port": "^1.6.1",
+    "portfinder": "^1.0.28",
+    "uuid": "^8.3.2"
+  }
+}

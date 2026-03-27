@@ -1,0 +1,54 @@
+{
+	"prov:activity": "dataset:InitialReadInOfRepositoryFile",
+	"dataset:transreqobj": {},
+	"dataset:activityinfo": {
+		"descr-filestaging": {
+			"dataset:purpose-filestaging": {
+				"dataset:purposekey-filestaging": "dataset:PurposeFileStaging",
+				"dataset:dataconcept-staging": "dataset:ConceptFileStaging"
+			},
+			"dataset:keyword-filestaging": [],
+			"dataset:title-staging": "Read in standard disassociation energy for Alkanes: Table 2 from McMillen, D F; Golden, D M (1982)",
+			"dataset:abstract-staging": "Read the standard disassociation energy set. The set of substructures with disassociation energy",
+			"dcterms:created": "today"
+		},
+		"dataset:uploadsrc": "dataset:LocalFileSystem",
+		"dataset:filesourceformat": "dataset:JThermodynamicsDisassociationEnergyFormat",
+		"dataset:fileidentifier": "src/test/java/resources/disassociationenergy/disassociationAlkanes.txt",
+		"dataset:filemediatype": "dataset:FileTypeText",
+		"dcterms:title": "Disassociation Energy set",
+		"dataset:filesourcesubtype": "",
+		"dataset:datasettransactionspecification": {
+			"dataset:catalogobjectmaintainer": "Administrator",
+			"dataset:datasetname": "Standard",
+			"dataset:datasetversion": "1.0",
+			"dataset:uniquegenericname": "disassociationEnergyAlkanes"
+		},
+		"dcterms:identifier": "initialrepositorylocal",
+		"dcterms:BibliographicResource": [
+			{
+				"datacite:PrimaryResourceIdentifier": "doi:10.1146/annurev.pc.33.100182.002425",
+				"dataset:referencestring": "McMillen, D F; Golden, D M (1982). Hydrocarbon Bond Dissociation Energies. Annual Review of Physical Chemistry, 33(1), 493–532",
+				"dataset:referencetitle": "Hydrocarbon Bond Dissociation Energies",
+				"dc:creator": [
+					{
+						"dataset:authorfamilyname": "McMillen",
+						"dataset:authorgivenname": "Donald F.",
+						"dataset:authortitle": "dataset:Professor"
+					},
+					{
+						"dataset:authorfamilyname": "Golden",
+						"dataset:authorgivenname": "David M.",
+						"dataset:authortitle": "dataset:Professor"
+					}
+				]
+			}
+		],
+		"foaf:page": [
+			{
+				"dataset:HttpAddress": "doi:10.1146/annurev.pc.33.100182.002425",
+				"dataset:httpinformationtype": "dataset:DOI"
+			}
+		]
+	}
+}

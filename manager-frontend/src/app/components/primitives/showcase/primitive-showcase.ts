@@ -5,6 +5,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { DynamicPrimitiveComponent } from '../dynamic-primitive/dynamic-primitive';
+import { PrimitiveFileWrapperComponent } from '../dynamic-primitive/primitive-file-wrapper';
 import { OntologyStructure } from '../base-primitive';
 import { OntologyService } from '../../../services/ontology.service';
 
@@ -17,7 +18,8 @@ import { OntologyService } from '../../../services/ontology.service';
     MatDividerModule,
     MatButtonModule,
     MatTabsModule,
-    DynamicPrimitiveComponent
+    DynamicPrimitiveComponent,
+    PrimitiveFileWrapperComponent
   ],
   template: `
     <div class="showcase-container">
@@ -35,11 +37,11 @@ import { OntologyService } from '../../../services/ontology.service';
           <p class="section-desc">Testing <code>dataset:DataDescriptionFileStaging</code></p>
           <mat-card class="showcase-card full-width">
             <mat-card-content>
-              <app-dynamic-primitive 
+              <app-primitive-file-wrapper 
                 *ngIf="simpleRecursiveStruct"
                 [structure]="simpleRecursiveStruct" 
                 [(value)]="simpleData">
-              </app-dynamic-primitive>
+              </app-primitive-file-wrapper>
             </mat-card-content>
           </mat-card>
         </section>
@@ -49,11 +51,11 @@ import { OntologyService } from '../../../services/ontology.service';
           <p class="section-desc">Testing <code>dataset:ActivityRepositoryInitialReadInfo</code></p>
           <mat-card class="showcase-card full-width">
             <mat-card-content>
-              <app-dynamic-primitive 
+              <app-primitive-file-wrapper 
                 *ngIf="complexRecursiveStruct"
                 [structure]="complexRecursiveStruct" 
                 [(value)]="complexData">
-              </app-dynamic-primitive>
+              </app-primitive-file-wrapper>
             </mat-card-content>
           </mat-card>
         </section>

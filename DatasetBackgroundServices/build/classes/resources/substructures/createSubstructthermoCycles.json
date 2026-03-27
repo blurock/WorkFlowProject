@@ -1,0 +1,47 @@
+{
+	"prov:activity": "dataset:TransactionInterpretTextBlock",
+	"dataset:activityinfo": {
+		"dataset:datasettransactionspecification": {
+			"dataset:catalogobjectmaintainer": "Administrator",
+			"dataset:datasetname": "Standard",
+			"dataset:datasetversion": "1.0",
+			"dataset:uniquegenericname": "substructthermoCycles"
+		},
+		"dataset:filesourceformat": "dataset:ThergasSpeciesThermodynamics",
+		"dataset:blockinterpretationmethod": "dataset:ParseLinesJThermodynamicsSubstructures",
+		"dcterms:title": "A set of ring strain thermodynamics from Benson Thermochemical Kinetics",
+		"dataset:dataobjstatus": "CatalogObjectStatusCurrent",
+		"dataset:speciespectype": "dataset:SpeciesSpecificationNancyLinearForm",
+		"dataset:substructurecorrectiontype": "dataset:RingStrainCorrectionSubstructure",
+		"dataset:bensontemperaturelist": [
+			300,400,500,600,800,1000,1500
+		],
+		"dataset:paramspecenthalpy": {
+			"qudt:Unit": {
+				"qudt:SystemOfQuantities": "qudt:MolarEnergyUnit",
+				"qudt:QuantityKind": "qudt:KilocaloriePerMole"
+			},
+			"dataset:dynamicType": "FixedParameter",
+			"skos:prefLabel": "Enthaply",
+			"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty"
+		},
+		"dataset:paramspecentropy": {
+			"qudt:Unit": {
+				"qudt:SystemOfQuantities": "qudt:MolarEnergyUnit",
+				"qudt:QuantityKind": "qudt:caloriePerMole"
+			},
+			"dataset:dynamicType": "FixedParameter",
+			"skos:prefLabel": "Entropy",
+			"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty"
+		},
+		"dataset:paramspecheatcapacity": {
+			"qudt:Unit": {
+				"qudt:SystemOfQuantities": "qudt:MolarEnergyUnit",
+				"qudt:QuantityKind": "qudt:caloriePerMole"
+			},
+			"dataset:dynamicType": "FixedParameter",
+			"skos:prefLabel": "Heat Capacity",
+			"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty"
+		}
+	}
+}

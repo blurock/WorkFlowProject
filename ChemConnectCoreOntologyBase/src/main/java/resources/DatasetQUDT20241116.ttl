@@ -1380,12 +1380,7 @@ xsd:date rdf:type rdfs:Datatype .
 
 ###  http://www.esblurock.info/dataset#ActivityCatalogObjectCreation
 :ActivityCatalogObjectCreation rdf:type owl:Class ;
-                               rdfs:subClassOf :ActivityInformationRecordBase ,
-                                               [ rdf:type owl:Restriction ;
-                                                 owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                 owl:onClass :PersonalDescription
-                                               ] ;
+                               rdfs:subClassOf :ActivityInformationRecordBase ;
                                <http://purl.org/dc/elements/1.1/type> :ActivityCatalogObjectCreation ;
                                <http://purl.org/dc/terms/identifier> "dataset:catalogobjcreate" ;
                                rdfs:comment "This is the class of objects that create a catalog object" ;
@@ -1526,6 +1521,21 @@ xsd:date rdf:type rdfs:Datatype .
                                rdfs:comment "This sets up reading and examining a set of database objects from a speicific collection set. The ThermodynamicDatasetCollectionType has the list of datasets." ;
                                rdfs:label "Examine Database Objects" ;
                                <http://www.w3.org/2004/02/skos/core#altLabel> "examinedatasetobjects" .
+
+
+###  http://www.esblurock.info/dataset#ActivityForWorkflows
+:ActivityForWorkflows rdf:type owl:Class ;
+                      rdfs:subClassOf :ActivityCatalogObjectCreation ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                        owl:onClass :SessionId
+                                      ] ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                        owl:onClass :UID
+                                      ] .
 
 
 ###  http://www.esblurock.info/dataset#ActivityInfoDatasetCollectionIDSpecification
@@ -2184,6 +2194,26 @@ xsd:date rdf:type rdfs:Datatype .
                                       <http://www.w3.org/2004/02/skos/core#altLabel> "partitionfilefromrepository" .
 
 
+###  http://www.esblurock.info/dataset#ActivitySpeciesCatalogObjectCreation
+:ActivitySpeciesCatalogObjectCreation rdf:type owl:Class ;
+                                      rdfs:subClassOf :SessionActivity ,
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                        owl:onClass :JThermodynamics2DSpeciesLabel
+                                                      ] ,
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                        owl:onClass :SpeciesRepresentationAsText
+                                                      ] ;
+                                      <http://purl.org/dc/elements/1.1/type> :JThermodynamicsSpeciesCatalogObject ;
+                                      <http://purl.org/dc/terms/identifier> "dataset:speciescatalogobject"^^rdfs:Literal ;
+                                      rdfs:comment "A species catalog object with structure" ;
+                                      rdfs:label "Species Catalog Object" ;
+                                      <http://www.w3.org/2004/02/skos/core#altLabel> "speciescatalogobject" .
+
+
 ###  http://www.esblurock.info/dataset#ActivitySpreadSheetManagement
 :ActivitySpreadSheetManagement rdf:type owl:Class ;
                                rdfs:subClassOf :ActivityInformationRecordExpData ;
@@ -2308,6 +2338,51 @@ xsd:date rdf:type rdfs:Datatype .
 :AngleParameters rdf:type owl:Class ;
                  rdfs:subClassOf <http://org.semanticweb.owlapi/error#Error38> ,
                                  :ChemConnectValueParameter .
+
+
+###  http://www.esblurock.info/dataset#AnnotationAltLabel
+:AnnotationAltLabel rdf:type owl:Class ;
+                    rdfs:subClassOf :AnnotationKeys ;
+                    <http://purl.org/dc/elements/1.1/type> :AnnotationAltLabel ;
+                    <http://purl.org/dc/terms/identifier> "dataset:annotationaltlabel" ;
+                    rdfs:comment "This is the annoation altlabel where it is a parameter (Component/ShortStringKey)" ;
+                    rdfs:label "Annoation altlabel Parameter" ;
+                    <http://www.w3.org/2004/02/skos/core#altLabel> "annotationaltlabel" .
+
+
+###  http://www.esblurock.info/dataset#AnnotationComment
+:AnnotationComment rdf:type owl:Class ;
+                   rdfs:subClassOf :AnnotationKeys ;
+                   <http://purl.org/dc/elements/1.1/type> :AnnotationComment ;
+                   <http://purl.org/dc/terms/identifier> "dataset:annotationcomment" ;
+                   rdfs:comment "This is the annoation coment key where it is a parameter (Component/ShortStringKey)." ;
+                   rdfs:label "Annoation Comment Parameter" ;
+                   <http://www.w3.org/2004/02/skos/core#altLabel> "annotationcomment" .
+
+
+###  http://www.esblurock.info/dataset#AnnotationIdentifier
+:AnnotationIdentifier rdf:type owl:Class ;
+                      rdfs:subClassOf :AnnotationKeys ;
+                      <http://purl.org/dc/elements/1.1/type> :AnnotationIdentifier ;
+                      <http://purl.org/dc/terms/identifier> "dataset:annotationidentifier" ;
+                      rdfs:comment "This is the annoation identifier key where it is a parameter (Component/ShortStringKey)" ;
+                      rdfs:label "Annoation identifer Parameter" ;
+                      <http://www.w3.org/2004/02/skos/core#altLabel> "annotationidentifier" .
+
+
+###  http://www.esblurock.info/dataset#AnnotationKeys
+:AnnotationKeys rdf:type owl:Class ;
+                rdfs:subClassOf :ShortStringKey .
+
+
+###  http://www.esblurock.info/dataset#AnnotationLabel
+:AnnotationLabel rdf:type owl:Class ;
+                 rdfs:subClassOf :AnnotationKeys ;
+                 <http://purl.org/dc/elements/1.1/type> :AnnotationLabel ;
+                 <http://purl.org/dc/terms/identifier> "dataset:annotationlabel" ;
+                 rdfs:comment "This is the annoation label where it is a parameter (Component/ShortStringKey)" ;
+                 rdfs:label "Annoation label Parameter" ;
+                 <http://www.w3.org/2004/02/skos/core#altLabel> "annotationlabel" .
 
 
 ###  http://www.esblurock.info/dataset#ApplicationSpreadSheet
@@ -2525,6 +2600,16 @@ xsd:date rdf:type rdfs:Datatype .
                                               owl:onProperty <http://purl.org/dc/terms/hasPart> ;
                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                               owl:onClass :BibliographicLinkType
+                                            ] ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty <http://www.w3.org/2004/02/skos/core#mappingRelation> ;
+                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                              owl:onClass :RDFBibliographicLink
+                                            ] ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty <http://www.w3.org/2004/02/skos/core#mappingRelation> ;
+                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                              owl:onClass :RDFTypeOfBibliographicLink
                                             ] ;
                             <http://purl.org/dc/elements/1.1/type> :BibliographicReferenceElement ;
                             <http://purl.org/dc/terms/identifier> "dataset:bibliographicreferencelink" ;
@@ -2639,16 +2724,16 @@ xsd:date rdf:type rdfs:Datatype .
 ###  http://www.esblurock.info/dataset#BurnerPlateObservationInterpretationMethodology
 :BurnerPlateObservationInterpretationMethodology rdf:type owl:Class ;
                                                  rdfs:subClassOf :DataInterpretationProtocol ,
-                                                                 _:genid117 ,
-                                                                 _:genid119 ;
+                                                                 _:genid122 ,
+                                                                 _:genid124 ;
                                                  rdfs:comment "Burner Plate Observation Interpretation Protocol" .
 
-_:genid117 rdf:type owl:Restriction ;
+_:genid122 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass :BurnerPlateObservations .
 
-_:genid119 rdf:type owl:Restriction ;
+_:genid124 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass :FlameVelocityParabolicParameterPlot .
@@ -2656,14 +2741,14 @@ _:genid119 rdf:type owl:Restriction ;
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :BurnerPlateObservationInterpretationMethodology ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid117 ;
+   owl:annotatedTarget _:genid122 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasInput>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :BurnerPlateObservationInterpretationMethodology ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid119 ;
+   owl:annotatedTarget _:genid124 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasOutput>
  ] .
 
@@ -2705,28 +2790,28 @@ _:genid119 rdf:type owl:Restriction ;
                                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                        owl:onClass :FundamentalExperimentalMeasurement
                                                      ] ,
-                                                     _:genid125 ,
-                                                     _:genid127 ,
-                                                     _:genid129 ,
-                                                     _:genid131 ;
+                                                     _:genid130 ,
+                                                     _:genid132 ,
+                                                     _:genid134 ,
+                                                     _:genid136 ;
                                      rdfs:comment "Burner Plate Thermocouple Measurements" .
 
-_:genid125 rdf:type owl:Restriction ;
+_:genid130 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass :BurnerPlateObservations .
 
-_:genid127 rdf:type owl:Restriction ;
+_:genid132 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass :EnvironmentConditionParameters .
 
-_:genid129 rdf:type owl:Restriction ;
+_:genid134 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass :EquivalenceRatioObservable .
 
-_:genid131 rdf:type owl:Restriction ;
+_:genid136 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass :FlameVelocityObservable .
@@ -2734,28 +2819,28 @@ _:genid131 rdf:type owl:Restriction ;
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :BurnerPlateThermocoupleMeasurements ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid125 ;
+   owl:annotatedTarget _:genid130 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasOutput>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :BurnerPlateThermocoupleMeasurements ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid127 ;
+   owl:annotatedTarget _:genid132 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasInput>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :BurnerPlateThermocoupleMeasurements ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid129 ;
+   owl:annotatedTarget _:genid134 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasInput>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :BurnerPlateThermocoupleMeasurements ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid131 ;
+   owl:annotatedTarget _:genid136 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasInput>
  ] .
 
@@ -4165,12 +4250,7 @@ This event is usually associated with an action initiated by the GUI, such as a 
 
 ###  http://www.esblurock.info/dataset#CatalogObjectID
 :CatalogObjectID rdf:type owl:Class ;
-                 rdfs:subClassOf :DatabaseID ,
-                                 [ rdf:type owl:Restriction ;
-                                   owl:onProperty <http://purl.org/dc/terms/source> ;
-                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                   owl:onClass :SimpleCatalogObject
-                                 ] ;
+                 rdfs:subClassOf :DatabaseID ;
                  <http://purl.org/dc/elements/1.1/type> "DatabaseID" ;
                  <http://purl.org/dc/terms/identifier> "dataset:catobjid" ;
                  rdfs:comment "This is the ID of a catalog object" ;
@@ -7504,8 +7584,9 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :DataSetReference rdf:type owl:Class ;
                   rdfs:subClassOf :ChemConnectCompoundBase ,
                                   [ rdf:type owl:Restriction ;
-                                    owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                    owl:someValuesFrom :AuthorInformation
+                                    owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                    owl:onClass :BibliographicLinkType
                                   ] ,
                                   [ rdf:type owl:Restriction ;
                                     owl:onProperty <http://purl.org/dc/terms/hasPart> ;
@@ -7513,29 +7594,9 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                     owl:onClass :DOI
                                   ] ,
                                   [ rdf:type owl:Restriction ;
-                                    owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                    owl:onClass :ReferenceString
-                                  ] ,
-                                  [ rdf:type owl:Restriction ;
-                                    owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                    owl:onClass :ReferenceTitle
-                                  ] ,
-                                  [ rdf:type owl:Restriction ;
                                     owl:onProperty <http://www.w3.org/2004/02/skos/core#mappingRelation> ;
                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                     owl:onClass :RDFDOIReference
-                                  ] ,
-                                  [ rdf:type owl:Restriction ;
-                                    owl:onProperty <http://www.w3.org/2004/02/skos/core#mappingRelation> ;
-                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                    owl:onClass :RDFDOIToAuthor
-                                  ] ,
-                                  [ rdf:type owl:Restriction ;
-                                    owl:onProperty <http://www.w3.org/2004/02/skos/core#mappingRelation> ;
-                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                    owl:onClass :RDFDOIToTitle
                                   ] .
 
 
@@ -9742,11 +9803,11 @@ _:genid506 rdf:type owl:Restriction ;
 
 ###  http://www.esblurock.info/dataset#EvaporatorManufacturer
 :EvaporatorManufacturer rdf:type owl:Class ;
-                        owl:equivalentClass [ rdf:type owl:Restriction ;
-                                              owl:onProperty <http://www.w3.org/ns/ssn/hasOutput> ;
-                                              owl:someValuesFrom :HeatFluxBurnerGasMassFlow
-                                            ] ;
-                        rdfs:subClassOf :FuelEvaporatorKeywordParameter .
+                        rdfs:subClassOf :FuelEvaporatorKeywordParameter ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://www.w3.org/ns/ssn/hasOutput> ;
+                                          owl:someValuesFrom :HeatFluxBurnerGasMassFlow
+                                        ] .
 
 
 ###  http://www.esblurock.info/dataset#ExamineDatabaseCollectionSetObject
@@ -12527,6 +12588,81 @@ _:genid676 rdf:type owl:Restriction ;
                             rdfs:subClassOf :InstrumentationConcept .
 
 
+###  http://www.esblurock.info/dataset#IsAClassification
+:IsAClassification rdf:type owl:Class ;
+                   rdfs:subClassOf :IsOfClassType ;
+                   <http://purl.org/dc/terms/identifier> "isClassification"^^rdfs:Literal ;
+                   rdfs:comment "The object corresponds to a classification UI component. The compnent is a pull down list of possible values" ;
+                   rdfs:label "Rendered with a classification Component" ;
+                   <http://www.w3.org/2004/02/skos/core#altLabel> "isClassification" .
+
+
+###  http://www.esblurock.info/dataset#IsAParagraph
+:IsAParagraph rdf:type owl:Class ;
+              rdfs:subClassOf :IsOfClassType ;
+              <http://purl.org/dc/terms/identifier> "isParagraph" ;
+              rdfs:comment "The object corresponds to a paragraph UI component. This means it is multi-line" ;
+              rdfs:label "Rendered with a Paragraph Component" ;
+              <http://www.w3.org/2004/02/skos/core#altLabel> "isParagraph" .
+
+
+###  http://www.esblurock.info/dataset#IsArray
+:IsArray rdf:type owl:Class ;
+         rdfs:subClassOf :IsOfClassType ;
+         <http://purl.org/dc/elements/1.1/type> :IsArray ;
+         <http://purl.org/dc/terms/identifier> "dataset:isArray" ;
+         rdfs:comment "This is rendered as an array of object components" ;
+         rdfs:label "Rendered with as an Array Component" ;
+         <http://www.w3.org/2004/02/skos/core#altLabel> "isarray" .
+
+
+###  http://www.esblurock.info/dataset#IsEmail
+:IsEmail rdf:type owl:Class ;
+         rdfs:subClassOf :IsOfClassType ;
+         <http://purl.org/dc/terms/identifier> "isEmail"^^rdfs:Literal ;
+         rdfs:comment "The object corresponds to a email UI component" ;
+         rdfs:label "Rendered with a  email Component" ;
+         <http://www.w3.org/2004/02/skos/core#altLabel> "isEmail" .
+
+
+###  http://www.esblurock.info/dataset#IsObject
+:IsObject rdf:type owl:Class ;
+          rdfs:subClassOf :IsOfClassType ;
+          <http://purl.org/dc/elements/1.1/type> :IsObject ;
+          <http://purl.org/dc/terms/identifier> "dataset:isObject" ;
+          rdfs:comment "Rendered with as a Json Object (recursively)" ,
+                       "This is rendered as a set of objects (that are looped through)" ;
+          <http://www.w3.org/2004/02/skos/core#altLabel> "isobject" .
+
+
+###  http://www.esblurock.info/dataset#IsOfClassType
+:IsOfClassType rdf:type owl:Class ;
+               rdfs:subClassOf :BooleanDataType ;
+               <http://purl.org/dc/elements/1.1/type> :IsOfClassType ;
+               <http://purl.org/dc/terms/identifier> "dataset:isclasstype"^^rdfs:Literal ;
+               rdfs:comment "A boolean which specifies if the object is of the user interface componetn type. These are used in the construction of the dynamic user interfacecomponents. The boolean specifies whether the specified user interface compoent type should be used." ;
+               rdfs:label "Is Of User Interface Component Type" ;
+               <http://www.w3.org/2004/02/skos/core#altLabel> "isclasstype" .
+
+
+###  http://www.esblurock.info/dataset#IsOneLine
+:IsOneLine rdf:type owl:Class ;
+           rdfs:subClassOf :IsOfClassType ;
+           <http://purl.org/dc/terms/identifier> "isOneLine" ;
+           rdfs:comment "The object corresponds to a single UI component, like a title or short description" ;
+           rdfs:label "Rendered with a  one line Component" ;
+           <http://www.w3.org/2004/02/skos/core#altLabel> "isOneLine" .
+
+
+###  http://www.esblurock.info/dataset#IsURL
+:IsURL rdf:type owl:Class ;
+       rdfs:subClassOf :IsOfClassType ;
+       <http://purl.org/dc/terms/identifier> "isURL" ;
+       rdfs:comment "The object corresponds to a network URL UI component" ;
+       rdfs:label "Rendered with a URL Component" ;
+       <http://www.w3.org/2004/02/skos/core#altLabel> "isURL" .
+
+
 ###  http://www.esblurock.info/dataset#JSONObject
 :JSONObject rdf:type owl:Class ;
             rdfs:subClassOf :ChemConnectPrimitiveDataStructure ;
@@ -13024,7 +13160,7 @@ _:genid676 rdf:type owl:Restriction ;
                                                    [ rdf:type owl:Restriction ;
                                                      owl:onProperty <http://www.w3.org/2004/02/skos/core#mappingRelation> ;
                                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                     owl:onClass :RDFJThermodynamicsStructureNameDataset
+                                                     owl:onClass :RDFJThermodynamicsStructureName
                                                    ] ,
                                                    [ rdf:type owl:Restriction ;
                                                      owl:onProperty <http://www.w3.org/2004/02/skos/core#mappingRelation> ;
@@ -13644,7 +13780,7 @@ _:genid676 rdf:type owl:Restriction ;
                                              [ rdf:type owl:Restriction ;
                                                owl:onProperty <http://www.w3.org/2004/02/skos/core#mappingRelation> ;
                                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                               owl:onClass :RDFJThermodynamicsStructureNameDataset
+                                               owl:onClass :RDFJThermodynamicsStructureName
                                              ] ,
                                              [ rdf:type owl:Restriction ;
                                                owl:onProperty <http://www.w3.org/2004/02/skos/core#mappingRelation> ;
@@ -13704,6 +13840,25 @@ _:genid676 rdf:type owl:Restriction ;
                           <http://www.w3.org/2004/02/skos/core#altLabel> "nodelabel" .
 
 
+###  http://www.esblurock.info/dataset#JThermodynamicsSpeciesCatalogObject
+:JThermodynamicsSpeciesCatalogObject rdf:type owl:Class ;
+                                     rdfs:subClassOf :ChemConnectDatabaseBaseElement ,
+                                                     [ rdf:type owl:Restriction ;
+                                                       owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                                       owl:someValuesFrom :JThermodynamicsStructureFormat
+                                                     ] ,
+                                                     [ rdf:type owl:Restriction ;
+                                                       owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                       owl:onClass :JThermodynamics2DSpeciesStructure
+                                                     ] ;
+                                     <http://purl.org/dc/terms/identifier> :JThermodynamicsSpeciesCatalogObject ,
+                                                                           "dataset:jthermospecies" ;
+                                     rdfs:comment "This is a single species representation. The main format is CML but other formats if they are available are represented. Properties, calculated and observed can also be associated with this catalog object" ;
+                                     rdfs:label "Species Catalog Object" ;
+                                     <http://www.w3.org/2004/02/skos/core#altLabel> "jthermospecies" .
+
+
 ###  http://www.esblurock.info/dataset#JThermodynamicsSpeciesSpecificationType
 :JThermodynamicsSpeciesSpecificationType rdf:type owl:Class ;
                                          rdfs:subClassOf :Classification ;
@@ -13723,6 +13878,26 @@ _:genid676 rdf:type owl:Restriction ;
                                      rdfs:comment "This is the structure represented in CML in a string." ;
                                      rdfs:label "Structure as CML (String)" ;
                                      <http://www.w3.org/2004/02/skos/core#altLabel> "structureascmlstring" .
+
+
+###  http://www.esblurock.info/dataset#JThermodynamicsStructureFormat
+:JThermodynamicsStructureFormat rdf:type owl:Class ;
+                                rdfs:subClassOf :JThermodynamicsDataStructure ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                  owl:onClass :SpeciesRepresentationAsText
+                                                ] ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                  owl:onClass :SpeciesRepresentationType
+                                                ] ;
+                                <http://purl.org/dc/elements/1.1/type> :JThermodynamicsStructureFormat ;
+                                <http://purl.org/dc/terms/identifier> "dataset:speciesformat" ;
+                                rdfs:comment "The representation of a molecular species as text" ;
+                                rdfs:label "Species Structure as Text" ;
+                                <http://www.w3.org/2004/02/skos/core#altLabel> "speciesformat" .
 
 
 ###  http://www.esblurock.info/dataset#JThermodynamicsStructureIsomerName
@@ -14285,9 +14460,29 @@ _:genid676 rdf:type owl:Restriction ;
                                    rdfs:subClassOf :DerivedFromObjectParameter .
 
 
+###  http://www.esblurock.info/dataset#LabelDerivedFromSessionId
+:LabelDerivedFromSessionId rdf:type owl:Class ;
+                           rdfs:subClassOf :DerivedFromObjectParameter ;
+                           <http://purl.org/dc/elements/1.1/type> :LabelDerivedFromSessionId ;
+                           <http://purl.org/dc/terms/identifier> "dataset:derivedfromsessionid" ;
+                           rdfs:comment "This is the label that is derived from the session ID" ;
+                           rdfs:label "Session Label" ;
+                           <http://www.w3.org/2004/02/skos/core#altLabel> "derivedfromsessionid" .
+
+
 ###  http://www.esblurock.info/dataset#LabelDerivedFromTransactionEventType
 :LabelDerivedFromTransactionEventType rdf:type owl:Class ;
                                       rdfs:subClassOf :DerivedFromObjectParameter .
+
+
+###  http://www.esblurock.info/dataset#LabelDerivedFromUID
+:LabelDerivedFromUID rdf:type owl:Class ;
+                     rdfs:subClassOf :DerivedFromObjectParameter ;
+                     <http://purl.org/dc/elements/1.1/type> :LabelDerivedFromUID ;
+                     <http://purl.org/dc/terms/identifier> "dataset:derivedfromuid"^^rdfs:Literal ;
+                     rdfs:comment "This derives the label from the current UID in the object" ;
+                     rdfs:label "Derived from UID" ;
+                     <http://www.w3.org/2004/02/skos/core#altLabel> "derivedfromuid" .
 
 
 ###  http://www.esblurock.info/dataset#LabelFirestoreIDPair
@@ -14414,9 +14609,9 @@ _:genid676 rdf:type owl:Restriction ;
                                             owl:onProperty :hasComponent ;
                                             owl:someValuesFrom :LiquidMassFlowControllerComponent
                                           ] ,
-                                          _:genid881 .
+                                          _:genid885 .
 
-_:genid881 rdf:type owl:Restriction ;
+_:genid885 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass :SingleMassFlowControllerObservable .
@@ -14424,7 +14619,7 @@ _:genid881 rdf:type owl:Restriction ;
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :LiquidMassFlowController ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid881 ;
+   owl:annotatedTarget _:genid885 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasOutput>
  ] .
 
@@ -14432,10 +14627,10 @@ _:genid881 rdf:type owl:Restriction ;
 ###  http://www.esblurock.info/dataset#LiquidMassFlowControllerComponent
 :LiquidMassFlowControllerComponent rdf:type owl:Class ;
                                    rdfs:subClassOf :MassFlowController ,
-                                                   _:genid883 ;
+                                                   _:genid887 ;
                                    rdfs:label "Liquid Mass Flow Component" .
 
-_:genid883 rdf:type owl:Restriction ;
+_:genid887 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass :SingleMassFlowControllerObservable .
@@ -14443,7 +14638,7 @@ _:genid883 rdf:type owl:Restriction ;
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :LiquidMassFlowControllerComponent ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid883 ;
+   owl:annotatedTarget _:genid887 ;
    rdfs:comment <http://www.w3.org/ns/ssn/hasOutput>
  ] .
 
@@ -14746,15 +14941,15 @@ _:genid883 rdf:type owl:Restriction ;
 ###  http://www.esblurock.info/dataset#MSMBFlameProbeSubsystem
 :MSMBFlameProbeSubsystem rdf:type owl:Class ;
                          rdfs:subClassOf :SamplingProbe ,
-                                         _:genid908 ,
-                                         _:genid910 .
+                                         _:genid912 ,
+                                         _:genid914 .
 
-_:genid908 rdf:type owl:Restriction ;
+_:genid912 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass :FirstStageExpansionWithSkimmer .
 
-_:genid910 rdf:type owl:Restriction ;
+_:genid914 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass :SecondStageExpansion .
@@ -14762,14 +14957,14 @@ _:genid910 rdf:type owl:Restriction ;
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :MSMBFlameProbeSubsystem ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid908 ;
+   owl:annotatedTarget _:genid912 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :MSMBFlameProbeSubsystem ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid910 ;
+   owl:annotatedTarget _:genid914 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
@@ -14791,39 +14986,25 @@ _:genid910 rdf:type owl:Restriction ;
 ###  http://www.esblurock.info/dataset#MSMBPremixedFlameBurner
 :MSMBPremixedFlameBurner rdf:type owl:Class ;
                          rdfs:subClassOf :FlameBurner ,
-                                         _:genid912 ,
-                                         _:genid914 ,
-                                         _:genid916 ;
+                                         _:genid916 ,
+                                         _:genid918 ,
+                                         _:genid920 ;
                          rdfs:comment "Mass Spectroscopy Molecule Beam Flame Burner" ;
                          rdfs:label "MSMB Premixed Flame Burner" .
 
-_:genid912 rdf:type owl:Restriction ;
+_:genid916 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:someValuesFrom :MassSpectrometryMolecularBeam .
 
-_:genid914 rdf:type owl:Restriction ;
+_:genid918 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass :MSMBFlameProbeSubsystem .
 
-_:genid916 rdf:type owl:Restriction ;
+_:genid920 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass :PremixedFlameFuelPreparation .
-
-[ rdf:type owl:Axiom ;
-   owl:annotatedSource :MSMBPremixedFlameBurner ;
-   owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid912 ;
-   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
- ] .
-
-[ rdf:type owl:Axiom ;
-   owl:annotatedSource :MSMBPremixedFlameBurner ;
-   owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid914 ;
-   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
- ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :MSMBPremixedFlameBurner ;
@@ -14832,13 +15013,27 @@ _:genid916 rdf:type owl:Restriction ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :MSMBPremixedFlameBurner ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget _:genid918 ;
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
+ ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :MSMBPremixedFlameBurner ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget _:genid920 ;
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
+ ] .
+
 
 ###  http://www.esblurock.info/dataset#MSMBSpeciesDetectionSubsystem
 :MSMBSpeciesDetectionSubsystem rdf:type owl:Class ;
                                rdfs:subClassOf :FlameSpeciesDetection ,
-                                               _:genid918 .
+                                               _:genid922 .
 
-_:genid918 rdf:type owl:Restriction ;
+_:genid922 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass :MassSpectrometryMolecularBeam .
@@ -14846,7 +15041,7 @@ _:genid918 rdf:type owl:Restriction ;
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :MSMBSpeciesDetectionSubsystem ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid918 ;
+   owl:annotatedTarget _:genid922 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
@@ -15440,12 +15635,32 @@ _:genid918 rdf:type owl:Restriction ;
                                                 [ rdf:type owl:Restriction ;
                                                   owl:onProperty <http://www.w3.org/2004/02/skos/core#mappingRelation> ;
                                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                  owl:onClass :RDFCatalogID
+                                                  owl:onClass :RDFCatalogObjectKey
                                                 ] ,
                                                 [ rdf:type owl:Restriction ;
                                                   owl:onProperty <http://www.w3.org/2004/02/skos/core#mappingRelation> ;
                                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                  owl:onClass :RDFCatalogObjectIDToShortDescription
+                                                  owl:onClass :RDFDatabaseObjectType
+                                                ] ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://www.w3.org/2004/02/skos/core#mappingRelation> ;
+                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                  owl:onClass :RDFFirestoreAddressOfCatalogID
+                                                ] ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://www.w3.org/2004/02/skos/core#mappingRelation> ;
+                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                  owl:onClass :RDFShortDescription
+                                                ] ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://www.w3.org/2004/02/skos/core#mappingRelation> ;
+                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                  owl:onClass :RDFShortDescriptionOfCatalogObject
+                                                ] ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://www.w3.org/2004/02/skos/core#mappingRelation> ;
+                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                  owl:onClass :RDFTransactionID
                                                 ] ;
                                 <http://purl.org/dc/elements/1.1/type> :MinimumDatabaseObjectStructure ;
                                 <http://purl.org/dc/terms/identifier> "dataset:minimumdatabaseobject" ;
@@ -15491,6 +15706,16 @@ _:genid918 rdf:type owl:Restriction ;
                        rdfs:comment "This is a complete catalog object that has been modified and is to be sent to the backend to overwrite the original" ;
                        rdfs:label "Modified Catalog Object" ;
                        <http://www.w3.org/2004/02/skos/core#altLabel> "modifiedcatalogobject" .
+
+
+###  http://www.esblurock.info/dataset#MolFileText
+:MolFileText rdf:type owl:Class ;
+             rdfs:subClassOf :Paragraph ;
+             <http://purl.org/dc/elements/1.1/type> :MolFileText ;
+             <http://purl.org/dc/terms/identifier> "dataset:molfile"^^rdfs:Literal ;
+             rdfs:comment "This is the molfile representation of a molecule." ;
+             rdfs:label "MolFile" ;
+             <http://www.w3.org/2004/02/skos/core#altLabel> "molfile" .
 
 
 ###  http://www.esblurock.info/dataset#MolarAmountParameter
@@ -15560,28 +15785,28 @@ _:genid918 rdf:type owl:Restriction ;
 ###  http://www.esblurock.info/dataset#MolecularBeamSamplingProbe
 :MolecularBeamSamplingProbe rdf:type owl:Class ;
                             rdfs:subClassOf :SamplingProbe ,
-                                            _:genid949 ,
-                                            _:genid951 .
+                                            _:genid957 ,
+                                            _:genid959 .
 
-_:genid949 rdf:type owl:Restriction ;
+_:genid957 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:someValuesFrom :NickelSkimmer .
 
-_:genid951 rdf:type owl:Restriction ;
+_:genid959 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:someValuesFrom :SamplingCone .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :MolecularBeamSamplingProbe ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid949 ;
+   owl:annotatedTarget _:genid957 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :MolecularBeamSamplingProbe ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid951 ;
+   owl:annotatedTarget _:genid959 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
@@ -15811,6 +16036,16 @@ _:genid951 rdf:type owl:Restriction ;
                                        owl:onProperty <http://www.w3.org/2004/02/skos/core#mappingRelation> ;
                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                        owl:onClass :RDFHttpAddress
+                                     ] ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://www.w3.org/2004/02/skos/core#mappingRelation> ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onClass :RDFHttpAddressToDescription
+                                     ] ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://www.w3.org/2004/02/skos/core#mappingRelation> ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onClass :RDFHttpAddressToType
                                      ] ;
                      <http://purl.org/dc/elements/1.1/type> "ObjectSiteReference" ;
                      <http://purl.org/dc/terms/identifier> "foaf:page" ;
@@ -16072,6 +16307,85 @@ _:genid951 rdf:type owl:Restriction ;
 ###  http://www.esblurock.info/dataset#OneObservationSet
 :OneObservationSet rdf:type owl:Class ;
                    rdfs:subClassOf :NumberOfClassificationsChoice .
+
+
+###  http://www.esblurock.info/dataset#OntologyObjectToRender
+:OntologyObjectToRender rdf:type owl:Class ;
+                        rdfs:subClassOf :ChemConnectCompoundBase ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                          owl:someValuesFrom :OntologyObjectToRender
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :AnnotationComment
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :AnnotationIdentifier
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :AnnotationLabel
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :IsAClassification
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :IsAParagraph
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :IsArray
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :IsEmail
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :IsObject
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :IsOneLine
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :IsURL
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :isBoolean
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :isFileSource
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :isKeyWordSet
+                                        ] ;
+                        <http://purl.org/dc/elements/1.1/type> :OntologyObjectToRender ;
+                        <http://purl.org/dc/terms/identifier> "dataset:ontologyobjecttorender"^^rdfs:Literal ;
+                        rdfs:comment "This contains a condenstation of the information of an ontology catalog (or whatever) object to render to the frontend Angular component. The backend reads the ontology (throughinfo.esblurock.reaction.core.ontology.base.dataset.DocumentTemplateForUI using CreateDocumentTemplate) ands sets up the information for" ;
+                        rdfs:label "Ontology Object to Render" ;
+                        <http://www.w3.org/2004/02/skos/core#altLabel> "ontologyobjecttorender" .
 
 
 ###  http://www.esblurock.info/dataset#OpenScienceFrameworkRepository
@@ -16729,21 +17043,21 @@ _:genid951 rdf:type owl:Restriction ;
 ###  http://www.esblurock.info/dataset#PremixedFlames
 :PremixedFlames rdf:type owl:Class ;
                 rdfs:subClassOf :FlameSubsystems ,
-                                _:genid1023 ,
-                                _:genid1025 ,
-                                _:genid1027 .
+                                _:genid1047 ,
+                                _:genid1049 ,
+                                _:genid1051 .
 
-_:genid1023 rdf:type owl:Restriction ;
+_:genid1047 rdf:type owl:Restriction ;
              owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
              owl:onClass :EvaporationSubSystem .
 
-_:genid1025 rdf:type owl:Restriction ;
+_:genid1049 rdf:type owl:Restriction ;
              owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
              owl:onClass :FlowMixingSubSystem .
 
-_:genid1027 rdf:type owl:Restriction ;
+_:genid1051 rdf:type owl:Restriction ;
              owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
              owl:onClass :GasFlowSubSystem .
@@ -16751,21 +17065,21 @@ _:genid1027 rdf:type owl:Restriction ;
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :PremixedFlames ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid1023 ;
+   owl:annotatedTarget _:genid1047 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :PremixedFlames ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid1025 ;
+   owl:annotatedTarget _:genid1049 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :PremixedFlames ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid1027 ;
+   owl:annotatedTarget _:genid1051 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
@@ -17959,33 +18273,33 @@ _:genid1027 rdf:type owl:Restriction ;
 ###  http://www.esblurock.info/dataset#RCMReactorPistonSystem
 :RCMReactorPistonSystem rdf:type owl:Class ;
                         rdfs:subClassOf :RapidCompressionMachineSubsystems ,
-                                        _:genid1074 ,
-                                        _:genid1076 ,
+                                        _:genid1098 ,
+                                        _:genid1100 ,
                                         [ rdf:type owl:Restriction ;
                                           owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                           owl:onClass :RCMReactorChamberPiston
                                         ] ,
-                                        _:genid1079 ,
-                                        _:genid1081 ;
+                                        _:genid1103 ,
+                                        _:genid1105 ;
                         <http://purl.org/dc/elements/1.1/type> "RapidCompressionMachinePiston" .
 
-_:genid1074 rdf:type owl:Restriction ;
+_:genid1098 rdf:type owl:Restriction ;
              owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
              owl:onClass :PressureSensor .
 
-_:genid1076 rdf:type owl:Restriction ;
+_:genid1100 rdf:type owl:Restriction ;
              owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
              owl:onClass :RCMReactorChamberGasPort .
 
-_:genid1079 rdf:type owl:Restriction ;
+_:genid1103 rdf:type owl:Restriction ;
              owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
              owl:onClass :RCMReactorChamberViewPort .
 
-_:genid1081 rdf:type owl:Restriction ;
+_:genid1105 rdf:type owl:Restriction ;
              owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
              owl:onClass :Thermocouple .
@@ -17993,28 +18307,28 @@ _:genid1081 rdf:type owl:Restriction ;
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :RCMReactorPistonSystem ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid1074 ;
+   owl:annotatedTarget _:genid1098 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :RCMReactorPistonSystem ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid1076 ;
+   owl:annotatedTarget _:genid1100 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :RCMReactorPistonSystem ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid1079 ;
+   owl:annotatedTarget _:genid1103 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :RCMReactorPistonSystem ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid1081 ;
+   owl:annotatedTarget _:genid1105 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
@@ -18049,7 +18363,7 @@ _:genid1081 rdf:type owl:Restriction ;
                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                        owl:onClass :AuthorFamilyName
                                      ] ;
-                     rdfs:comment "Link the author family name with a catalog object and a brief description. It answers the question which catalog objects describe people with this family name." ;
+                     rdfs:comment "Link the author family name with a catalog object. It answers the question which catalog objects describe people with this family name." ;
                      rdfs:label "Authors with this family name" .
 
 
@@ -18065,6 +18379,17 @@ _:genid1081 rdf:type owl:Restriction ;
                                        rdfs:label "Benson Rule" .
 
 
+###  http://www.esblurock.info/dataset#RDFBibliographicLink
+:RDFBibliographicLink rdf:type owl:Class ;
+                      rdfs:subClassOf :RDFGeneralInfoReference ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty <http://spinrdf.org/sp#subject> ;
+                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                        owl:onClass :BibliographicLink
+                                      ] ;
+                      rdfs:comment "This links a bibliographic link such as a DOI, ISBN, etc. to a catalog object. It answers the question what catalog objects have this bibliographic link." .
+
+
 ###  http://www.esblurock.info/dataset#RDFCarbonAtomCountDataset
 :RDFCarbonAtomCountDataset rdf:type owl:Class ;
                            rdfs:subClassOf :RDFCatalogObjectUniqueGenericLabel ,
@@ -18077,41 +18402,21 @@ _:genid1081 rdf:type owl:Restriction ;
                            rdfs:label "Number of Carbons" .
 
 
-###  http://www.esblurock.info/dataset#RDFCatalogID
-:RDFCatalogID rdf:type owl:Class ;
-              rdfs:subClassOf :RDFCatalogReferenceMapToCatalogInformation ;
-              rdfs:comment "Link the unique CatalogObjectID with the catalog object and a brief description. It answers the question where is the catalog object with this CatalogObjectID." ;
-              rdfs:label "CatalogObjectID" .
-
-
-###  http://www.esblurock.info/dataset#RDFCatalogObjectIDToShortDescription
-:RDFCatalogObjectIDToShortDescription rdf:type owl:Class ;
-                                      rdfs:subClassOf :RDFPrimitiveToPrimitive ,
-                                                      [ rdf:type owl:Restriction ;
-                                                        owl:onProperty <http://spinrdf.org/sp#subject> ;
-                                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                        owl:onClass :CatalogObjectKey
-                                                      ] ,
-                                                      [ rdf:type owl:Restriction ;
-                                                        owl:onProperty <http://www.w3.org/ns/prov#entity> ;
-                                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                        owl:onClass :ShortDescription
-                                                      ] ;
-                                      <http://purl.org/dc/elements/1.1/type> :RDFCatalogObjectIDToShortDescription ;
-                                      <http://purl.org/dc/terms/identifier> "dataset:rdfqueryidtoshortdescription"^^rdfs:Literal ;
-                                      rdfs:comment "This links the catalog object ID with the short description. It answers the question what is the short description of the catalog object with this ID." ;
-                                      rdfs:label "Description of catalog with ID" ;
-                                      <http://www.w3.org/2004/02/skos/core#altLabel> "rdfqueryidtoshortdescription" .
+###  http://www.esblurock.info/dataset#RDFCatalogObjectKey
+:RDFCatalogObjectKey rdf:type owl:Class ;
+                     rdfs:subClassOf :RDFCatalogReferenceMapToComponentPrimitive ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://spinrdf.org/sp#subject> ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onClass :CatalogObjectKey
+                                     ] ;
+                     rdfs:comment "This links the catalog key name with the catalog object. It answers the question which catalog objects have this name as a key." ;
+                     rdfs:label "Catalog Object Key" .
 
 
 ###  http://www.esblurock.info/dataset#RDFCatalogObjectUniqueGenericLabel
 :RDFCatalogObjectUniqueGenericLabel rdf:type owl:Class ;
-                                    rdfs:subClassOf :RDFSpecificationForDataset ,
-                                                    [ rdf:type owl:Restriction ;
-                                                      owl:onProperty <http://spinrdf.org/sp#subject> ;
-                                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                      owl:onClass :CatalogObjectUniqueGenericLabel
-                                                    ] ;
+                                    rdfs:subClassOf :RDFSpecificationForDataset ;
                                     rdfs:comment "This links the unique generic label of the dataset (CatalogObjectUniqueGenericLabel) to the catalog object (and additional information). It answers the question which catalog objects are in a dataset with this unique generic label. This can also answer the question of whether the label exists or not (for example, so that duplicate labels won't be used)." ;
                                     rdfs:label "RDF Unique Label of Dataset" .
 
@@ -18133,13 +18438,6 @@ _:genid1081 rdf:type owl:Restriction ;
                                           rdfs:label "Dataset Label to Catalog Type" .
 
 
-###  http://www.esblurock.info/dataset#RDFCatalogReferenceMapToCatalogInformation
-:RDFCatalogReferenceMapToCatalogInformation rdf:type owl:Class ;
-                                            rdfs:subClassOf :RDFCatalogReferenceMapToComponentPrimitive ;
-                                            rdfs:comment "This set links component strings within the general catalog object to the catalog object itself. These are basically common to all catalog objects." ;
-                                            rdfs:label "Catalog Information Primitives" .
-
-
 ###  http://www.esblurock.info/dataset#RDFCatalogReferenceMapToComponentPrimitive
 :RDFCatalogReferenceMapToComponentPrimitive rdf:type owl:Class ;
                                             rdfs:subClassOf :RDFMappingDefinition ,
@@ -18147,26 +18445,6 @@ _:genid1081 rdf:type owl:Restriction ;
                                                               owl:onProperty <http://www.w3.org/ns/prov#entity> ;
                                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                               owl:onClass :CatalogObjectID
-                                                            ] ,
-                                                            [ rdf:type owl:Restriction ;
-                                                              owl:onProperty <http://www.w3.org/ns/prov#entity> ;
-                                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                              owl:onClass :DatabaseObjectType
-                                                            ] ,
-                                                            [ rdf:type owl:Restriction ;
-                                                              owl:onProperty <http://www.w3.org/ns/prov#entity> ;
-                                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                              owl:onClass :FirestoreCatalogID
-                                                            ] ,
-                                                            [ rdf:type owl:Restriction ;
-                                                              owl:onProperty <http://www.w3.org/ns/prov#entity> ;
-                                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                              owl:onClass :ShortDescription
-                                                            ] ,
-                                                            [ rdf:type owl:Restriction ;
-                                                              owl:onProperty <http://www.w3.org/ns/prov#entity> ;
-                                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                              owl:onClass :TransactionID
                                                             ] ;
                                             rdfs:comment """The object of these RDFs is to match a keyword (or string phrase) to a specific catalog object. The of the catalog object consists of the CondensedCatalogDescription which has several parts. There is a description (for use in creating a list), the FirestoreID (to be able to access the catalog object directly), the TransactionID (the corresponding transaction), DatabaseObjectType (to identify the type of the catalog object) and the CatalogObjectID of the catalog object (meaning a single keyword used to identify the catalog object.
 The subject is a keyword is described in the subclasses of this class.""" ;
@@ -18205,7 +18483,7 @@ The subject is a keyword is described in the subclasses of this class.""" ;
                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                            owl:onClass :ConsortiumMemberName
                                          ] ;
-                         rdfs:comment "Link the consortium member name with a Consortium catalog object and a brief description. It answers the question which Consortiums have members with this name." ;
+                         rdfs:comment "Link the consortium member name with a Consortium catalog object. It answers the question which Consortiums have members with this name." ;
                          rdfs:label "Consortium Member Name" .
 
 
@@ -18217,7 +18495,7 @@ The subject is a keyword is described in the subclasses of this class.""" ;
                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                      owl:onClass :ConsortiumName
                                    ] ;
-                   rdfs:comment "Link the consortium name with its Consortium catalog object and a brief description. It answers the question which Consortium catlolog object has this name." ;
+                   rdfs:comment "Link the consortium name with its Consortium catalog object. It answers the question which Consortium catlolog object has this name." ;
                    rdfs:label "Consortium Name" .
 
 
@@ -18234,13 +18512,18 @@ The subject is a keyword is described in the subclasses of this class.""" ;
                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                               owl:onClass :LocationCountry
                             ] ;
-            rdfs:comment "Link the country (within the contact information) with a catlog obje object (such as a person, user, organization, etc.) and a brief description. It answers the question which people or organization catalog objects list this country in their contact information." ;
+            rdfs:comment "Link the country (within the contact information) with a  object (such as a person, user, organization, etc.) and a brief description. It answers the question which people or organization catalog objects list this country in their contact information." ;
             rdfs:label "Country" .
 
 
 ###  http://www.esblurock.info/dataset#RDFDOIReference
 :RDFDOIReference rdf:type owl:Class ;
                  rdfs:subClassOf :RDFGeneralInfoReference ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty <http://spinrdf.org/sp#subject> ;
+                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onClass :BibliographicLinkType
+                                 ] ,
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty <http://spinrdf.org/sp#subject> ;
                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -18299,7 +18582,7 @@ The subject is a keyword is described in the subclasses of this class.""" ;
 
 ###  http://www.esblurock.info/dataset#RDFDatabaseObjectType
 :RDFDatabaseObjectType rdf:type owl:Class ;
-                       rdfs:subClassOf :RDFCatalogReferenceMapToCatalogInformation ,
+                       rdfs:subClassOf :RDFCatalogReferenceMapToComponentPrimitive ,
                                        [ rdf:type owl:Restriction ;
                                          owl:onProperty <http://spinrdf.org/sp#subject> ;
                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -18412,6 +18695,23 @@ The subject is a keyword is described in the subclasses of this class.""" ;
                                                       ] ;
                                       rdfs:comment "This links the source format to the file source catalog object (and additional information). It answers the question which file source catalog objects have this source format" ;
                                       rdfs:label "RDF File Format of Source File" .
+
+
+###  http://www.esblurock.info/dataset#RDFFirestoreAddressOfCatalogID
+:RDFFirestoreAddressOfCatalogID rdf:type owl:Class ;
+                                rdfs:subClassOf :ChemConnectRDFBase ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://spinrdf.org/sp#subject> ;
+                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                  owl:onClass :CatalogObjectID
+                                                ] ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://www.w3.org/ns/prov#entity> ;
+                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                  owl:onClass :FirestoreCatalogID
+                                                ] ;
+                                rdfs:comment "Link the unique CatalogObjectID with the catalog object and a brief description. It answers the question where is the catalog object with this CatalogObjectID." ;
+                                rdfs:label "CatalogObjectID" .
 
 
 ###  http://www.esblurock.info/dataset#RDFGCSFullPathWithNameDataset
@@ -18719,7 +19019,7 @@ The subject is a keyword is described in the subclasses of this class.""" ;
 
 ###  http://www.esblurock.info/dataset#RDFHttpAddress
 :RDFHttpAddress rdf:type owl:Class ;
-                rdfs:subClassOf :RDFCatalogReferenceMapToCatalogInformation ,
+                rdfs:subClassOf :RDFCatalogReferenceMapToComponentPrimitive ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty <http://spinrdf.org/sp#subject> ;
                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -18727,6 +19027,23 @@ The subject is a keyword is described in the subclasses of this class.""" ;
                                 ] ;
                 rdfs:comment "Link an http address with all the catalog objects ( and a brief description) that have a link to this address. It answers the question which catalog objects have a link to this http address." ;
                 rdfs:label "HTTP address" .
+
+
+###  http://www.esblurock.info/dataset#RDFHttpAddressToDescription
+:RDFHttpAddressToDescription rdf:type owl:Class ;
+                             rdfs:subClassOf :RDFThermodynamicPrimitiveProperties ,
+                                             [ rdf:type owl:Restriction ;
+                                               owl:onProperty <http://spinrdf.org/sp#subject> ;
+                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                               owl:onClass :HTTPAddress
+                                             ] ,
+                                             [ rdf:type owl:Restriction ;
+                                               owl:onProperty <http://www.w3.org/ns/prov#entity> ;
+                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                               owl:onClass :DescriptionTitleHttpAddress
+                                             ] ;
+                             rdfs:comment "This links a website's http address to a short description. It answers the question, what is the description or title of this web site." ;
+                             rdfs:label "Website Description" .
 
 
 ###  http://www.esblurock.info/dataset#RDFHttpAddressToType
@@ -18884,16 +19201,16 @@ The subject is a keyword is described in the subclasses of this class.""" ;
                                               rdfs:label "Isomer" .
 
 
-###  http://www.esblurock.info/dataset#RDFJThermodynamicsStructureNameDataset
-:RDFJThermodynamicsStructureNameDataset rdf:type owl:Class ;
-                                        rdfs:subClassOf :RDFCatalogObjectUniqueGenericLabel ,
-                                                        [ rdf:type owl:Restriction ;
-                                                          owl:onProperty <http://spinrdf.org/sp#subject> ;
-                                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                          owl:onClass :JThermodynamicsStructureName
-                                                        ] ;
-                                        rdfs:comment "This connects the name given to the structure to the specific catalog object (and additional information). It answers the question which structure has this name. This structure name should be unique, but it is not an absolute requirement." ;
-                                        rdfs:label "Molecular Structure Name" .
+###  http://www.esblurock.info/dataset#RDFJThermodynamicsStructureName
+:RDFJThermodynamicsStructureName rdf:type owl:Class ;
+                                 rdfs:subClassOf :RDFCatalogObjectUniqueGenericLabel ,
+                                                 [ rdf:type owl:Restriction ;
+                                                   owl:onProperty <http://spinrdf.org/sp#subject> ;
+                                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                   owl:onClass :JThermodynamicsStructureName
+                                                 ] ;
+                                 rdfs:comment "This connects the name given to the structure to the specific catalog object (and additional information). It answers the question which structure has this name. This structure name should be unique, but it is not an absolute requirement." ;
+                                 rdfs:label "Molecular Structure Name" .
 
 
 ###  http://www.esblurock.info/dataset#RDFJThermodynamicsSubstructureTypeDataset
@@ -19022,7 +19339,7 @@ The subject is a keyword is described in the subclasses of this class.""" ;
                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                        owl:onClass :OrganizationName
                                      ] ;
-                     rdfs:comment "Link the organization name (within in the organization description) with an Organization catalog object and a brief description. It answers the question which organizations have this name." ;
+                     rdfs:comment "Link the organization name (within in the organization description) with an Organization catalog object. It answers the question which organizations have this name." ;
                      rdfs:label "Organization Name" .
 
 
@@ -19046,7 +19363,7 @@ The subject is a keyword is described in the subclasses of this class.""" ;
                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                        owl:onClass :familyName
                                      ] ;
-                     rdfs:comment "Link the family name (in the Name of Person record) with a PersonalDescription within a DatabasePerson catalog object and a brief description. It answers the question which people have this last name." ;
+                     rdfs:comment "Link the family name (in the Name of Person record) with a PersonalDescription within a DatabasePerson catalog object. It answers the question which people have this last name." ;
                      rdfs:label "Family Name" .
 
 
@@ -19058,7 +19375,7 @@ The subject is a keyword is described in the subclasses of this class.""" ;
                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                       owl:onClass :givenName
                                     ] ;
-                    rdfs:comment "Link the first name (within in the with the NameOfPerson record) with an PersonalDescription, usually associated with a DatabasePerson catalog object and a brief description. It answers the question which people have this first name." ;
+                    rdfs:comment "Link the first name (within in the with the NameOfPerson record) with an PersonalDescription, usually associated with a DatabasePerson catalog object. It answers the question which people have this first name." ;
                     rdfs:label "First Name" .
 
 
@@ -19070,7 +19387,7 @@ The subject is a keyword is described in the subclasses of this class.""" ;
                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                      owl:onClass :PersonFullName
                                    ] ;
-                   rdfs:comment "Link the a person's full name with a DatabasePerson catalog object and a brief description. It answers the question which people have this name. The name is meant to be how how the person normally writes the full name." ;
+                   rdfs:comment "Link the a person's full name with a DatabasePerson catalog object. It answers the question which people have this name. The name is meant to be how how the person normally writes the full name." ;
                    rdfs:label "Full Name" .
 
 
@@ -19335,6 +19652,38 @@ returns a type 'object'.""" ;
                 rdfs:subClassOf <http://www.w3.org/ns/prov#SoftwareAgent> .
 
 
+###  http://www.esblurock.info/dataset#RDFShortDescription
+:RDFShortDescription rdf:type owl:Class ;
+                     rdfs:subClassOf :RDFCatalogReferenceMapToComponentPrimitive ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://spinrdf.org/sp#subject> ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onClass :ShortDescription
+                                     ] ;
+                     rdfs:comment "This links the short description with a catalog ID. This answers the question which catalog id matches this short description." ;
+                     rdfs:label "Short Description" .
+
+
+###  http://www.esblurock.info/dataset#RDFShortDescriptionOfCatalogObject
+:RDFShortDescriptionOfCatalogObject rdf:type owl:Class ;
+                                    rdfs:subClassOf :ChemConnectRDFBase ,
+                                                    [ rdf:type owl:Restriction ;
+                                                      owl:onProperty <http://spinrdf.org/sp#subject> ;
+                                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                      owl:onClass :CatalogObjectID
+                                                    ] ,
+                                                    [ rdf:type owl:Restriction ;
+                                                      owl:onProperty <http://www.w3.org/ns/prov#entity> ;
+                                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                      owl:onClass :ShortDescription
+                                                    ] ;
+                                    <http://purl.org/dc/elements/1.1/type> :RDFShortDescriptionOfCatalogObject ;
+                                    <http://purl.org/dc/terms/identifier> "dataset:rdfqueryidtoshortdescription"^^rdfs:Literal ;
+                                    rdfs:comment "This links the catalog object ID with a short description. It answers the question what is the short description of the catalog object with this ID." ;
+                                    rdfs:label "Description of catalog with ID" ;
+                                    <http://www.w3.org/2004/02/skos/core#altLabel> "rdfqueryidtoshortdescription" .
+
+
 ###  http://www.esblurock.info/dataset#RDFSpecificationForDataset
 :RDFSpecificationForDataset rdf:type owl:Class ;
                             rdfs:subClassOf :RDFCatalogReferenceMapToComponentPrimitive .
@@ -19505,7 +19854,7 @@ returns a type 'object'.""" ;
 
 ###  http://www.esblurock.info/dataset#RDFTransactionID
 :RDFTransactionID rdf:type owl:Class ;
-                  rdfs:subClassOf :RDFCatalogReferenceMapToCatalogInformation ,
+                  rdfs:subClassOf :RDFCatalogReferenceMapToComponentPrimitive ,
                                   [ rdf:type owl:Restriction ;
                                     owl:onProperty <http://spinrdf.org/sp#subject> ;
                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -19616,6 +19965,23 @@ returns a type 'object'.""" ;
            <http://www.w3.org/2004/02/skos/core#altLabel> "rdftriple" .
 
 
+###  http://www.esblurock.info/dataset#RDFTypeOfBibliographicLink
+:RDFTypeOfBibliographicLink rdf:type owl:Class ;
+                            rdfs:subClassOf :RDFThermodynamicPrimitiveProperties ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty <http://spinrdf.org/sp#subject> ;
+                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                              owl:onClass :BibliographicLink
+                                            ] ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty <http://www.w3.org/ns/prov#entity> ;
+                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                              owl:onClass :BibliographicLinkType
+                                            ] ;
+                            rdfs:comment "This links a biblographic reference link to the type of link it represents, such as a DOI, ISBN, etc. It answers the question what is the link type of this bibliographic link." ;
+                            rdfs:label "Reference Type" .
+
+
 ###  http://www.esblurock.info/dataset#RDFUserAccount
 :RDFUserAccount rdf:type owl:Class ;
                 rdfs:subClassOf :RDFContactReference ,
@@ -19649,7 +20015,7 @@ returns a type 'object'.""" ;
                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                   owl:onClass :username
                                 ] ;
-                rdfs:comment "Link the user authorization serivce with this name with a catalog object and a brief description. It answers the question which user accounts are using the authorization service with this name." ;
+                rdfs:comment "Link the user authorization serivce with this name with a catalog object. It answers the question which user accounts are using the authorization service with this name." ;
                 rdfs:label "Users using this Authorization Service" .
 
 
@@ -19661,7 +20027,7 @@ returns a type 'object'.""" ;
                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                          owl:onClass :UserClassification
                                        ] ;
-                       rdfs:comment "Link the professional role of the person, researcher, professor, CEO, etc, (defined within the PersonalDescription with an DatabasePerson catalog object and a brief description. It answers the question which people have this professional role such as researcher, professor, CEO, etc." ;
+                       rdfs:comment "Link the professional role of the person, researcher, professor, CEO, etc, (defined within the PersonalDescription with an DatabasePerson catalog object. It answers the question which people have this professional role such as researcher, professor, CEO, etc." ;
                        rdfs:label "Professional Role" .
 
 
@@ -19673,7 +20039,7 @@ returns a type 'object'.""" ;
                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                owl:onClass :username
                              ] ;
-             rdfs:comment "Link the login username) with an UserAccount catalog object and a brief description. It answers the question which user account has this user name." ;
+             rdfs:comment "Link the login username) with an UserAccount catalog object. It answers the question which user account has this user name." ;
              rdfs:label "Account username" .
 
 
@@ -19724,29 +20090,29 @@ returns a type 'object'.""" ;
 ###  http://www.esblurock.info/dataset#RapidCompressionMachine
 :RapidCompressionMachine rdf:type owl:Class ;
                          rdfs:subClassOf :CombustionInstrument ,
-                                         _:genid1235 ,
-                                         _:genid1237 ,
-                                         _:genid1239 ,
-                                         _:genid1241 ;
+                                         _:genid1264 ,
+                                         _:genid1266 ,
+                                         _:genid1268 ,
+                                         _:genid1270 ;
                          rdfs:comment "Rapid Compression Machine" ;
                          rdfs:label "Rapid Compression Machine" .
 
-_:genid1235 rdf:type owl:Restriction ;
+_:genid1264 rdf:type owl:Restriction ;
              owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
              owl:onClass :RCMHydraulicDriverSubSystem .
 
-_:genid1237 rdf:type owl:Restriction ;
+_:genid1266 rdf:type owl:Restriction ;
              owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
              owl:onClass :RCMMixingChamber .
 
-_:genid1239 rdf:type owl:Restriction ;
+_:genid1268 rdf:type owl:Restriction ;
              owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
              owl:onClass :RCMReactorPistonSystem .
 
-_:genid1241 rdf:type owl:Restriction ;
+_:genid1270 rdf:type owl:Restriction ;
              owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
              owl:onClass :RCMSpeciesSupply .
@@ -19754,28 +20120,28 @@ _:genid1241 rdf:type owl:Restriction ;
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :RapidCompressionMachine ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid1235 ;
+   owl:annotatedTarget _:genid1264 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :RapidCompressionMachine ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid1237 ;
+   owl:annotatedTarget _:genid1266 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :RapidCompressionMachine ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid1239 ;
+   owl:annotatedTarget _:genid1268 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :RapidCompressionMachine ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid1241 ;
+   owl:annotatedTarget _:genid1270 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
@@ -20582,6 +20948,46 @@ The SetOfPropertyValueQueryPairs is used if a subset of the collection of standa
                         <http://www.w3.org/2004/02/skos/core#altLabel> "serviceresponsemessage" .
 
 
+###  http://www.esblurock.info/dataset#SessionActivity
+:SessionActivity rdf:type owl:Class ;
+                 rdfs:subClassOf :SessionData .
+
+
+###  http://www.esblurock.info/dataset#SessionData
+:SessionData rdf:type owl:Class ;
+             rdfs:subClassOf <http://www.w3.org/ns/dcat#CatalogRecord> ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onClass :DateCreated
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onClass :SessionId
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onClass :UID
+                             ] ;
+             <http://purl.org/dc/elements/1.1/type> :SessionData ;
+             <http://purl.org/dc/terms/identifier> "dataset:sessiondata" ;
+             rdfs:comment "This is the data that persists throughout the session" ;
+             rdfs:label "Session Data" ;
+             <http://www.w3.org/2004/02/skos/core#altLabel> "sessiondata" .
+
+
+###  http://www.esblurock.info/dataset#SessionId
+:SessionId rdf:type owl:Class ;
+           rdfs:subClassOf :StringNameLabel ;
+           <http://purl.org/dc/elements/1.1/type> :SessionId ;
+           <http://purl.org/dc/terms/identifier> "dataset:sessionId" ;
+           rdfs:comment "This is the ID associated with the session. The session could be defined is several ways. The main being the workflow session." ;
+           rdfs:label "Session ID" ;
+           <http://www.w3.org/2004/02/skos/core#altLabel> "sessionId" .
+
+
 ###  http://www.esblurock.info/dataset#SetOfCatalogObjects
 :SetOfCatalogObjects rdf:type owl:Class ;
                      rdfs:subClassOf :ChemConnectCompoundBase ,
@@ -20867,16 +21273,6 @@ The SetOfPropertyValueQueryPairs is used if a subset of the collection of standa
                                        owl:onClass :ChemConnectModule
                                      ] ,
                                      [ rdf:type owl:Restriction ;
-                                       owl:onProperty <http://www.w3.org/2004/02/skos/core#mappingRelation> ;
-                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                       owl:onClass :RDFDatabaseObjectType
-                                     ] ,
-                                     [ rdf:type owl:Restriction ;
-                                       owl:onProperty <http://www.w3.org/2004/02/skos/core#mappingRelation> ;
-                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                       owl:onClass :RDFTransactionID
-                                     ] ,
-                                     [ rdf:type owl:Restriction ;
                                        owl:onProperty <http://www.w3.org/ns/dcat#record> ;
                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                        owl:onClass :FirestoreCatalogID
@@ -21159,6 +21555,67 @@ The SetOfPropertyValueQueryPairs is used if a subset of the collection of standa
 ###  http://www.esblurock.info/dataset#SpeciesProperties
 :SpeciesProperties rdf:type owl:Class ;
                    rdfs:subClassOf :ChemicalTextInformation .
+
+
+###  http://www.esblurock.info/dataset#SpeciesRepresentationAsText
+:SpeciesRepresentationAsText rdf:type owl:Class ;
+                             rdfs:subClassOf :Paragraph ;
+                             <http://purl.org/dc/elements/1.1/type> :SpeciesRepresentationAsText ;
+                             <http://purl.org/dc/terms/identifier> "dataset:speciesrepresentation" ;
+                             rdf:comment "This is a text representation of a species. It can be a single line like SMILES or the Nancy Linear form, or several lines such as a MolFile or V2000 or CML" ;
+                             rdfs:label "Species Representation" ;
+                             <http://www.w3.org/2004/02/skos/core#altLabel> "speciesrepresenation" .
+
+
+###  http://www.esblurock.info/dataset#SpeciesRepresentationChoices
+:SpeciesRepresentationChoices rdf:type owl:Class ;
+                              rdfs:subClassOf :ChemConnectClassifications ;
+                              rdfs:comment "These are the possible text formats of a species" ;
+                              rdfs:label "Species Representation" .
+
+
+###  http://www.esblurock.info/dataset#SpeciesRepresentationInChI
+:SpeciesRepresentationInChI rdf:type owl:Class ;
+                            rdfs:subClassOf :SpeciesRepresentationChoices ;
+                            rdfs:comment "The InChI single line text format for a species" ;
+                            rdfs:label "InChI" .
+
+
+###  http://www.esblurock.info/dataset#SpeciesRepresentationMolFile
+:SpeciesRepresentationMolFile rdf:type owl:Class ;
+                              rdfs:subClassOf :SpeciesRepresentationChoices ;
+                              rdfs:comment "This is the older MolFile representation (no properties)" .
+
+
+###  http://www.esblurock.info/dataset#SpeciesRepresentationMolFileV2000
+:SpeciesRepresentationMolFileV2000 rdf:type owl:Class ;
+                                   rdfs:subClassOf :SpeciesRepresentationChoices ;
+                                   rdfs:comment "This is the MolFile V2000 which includes properties, such as radicals" ;
+                                   rdfs:label "MolFile V2000" .
+
+
+###  http://www.esblurock.info/dataset#SpeciesRepresentationNancyLinearForm
+:SpeciesRepresentationNancyLinearForm rdf:type owl:Class ;
+                                      rdfs:subClassOf :SpeciesRepresentationChoices ;
+                                      rdfs:comment "This is the one line linear form of species representation used by the University of Nancy and CNRS" .
+
+
+###  http://www.esblurock.info/dataset#SpeciesRepresentationSMILES
+:SpeciesRepresentationSMILES rdf:type owl:Class ;
+                             rdfs:subClassOf :SpeciesRepresentationChoices ;
+                             rdfs:comment "This is the one line linear format SMILES" ;
+                             rdfs:label "SMILES" .
+
+
+###  http://www.esblurock.info/dataset#SpeciesRepresentationType
+:SpeciesRepresentationType rdf:type owl:Class ;
+                           rdfs:subClassOf :Classification ;
+                           <http://purl.org/dc/elements/1.1/type> :SpeciesRepresentationType ;
+                           <http://purl.org/dc/terms/identifier> "dataset:molfiletype" ;
+                           rdfs:comment "This the type of MolFile representation" ;
+                           rdfs:isDefinedBy :SpeciesRepresentationChoices ;
+                           rdfs:label "MolFile type" ;
+                           <http://www.w3.org/2004/02/skos/core#altLabel> "molfiletype" .
 
 
 ###  http://www.esblurock.info/dataset#SpeciesSpecificationInChI
@@ -21538,7 +21995,7 @@ The SetOfPropertyValueQueryPairs is used if a subset of the collection of standa
 
 ###  http://www.esblurock.info/dataset#StringTypeLabel
 :StringTypeLabel rdf:type owl:Class ;
-                 rdfs:subClassOf :ShortStringKey ;
+                 rdfs:subClassOf :familyName ;
                  <http://purl.org/dc/elements/1.1/type> :StringTypeLabel ;
                  <http://purl.org/dc/terms/identifier> "dataset:typelabel" ;
                  rdfs:comment "This is a short string representing a type classification" ;
@@ -23640,10 +24097,81 @@ The SetOfPropertyValueQueryPairs is used if a subset of the collection of standa
                              rdfs:subClassOf :TemperatureControl .
 
 
+###  http://www.esblurock.info/dataset#WorkFlowFirestoreClassName
+:WorkFlowFirestoreClassName rdf:type owl:Class ;
+                            rdfs:subClassOf :WorkflowFirestoreSessionId ;
+                            <http://purl.org/dc/elements/1.1/type> :DatasetCatalogHierarchyDataCatalog ;
+                            <http://purl.org/dc/terms/identifier> "dataset:hierworkflowclassname" ;
+                            rdfs:comment "All the record objects in this collection have this type" ,
+                                         "Workflow Object Class Name" ;
+                            rdfs:isDefinedBy :DerivedFromObjectClassName ;
+                            <http://www.w3.org/2004/02/skos/core#altLabel> "hierworkflowclassname" .
+
+
+###  http://www.esblurock.info/dataset#WorkFlowFirestoreSessionData
+:WorkFlowFirestoreSessionData rdf:type owl:Class ;
+                              rdfs:subClassOf :WorkFlowFirestoreClassName ,
+                                              [ rdf:type owl:Restriction ;
+                                                owl:onProperty <http://www.w3.org/2004/02/skos/core#member> ;
+                                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                owl:onClass :SessionData
+                                              ] ;
+                              <http://purl.org/dc/elements/1.1/type> :DatasetCatalogHierarchySimpleName ;
+                              <http://purl.org/dc/terms/identifier> "hierworkflowsessiondata" ;
+                              rdfs:comment "All the SessionData records" ;
+                              rdfs:isDefinedBy :LabelDerivedFromSessionId ;
+                              rdfs:label "Session Data" ;
+                              <http://www.w3.org/2004/02/skos/core#altLabel> "hierworkflowsessiondata" .
+
+
 ###  http://www.esblurock.info/dataset#WorkInfoHomepage
 :WorkInfoHomepage rdf:type owl:Class ;
                   rdfs:subClassOf :SiteClassifications ;
                   rdfs:label "Work Info Homepage" .
+
+
+###  http://www.esblurock.info/dataset#WorkflowFirestoreHierarchy
+:WorkflowFirestoreHierarchy rdf:type owl:Class ;
+                            rdfs:subClassOf :CollectionDocumentHierarchy ;
+                            <http://purl.org/dc/elements/1.1/type> :DatasetCatalogHierarchyCollection ;
+                            <http://purl.org/dc/terms/identifier> "dataset:hierworkflowdata" ;
+                            rdfs:comment "In this hierarchy is associated with all the objects having to do with session workflow data. Data created as a project of workflowis stored here." ;
+                            rdfs:isDefinedBy :DerivedFromHierarchyClassAnnotationAltLabel ;
+                            rdfs:label "Work Flow Firestore Objects" ;
+                            <http://www.w3.org/2004/02/skos/core#altLabel> "workflows" .
+
+
+###  http://www.esblurock.info/dataset#WorkflowFirestoreObjectUID
+:WorkflowFirestoreObjectUID rdf:type owl:Class ;
+                            rdfs:subClassOf :WorkflowFirestoreHierarchy ;
+                            <http://purl.org/dc/elements/1.1/type> :DatasetCatalogHierarchyDocument ;
+                            <http://purl.org/dc/terms/identifier> "dataset:hierworkflowuser" ;
+                            rdfs:comment "This is the data for a particular user. The purpose is to separate out data between users." ;
+                            rdfs:isDefinedBy :LabelDerivedFromUID ;
+                            rdfs:label "Workflow User" ;
+                            <http://www.w3.org/2004/02/skos/core#altLabel> "hierworkflowuser" .
+
+
+###  http://www.esblurock.info/dataset#WorkflowFirestoreSessionDocuments
+:WorkflowFirestoreSessionDocuments rdf:type owl:Class ;
+                                   rdfs:subClassOf :WorkflowFirestoreObjectUID ;
+                                   <http://purl.org/dc/elements/1.1/type> :DatasetCatalogHierarchyCollection ;
+                                   <http://purl.org/dc/terms/identifier> "dataset:hierworkflowsessions" ;
+                                   rdfs:comment "These are all the session and their documents in the hierarchy" ;
+                                   rdfs:isDefinedBy :DerivedFromHierarchyClassAnnotationAltLabel ;
+                                   rdfs:label "All Sessions Hierarchy" ;
+                                   <http://www.w3.org/2004/02/skos/core#altLabel> "sessions" .
+
+
+###  http://www.esblurock.info/dataset#WorkflowFirestoreSessionId
+:WorkflowFirestoreSessionId rdf:type owl:Class ;
+                            rdfs:subClassOf :WorkflowFirestoreSessionDocuments ;
+                            <http://purl.org/dc/elements/1.1/type> :DatasetCatalogHierarchyDocument ;
+                            <http://purl.org/dc/terms/identifier> "hierworkflowsessionid" ;
+                            rdfs:comment "These are the data objects associated with the session ID" ;
+                            rdfs:isDefinedBy :LabelDerivedFromSessionId ;
+                            rdfs:label "Session ID" ;
+                            <http://www.w3.org/2004/02/skos/core#altLabel> "hierworkflowsessionid" .
 
 
 ###  http://www.esblurock.info/dataset#WorkplaceHomepage
@@ -23675,6 +24203,34 @@ The SetOfPropertyValueQueryPairs is used if a subset of the collection of standa
 ###  http://www.esblurock.info/dataset#givenName
 :givenName rdf:type owl:Class ;
            rdfs:subClassOf :StringNameLabel .
+
+
+###  http://www.esblurock.info/dataset#isBoolean
+:isBoolean rdf:type owl:Class ;
+           rdfs:subClassOf :IsOfClassType ;
+           <http://purl.org/dc/terms/identifier> "isBoolean" ;
+           rdfs:comment "The object corresponds to a boolean UI component" ;
+           rdfs:label "Rendered with a  Boolean Component" ;
+           <http://www.w3.org/2004/02/skos/core#altLabel> "isBoolean" .
+
+
+###  http://www.esblurock.info/dataset#isFileSource
+:isFileSource rdf:type owl:Class ;
+              rdfs:subClassOf :IsOfClassType ;
+              <http://purl.org/dc/terms/identifier> "isFileSource" ;
+              rdfs:comment "The object corresponds to a file input UI component. The source is specified and the file is read into the system." ;
+              rdfs:label "Rendered with a  File Sorce Component" ;
+              <http://www.w3.org/2004/02/skos/core#altLabel> "isFileSource" .
+
+
+###  http://www.esblurock.info/dataset#isKeyWordSet
+:isKeyWordSet rdf:type owl:Class ;
+              rdfs:subClassOf :IsOfClassType ;
+              <http://purl.org/dc/elements/1.1/type> :isKeyWordSet ;
+              <http://purl.org/dc/terms/identifier> "isKeywordSet" ;
+              rdfs:comment "The object corresponds to a keyword set component" ;
+              rdfs:label "A keyword set component" ;
+              <http://www.w3.org/2004/02/skos/core#altLabel> "isKeywordSet" .
 
 
 ###  http://www.esblurock.info/dataset#isUncertaintyValue
@@ -27359,6 +27915,15 @@ basic geo vocab
   owl:members ( :MethodologyLinkDataset
                 :MethodologyLinkDevice
                 :MethodologyLinkMeasurement
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :SpeciesRepresentationMolFile
+                :SpeciesRepresentationMolFileV2000
+                :SpeciesRepresentationNancyLinearForm
+                :SpeciesRepresentationSMILES
               )
 ] .
 

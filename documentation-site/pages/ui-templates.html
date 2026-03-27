@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ontology UI Templates - WorkFlowProject</title>
+    <link rel="stylesheet" href="../src/style.css">
+  </head>
+  <body>
+    <div class="glow-bg"></div>
+    <div class="container">
+      <header>
+        <button class="back-btn" onclick="location.href='../index.html'">← Back to Overview</button>
+        <h1 class="hero-title">Ontology UI Templates</h1>
+        <p class="hero-summary">
+          A demonstration of how complex UI structures are automatically generated from ontology class definitions.
+        </p>
+      </header>
+
+      <main class="page-content">
+        <section class="info-content">
+          <h2>Concept</h2>
+          <p>
+            In a traditional system, every new data type requires a custom form. In WorkFlowProject, 
+            we use the ontology as the source of truth. When a user requests a template for a class 
+            (e.g., <code>dataset:DataDescriptionFileStaging</code>), the backend parses the ontology 
+            properties and returns a recursive JSON structure.
+          </p>
+          <div class="pub-item">
+            <h4>Key Features</h4>
+            <ul>
+              <li>Recursive rendering of nested objects</li>
+              <li>Type-safe primitive inputs (Keywords, Emails, URLs)</li>
+              <li>Dynamic array handling (Keyword Sets, Lists)</li>
+            </ul>
+          </div>
+        </section>
+      </main>
+    </div>
+    <style>
+      .back-btn {
+        background: none;
+        border: 1px solid var(--glass-border);
+        color: var(--accent-color);
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-bottom: 24px;
+        transition: all 0.2s;
+      }
+      .back-btn:hover {
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .page-content {
+        max-width: 800px;
+        margin: 0 auto;
+        padding-bottom: 100px;
+      }
+      ul { padding-left: 20px; list-style: disc; }
+      li { margin-bottom: 8px; color: var(--text-secondary); }
+    </style>
+  </body>
+</html>

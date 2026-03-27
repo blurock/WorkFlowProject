@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fill In Catalog Object Technical - WorkFlowProject</title>
+    <link rel="stylesheet" href="../src/style.css">
+  </head>
+  <body>
+    <div class="glow-bg"></div>
+    <div class="container">
+      <header>
+        <button class="back-btn" onclick="location.href='catalog-fillin.html'">← Back to Catalog Overview</button>
+        <h1 class="hero-title">Technical Implementation</h1>
+        <p class="hero-summary">
+          A deep dive into <code>FillInOntologyObject.java</code>, property discovery, and targeted AI extraction logic.
+        </p>
+      </header>
+      
+      <main class="page-content tech-doc">
+
+        <!-- Java Implementation -->
+        <section class="doc-section">
+          <div class="section-badge">Implementation</div>
+          <h2>The FillInOntologyObject Class</h2>
+          <p>
+            The <a href="https://github.com/example/FillInOntologyObject.java" target="_blank" class="external-link">FillInOntologyObject</a> service is responsible for populating complex scientific objects with values extracted from natural language prompts.
+          </p>
+          
+          <div class="tech-box">
+            <h3>Data Structure: <code>FillInResult</code></h3>
+            <p>The result of an extraction is split into assigned pairs and unassigned slots, allowing the UI to highlight missing data.</p>
+            <pre class="code-block" style="font-size: 0.8rem;"><code>public static class FillInResult {
+    private Map&lt;String, String&gt; assignedProperties; // Successfully extracted
+    private List&lt;String&gt; unassignedProperties;     // Expected but not found
+}</code></pre>
+          </div>
+        </section>
+
+        <!-- Logic Breakdown -->
+        <section class="doc-section">
+          <div class="section-badge">Stage 1: Discovery</div>
+          <h2>Dynamic Property Discovery</h2>
+          <p>
+            Before calling the AI, the system uses <code>DataTermsUtilities</code> to discover the "Property Set" 
+            of the target class. This ensures the extraction is grounded in the current version of the ontology.
+          </p>
+          <div class="tech-box">
+            <pre class="code-block" style="font-size: 0.8rem;"><code>// 1. Get the list of simple property classnames
+List&lt;String&gt; expectedProperties = DataTermsUtilities.getSimpleProperties(classname);</code></pre>
+          </div>
+        </section>
+
+        <section class="doc-section">
+          <div class="section-badge">Stage 2: Prompting</div>
+          <h2>Targeted Preamble Generation</h2>
+          <p>
+            The system constructs a dynamic <code>PREAMBLE</code> that injects the <code>expectedProperties</code> 
+            as context. This explicitly tells the LLM <em>exactly</em> which keys it is allowed to use in its output.
+          </p>
+          <div class="tech-box">
+            <pre class="code-block" style="font-size: 0.8rem;"><code>String propertyContext = String.join(", ", expectedProperties);
+String preamble = String.format("""
+    ROLE: You are an Extraction Agent.
+    CONTEXT: You are looking for values for properties: [%s]
+    TASK: Analyze USER QUERY and extract these specific classnames.
+    FORMAT: Return ONLY a JSON object.
+    """, propertyContext);</code></pre>
+          </div>
+        </section>
+
+        <section class="doc-section">
+          <div class="section-badge">Stage 3: Integration</div>
+          <h2>Discovery Engine Orchestration</h2>
+          <p>
+            The extraction leverages the <a href="https://cloud.google.com/java/docs/reference/google-cloud-discoveryengine/latest/com.google.cloud.discoveryengine.v1.SearchServiceClient" target="_blank" class="external-link">SearchServiceClient</a> 
+            to perform a grounded summarization.
+          </p>
+          <div class="tech-box">
+            <pre class="code-block" style="font-size: 0.8rem;"><code>SearchRequest request = SearchRequest.newBuilder()
+    .setServingConfig(servingConfig)
+    .setQuery(prompt)
+    .setFilter(filter) // Ground the extraction in scientific context
+    .setContentSearchSpec(SearchRequest.ContentSearchSpec.newBuilder()
+        .setSummarySpec(SearchRequest.ContentSearchSpec.SummarySpec.newBuilder()
+            .setModelPromptSpec(
+                SearchRequest.ContentSearchSpec.SummarySpec.ModelPromptSpec.newBuilder()
+                    .setPreamble(preamble)
+                    .build())
+            .build())
+        .build())
+    .build();</code></pre>
+          </div>
+        </section>
+
+        <section class="doc-section">
+          <div class="section-badge">Stage 4: Post-Processing</div>
+          <h2>Gap Analysis and Verification</h2>
+          <p>
+            The final stage uses Java Streams to compare the AI's output with the original "Expected" list 
+            to identify what was missed.
+          </p>
+          <div class="tech-box">
+            <pre class="code-block" style="font-size: 0.8rem;"><code>// Identify unassigned properties
+List&lt;String&gt; unassigned = expectedProperties.stream()
+        .filter(prop -> !assigned.containsKey(prop))
+        .collect(Collectors.toList());
+
+return new FillInResult(assigned, unassigned);</code></pre>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <style>
+      .tech-doc { max-width: 900px; margin: 0 auto; padding-bottom: 100px; }
+      .doc-section { margin-bottom: 60px; }
+      .section-badge { display: inline-block; padding: 4px 12px; background: var(--accent-color); color: white; border-radius: 4px; font-weight: bold; margin-bottom: 16px; font-size: 0.8rem; text-transform: uppercase; }
+      .tech-box { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 12px; padding: 24px; margin: 20px 0; }
+      .back-btn { background: none; border: 1px solid var(--glass-border); color: var(--accent-color); padding: 8px 16px; border-radius: 8px; cursor: pointer; margin-bottom: 24px; }
+    </style>
+  </body>
+</html>

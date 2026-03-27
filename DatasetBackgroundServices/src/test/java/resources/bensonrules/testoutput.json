@@ -1,0 +1,255 @@
+{
+	"dataset:simpcatobj": [
+		{
+			"dataset:catalogkey": "27db413a-88f6-41bc-8916-b2f3aad66e83",
+			"dataset:jthermostandardthermo": {
+				"dataset:stdentropy": {
+					"dcterms:identifier": "dataset:stdentropy",
+					"qudt:standardUncertainty": "0.0",
+					"dataset:ValueAsString": "4.51",
+					"qb:ComponentSpecification": {
+						"dataset:dynamicType": "FixedParameter",
+						"skos:prefLabel": "Entropy",
+						"qudt:Unit": {
+							"qudt:QuantityKind": "qudt:caloriePerMole",
+							"qudt:SystemOfQuantities": "qudt:MolarEnergyUnit"
+						},
+						"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty"
+					}
+				},
+				"dataset:cpattemp": [
+					{
+						"dcterms:identifier": "dataset:cpattemp",
+						"dataset:thermotemperature": "300.0",
+						"dataset:heatcapacity": {
+							"dcterms:identifier": "dataset:heatcapacity",
+							"qudt:standardUncertainty": "0.0",
+							"dataset:ValueAsString": "5.55",
+							"qb:ComponentSpecification": {
+								"dataset:dynamicType": "FixedParameter",
+								"skos:prefLabel": "Heat Capacity",
+								"qudt:Unit": {
+									"qudt:QuantityKind": "qudt:caloriePerMole",
+									"qudt:SystemOfQuantities": "qudt:MolarEnergyUnit"
+								},
+								"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty"
+							}
+						}
+					},
+					{
+						"dcterms:identifier": "dataset:cpattemp",
+						"dataset:thermotemperature": "400.0",
+						"dataset:heatcapacity": {
+							"dcterms:identifier": "dataset:heatcapacity",
+							"qudt:standardUncertainty": "0.0",
+							"dataset:ValueAsString": "7.03",
+							"qb:ComponentSpecification": {
+								"dataset:dynamicType": "FixedParameter",
+								"skos:prefLabel": "Heat Capacity",
+								"qudt:Unit": {
+									"qudt:QuantityKind": "qudt:caloriePerMole",
+									"qudt:SystemOfQuantities": "qudt:MolarEnergyUnit"
+								},
+								"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty"
+							}
+						}
+					},
+					{
+						"dcterms:identifier": "dataset:cpattemp",
+						"dataset:thermotemperature": "500.0",
+						"dataset:heatcapacity": {
+							"dcterms:identifier": "dataset:heatcapacity",
+							"qudt:standardUncertainty": "0.0",
+							"dataset:ValueAsString": "8.29",
+							"qb:ComponentSpecification": {
+								"dataset:dynamicType": "FixedParameter",
+								"skos:prefLabel": "Heat Capacity",
+								"qudt:Unit": {
+									"qudt:QuantityKind": "qudt:caloriePerMole",
+									"qudt:SystemOfQuantities": "qudt:MolarEnergyUnit"
+								},
+								"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty"
+							}
+						}
+					},
+					{
+						"dcterms:identifier": "dataset:cpattemp",
+						"dataset:thermotemperature": "600.0",
+						"dataset:heatcapacity": {
+							"dcterms:identifier": "dataset:heatcapacity",
+							"qudt:standardUncertainty": "0.0",
+							"dataset:ValueAsString": "9.29",
+							"qb:ComponentSpecification": {
+								"dataset:dynamicType": "FixedParameter",
+								"skos:prefLabel": "Heat Capacity",
+								"qudt:Unit": {
+									"qudt:QuantityKind": "qudt:caloriePerMole",
+									"qudt:SystemOfQuantities": "qudt:MolarEnergyUnit"
+								},
+								"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty"
+							}
+						}
+					},
+					{
+						"dcterms:identifier": "dataset:cpattemp",
+						"dataset:thermotemperature": "800.0",
+						"dataset:heatcapacity": {
+							"dcterms:identifier": "dataset:heatcapacity",
+							"qudt:standardUncertainty": "0.0",
+							"dataset:ValueAsString": "10.78",
+							"qb:ComponentSpecification": {
+								"dataset:dynamicType": "FixedParameter",
+								"skos:prefLabel": "Heat Capacity",
+								"qudt:Unit": {
+									"qudt:QuantityKind": "qudt:caloriePerMole",
+									"qudt:SystemOfQuantities": "qudt:MolarEnergyUnit"
+								},
+								"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty"
+							}
+						}
+					},
+					{
+						"dcterms:identifier": "dataset:cpattemp",
+						"dataset:thermotemperature": "1000.0",
+						"dataset:heatcapacity": {
+							"dcterms:identifier": "dataset:heatcapacity",
+							"qudt:standardUncertainty": "0.0",
+							"dataset:ValueAsString": "11.84",
+							"qb:ComponentSpecification": {
+								"dataset:dynamicType": "FixedParameter",
+								"skos:prefLabel": "Heat Capacity",
+								"qudt:Unit": {
+									"qudt:QuantityKind": "qudt:caloriePerMole",
+									"qudt:SystemOfQuantities": "qudt:MolarEnergyUnit"
+								},
+								"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty"
+							}
+						}
+					},
+					{
+						"dcterms:identifier": "dataset:cpattemp",
+						"dataset:thermotemperature": "1500.0",
+						"dataset:heatcapacity": {
+							"dcterms:identifier": "dataset:heatcapacity",
+							"qudt:standardUncertainty": "0.0",
+							"dataset:ValueAsString": "13.41",
+							"qb:ComponentSpecification": {
+								"dataset:dynamicType": "FixedParameter",
+								"skos:prefLabel": "Heat Capacity",
+								"qudt:Unit": {
+									"qudt:QuantityKind": "qudt:caloriePerMole",
+									"qudt:SystemOfQuantities": "qudt:MolarEnergyUnit"
+								},
+								"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty"
+							}
+						}
+					}
+				],
+				"dataset:stdenthalpy": {
+					"dcterms:identifier": "dataset:stdenthalpy",
+					"qudt:standardUncertainty": "0.0",
+					"dataset:ValueAsString": "9.19",
+					"qb:ComponentSpecification": {
+						"dataset:dynamicType": "FixedParameter",
+						"skos:prefLabel": "Enthaply",
+						"qudt:Unit": {
+							"qudt:QuantityKind": "qudt:KilocaloriePerMole",
+							"qudt:SystemOfQuantities": "qudt:MolarEnergyUnit"
+						},
+						"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty"
+					}
+				}
+			},
+			"dcterms:creator": "Administrator",
+			"dataset:readaccess": "Administrator",
+			"dataset:accessmodify": "Administrator",
+			"foaf:page": [],
+			"dataset:datasetfortypeincollection": {
+				"dataset:catalogobjectmaintainer": "Administrator",
+				"dataset:datasetversion": "1.0",
+				"dataset:datasetname": "Standard"
+			},
+			"dataset:objectype": "dataset:ThermodynamicBensonRuleDefinition",
+			"dataset:firestorecatalog": {
+				"qb:DataSet": "27db413a-88f6-41bc-8916-b2f3aad66e83",
+				"dataset:addressidpairs": {
+					"dataset:collectiondocpair": [
+						{
+							"dataset:collectionid": "ThermodynamicBensonRuleDefinition",
+							"dataset:idlevel": 2.0,
+							"dataset:documentid": "1.0"
+						},
+						{
+							"dataset:collectionid": "Standard",
+							"dataset:idlevel": 1.0,
+							"dataset:documentid": "hierdatasetcollection"
+						},
+						{
+							"dataset:collectionid": "hierthermodynamicdataset",
+							"dataset:idlevel": 0.0,
+							"dataset:documentid": "Administrator"
+						}
+					]
+				},
+				"skos:inScheme": "CatalogObjectStatusCurrent"
+			},
+			"dcterms:identifier": "dataset:bensonrule",
+			"skos:mappingRelation": [
+				{
+					"dataset:objectype": "dataset:RepositoryTherGasThermodynamicsBlock",
+					"qb:concept": "dataset:ConceptLinkRepositoryPartitionToInterpretation",
+					"dataset:firestorecatalog": {
+						"qb:DataSet": "e0fdedb8-1e9b-448e-b109-7009a23868e7",
+						"dataset:addressidpairs": {
+							"dataset:collectiondocpair": [
+								{
+									"dataset:collectionid": "Standard",
+									"dataset:idlevel": 1.0,
+									"dataset:documentid": "tableA1CarbonBensonRules"
+								},
+								{
+									"dataset:collectionid": "hierthermodynamicdataset",
+									"dataset:idlevel": 0.0,
+									"dataset:documentid": "Administrator"
+								}
+							]
+						},
+						"skos:inScheme": "thergasthermoblock"
+					}
+				}
+			],
+			"dataset:bensonrulestructure": {
+				"dataset:connectmult": [
+					{
+						"dcterms:identifier": "dataset:connectmult",
+						"dataset:bensonmultiplicity": "1",
+						"dataset:bensonconnectingatom": "h"
+					},
+					{
+						"dcterms:identifier": "dataset:connectmult",
+						"dataset:bensonmultiplicity": "1",
+						"dataset:bensonconnectingatom": "c"
+					}
+				],
+				"dataset:centeratom": "c/d",
+				"dataset:bensonruleref": "c/d-(c)-(h)"
+			},
+			"dcterms:BibliographicResource": [
+				{
+					"dc:creator": [
+						{
+							"dataset:authorgivenname": "Sidney W.",
+							"dataset:authortitle": "dataset:Professor",
+							"dataset:authorfamilyname": "Benson"
+						}
+					],
+					"dataset:referencestring": "Benson, Sidney W. (1976). Thermochemical Kinetics: Methods for the Estimation of Thermochemical Data and Rate Parameters, 2nd Ed.",
+					"datacite:PrimaryResourceIdentifier": "ISBN-13: 9780471067818",
+					"dataset:referencetitle": "Thermochemical Kinetics: Methods for the Estimation of Thermochemical Data and Rate Parameters"
+				}
+			],
+			"transaction": "9cb399c8-3c10-4f89-9511-274c0a5921cd"
+		}
+	],
+	"dcterms:identifier": "dataset:setofrdfs"
+}

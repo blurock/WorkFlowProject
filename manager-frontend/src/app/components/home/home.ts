@@ -41,4 +41,8 @@ export class HomeComponent {
   goToPrimitives() {
     this.router.navigate(['/primitives']);
   }
+
+  goToMoleculeEditor() {
+    this.router.navigate(['/molecule-editor']);
+  }
 }

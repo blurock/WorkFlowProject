@@ -1,0 +1,43 @@
+{
+	"prov:activity": "dataset:InitialReadInOfRepositoryFile",
+	"dataset:transreqobj": {},
+	"dataset:activityinfo": {
+		"descr-filestaging": {
+			"dataset:purpose-filestaging": {
+				"dataset:purposekey-filestaging": "dataset:PurposeFileStaging",
+				"dataset:dataconcept-staging": "dataset:ConceptFileStaging"
+			},
+			"dataset:keyword-filestaging": [],
+			"dataset:title-staging": "Read in some Carbon-Hydrogen-Oxygen species thermodynamics from Benson Thermochemical Kinetics",
+			"dataset:abstract-staging": "A set of Carbon-Hydrogen-Oxygen species temperature dependent thermodynamics in Benson thermodynamic form. This from Benson Thermochemical Kinetics.",
+			"dcterms:created": "today"
+		},
+		"dataset:uploadsrc": "dataset:LocalFileSystem",
+		"dataset:filesourceformat": "dataset:JThermodynamicsVibrationalModes",
+		"dataset:fileidentifier": "src/test/java/resources/vibrational/VibrationalMode.txt",
+		"dataset:filemediatype": "dataset:FileTypeText",
+		"dcterms:title": "Vibrational Modes used to calculate corrections to radical thermodynamics of the JTherGas method. The frequencies are from Benson's book, Table A.13 ",
+		"dataset:filesourcesubtype": "",
+		"dataset:datasettransactionspecification": {
+			"dataset:catalogobjectmaintainer": "Administrator",
+			"dataset:datasetname": "Standard",
+			"dataset:datasetversion": "1.0",
+			"dataset:uniquegenericname": "vibrationalMode"
+		},
+		"dcterms:identifier": "initialrepositorylocal",
+		"dcterms:BibliographicResource": [
+			{
+				"datacite:PrimaryResourceIdentifier": "ISBN-13: 9780471067818",
+				"dataset:referencestring": "Benson, Sidney W. (1976). Thermochemical Kinetics: Methods for the Estimation of Thermochemical Data and Rate Parameters, 2nd Ed.",
+				"dataset:referencetitle": "Thermochemical Kinetics: Methods for the Estimation of Thermochemical Data and Rate Parameters",
+				"dc:creator": [
+					{
+						"dataset:authorfamilyname": "Benson",
+						"dataset:authorgivenname": "Sidney W.",
+						"dataset:authortitle": "dataset:Professor"
+					}
+				]
+			}
+		]
+	}
+}

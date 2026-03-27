@@ -1,0 +1,14 @@
+{
+	"prov:activity": "dataset:TransactionInterpretTextBlock",
+	"dataset:activityinfo": {
+		"dataset:filesourceformat": "dataset:JThermodynamicsMetaAtoms",
+		"dataset:blockinterpretationmethod": "dataset:ParseLinesJThermodynamicsMetaAtoms",
+		"dcterms:title": "The linear structure meta atom set",
+		"dataset:datasettransactionspecification": {
+			"dataset:catalogobjectmaintainer": "Administrator",
+			"dataset:datasetname": "Standard",
+			"dataset:datasetversion": "1.0",
+			"dataset:uniquegenericname": "metaAtomsForLinearStructures"
+		}
+	}
+	}

@@ -1,0 +1,20 @@
+{
+	"prov:activity": "dataset:PartiionSetWithinRepositoryFile",
+	"dataset:activityinfo": {
+		"dataset:datasetname": "Standard",
+		"dataset:datasetversion": "20200919",
+		"dataset:filepartitionmethod": "dataset:PartitionTherGasThermodynamics",
+		"dataset:filesourceformat": "dataset:JThermodynamicsVibrationalModes",
+		"dcterms:title": "The (original) standard set of TherGas species thermodynamics"
+	},
+	"dataset:transreqobj": {
+		"dataset:initreposfile": {
+			"dcterms:identifier": "dataset:firestorecatalog",
+			"skos:inScheme": "transactionobject",
+			"qb:DataSet": "639bedbd-6f53-407b-b292-c3acdc6094b8",
+			"dataset:addressidpairs": {
+				"dataset:collectiondocpair": []
+			}
+		}
+	}
+}

@@ -1,0 +1,9 @@
+curl -X -d "@src/test/java/resources/bensonrules/readTableA1CarbonBensonRules.json" \ 
+https://accounts.google.com/o/oauth2/v2/auth?\
+ scope=https%3A//www.googleapis.com/auth/drive.metadata.readonly&\ 
+ access_type=offline&\ 
+ include_granted_scopes=true&\ 
+ response_type=code&\ 
+ state=1000&\ 
+ redirect_uri=http://localhost:8080/transaction&\ 
+ client_id=315685320181-pvk43cj1b2smkd5vl319i5bksj11iu1j.apps.googleusercontent.com

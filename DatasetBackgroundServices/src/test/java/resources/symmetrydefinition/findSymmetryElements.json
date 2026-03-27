@@ -1,0 +1,6 @@
+{
+	"service": "FindSetOfSymmetryElements",
+	"dataset:catalogobjectmaintainer": "Administrator",
+	"dataset:datasetname": "StandardDataset",
+	"dataset:structuresymmetrytype": "dataset:StructureExternalSymmetry"
+}

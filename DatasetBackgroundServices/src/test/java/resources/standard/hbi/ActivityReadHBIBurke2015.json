@@ -1,0 +1,53 @@
+{
+  "dataset:fileidentifier": "No file selected",
+  "dataset:filesourcesubtype": "",
+  "dataset:filemediatype": "dataset:FileTypeText",
+  "dataset:uploadsrc": "dataset:LocalFileSystem",
+  "dcterms:title": "HBI Rules from Burke et. al 2015",
+  "dataset:title-staging": "HBI Rules from Burke et. al 2015",
+  "dataset:abstract-staging": "Critical Evaluation of Thermochemical Properties of C1–C4 Species:  Updated Group-Contributions to Estimate Thermochemical Properties",
+  "dataset:filesourceformat": "dataset:TherGasSubstructureThermodynamics",
+  "descr-filestaging": {
+    "dataset:purpose-filestaging": {
+      "dataset:purposekey-filestaging": "dataset:PurposeRepositoryDataOrigin",
+      "dataset:dataconcept-staging": "dataset:ChemConnectConceptChemicalStructure"
+    },
+    "dataset:abstract-staging": "Critical Evaluation of Thermochemical Properties of C1–C4 Species:  Updated Group-Contributions to Estimate Thermochemical Properties",
+    "dataset:title-staging": "HBI Rules from Burke et. al 2015",
+    "dataset:keyword-filestaging": [],
+    "dcterms:created": "2023-03-01T12:45:29.261Z"
+  },
+  "dataset:datasettransactionspecification": {
+    "dataset:dataobjstatus": "dataset:CatalogObjectStatusCurrent",
+    "dataset:datasetname": "StandardData",
+    "dataset:datasetversion": "1.0",
+    "dataset:uniquegenericname": "HBIBurke2015",
+    "dataset:catalogobjectmaintainer": "1ZRLfqweIHdT7f8LWHgd02s4ovJ8"
+  },
+  "dcterms:BibliographicResource": [
+    {
+      "datacite:PrimaryResourceIdentifier": "https:/doi.org/10.1063/1.4902535",
+      "dataset:referencestring": "Journal of Physical and Chemical Reference Data 44, 013101 (2015)",
+      "dataset:referencetitle": "Critical Evaluation of Thermochemical Properties of C1–C4 Species:  Updated Group-Contributions to Estimate Thermochemical Properties",
+      "dc:creator": [
+        {
+          "dataset:authorfamilyname": "Burke",
+          "dataset:authorgivenname": "S. M.",
+          "dataset:authortitle": "dataset:Professor"
+        },
+        {
+          "dataset:authorfamilyname": "Simmie",
+          "dataset:authorgivenname": "John M.",
+          "dataset:authortitle": "dataset:Professor"
+        },
+        {
+          "dataset:authorfamilyname": "Curran",
+          "dataset:authorgivenname": "Henry J.",
+          "dataset:authortitle": ""
+        }
+      ]
+    }
+  ],
+  "foaf:page": [],
+  "skos:mappingRelation": []
+}

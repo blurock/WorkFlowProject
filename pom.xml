@@ -17,6 +17,10 @@
         <module>backend-data-manager</module>
         <module>ChemConnectCoreOntologyBase</module>
         <module>ChemConnectThermodynamicData</module>
+        <module>JTherGas</module>
+        <module>JThermodynamicData</module>
+        <module>DatasetBackgroundServices</module>
+        <module>Neo4JUtilities</module>
     </modules>
 
 </project>

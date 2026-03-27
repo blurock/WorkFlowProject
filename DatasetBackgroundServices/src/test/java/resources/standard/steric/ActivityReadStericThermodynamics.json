@@ -1,0 +1,40 @@
+ {
+    "descr-filestaging": {
+      "dataset:purpose-filestaging": {
+        "dataset:purposekey-filestaging": "dataset:PurposeFileStaging",
+        "dataset:dataconcept-staging": "dataset:ConceptFileStaging"
+      },
+      "dataset:keyword-filestaging": [],
+      "dataset:title-staging": "Read in steric hindrance thermodynamics from Benson Thermochemical Kinetics",
+      "dataset:abstract-staging": "Steric Hindrance thermodynamics from Benson Thermochemical Kinetics",
+      "dcterms:created": "today"
+    },
+    "dataset:uploadsrc": "dataset:StringSource",
+    "dataset:filesourceformat": "dataset:TherGasSubstructureThermodynamics",
+    "dataset:filemediatype": "dataset:FileTypeText",
+    "dcterms:title": "Steric Hindrance Thermodynamics from Benson Thermochemical Kinetics",
+    "dataset:filesourcesubtype": "",
+    "dataset:datasettransactionspecification": {
+      "dataset:dataobjstatus": "dataset:CatalogObjectStatusCurrent",
+      "dataset:catalogobjectmaintainer": "Administrator",
+      "dataset:datasetname": "StandardData",
+      "dataset:datasetversion": "1.0",
+      "dataset:uniquegenericname": "stericHindranceThermodynamics"
+    },
+    "dcterms:identifier": "initialrepositorylocal",
+    "dcterms:BibliographicResource": [
+      {
+        "datacite:PrimaryResourceIdentifier": "ISBN-13: 9780471067818",
+        "dataset:referencestring": "Benson, Sidney W. (1976). Thermochemical Kinetics: Methods for the Estimation of Thermochemical Data and Rate Parameters, 2nd Ed.",
+        "dataset:referencetitle": "Thermochemical Kinetics: Methods for the Estimation of Thermochemical Data and Rate Parameters",
+        "dc:creator": [
+          {
+            "dataset:authorfamilyname": "Benson",
+            "dataset:authorgivenname": "Sidney W.",
+            "dataset:authortitle": "dataset:Professor"
+          }
+        ]
+      }
+    ]
+  }
+

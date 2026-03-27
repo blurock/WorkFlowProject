@@ -1,0 +1,14 @@
+{
+	"prov:activity": "dataset:PartiionSetWithinRepositoryFile",
+		"dataset:activityinfo": {
+		"dataset:datasettransactionspecification": {
+			"dataset:catalogobjectmaintainer": "Administrator",
+			"dataset:datasetname": "Standard",
+			"dataset:datasetversion": "1.0",
+			"dataset:uniquegenericname": "ExternalSymmetryCarbonAtom"
+		},
+		"dataset:filepartitionmethod": "dataset:PartitionXMLListOfCatalogObjects",
+		"dataset:filesourceformat": "dataset:symmetrystructuredefinition",
+		"dcterms:title": "External Symmetry Rules for Carbon Atom"
+	}
+}

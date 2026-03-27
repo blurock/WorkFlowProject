@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fill In Catalog Object - WorkFlowProject</title>
+    <link rel="stylesheet" href="../src/style.css">
+  </head>
+  <body>
+    <div class="glow-bg"></div>
+    <div class="container">
+      <header>
+        <button class="back-btn" onclick="location.href='../index.html'">← Back to Overview</button>
+        <h1 class="hero-title">Fill In Catalog Object</h1>
+        <p class="hero-summary">
+          Transitioning from natural language descriptions to fully-populated scientific catalog entries using targeted AI extraction.
+        </p>
+      </header>
+
+      <main class="page-content">
+        <!-- Visual Flow Section -->
+        <section class="visual-flow" style="margin: 40px 0; text-align: center;">
+          <div class="flow-container" style="position: relative; display: inline-block; width: 100%; max-width: 700px;">
+            <img src="/assets/catalog_fillin_flow_1773753648684.png" alt="Fill In Catalog Object Workflow" class="flow-image" style="width: 100%; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            <div class="flow-labels" style="margin-top: 15px; display: flex; justify-content: space-between; font-weight: bold; color: var(--accent-color); font-size: 0.9rem;">
+              <span class="label">Empty Catalog Form</span>
+              <span class="label">AI Extraction Agent</span>
+              <span class="label">Populated Catalog Form</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Low Level Overview -->
+        <section class="doc-section level-1">
+          <div class="section-badge">Low Level Overview</div>
+          <h2>Automated Form Filling for Scientists</h2>
+          <p>
+            Scientific data objects (Catalog Objects) can be complex, often requiring dozens of specific fields 
+            such as titles, URLs, descriptions, and methodology. The <strong>Fill In Catalog Object</strong> system 
+            is a specialized AI agent that "reads" a scientist's experimental notes and automatically fills 
+            out the corresponding catalog entry.
+          </p>
+          <div class="info-card">
+            <h3>How it Works</h3>
+            <p>
+              Imagine you have an empty digital form for a "Data Source". Instead of copying and pasting values 
+              one by one, you paste your entire project abstract. The agent identifies the Title, the author's 
+              URL, and the core description, mapping them directly to the form fields with high precision.
+            </p>
+          </div>
+        </section>
+
+        <!-- Higher Level Overview -->
+        <section class="doc-section level-2">
+          <div class="section-badge">Higher Level Overview</div>
+          <h2>The "Contract of Properties"</h2>
+          <p>
+            Unlike general-purpose extraction, this system is <strong>targeted</strong>. It doesn't just look for 
+            anything interesting; it looks specifically for the fields defined by the ontology.
+          </p>
+          <div class="tech-box">
+            <h3>1. Dynamic Schema Discovery</h3>
+            <p>The system first queries the scientific ontology to find exactly which properties are "expected" for a specific class (e.g., a <code>dataset:ActivityRepositoryInitialReadLocalFile</code>).</p>
+            
+            <h3>2. Targeted Prompting</h3>
+            <p>This list of expected fields is inserted into the AI's instructions. This creates a strict contract: <em>"Only find values for these specific parameters."</em></p>
+            
+            <h3>3. Gap Analysis</h3>
+            <p>After extraction, the system performs a logic check. It clearly distinguishes between what it was able to <strong>Assign</strong> and what remains <strong>Unassigned</strong>, allowing the user to provide missing details manually if needed.</p>
+          </div>
+        </section>
+
+        <!-- Technical Deep Dive Link -->
+        <section class="footer-navigation" style="margin-top: 60px; text-align: center; padding: 40px; border-top: 1px solid var(--glass-border);">
+          <div class="perspective-label" style="margin-bottom: 20px;">For Software Engineers</div>
+          <h3>Technical Implementation</h3>
+          <p style="margin-bottom: 24px;">Explore the <code>FillInOntologyObject</code> class, dynamic preamble generation, and result mapping logic.</p>
+          <a href="catalog-fillin-technical.html" class="external-link" style="font-size: 1.2rem;">View Technical Deep Dive →</a>
+        </section>
+      </main>
+    </div>
+
+    <style>
+      .page-content { max-width: 900px; margin: 0 auto; padding-bottom: 100px; }
+      .visual-flow { margin: 40px 0; text-align: center; }
+      .flow-container { position: relative; display: inline-block; width: 100%; max-width: 600px; }
+      .flow-image { width: 100%; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+      .flow-labels { margin-top: 15px; display: flex; justify-content: space-between; font-weight: bold; color: var(--accent-color); font-size: 0.9rem; }
+      
+      .doc-section { margin-bottom: 60px; }
+      .section-badge { display: inline-block; padding: 4px 12px; background: var(--accent-color); color: white; border-radius: 4px; font-weight: bold; margin-bottom: 16px; font-size: 0.8rem; text-transform: uppercase; }
+      .info-card { background: rgba(255,255,255,0.02); border-left: 3px solid var(--accent-color); padding: 20px; margin: 20px 0; border-radius: 0 12px 12px 0; }
+      .info-card h3 { margin-bottom: 8px; font-size: 1.1rem; color: var(--accent-color); }
+      .tech-box { background: rgba(0,0,0,0.2); padding: 20px; border-radius: 12px; border: 1px solid var(--glass-border); margin: 20px 0; }
+      .back-btn { background: none; border: 1px solid var(--glass-border); color: var(--accent-color); padding: 8px 16px; border-radius: 8px; cursor: pointer; margin-bottom: 24px; }
+    </style>
+  </body>
+</html>

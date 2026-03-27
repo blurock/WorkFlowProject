@@ -1,0 +1,71 @@
+{
+	"descr-filestaging": {
+		"dataset:purpose-filestaging": {
+			"dataset:purposekey-filestaging": "dataset:PurposeFileStaging",
+			"dataset:dataconcept-staging": "dataset:ConceptFileStaging"
+		},
+		"dataset:keyword-filestaging": [],
+		"dataset:title-staging": "Read in External Symmetry Rules for Cycles",
+		"dataset:abstract-staging": "Read in External Symmetry Rules for Cycles. The source of these rules is an extropolation of TherGas rules for symmetry contributions as outlined in the thesis",
+		"dcterms:created": "today"
+	},
+	"dataset:uploadsrc": "dataset:LocalFileSystem",
+	"dataset:filesourceformat": "dataset:JThermodynamicsSymmetryDefinitionFormat",
+	"dataset:filemediatype": "dataset:FileTypeText",
+	"dcterms:title": "External Symmetry Rules for Cyclic Structures",
+	"dataset:filesourcesubtype": "",
+	"dataset:datasettransactionspecification": {
+		"dataset:dataobjstatus": "dataset:CatalogObjectStatusCurrent",
+		"dataset:catalogobjectmaintainer": "Administrator",
+		"dataset:datasetname": "StandardData",
+		"dataset:datasetversion": "1.0",
+		"dataset:uniquegenericname": "ExternalSymmetryCycles"
+	},
+	"dcterms:identifier": "initialrepositorylocal",
+	"dcterms:BibliographicResource": [
+		{
+			"datacite:PrimaryResourceIdentifier": "https://doi.org/10.1016/j.energy.2012.01.072",
+			"dataset:referencestring": "Edward S.Blurock, Valérie Warth, Xavier Grandmougin, Roda Bounaceur, Pierre-Alexandre Glaude, Frédérique Battin-Leclerc (2012). Energy (43) 161-171",
+			"dataset:referencetitle": "JTHERGAS: Thermodynamic estimation from 2D graphical representations of molecules",
+			"dc:creator": [
+				{
+					"dataset:authorfamilyname": "Blurock",
+					"dataset:authorgivenname": "Edward S.",
+					"dataset:authortitle": "dataset:Professor"
+				},
+				{
+					"dataset:authorfamilyname": "Warth",
+					"dataset:authorgivenname": "Valérie",
+					"dataset:authortitle": "dataset:Researcher"
+				},
+				{
+					"dataset:authorfamilyname": "Grandmougin",
+					"dataset:authorgivenname": "Xavier",
+					"dataset:authortitle": "dataset:Professor"
+				},
+				{
+					"dataset:authorfamilyname": "Bounaceur",
+					"dataset:authorgivenname": "Roda",
+					"dataset:authortitle": "dataset:Professor"
+				},
+				{
+					"dataset:authorfamilyname": "Battin-Leclerc",
+					"dataset:authorgivenname": "Frédérique",
+					"dataset:authortitle": "dataset:Professor"
+				}
+			]
+		},
+		{
+			"datacite:PrimaryResourceIdentifier": "1987",
+			"dataset:referencestring": "Muller, Chantal, Thesis, Institut National Polytechnique de Lorraine, 1987, Logiciels de Calcul de Grandeurs Thermochimiques de Molecules et de Radicaux Libres en Phase Gazeuse",
+			"dataset:referencetitle": "Logiciels de Calcul de Grandeurs Thermochimiques de Molecules et de Radicaux Libres en Phase Gazeuse",
+			"dc:creator": [
+				{
+					"dataset:authorfamilyname": "Muller",
+					"dataset:authorgivenname": "Chantal",
+					"dataset:authortitle": "dataset:Professor"
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,15 @@
+{
+	"prov:activity": "dataset:TransactionInterpretTextBlock",
+	"dataset:activityinfo": {
+		"dataset:collectionobjecttype": "dataset:JThermodynamicsSymmetryStructureDefinitionDatabase",
+		"dataset:specificationfordataset": {
+			"dataset:catalogobjectmaintainer": "Administrator",
+			"dataset:uniquegenericname": "InternalSymmetryCarbonAtom",
+			"dataset:datasetobjecttype": "dataset:JThermodynamicsSymmetryStructureDefinitionDataSet"
+		},
+		"dataset:filesourceformat": "dataset:JThermodynamicsSymmetryDefinitionFormat",
+		"dataset:blockinterpretationmethod": "dataset:ParseLinesJThermodynamicsSymmetryDefinition",
+		"dcterms:title": "Internal Symmetry Rules for Carbon Atoms",
+		"dataset:dataobjstatus": "CatalogObjectStatusCurrent"
+	}
+}

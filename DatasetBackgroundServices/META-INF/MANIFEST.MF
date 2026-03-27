@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Created-By: Apache Maven 3.9.6
+Built-By: edwardblurock
+Build-Jdk: 22.0.2
+Implementation-Title: JThermodyanicsData
+Implementation-Vendor: Blurock Consulting AB
+Implementation-Version: 1.0
+Specification-Title: Edward Blurock
+

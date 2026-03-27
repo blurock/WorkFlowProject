@@ -15,11 +15,10 @@ import info.blurock.datamanager.datastoreterms.DictionarySearchService;
 import info.blurock.datamanager.datastoreterms.FillInOntologyObject;
 import info.blurock.datamanager.datastoreterms.ExtractDescription;
 import info.esblurock.reaction.core.ontology.base.dataset.DocumentTemplateForUI;
+import info.blurock.datamanager.service.workflow.WorkflowTaskDispatcher;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -35,6 +34,9 @@ public class DataStoreController {
 
     @Autowired
     private ExtractDescription extractDescriptionService;
+
+    @Autowired
+    private WorkflowTaskDispatcher workflowTaskDispatcher;
 
     @PostMapping(value = "/ui-template", produces = "application/json")
     public String getUITemplate(@RequestBody Map<String, Object> params) {
@@ -224,6 +226,37 @@ public class DataStoreController {
             errorResponse.addProperty("dataset:servicesuccessful", "false");
             errorResponse.addProperty("dataset:serviceresponsemessage", "Extraction-side exception: " + e.getMessage());
             return errorResponse.toString();
+        }
+    }
+
+    /**
+     * Generic endpoint to execute ontology-driven workflow tasks.
+     * Replaces multiple brittle endpoints with a single discovery-based dispatcher.
+     */
+    @PostMapping(value = "/workflow/execute", produces = "application/json")
+    public ResponseEntity<String> executeWorkflowTask(@RequestBody Map<String, Object> params) {
+        try {
+            Document doc = MessageConstructor.startDocument("WorkflowTaskExecution");
+            String ontologyClass = (String) params.get("ontologyClass");
+            
+            // Convert parameters to JsonObject for the dispatcher
+            JsonObject input = new JsonObject();
+            params.forEach((key, value) -> {
+                if (value instanceof String) input.addProperty(key, (String) value);
+                else if (value instanceof Number) input.addProperty(key, (Number) value);
+                else if (value instanceof Boolean) input.addProperty(key, (Boolean) value);
+            });
+
+            System.out.println("Executing Workflow Task: " + ontologyClass);
+            JsonObject result = workflowTaskDispatcher.executeTask(ontologyClass, input);
+            
+            JsonObject response = StandardResponse.standardServiceResponse(doc, "Task executed successfully", result);
+            return ResponseEntity.ok(response.toString());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("{\"error\": \"" + e.getMessage() + "\"}");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body("{\"error\": \"Internal server error: " + e.getMessage() + "\"}");
         }
     }
 }

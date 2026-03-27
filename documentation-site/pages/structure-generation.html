@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ontology Structure Generation - WorkFlowProject</title>
+    <link rel="stylesheet" href="../src/style.css">
+</head>
+<body>
+    <div class="glow-bg"></div>
+    <div class="container">
+        <header>
+            <a href="./dynamic-primitive.html" class="back-link">← Back to Dynamic Primitives</a>
+            <h1 class="hero-title">Structure Generation</h1>
+            <p class="hero-summary">How the Java backend transforms ontology definitions into UI-friendly metadata.</p>
+        </header>
+
+        <main class="technical-content">
+            <!-- Section 1: API Entry Point -->
+            <section class="tech-section">
+                <h2>1. The API Entry Point</h2>
+                <p>When the frontend needs to render a class, it calls the <code>DataStoreController</code>. This endpoint is the bridge between the Angular frontend and the Java ontology core.</p>
+                
+                <div class="logic-card" style="margin-bottom: 24px;">
+                    <ul>
+                        <li><strong>Endpoint:</strong> <code>POST /api/datastore/ui-template</code></li>
+                        <li><strong>Input:</strong> <code>{ "classname": "dataset:ContactInformation" }</code></li>
+                        <li><strong>Role:</strong> Delegates the creation of the JSON metadata to <code>DocumentTemplateForUI</code>.</li>
+                    </ul>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header">DataStoreController.java Snippet</div>
+                    <pre><code>
+@PostMapping(value = "/ui-template", produces = "application/json")
+public String getUITemplate(@RequestBody Map&lt;String, Object&gt; params) {
+    String classname = (String) params.get("classname");
+    // Generate the complex UI template object
+    JsonObject template = DocumentTemplateForUI.createUIDocumentTemplate(classname);
+    return StandardResponse.standardServiceResponse(doc, "Success", template).toString();
+}
+                    </code></pre>
+                </div>
+            </section>
+
+            <!-- Section 2: Core Logic -->
+            <section class="tech-section">
+                <h2>2. Core Logic: Phase-Based Generation</h2>
+                <p>The <code>DocumentTemplateForUI</code> class builds the <code>OntologyStructure</code> in two distinct phases.</p>
+
+                <div class="logic-card">
+                    <h3>Phase A: Skeleton Generation</h3>
+                    <p>First, it uses <code>CreateDocumentTemplate</code> to generate a baseline JSON representation of the ontology class, including all required and optional properties.</p>
+                    <pre><code>
+JsonObject exampleTemplate = CreateDocumentTemplate.createTemplateWithAnnotations(classname);
+                    </code></pre>
+                </div>
+
+                <div class="logic-card" style="margin-top: 16px;">
+                    <h3>Phase B: Recursive Mapping</h3>
+                    <p>The system then walks through this skeleton. For every property found, it determines if it's an object (recursion), an array (list), or a leaf primitive (input field).</p>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header">Recursive Loop Loop (DocumentTemplateForUI.java)</div>
+                    <pre><code>
+private static void recursiveLoopThroughElements(JsonObject template, JsonObject annotations, JsonObject parentUI) {
+    for (Entry&lt;String, JsonElement&gt; entry : template.entrySet()) {
+        String key = entry.getKey();
+        JsonElement element = entry.getValue();
+        JsonObject elementUI = new JsonObject();
+        parentUI.add(key, elementUI);
+
+        // Map basic ID and classname
+        elementUI.addProperty("identifier", key);
+        elementUI.addProperty("classname", GenericSimpleQueries.classFromIdentifier(key));
+
+        if (element.isJsonObject()) {
+            elementUI.addProperty("isObject", true);
+            JsonObject properties = new JsonObject();
+            elementUI.add("properties", properties);
+            // Recursive descent into child properties
+            recursiveLoopThroughElements(element.getAsJsonObject(), annotations, properties);
+        } else {
+            // Primitive leaf node setup
+            setupPrimitiveMetadata(elementUI, classname);
+        }
+    }
+}
+                    </code></pre>
+                </div>
+            </section>
+
+            <!-- Section 3: Primitive Detection -->
+            <section class="tech-section">
+                <h2>3. Primitive Type Detection</h2>
+                <p>How does the backend know whether to use a <code>Paragraph</code> or a <code>OneLine</code> primitive? It queries the ontology hierarchy to see if the property class inherits from specifically designated "UI Base Classes."</p>
+                
+                <div class="code-block">
+                    <div class="code-header">setupPrimitiveMetadata Method</div>
+                    <pre><code>
+private static void setupPrimitiveMetadata(JsonObject elementUI, String classname) {
+    // Check ontology inheritance for specific UI behaviors
+    elementUI.addProperty("isParagraph", GenericSimpleQueries.isSubClassOf(classname, "dataset:Paragraph", false));
+    elementUI.addProperty("isOneLine", GenericSimpleQueries.isSubClassOf(classname, "dataset:OnLine", false));
+    elementUI.addProperty("isBoolean", GenericSimpleQueries.isSubClassOf(classname, "dataset:BooleanDataType", false));
+    elementUI.addProperty("isClassification", GenericSimpleQueries.isSubClassOf(classname, "dataset:Classification", false));
+
+    // Special logic for dynamic dropdowns (Classification choices)
+    if (elementUI.get("isClassification").getAsBoolean()) {
+        JsonObject classificationTree = DatabaseOntologyClassification.classificationTreeFromDataType(classname);
+        elementUI.add("choices", classificationTree.get("dataobject"));
+    }
+}
+                    </code></pre>
+                </div>
+            </section>
+
+            <!-- Section 4: Resulting JSON -->
+            <section class="tech-section">
+                <h2>4. Final Result: The OntologyStructure JSON</h2>
+                <div class="code-block">
+                    <div class="code-header">Sample Response fragment</div>
+                    <pre><code>
+{
+  "identifier": "dataset:contactEmail",
+  "classname": "dataset:Email",
+  "label": "Email Address",
+  "comment": "Enter a valid research contact email",
+  "isOneLine": true,
+  "isObject": false,
+  "isArray": false
+}
+                    </code></pre>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <p>© 2026 WorkFlowProject - Blurock Consulting AB</p>
+                <p>Developer Reference: StructureGeneration.md</p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+	"prov:activity": "dataset:PartiionSetWithinRepositoryFile",
+		"dataset:activityinfo": {
+		"dataset:datasettransactionspecification": {
+			"dataset:catalogobjectmaintainer": "Administrator",
+			"dataset:datasetname": "Standard",
+			"dataset:datasetversion": "1.0",
+			"dataset:uniquegenericname": "substructthermoCycles"
+		},
+		"dataset:filepartitionmethod": "dataset:PartitionTherGasThermodynamics",
+		"dataset:filesourceformat": "dataset:ThergasSpeciesThermodynamics",
+		"dcterms:title": "A set of ring strain thermodynamics from Benson Thermochemical Kinetics"
+	}
+}

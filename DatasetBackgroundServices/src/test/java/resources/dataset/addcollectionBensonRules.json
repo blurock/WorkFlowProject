@@ -1,0 +1,33 @@
+{
+	"prov:activity": "dataset:DatasetCollectionSetAddDatasetEvent",
+	"dataset:transreqobj": {
+		"dataset:datasetcollectionsetcreationevent": {
+			"dataset:addressidpairs": {
+				"dataset:collectiondocpair": [
+					{
+						"dataset:idlevel": 0,
+						"dataset:documentid": "Administrator",
+						"dataset:collectionid": "hierthermodynamicdataset"
+					}
+				]
+			},
+			"skos:inScheme": "hieraddcollectionsettransactions",
+			"qb:DataSet": "StandardDataset"
+		}
+	},
+	"dataset:activityinfo": {
+		"dcterms:title": "Standard JThermodynamic Dataset for Benson Rules",
+		"dcterms:identifier": "dataset:adddatasetcollectioninfo",
+		"dataset:objectype": "dataset:ThermodynamicBensonRuleDefinition",
+		"dataset:datasetfortypeincollection": {
+			"dataset:catalogobjectmaintainer": "Administrator",
+			"dataset:dataobjstatus": "CatalogObjectStatusCurrent",
+			"dataset:datasetname": "Standard",
+			"dataset:datasetversion": "1.0"
+		},
+		"dataset:collectionsetrecordidinfo": {
+			"dataset:datasetcollectionslabel": "StandardDataset",
+			"dataset:catalogobjectmaintainer": "Administrator"
+		}
+	}
+}

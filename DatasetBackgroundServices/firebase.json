@@ -1,0 +1,51 @@
+{
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "functions": [
+      {
+        "codebase": "ts-backend",
+        "source": "functions-ts",
+        "runtime": "nodejs22",
+		"ignore": [
+		  "node_modules",
+		  ".git",
+		  "firebase-debug.log"
+		]
+      }
+    ],
+	
+  "emulators": {
+    "auth": {
+      "host": "localhost",
+      "port": 9099
+    },
+    "functions": {
+      "host": "localhost",
+      "port": 5001
+    },
+    "firestore": {
+      "host": "localhost",
+      "port": 8081,
+      "dataDir": "./firestore-data",
+      "rules": "firestore.rules",
+      "indexes": "firestore.indexes.json"
+    },
+    "hosting": {
+      "port": 5002
+    },
+    "storage": {
+      "host": "localhost",
+      "port": 9199,
+      "storageDir": "./storage-files"
+    },
+    "ui": {
+      "enabled": true
+    },
+    "singleProjectMode": true,
+    "exportOnExit": "./emulator-data"
+  },
+  "remoteconfig": {
+    "template": "remoteconfig.template.json"
+  }
+}
