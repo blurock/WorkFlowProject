@@ -1,0 +1,124 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/****************************************************************************
+ * Copyright 2021 EPAM Systems
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
+import MuiSelect, { SelectChangeEvent } from '@mui/material/Select';
+import Divider from '@mui/material/Divider';
+import MenuItem from '@mui/material/MenuItem';
+import { ReactNode, useEffect, useState } from 'react';
+import clsx from 'clsx';
+import styles from './Select.module.less';
+import { Icon } from 'components';
+
+export interface Option {
+  value: string;
+  label: string;
+  children?: ReactNode;
+}
+
+interface Props {
+  options: Array<Option>;
+  onChange: (value: string) => void;
+  className?: string;
+  value?: string;
+  multiple?: boolean;
+  disabled?: boolean;
+  formName?: string;
+  name?: string;
+  placeholder?: string;
+  'data-testid'?: string;
+  error?: boolean;
+}
+
+const ChevronIcon = ({ className }) => (
+  <Icon name="chevron" className={className} />
+);
+
+const Select = ({
+  className,
+  value,
+  onChange,
+  multiple = false,
+  disabled,
+  options,
+  formName,
+  name,
+  placeholder,
+  'data-testid': testId,
+  error,
+}: Props) => {
+  const [currentValue, setCurrentValue] = useState<Option>();
+
+  useEffect(() => {
+    let option;
+    if (options) {
+      option = options.find((option) => option.value === value);
+    }
+    return setCurrentValue(option);
+  }, [options, value]);
+
+  const handleChange = (event: SelectChangeEvent) => {
+    onChange(event.target.value);
+  };
+
+  return (
+    <MuiSelect
+      className={clsx(styles.selectContainer, className)}
+      value={currentValue?.value ?? ''}
+      onChange={handleChange}
+      renderValue={(selected: string) =>
+        (currentValue?.children ??
+          currentValue?.label ??
+          placeholder ??
+          selected ??
+          '') as any
+      }
+      displayEmpty
+      multiple={multiple}
+      disabled={disabled}
+      placeholder={placeholder}
+      MenuProps={{ className: styles.dropdownList }}
+      IconComponent={ChevronIcon}
+      data-testid={testId}
+      error={error}
+    >
+      {options?.map((option) => {
+        const isDivider: boolean =
+          typeof option?.value === 'string'
+            ? option.value.includes('Divider')
+            : false;
+
+        return isDivider ? (
+          <Divider className={styles.listDivider} key={option.value} />
+        ) : (
+          <MenuItem
+            value={option.value}
+            key={option.value}
+            disableRipple={true}
+            className={clsx({
+              [`dropdown-${formName}_${name}`]: formName,
+            })}
+            data-testid={`${option.label}-option`}
+          >
+            <>{option.children ?? option.label}</>
+          </MenuItem>
+        );
+      })}
+    </MuiSelect>
+  );
+};
+
+export default Select;
