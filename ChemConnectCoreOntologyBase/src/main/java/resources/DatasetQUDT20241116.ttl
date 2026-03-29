@@ -2198,9 +2198,8 @@ xsd:date rdf:type rdfs:Datatype .
 :ActivitySpeciesCatalogObjectCreation rdf:type owl:Class ;
                                       rdfs:subClassOf :SessionActivity ,
                                                       [ rdf:type owl:Restriction ;
-                                                        owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                        owl:onClass :JThermodynamics2DSpeciesLabel
+                                                        owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                                        owl:someValuesFrom :JThermodynamicsStructureFormat
                                                       ] ,
                                                       [ rdf:type owl:Restriction ;
                                                         owl:onProperty <http://purl.org/dc/terms/hasPart> ;
@@ -2208,9 +2207,9 @@ xsd:date rdf:type rdfs:Datatype .
                                                         owl:onClass :SpeciesRepresentationAsText
                                                       ] ;
                                       <http://purl.org/dc/elements/1.1/type> :JThermodynamicsSpeciesCatalogObject ;
-                                      <http://purl.org/dc/terms/identifier> "dataset:speciescatalogobject"^^rdfs:Literal ;
+                                      <http://purl.org/dc/terms/identifier> "dataset:speciescatalogobjectcreation" ;
                                       rdfs:comment "A species catalog object with structure" ;
-                                      rdfs:label "Species Catalog Object" ;
+                                      rdfs:label "Species Catalog Object Creation" ;
                                       <http://www.w3.org/2004/02/skos/core#altLabel> "speciescatalogobject" .
 
 
@@ -20950,7 +20949,12 @@ The SetOfPropertyValueQueryPairs is used if a subset of the collection of standa
 
 ###  http://www.esblurock.info/dataset#SessionActivity
 :SessionActivity rdf:type owl:Class ;
-                 rdfs:subClassOf :SessionData .
+                 rdfs:subClassOf :SessionData ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onClass :SessionStatus
+                                 ] .
 
 
 ###  http://www.esblurock.info/dataset#SessionData
@@ -20986,6 +20990,52 @@ The SetOfPropertyValueQueryPairs is used if a subset of the collection of standa
            rdfs:comment "This is the ID associated with the session. The session could be defined is several ways. The main being the workflow session." ;
            rdfs:label "Session ID" ;
            <http://www.w3.org/2004/02/skos/core#altLabel> "sessionId" .
+
+
+###  http://www.esblurock.info/dataset#SessionStatus
+:SessionStatus rdf:type owl:Class ;
+               rdfs:subClassOf :Classification ;
+               <http://purl.org/dc/elements/1.1/type> :SessionStatus ;
+               <http://purl.org/dc/terms/identifier> "datasert:sessionstatus" ;
+               rdfs:comment "The session status is to signal the status of the session operation. It is part of the communication between the frontend and the backend." ;
+               rdfs:isDefinedBy :SessionStatusChoices ;
+               rdfs:label "Session Status" ;
+               <http://www.w3.org/2004/02/skos/core#altLabel> "sessionstatus" .
+
+
+###  http://www.esblurock.info/dataset#SessionStatusChoices
+:SessionStatusChoices rdf:type owl:Class ;
+                      rdfs:subClassOf :ChemConnectClassifications ;
+                      rdfs:comment "These are the different types of generic status that a session object or a session can be in. The status is generic and interpreted by the frontend and the backend" ;
+                      rdfs:label "Session Status Choices" .
+
+
+###  http://www.esblurock.info/dataset#SessionStatusComplete
+:SessionStatusComplete rdf:type owl:Class ;
+                       rdfs:subClassOf :SessionStatusChoices ;
+                       rdfs:comment "This is when the current operation or session is complete" ;
+                       rdfs:label "Complete" .
+
+
+###  http://www.esblurock.info/dataset#SessionStatusError
+:SessionStatusError rdf:type owl:Class ;
+                    rdfs:subClassOf :SessionStatusChoices ;
+                    rdfs:comment "An error has occured during the operation or session" ;
+                    rdfs:label "Error" .
+
+
+###  http://www.esblurock.info/dataset#SessionStatusPending
+:SessionStatusPending rdf:type owl:Class ;
+                      rdfs:subClassOf :SessionStatusChoices ;
+                      rdfs:comment "This is where the frontend is waiting for an answer." ;
+                      rdfs:label "Pending" .
+
+
+###  http://www.esblurock.info/dataset#SessionStatusProcessing
+:SessionStatusProcessing rdf:type owl:Class ;
+                         rdfs:subClassOf :SessionStatusChoices ;
+                         rdfs:comment "The operation is currently processing the input" ;
+                         rdfs:label "Processing" .
 
 
 ###  http://www.esblurock.info/dataset#SetOfCatalogObjects
@@ -21584,7 +21634,8 @@ The SetOfPropertyValueQueryPairs is used if a subset of the collection of standa
 ###  http://www.esblurock.info/dataset#SpeciesRepresentationMolFile
 :SpeciesRepresentationMolFile rdf:type owl:Class ;
                               rdfs:subClassOf :SpeciesRepresentationChoices ;
-                              rdfs:comment "This is the older MolFile representation (no properties)" .
+                              rdfs:comment "This is the older MolFile representation (no properties)" ;
+                              rdfs:label "MolFile" .
 
 
 ###  http://www.esblurock.info/dataset#SpeciesRepresentationMolFileV2000
@@ -21597,7 +21648,8 @@ The SetOfPropertyValueQueryPairs is used if a subset of the collection of standa
 ###  http://www.esblurock.info/dataset#SpeciesRepresentationNancyLinearForm
 :SpeciesRepresentationNancyLinearForm rdf:type owl:Class ;
                                       rdfs:subClassOf :SpeciesRepresentationChoices ;
-                                      rdfs:comment "This is the one line linear form of species representation used by the University of Nancy and CNRS" .
+                                      rdfs:comment "This is the one line linear form of species representation used by the University of Nancy and CNRS" ;
+                                      rdfs:label "Nancy Linear Form" .
 
 
 ###  http://www.esblurock.info/dataset#SpeciesRepresentationSMILES

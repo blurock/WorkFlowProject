@@ -128,7 +128,7 @@ export class Ontologyconstants {
   public FilePartitionMethod = 'dataset:filepartitionmethod';
   public Position = 'qb:order';
 
-  public ActivitySpeciesCatalogObjectCreation = 'dataset:speciescatalogobject';
+  public ActivitySpeciesCatalogObjectCreation = 'dataset:speciescatalogobjectcreation';
   public JThermodynamics2DSpeciesLabel = 'dataset:2dmollabel';
   public SpeciesRepresentationAsText = 'dataset:speciesrepresentation';
   public DateCreated = 'dcterms:created';
@@ -138,4 +138,23 @@ export class Ontologyconstants {
   public TransactionDebugWriteCatalogObjects = 'dataset:TransactionDebugWriteCatalogObjects';
   public TransactionDebugWriteNoCatalogObject = 'dataset:TransactionDebugWriteNoCatalogObject';
   public TransactionModifyDatabase = 'dataset:TransactionModifyDatabase';
+  public SessionId = 'dataset:sessionId';
+  public SessionStatus = 'datasert:sessionstatus';
+  public SpeciesRepresentationType = 'dataset:molfiletype';
+  public JThermodynamicsStructureFormat = 'dataset:speciesformat';
+  public SpeciesRepresentationChoices = 'dataset:SpeciesRepresentationChoices';
+  public SpeciesRepresentationMolFileV2000 = 'dataset:SpeciesRepresentationMolFileV2000';
+  public SpeciesRepresentationNancyLinearForm = 'dataset:SpeciesRepresentationNancyLinearForm';
+  public SpeciesRepresentationInChI = 'dataset:SpeciesRepresentationInChI';
+  public SpeciesRepresentationSMILES = 'dataset:SpeciesRepresentationSMILES';
+  public SpeciesRepresentationMolFile = 'dataset:SpeciesRepresentationMolFile';
+  public SessionStatusChoices = 'dataset:SessionStatusChoices';
+  public SessionStatusError = 'dataset:SessionStatusError';
+  public SessionStatusComplete = 'dataset:SessionStatusComplete';
+  public SessionStatusPending = 'dataset:SessionStatusPending';
+  public SessionStatusProcessing = 'dataset:SessionStatusProcessing';
+  public SessionStatusCatalog = 'dataset:SessionStatus';
+  public JThermodynamicsStructureFormatCatalog = 'dataset:speciesformat';
+  public SessionData = 'dataset:SessionData';
+
 }
