@@ -14,10 +14,6 @@ public class Neo4JInitialization {
 
 	// tag::initDriver[]
 	public static Driver getDriver() throws Exception {
-		System.out.println("Neo4JInitialization.getDriver()");
-		System.out.println("Neo4JInitialization.getDriver() Neo4J_URI: " + getNeo4jUri());
-		System.out.println("Neo4JInitialization.getDriver() Neo4J_USERNAME: " + getNeo4jUsername());
-		System.out.println("Neo4JInitialization.getDriver() Neo4J_PASSWORD: " + getNeo4jPassword());
 		AuthToken auth = AuthTokens.basic(getNeo4jUsername(), getNeo4jPassword());
 		if (Neo4JInitialization.driver == null) {
 			Neo4JInitialization.driver = GraphDatabase.driver(getNeo4jUri(), auth);
@@ -37,11 +33,31 @@ public class Neo4JInitialization {
 	}
 
 	static String getNeo4jUri() {
-		return System.getenv("NEO4J_URI");
+		String uri = System.getenv("NEO4J_URI");
+		if (uri == null || uri.isEmpty()) {
+			try (SecretManagerServiceClient client = SecretManagerServiceClient.create()) {
+				SecretVersionName name = SecretVersionName.of("blurock-database", "Neo4jUri", "latest");
+				AccessSecretVersionResponse response = client.accessSecretVersion(name);
+				uri = response.getPayload().getData().toStringUtf8();
+			} catch (Exception e) {
+				System.err.println("Error fetching secret Neo4jUri: " + e.getMessage());
+			}
+		}
+		return uri;
 	}
 
 	static String getNeo4jUsername() {
-		return System.getenv("NEO4J_USERNAME");
+		String username = System.getenv("NEO4J_USERNAME");
+		if (username == null || username.isEmpty()) {
+			try (SecretManagerServiceClient client = SecretManagerServiceClient.create()) {
+				SecretVersionName name = SecretVersionName.of("blurock-database", "Neo4jUsername", "latest");
+				AccessSecretVersionResponse response = client.accessSecretVersion(name);
+				username = response.getPayload().getData().toStringUtf8();
+			} catch (Exception e) {
+				System.err.println("Error fetching secret Neo4jUsername: " + e.getMessage());
+			}
+		}
+		return username;
 	}
 
 	static String getNeo4jPassword() {

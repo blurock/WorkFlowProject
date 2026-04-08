@@ -84,7 +84,7 @@ public class SProperties {
 
 	public static void load() {
 		try {
-			java.io.FileInputStream fis = new java.io.FileInputStream("Jthermodyanamic.properties");
+			java.io.FileInputStream fis = new java.io.FileInputStream("Jthermodynamic.properties");
 			properties.load(fis);
 		} catch (FileNotFoundException ex) {
 			Logger.getLogger("global").log(Level.SEVERE, "Properties file not found: " + ex.toString());
@@ -96,7 +96,7 @@ public class SProperties {
 	public static void loadOnClassPath() {
 		try {
 			System.out.println("SProperties: get resource");
-			java.io.InputStream in = properties.getClass().getResourceAsStream("Jthermodyanamic.properties");
+			java.io.InputStream in = properties.getClass().getResourceAsStream("/Jthermodynamic.properties");
 			if (in == null) {
 				System.out.println("The stream is null: with just name");
 			} else {

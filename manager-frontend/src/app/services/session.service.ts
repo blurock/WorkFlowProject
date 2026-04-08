@@ -4,6 +4,7 @@ import { Firestore, doc, serverTimestamp, setDoc, getDoc } from '@angular/fire/f
 import { HttpClient } from '@angular/common/http';
 import { Observable, from, of } from 'rxjs';
 import { map, take, switchMap, catchError } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 import { SessionData } from '../models/session-data.model';
 import { Ontologyconstants } from '../components/constants/ontologyconstants';
 
@@ -88,7 +89,7 @@ export class SessionService {
 
     console.log('[SessionService] Attempting heartbeat update. Path:', this.sessionPath);
     const sessionRef = doc(this.firestore, this.sessionPath);
-    
+
     try {
       const heartbeatData = {
         lastActivity: serverTimestamp(),
@@ -138,8 +139,14 @@ export class SessionService {
    * Calls the backend to get the Firestore path for a given object.
    */
   getFirestorePath(object: any): Observable<string> {
-    return this.http.post<{ path: string }>('/api/getfirestorepath', object).pipe(
-      map(res => res.path),
+    return this.http.post<any>(`${environment.datasetBackgroundUrl}/api/getfirestorepath`, object).pipe(
+      map(res => {
+        if (res && res[this.ontology.successful] === 'true') {
+          const data = res[this.ontology.catalogobject];
+          return data ? data.path : '';
+        }
+        return '';
+      }),
       catchError(err => {
         console.error('[SessionService] Error fetching Firestore path:', err);
         return of('');

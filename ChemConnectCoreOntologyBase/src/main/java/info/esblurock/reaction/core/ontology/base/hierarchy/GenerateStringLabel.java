@@ -195,6 +195,7 @@ public enum GenerateStringLabel {
 		JsonArray objectarr = JsonObjectUtilities.getValueUsingIdentifierMultiple(object, identifier);
 		if (objectarr.size() > 0) {
 			lbl = objectarr.get(0).getAsString();
+
 			int position = lbl.indexOf(":");
 			if (position > 0) {
 				lbl = lbl.substring(position + 1);

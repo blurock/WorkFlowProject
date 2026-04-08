@@ -65,7 +65,7 @@
             class="action-button secondary"
             (click)="clearStructure()"
             [disabled]="!isEditorReady"
-            matTooltip="Clear canvas and captured structure"
+            matTooltip="Clear canvas and results"
           >
             <mat-icon>clear</mat-icon> Clear
           </button>
@@ -90,54 +90,67 @@
       <mat-card class="control-card" *ngIf="currentSmiles || currentMolfile">
         <mat-card-header>
           <mat-icon mat-card-avatar>send</mat-icon>
-          <mat-card-title>Submit Task</mat-card-title>
-          <mat-card-subtitle>Write to Firestore for processing</mat-card-subtitle>
+          <mat-card-title>Create Species Catalog Object</mat-card-title>
+          <mat-card-subtitle>Submit directly to DatasetBackgroundServices</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
+          <!-- Additional Fields -->
+          <div class="submission-fields">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Creation Activity Title</mat-label>
+              <input matInput [(ngModel)]="title" placeholder="Descriptive title for this activity" required>
+              <mat-hint>Shows up as dcterms:title in activity info</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Molecule/Structure Name</mat-label>
+              <input matInput [(ngModel)]="moleculeName" placeholder="e.g. MyFavoriteMolecule" required>
+              <mat-hint>Shows up as dataset:structurename</mat-hint>
+            </mat-form-field>
+          </div>
+
+          <mat-divider style="margin-bottom: 20px;"></mat-divider>
+
           <button
             mat-raised-button
             color="accent"
             class="action-button"
-            (click)="submitMoleculeTask('molecule-calculation')"
-            [disabled]="isSubmittingTask"
+            (click)="submitMoleculeTask()"
+            [disabled]="isSubmittingTask || !title || !moleculeName"
           >
             <mat-icon>calculate</mat-icon>
             <span *ngIf="!isSubmittingTask">Submit for Calculation</span>
             <span *ngIf="isSubmittingTask">
               <mat-spinner diameter="18" class="inline-spinner"></mat-spinner>
-              Waiting…
+              Processing…
             </span>
           </button>
         </mat-card-content>
       </mat-card>
 
-      <!-- Task result -->
-      <mat-card class="control-card result-card" *ngIf="taskStatus">
+      <!-- Result: status indicator + HTML document -->
+      <mat-card class="control-card result-card" *ngIf="taskComplete || taskError">
         <mat-card-header>
-          <mat-icon mat-card-avatar [class]="'status-icon ' + taskStatus">
-            {{ taskStatus === 'complete' ? 'check_circle' : taskStatus === 'error' ? 'error' : 'hourglass_top' }}
+          <mat-icon mat-card-avatar [class]="'status-icon ' + statusLabel.toLowerCase()">
+            {{ statusIcon }}
           </mat-icon>
-          <mat-card-title>Task Status</mat-card-title>
+          <mat-card-title>Transaction Result</mat-card-title>
           <mat-card-subtitle>
-            <mat-chip [class]="'status-chip ' + taskStatus">{{ taskStatus }}</mat-chip>
+            <mat-chip [class]="'status-chip ' + statusLabel.toLowerCase()">{{ statusLabel }}</mat-chip>
           </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          <div *ngIf="taskResult" class="result-display">
-            <h4>Result</h4>
-            <pre>{{ taskResult }}</pre>
+
+          <!-- HTML document from dataset:serviceresponsemessage -->
+          <div *ngIf="taskHtmlResult" class="result-display html-result">
+            <div class="html-document-container" [innerHTML]="taskHtmlResult"></div>
           </div>
-          <div *ngIf="taskMolfile" class="molfile-result-display">
-            <h4>Stored Molfile</h4>
-            <div class="result-mol-container" (click)="copyToClipboard(taskMolfile!)">
-              <pre class="molfile-text">{{ taskMolfile }}</pre>
-              <mat-icon class="copy-icon">content_copy</mat-icon>
-            </div>
+
+          <!-- Plain-text error when no HTML is available -->
+          <div *ngIf="taskError && !taskHtmlResult" class="error-display">
+            <p>{{ taskErrorMessage }}</p>
           </div>
-          <div *ngIf="taskError" class="error-display">
-            <h4>Error</h4>
-            <p>{{ taskError }}</p>
-          </div>
+
         </mat-card-content>
       </mat-card>
 

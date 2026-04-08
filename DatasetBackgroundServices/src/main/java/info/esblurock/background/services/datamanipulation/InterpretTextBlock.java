@@ -15,7 +15,6 @@ import com.google.gson.JsonObject;
 import info.esblurock.background.services.firestore.ManageDatasetCatalogObjects;
 import info.esblurock.background.services.firestore.ReadFirestoreInformation;
 import info.esblurock.background.services.firestore.WriteFirestoreCatalogObject;
-import info.esblurock.background.services.firestore.WriteFirestoreData;
 import info.esblurock.background.services.jthermodynamics.InterpretThermodynamicBlock;
 import info.esblurock.background.services.jthermodynamics.structure.GenerateJThermodynamics2DSpeciesStructure;
 import info.esblurock.background.services.jthermodynamics.symmetry.InterpretSymmetryBlock;

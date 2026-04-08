@@ -679,7 +679,7 @@ public class ClassLabelConstants {
     public static String BibliographicLink = "dataset:bibliographiclink";
     public static String BibliographicLinkType = "dataset:bibliographiclinktype";
     public static String InitialReadTypeClass = "dataset:initialreadtype";
-    public static String DataObject = "dataobj";
+    public static String DataObject = "dataobject";
     public static String SessionStatus = "datasert:sessionstatus";
     public static String SpeciesRepresentationType = "dataset:molfiletype";
     public static String JThermodynamicsStructureFormat = "dataset:speciesformat";
@@ -697,5 +697,13 @@ public class ClassLabelConstants {
     public static String SessionStatusProcessing = "dataset:SessionStatusProcessing";
     public static String SessionStatusCatalog = "dataset:SessionStatus";
     public static String ActivitySpeciesCatalogObjectCreation = "dataset:speciescatalogobjectcreation";
-    public static String JThermodynamicsStructureFormatCatalog = "dataset:speciesformat";
+    public static String JThermodynamicsStructureFormatCatalog = "dataset:JThermodynamicsStructureFormat";
+    public static String ActivitySpeciesCatalogObjectCreationCatalog = "dataset:ActivitySpeciesCatalogObjectCreation";
+    public static String SpeciesRepresentationTypeCatalog = "dataset:SpeciesRepresentationType";
+    public static String SpeciesRepresentationAsTextCatalog = "dataset:SpeciesRepresentationAsText";
+    public static String SessionIdCatalog = "dataset:SessionId";
+    public static String UIDCatalog = "dataset:UID";
+    public static String DateCreatedCatalog = "dataset:DateCreated";
+    public static String Annotations = "annotations";
+    public static String JThermodynamicsSpeciesCatalogObject = "dataset:speciescatalogobjectcreation";
 }

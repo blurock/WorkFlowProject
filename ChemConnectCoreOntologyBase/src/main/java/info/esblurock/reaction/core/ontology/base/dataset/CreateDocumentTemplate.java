@@ -22,7 +22,6 @@ public class CreateDocumentTemplate {
     public static JsonObject createTemplateWithAnnotations(String classname) {
         JsonObject annotations = new JsonObject();
         JsonObject obj = createSubTemplateWithAnnotations(classname, annotations, true);
-        System.out.println("CreateDocumentTemplate: " + obj.toString());
         JsonObject information = new JsonObject();
         information.add("dataobject", obj);
         information.add("annotations", annotations);
@@ -32,14 +31,11 @@ public class CreateDocumentTemplate {
     private static JsonObject createSubTemplateWithAnnotations(String classname, JsonObject annotations,
             boolean arrexample) {
         JsonObject obj = new JsonObject();
-        // System.out.println("CreateDocumentTemplate: addAnnotations 1 " + classname);
         addAnnotations(classname, annotations);
         CompoundObjectDimensionSet set1 = ParseCompoundObject.getCompoundElements(classname);
         Iterator<CompoundObjectDimensionInformation> iter = set1.iterator();
         while (iter.hasNext()) {
-            System.out.println("CreateDocumentTemplate: iter " + classname);
             CompoundObjectDimensionInformation info = iter.next();
-            System.out.println("CreateDocumentTemplate: info " + info.toString());
             String dimidentifier = DatasetOntologyParseBase.getIDFromAnnotation(info.getClassname());
             if (info.isCompoundobject()) {
                 if (info.isSinglet()) {
@@ -56,8 +52,6 @@ public class CreateDocumentTemplate {
                     }
                 }
             } else {
-                // System.out.println("CreateDocumentTemplate: addAnnotations 2 " + classname +
-                // " " + info.getClassname());
                 JsonObject anno = addAnnotations(info.getClassname(), annotations);
                 String singlevalue = "not assigned";
                 if (info.isClassification()) {

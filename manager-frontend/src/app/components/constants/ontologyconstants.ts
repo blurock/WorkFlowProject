@@ -155,6 +155,6 @@ export class Ontologyconstants {
   public SessionStatusProcessing = 'dataset:SessionStatusProcessing';
   public SessionStatusCatalog = 'dataset:SessionStatus';
   public JThermodynamicsStructureFormatCatalog = 'dataset:speciesformat';
-  public SessionData = 'dataset:SessionData';
-
+  public SessionData = 'dataset:sessiondata';
+  public JThermodynamicsStructureName = 'dataset:structurename';
 }

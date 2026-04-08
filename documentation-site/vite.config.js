@@ -20,6 +20,7 @@ export default defineConfig({
         structureGeneration: resolve(__dirname, 'pages/structure-generation.html'),
         ketcherIntegration: resolve(__dirname, 'pages/ketcher-integration.html'),
         firestoreSchema: resolve(__dirname, 'pages/firestore-schema.html'),
+        deploymentConfiguration: resolve(__dirname, 'pages/deployment-configuration.html'),
       },
     },
   },

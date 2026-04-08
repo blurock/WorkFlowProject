@@ -1,17 +1,12 @@
-package info.esblurock.background.services.service;
+package info.esblurock.background.services.controllers;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.logging.Logger;
-
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.io.IOUtils;
-import org.dom4j.Document;
-import org.dom4j.Element;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -19,14 +14,12 @@ import com.google.firebase.auth.FirebaseToken;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import org.dom4j.Document;
+import org.dom4j.Element;
 
 import info.esblurock.background.services.dataset.user.GetUserAccountAndDatabasePersonProcess;
-import info.esblurock.background.services.firestore.InitiallizeSystem;
 import info.esblurock.background.services.firestore.ReadFirestoreInformation;
 import info.esblurock.background.services.firestore.WriteFirestoreCatalogObject;
-import info.esblurock.background.services.ontology.CatalogInformationServlet;
-import info.esblurock.background.services.servicecollection.DatabaseServicesBase;
-import info.esblurock.background.services.transaction.TransactionProcess;
 import info.esblurock.reaction.core.MessageConstructor;
 import info.esblurock.reaction.core.StandardResponse;
 import info.esblurock.reaction.core.ontology.base.constants.ClassLabelConstants;
@@ -35,43 +28,19 @@ import info.esblurock.reaction.core.ontology.base.dataset.CreateDocumentTemplate
 import info.esblurock.reaction.core.ontology.base.hierarchy.CreateHierarchyElement;
 import info.esblurock.reaction.core.ontology.base.utilities.JsonObjectUtilities;
 
-/**
- * @author edwardblurock
- *
- */
+@RestController
+public class LoginController {
 
-
-@WebServlet(name = "LoginService", urlPatterns = { "/login" })
-public class LoginService extends HttpServlet {
-
-    private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger(LoginService.class.getName());
-
-    /**
-     * POST The input is one JSON argument (read in using InputStream). The argument
-     * 'service' determines which service is to be performed
-     * {@link DatabaseServicesBase} processes the data with the service.
-     * 
-     * The response is application/json
-     *
-     */
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    	logger.info("LoginService call");
-    	System.out.println("Login: ");
-        InitiallizeSystem.initialize();
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody String bodyS, @RequestHeader("Authorization") String authHeader) {
         Document document = MessageConstructor.startDocument("First Login");
-        String bodyS = IOUtils.toString(request.getInputStream(), "UTF-8");
-        
-        String authHeader = request.getHeader("authorization");
         String idToken = authHeader.split(" ")[1];
         FirebaseToken decodedToken;
         try {
-        	System.out.println("Login: " + idToken);
             decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
             String uid = decodedToken.getUid();
            
             Element body = MessageConstructor.isolateBody(document);
-            body.addElement("div").addText("Token: " + idToken);
             body.addElement("div").addText("UID from token: " + uid);
             JsonObject databody = JsonObjectUtilities.jsonObjectFromString(bodyS);
 
@@ -80,73 +49,40 @@ public class LoginService extends HttpServlet {
             String email = userdata.get("email").getAsString();
             String username = email;
             JsonElement name = userdata.get("displayname");
-            if(name != null && name.isJsonObject()) {
-                username = userdata.get("displayname").getAsString();
+            if(name != null && !name.isJsonNull()) {
+                username = name.getAsString();
             }
             
             String authtype = userdata.get("providerId").getAsString();
-            body.addElement("div").addText("UID from client: " + uidFromClient);
-            body.addElement("div").addText("email from client: " + email);
-            body.addElement("div").addText("username from client: " + username);
             JsonObject answer = null;
             if (uid.equals(uidFromClient)) {
-
                 String service = databody.get("service").getAsString();
-
                 if (service.equals("dataset:FirstLoginService")) {
-                    answer = firstLogin(document, uid, idToken, email, username,authtype);
+                    answer = firstLogin(document, uid, idToken, email, username, authtype);
                 } else {
                     answer = StandardResponse.standardErrorResponse(document, "No Login service: " + service, null);
                 }
             } else {
                 answer = StandardResponse.standardErrorResponse(document, "UIDs do not match", null);
             }
-            PrintWriter out = response.getWriter();
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            out.print(JsonObjectUtilities.toString(answer));
-            out.flush();
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(JsonObjectUtilities.toString(answer));
         } catch (FirebaseAuthException e) {
             JsonObject answer = StandardResponse.standardErrorResponse(document,
                     "Error in Authorization: Login session expired\n" + e.getMessage(), null);
-            
-            PrintWriter out = response.getWriter();
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            out.print(JsonObjectUtilities.toString(answer));
-            out.flush();
-           // TODO Auto-generated catch block
-            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(JsonObjectUtilities.toString(answer));
+        } catch (Exception e) {
+            JsonObject answer = StandardResponse.standardErrorResponse(document, "General Error: " + e.getMessage(), null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(JsonObjectUtilities.toString(answer));
         }
     }
 
-    
-    /**
-     * @param document The current documnet open for the respose
-     * @param uid The UID of the maintainer (from authentification)
-     * @param idToken The token given within the call (from which the uid) came.
-     * @param email The email of the current user (from authentification)
-     * @param username The username of the current user (from authentification)
-     * @param authtype The method of authorization
-     * @return The response
-     * 
-     * If dataset:LoginAccountInformation for the given UID does not exist then 
-     * Create dataset:LoginAccountInformation using the information given.
-     * The login stage (LoginStage) is set to "dataset:LoginAuthenticated"
-     * 
-     * If dataset:LoginAccountInformation exists for the given UID, then get response from GetUserAccountAndDatabasePersonProcess using
-     * this catalog object.
-     * The GetUserAccountAndDatabasePersonProcess call tries to read the NewUserAccount catalog object (the result of the dataset:InitializeUserAccount transaction)
-     * 
-     * If unsuccessful, the dataset:UserAccount and dataset:DatabasePerson do not exist, but dataset:LoginAccountInformation does.
-     * The login stage (LoginStage) is set to dataset:LoginAccountInformation.
-     * 
-     * If successful, then the dataset:UserAccount and dataset:DatabasePerson are returned in the response. 
-     * The login stage (LoginStage) is set to dataset:LoginAccountInformation.
-     * 
-     */
     private JsonObject firstLogin(Document document, String uid, String idToken, String email, String username, String authtype) {
-
         JsonObject response = null;
         JsonObject empty = CreateDocumentTemplate.createTemplate("dataset:LoginAccountInformation");
         JsonObject firestoreid = CreateHierarchyElement.searchForCatalogObjectInHierarchyTemplate(empty);
@@ -204,7 +140,6 @@ public class LoginService extends HttpServlet {
                         "Error in writing LoginAccountInformation: " + ex.getMessage(), null);
             }
         }
-
         return response;
     }
 
@@ -216,5 +151,4 @@ public class LoginService extends HttpServlet {
         }
         accountinfo.addProperty(ClassLabelConstants.UserAccountRole, role);
     }
-
 }

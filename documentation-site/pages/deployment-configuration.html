@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deployment Configuration - WorkFlowProject</title>
+    <link rel="stylesheet" href="../src/style.css">
+  </head>
+  <body>
+    <div class="glow-bg"></div>
+    <div class="container">
+      <header>
+        <button class="back-btn" onclick="location.href='../index.html'">← Back to Overview</button>
+        <h1 class="hero-title">Deployment Configuration</h1>
+        <p class="hero-summary">
+          Detailed overview of the local development ecosystem and cloud production deployment strategy.
+        </p>
+      </header>
+
+      <main class="page-content">
+        <section class="info-content">
+          <h2>Module Port & URL Matrix</h2>
+          <p>
+            The project follows a distributed architecture where each service is isolated by port (locally) 
+            or unique URL (in Cloud Run).
+          </p>
+          
+          <div class="table-container">
+            <table class="deployment-table">
+              <thead>
+                <tr>
+                  <th>Module</th>
+                  <th>Local Port</th>
+                  <th>Cloud Internal Port</th>
+                  <th>Production URL</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>manager-frontend</strong></td>
+                  <td>4200</td>
+                  <td>N/A</td>
+                  <td><a href="https://blurock-database.web.app" target="_blank">blurock-database.web.app</a></td>
+                </tr>
+                <tr>
+                  <td><strong>backend-data-manager</strong></td>
+                  <td>8085</td>
+                  <td>8085</td>
+                  <td><a href="https://backend-data-manager-315685320181.europe-west1.run.app" target="_blank">data-manager-URL</a></td>
+                </tr>
+                <tr>
+                  <td><strong>DatasetBackgroundServices</strong></td>
+                  <td>8081</td>
+                  <td>8081</td>
+                  <td><a href="https://dataset-background-services-315685320181.europe-west1.run.app" target="_blank">background-services-URL</a></td>
+                </tr>
+                <tr>
+                  <td><strong>backend-orchestrator</strong></td>
+                  <td>8080</td>
+                  <td>8080</td>
+                  <td><em>TBD (Cloud Run)</em></td>
+                </tr>
+                <tr>
+                  <td><strong>ketcher</strong></td>
+                  <td>4002</td>
+                  <td>N/A</td>
+                  <td><a href="https://blurock-ketcher.web.app" target="_blank">blurock-ketcher.web.app</a></td>
+                </tr>
+                <tr>
+                  <td><strong>documentation-site</strong></td>
+                  <td>5173 (Vite)</td>
+                  <td>N/A</td>
+                  <td><a href="https://blurock-documentation.web.app" target="_blank">blurock-documentation.web.app</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="info-content">
+          <h2>Deployment Commands</h2>
+          <p>Standardized commands for building and deploying each component.</p>
+
+          <div class="pub-item">
+            <h4>Angular Frontend (manager-frontend)</h4>
+            <div class="code-block">
+              <span class="comment"># Local</span>
+              <code>npm start</code>
+              <span class="comment"># Cloud</span>
+              <code>npm run deploy</code>
+            </div>
+          </div>
+
+          <div class="pub-item">
+            <h4>Spring Boot Services (Java)</h4>
+            <p>Applies to <code>backend-data-manager</code> and <code>DatasetBackgroundServices</code>.</p>
+            <div class="code-block">
+              <span class="comment"># Local</span>
+              <code>mvn spring-boot:run</code>
+              <span class="comment"># Cloud (Containerize & Deploy)</span>
+              <code>mvn deploy -Pdeploy</code>
+            </div>
+          </div>
+
+          <div class="pub-item">
+            <h4>Cloud Orchestrator</h4>
+            <div class="code-block">
+              <span class="comment"># Local</span>
+              <code>mvn spring-boot:run</code>
+              <span class="comment"># Cloud</span>
+              <code>gcloud run deploy backend-orchestrator --source .</code>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <style>
+      .back-btn {
+        background: none;
+        border: 1px solid var(--glass-border);
+        color: var(--accent-color);
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-bottom: 24px;
+        transition: all 0.2s;
+      }
+      .back-btn:hover {
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .page-content {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding-bottom: 100px;
+      }
+      .table-container {
+        margin: 24px 0;
+        overflow-x: auto;
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: 12px;
+        padding: 1px;
+      }
+      .deployment-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+      }
+      .deployment-table th, .deployment-table td {
+        padding: 16px;
+        border-bottom: 1px solid var(--glass-border);
+      }
+      .deployment-table th {
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--text-primary);
+        font-weight: 600;
+      }
+      .deployment-table td {
+        color: var(--text-secondary);
+      }
+      .deployment-table tr:last-child td {
+        border-bottom: none;
+      }
+      .code-block {
+        background: #0d1117;
+        padding: 16px;
+        border-radius: 8px;
+        font-family: 'Fira Code', monospace;
+        margin-top: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .code-block code {
+        color: #79c0ff;
+      }
+      .comment {
+        color: #8b949e;
+        font-size: 0.9em;
+      }
+      a { color: var(--accent-color); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+    </style>
+  </body>
+</html>

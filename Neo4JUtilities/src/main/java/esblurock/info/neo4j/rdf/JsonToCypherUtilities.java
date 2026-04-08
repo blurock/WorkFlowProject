@@ -56,9 +56,6 @@ public class JsonToCypherUtilities {
 				buffer.append(" MERGE ");
 				buffer.append(relationString);
 				buffer.append(" RETURN noderelation, subject, object ");
-				System.out.println("--------------------------------------------------");
-				System.out.println(buffer.toString());
-				System.out.println("--------------------------------------------------");
 				queryprops = queryandproperties.initialQuery(predicate, buffer.toString());
 
 			} else {
@@ -78,7 +75,8 @@ public class JsonToCypherUtilities {
 		createString.append(nodeString);
 		createString.append(" ON CREATE SET " + nodenameString + ".createdAt = datetime()");
 		createString.append(" MERGE (transx_" + nodenameString + ":Transaction {id: $" + transactionaltlabel + "}) ");
-		createString.append(" MERGE (" + nodenameString + ")<-[:SUPPORTS]-(support_" + nodenameString + ":Support)-[:FROM_TX]->(transx_" + nodenameString + ") ");
+		createString.append(" MERGE (" + nodenameString + ")<-[:SUPPORTS]-(support_" + nodenameString
+				+ ":Support)-[:FROM_TX]->(transx_" + nodenameString + ") ");
 
 		return createString.toString();
 	}
