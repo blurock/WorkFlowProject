@@ -11,11 +11,11 @@ import { BasePrimitiveComponent } from '../base-primitive';
   selector: 'app-classification-primitive',
   standalone: true,
   imports: [
-    CommonModule, 
-    FormsModule, 
-    MatFormFieldModule, 
-    MatSelectModule, 
-    MatIconModule, 
+    CommonModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatIconModule,
     MatTooltipModule
   ],
   template: `
@@ -52,12 +52,10 @@ export class ClassificationPrimitiveComponent extends BasePrimitiveComponent {
 
   override ngOnInit(): void {
     super.ngOnInit();
-    console.log(`Classification [${this.structure?.identifier}]: choices available:`, !!this.structure.choices);
     this.extractOptions();
   }
 
   private extractOptions() {
-    console.log(`ClassificationPrimitive: extractOptions for ${this.structure?.identifier}`, this.structure);
     if (this.structure.choices && typeof this.structure.choices === 'object') {
       const allOptions: { id: string, label: string }[] = [];
       const tree = this.structure.choices;
@@ -100,7 +98,6 @@ export class ClassificationPrimitiveComponent extends BasePrimitiveComponent {
       }
 
       this.options = allOptions;
-      console.log(`Classification [${this.structure?.identifier}]: Extracted ${this.options.length} options with hierarchy`, this.options);
     } else {
       console.warn(`Classification [${this.structure?.identifier}]: No choices found or choices not an object`, this.structure.choices);
     }

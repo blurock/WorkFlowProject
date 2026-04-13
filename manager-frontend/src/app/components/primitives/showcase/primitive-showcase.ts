@@ -192,7 +192,6 @@ export class PrimitiveShowcaseComponent implements OnInit {
   ngOnInit() {
     this.ontologyService.getUITemplate("dataset:DataDescriptionFileStaging").subscribe({
       next: (struct) => {
-        console.log("Fetched Simple Recursive Struct:", struct);
         this.simpleRecursiveStruct = struct;
         this.cdr.detectChanges();
       },
@@ -201,7 +200,6 @@ export class PrimitiveShowcaseComponent implements OnInit {
 
     this.ontologyService.getUITemplate("dataset:ActivityRepositoryInitialReadInfo").subscribe({
       next: (struct) => {
-        console.log("Fetched Complex Recursive Struct:", struct);
         this.complexRecursiveStruct = struct;
         this.cdr.detectChanges();
       },

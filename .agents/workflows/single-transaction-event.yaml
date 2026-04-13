@@ -5,7 +5,7 @@ main:
         assign:
           - session_data: ${input.SessionData}
           - uid: ${session_data["dataset:authorizationuid"]}
-          - session_id: ${session_data["dataset:sessionid"]}
+          - session_id: ${session_data["dataset:sessionId"]}
           - transaction_event: ${session_data["dataset:transaction"]} 
 
     - find_activity_info_class:
@@ -98,7 +98,7 @@ main:
     - resume_transaction:
         assign:
           # Replace the session data with the requery response
-          - session_data: ${new_session_response.body["dataset:sessiondata"][0]}
+          - session_data: ${new_session_response.body["dataset:simpcatobj"][0]}
           - resolved_activity_info: ${session_data["dataset:activityinfo"]}
 
     - execute_transaction:

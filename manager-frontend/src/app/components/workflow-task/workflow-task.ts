@@ -57,8 +57,13 @@ export class WorkflowTaskComponent implements OnInit {
     });
   }
 
+  private currentRetry = 0;
+  private maxRetries = 15;
+  private retryInterval = 2000;
+
   async fetchSessionData(uid: string, sessionId: string, token: string) {
     this.loading = true;
+    this.errorMessage = '';
 
     // Construct minimal payload required for backend address calc
     const payload: any = {
@@ -77,10 +82,29 @@ export class WorkflowTaskComponent implements OnInit {
           // Check if data exists
           const catObjects = response[this.ontology.catalogobject];
           if (catObjects && catObjects.length > 0) {
-            this.sessionData = catObjects[0];
-            console.log('Session Data: ', this.sessionData);
+            const data = catObjects[0];
+            const activityInfo = data[this.ontology.ActivityInfo];
+
+            if (!activityInfo) {
+              if (this.currentRetry < this.maxRetries) {
+                this.currentRetry++;
+                setTimeout(() => this.fetchSessionData(uid, sessionId, token), this.retryInterval);
+                return;
+              } else {
+                this.showError('No ActivityInformationClass attached to this specific session task after multiple retries.');
+                return;
+              }
+            }
+
+            this.sessionData = data;
+            this.currentRetry = 0;
             this.processWorkflowState();
           } else {
+            if (this.currentRetry < this.maxRetries) {
+              this.currentRetry++;
+              setTimeout(() => this.fetchSessionData(uid, sessionId, token), this.retryInterval);
+              return;
+            }
             this.showError('Session Data returned empty.');
           }
         } else {
@@ -94,7 +118,6 @@ export class WorkflowTaskComponent implements OnInit {
   }
 
   processWorkflowState() {
-    // Determine the state from SessionStatus (optional), but we know we want to render ActivityInfo
     // ActivityInformationClass is stored under dataset:activityinfo
     this.activityData = this.sessionData[this.ontology.ActivityInfo];
 

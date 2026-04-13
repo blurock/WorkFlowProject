@@ -22,11 +22,10 @@ export class OntologyService {
       map(response => {
         if (response['dataset:servicesuccessful'] === 'true') {
           const struct = response['dataset:simpcatobj'].dataobject;
-          
+
           // If the backend returns the properties map directly without root metadata,
           // wrap it in a proper root OntologyStructure so the DynamicPrimitive can render it.
           if (struct && !struct.isObject && !struct.isArray && !struct.identifier) {
-            console.log(`[OntologyService] Wrapping raw properties map for ${classname}`);
             return {
               identifier: classname,
               classname: classname,
