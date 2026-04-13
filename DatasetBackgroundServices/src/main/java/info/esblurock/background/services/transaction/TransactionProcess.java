@@ -191,6 +191,7 @@ public enum TransactionProcess {
 			JsonObject simpledescr = event.get(ClassLabelConstants.ShortTransactionDescription).getAsJsonObject();
 			simpledescr.addProperty(ClassLabelConstants.TransactionEventType, "dataset:InitialReadInOfRepositoryFile");
 			info.addProperty(ClassLabelConstants.InitialReadTypeClass, "dataset:InitialReadInLocalStorageSystem");
+			info.addProperty(ClassLabelConstants.UploadFileSource, "dataset:GCSSourceFile");
 			return process.process(event, prerequisites, info);
 		}
 

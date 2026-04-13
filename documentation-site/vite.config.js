@@ -21,6 +21,7 @@ export default defineConfig({
         ketcherIntegration: resolve(__dirname, 'pages/ketcher-integration.html'),
         firestoreSchema: resolve(__dirname, 'pages/firestore-schema.html'),
         deploymentConfiguration: resolve(__dirname, 'pages/deployment-configuration.html'),
+        workflowTaskUi: resolve(__dirname, 'pages/workflow-task-ui.html'),
       },
     },
   },

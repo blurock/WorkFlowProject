@@ -2,6 +2,7 @@ export const environment = {
   production: false,
   apiBaseUrl: 'http://localhost:8085',
   datasetBackgroundUrl: 'http://localhost:8081',
+  orchestratorUrl: 'http://localhost:8080',
   firebase: {
     projectId: "blurock-database",
     appId: "1:315685320181:web:212000ed2f64b4c730419d",

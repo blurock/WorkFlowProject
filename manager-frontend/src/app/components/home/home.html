@@ -92,6 +92,39 @@
                         </mat-card-actions>
                     </mat-card>
 
+                    <mat-card class="showcase-card" (click)="goToMoleculeEditor()">
+                        <mat-card-header>
+                            <div mat-card-avatar class="header-icon"><mat-icon>science</mat-icon></div>
+                            <mat-card-title>Molecule Editor</mat-card-title>
+                            <mat-card-subtitle>Ketcher Integration</mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <p>Draw and edit chemical structures interactively</p>
+                        </mat-card-content>
+                    </mat-card>
+
+                    <mat-card class="showcase-card" style="border: 2px solid #ff9800;" (click)="goToWorkflowTask()">
+                        <mat-card-header>
+                            <div mat-card-avatar class="header-icon" style="background:#fff3e0;color:#f57c00;"><mat-icon>assignment</mat-icon></div>
+                            <mat-card-title>Pending Workflow Tasks</mat-card-title>
+                            <mat-card-subtitle>Human-in-the-Loop</mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <p>Complete pending data entry steps (Test Route)</p>
+                        </mat-card-content>
+                    </mat-card>
+
+                    <mat-card class="showcase-card" style="border: 2px solid #4CAF50;" (click)="goToRunTransaction()">
+                        <mat-card-header>
+                            <div mat-card-avatar class="header-icon" style="background:#e8f5e9;color:#2e7d32;"><mat-icon>play_circle_filled</mat-icon></div>
+                            <mat-card-title>Run Transaction</mat-card-title>
+                            <mat-card-subtitle>Execute Global Workflow</mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <p>Initialize and start the Single Transaction Google Cloud Workflow orchestration pipeline.</p>
+                        </mat-card-content>
+                    </mat-card>
+
                     <mat-card class="clickable-card" (click)="goToMoleculeEditor()">
                         <mat-card-header>
                             <div mat-card-avatar class="task-icon"><mat-icon>science</mat-icon></div>

@@ -10,4 +10,6 @@ public class AnnotationObjectsLabels {
 	public static String purposelabel = "dataset:objectpurpose";
 	public static String isDefinedBy = "rdfs:isDefinedBy";
 	public static String documentNameSource = "dataset:documentNameSource";
+	public static String transactionActivityClass = "<http://purl.org/dc/terms/source>";
+
 }

@@ -103,7 +103,8 @@ public enum UploadFileToGCS {
 				if (response.get(ClassLabelConstants.ServiceProcessSuccessful).getAsBoolean()) {
 					JsonArray arr = response.get(ClassLabelConstants.SimpleCatalogObject).getAsJsonArray();
 					JsonObject gcsstaging = arr.get(0).getAsJsonObject();
-					gcsstaging.addProperty(ClassLabelConstants.InitialReadTypeClass, "dataset:InitialReadFromWebLocation");
+					gcsstaging.addProperty(ClassLabelConstants.InitialReadTypeClass,
+							"dataset:InitialReadFromWebLocation");
 				}
 			} catch (MalformedURLException e) {
 				response = StandardResponse.standardErrorResponse(document,
@@ -121,6 +122,38 @@ public enum UploadFileToGCS {
 			}
 			return response;
 		}
+	},
+	GCSSourceFile {
+
+		@Override
+		JsonObject process(String transactionID, String owner, String maintainer, JsonObject info) {
+			Document document = MessageConstructor.startDocument("InitialReadFromGCS");
+			Element body = MessageConstructor.isolateBody(document);
+			String location = info.get(ClassLabelConstants.FileSourceIdentifier).getAsString();
+			body.addElement("div").addText("GCS Path: '" + location + "'");
+			JsonObject response = new JsonObject();
+			try {
+				String content = ReadCloudStorage.read(location);
+				if (content != null && !content.isEmpty()) {
+					response = WriteCloudStorage.writeString(transactionID, owner, maintainer, content, info,
+							"dataset:GCSSourceFile");
+					if (response.get(ClassLabelConstants.ServiceProcessSuccessful).getAsBoolean()) {
+						JsonArray arr = response.get(ClassLabelConstants.SimpleCatalogObject).getAsJsonArray();
+						JsonObject gcsstaging = arr.get(0).getAsJsonObject();
+						gcsstaging.addProperty(ClassLabelConstants.InitialReadTypeClass,
+								"dataset:InitialReadInLocalStorageSystem");
+					}
+				} else {
+					response = StandardResponse.standardErrorResponse(document,
+							"Empty or missing file at GCS path: " + location, response);
+				}
+			} catch (Exception e) {
+				response = StandardResponse.standardErrorResponse(document, "Error reading from GCS: " + e.getMessage(),
+						response);
+			}
+			return response;
+		}
+
 	},
 	StringSource {
 

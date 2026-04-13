@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Human-in-the-Loop Workflows - WorkFlowProject</title>
+    <link rel="stylesheet" href="../src/style.css">
+  </head>
+  <body>
+    <div class="glow-bg"></div>
+    <div class="container">
+      <header>
+        <button class="back-btn" onclick="location.href='../index.html'">← Back to Overview</button>
+        <h1 class="hero-title">Human-in-the-Loop Workflows</h1>
+        <p class="hero-summary">
+          Architecting an Angular and Firestore driven hub for pausing algorithmic workflows and injecting human interaction dynamically.
+        </p>
+      </header>
+
+      <main class="page-content">
+        <section class="info-content">
+          <h2>Architecture Overview</h2>
+          <p>
+            When processing scientific transactions in the <code>BackgroundTransactionController</code>, automated jobs occasionally hit a boundary requiring manual user curation, correction, or data entry. This sub-system seamlessly pauses backend processing, queues the action in <code>SessionData</code>, and delegates the task to the frontend via a unified router portal.
+          </p>
+          
+          <div class="pub-item">
+            <h4>1. Routing and State Management</h4>
+            <p>
+              The frontend maps the unified route <code>/workflow-task/:uid/:sessionId</code> to the <code>WorkflowTaskComponent</code>. This allows dynamic resolution of any task state solely through the URL without needing specialized views for every edge case.
+            </p>
+          </div>
+
+          <div class="pub-item">
+            <h4>2. Security & Data Integrity</h4>
+            <p>
+              The active logged-in user is validated strictly against the <code>uid</code> parameter. The component then fetches the raw <code>SessionData</code> using the <code>ReadSessionDataService</code> endpoint. If the user does not possess authorization, the UI politely defaults to an isolated error state.
+            </p>
+          </div>
+
+          <div class="pub-item">
+            <h4>3. Dynamic Form Injection via NgSwitch</h4>
+            <p>
+               Once extracted, the backend queue structure identifies what sort of data it demands (e.g., <code>dataset:ActivityRepositoryInitialReadLocalFile</code>). The component leverages Angular's <code>*ngSwitch</code> to pipe the <code>activityData</code> into the predefined <code>app-dynamic-primitive</code> hierarchy, querying the Ontology for the layout map and rendering the targeted scientific data form automatically.
+            </p>
+          </div>
+
+          <div class="pub-item">
+            <h4>4. Form Re-Sumission and Resume</h4>
+            <p>
+              When completion tasks conclude, the Angular component updates the specific data block via <code>UpdateSessionDataService</code>. Crucially, the web portal fires an HTTP Ping to the embedded <code>resumeEndpoint</code> registered inside the Session Data payload, awaking the waiting background transaction thread to resume the data pipeline.
+            </p>
+          </div>
+        </section>
+      </main>
+    </div>
+    <style>
+      .back-btn {
+        background: none;
+        border: 1px solid var(--glass-border);
+        color: var(--accent-color);
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-bottom: 24px;
+        transition: all 0.2s;
+      }
+      .back-btn:hover {
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .page-content {
+        max-width: 800px;
+        margin: 0 auto;
+        padding-bottom: 100px;
+      }
+      .pub-item {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 24px;
+        border-radius: 12px;
+        margin-bottom: 16px;
+      }
+      .pub-item h4 {
+        margin: 0 0 12px 0;
+        color: var(--accent-color);
+      }
+      .pub-item p {
+        margin: 0;
+        line-height: 1.6;
+        color: var(--text-secondary);
+      }
+      code {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: monospace;
+      }
+      ul { padding-left: 20px; list-style: disc; }
+      li { margin-bottom: 8px; color: var(--text-secondary); }
+    </style>
+  </body>
+</html>

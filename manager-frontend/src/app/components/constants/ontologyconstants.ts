@@ -19,7 +19,7 @@ export class Ontologyconstants {
   public datasethttpaddress = 'dataset:HttpAddress';
   public datasethttpaddresstype = 'dataset:HttpAddressType';
   public datasethttpaddresssrcloc = 'dataset:HttpAddressSourceLocation';
-  public catalogtype = 'dataset:catalogtype';
+  public CatalogObjectType = 'dataset:catobjtype';
 
   public successful = 'dataset:servicesuccessful';
   public message = 'dataset:serviceresponsemessage';
@@ -139,7 +139,7 @@ export class Ontologyconstants {
   public TransactionDebugWriteNoCatalogObject = 'dataset:TransactionDebugWriteNoCatalogObject';
   public TransactionModifyDatabase = 'dataset:TransactionModifyDatabase';
   public SessionId = 'dataset:sessionId';
-  public SessionStatus = 'datasert:sessionstatus';
+  public SessionStatus = 'dataset:sessionstatus';
   public SpeciesRepresentationType = 'dataset:molfiletype';
   public JThermodynamicsStructureFormat = 'dataset:speciesformat';
   public SpeciesRepresentationChoices = 'dataset:SpeciesRepresentationChoices';
@@ -157,4 +157,7 @@ export class Ontologyconstants {
   public JThermodynamicsStructureFormatCatalog = 'dataset:speciesformat';
   public SessionData = 'dataset:sessiondata';
   public JThermodynamicsStructureName = 'dataset:structurename';
+  public ServiceResponseInformation = 'dataset:serviceresponse';
+  public SessionWorkflow = 'dataset:sessionworkflow';
+  public SessionWorkflowReturnLink = 'dataset:sessionworkflowreturnlink';
 }

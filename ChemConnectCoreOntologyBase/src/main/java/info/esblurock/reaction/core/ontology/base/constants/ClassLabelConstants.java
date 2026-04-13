@@ -598,7 +598,7 @@ public class ClassLabelConstants {
     public static String ServiceProcessSuccessful = "dataset:servicesuccessful";
     public static String IncludesUncertaintyParameter = "dataset:includesUncertaintyParameter";
     public static String SessionId = "dataset:sessionId";
-    public static String SessionData = "dataset:SessionData";
+    public static String SessionData = "dataset:sessiondata";
     public static String WorkflowFirestoreHierarchy = "dataset:WorkflowFirestoreHierarchy";
     public static String FileNoBlanks = "dataset:noblanks";
     public static String isUncertaintyValue = "dataset:IsUncertaintyValue";
@@ -680,7 +680,7 @@ public class ClassLabelConstants {
     public static String BibliographicLinkType = "dataset:bibliographiclinktype";
     public static String InitialReadTypeClass = "dataset:initialreadtype";
     public static String DataObject = "dataobject";
-    public static String SessionStatus = "datasert:sessionstatus";
+    public static String SessionStatus = "dataset:sessionstatus";
     public static String SpeciesRepresentationType = "dataset:molfiletype";
     public static String JThermodynamicsStructureFormat = "dataset:speciesformat";
     public static String SpeciesRepresentationAsText = "dataset:speciesrepresentation";
@@ -706,4 +706,6 @@ public class ClassLabelConstants {
     public static String DateCreatedCatalog = "dataset:DateCreated";
     public static String Annotations = "annotations";
     public static String JThermodynamicsSpeciesCatalogObject = "dataset:speciescatalogobjectcreation";
+    public static String SessionWorkflow = "dataset:sessionworkflow";
+    public static String SessionWorkflowReturnLink = "dataset:sessionworkflowreturnlink";
 }

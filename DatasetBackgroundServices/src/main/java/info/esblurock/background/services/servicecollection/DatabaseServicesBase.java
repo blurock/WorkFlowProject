@@ -71,11 +71,17 @@ public class DatabaseServicesBase {
 											.valueOf(service);
 									response = rdefquestions.process(body); 
 								} catch (IllegalArgumentException ex7) {
-								response.addProperty(ClassLabelConstants.ServiceProcessSuccessful, false);
-								response.addProperty(ClassLabelConstants.ServiceResponseMessage,
-										"Service not available: '" + service + "'\n" + ex7.toString());
-								response.add(ClassLabelConstants.SimpleCatalogObject, null);
-							}
+									try {
+										ServiceCollectionSessionData sessiondata = ServiceCollectionSessionData
+												.valueOf(service);
+										response = sessiondata.process(body);
+									} catch (IllegalArgumentException ex8) {
+										response.addProperty(ClassLabelConstants.ServiceProcessSuccessful, false);
+										response.addProperty(ClassLabelConstants.ServiceResponseMessage,
+												"Service not available: '" + service + "'\n" + ex8.toString());
+										response.add(ClassLabelConstants.SimpleCatalogObject, null);
+									}
+								}
 						}
 					}
 				}

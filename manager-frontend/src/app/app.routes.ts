@@ -7,6 +7,8 @@ import { FillInOntologyComponent } from './components/fill-in-ontology/fill-in-o
 import { ExtractDescriptionComponent } from './components/extract-description/extract-description';
 import { PrimitiveShowcaseComponent } from './components/primitives/showcase/primitive-showcase';
 import { KetcherEditorComponent } from './components/ketcher-editor/ketcher-editor.component';
+import { WorkflowTaskComponent } from './components/workflow-task/workflow-task';
+import { RunTransactionComponent } from './components/run-transaction/run-transaction';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -18,4 +20,6 @@ export const routes: Routes = [
     { path: 'extract-description', component: ExtractDescriptionComponent },
     { path: 'primitives', component: PrimitiveShowcaseComponent },
     { path: 'molecule-editor', component: KetcherEditorComponent },
+    { path: 'workflow-task/:uid/:sessionId', component: WorkflowTaskComponent },
+    { path: 'run-transaction', component: RunTransactionComponent },
 ];

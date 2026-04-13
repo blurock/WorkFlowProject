@@ -1,0 +1,134 @@
+main:
+  params: [input]
+  steps:
+    - init:
+        assign:
+          - session_data: ${input.SessionData}
+          - uid: ${session_data["dataset:authorizationuid"]}
+          - session_id: ${session_data["dataset:sessionid"]}
+          - transaction_event: ${session_data["dataset:transaction"]} 
+
+    - find_activity_info_class:
+        call: http.post
+        args:
+          url: "https://dataset-background-services-315685320181.europe-west1.run.app/service"
+          auth:
+            type: OIDC
+          body:
+            uid: ${uid}
+            service: "FindActivityInformationClassForTransaction"
+            "dataset:transaction": ${transaction_event}
+        result: activity_info_response
+
+    - extract_activity_info:
+        assign:
+          # Assuming standard response with data in JSON array, extracting first element
+          - activity_info_class: ${activity_info_response.body["dataset:simpcatobj"][0]}
+
+    - fill_data_object:
+        call: http.post
+        args:
+          url: "https://dataset-background-services-315685320181.europe-west1.run.app/service"
+          auth:
+            type: OIDC
+          body:
+            uid: ${uid}
+            service: "FillDataObjectFromSessionData"
+            "dataset:sessiondata": ${session_data}
+            "dataset:simpcatobj": ${activity_info_class}
+        result: filled_object_response
+
+    - extract_filled_object:
+        assign:
+          - filled_activity_info: ${filled_object_response.body["dataset:simpcatobj"][0]}
+
+    - pause_preparation:
+        assign:
+          # Update the session data with newly generated inputs and paused status
+          - session_data["dataset:activityinfo"]: ${filled_activity_info}
+          - session_data["dataset:sessionstatus"]: "UserInput"
+
+    - create_ui_callback:
+        call: events.create_callback_endpoint
+        args:
+          http_callback_method: "POST"
+        result: callback_details
+
+    - write_callback_to_session:
+        assign:
+          # Send the return URL to the session data so the Angular Frontend can hit it
+          - session_data["dataset:sessionworkflowreturnlink"]: ${callback_details.url}
+
+    - write_session_to_database:
+        call: http.post
+        args:
+          url: "https://dataset-background-services-315685320181.europe-west1.run.app/service"
+          auth:
+            type: OIDC
+          body:
+            uid: ${uid}
+            service: "UpdateSessionDataService"
+            "dataset:sessiondata": ${session_data}
+        result: db_write_response
+
+    - await_human_in_loop:
+        # Pause execution until the Frontend hits the unpause webhook
+        call: events.await_callback
+        args:
+          callback: ${callback_details}
+          timeout: 86400 # Max timeout 24 hours
+        result: frontend_callback_payload
+
+    - read_newest_session:
+        # Requery the SessionData from the database using ReadSessionDataService
+        # This occurs after the callback returns to ensure we have the most up-to-date data
+        call: http.post
+        args:
+          url: "https://dataset-background-services-315685320181.europe-west1.run.app/service"
+          auth:
+            type: OIDC
+          body:
+            uid: ${uid}
+            "<http://purl.org/dc/elements/1.1/identifier>": "dataset:sessiondata"
+            "dataset:authorizationuid": ${uid}
+            service: "ReadSessionDataService"
+            "dataset:sessionId": ${session_id}
+        result: new_session_response
+
+    - resume_transaction:
+        assign:
+          # Replace the session data with the requery response
+          - session_data: ${new_session_response.body["dataset:sessiondata"][0]}
+          - resolved_activity_info: ${session_data["dataset:activityinfo"]}
+
+    - execute_transaction:
+        call: http.post
+        args:
+          url: "https://dataset-background-services-315685320181.europe-west1.run.app/transaction"
+          auth:
+            type: OIDC
+          body:
+            uid: ${uid}
+            "prov:activity": ${transaction_event}
+            "dataset:activityinfo": ${resolved_activity_info}
+        result: transaction_response
+
+    - conclude_workflow:
+        assign:
+          # Attach final result back into session data
+          - session_data["dataset:serviceresponse"]: ${transaction_response.body}
+          - session_data["dataset:sessionstatus"]: "Completed"
+          
+    - save_final_session:
+        call: http.post
+        args:
+          url: "https://dataset-background-services-315685320181.europe-west1.run.app/service"
+          auth:
+            type: OIDC
+          body:
+            uid: ${uid}
+            service: "UpdateSessionDataService"
+            "dataset:sessiondata": ${session_data}
+
+    - return_result:
+        return: ${session_data}

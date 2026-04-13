@@ -87,7 +87,7 @@ public class StorageController {
                 filename = "resource_" + System.currentTimeMillis();
             }
             
-            String path = "upload/" + uid + "/" + filename;
+            String path = uid + "/LocalStorageFiles/" + filename;
 
             // Fetch content from URL
             URL url = new URL(sourceUrl);

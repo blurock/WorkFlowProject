@@ -63,16 +63,24 @@ public class ReadFirestoreInformation {
         try {
             db = FirestoreBaseClass.getFirebaseDatabase();
             DocumentReference docref = SetUpDocumentReference.setup(db, firestoreid);
-            JsonObject catalog = readUsingDocumentReference(firestoreid,docref);
-            if(catalog != null) {
-            	String keyString = catalog.get(ClassLabelConstants.CatalogObjectKey).getAsString();
-            	String idString = catalog.get(ClassLabelConstants.CatalogObjectID).getAsString();
-            	String messageString = "Success: ReadFirestoreInformation: " + keyString + " (" + idString + ")";
-            	response = StandardResponse.standardServiceResponse(docmessage, messageString,
-                    catalog);
+            System.out.println("readFirestoreCatalogObject: " + JsonObjectUtilities.toString(firestoreid));
+            JsonObject catalog = readUsingDocumentReference(firestoreid, docref);
+            System.out.println("Catalog: " + JsonObjectUtilities.toString(catalog));
+            if (catalog != null) {
+                System.out.println("Catalog: " + JsonObjectUtilities.toString(catalog));
+                String messageString = "Success: ReadFirestoreInformation: ";
+                if (catalog.has(ClassLabelConstants.CatalogObjectKey)
+                        && catalog.has(ClassLabelConstants.CatalogObjectID)) {
+                    String keyString = catalog.get(ClassLabelConstants.CatalogObjectKey).getAsString();
+                    String idString = catalog.get(ClassLabelConstants.CatalogObjectID).getAsString();
+                    messageString = "Success: ReadFirestoreInformation: " + keyString + " (" + idString + ")";
+                }
+                response = StandardResponse.standardServiceResponse(docmessage, messageString,
+                        catalog);
+
             } else {
                 String message = "Document not found: ";
-                response = StandardResponse.standardErrorResponse(docmessage, message, firestoreid);            	
+                response = StandardResponse.standardErrorResponse(docmessage, message, firestoreid);
             }
         } catch (IOException e) {
             response = StandardResponse.standardErrorResponse(docmessage, e.toString(), firestoreid);
@@ -83,8 +91,9 @@ public class ReadFirestoreInformation {
         }
         return response;
     }
-    
-    public static JsonObject readUsingDocumentReference(JsonObject firestoreid, DocumentReference docref) throws InterruptedException, ExecutionException {
+
+    public static JsonObject readUsingDocumentReference(JsonObject firestoreid, DocumentReference docref)
+            throws InterruptedException, ExecutionException {
         ApiFuture<DocumentSnapshot> future = docref.get();
         DocumentSnapshot document = future.get();
         JsonObject catalog = null;
@@ -143,16 +152,14 @@ public class ReadFirestoreInformation {
                     String value = pair.get(ClassLabelConstants.ShortStringKey).getAsString();
                     row.addElement("td", type);
                     row.addElement("td", value);
-                   
-                    
-                    
+
                     if (query == null) {
                         query = collection.whereEqualTo(type, value);
                     } else {
                         query = query.whereEqualTo(type, value);
                     }
-                    //System.out.println("readFirestoreCollection: " + query.get);
-                    
+                    // System.out.println("readFirestoreCollection: " + query.get);
+
                 }
             } else {
                 Element text = body.addElement("div", "No properties within the collection specified");

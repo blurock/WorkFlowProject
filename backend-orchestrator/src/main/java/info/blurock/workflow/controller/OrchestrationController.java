@@ -16,6 +16,7 @@ import java.util.Collections;
 
 @RestController
 @RequestMapping("/api/orchestration")
+@CrossOrigin(origins = "*")
 public class OrchestrationController {
 
     private final String projectId = "blurock-database";

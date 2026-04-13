@@ -62,11 +62,83 @@
   </dependencies>
 
   <build>
+    <finalName>backend-orchestrator</finalName>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <mainClass>info.blurock.workflow.BackendApplication</mainClass>
+        </configuration>
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>deploy</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.google.cloud.tools</groupId>
+            <artifactId>jib-maven-plugin</artifactId>
+            <version>3.4.0</version>
+            <configuration>
+              <to>
+                <image>gcr.io/blurock-database/backend-orchestrator</image>
+              </to>
+              <container>
+                <mainClass>info.blurock.workflow.BackendApplication</mainClass>
+              </container>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>build</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.1.0</version>
+            <executions>
+              <execution>
+                <id>cloud-run-deploy</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <executable>gcloud</executable>
+                  <arguments>
+                    <argument>run</argument>
+                    <argument>deploy</argument>
+                    <argument>backend-orchestrator</argument>
+                    <argument>--image</argument>
+                    <argument>gcr.io/blurock-database/backend-orchestrator</argument>
+                    <argument>--project</argument>
+                    <argument>blurock-database</argument>
+                    <argument>--region</argument>
+                    <argument>europe-west1</argument>
+                    <argument>--allow-unauthenticated</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-deploy-plugin</artifactId>
+            <version>3.1.1</version>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

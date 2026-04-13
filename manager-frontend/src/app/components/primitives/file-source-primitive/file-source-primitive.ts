@@ -1,7 +1,7 @@
 import { Component, inject, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,9 +10,11 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { Auth } from '@angular/fire/auth';
 import { BasePrimitiveComponent } from '../base-primitive';
 import { TextSourceDialogComponent } from './text-source-dialog';
 import { environment } from '../../../../environments/environment';
+import { Ontologyconstants } from '../../constants/ontologyconstants';
 
 import { AuthService } from '../../../services/auth.service';
 
@@ -35,7 +37,8 @@ import { AuthService } from '../../../services/auth.service';
     <div class="file-source-container">
       <mat-form-field appearance="outline" style="width: 100%; display: block;" floatLabel="always" class="id-field">
         <mat-label>{{ structure.label || structure.classname }}</mat-label>
-        <input matInput [ngModel]="value" (ngModelChange)="updateValue($event)" [placeholder]="structure.comment || 'File identifier/path'">
+        <input matInput [ngModel]="value" (ngModelChange)="updateValue($event)" 
+               [placeholder]="sourceType === 'Local' ? 'Example: /absolute/path/to/file.txt' : (structure.comment || 'File identifier/path')">
         <mat-icon matSuffix *ngIf="structure.comment" [matTooltip]="structure.comment" class="info-icon">info</mat-icon>
         <mat-hint align="end">Source Type: {{ sourceType }}</mat-hint>
       </mat-form-field>
@@ -116,6 +119,8 @@ export class FileSourceIdentifierPrimitiveComponent extends BasePrimitiveCompone
   private cdr = inject(ChangeDetectorRef);
   private http = inject(HttpClient);
   private auth = inject(AuthService);
+  private fireAuth = inject(Auth);
+  public ontology = new Ontologyconstants();
   
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   
@@ -139,7 +144,9 @@ export class FileSourceIdentifierPrimitiveComponent extends BasePrimitiveCompone
     const file = event.target.files[0] as File;
     if (file) {
       this.selectedFile = file;
-      this.value = file.name;
+      console.log('File selected:', file.name);
+      
+      this.updateValue(file.name); 
       this.sourceType = 'Local';
       
       const reader = new FileReader();
@@ -149,7 +156,7 @@ export class FileSourceIdentifierPrimitiveComponent extends BasePrimitiveCompone
       };
       reader.readAsText(file);
       
-      this.snackBar.open(`Selected local file: ${file.name}`, 'OK', { duration: 3000 });
+      this.snackBar.open(`File '${file.name}' selected. Please ensure the input contains the FULL absolute path for the backend.`, 'Got it', { duration: 5000 });
       this.cdr.detectChanges();
     }
   }
@@ -185,51 +192,91 @@ export class FileSourceIdentifierPrimitiveComponent extends BasePrimitiveCompone
   }
 
   onUpload() {
+    console.log('onUpload triggered. Source type:', this.sourceType);
     if (this.isUploading) return;
+    
+    const currentUser = this.fireAuth.currentUser;
+    if (!currentUser) {
+        console.warn('No user logged in - upload might fail or be restricted.');
+    }
+
     this.isUploading = true;
     this.cdr.detectChanges();
 
     const baseUrl = environment.apiBaseUrl + '/api/storage';
-    let uploadObservable;
+    
+    // Get token or empty string if not logged in
+    const tokenPromise = currentUser ? currentUser.getIdToken() : Promise.resolve('');
 
-    if (this.sourceType === 'Local' && this.selectedFile) {
-        const formData = new FormData();
-        formData.append('file', this.selectedFile);
-        formData.append('uid', this.uid);
-        uploadObservable = this.http.post<any>(`${baseUrl}/upload-file`, formData);
-    } else if (this.sourceType === 'Text') {
-        uploadObservable = this.http.post<any>(`${baseUrl}/upload-text`, {
-            uid: this.uid,
-            filename: this.textFilename || this.value || 'text_source.txt',
-            content: this.textValue
+    tokenPromise.then((token: string) => {
+        console.log('Auth token retrieved. Starting upload...');
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${token}`
         });
-    } else if (this.sourceType === 'Resource') {
-        uploadObservable = this.http.post<any>(`${baseUrl}/upload-url`, {
-            uid: this.uid,
-            url: this.value
-        });
-    }
 
-    if (uploadObservable) {
-        uploadObservable.subscribe({
-            next: (res: any) => {
-                this.isUploading = false;
-                this.snackBar.open('Upload successful to Firebase Storage!', 'OK', { duration: 3000 });
-                console.log('Upload response:', res);
-                this.cdr.detectChanges();
-            },
-            error: (err) => {
-                this.isUploading = false;
-                this.snackBar.open('Upload failed. Check console for details.', 'OK', { duration: 5000 });
-                console.error('Upload error:', err);
-                this.cdr.detectChanges();
-            }
-        });
-    } else {
+        let uploadObservable;
+        const currentUid = this.auth.uid();
+        
+        if (this.sourceType === 'Local' && this.selectedFile) {
+            const formData = new FormData();
+            formData.append('file', this.selectedFile);
+            formData.append('uid', currentUid);
+            console.log(`Uploading file ${this.selectedFile.name} to ${baseUrl}/upload-file...`);
+            uploadObservable = this.http.post<any>(`${baseUrl}/upload-file`, formData, { headers });
+        } else if (this.sourceType === 'Text') {
+            const payload = {
+                uid: currentUid,
+                filename: this.textFilename || this.value || 'text_source.txt',
+                content: this.textValue
+            };
+            console.log(`Uploading text to ${baseUrl}/upload-text...`);
+            uploadObservable = this.http.post<any>(`${baseUrl}/upload-text`, payload, { headers });
+        } else if (this.sourceType === 'Resource') {
+            const payload = {
+                uid: currentUid,
+                url: this.value
+            };
+            console.log(`Uploading URL to ${baseUrl}/upload-url...`);
+            uploadObservable = this.http.post<any>(`${baseUrl}/upload-url`, payload, { headers });
+        }
+
+        if (uploadObservable) {
+            uploadObservable.subscribe({
+                next: (res: any) => {
+                    this.isUploading = false;
+                    console.log('Upload success response:', res);
+                    this.snackBar.open('Upload successful!', 'OK', { duration: 3000 });
+                    
+                    const catObj = res[this.ontology.catalogobject];
+                    const result = Array.isArray(catObj) ? catObj[0] : (catObj || res);
+                    const cloudPath = result.path || result['dataset:path'];
+                    
+                    if (cloudPath) {
+                        console.log('Setting new value from cloud path:', cloudPath);
+                        this.updateValue(cloudPath);
+                        this.sourceType = 'Resource';
+                    }
+                    this.cdr.detectChanges();
+                },
+                error: (err: any) => {
+                    this.isUploading = false;
+                    console.error('Upload error details:', err);
+                    this.snackBar.open(`Upload failed: ${err.message || 'Server error'}`, 'OK', { duration: 5000 });
+                    this.cdr.detectChanges();
+                }
+            });
+        } else {
+            console.warn('No valid content/source for upload');
+            this.isUploading = false;
+            this.snackBar.open('No content to upload.', 'OK', { duration: 3000 });
+            this.cdr.detectChanges();
+        }
+    }).catch((err: any) => {
         this.isUploading = false;
-        this.snackBar.open('No content to upload.', 'OK', { duration: 3000 });
+        console.error('Error in upload prep:', err);
+        this.snackBar.open('Upload preparation failed.', 'OK', { duration: 5000 });
         this.cdr.detectChanges();
-    }
+    });
   }
 
   onView() {

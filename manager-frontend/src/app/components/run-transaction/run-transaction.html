@@ -1,0 +1,41 @@
+<div class="container mt-5">
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white">
+      <h3 class="mb-0">Start Single Transaction Process</h3>
+    </div>
+    
+    <div class="card-body">
+      <p class="text-muted">
+        Initialize a formal Google Cloud Workflow orchestration pipeline. 
+        This will scaffold the starting SessionData payload and transfer you to the Workflow UI to await tasks.
+      </p>
+
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+
+      <div class="mb-4 mt-4">
+        <label for="transactionInput" class="form-label fw-bold">Target Transaction Event</label>
+        <input 
+          id="transactionInput"
+          type="text" 
+          class="form-control" 
+          [(ngModel)]="transactionEvent" 
+          [disabled]="loading"
+          placeholder="e.g., dataset:InitialReadInLocalStorageSystem"
+        />
+        <div class="form-text">The ontology class referencing the Activity Info Template to load.</div>
+      </div>
+
+      <button 
+        class="btn btn-success btn-lg w-100" 
+        (click)="startWorkflow()"
+        [disabled]="loading || !transactionEvent"
+      >
+        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+        {{ loading ? 'Starting Workflow...' : 'Execute in Google Cloud' }}
+      </button>
+
+    </div>
+  </div>
+</div>
