@@ -1,5 +1,6 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Auth, idToken, authState } from '@angular/fire/auth';
@@ -14,7 +15,7 @@ import { OntologyService } from '../../services/ontology.service';
 @Component({
   selector: 'app-workflow-task',
   standalone: true,
-  imports: [CommonModule, DynamicPrimitiveComponent],
+  imports: [CommonModule, FormsModule, DynamicPrimitiveComponent],
   templateUrl: './workflow-task.html',
   styleUrl: './workflow-task.css'
 })
@@ -41,6 +42,47 @@ export class WorkflowTaskComponent implements OnInit {
   public classannotations: any;
   public explanation: string = '';
   public label: string = '';
+
+  exportAsTransaction: boolean = false;
+  showJsonPreview: boolean = false;
+
+  get exportJsonContent(): any {
+    if (this.exportAsTransaction) {
+      const transactionName = this.sessionData && this.sessionData['dataset:transaction'] 
+                              ? this.sessionData['dataset:transaction'] 
+                              : 'UnknownTransaction';
+      return {
+        "prov:activity": transactionName,
+        "dataset:transreqobj": {},
+        "dataset:activityinfo": this.activityData
+      };
+    } else {
+      return this.activityData;
+    }
+  }
+
+  get exportJsonString(): string {
+    return JSON.stringify(this.exportJsonContent, null, 2);
+  }
+
+  toggleJsonPreview() {
+    this.showJsonPreview = !this.showJsonPreview;
+  }
+
+  downloadJson() {
+    const dataStr = this.exportJsonString;
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const url = window.URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = this.exportAsTransaction ? 'transaction_data.json' : 'activity_data.json';
+    document.body.appendChild(a);
+    a.click();
+    
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+  }
 
   async ngOnInit() {
     this.route.paramMap.subscribe(async params => {
@@ -187,6 +229,54 @@ export class WorkflowTaskComponent implements OnInit {
       };
       reader.readAsText(file);
     }
+  }
+
+  isAllAssigned(): boolean {
+    if (!this.activityData || !this.activityTemplateStruct) return false;
+    return this.checkStructureAssigned(this.activityTemplateStruct, this.activityData);
+  }
+
+  private checkStructureAssigned(struct: OntologyStructure, data: any): boolean {
+    if (struct.isArray) {
+      if (!Array.isArray(data)) return false;
+      if (data.length === 0) return true; // Empty array is considered filled
+      
+      // If it's an array of objects
+      if (struct.isObject && struct.properties) {
+        return data.every(item => this.checkStructureAssigned({ ...struct, isArray: false }, item));
+      } else {
+        // Array of primitives (like keywords)
+        return data.every(item => this.checkValueAssigned(item));
+      }
+    }
+    
+    if (struct.isObject && struct.properties) {
+      if (typeof data !== 'object' || data === null) return false;
+      const keys = Object.keys(struct.properties);
+      for (const key of keys) {
+        if (!this.checkStructureAssigned(struct.properties[key], data[key])) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    // Primitive field
+    return this.checkValueAssigned(data);
+  }
+
+  private checkValueAssigned(value: any): boolean {
+    if (value === undefined || value === null || value === '') {
+      return false;
+    }
+    if (typeof value === 'string') {
+      const trimmed = value.trim();
+      return trimmed !== 'not assigned' && !trimmed.startsWith('Unassigned classification:');
+    }
+    if (Array.isArray(value)) {
+      return true; // Empty arrays are allowed
+    }
+    return true;
   }
 
   async submitTask() {

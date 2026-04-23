@@ -75,6 +75,27 @@ export abstract class BasePrimitiveComponent implements OnInit {
   }
 
   /**
+   * Returns true if the primitive has been filled with a valid, non-default value.
+   */
+  get isFilled(): boolean {
+    if (this._value === undefined || this._value === null || this._value === '') {
+      return false;
+    }
+    if (typeof this._value === 'string') {
+      return this._value !== 'not assigned' && !this._value.startsWith('Unassigned classification:');
+    }
+    if (Array.isArray(this._value)) {
+      // It's filled even if the array is empty
+      return true;
+    }
+    if (typeof this._value === 'object') {
+      // It's filled if it has keys
+      return Object.keys(this._value).length > 0;
+    }
+    return true; // Booleans, numbers are considered filled
+  }
+
+  /**
    * Returns the current data in its JSON-compatible format.
    * @returns The data object
    */

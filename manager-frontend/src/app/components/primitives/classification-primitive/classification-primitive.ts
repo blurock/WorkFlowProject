@@ -19,14 +19,15 @@ import { BasePrimitiveComponent } from '../base-primitive';
     MatTooltipModule
   ],
   template: `
-    <mat-form-field appearance="outline" style="width: 100%; display: block;" floatLabel="always">
+    <mat-form-field appearance="outline" style="width: 100%; display: block;" floatLabel="always" [class.filled-field]="isFilled">
       <mat-label>{{ structure.label || structure.classname }}</mat-label>
       <mat-select [ngModel]="value" (selectionChange)="onSelectionChange($event.value)">
         <mat-option *ngFor="let option of options" [value]="option.id">
           {{ option.label }}
         </mat-option>
       </mat-select>
-      <mat-icon matSuffix *ngIf="structure.comment" [matTooltip]="structure.comment" class="info-icon">info</mat-icon>
+      <mat-icon matSuffix *ngIf="isFilled" class="filled-icon" matTooltip="Field is filled">check_circle</mat-icon>
+      <mat-icon matSuffix *ngIf="structure.comment && !isFilled" [matTooltip]="structure.comment" class="info-icon">info</mat-icon>
     </mat-form-field>
   `,
   styles: [`
@@ -40,6 +41,16 @@ import { BasePrimitiveComponent } from '../base-primitive';
       height: 18px;
       color: rgba(0, 0, 0, 0.38);
       cursor: help;
+    }
+    .filled-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      color: #4caf50;
+      margin-right: 4px;
+    }
+    .filled-field ::ng-deep .mat-mdc-text-field-wrapper {
+      background-color: rgba(76, 175, 80, 0.04);
     }
     :host {
       display: block;

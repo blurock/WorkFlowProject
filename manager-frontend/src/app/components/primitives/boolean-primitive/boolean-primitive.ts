@@ -17,19 +17,25 @@ import { BasePrimitiveComponent } from '../base-primitive';
     MatTooltipModule
   ],
   template: `
-    <div class="primitive-container">
+    <div class="primitive-container" [class.filled-field]="isFilled">
       <div class="toggle-wrap">
         <mat-slide-toggle [ngModel]="value" (ngModelChange)="updateValue($event)" color="primary">
           <span class="toggle-label">{{ structure.label || structure.classname }}</span>
         </mat-slide-toggle>
-        <mat-icon *ngIf="structure.comment" [matTooltip]="structure.comment" class="info-icon">info</mat-icon>
+        <mat-icon *ngIf="isFilled" class="filled-icon" matTooltip="Field is filled">check_circle</mat-icon>
+        <mat-icon *ngIf="structure.comment && !isFilled" [matTooltip]="structure.comment" class="info-icon">info</mat-icon>
       </div>
     </div>
   `,
   styles: [`
     .primitive-container {
       margin-bottom: 8px;
-      padding: 4px 0;
+      padding: 8px 12px;
+      border-radius: 4px;
+      transition: background-color 0.2s;
+    }
+    .filled-field {
+      background-color: rgba(76, 175, 80, 0.04);
     }
     .toggle-wrap {
       display: flex;
@@ -46,6 +52,12 @@ import { BasePrimitiveComponent } from '../base-primitive';
       height: 18px;
       color: rgba(0, 0, 0, 0.38);
       cursor: help;
+    }
+    .filled-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      color: #4caf50;
     }
     :host {
       display: block;

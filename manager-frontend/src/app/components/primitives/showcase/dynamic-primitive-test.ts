@@ -53,7 +53,6 @@ const TEST_DATA = {
     MatSnackBarModule,
     MatProgressSpinnerModule,
     MatChipsModule,
-    DynamicPrimitiveComponent,
     PrimitiveFileWrapperComponent
   ],
   template: `

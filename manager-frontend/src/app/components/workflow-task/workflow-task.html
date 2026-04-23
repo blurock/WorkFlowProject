@@ -23,6 +23,24 @@
       </div>
     </div>
 
+    <div class="export-section">
+      <div class="export-controls">
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="exportAsTransaction"> As Transaction
+        </label>
+        <button class="btn btn-secondary" (click)="toggleJsonPreview()">
+          {{ showJsonPreview ? 'Hide JSON' : 'Preview JSON' }}
+        </button>
+        <button class="btn btn-secondary" (click)="downloadJson()">
+          Download JSON
+        </button>
+      </div>
+      
+      <div class="json-preview-container" *ngIf="showJsonPreview">
+        <pre>{{ exportJsonString }}</pre>
+      </div>
+    </div>
+
     <div class="activity-form-container">
       <ng-container [ngSwitch]="activityData[ontology.CatalogObjectType]">
 
@@ -33,6 +51,8 @@
             <p *ngIf="explanation" class="activity-comment">
               {{ explanation }}
             </p>
+            <p style="color: #c0392b; font-weight: bold;"><b><i>All data must be filled out to continue the
+                  workflow.</i></b></p>
             <app-dynamic-primitive [structure]="activityTemplateStruct" [(value)]="activityData">
             </app-dynamic-primitive>
           </div>
@@ -42,7 +62,8 @@
     </div>
 
     <div class="actions">
-      <button class="btn btn-primary" (click)="submitTask()">Submit & Continue Workflow</button>
+      <button class="btn btn-primary" (click)="submitTask()" [disabled]="!isAllAssigned()">Submit & Continue
+        Workflow</button>
     </div>
   </div>
 </div>
