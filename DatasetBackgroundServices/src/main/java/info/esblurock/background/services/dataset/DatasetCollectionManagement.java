@@ -47,17 +47,18 @@ public class DatasetCollectionManagement {
 		}
 		boolean notfound = true;
 		/*
-		if (setOfDatasetCollectionSets.get(maintainer) != null) {
-			JsonObject maintainerset = setOfDatasetCollectionSets.get(maintainer).getAsJsonObject();
-			if (maintainerset.get(dataset) != null) {
-				datasetcollectionset = maintainerset.get(dataset).getAsJsonObject();
-				notfound = false;
-			}
-		} else {
-			JsonObject datasetelements = new JsonObject();
-			setOfDatasetCollectionSets.add(maintainer, datasetelements);
-		}
-*/
+		 * if (setOfDatasetCollectionSets.get(maintainer) != null) {
+		 * JsonObject maintainerset =
+		 * setOfDatasetCollectionSets.get(maintainer).getAsJsonObject();
+		 * if (maintainerset.get(dataset) != null) {
+		 * datasetcollectionset = maintainerset.get(dataset).getAsJsonObject();
+		 * notfound = false;
+		 * }
+		 * } else {
+		 * JsonObject datasetelements = new JsonObject();
+		 * setOfDatasetCollectionSets.add(maintainer, datasetelements);
+		 * }
+		 */
 		if (notfound) {
 			JsonObject firestorecoll = getDatabaseSetID(collectionsetidinfo);
 			JsonObject response = ReadFirestoreInformation.readFirestoreCatalogObject(firestorecoll);
@@ -79,11 +80,11 @@ public class DatasetCollectionManagement {
 		String maintainer = collectionsetidinfo.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
 		String dataset = collectionsetidinfo.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
 		JsonObject idcollection = null;
-		if(maintainer.equals("systemthermodynamics")) {
-		    idcollection = CreateDocumentTemplate.createTemplate("dataset:ThermodynamicsSystemCollectionIDsSet");
-	        idcollection.addProperty(ClassLabelConstants.CatalogObjectKey, dataset);
+		if (maintainer.equals("systemthermodynamics")) {
+			idcollection = CreateDocumentTemplate.createTemplate("dataset:ThermodynamicsSystemCollectionIDsSet");
+			idcollection.addProperty(ClassLabelConstants.CatalogObjectKey, dataset);
 		} else {
-		     idcollection = CreateDocumentTemplate.createTemplate("dataset:ChemConnectDatasetCollectionIDsSet");
+			idcollection = CreateDocumentTemplate.createTemplate("dataset:ChemConnectDatasetCollectionIDsSet");
 		}
 		idcollection.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
 		idcollection.addProperty(ClassLabelConstants.DatasetCollectionsSetLabel, dataset);
@@ -134,27 +135,30 @@ public class DatasetCollectionManagement {
 		JsonObject recordid = info.get(ClassLabelConstants.DatasetCollectionSetRecordIDInfo).getAsJsonObject();
 		JsonObject collectionid = info.get(ClassLabelConstants.DatasetSpecificationForCollectionSet).getAsJsonObject();
 		String maintainer = recordid.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
-        String collectionname = recordid.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
-        String title = info.get(ClassLabelConstants.DescriptionTitle).getAsString();
+		String collectionname = recordid.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
+		String title = info.get(ClassLabelConstants.DescriptionTitle).getAsString();
 		String collectiontype = info.get("dcat:dataset").getAsString();
 		event.add(ClassLabelConstants.DatasetCollectionSetRecordIDInfo, recordid);
 		event.add(ClassLabelConstants.DatasetCollectionsSetLabel, collectionid);
 		Document document = MessageConstructor.startDocument("Dataset Collection Set Creation Event");
 		Element body = MessageConstructor.isolateBody(document);
 		String descr = info.get(ClassLabelConstants.DescriptionAbstract).getAsString();
-        body.addElement("div").addText("Collection Type      : " + collectiontype);
-        body.addElement("div").addText("Owner                : " + owner);
-        body.addElement("div").addText("Maintainer           : " + maintainer);
-        body.addElement("div").addText("Collection Name      : " + collectionname);
-        body.addElement("div").addText("Default Collection   : " + collectionid.get(ClassLabelConstants.CollectionName));
-        body.addElement("div").addText("Default Status       : " + collectionid.get(ClassLabelConstants.CatalogDataObjectStatus));
-        body.addElement("div").addText("Default Version      : " + collectionid.get(ClassLabelConstants.DatasetVersion));
+		body.addElement("div").addText("Collection Type      : " + collectiontype);
+		body.addElement("div").addText("Owner                : " + owner);
+		body.addElement("div").addText("Maintainer           : " + maintainer);
+		body.addElement("div").addText("Collection Name      : " + collectionname);
+		body.addElement("div")
+				.addText("Default Collection   : " + collectionid.get(ClassLabelConstants.CollectionName));
+		body.addElement("div")
+				.addText("Default Status       : " + collectionid.get(ClassLabelConstants.CatalogDataObjectStatus));
+		body.addElement("div")
+				.addText("Default Version      : " + collectionid.get(ClassLabelConstants.DatasetVersion));
 		JsonObject idcollection = DatasetCollectionIDManagement
 				.createEmptyChemConnectCurrentDatasetIDSet(collectionname, owner, transactionID, maintainer, descr);
 		idcollection.addProperty(ClassLabelConstants.DescriptionTitle, title);
-		fillInDatasetCollectionWithDefaults(collectiontype,collectionid,idcollection);
-        JsonObject transfirestoreID = BaseCatalogData.insertFirestoreAddress(event);
-        idcollection.add(ClassLabelConstants.FirestoreCatalogIDForTransaction,transfirestoreID.deepCopy());
+		fillInDatasetCollectionWithDefaults(collectiontype, collectionid, idcollection);
+		JsonObject transfirestoreID = BaseCatalogData.insertFirestoreAddress(event);
+		idcollection.add(ClassLabelConstants.FirestoreCatalogIDForTransaction, transfirestoreID.deepCopy());
 		String message = WriteFirestoreCatalogObject.writeCatalogObject(idcollection);
 		body.addElement("div").addText(message);
 		putInLocalVersion(idcollection);
@@ -164,25 +168,26 @@ public class DatasetCollectionManagement {
 				"Success: Create Dataset Collection IDs set with standard values", arr);
 		return response;
 	}
-	
-	static void fillInDatasetCollectionWithDefaults(String collectiontype, JsonObject idcollection, JsonObject collectionid) {
-	    collectionid.addProperty(ClassLabelConstants.DatasetCollectionType, collectiontype);
-	    JsonArray datasets = CollectionSetUtilities.collectionDatasetInfo(collectiontype);
-	    for(JsonElement element : datasets) {
-	        JsonObject dataset = (JsonObject) element;
-	        JsonObject id = new JsonObject();
-            String maintainer = idcollection.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
-            id.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
-            String status = idcollection.get(ClassLabelConstants.CatalogDataObjectStatus).getAsString();
-            id.addProperty(ClassLabelConstants.CatalogDataObjectStatus, status);
-            String collectionname = idcollection.get(ClassLabelConstants.CollectionName).getAsString();
-            id.addProperty(ClassLabelConstants.CollectionName, collectionname);
-            String version = idcollection.get(ClassLabelConstants.DatasetVersion).getAsString();
-            id.addProperty(ClassLabelConstants.DatasetVersion, version);
-            
-            String identifier = dataset.get(AnnotationObjectsLabels.identifier).getAsString();
-            collectionid.add(identifier, id);
-	    }
+
+	static void fillInDatasetCollectionWithDefaults(String collectiontype, JsonObject idcollection,
+			JsonObject collectionid) {
+		collectionid.addProperty(ClassLabelConstants.DatasetCollectionType, collectiontype);
+		JsonArray datasets = CollectionSetUtilities.collectionDatasetInfo(collectiontype);
+		for (JsonElement element : datasets) {
+			JsonObject dataset = (JsonObject) element;
+			JsonObject id = new JsonObject();
+			String maintainer = idcollection.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+			id.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+			String status = idcollection.get(ClassLabelConstants.CatalogDataObjectStatus).getAsString();
+			id.addProperty(ClassLabelConstants.CatalogDataObjectStatus, status);
+			String collectionname = idcollection.get(ClassLabelConstants.CollectionName).getAsString();
+			id.addProperty(ClassLabelConstants.CollectionName, collectionname);
+			String version = idcollection.get(ClassLabelConstants.DatasetVersion).getAsString();
+			id.addProperty(ClassLabelConstants.DatasetVersion, version);
+
+			String identifier = dataset.get(AnnotationObjectsLabels.identifier).getAsString();
+			collectionid.add(identifier, id);
+		}
 	}
 
 	/**
@@ -201,11 +206,11 @@ public class DatasetCollectionManagement {
 		JsonObject response = null;
 		if (objs.size() > 0) {
 			JsonObject collectionset = objs.get(0).getAsJsonObject();
-            String origabstract = collectionset.get(ClassLabelConstants.DescriptionAbstract).getAsString();
-            String newtitle = info.get(ClassLabelConstants.DescriptionTitle).getAsString();
-            String newabstract = newtitle + "\n\n" + origabstract;
-            collectionset.addProperty(ClassLabelConstants.DescriptionAbstract, newabstract);
-            collectionset.addProperty(ClassLabelConstants.DescriptionTitle, newtitle);
+			String origabstract = collectionset.get(ClassLabelConstants.DescriptionAbstract).getAsString();
+			String newtitle = info.get(ClassLabelConstants.DescriptionTitle).getAsString();
+			String newabstract = newtitle + "\n\n" + origabstract;
+			collectionset.addProperty(ClassLabelConstants.DescriptionAbstract, newabstract);
+			collectionset.addProperty(ClassLabelConstants.DescriptionTitle, newtitle);
 			String collectiontype = collectionset.get(ClassLabelConstants.DatasetCollectionType).getAsString();
 			JsonObject catrecordid = info.get(ClassLabelConstants.DatasetSpecificationForCollectionSet)
 					.getAsJsonObject();
@@ -218,15 +223,17 @@ public class DatasetCollectionManagement {
 
 			String collection = collectionset.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
 
-			body.addElement("div").addText("Classname: " + classname + "(" + collectionname + ": " + datasetversion + ")");
+			body.addElement("div")
+					.addText("Classname: " + classname + "(" + collectionname + ": " + datasetversion + ")");
 			body.addElement("div").addText("Into collection: '" + collection + "'");
-			DatasetCollectionIDManagement.insertCollectionInfoDataset(classname, collectiontype, catrecordid, collectionset);
+			DatasetCollectionIDManagement.insertCollectionInfoDataset(classname, collectiontype, catrecordid,
+					collectionset);
 			collectionset.add(ClassLabelConstants.DatasetCollectionSetRecordIDInfo, recordid);
 			String newlabel = recordid.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
 			collectionset.addProperty(ClassLabelConstants.DatasetCollectionsSetLabel, newlabel);
-            BaseCatalogData.insertFirestoreAddress(collectionset);
-            JsonObject transfirestoreid = BaseCatalogData.insertFirestoreAddress(event);
-            collectionset.add(ClassLabelConstants.FirestoreCatalogIDForTransaction, transfirestoreid);
+			BaseCatalogData.insertFirestoreAddress(collectionset);
+			JsonObject transfirestoreid = BaseCatalogData.insertFirestoreAddress(event);
+			collectionset.add(ClassLabelConstants.FirestoreCatalogIDForTransaction, transfirestoreid);
 			WriteFirestoreCatalogObject.writeCatalogObject(collectionset);
 			putInLocalVersion(collectionset);
 			JsonArray arr = new JsonArray();
@@ -263,7 +270,7 @@ public class DatasetCollectionManagement {
 			catid.addProperty(ClassLabelConstants.SimpleCatalogName, id);
 			catalog.add(ClassLabelConstants.FirestoreCatalogID, catid);
 			WriteFirestoreCatalogObject.writeCatalogObject(catalog);
-			
+
 		} else {
 			success = false;
 		}

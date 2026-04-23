@@ -30,9 +30,17 @@ export class WorkflowTaskComponent implements OnInit {
   public loading = true;
   public errorMessage = '';
 
+  /** Stored on arrival so resumeBackendWorkflow can redirect back with them. */
+  private currentUid: string = '';
+  private currentSessionId: string = '';
+
   public sessionData: any;
   public activityData: any;
   public activityTemplateStruct?: OntologyStructure;
+  public annotations: any;
+  public classannotations: any;
+  public explanation: string = '';
+  public label: string = '';
 
   async ngOnInit() {
     this.route.paramMap.subscribe(async params => {
@@ -51,6 +59,10 @@ export class WorkflowTaskComponent implements OnInit {
         this.showError(`Unauthorized: You do not have permission to view this task. (UID mismatch)`);
         return;
       }
+
+      // Store for use in resumeBackendWorkflow redirect.
+      this.currentUid = uidFromQuery;
+      this.currentSessionId = sessionId;
 
       const token = await currentUser.getIdToken();
       await this.fetchSessionData(uidFromQuery, sessionId, token);
@@ -129,12 +141,22 @@ export class WorkflowTaskComponent implements OnInit {
     // The activity data must map to an ontology class name so the dynamic primitive knows how to render it.
     // E.g., 'dataset:ActivityRepositoryInitialReadLocalFile'
     const catalogType = this.activityData[this.ontology.CatalogObjectType];
+    console.log("Catalog Type: " + catalogType);
+    console.log("ActivityData: " + JSON.stringify(this.activityData));
     if (catalogType) {
       // Fetch UI structural template
       this.ontologyService.getUITemplate(catalogType).subscribe({
         next: (struct) => {
-          this.activityTemplateStruct = struct;
+          console.log("Catalog Type: " + catalogType);
+          this.activityTemplateStruct = struct["dataobject"];
+          this.annotations = struct["annotations"];
+          this.classannotations = this.annotations ? this.annotations[catalogType] : undefined;
+          this.explanation = this.classannotations ? this.classannotations[this.ontology.rdfscomment] : '';
+          this.label = this.classannotations && this.classannotations[this.ontology.rdfslabel] 
+                        ? this.classannotations[this.ontology.rdfslabel] 
+                        : (catalogType.split(':').pop() || catalogType);
           this.loading = false;
+          console.log(JSON.stringify(this.activityTemplateStruct));
           this.cdr.detectChanges();
         },
         error: (err) => this.showError(`Failed to load template for ${catalogType}`)
@@ -144,13 +166,17 @@ export class WorkflowTaskComponent implements OnInit {
     }
   }
 
+
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
         try {
-          const content = JSON.parse(e.target.result);
+          const parsedContent = JSON.parse(e.target.result);
+          // If the JSON contains an activity info property, extract just that nested part
+          const content = parsedContent[this.ontology.ActivityInfo] ? parsedContent[this.ontology.ActivityInfo] : parsedContent;
+
           // Merge uploaded data into activityData to preserve metadata like catalogType
           this.activityData = { ...this.activityData, ...content };
           this.cdr.detectChanges();
@@ -212,7 +238,9 @@ export class WorkflowTaskComponent implements OnInit {
       }).subscribe({
         next: () => {
           console.log('Orchestrator successfully resumed workflow.');
-          this.router.navigate(['/home']);
+          // Return to run-transaction with the same session so another transaction
+          // can be executed within this session.
+          this.router.navigate(['/run-transaction', this.currentUid, this.currentSessionId]);
         },
         error: (err) => {
           console.error('Orchestrator resume failed:', err);
@@ -220,8 +248,8 @@ export class WorkflowTaskComponent implements OnInit {
         }
       });
     } else {
-      // Just redirect if we don't have an automated backend ping
-      this.router.navigate(['/home']);
+      // Return to run-transaction even without a callback URL.
+      this.router.navigate(['/run-transaction', this.currentUid, this.currentSessionId]);
     }
   }
 

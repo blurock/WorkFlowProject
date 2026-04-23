@@ -39,62 +39,61 @@ public class PartiionSetWithinRepositoryFileProcess {
 	 * 
 	 */
 	public static JsonObject process(JsonObject event, JsonObject prerequisites, JsonObject info) {
-	    JsonObject response = null;
-    	String colltype = info.get(ClassLabelConstants.DatasetCollectionObjectType).getAsString();
-    	event.addProperty(ClassLabelConstants.DatasetCollectionObjectType, colltype);
+		JsonObject response = null;
+		String colltype = info.get(ClassLabelConstants.DatasetCollectionObjectType).getAsString();
+		event.addProperty(ClassLabelConstants.DatasetCollectionObjectType, colltype);
 		String owner = event.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 		String transactionID = event.get(ClassLabelConstants.TransactionID).getAsString();
 		String maintainer = info.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
 		String uniquelabel = info.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString();
 		String type = info.get(ClassLabelConstants.DatasetObjectType).getAsString();
-		
-        JsonObject transfirestoreID = BaseCatalogData.insertFirestoreAddress(event);
+
+		JsonObject transfirestoreID = BaseCatalogData.insertFirestoreAddress(event);
 		Document document = MessageConstructor.startDocument("PartiionSetWithinRepositoryFile");
 		Element body = MessageConstructor.isolateBody(document);
 		JsonObject staging = retrieveContentCatalogObjectFromPrerequisites(prerequisites);
-		if(staging != null) {
-		String content = retrieveContentFromTransaction(staging);
-		// Parse the content using the info (FilePartitionMethod)
-		String methodS = info.get(ClassLabelConstants.FilePartitionMethod).getAsString();
-		info.addProperty(ClassLabelConstants.CatalogObjectOwner, owner);
-        JsonArray objects = PartitionSetOfStringObjects.partitionString(info, transactionID, content,document);
-                
-		String sourceformat = info.get(ClassLabelConstants.FileSourceFormat).getAsString();
-		JsonArray set = new JsonArray();
-		Element table = body.addElement("table");
-		Element hrow = table.addElement("tr");
-		hrow.addElement("th").addText("Position");
-		hrow.addElement("th").addText("Message");
-		for (int i = 0; i < objects.size(); i++) {
-			Element row = table.addElement("tr");
-			JsonObject catalog = objects.get(i).getAsJsonObject();
-            catalog.add(ClassLabelConstants.FirestoreCatalogIDForTransaction,transfirestoreID.deepCopy());
-			catalog.addProperty(ClassLabelConstants.FileSourceFormat, sourceformat);
-			catalog.addProperty(ClassLabelConstants.FilePartitionMethod, methodS);
+		if (staging != null) {
+			String content = retrieveContentFromTransaction(staging);
+			// Parse the content using the info (FilePartitionMethod)
+			String methodS = info.get(ClassLabelConstants.FilePartitionMethod).getAsString();
+			info.addProperty(ClassLabelConstants.CatalogObjectOwner, owner);
+			JsonArray objects = PartitionSetOfStringObjects.partitionString(info, transactionID, content, document);
 
-			catalog.addProperty(ClassLabelConstants.CatalogObjectUniqueGenericLabel, uniquelabel);
-			catalog.addProperty(ClassLabelConstants.DatasetObjectType, type);
-			catalog.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
-			
-			
-			CreateLinksInStandardCatalogInformation.transfer(info, catalog);
-			CreateLinksInStandardCatalogInformation.transfer(staging, catalog);
-			CreateLinksInStandardCatalogInformation.linkCatalogObjects(staging,
-					"dataset:ConceptLinkRepositoryFileToPartition", catalog);
-			BaseCatalogData.insertFirestoreAddress(catalog);
-			String message = WriteFirestoreCatalogObject.writeCatalogObject(catalog);
-			row.addElement("td").addText(catalog.get(ClassLabelConstants.Position).getAsString());
-			row.addElement("td").addText(message);
-			set.add(catalog);
+			String sourceformat = info.get(ClassLabelConstants.FileSourceFormat).getAsString();
+			JsonArray set = new JsonArray();
+			Element table = body.addElement("table");
+			Element hrow = table.addElement("tr");
+			hrow.addElement("th").addText("Position");
+			hrow.addElement("th").addText("Message");
+			for (int i = 0; i < objects.size(); i++) {
+				Element row = table.addElement("tr");
+				JsonObject catalog = objects.get(i).getAsJsonObject();
+				catalog.add(ClassLabelConstants.FirestoreCatalogIDForTransaction, transfirestoreID.deepCopy());
+				catalog.addProperty(ClassLabelConstants.FileSourceFormat, sourceformat);
+				catalog.addProperty(ClassLabelConstants.FilePartitionMethod, methodS);
+
+				catalog.addProperty(ClassLabelConstants.CatalogObjectUniqueGenericLabel, uniquelabel);
+				catalog.addProperty(ClassLabelConstants.DatasetObjectType, type);
+				catalog.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+
+				CreateLinksInStandardCatalogInformation.transfer(info, catalog);
+				CreateLinksInStandardCatalogInformation.transfer(staging, catalog);
+				CreateLinksInStandardCatalogInformation.linkCatalogObjects(staging,
+						"dataset:ConceptLinkRepositoryFileToPartition", catalog);
+				BaseCatalogData.insertFirestoreAddress(catalog);
+				String message = WriteFirestoreCatalogObject.writeCatalogObject(catalog);
+				row.addElement("td").addText(catalog.get(ClassLabelConstants.Position).getAsString());
+				row.addElement("td").addText(message);
+				set.add(catalog);
+			}
+			String message = "Successful: " + objects.size() + "blocks";
+			response = StandardResponse.standardServiceResponse(document, message, set);
+
+		} else {
+			String text = "Prerequisites \"dataset:initreposfile\" not found in:\n "
+					+ JsonObjectUtilities.toString(prerequisites);
+			response = StandardResponse.standardErrorResponse(document, text, null);
 		}
-		String message = "Successful: " + objects.size() + "blocks";
-		response = StandardResponse.standardServiceResponse(document, message, set);
-        
-      } else {
-          String text =  "Prerequisites \"dataset:initreposfile\" not found in:\n " + JsonObjectUtilities.toString(prerequisites);
-          response = StandardResponse.standardErrorResponse(document,text, null);
-          System.out.println(text);
-      }
 
 		return response;
 	}
@@ -117,13 +116,13 @@ public class PartiionSetWithinRepositoryFileProcess {
 			// (GCSBlobFileInformationStaging)
 			JsonObject gcsinfo = staging.get(ClassLabelConstants.GCSBlobFileInformationStaging).getAsJsonObject();
 			// read content from blob storage
-			//System.out.println("------------------------------------------------------");
-			//System.out.println(JsonObjectUtilities.toString(gcsinfo));
-			//System.out.println("------------------------------------------------------");
+			// System.out.println("------------------------------------------------------");
+			// System.out.println(JsonObjectUtilities.toString(gcsinfo));
+			// System.out.println("------------------------------------------------------");
 			content = ReadCloudStorage.read(gcsinfo);
-			//System.out.println("------------------------------------------------------");
-			//System.out.println(content);
-			//System.out.println("------------------------------------------------------");
+			// System.out.println("------------------------------------------------------");
+			// System.out.println(content);
+			// System.out.println("------------------------------------------------------");
 		}
 		return content;
 	}

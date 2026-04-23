@@ -10,14 +10,16 @@ public class TestDocumentTemplateForUI {
 
     @Test
     public void test() {
-        System.out.println("--- Testing dataset:PurposeConceptFileStaging ---");
-        testClass("dataset:PurposeConceptFileStaging");
-        
-        System.out.println("\n--- Testing dataset:DataDescriptionFileStaging ---");
-        testClass("dataset:DataDescriptionFileStaging");
-        
-        System.out.println("\n--- Testing dataset:ActivityRepositoryInitialReadInfo ---");
-        testClass("dataset:ActivityRepositoryInitialReadInfo");
+        System.out.println("--- Testing dataset:ActivityRepositoryInitialReadLocalFile ---");
+        testClass("dataset:ActivityRepositoryInitialReadLocalFile");
+        /*
+         * System.out.println("\n--- Testing dataset:DataDescriptionFileStaging ---");
+         * testClass("dataset:DataDescriptionFileStaging");
+         * 
+         * System.out.
+         * println("\n--- Testing dataset:ActivityRepositoryInitialReadInfo ---");
+         * testClass("dataset:ActivityRepositoryInitialReadInfo");
+         */
     }
 
     private void testClass(String classname) {

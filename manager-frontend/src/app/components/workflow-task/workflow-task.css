@@ -43,9 +43,27 @@ header p {
   margin-bottom: 30px;
 }
 
-.activity-form-container h3 {
-  margin-bottom: 20px;
-  color: #333;
+.activity-form-header {
+  margin-bottom: 24px;
+}
+
+.activity-name {
+  margin: 0 0 6px 0;
+  color: #1a73e8;
+  font-size: 1.25rem;
+  font-weight: 600;
+  padding-left: 12px;
+  border-left: 4px solid #1a73e8;
+  line-height: 1.4;
+}
+
+.activity-comment {
+  margin: 0 0 20px 0;
+  color: #5f6368;
+  font-size: 0.9rem;
+  font-style: italic;
+  padding-left: 16px;
+  line-height: 1.5;
 }
 
 .actions {

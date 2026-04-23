@@ -41,9 +41,6 @@ public class OrchestrationController {
 
             ObjectMapper objectMapper = new ObjectMapper();
             String argumentJson = objectMapper.writeValueAsString(workflowArgs);
-
-            System.out.println("Triggering workflow: " + targetWorkflow + " with args: " + argumentJson);
-
             Execution execution = Execution.newBuilder()
                     .setArgument(argumentJson)
                     .build();
@@ -56,8 +53,6 @@ public class OrchestrationController {
             Execution response = executionsClient.createExecution(createExecutionRequest);
             String executionName = response.getName();
             String executionId = executionName.substring(executionName.lastIndexOf("/") + 1);
-
-            System.out.println("Triggered! Workflow: " + targetWorkflow + ", Execution ID: " + executionId);
 
             Map<String, String> responseBody = new HashMap<>();
             responseBody.put("executionId", executionId);

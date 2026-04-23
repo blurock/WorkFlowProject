@@ -28,8 +28,11 @@
 
         <!-- Generic Fallback or specific mappings -->
         <ng-container *ngSwitchDefault>
-          <div *ngIf="activityTemplateStruct">
-            <h3>Please complete the following information:</h3>
+          <div *ngIf="activityTemplateStruct" class="activity-form-header">
+            <h3 class="activity-name">{{ label }}</h3>
+            <p *ngIf="explanation" class="activity-comment">
+              {{ explanation }}
+            </p>
             <app-dynamic-primitive [structure]="activityTemplateStruct" [(value)]="activityData">
             </app-dynamic-primitive>
           </div>

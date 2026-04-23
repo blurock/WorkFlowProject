@@ -63,11 +63,8 @@ public class ReadFirestoreInformation {
         try {
             db = FirestoreBaseClass.getFirebaseDatabase();
             DocumentReference docref = SetUpDocumentReference.setup(db, firestoreid);
-            System.out.println("readFirestoreCatalogObject: " + JsonObjectUtilities.toString(firestoreid));
             JsonObject catalog = readUsingDocumentReference(firestoreid, docref);
-            System.out.println("Catalog: " + JsonObjectUtilities.toString(catalog));
             if (catalog != null) {
-                System.out.println("Catalog: " + JsonObjectUtilities.toString(catalog));
                 String messageString = "Success: ReadFirestoreInformation: ";
                 if (catalog.has(ClassLabelConstants.CatalogObjectKey)
                         && catalog.has(ClassLabelConstants.CatalogObjectID)) {
@@ -158,8 +155,6 @@ public class ReadFirestoreInformation {
                     } else {
                         query = query.whereEqualTo(type, value);
                     }
-                    // System.out.println("readFirestoreCollection: " + query.get);
-
                 }
             } else {
                 Element text = body.addElement("div", "No properties within the collection specified");

@@ -11,7 +11,7 @@ public class TransactionEventHierarchyTest {
     @Test
     public void testGenerate() {
         JsonObject result = TransactionEventHierarchy.generate();
-        
+
         System.out.println("-------------------------------------------------------");
         System.out.println("TransactionEventHierarchy.generate()");
         System.out.println(JsonObjectUtilities.toString(result));

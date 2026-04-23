@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import info.esblurock.reaction.core.ontology.base.utilities.GenericSimpleQueries;
+import info.esblurock.reaction.core.ontology.base.utilities.JsonObjectUtilities;
 import java.util.Set;
 import java.util.Map.Entry;
 
@@ -16,7 +17,7 @@ public class DocumentTemplateForUI {
 
     private static String CLASSIFICATION = "dataset:Classification";
     private static String PARAGRAPH = "dataset:Paragraph";
-    private static String ONELINE = "dataset:OnLine";
+    private static String ONELINE = "dataset:OneLine";
     private static String EMAIL = "dataset:Email";
     private static String URL = "dataset:HTTPAddress";
     private static String BOOLEAN = "dataset:BooleanDataType";
@@ -40,9 +41,6 @@ public class DocumentTemplateForUI {
             error.addProperty("error", "Failed to create template for " + classname);
             return error;
         }
-
-        System.out.println("DEBUG: exampleTemplate entries: " + exampleTemplate.entrySet().size());
-
         // Get the dataobject and annotations part for recursion
         JsonElement dataobjectEl = exampleTemplate.get("dataobject");
         JsonElement annotationsEl = exampleTemplate.get("annotations");
@@ -73,24 +71,15 @@ public class DocumentTemplateForUI {
      * @param parentUI    The JsonObject under which we are creating elements.
      */
     private static void recursiveLoopThroughElements(JsonObject template, JsonObject annotations, JsonObject parentUI) {
-        System.out.println("DEBUG: template: " + template.toString());
         Set<Entry<String, JsonElement>> entries = template.entrySet();
-        System.out.println("DEBUG: template: " + entries.size());
         for (Entry<String, JsonElement> entry : entries) {
-            System.out.println("DEBUG: entry: " + entry.getKey());
             String key = entry.getKey();
             JsonElement element = entry.getValue();
             JsonObject elementUI = new JsonObject();
             parentUI.add(key, elementUI);
-
             String classname = GenericSimpleQueries.classFromIdentifier(key);
-
             if (classname == null) {
                 classname = key;
-            }
-            // Add basic metadata for the field if available
-            if (classname != null) {
-                System.out.println("DEBUG: Resolved " + key + " to class " + classname);
             }
             elementUI.addProperty("identifier", key);
             elementUI.addProperty("classname", classname);
@@ -98,9 +87,13 @@ public class DocumentTemplateForUI {
             if (annotations.has(classname)) {
                 JsonObject anno = annotations.get(classname).getAsJsonObject();
                 if (anno.has(info.esblurock.reaction.core.ontology.base.constants.AnnotationObjectsLabels.label))
-                    elementUI.addProperty("label", anno.get(info.esblurock.reaction.core.ontology.base.constants.AnnotationObjectsLabels.label).getAsString());
+                    elementUI.addProperty("label",
+                            anno.get(info.esblurock.reaction.core.ontology.base.constants.AnnotationObjectsLabels.label)
+                                    .getAsString());
                 if (anno.has(info.esblurock.reaction.core.ontology.base.constants.AnnotationObjectsLabels.comment))
-                    elementUI.addProperty("comment", anno.get(info.esblurock.reaction.core.ontology.base.constants.AnnotationObjectsLabels.comment).getAsString());
+                    elementUI.addProperty("comment", anno
+                            .get(info.esblurock.reaction.core.ontology.base.constants.AnnotationObjectsLabels.comment)
+                            .getAsString());
                 if (anno.has("classification"))
                     elementUI.add("choices", anno.get("classification"));
             }

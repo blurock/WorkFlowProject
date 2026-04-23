@@ -19,11 +19,8 @@ public class SessionDataManagement {
      * @return The complete SessionData object retrieved from Firestore.
      */
     public static JsonObject readSessionData(JsonObject minimalSessionData) {
-
-        System.out.println("minimalSessionData: " + JsonObjectUtilities.toString(minimalSessionData));
         // Find the address of the catalog object
         JsonObject firestoreid = CreateHierarchyElement.searchForCatalogObjectInHierarchyTemplate(minimalSessionData);
-        System.out.println("firestoreid: " + JsonObjectUtilities.toString(firestoreid));
         // Read the catalog object from Firestore
         JsonObject sessionData = ReadFirestoreInformation.readFirestoreCatalogObject(firestoreid);
 

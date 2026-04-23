@@ -21,7 +21,7 @@ import { BasePrimitiveComponent } from '../base-primitive';
   template: `
     <mat-form-field appearance="outline" style="width: 100%; display: block;" floatLabel="always">
       <mat-label>{{ structure.label || structure.classname }}</mat-label>
-      <mat-select [(ngModel)]="value" (selectionChange)="onSelectionChange($event.value)">
+      <mat-select [ngModel]="value" (selectionChange)="onSelectionChange($event.value)">
         <mat-option *ngFor="let option of options" [value]="option.id">
           {{ option.label }}
         </mat-option>

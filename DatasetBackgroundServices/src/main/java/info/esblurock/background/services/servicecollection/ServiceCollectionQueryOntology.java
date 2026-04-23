@@ -14,9 +14,10 @@ import info.esblurock.reaction.core.ontology.base.constants.AnnotationObjectsLab
 import info.esblurock.reaction.core.ontology.base.constants.ClassLabelConstants;
 import info.esblurock.reaction.core.ontology.base.dataset.CreateDocumentTemplate;
 import info.esblurock.reaction.core.ontology.base.hierarchy.CreateHierarchyElement;
-import info.esblurock.reaction.core.ontology.base.utilities.JsonObjectUtilities;
+import info.esblurock.reaction.core.ontology.base.utilities.GenericSimpleQueries;
 import info.esblurock.reaction.core.ontology.base.utilities.OntologyUtilityRoutines;
 import info.esblurock.reaction.core.ontology.base.utilities.SubstituteJsonValues;
+import info.esblurock.reaction.core.ontology.base.transaction.GenerateOrderedListOfPrerequisites;
 import com.google.gson.JsonArray;
 
 /**
@@ -78,19 +79,28 @@ public enum ServiceCollectionQueryOntology {
 		@Override
 		public JsonObject process(JsonObject json) {
 			Document document = MessageConstructor.startDocument("DatasetCreateObjectTemplate");
-			JsonObject source = json.get(ClassLabelConstants.SessionData).getAsJsonObject();
-			JsonObject catalog = json.get(ClassLabelConstants.SimpleCatalogObject).getAsJsonObject();
-			String identifier = catalog.get(AnnotationObjectsLabels.identifier).getAsString();
-			String catalogtype = catalog.get(ClassLabelConstants.DatabaseObjectType).getAsString();
-			SubstituteJsonValues.substituteJsonObject(catalog, source);
-			// Properties that could overide the identitiy of the catalog object
-			catalog.addProperty(AnnotationObjectsLabels.identifier, identifier);
-			catalog.addProperty(ClassLabelConstants.DatabaseObjectType, catalogtype);
-			JsonArray arr = new JsonArray();
-			arr.add(catalog);
-			JsonObject response = StandardResponse.standardServiceResponse(document,
-					"Success: DatasetCreateObjectTemplate", arr);
-			return response;
+			try {
+				JsonObject source = json.get(ClassLabelConstants.SessionData).getAsJsonObject();
+				JsonObject catalog = json.get(ClassLabelConstants.SimpleCatalogObject).getAsJsonObject();
+				String identifier = catalog.get(AnnotationObjectsLabels.identifier).getAsString();
+				String catalogtype = catalog.get(ClassLabelConstants.CatalogObjectType).getAsString();
+				SubstituteJsonValues.substituteJsonObject(catalog, source);
+				// Properties that could overide the identitiy of the catalog object
+				catalog.addProperty(AnnotationObjectsLabels.identifier, identifier);
+				catalog.addProperty(ClassLabelConstants.CatalogObjectType, catalogtype);
+				String objtype = GenericSimpleQueries.classFromIdentifier(identifier);
+				// The dataset object type is determined by the identifier
+				catalog.addProperty(ClassLabelConstants.DatabaseObjectType, objtype);
+				JsonArray arr = new JsonArray();
+				arr.add(catalog);
+				JsonObject response = StandardResponse.standardServiceResponse(document,
+						"Success: DatasetCreateObjectTemplate", arr);
+				return response;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return StandardResponse.standardServiceResponse(document,
+						"Error: DatasetCreateObjectTemplate: " + e.getMessage(), null);
+			}
 		}
 
 	},
@@ -157,6 +167,13 @@ public enum ServiceCollectionQueryOntology {
 			arr.add(activity);
 			JsonObject response = StandardResponse.standardServiceResponse(document,
 					"Success: FindActivityInformationForTransaction for " + transaction, arr);
+			return response;
+		}
+	},
+	OrderedListOfPrerequisites {
+		@Override
+		public JsonObject process(JsonObject json) {
+			JsonObject response = GenerateOrderedListOfPrerequisites.generate(json);
 			return response;
 		}
 	};

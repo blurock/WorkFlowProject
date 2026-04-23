@@ -48,7 +48,7 @@ import { OntologyService } from '../../../services/ontology.service';
 
         <section>
           <h2 class="section-title">2. Complex Recursive with Arrays</h2>
-          <p class="section-desc">Testing <code>dataset:ActivityRepositoryInitialReadInfo</code></p>
+          <p class="section-desc">Testing <code>dataset:ActivityRepositoryInitialReadLocalFile</code></p>
           <mat-card class="showcase-card full-width">
             <mat-card-content>
               <app-primitive-file-wrapper 
@@ -190,17 +190,17 @@ export class PrimitiveShowcaseComponent implements OnInit {
   private cdr = inject(ChangeDetectorRef);
 
   ngOnInit() {
-    this.ontologyService.getUITemplate("dataset:DataDescriptionFileStaging").subscribe({
+    this.ontologyService.getUITemplate("dataset:ActivityInitializeDatasetSessionDataProperties").subscribe({
       next: (struct) => {
-        this.simpleRecursiveStruct = struct;
+        this.simpleRecursiveStruct = struct["dataobject"];
         this.cdr.detectChanges();
       },
       error: (err) => console.error("Error fetching simple struct:", err)
     });
 
-    this.ontologyService.getUITemplate("dataset:ActivityRepositoryInitialReadInfo").subscribe({
+    this.ontologyService.getUITemplate("dataset:ActivityRepositoryInitialReadLocalFile").subscribe({
       next: (struct) => {
-        this.complexRecursiveStruct = struct;
+        this.complexRecursiveStruct = struct["dataobject"];
         this.cdr.detectChanges();
       },
       error: (err) => console.error("Error fetching complex struct:", err)

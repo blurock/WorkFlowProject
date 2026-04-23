@@ -106,7 +106,6 @@ public class OntologyUtilityRoutines {
 				"                                 ?object owl:onProperty " + property + " .\n" +
 				"                                  ?object  owl:onClass ?element"
 				+ "}";
-		// System.out.println(query);
 		List<String> elements = OntologyBase.isolateProperty(query, "element");
 		return elements;
 	}
@@ -118,7 +117,6 @@ public class OntologyUtilityRoutines {
 				"                                 ?object owl:onProperty " + property + " .\n" +
 				"                                  ?object  owl:onClass ?element"
 				+ "}";
-		System.out.println(query);
 		List<String> elements = OntologyBase.isolateProperty(query, "element");
 		String ans = null;
 		if (elements.size() > 0) {
@@ -134,7 +132,6 @@ public class OntologyUtilityRoutines {
 				"                                 ?object owl:onProperty " + property + " .\n" +
 				"                                  ?object  owl:someValuesFrom ?element"
 				+ "}";
-		// System.out.println(query);
 		List<String> elements = OntologyBase.isolateProperty(query, "element");
 		return elements;
 	}

@@ -17,16 +17,13 @@ export class OntologyService {
   private http = inject(HttpClient);
   private baseUrl = environment.apiBaseUrl;
 
-  getUITemplate(classname: string): Observable<OntologyStructure> {
+  getUITemplate(classname: string): Observable<any> {
     return this.http.post<ServiceResponse>(`${this.baseUrl}/api/datastore/ui-template`, { classname }).pipe(
       map(response => {
         if (response['dataset:servicesuccessful'] === 'true') {
-          const struct = response['dataset:simpcatobj'].dataobject;
-
-          // If the backend returns the properties map directly without root metadata,
-          // wrap it in a proper root OntologyStructure so the DynamicPrimitive can render it.
-          if (struct && !struct.isObject && !struct.isArray && !struct.identifier) {
-            return {
+          const struct = response['dataset:simpcatobj'];
+          if (struct && struct.dataobject) {
+            struct.dataobject = {
               identifier: classname,
               classname: classname,
               isObject: true,
@@ -40,9 +37,10 @@ export class OntologyService {
               isKeywordSet: false,
               isFileSource: false,
               label: classname.split(':').pop() || classname,
-              properties: struct
+              properties: struct.dataobject
             } as OntologyStructure;
           }
+
           return struct;
         } else {
           throw new Error(response['dataset:serviceresponsemessage'] || 'Failed to fetch template');

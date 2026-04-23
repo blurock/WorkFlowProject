@@ -6,6 +6,7 @@ import { TermExtractionComponent } from './components/term-extraction/term-extra
 import { FillInOntologyComponent } from './components/fill-in-ontology/fill-in-ontology';
 import { ExtractDescriptionComponent } from './components/extract-description/extract-description';
 import { PrimitiveShowcaseComponent } from './components/primitives/showcase/primitive-showcase';
+import { DynamicPrimitiveTestComponent } from './components/primitives/showcase/dynamic-primitive-test';
 import { KetcherEditorComponent } from './components/ketcher-editor/ketcher-editor.component';
 import { WorkflowTaskComponent } from './components/workflow-task/workflow-task';
 import { RunTransactionComponent } from './components/run-transaction/run-transaction';
@@ -19,7 +20,9 @@ export const routes: Routes = [
     { path: 'fill-in-ontology', component: FillInOntologyComponent },
     { path: 'extract-description', component: ExtractDescriptionComponent },
     { path: 'primitives', component: PrimitiveShowcaseComponent },
+    { path: 'primitives/dynamic-primitive-test', component: DynamicPrimitiveTestComponent },
     { path: 'molecule-editor', component: KetcherEditorComponent },
     { path: 'workflow-task/:uid/:sessionId', component: WorkflowTaskComponent },
     { path: 'run-transaction', component: RunTransactionComponent },
+    { path: 'run-transaction/:uid/:sessionId', component: RunTransactionComponent },
 ];

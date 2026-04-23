@@ -1,13 +1,106 @@
-.container {
-  max-width: 700px;
+.page-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
 }
 
-.card {
-  border-radius: 10px;
-  overflow: hidden;
-  border: none;
+/* Session continuation banner */
+.session-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: var(--mat-sys-secondary-container, #e8def8);
+  color: var(--mat-sys-on-secondary-container, #1d192b);
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.875rem;
 }
 
-.card-header {
-  padding: 1.5rem 1.25rem;
+.session-icon {
+  flex-shrink: 0;
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+}
+
+.session-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.session-label {
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+}
+
+.session-id {
+  font-family: monospace;
+  font-size: 0.8rem;
+  word-break: break-all;
+  opacity: 0.9;
+}
+
+.new-session-btn {
+  flex-shrink: 0;
+}
+
+
+.transaction-card {
+  width: 100%;
+  max-width: 640px;
+}
+
+mat-card-header {
+  margin-bottom: 1.25rem;
+}
+
+.header-icon {
+  font-size: 36px;
+  width: 36px;
+  height: 36px;
+  color: var(--mat-sys-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.full-width {
+  width: 100%;
+}
+
+/* Error banner */
+.error-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--mat-sys-error-container, #fce8e6);
+  color: var(--mat-sys-on-error-container, #410002);
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.875rem;
+}
+
+.error-icon {
+  flex-shrink: 0;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+/* Spinner inside button */
+.btn-spinner {
+  display: inline-block;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+mat-card-actions {
+  padding: 0.5rem 1rem 1rem;
 }
