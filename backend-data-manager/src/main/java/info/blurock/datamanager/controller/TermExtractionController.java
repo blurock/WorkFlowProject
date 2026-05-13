@@ -32,19 +32,16 @@ public class TermExtractionController {
     public String extractTerms(@RequestBody Map<String, Object> params) {
         Document doc = MessageConstructor.startDocument("TermExtraction");
         try {
-            String prompt  = (String) params.getOrDefault("prompt", "");
+            String prompt = (String) params.getOrDefault("prompt", "");
             String termSet = (String) params.getOrDefault("termSet", "");
             int maxResults = params.containsKey("maxResults")
-                ? Integer.parseInt(params.get("maxResults").toString())
-                : 10;
+                    ? Integer.parseInt(params.get("maxResults").toString())
+                    : 10;
 
             if (prompt.isBlank() || termSet.isBlank()) {
                 return StandardResponse.standardErrorResponse(
-                    doc, "Both 'prompt' and 'termSet' are required.", new JsonArray()
-                ).toString();
+                        doc, "Both 'prompt' and 'termSet' are required.", new JsonArray()).toString();
             }
-
-            System.out.println("TermExtractionController: prompt='" + prompt + "', termSet='" + termSet + "'");
 
             List<ExtractedTerm> terms = termExtractionService.extractTerms(prompt, termSet, maxResults);
 
@@ -60,8 +57,7 @@ public class TermExtractionController {
             System.err.println("CRITICAL ERROR in TermExtractionController: " + e.getMessage());
             e.printStackTrace();
             return StandardResponse.standardErrorResponse(
-                doc, "Server error: " + e.getMessage(), new JsonArray()
-            ).toString();
+                    doc, "Server error: " + e.getMessage(), new JsonArray()).toString();
         }
     }
 }

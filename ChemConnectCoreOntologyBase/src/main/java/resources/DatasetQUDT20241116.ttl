@@ -2033,6 +2033,11 @@ xsd:date rdf:type rdfs:Datatype .
                                                                 [ rdf:type owl:Restriction ;
                                                                   owl:onProperty <http://purl.org/dc/terms/hasPart> ;
                                                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                                  owl:onClass :CatalogObjectUniqueGenericLabel
+                                                                ] ,
+                                                                [ rdf:type owl:Restriction ;
+                                                                  owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                                   owl:onClass :FileSourceFormat
                                                                 ] ,
                                                                 [ rdf:type owl:Restriction ;
@@ -2767,16 +2772,16 @@ The 'HTTP reference associated with object' is for references to researcher or i
 ###  http://www.esblurock.info/dataset#BurnerPlateObservationInterpretationMethodology
 :BurnerPlateObservationInterpretationMethodology rdf:type owl:Class ;
                                                  rdfs:subClassOf :DataInterpretationProtocol ,
-                                                                 _:genid125 ,
-                                                                 _:genid127 ;
+                                                                 _:genid126 ,
+                                                                 _:genid128 ;
                                                  rdfs:comment "Burner Plate Observation Interpretation Protocol" .
 
-_:genid125 rdf:type owl:Restriction ;
+_:genid126 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass :BurnerPlateObservations .
 
-_:genid127 rdf:type owl:Restriction ;
+_:genid128 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass :FlameVelocityParabolicParameterPlot .
@@ -2784,14 +2789,14 @@ _:genid127 rdf:type owl:Restriction ;
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :BurnerPlateObservationInterpretationMethodology ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid125 ;
+   owl:annotatedTarget _:genid126 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasInput>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :BurnerPlateObservationInterpretationMethodology ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid127 ;
+   owl:annotatedTarget _:genid128 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasOutput>
  ] .
 
@@ -2833,28 +2838,28 @@ _:genid127 rdf:type owl:Restriction ;
                                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                        owl:onClass :FundamentalExperimentalMeasurement
                                                      ] ,
-                                                     _:genid133 ,
-                                                     _:genid135 ,
-                                                     _:genid137 ,
-                                                     _:genid139 ;
+                                                     _:genid134 ,
+                                                     _:genid136 ,
+                                                     _:genid138 ,
+                                                     _:genid140 ;
                                      rdfs:comment "Burner Plate Thermocouple Measurements" .
 
-_:genid133 rdf:type owl:Restriction ;
+_:genid134 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass :BurnerPlateObservations .
 
-_:genid135 rdf:type owl:Restriction ;
+_:genid136 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass :EnvironmentConditionParameters .
 
-_:genid137 rdf:type owl:Restriction ;
+_:genid138 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass :EquivalenceRatioObservable .
 
-_:genid139 rdf:type owl:Restriction ;
+_:genid140 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass :FlameVelocityObservable .
@@ -2862,28 +2867,28 @@ _:genid139 rdf:type owl:Restriction ;
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :BurnerPlateThermocoupleMeasurements ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid133 ;
+   owl:annotatedTarget _:genid134 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasOutput>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :BurnerPlateThermocoupleMeasurements ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid135 ;
+   owl:annotatedTarget _:genid136 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasInput>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :BurnerPlateThermocoupleMeasurements ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid137 ;
+   owl:annotatedTarget _:genid138 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasInput>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :BurnerPlateThermocoupleMeasurements ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid139 ;
+   owl:annotatedTarget _:genid140 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasInput>
  ] .
 
@@ -5421,6 +5426,11 @@ This transaction is in combination with another transaction responsible for crea
                                       ] .
 
 
+###  http://www.esblurock.info/dataset#ChemConnectParameterConcept
+:ChemConnectParameterConcept rdf:type owl:Class ;
+                             rdfs:subClassOf :ChemConnectConceptProperties .
+
+
 ###  http://www.esblurock.info/dataset#ChemConnectParameterTypeChoice
 :ChemConnectParameterTypeChoice rdf:type owl:Class ;
                                 rdfs:subClassOf :ChemConnectClassifications ;
@@ -5698,6 +5708,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#ChemConnectThermalEnergy
 :ChemConnectThermalEnergy rdf:type owl:Class ;
                           rdfs:subClassOf :ChemConnectEnergy .
+
+
+###  http://www.esblurock.info/dataset#ChemConnectThermoParameterPurpose
+:ChemConnectThermoParameterPurpose rdf:type owl:Class ;
+                                   rdfs:subClassOf :ChemConnectThermodynamicPurpose .
 
 
 ###  http://www.esblurock.info/dataset#ChemConnectThermodynamicCompoundData
@@ -6780,6 +6795,77 @@ Under the general type of is the actual data object referenced by the ChemConnec
                      <http://www.w3.org/2004/02/skos/core#altLabel> "dataconceptorg" .
 
 
+###  http://www.esblurock.info/dataset#ConceptParameter
+:ConceptParameter rdf:type owl:Class ;
+                  rdfs:subClassOf :DataTypeConcept .
+
+
+###  http://www.esblurock.info/dataset#ConceptParameterEnthalpy
+:ConceptParameterEnthalpy rdf:type owl:Class ;
+                          rdfs:subClassOf :ConceptParameter ;
+                          <http://purl.org/dc/elements/1.1/type> :ConceptParameterEnthalpy ;
+                          <http://purl.org/dc/terms/identifier> "dataset:conceptparameterentalpy" ;
+                          rdfs:comment "The concept associated with the parameter enthalpy" ;
+                          rdfs:isDefinedBy :ChemConnectParameterConcept ;
+                          rdfs:label "Enthalpy Parameter Concept" ;
+                          <http://www.w3.org/2004/02/skos/core#altLabel> "conceptparameterenthalpy" .
+
+
+###  http://www.esblurock.info/dataset#ConceptParameterEntropy
+:ConceptParameterEntropy rdf:type owl:Class ;
+                         rdfs:subClassOf :ConceptParameter ;
+                         <http://purl.org/dc/elements/1.1/type> :ConceptParameterEntropy ;
+                         <http://purl.org/dc/terms/identifier> "dataset:conceptparameterentropy" ;
+                         rdfs:comment "The concept associated with the parameter entropy" ;
+                         rdfs:isDefinedBy :ChemConnectParameterConcept ;
+                         rdfs:label "Entropy Parameter Concept" ;
+                         <http://www.w3.org/2004/02/skos/core#altLabel> "conceptparameterentropy" .
+
+
+###  http://www.esblurock.info/dataset#ConceptParameterFrequency
+:ConceptParameterFrequency rdf:type owl:Class ;
+                           rdfs:subClassOf :ConceptParameter ;
+                           <http://purl.org/dc/elements/1.1/type> :ConceptParameterFrequency ;
+                           <http://purl.org/dc/terms/identifier> "dataset:conceptparameterfrequency" ;
+                           rdfs:comment "The concept associated with the parameter frequency" ;
+                           rdfs:isDefinedBy :ChemConnectParameterConcept ;
+                           rdfs:label "Frequency Parameter Concept" ;
+                           <http://www.w3.org/2004/02/skos/core#altLabel> "conceptparameterfrequency" .
+
+
+###  http://www.esblurock.info/dataset#ConceptParameterHDisassociation
+:ConceptParameterHDisassociation rdf:type owl:Class ;
+                                 rdfs:subClassOf :ConceptParameter ;
+                                 <http://purl.org/dc/elements/1.1/type> :ConceptParameterHDisassociation ;
+                                 <http://purl.org/dc/terms/identifier> "dataset:conceptparameterhdisassociation" ;
+                                 rdfs:comment "The concept associated with the parameter hydrogen disassociation energy" ;
+                                 rdfs:isDefinedBy :ChemConnectParameterConcept ;
+                                 rdfs:label "H Disassociation Parameter Concept" ;
+                                 <http://www.w3.org/2004/02/skos/core#altLabel> "conceptparameterhdisassociation" .
+
+
+###  http://www.esblurock.info/dataset#ConceptParameterHeatCapacity
+:ConceptParameterHeatCapacity rdf:type owl:Class ;
+                              rdfs:subClassOf :ConceptParameter ;
+                              <http://purl.org/dc/elements/1.1/type> :ConceptParameterHeatCapacity ;
+                              <http://purl.org/dc/terms/identifier> "dataset:conceptparameterheatcapacity" ;
+                              rdfs:comment "The concept associated with the parameter heat capacity" ;
+                              rdfs:isDefinedBy :ChemConnectParameterConcept ;
+                              rdfs:label "Heat Capacity Parameter Concept" ;
+                              <http://www.w3.org/2004/02/skos/core#altLabel> "conceptparameterheatcapacity" .
+
+
+###  http://www.esblurock.info/dataset#ConceptParameterTemperature
+:ConceptParameterTemperature rdf:type owl:Class ;
+                             rdfs:subClassOf :ConceptParameter ;
+                             <http://purl.org/dc/elements/1.1/type> :ConceptParameterTemperature ;
+                             <http://purl.org/dc/terms/identifier> "dataset:conceptparametertemperature" ;
+                             rdfs:comment "The concept associated with the parameter temperature" ;
+                             rdfs:isDefinedBy :ChemConnectParameterConcept ;
+                             rdfs:label "Temerpature Parameter Concept" ;
+                             <http://www.w3.org/2004/02/skos/core#altLabel> "conceptparametertemperature" .
+
+
 ###  http://www.esblurock.info/dataset#ConceptPerson
 :ConceptPerson rdf:type owl:Class ;
                rdfs:subClassOf :ConceptUserInfo ;
@@ -7738,12 +7824,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#DataSpecification
 :DataSpecification rdf:type owl:Class ;
-                   rdfs:subClassOf :ChemConnectCompoundExpData ,
-                                   [ rdf:type owl:Restriction ;
-                                     owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                     owl:onClass :PurposeConceptPair
-                                   ] ;
+                   rdfs:subClassOf :ChemConnectCompoundExpData ;
                    <http://purl.org/dc/elements/1.1/type> "DataSpecification" ;
                    <http://purl.org/dc/terms/identifier> "dataset:Specification" ;
                    rdfs:comment "This is a top level of a data specification" ;
@@ -8129,7 +8210,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#DatabaseObjectType
 :DatabaseObjectType rdf:type owl:Class ;
-                    rdfs:subClassOf :Classification ;
+                    rdfs:subClassOf :StringNameLabel ;
                     <http://purl.org/dc/elements/1.1/type> :DatabaseObjectType ;
                     <http://purl.org/dc/terms/identifier> "dataset:objectype" ;
                     rdfs:comment "This is the data type of the referenced object." ;
@@ -11177,6 +11258,17 @@ _:genid583 rdf:type owl:Restriction ;
            <http://www.w3.org/2004/02/skos/core#altLabel> "frequency" .
 
 
+###  http://www.esblurock.info/dataset#FrequencyUnitClass
+:FrequencyUnitClass rdf:type owl:Class ;
+                    rdfs:subClassOf :UnitClass ;
+                    <http://purl.org/dc/elements/1.1/type> :FrequencyUnitClass ;
+                    <http://purl.org/dc/terms/identifier> "dataset:frequencyunitclass" ;
+                    rdfs:comment "The class of frequency units" ;
+                    rdfs:isDefinedBy :UnitClassFrequencySingle ;
+                    rdfs:label "Frequency Unit Class" ;
+                    <http://www.w3.org/2004/02/skos/core#altLabel> "frequencyunitclass" .
+
+
 ###  http://www.esblurock.info/dataset#FuelCellPowerGenerator
 :FuelCellPowerGenerator rdf:type owl:Class ;
                         rdfs:subClassOf :PowerGenerators .
@@ -11717,6 +11809,17 @@ _:genid613 rdf:type owl:Restriction ;
                                   rdfs:comment "The heat capacity at a given temperature. The units of the heat capacity are given with an associated data structure." ;
                                   rdfs:label "Temperature and Heat Capacity Values" ;
                                   <http://www.w3.org/2004/02/skos/core#altLabel> "heatcapacitytemperaturevaluepair" .
+
+
+###  http://www.esblurock.info/dataset#HeatCapacityUnitClass
+:HeatCapacityUnitClass rdf:type owl:Class ;
+                       rdfs:subClassOf :UnitClass ;
+                       <http://purl.org/dc/elements/1.1/type> :HeatCapacityUnitClass ;
+                       <http://purl.org/dc/terms/identifier> "dataset:heatcapacityunitclass" ;
+                       rdfs:comment "The class of heat capacity units" ;
+                       rdfs:isDefinedBy :UnitClassHeatCapacitySingle ;
+                       rdfs:label "Heat Capacity Unit Class" ;
+                       <http://www.w3.org/2004/02/skos/core#altLabel> "heatcapacityunitclass" .
 
 
 ###  http://www.esblurock.info/dataset#HeatFluxBurner
@@ -13013,7 +13116,12 @@ _:genid681 rdf:type owl:Restriction ;
 
 ###  http://www.esblurock.info/dataset#JThermodynamicDisassociationEnergy
 :JThermodynamicDisassociationEnergy rdf:type owl:Class ;
-                                    rdfs:subClassOf :JThermodynamicMolarQuantities ;
+                                    rdfs:subClassOf :JThermodynamicMolarQuantities ,
+                                                    [ rdf:type owl:Restriction ;
+                                                      owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                      owl:onClass :ParameterSpecificationHDisassociationEnergy
+                                                    ] ;
                                     <http://purl.org/dc/elements/1.1/type> :JThermodynamicDisassociationEnergy ;
                                     <http://purl.org/dc/terms/identifier> "dataset:disassociationenergyparameter" ;
                                     rdfs:comment "This is the disassociation energy of loss of hydrogen for a species." ;
@@ -14744,9 +14852,9 @@ _:genid681 rdf:type owl:Restriction ;
                                             owl:onProperty :hasComponent ;
                                             owl:someValuesFrom :LiquidMassFlowControllerComponent
                                           ] ,
-                                          _:genid892 .
+                                          _:genid893 .
 
-_:genid892 rdf:type owl:Restriction ;
+_:genid893 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass :SingleMassFlowControllerObservable .
@@ -14754,7 +14862,7 @@ _:genid892 rdf:type owl:Restriction ;
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :LiquidMassFlowController ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid892 ;
+   owl:annotatedTarget _:genid893 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasOutput>
  ] .
 
@@ -14762,10 +14870,10 @@ _:genid892 rdf:type owl:Restriction ;
 ###  http://www.esblurock.info/dataset#LiquidMassFlowControllerComponent
 :LiquidMassFlowControllerComponent rdf:type owl:Class ;
                                    rdfs:subClassOf :MassFlowController ,
-                                                   _:genid894 ;
+                                                   _:genid895 ;
                                    rdfs:label "Liquid Mass Flow Component" .
 
-_:genid894 rdf:type owl:Restriction ;
+_:genid895 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass :SingleMassFlowControllerObservable .
@@ -14773,7 +14881,7 @@ _:genid894 rdf:type owl:Restriction ;
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :LiquidMassFlowControllerComponent ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid894 ;
+   owl:annotatedTarget _:genid895 ;
    rdfs:comment <http://www.w3.org/ns/ssn/hasOutput>
  ] .
 
@@ -15076,15 +15184,15 @@ _:genid894 rdf:type owl:Restriction ;
 ###  http://www.esblurock.info/dataset#MSMBFlameProbeSubsystem
 :MSMBFlameProbeSubsystem rdf:type owl:Class ;
                          rdfs:subClassOf :SamplingProbe ,
-                                         _:genid919 ,
-                                         _:genid921 .
+                                         _:genid920 ,
+                                         _:genid922 .
 
-_:genid919 rdf:type owl:Restriction ;
+_:genid920 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass :FirstStageExpansionWithSkimmer .
 
-_:genid921 rdf:type owl:Restriction ;
+_:genid922 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass :SecondStageExpansion .
@@ -15092,14 +15200,14 @@ _:genid921 rdf:type owl:Restriction ;
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :MSMBFlameProbeSubsystem ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid919 ;
+   owl:annotatedTarget _:genid920 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :MSMBFlameProbeSubsystem ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid921 ;
+   owl:annotatedTarget _:genid922 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
@@ -15121,22 +15229,22 @@ _:genid921 rdf:type owl:Restriction ;
 ###  http://www.esblurock.info/dataset#MSMBPremixedFlameBurner
 :MSMBPremixedFlameBurner rdf:type owl:Class ;
                          rdfs:subClassOf :FlameBurner ,
-                                         _:genid923 ,
-                                         _:genid925 ,
-                                         _:genid927 ;
+                                         _:genid924 ,
+                                         _:genid926 ,
+                                         _:genid928 ;
                          rdfs:comment "Mass Spectroscopy Molecule Beam Flame Burner" ;
                          rdfs:label "MSMB Premixed Flame Burner" .
 
-_:genid923 rdf:type owl:Restriction ;
+_:genid924 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:someValuesFrom :MassSpectrometryMolecularBeam .
 
-_:genid925 rdf:type owl:Restriction ;
+_:genid926 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass :MSMBFlameProbeSubsystem .
 
-_:genid927 rdf:type owl:Restriction ;
+_:genid928 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass :PremixedFlameFuelPreparation .
@@ -15144,21 +15252,21 @@ _:genid927 rdf:type owl:Restriction ;
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :MSMBPremixedFlameBurner ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid923 ;
+   owl:annotatedTarget _:genid924 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :MSMBPremixedFlameBurner ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid925 ;
+   owl:annotatedTarget _:genid926 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :MSMBPremixedFlameBurner ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid927 ;
+   owl:annotatedTarget _:genid928 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
@@ -15166,9 +15274,9 @@ _:genid927 rdf:type owl:Restriction ;
 ###  http://www.esblurock.info/dataset#MSMBSpeciesDetectionSubsystem
 :MSMBSpeciesDetectionSubsystem rdf:type owl:Class ;
                                rdfs:subClassOf :FlameSpeciesDetection ,
-                                               _:genid929 .
+                                               _:genid930 .
 
-_:genid929 rdf:type owl:Restriction ;
+_:genid930 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass :MassSpectrometryMolecularBeam .
@@ -15176,7 +15284,7 @@ _:genid929 rdf:type owl:Restriction ;
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :MSMBSpeciesDetectionSubsystem ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid929 ;
+   owl:annotatedTarget _:genid930 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
@@ -15875,9 +15983,31 @@ _:genid929 rdf:type owl:Restriction ;
                               <http://www.w3.org/2004/02/skos/core#altLabel> "conc" .
 
 
+###  http://www.esblurock.info/dataset#MolarEnthalpyUnitClass
+:MolarEnthalpyUnitClass rdf:type owl:Class ;
+                        rdfs:subClassOf :UnitClass ;
+                        <http://purl.org/dc/elements/1.1/type> :MolarEnthalpyUnitClass ;
+                        <http://purl.org/dc/terms/identifier> "dataset:molarenthalpyunitclass" ;
+                        rdfs:comment "Molar Enthalpy Unit Class" ;
+                        rdfs:isDefinedBy :UnitClassMolarEnthapySingle ;
+                        rdfs:label "Molar Enthalpy Unit Class" ;
+                        <http://www.w3.org/2004/02/skos/core#altLabel> "molarenthalpyunitclass" .
+
+
 ###  http://www.esblurock.info/dataset#MolarEntropyHeatCapacityUnit
 :MolarEntropyHeatCapacityUnit rdf:type owl:Class ;
                               rdfs:subClassOf <http://qudt.org/schema/qudt#ChemistryUnit> .
+
+
+###  http://www.esblurock.info/dataset#MolarEntropyUnitClass
+:MolarEntropyUnitClass rdf:type owl:Class ;
+                       rdfs:subClassOf :UnitClass ;
+                       <http://purl.org/dc/elements/1.1/type> :MolarEntropyUnitClass ;
+                       <http://purl.org/dc/terms/identifier> "dataset:molarentropyunitclass" ;
+                       rdfs:comment "The class of molar entropy units" ;
+                       rdfs:isDefinedBy :UnitClassMolarEntropySingle ;
+                       rdfs:label "Molar Entropy Unit Class" ;
+                       <http://www.w3.org/2004/02/skos/core#altLabel> "molarentropyunitclass" .
 
 
 ###  http://www.esblurock.info/dataset#MoleFractionComposition
@@ -15920,28 +16050,28 @@ _:genid929 rdf:type owl:Restriction ;
 ###  http://www.esblurock.info/dataset#MolecularBeamSamplingProbe
 :MolecularBeamSamplingProbe rdf:type owl:Class ;
                             rdfs:subClassOf :SamplingProbe ,
-                                            _:genid964 ,
-                                            _:genid966 .
+                                            _:genid965 ,
+                                            _:genid967 .
 
-_:genid964 rdf:type owl:Restriction ;
+_:genid965 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:someValuesFrom :NickelSkimmer .
 
-_:genid966 rdf:type owl:Restriction ;
+_:genid967 rdf:type owl:Restriction ;
             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
             owl:someValuesFrom :SamplingCone .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :MolecularBeamSamplingProbe ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid964 ;
+   owl:annotatedTarget _:genid965 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :MolecularBeamSamplingProbe ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid966 ;
+   owl:annotatedTarget _:genid967 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
@@ -16678,6 +16808,20 @@ _:genid966 rdf:type owl:Restriction ;
            <http://www.w3.org/2004/02/skos/core#altLabel> "paragraph" .
 
 
+###  http://www.esblurock.info/dataset#ParameterConceptCollection
+:ParameterConceptCollection rdf:type owl:Class ;
+                            rdfs:subClassOf :ChemConnectParameterConcept ;
+                            rdfs:comment "Parameter associated with objects in a collection to be used in a thermodynamic calculation" ;
+                            rdfs:label "Collection Parameter" .
+
+
+###  http://www.esblurock.info/dataset#ParameterConceptDataset
+:ParameterConceptDataset rdf:type owl:Class ;
+                         rdfs:subClassOf :ChemConnectParameterConcept ;
+                         rdfs:comment "Parameter associated with a parameter that is in a preliminary dataset for use in a thermodynamic calculation" ;
+                         rdfs:label "Dataset Parameter" .
+
+
 ###  http://www.esblurock.info/dataset#ParameterEntity
 :ParameterEntity rdf:type owl:Class ;
                  rdfs:subClassOf :ChemConnectCompoundExpData ;
@@ -16698,6 +16842,66 @@ _:genid966 rdf:type owl:Restriction ;
                 <http://www.w3.org/2004/02/skos/core#altLabel> "parameter" .
 
 
+###  http://www.esblurock.info/dataset#ParameterLabelEnthalpy
+:ParameterLabelEnthalpy rdf:type owl:Class ;
+                        rdfs:subClassOf :ParameterLabel ;
+                        <http://purl.org/dc/elements/1.1/type> :ParameterLabelEnthalpy ;
+                        <http://purl.org/dc/terms/identifier> "dataset:parameterlabelenthalpy" ;
+                        rdfs:comment "The label used for the enthalpy parameter" ;
+                        rdfs:label "Enthalpy Label" ;
+                        <http://www.w3.org/2004/02/skos/core#altLabel> "parameterlabelenthalpy" .
+
+
+###  http://www.esblurock.info/dataset#ParameterLabelEntropy
+:ParameterLabelEntropy rdf:type owl:Class ;
+                       rdfs:subClassOf :ParameterLabel ;
+                       <http://purl.org/dc/elements/1.1/type> :ParameterLabelEntropy ;
+                       <http://purl.org/dc/terms/identifier> "dataset:parameterlabelentropy" ;
+                       rdfs:comment "The label used for the entropy parameter" ;
+                       rdfs:label "Entropy Label" ;
+                       <http://www.w3.org/2004/02/skos/core#altLabel> "parameterlabelentropy" .
+
+
+###  http://www.esblurock.info/dataset#ParameterLabelFrequency
+:ParameterLabelFrequency rdf:type owl:Class ;
+                         rdfs:subClassOf :ParameterLabel ;
+                         <http://purl.org/dc/elements/1.1/type> :ParameterLabelFrequency ;
+                         <http://purl.org/dc/terms/identifier> "dataset:parameterlabelfrequency" ;
+                         rdfs:comment "The label used for the frequency parameter" ;
+                         rdfs:label "Frequency Label" ;
+                         <http://www.w3.org/2004/02/skos/core#altLabel> "parameterlabelfrequency" .
+
+
+###  http://www.esblurock.info/dataset#ParameterLabelHDisassociation
+:ParameterLabelHDisassociation rdf:type owl:Class ;
+                               rdfs:subClassOf :ParameterLabel ;
+                               <http://purl.org/dc/elements/1.1/type> :ParameterLabelHDisassociation ;
+                               <http://purl.org/dc/terms/identifier> "dataset:parameterlabelhdisassociation" ;
+                               rdfs:comment "The name of the H-Disassociation parameter" ;
+                               rdfs:label "H-Disassociation Label" ;
+                               <http://www.w3.org/2004/02/skos/core#altLabel> "parameterlabelhdisassociation" .
+
+
+###  http://www.esblurock.info/dataset#ParameterLabelHeatCapacity
+:ParameterLabelHeatCapacity rdf:type owl:Class ;
+                            rdfs:subClassOf :ParameterLabel ;
+                            <http://purl.org/dc/elements/1.1/type> :ParameterLabelHeatCapacity ;
+                            <http://purl.org/dc/terms/identifier> "dataset:parameterlabelheatcapacity" ;
+                            rdfs:comment "The label used for the heat capacity parameter" ;
+                            rdfs:label "Heat Capacity Label" ;
+                            <http://www.w3.org/2004/02/skos/core#altLabel> "parameterlabelheatcapacity" .
+
+
+###  http://www.esblurock.info/dataset#ParameterLabelTemperature
+:ParameterLabelTemperature rdf:type owl:Class ;
+                           rdfs:subClassOf :ParameterLabel ;
+                           <http://purl.org/dc/elements/1.1/type> :ParameterLabelTemperature ;
+                           <http://purl.org/dc/terms/identifier> "dataset:parameterlabeltemperature" ;
+                           rdfs:comment "The label used for the temperature parameter" ;
+                           rdfs:label "Termperature Label" ;
+                           <http://www.w3.org/2004/02/skos/core#altLabel> "dataset:parameterlabeltemperature" .
+
+
 ###  http://www.esblurock.info/dataset#ParameterSpecification
 :ParameterSpecification rdf:type owl:Class ;
                         rdfs:subClassOf :DataSpecification ,
@@ -16709,17 +16913,7 @@ _:genid966 rdf:type owl:Restriction ;
                                         [ rdf:type owl:Restriction ;
                                           owl:onProperty <http://purl.org/dc/terms/hasPart> ;
                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                          owl:onClass :ParameterLabel
-                                        ] ,
-                                        [ rdf:type owl:Restriction ;
-                                          owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                           owl:onClass :ParameterTypeSpecification
-                                        ] ,
-                                        [ rdf:type owl:Restriction ;
-                                          owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                          owl:onClass :ValueUnits
                                         ] ;
                         <http://purl.org/dc/elements/1.1/type> "ParameterSpecification" ;
                         <http://purl.org/dc/terms/identifier> "qb:ComponentSpecification" ;
@@ -16730,7 +16924,22 @@ _:genid966 rdf:type owl:Restriction ;
 
 ###  http://www.esblurock.info/dataset#ParameterSpecificationEnthalpy
 :ParameterSpecificationEnthalpy rdf:type owl:Class ;
-                                rdfs:subClassOf :ParameterSpecification ;
+                                rdfs:subClassOf :ParameterSpecification ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                  owl:onClass :ParameterLabelEnthalpy
+                                                ] ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                  owl:onClass :PurposeConceptEnthalpy
+                                                ] ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                  owl:onClass :ValueUnitsMolarEnthalpy
+                                                ] ;
                                 <http://purl.org/dc/elements/1.1/type> :ParameterSpecificationEnthalpy ;
                                 <http://purl.org/dc/terms/identifier> "dataset:paramspecenthalpy" ;
                                 rdfs:comment "The enthalpy parameter specification" ;
@@ -16741,7 +16950,22 @@ _:genid966 rdf:type owl:Restriction ;
 
 ###  http://www.esblurock.info/dataset#ParameterSpecificationEntropy
 :ParameterSpecificationEntropy rdf:type owl:Class ;
-                               rdfs:subClassOf :ParameterSpecification ;
+                               rdfs:subClassOf :ParameterSpecification ,
+                                               [ rdf:type owl:Restriction ;
+                                                 owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                 owl:onClass :ParameterLabelEntropy
+                                               ] ,
+                                               [ rdf:type owl:Restriction ;
+                                                 owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                 owl:onClass :PurposeConceptEntropy
+                                               ] ,
+                                               [ rdf:type owl:Restriction ;
+                                                 owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                 owl:onClass :ValueUnitsMolarEntropy
+                                               ] ;
                                <http://purl.org/dc/elements/1.1/type> :ParameterSpecificationEntropy ;
                                <http://purl.org/dc/terms/identifier> "dataset:paramspecentropy" ;
                                rdfs:comment "Entropy Parameter Specification" ;
@@ -16752,7 +16976,22 @@ _:genid966 rdf:type owl:Restriction ;
 
 ###  http://www.esblurock.info/dataset#ParameterSpecificationHDisassociationEnergy
 :ParameterSpecificationHDisassociationEnergy rdf:type owl:Class ;
-                                             rdfs:subClassOf :ParameterSpecification ;
+                                             rdfs:subClassOf :ParameterSpecification ,
+                                                             [ rdf:type owl:Restriction ;
+                                                               owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                               owl:onClass :ParameterLabelHDisassociation
+                                                             ] ,
+                                                             [ rdf:type owl:Restriction ;
+                                                               owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                               owl:onClass :PurposeConceptHDisassociation
+                                                             ] ,
+                                                             [ rdf:type owl:Restriction ;
+                                                               owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                               owl:onClass :ValueUnitsMolarEnthalpy
+                                                             ] ;
                                              <http://purl.org/dc/terms/identifier> "dataset:hdisassociationparameter" ;
                                              rdfs:comment "This is the specification of the H Disassociation parameter, including the unit information" ;
                                              rdfs:isDefinedBy :HDisassociationMolarEnergy ;
@@ -16762,7 +17001,22 @@ _:genid966 rdf:type owl:Restriction ;
 
 ###  http://www.esblurock.info/dataset#ParameterSpecificationHeatCapacity
 :ParameterSpecificationHeatCapacity rdf:type owl:Class ;
-                                    rdfs:subClassOf :ParameterSpecification ;
+                                    rdfs:subClassOf :ParameterSpecification ,
+                                                    [ rdf:type owl:Restriction ;
+                                                      owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                      owl:onClass :ParameterLabelHeatCapacity
+                                                    ] ,
+                                                    [ rdf:type owl:Restriction ;
+                                                      owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                      owl:onClass :PurposeConceptHeatCapacity
+                                                    ] ,
+                                                    [ rdf:type owl:Restriction ;
+                                                      owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                      owl:onClass :ValueUnitsHeatCapacity
+                                                    ] ;
                                     <http://purl.org/dc/elements/1.1/type> :ParameterSpecificationHeatCapacity ;
                                     <http://purl.org/dc/terms/identifier> "dataset:paramspecheatcapacity" ;
                                     rdfs:comment "Heat Capacity Parameter Specification" ;
@@ -16775,9 +17029,19 @@ _:genid966 rdf:type owl:Restriction ;
 :ParameterSpecificationStructureVibrationFrequency rdf:type owl:Class ;
                                                    rdfs:subClassOf :ParameterSpecification ,
                                                                    [ rdf:type owl:Restriction ;
-                                                                     owl:onProperty :hasUncertainty ;
+                                                                     owl:onProperty <http://purl.org/dc/terms/hasPart> ;
                                                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                                     owl:onClass :ImpliedDigitsUncertainty
+                                                                     owl:onClass :ParameterLabelFrequency
+                                                                   ] ,
+                                                                   [ rdf:type owl:Restriction ;
+                                                                     owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                                     owl:onClass :PurposeConceptFrequency
+                                                                   ] ,
+                                                                   [ rdf:type owl:Restriction ;
+                                                                     owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                                     owl:onClass :ValueUnitsFrequency
                                                                    ] ;
                                                    <http://purl.org/dc/elements/1.1/type> :ParameterSpecificationStructureVibrationFrequency ;
                                                    <http://purl.org/dc/terms/identifier> "dataset:paramspecfrequency" ;
@@ -16789,7 +17053,22 @@ _:genid966 rdf:type owl:Restriction ;
 
 ###  http://www.esblurock.info/dataset#ParameterSpecificationTemperature
 :ParameterSpecificationTemperature rdf:type owl:Class ;
-                                   rdfs:subClassOf :ParameterSpecification ;
+                                   rdfs:subClassOf :ParameterSpecification ,
+                                                   [ rdf:type owl:Restriction ;
+                                                     owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                     owl:onClass :ParameterLabelTemperature
+                                                   ] ,
+                                                   [ rdf:type owl:Restriction ;
+                                                     owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                     owl:onClass :PurposeConceptTemperature
+                                                   ] ,
+                                                   [ rdf:type owl:Restriction ;
+                                                     owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                     owl:onClass :ValueUnitsTemperature
+                                                   ] ;
                                    <http://purl.org/dc/elements/1.1/type> :ThermodynamicTemperature ;
                                    <http://purl.org/dc/terms/identifier> "dataset:thermotemperature" ;
                                    rdfs:comment "The specification of a temperature value" ;
@@ -16825,11 +17104,6 @@ _:genid966 rdf:type owl:Restriction ;
                                   owl:onProperty <http://purl.org/dc/terms/hasPart> ;
                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                   owl:onClass :ValueUncertainty
-                                ] ,
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                  owl:onClass :ParameterSpecification
                                 ] ;
                 <http://purl.org/dc/elements/1.1/type> "ParameterValue" ;
                 <http://purl.org/dc/terms/identifier> "qb:ComponentProperty" ;
@@ -17178,21 +17452,21 @@ _:genid966 rdf:type owl:Restriction ;
 ###  http://www.esblurock.info/dataset#PremixedFlames
 :PremixedFlames rdf:type owl:Class ;
                 rdfs:subClassOf :FlameSubsystems ,
-                                _:genid1054 ,
-                                _:genid1056 ,
-                                _:genid1058 .
+                                _:genid1069 ,
+                                _:genid1071 ,
+                                _:genid1073 .
 
-_:genid1054 rdf:type owl:Restriction ;
+_:genid1069 rdf:type owl:Restriction ;
              owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
              owl:onClass :EvaporationSubSystem .
 
-_:genid1056 rdf:type owl:Restriction ;
+_:genid1071 rdf:type owl:Restriction ;
              owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
              owl:onClass :FlowMixingSubSystem .
 
-_:genid1058 rdf:type owl:Restriction ;
+_:genid1073 rdf:type owl:Restriction ;
              owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
              owl:onClass :GasFlowSubSystem .
@@ -17200,21 +17474,21 @@ _:genid1058 rdf:type owl:Restriction ;
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :PremixedFlames ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid1054 ;
+   owl:annotatedTarget _:genid1069 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :PremixedFlames ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid1056 ;
+   owl:annotatedTarget _:genid1071 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :PremixedFlames ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid1058 ;
+   owl:annotatedTarget _:genid1073 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
@@ -17616,6 +17890,46 @@ _:genid1058 rdf:type owl:Restriction ;
                             <http://www.w3.org/2004/02/skos/core#altLabel> "purposedatasetimg" .
 
 
+###  http://www.esblurock.info/dataset#PurposeConceptEnthalpy
+:PurposeConceptEnthalpy rdf:type owl:Class ;
+                        rdfs:subClassOf :PurposeConceptParameters ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :ConceptParameterEnthalpy
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :PurposeParameterEnthalpy
+                                        ] ;
+                        <http://purl.org/dc/elements/1.1/type> :PurposeConceptEnthalpy ;
+                        <http://purl.org/dc/terms/identifier> "dataset:purposeconceptenthalpy" ;
+                        rdfs:comment "The concept and purpose for  Enthalpy" ;
+                        rdfs:label "Purpose/Concept Enthalpy" ;
+                        <http://www.w3.org/2004/02/skos/core#altLabel> "purposeconceptenthalpy" .
+
+
+###  http://www.esblurock.info/dataset#PurposeConceptEntropy
+:PurposeConceptEntropy rdf:type owl:Class ;
+                       rdfs:subClassOf :PurposeConceptParameters ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                         owl:onClass :ConceptParameterEntropy
+                                       ] ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                         owl:onClass :PurposeParameterEntropy
+                                       ] ;
+                       <http://purl.org/dc/elements/1.1/type> :PurposeConceptEntropy ;
+                       <http://purl.org/dc/terms/identifier> "dataset:purposeconceptentropy" ;
+                       rdfs:comment "The concept and purpose for  entropy" ;
+                       rdfs:label "Purpose/Concept Entropy" ;
+                       <http://www.w3.org/2004/02/skos/core#altLabel> "purposeconceptentropy" .
+
+
 ###  http://www.esblurock.info/dataset#PurposeConceptFileRepository
 :PurposeConceptFileRepository rdf:type owl:Class ;
                               rdfs:subClassOf :ChemConnectPurpose .
@@ -17659,6 +17973,66 @@ _:genid1058 rdf:type owl:Restriction ;
                                      rdfs:label "Read Data Source" .
 
 
+###  http://www.esblurock.info/dataset#PurposeConceptFrequency
+:PurposeConceptFrequency rdf:type owl:Class ;
+                         rdfs:subClassOf :PurposeConceptParameters ,
+                                         [ rdf:type owl:Restriction ;
+                                           owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                           owl:onClass :ConceptParameterFrequency
+                                         ] ,
+                                         [ rdf:type owl:Restriction ;
+                                           owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                           owl:onClass :PurposeParameterFrequency
+                                         ] ;
+                         <http://purl.org/dc/elements/1.1/type> :PurposeConceptFrequency ;
+                         <http://purl.org/dc/terms/identifier> "dataset:purposeconceptfrequency" ;
+                         rdfs:comment "The concept and purpose for  Frequency" ;
+                         rdfs:label "Purpose/Concept Frequency" ;
+                         <http://www.w3.org/2004/02/skos/core#altLabel> "purposeconceptfrequency" .
+
+
+###  http://www.esblurock.info/dataset#PurposeConceptHDisassociation
+:PurposeConceptHDisassociation rdf:type owl:Class ;
+                               rdfs:subClassOf :PurposeConceptParameters ,
+                                               [ rdf:type owl:Restriction ;
+                                                 owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                 owl:onClass :ConceptParameterHDisassociation
+                                               ] ,
+                                               [ rdf:type owl:Restriction ;
+                                                 owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                 owl:onClass :PurposeParameterHDisassociation
+                                               ] ;
+                               <http://purl.org/dc/elements/1.1/type> :PurposeConceptHDisassociation ;
+                               <http://purl.org/dc/terms/identifier> "dataset:purposeconcepthdisassociation" ;
+                               rdfs:comment "The concept and purpose for  H-Disassociation" ;
+                               rdfs:label "Purpose/Concept  H-Disassociation" ;
+                               <http://www.w3.org/2004/02/skos/core#altLabel> "purposeconcepthdisassociation" .
+
+
+###  http://www.esblurock.info/dataset#PurposeConceptHeatCapacity
+:PurposeConceptHeatCapacity rdf:type owl:Class ;
+                            rdfs:subClassOf :PurposeConceptParameters ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                              owl:onClass :ConceptParameterHeatCapacity
+                                            ] ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                              owl:onClass :PurposeParameterHeatCapacity
+                                            ] ;
+                            <http://purl.org/dc/elements/1.1/type> :PurposeConceptHeatCapacity ;
+                            <http://purl.org/dc/terms/identifier> "dataset:purposeconceptheatcapacity" ;
+                            rdfs:comment "The concept and purpose for  heat capacity" ;
+                            rdfs:label "Purpose/Concept Heat Capacity" ;
+                            <http://www.w3.org/2004/02/skos/core#altLabel> "purposeconceptheatcapacity" .
+
+
 ###  http://www.esblurock.info/dataset#PurposeConceptOrganization
 :PurposeConceptOrganization rdf:type owl:Class ;
                             rdfs:subClassOf :PurposeConceptUserInfo ,
@@ -17687,6 +18061,11 @@ _:genid1058 rdf:type owl:Restriction ;
                     rdfs:comment "The purpose and concept descriptions" ;
                     rdfs:label "Purpose Concept Pair" ;
                     <http://www.w3.org/2004/02/skos/core#altLabel> "purpose" .
+
+
+###  http://www.esblurock.info/dataset#PurposeConceptParameters
+:PurposeConceptParameters rdf:type owl:Class ;
+                          rdfs:subClassOf :PurposeConceptPair .
 
 
 ###  http://www.esblurock.info/dataset#PurposeConceptPerson
@@ -17727,6 +18106,26 @@ _:genid1058 rdf:type owl:Restriction ;
                               rdfs:comment "The purpose and concept of the repository file" ;
                               rdfs:label "Repository File Concepts" ;
                               <http://www.w3.org/2004/02/skos/core#altLabel> "purposerepositoryfile" .
+
+
+###  http://www.esblurock.info/dataset#PurposeConceptTemperature
+:PurposeConceptTemperature rdf:type owl:Class ;
+                           rdfs:subClassOf :PurposeConceptParameters ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                             owl:onClass :ConceptParameterTemperature
+                                           ] ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                             owl:onClass :PurposeParameterTemperature
+                                           ] ;
+                           <http://purl.org/dc/elements/1.1/type> :PurposeConceptTemperature ;
+                           <http://purl.org/dc/terms/identifier> "dataset:purposeconcepttemperature" ;
+                           rdfs:comment "The concept and purpose for   Temperature" ;
+                           rdfs:label "Purpose/Concept Temperature" ;
+                           <http://www.w3.org/2004/02/skos/core#altLabel> "purposeconcepttemperature" .
 
 
 ###  http://www.esblurock.info/dataset#PurposeConceptTransaction
@@ -18048,6 +18447,80 @@ _:genid1058 rdf:type owl:Restriction ;
                      rdfs:isDefinedBy :PurposeOfOrganization ;
                      rdfs:label "Organization Purpose" ;
                      <http://www.w3.org/2004/02/skos/core#altLabel> "purposekeyorg" .
+
+
+###  http://www.esblurock.info/dataset#PurposeParameter
+:PurposeParameter rdf:type owl:Class ;
+                  rdfs:subClassOf :PurposeKeyword ;
+                  rdfs:comment "This is the purpose of the parameter definition" ;
+                  rdfs:label "Parameter Purpose" ;
+                  <http://www.w3.org/2004/02/skos/core#altLabel> "purposeparameter" .
+
+
+###  http://www.esblurock.info/dataset#PurposeParameterEnthalpy
+:PurposeParameterEnthalpy rdf:type owl:Class ;
+                          rdfs:subClassOf :PurposeParameter ;
+                          <http://purl.org/dc/elements/1.1/type> :PurposeParameterEnthalpy ;
+                          <http://purl.org/dc/terms/identifier> "dataset:purposeparameterenthalpy" ;
+                          rdfs:comment "The purpose of the parameter enthalpy" ;
+                          rdfs:isDefinedBy :ChemConnectThermoParameterPurpose ;
+                          rdfs:label "Enthalpy Parameter Purpose" ;
+                          <http://www.w3.org/2004/02/skos/core#altLabel> "purposeparameterenthalpy" .
+
+
+###  http://www.esblurock.info/dataset#PurposeParameterEntropy
+:PurposeParameterEntropy rdf:type owl:Class ;
+                         rdfs:subClassOf :PurposeParameter ;
+                         <http://purl.org/dc/elements/1.1/type> :PurposeParameterEntropy ;
+                         <http://purl.org/dc/terms/identifier> "dataset:purposeparameterentropy" ;
+                         rdfs:comment "The purpose of the parameter entropy" ;
+                         rdfs:isDefinedBy :ChemConnectThermoParameterPurpose ;
+                         rdfs:label "Entropy Parameter Purpose" ;
+                         <http://www.w3.org/2004/02/skos/core#altLabel> "purposeparameterentropy" .
+
+
+###  http://www.esblurock.info/dataset#PurposeParameterFrequency
+:PurposeParameterFrequency rdf:type owl:Class ;
+                           rdfs:subClassOf :PurposeParameter ;
+                           <http://purl.org/dc/elements/1.1/type> :PurposeParameterFrequency ;
+                           <http://purl.org/dc/terms/identifier> "dataset:purposeparameterfrequency" ;
+                           rdfs:comment "The purpose of the parameter frequency" ;
+                           rdfs:isDefinedBy :ChemConnectThermoParameterPurpose ;
+                           rdfs:label "Frequency Parameter Purpose" ;
+                           <http://www.w3.org/2004/02/skos/core#altLabel> "purposeparameterfrequency" .
+
+
+###  http://www.esblurock.info/dataset#PurposeParameterHDisassociation
+:PurposeParameterHDisassociation rdf:type owl:Class ;
+                                 rdfs:subClassOf :PurposeParameter ;
+                                 <http://purl.org/dc/elements/1.1/type> :PurposeParameterHDisassociation ;
+                                 <http://purl.org/dc/terms/identifier> "dataset:purposeparameterhdisassociation" ;
+                                 rdfs:comment "The purpose of the parameter H disassociation" ;
+                                 rdfs:isDefinedBy :ChemConnectThermoParameterPurpose ;
+                                 rdfs:label "H Disassociation Parameter Purpose" ;
+                                 <http://www.w3.org/2004/02/skos/core#altLabel> "purposeparameterhdisassociation" .
+
+
+###  http://www.esblurock.info/dataset#PurposeParameterHeatCapacity
+:PurposeParameterHeatCapacity rdf:type owl:Class ;
+                              rdfs:subClassOf :PurposeParameter ;
+                              <http://purl.org/dc/elements/1.1/type> :PurposeParameterHeatCapacity ;
+                              <http://purl.org/dc/terms/identifier> "dataset:purposeparameterheatcapacity" ;
+                              rdfs:comment "The purpose of the parameter heat capacity" ;
+                              rdfs:isDefinedBy :ChemConnectThermoParameterPurpose ;
+                              rdfs:label "Heat Capacity Parameter Purpose" ;
+                              <http://www.w3.org/2004/02/skos/core#altLabel> "purposeparameterheatcapacity" .
+
+
+###  http://www.esblurock.info/dataset#PurposeParameterTemperature
+:PurposeParameterTemperature rdf:type owl:Class ;
+                             rdfs:subClassOf :PurposeParameter ;
+                             <http://purl.org/dc/elements/1.1/type> :PurposeParameterTemperature ;
+                             <http://purl.org/dc/terms/identifier> "dataset:purposeparametertemperature" ;
+                             rdfs:comment "The purpose of the parameter temperature" ;
+                             rdfs:isDefinedBy :ChemConnectThermoParameterPurpose ;
+                             rdfs:label "Temperature Parameter Purpose" ;
+                             <http://www.w3.org/2004/02/skos/core#altLabel> "purposeparametertemperature" .
 
 
 ###  http://www.esblurock.info/dataset#PurposePerson
@@ -18408,33 +18881,33 @@ _:genid1058 rdf:type owl:Restriction ;
 ###  http://www.esblurock.info/dataset#RCMReactorPistonSystem
 :RCMReactorPistonSystem rdf:type owl:Class ;
                         rdfs:subClassOf :RapidCompressionMachineSubsystems ,
-                                        _:genid1105 ,
-                                        _:genid1107 ,
+                                        _:genid1132 ,
+                                        _:genid1134 ,
                                         [ rdf:type owl:Restriction ;
                                           owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                           owl:onClass :RCMReactorChamberPiston
                                         ] ,
-                                        _:genid1110 ,
-                                        _:genid1112 ;
+                                        _:genid1137 ,
+                                        _:genid1139 ;
                         <http://purl.org/dc/elements/1.1/type> "RapidCompressionMachinePiston" .
 
-_:genid1105 rdf:type owl:Restriction ;
+_:genid1132 rdf:type owl:Restriction ;
              owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
              owl:onClass :PressureSensor .
 
-_:genid1107 rdf:type owl:Restriction ;
+_:genid1134 rdf:type owl:Restriction ;
              owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
              owl:onClass :RCMReactorChamberGasPort .
 
-_:genid1110 rdf:type owl:Restriction ;
+_:genid1137 rdf:type owl:Restriction ;
              owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
              owl:onClass :RCMReactorChamberViewPort .
 
-_:genid1112 rdf:type owl:Restriction ;
+_:genid1139 rdf:type owl:Restriction ;
              owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
              owl:onClass :Thermocouple .
@@ -18442,28 +18915,28 @@ _:genid1112 rdf:type owl:Restriction ;
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :RCMReactorPistonSystem ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid1105 ;
+   owl:annotatedTarget _:genid1132 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :RCMReactorPistonSystem ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid1107 ;
+   owl:annotatedTarget _:genid1134 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :RCMReactorPistonSystem ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid1110 ;
+   owl:annotatedTarget _:genid1137 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :RCMReactorPistonSystem ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid1112 ;
+   owl:annotatedTarget _:genid1139 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
@@ -20225,29 +20698,29 @@ returns a type 'object'.""" ;
 ###  http://www.esblurock.info/dataset#RapidCompressionMachine
 :RapidCompressionMachine rdf:type owl:Class ;
                          rdfs:subClassOf :CombustionInstrument ,
-                                         _:genid1271 ,
-                                         _:genid1273 ,
-                                         _:genid1275 ,
-                                         _:genid1277 ;
+                                         _:genid1298 ,
+                                         _:genid1300 ,
+                                         _:genid1302 ,
+                                         _:genid1304 ;
                          rdfs:comment "Rapid Compression Machine" ;
                          rdfs:label "Rapid Compression Machine" .
 
-_:genid1271 rdf:type owl:Restriction ;
+_:genid1298 rdf:type owl:Restriction ;
              owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
              owl:onClass :RCMHydraulicDriverSubSystem .
 
-_:genid1273 rdf:type owl:Restriction ;
+_:genid1300 rdf:type owl:Restriction ;
              owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
              owl:onClass :RCMMixingChamber .
 
-_:genid1275 rdf:type owl:Restriction ;
+_:genid1302 rdf:type owl:Restriction ;
              owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
              owl:onClass :RCMReactorPistonSystem .
 
-_:genid1277 rdf:type owl:Restriction ;
+_:genid1304 rdf:type owl:Restriction ;
              owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
              owl:onClass :RCMSpeciesSupply .
@@ -20255,28 +20728,28 @@ _:genid1277 rdf:type owl:Restriction ;
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :RapidCompressionMachine ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid1271 ;
+   owl:annotatedTarget _:genid1298 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :RapidCompressionMachine ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid1273 ;
+   owl:annotatedTarget _:genid1300 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :RapidCompressionMachine ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid1275 ;
+   owl:annotatedTarget _:genid1302 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :RapidCompressionMachine ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid1277 ;
+   owl:annotatedTarget _:genid1304 ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
@@ -22301,7 +22774,12 @@ The SetOfPropertyValueQueryPairs is used if a subset of the collection of standa
 
 ###  http://www.esblurock.info/dataset#StructureVibrationalFrequency
 :StructureVibrationalFrequency rdf:type owl:Class ;
-                               rdfs:subClassOf :ParameterValue ;
+                               rdfs:subClassOf :ParameterValue ,
+                                               [ rdf:type owl:Restriction ;
+                                                 owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                 owl:onClass :ParameterSpecificationStructureVibrationFrequency
+                                               ] ;
                                <http://purl.org/dc/elements/1.1/type> "ValueAsString" ;
                                <http://purl.org/dc/terms/identifier> "dataset:vibrationalfrequency" ;
                                rdfs:comment "The vibrational frequency associated with the total oscillation modes of the atoms within the structure. These assigned frequencies are normal and partial bond bending and stretching motions (see Table A.13 in Benson's Thermochemical Kinetics book)" ;
@@ -22728,6 +23206,17 @@ The SetOfPropertyValueQueryPairs is used if a subset of the collection of standa
 ###  http://www.esblurock.info/dataset#TemperatureSensor
 :TemperatureSensor rdf:type owl:Class ;
                    rdfs:subClassOf :ChemConnectConceptSensor .
+
+
+###  http://www.esblurock.info/dataset#TemperatureUnitClass
+:TemperatureUnitClass rdf:type owl:Class ;
+                      rdfs:subClassOf :UnitClass ;
+                      <http://purl.org/dc/elements/1.1/type> :TemperatureUnitClass ;
+                      <http://purl.org/dc/terms/identifier> "dataset:temperatureunitclass" ;
+                      rdfs:comment "The class of temperature units" ;
+                      rdfs:isDefinedBy :UnitClassTemperatureSingle ;
+                      rdfs:label "Temperature Unit Class" ;
+                      <http://www.w3.org/2004/02/skos/core#altLabel> "temperatureunitclass" .
 
 
 ###  http://www.esblurock.info/dataset#TherGasBensonRules
@@ -23163,6 +23652,11 @@ The SetOfPropertyValueQueryPairs is used if a subset of the collection of standa
 :ThermodynamicHeatCapacity rdf:type owl:Class ;
                            rdfs:subClassOf :JThermodynamicMolarQuantities ,
                                            [ rdf:type owl:Restriction ;
+                                             owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                             owl:onClass :ParameterSpecificationHeatCapacity
+                                           ] ,
+                                           [ rdf:type owl:Restriction ;
                                              owl:onProperty :hasPurpose ;
                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                              owl:onClass :ThermodynamicHeatCapacitySpecification
@@ -23209,6 +23703,27 @@ The SetOfPropertyValueQueryPairs is used if a subset of the collection of standa
                         <http://www.w3.org/2004/02/skos/core#altLabel> "thermodynamicparameter" .
 
 
+###  http://www.esblurock.info/dataset#ThermodynamicParameterCalculationElement
+:ThermodynamicParameterCalculationElement rdf:type owl:Class ;
+                                          rdfs:subClassOf :ChemConnectThermoParameterPurpose ;
+                                          rdfs:comment "This parameter is used for the calculation of temperature dependent thermodynamic parameters." ;
+                                          rdfs:label "For Thermodynamic Calculation" .
+
+
+###  http://www.esblurock.info/dataset#ThermodynamicParameterExperimentalObservation
+:ThermodynamicParameterExperimentalObservation rdf:type owl:Class ;
+                                               rdfs:subClassOf :ChemConnectThermoParameterPurpose ;
+                                               rdfs:comment "This is the result of an observation" ;
+                                               rdfs:label "Observation" .
+
+
+###  http://www.esblurock.info/dataset#ThermodynamicParameterSpeciesPublishedValue
+:ThermodynamicParameterSpeciesPublishedValue rdf:type owl:Class ;
+                                             rdfs:subClassOf :ChemConnectThermoParameterPurpose ;
+                                             rdfs:comment "This is a value of a species or experiment that is extracted from a publication" ;
+                                             rdfs:label "Published Value" .
+
+
 ###  http://www.esblurock.info/dataset#ThermodynamicProperties
 :ThermodynamicProperties rdf:type owl:Class ;
                          rdfs:subClassOf :SpeciesProperties .
@@ -23217,6 +23732,11 @@ The SetOfPropertyValueQueryPairs is used if a subset of the collection of standa
 ###  http://www.esblurock.info/dataset#ThermodynamicStandardEnthalpy
 :ThermodynamicStandardEnthalpy rdf:type owl:Class ;
                                rdfs:subClassOf :JThermodynamicMolarQuantities ,
+                                               [ rdf:type owl:Restriction ;
+                                                 owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                 owl:onClass :ParameterSpecificationEnthalpy
+                                               ] ,
                                                [ rdf:type owl:Restriction ;
                                                  owl:onProperty :hasPurpose ;
                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -23231,7 +23751,12 @@ The SetOfPropertyValueQueryPairs is used if a subset of the collection of standa
 
 ###  http://www.esblurock.info/dataset#ThermodynamicStandardEntropy
 :ThermodynamicStandardEntropy rdf:type owl:Class ;
-                              rdfs:subClassOf :JThermodynamicMolarQuantities ;
+                              rdfs:subClassOf :JThermodynamicMolarQuantities ,
+                                              [ rdf:type owl:Restriction ;
+                                                owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                owl:onClass :ParameterSpecificationEntropy
+                                              ] ;
                               <http://purl.org/dc/elements/1.1/type> "ValueAsString" ;
                               <http://purl.org/dc/terms/identifier> "dataset:stdentropy" ;
                               rdfs:comment "The standard entropy, 298K, of a thermodynamic structure" ;
@@ -23903,6 +24428,308 @@ The SetOfPropertyValueQueryPairs is used if a subset of the collection of standa
            <http://www.w3.org/2004/02/skos/core#altLabel> "unitclass" .
 
 
+###  http://www.esblurock.info/dataset#UnitClassClassification
+:UnitClassClassification rdf:type owl:Class ;
+                         rdfs:subClassOf :ChemConnectClassifications ;
+                         rdfs:comment "The available classifications of unit classes" ;
+                         rdfs:label "Unit Classifications" .
+
+
+###  http://www.esblurock.info/dataset#UnitClassFrequency
+:UnitClassFrequency rdf:type owl:Class ;
+                    rdfs:subClassOf :UnitClassFrequencySingle ;
+                    rdfs:comment "Frequency is the rate at which a repeating event occurs over a specific amount of time. While it is a fundamental concept in physics and math, it also appears in entertainment and statistics" ;
+                    rdfs:label "Unit of Frequency" .
+
+
+###  http://www.esblurock.info/dataset#UnitClassFrequencySingle
+:UnitClassFrequencySingle rdf:type owl:Class ;
+                          rdfs:subClassOf :UnitClassClassification .
+
+
+###  http://www.esblurock.info/dataset#UnitClassHeatCapacity
+:UnitClassHeatCapacity rdf:type owl:Class ;
+                       rdfs:subClassOf :UnitClassHeatCapacitySingle ;
+                       rdfs:comment "Heat capacity is a physical property defined as the amount of heat energy required to change an object's temperature by one degree Celsius (or Kelvin). As an extensive property, it depends on the mass and material of the object. Its SI unit is Joule per Kelvin (J/K). Specific heat capacity is the intensive property measuring heat per unit mass." ;
+                       rdfs:label "Heat Capacity Unit" .
+
+
+###  http://www.esblurock.info/dataset#UnitClassHeatCapacitySingle
+:UnitClassHeatCapacitySingle rdf:type owl:Class ;
+                             rdfs:subClassOf :UnitClassClassification .
+
+
+###  http://www.esblurock.info/dataset#UnitClassMolarEnthalpy
+:UnitClassMolarEnthalpy rdf:type owl:Class ;
+                        rdfs:subClassOf :UnitClassMolarEnthapySingle ;
+                        rdfs:comment "Enthalpy (H) is a thermodynamic property defined as the sum of a system's internal energy (U) and the product of its pressure (\\(P\\)) and volume (V), represented by the formula (H = U + PV)." ;
+                        rdfs:label "Molar Enthalpy Unit" .
+
+
+###  http://www.esblurock.info/dataset#UnitClassMolarEnthapySingle
+:UnitClassMolarEnthapySingle rdf:type owl:Class ;
+                             rdfs:subClassOf :UnitClassClassification ;
+                             rdfs:comment "The class of molar enthaply units" ;
+                             rdfs:label "Molar Enthalpy Unit Class" .
+
+
+###  http://www.esblurock.info/dataset#UnitClassMolarEntropy
+:UnitClassMolarEntropy rdf:type owl:Class ;
+                       rdfs:subClassOf :UnitClassMolarEntropySingle ;
+                       rdfs:comment "Standard molar entropy is the absolute entropy content of one mole of a pure substance at a standard state (typically 1 bar pressure, and 298.15 K). It measures the dispersal of energy within a system, Unlike enthalpy, molar entropy is an absolute value relative to zero entropy at 0 K (third law of thermodynamics)." ;
+                       rdfs:label "Molar Entropy Units" .
+
+
+###  http://www.esblurock.info/dataset#UnitClassMolarEntropySingle
+:UnitClassMolarEntropySingle rdf:type owl:Class ;
+                             rdfs:subClassOf :UnitClassClassification .
+
+
+###  http://www.esblurock.info/dataset#UnitClassTemperature
+:UnitClassTemperature rdf:type owl:Class ;
+                      rdfs:subClassOf :UnitClassTemperatureSingle ;
+                      rdfs:comment "Thermodynamic temperature (absolute temperature) is a fundamental, scale-independent physical quantity measuring the average kinetic energy of particles in a system, starting from absolute zero. It determines the direction of heat flow (from high to low) and defines the equilibrium state of matter" ;
+                      rdfs:label "Temperature Unit" .
+
+
+###  http://www.esblurock.info/dataset#UnitClassTemperatureSingle
+:UnitClassTemperatureSingle rdf:type owl:Class ;
+                            rdfs:subClassOf :UnitClassClassification .
+
+
+###  http://www.esblurock.info/dataset#UnitValueClassifications
+:UnitValueClassifications rdf:type owl:Class ;
+                          rdfs:subClassOf :ChemConnectClassifications .
+
+
+###  http://www.esblurock.info/dataset#UnitsBTUITPerDegreeF
+:UnitsBTUITPerDegreeF rdf:type owl:Class ;
+                      rdfs:subClassOf :UnitsHeatCapacity ;
+                      rdfs:comment "British Thermal Unit (IT) Per Fahrenheit Degree (Btu (IT)/F) is a measure of heat capacity." ;
+                      rdfs:isDefinedBy "BTU_IT-PER-DEG_F" ;
+                      rdfs:label "BTU (IT) per Degree Fahrenheit" .
+
+
+###  http://www.esblurock.info/dataset#UnitsBTUITPerDegreeR
+:UnitsBTUITPerDegreeR rdf:type owl:Class ;
+                      rdfs:subClassOf :UnitsHeatCapacity ;
+                      rdfs:comment "BTU per Degree Rankine is an Imperial unit for 'Heat Capacity' expressed as Btu/degR." ;
+                      rdfs:isDefinedBy "BTU_IT-PER-DEG_R" ;
+                      rdfs:label "BTU per Degree Rankine" .
+
+
+###  http://www.esblurock.info/dataset#UnitsCaloriesPerMole
+:UnitsCaloriesPerMole rdf:type owl:Class ;
+                      rdfs:subClassOf :UnitsMolarEnthalpy ,
+                                      :UnitsMolarEntropy ;
+                      rdfs:comment "Calorie Units: Energy units measure the capacity to do work" ;
+                      rdfs:isDefinedBy "CAL-PER-MOL" ;
+                      rdfs:label "Calories per Mole" .
+
+
+###  http://www.esblurock.info/dataset#UnitsCelcius
+:UnitsCelcius rdf:type owl:Class ;
+              rdfs:subClassOf :UnitsTemperature ;
+              rdfs:comment "The Celsius scale is a, SI-derived, centigrade temperature scale based on the freezing point and for the boiling point of water at 1 atm. Originally developed in 1742 by Anders Celsius, it is widely used globally for weather, science, and industry." ;
+              rdfs:isDefinedBy "DEG_C" ;
+              rdfs:label "Celcius" .
+
+
+###  http://www.esblurock.info/dataset#UnitsCmMinus1
+:UnitsCmMinus1 rdf:type owl:Class ;
+               rdfs:subClassOf :UnitsFrequency ;
+               rdfs:comment "The SI unit for frequency is the hertz (Hz), defined as one cycle or event per second. It measures the number of periodic events within a specific time, with common multiples including kilohertz, megahertz, and gigahertz." ;
+               rdfs:isDefinedBy "cmMinus1" ;
+               rdfs:label "Inverse cm" .
+
+
+###  http://www.esblurock.info/dataset#UnitsEVPerK
+:UnitsEVPerK rdf:type owl:Class ;
+             rdfs:subClassOf :UnitsHeatCapacity ;
+             rdfs:comment "Units EV: The energy required to raise the temperature of an object or substance" ;
+             rdfs:isDefinedBy "EV-PER-K" ;
+             rdfs:label "Electron Volt per Kelvin" .
+
+
+###  http://www.esblurock.info/dataset#UnitsFahrenheit
+:UnitsFahrenheit rdf:type owl:Class ;
+                 rdfs:subClassOf :UnitsTemperature ;
+                 rdfs:comment "The Fahrenheit scale (°F) is a temperature scale primarily used in the United States, based on 32°F for the freezing point of water and 212°F for the boiling point. Developed by Daniel Gabriel Fahrenheit in 1724, it defines 0°F as the lowest temperature of a salt-ice mixture and normal body temperature around 98.6°F." ;
+                 rdfs:isDefinedBy "DEG_F" ;
+                 rdfs:label "Fahrenheit" .
+
+
+###  http://www.esblurock.info/dataset#UnitsFrequency
+:UnitsFrequency rdf:type owl:Class ;
+                rdfs:subClassOf :UnitValueClassifications ;
+                rdfs:comment "The SI unit for frequency is the hertz (Hz), defined as one cycle or event per second. It measures the number of periodic events within a specific time, with common multiples including kilohertz, megahertz, and gigahertz." .
+
+
+###  http://www.esblurock.info/dataset#UnitsGigaHertz
+:UnitsGigaHertz rdf:type owl:Class ;
+                rdfs:subClassOf :UnitsFrequency ;
+                rdfs:comment "It measures the number of periodic events within a specific time, with common multiples including kilohertz, megahertz, and gigahertz." ;
+                rdfs:isDefinedBy "GigaHZ" ;
+                rdfs:label "GigaHertz" .
+
+
+###  http://www.esblurock.info/dataset#UnitsHeatCapacity
+:UnitsHeatCapacity rdf:type owl:Class ;
+                   rdfs:subClassOf :UnitValueClassifications ;
+                   rdfs:comment "Heat capacity (total body) is measured in Joules per Kelvin (J/K) or Joules per degree Celsius (J/°C). Specific heat capacity (per unit mass) uses \\(J/(kg\\cdot K)\\) or J/(g °C), while molar heat capacity uses J/(mol\\cdot K). These units represent the energy required to raise the temperature of an object or substance." ;
+                   rdfs:label "Heat Capacity" .
+
+
+###  http://www.esblurock.info/dataset#UnitsHertz
+:UnitsHertz rdf:type owl:Class ;
+            rdfs:subClassOf :UnitsFrequency ;
+            rdfs:comment "The SI unit for frequency is the hertz (Hz), defined as one cycle or event per second. It measures the number of periodic events within a specific time, with common multiples including kilohertz, megahertz, and gigahertz." ;
+            rdfs:isDefinedBy "HZ" ;
+            rdfs:label "Hertz" .
+
+
+###  http://www.esblurock.info/dataset#UnitsJoulesPerKelvin
+:UnitsJoulesPerKelvin rdf:type owl:Class ;
+                      rdfs:subClassOf :UnitsHeatCapacity ;
+                      rdfs:comment "SI Units: The energy required to raise the temperature of an object or substance" ;
+                      rdfs:isDefinedBy "J-PER-K" ;
+                      rdfs:label "Joules per Kelvin" .
+
+
+###  http://www.esblurock.info/dataset#UnitsJoulesPerMole
+:UnitsJoulesPerMole rdf:type owl:Class ;
+                    rdfs:subClassOf :UnitsMolarEnthalpy ,
+                                    :UnitsMolarEntropy ;
+                    rdfs:comment "Units SI: Energy units measure the capacity to do work. with the Joule (\\(J\\)) as the standard SI unit." ;
+                    rdfs:isDefinedBy "J-PER-MOL" ;
+                    rdfs:label "Joules per Mole" .
+
+
+###  http://www.esblurock.info/dataset#UnitsKelvin
+:UnitsKelvin rdf:type owl:Class ;
+             rdfs:subClassOf :UnitsTemperature ;
+             rdfs:comment "The Kelvin scale is the official SI unit for thermodynamic temperature, spanning from absolute zero, where all thermal motion ceases. It is an absolute scale commonly used in science to measure true heat energy, rather than relative heat like Celsius or Fahrenheit. One Kelvin is equivalent to one degree Celsius in magnitude." ;
+             rdfs:isDefinedBy "DEG_K" ;
+             rdfs:label "Kelvin" .
+
+
+###  http://www.esblurock.info/dataset#UnitsKiloCaloriesPerMole
+:UnitsKiloCaloriesPerMole rdf:type owl:Class ;
+                          rdfs:subClassOf :UnitsMolarEnthalpy ;
+                          rdfs:comment "Units Calories: Energy units measure the capacity to do work," ;
+                          rdfs:isDefinedBy "KiloCAL-PER-MOL" ;
+                          rdfs:label "Kilocalories per Mole" .
+
+
+###  http://www.esblurock.info/dataset#UnitsKiloHertz
+:UnitsKiloHertz rdf:type owl:Class ;
+                rdfs:subClassOf :UnitsFrequency ;
+                rdfs:comment "The SI unit for frequency is the hertz (Hz), defined as one cycle or event per second. It measures the number of periodic events within a specific time, with common multiples including kilohertz, megahertz, and gigahertz." ;
+                rdfs:isDefinedBy "KiloHZ" ,
+                                 "Kilohertz" .
+
+
+###  http://www.esblurock.info/dataset#UnitsKiloJoulesPerMole
+:UnitsKiloJoulesPerMole rdf:type owl:Class ;
+                        rdfs:subClassOf :UnitsMolarEnthalpy ;
+                        rdfs:comment "Units Kilocalories:  Energy units measure the capacity to do work" ;
+                        rdfs:isDefinedBy "KiloJ-PER-MOL" ;
+                        rdfs:label "Kilocalories per Mole" .
+
+
+###  http://www.esblurock.info/dataset#UnitsMegaJoulesPerKelvin
+:UnitsMegaJoulesPerKelvin rdf:type owl:Class ;
+                          rdfs:subClassOf :UnitsHeatCapacity ;
+                          rdfs:comment "MegaJoule Per Kelvin (MegaJ/K) is a unit in the category of Entropy." ;
+                          rdfs:isDefinedBy "MegaJ-PER-K" ;
+                          rdfs:label "MegaJoule per Kelvin" .
+
+
+###  http://www.esblurock.info/dataset#UnitsMilliDegreeCelcius
+:UnitsMilliDegreeCelcius rdf:type owl:Class ;
+                         rdfs:subClassOf :UnitsTemperature ;
+                         rdfs:comment "The Celsius scale is a, SI-derived, centigrade temperature scale based on the freezing point and for the boiling point of water at 1 atm. Originally developed in 1742 by Anders Celsius, it is widely used globally for weather, science, and industry." ;
+                         rdfs:isDefinedBy "MilliDEG_C" ;
+                         rdfs:label "Milli Celcius" .
+
+
+###  http://www.esblurock.info/dataset#UnitsMilliHertz
+:UnitsMilliHertz rdf:type owl:Class ;
+                 rdfs:subClassOf :UnitsFrequency ;
+                 rdfs:comment "The SI unit for frequency is the hertz (Hz), defined as one cycle or event per second. It measures the number of periodic events within a specific time, with common multiples including kilohertz, megahertz, and gigahertz." ;
+                 rdfs:isDefinedBy "MillHZ" ;
+                 rdfs:label "millihertz" .
+
+
+###  http://www.esblurock.info/dataset#UnitsMolarEnthalpy
+:UnitsMolarEnthalpy rdf:type owl:Class ;
+                    rdfs:subClassOf :UnitValueClassifications ;
+                    rdfs:comment "Mole energy units quantify energy per amount of substance, with the SI derived unit being joules per mole. The most common unit used in chemistry and thermodynamics is kilojoules per mole, while kilocalories per mole is often used in biochemistry. These units measure energy changes in chemical reactions or processes." ;
+                    rdfs:label "Molar Enthalpy" .
+
+
+###  http://www.esblurock.info/dataset#UnitsMolarEntropy
+:UnitsMolarEntropy rdf:type owl:Class ;
+                   rdfs:subClassOf :UnitValueClassifications ;
+                   rdfs:comment "The SI unit for molar entropy (or standard molar entropy) is joules per mole Kelvin, which is expressed as (J/(mol K). It measures the energy disorder per mole of substance per unit of absolute temperature." ;
+                   rdfs:label "Molar Entropy" .
+
+
+###  http://www.esblurock.info/dataset#UnitsOfFrequency
+:UnitsOfFrequency rdf:type owl:Class ;
+                  rdfs:subClassOf :UnitsOfValue ;
+                  <http://purl.org/dc/elements/1.1/type> :UnitsOfFrequency ;
+                  <http://purl.org/dc/terms/identifier> "dataset:frequencyunitspecification" ;
+                  rdfs:comment "The unit specification of Frequency values" ;
+                  rdfs:isDefinedBy :UnitsFrequency ;
+                  rdfs:label "Frequency Units" ;
+                  <http://www.w3.org/2004/02/skos/core#altLabel> "frequencyunitspecification" .
+
+
+###  http://www.esblurock.info/dataset#UnitsOfHeatCapacity
+:UnitsOfHeatCapacity rdf:type owl:Class ;
+                     rdfs:subClassOf :UnitsOfValue ;
+                     <http://purl.org/dc/elements/1.1/type> :UnitsOfHeatCapacity ;
+                     <http://purl.org/dc/terms/identifier> "dataset:heatcapacityunitspecification" ;
+                     rdfs:comment "Unit specification of heat capacity" ;
+                     rdfs:isDefinedBy :UnitsHeatCapacity ;
+                     rdfs:label "Heat Capacity Units" ;
+                     <http://www.w3.org/2004/02/skos/core#altLabel> "heatcapacityunitspecification" .
+
+
+###  http://www.esblurock.info/dataset#UnitsOfMolarEnthalpy
+:UnitsOfMolarEnthalpy rdf:type owl:Class ;
+                      rdfs:subClassOf :UnitsOfValue ;
+                      <http://purl.org/dc/elements/1.1/type> :UnitsOfMolarEnthalpy ;
+                      <http://purl.org/dc/terms/identifier> "dataset:molarenthalpyunitspecification" ;
+                      rdfs:comment "The unit specification of molar energy values" ;
+                      rdfs:isDefinedBy :UnitsMolarEnthalpy ;
+                      rdfs:label "Molar Enthalpy Units" ;
+                      <http://www.w3.org/2004/02/skos/core#altLabel> "molarenergyunitspecification" .
+
+
+###  http://www.esblurock.info/dataset#UnitsOfMolarEntropy
+:UnitsOfMolarEntropy rdf:type owl:Class ;
+                     rdfs:subClassOf :UnitsOfValue ;
+                     <http://purl.org/dc/elements/1.1/type> :UnitsOfMolarEntropy ;
+                     <http://purl.org/dc/terms/identifier> "dataset:molarentropyunitspecification" ;
+                     rdfs:comment "The unit specification of molar entropy values" ;
+                     rdfs:isDefinedBy :UnitsMolarEntropy ;
+                     rdfs:label "Molar Entropy Units" ;
+                     <http://www.w3.org/2004/02/skos/core#altLabel> "molarentropyunitspecification" .
+
+
+###  http://www.esblurock.info/dataset#UnitsOfTemperature
+:UnitsOfTemperature rdf:type owl:Class ;
+                    rdfs:subClassOf :UnitsOfValue ;
+                    <http://purl.org/dc/elements/1.1/type> :UnitsOfTemperature ;
+                    <http://purl.org/dc/terms/identifier> "dataset:temperatureunitspecification" ;
+                    rdfs:comment "The unit specification of temperature values" ;
+                    rdfs:isDefinedBy :UnitsTemperature ;
+                    rdfs:label "Temperature Units" ;
+                    <http://www.w3.org/2004/02/skos/core#altLabel> "temperatureunitspecification" .
+
+
 ###  http://www.esblurock.info/dataset#UnitsOfValue
 :UnitsOfValue rdf:type owl:Class ;
               rdfs:subClassOf :Classification ;
@@ -23911,6 +24738,60 @@ The SetOfPropertyValueQueryPairs is used if a subset of the collection of standa
               rdfs:comment "The specific unit to be used in a specific parameter or observation" ;
               rdfs:label "Units of Value" ;
               <http://www.w3.org/2004/02/skos/core#altLabel> "units" .
+
+
+###  http://www.esblurock.info/dataset#UnitsPerSecond
+:UnitsPerSecond rdf:type owl:Class ;
+                rdfs:subClassOf :UnitsFrequency ;
+                rdfs:comment "The SI unit for frequency is the hertz (Hz), defined as one cycle or event per second. It measures the number of periodic events within a specific time, with common multiples including kilohertz, megahertz, and gigahertz." ;
+                rdfs:isDefinedBy "PER-SEC" ;
+                rdfs:label "per Second" .
+
+
+###  http://www.esblurock.info/dataset#UnitsPetaHertz
+:UnitsPetaHertz rdf:type owl:Class ;
+                rdfs:subClassOf :UnitsFrequency ;
+                rdfs:comment "The SI unit for frequency is the hertz (Hz), defined as one cycle or event per second. It measures the number of periodic events within a specific time, with common multiples including kilohertz, megahertz, and gigahertz." ;
+                rdfs:isDefinedBy "PetaHZ" ;
+                rdfs:label "PetaHertz" .
+
+
+###  http://www.esblurock.info/dataset#UnitsPlanckFrequency
+:UnitsPlanckFrequency rdf:type owl:Class ;
+                      rdfs:subClassOf :UnitsFrequency ;
+                      rdfs:comment "Planck Frequency" ,
+                                   "The Planck frequency is the frequency of a photon whose energy is equal to the Planck energy, representing an upper limit to the frequency of physical photons. It measures the number of periodic events within a specific time, with common multiples including kilohertz, megahertz, and gigahertz." ;
+                      rdfs:isDefinedBy "PlanckFrequency" .
+
+
+###  http://www.esblurock.info/dataset#UnitsPlanckTemperature
+:UnitsPlanckTemperature rdf:type owl:Class ;
+                        rdfs:subClassOf :UnitsTemperature ;
+                        rdfs:comment "The Planck temperature is the theoretical upper limit of temperature, calculated as approximately 1.417 x 10^{32} Kelvin. It represents the scale at which current physical laws, including general relativity and quantum mechanics, break down, as thermal radiation wavelengths become equal to the Planck length." ;
+                        rdfs:isDefinedBy "PlanckTemperature" ;
+                        rdfs:label "Planck Temperature" .
+
+
+###  http://www.esblurock.info/dataset#UnitsRankine
+:UnitsRankine rdf:type owl:Class ;
+              rdfs:subClassOf :UnitsTemperature ;
+              rdfs:comment "The Rankine scale is an absolute thermodynamic temperature scale, with zero defined as absolute zero, -273.15 C, or -459.67 F. It is primarily used in American and British engineering applications, with increments equal to the Fahrenheit degree. It relates to Fahrenheit by R = F + 459.67" ;
+              rdfs:isDefinedBy "DEG_R" ;
+              rdfs:label "Rankine" .
+
+
+###  http://www.esblurock.info/dataset#UnitsSamplePerSecond
+:UnitsSamplePerSecond rdf:type owl:Class ;
+                      rdfs:subClassOf :UnitsFrequency ;
+                      rdfs:comment "The SI unit for frequency is the hertz (Hz), defined as one cycle or event per second. It measures the number of periodic events within a specific time, with common multiples including kilohertz, megahertz, and gigahertz." ;
+                      rdfs:isDefinedBy "SAMPLE-PER-SEC" ;
+                      rdfs:label "Samples per Second" .
+
+
+###  http://www.esblurock.info/dataset#UnitsTemperature
+:UnitsTemperature rdf:type owl:Class ;
+                  rdfs:subClassOf :UnitValueClassifications ;
+                  rdfs:comment "Thermodynamic temperature (absolute temperature) is a fundamental, non-material-dependent measure of a system's internal energy, primarily representing the average kinetic energy of its constituent particles." .
 
 
 ###  http://www.esblurock.info/dataset#Univerisity
@@ -24171,22 +25052,107 @@ The SetOfPropertyValueQueryPairs is used if a subset of the collection of standa
 
 ###  http://www.esblurock.info/dataset#ValueUnits
 :ValueUnits rdf:type owl:Class ;
-            rdfs:subClassOf :ParameterEntity ,
-                            [ rdf:type owl:Restriction ;
-                              owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                              owl:onClass :UnitClass
-                            ] ,
-                            [ rdf:type owl:Restriction ;
-                              owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                              owl:onClass :UnitsOfValue
-                            ] ;
+            rdfs:subClassOf :ParameterEntity ;
             <http://purl.org/dc/elements/1.1/type> "ValueUnits" ;
             <http://purl.org/dc/terms/identifier> "qudt:Unit" ;
             rdfs:comment "This is the specification of the units of the parameters and observations." ;
             rdfs:label "Value Units" ;
             <http://www.w3.org/2004/02/skos/core#altLabel> "units" .
+
+
+###  http://www.esblurock.info/dataset#ValueUnitsFrequency
+:ValueUnitsFrequency rdf:type owl:Class ;
+                     rdfs:subClassOf :ValueUnits ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onClass :FrequencyUnitClass
+                                     ] ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onClass :UnitsOfFrequency
+                                     ] ;
+                     <http://purl.org/dc/elements/1.1/type> :ValueUnitsFrequency ;
+                     <http://purl.org/dc/terms/identifier> "dataset:frequencyunits" ;
+                     rdfs:comment "Frequency is the number of cycles or events that occur in a specific unit of time," ;
+                     rdfs:label "Frequency Units" ;
+                     <http://www.w3.org/2004/02/skos/core#altLabel> "frequencyunits" .
+
+
+###  http://www.esblurock.info/dataset#ValueUnitsHeatCapacity
+:ValueUnitsHeatCapacity rdf:type owl:Class ;
+                        rdfs:subClassOf :ValueUnits ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :HeatCapacityUnitClass
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :UnitsOfHeatCapacity
+                                        ] ;
+                        <http://purl.org/dc/terms/identifier> "dataset:heatcapacityunits" ;
+                        rdfs:comment "Heat capacity measures the heat required to change an object's temperature by one degree Kelvin or Celcius. It is distinct from specific heat capacity , which is per unit mass." ;
+                        rdfs:label "Heat Capacity Units" ;
+                        <http://www.w3.org/2004/02/skos/core#altLabel> "heatcapacityunits" .
+
+
+###  http://www.esblurock.info/dataset#ValueUnitsMolarEnthalpy
+:ValueUnitsMolarEnthalpy rdf:type owl:Class ;
+                         rdfs:subClassOf :ValueUnits ,
+                                         [ rdf:type owl:Restriction ;
+                                           owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                           owl:onClass :MolarEnthalpyUnitClass
+                                         ] ,
+                                         [ rdf:type owl:Restriction ;
+                                           owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                           owl:onClass :UnitsOfMolarEnthalpy
+                                         ] ;
+                         <http://purl.org/dc/terms/identifier> "dataset:molarenthalpyunits" ;
+                         rdfs:comment "Enthalpy H is a thermodynamic state function defined as the sum of a system's internal energy U and the product of its pressure P and volume V, expressed as (H = U + PV). It represents the total heat content of a system and is used to measure energy changes at constant pressure." ;
+                         rdfs:label "Enthalpy Units" ;
+                         <http://www.w3.org/2004/02/skos/core#altLabel> "molarenthalpyunits" .
+
+
+###  http://www.esblurock.info/dataset#ValueUnitsMolarEntropy
+:ValueUnitsMolarEntropy rdf:type owl:Class ;
+                        rdfs:subClassOf :ValueUnits ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :MolarEntropyUnitClass
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :UnitsOfMolarEntropy
+                                        ] ;
+                        <http://purl.org/dc/terms/identifier> "dataset:molarentropyunits" ;
+                        rdfs:label "Entropy Units" ;
+                        <http://www.w3.org/2004/02/skos/core#altLabel> "molarentropyunits" .
+
+
+###  http://www.esblurock.info/dataset#ValueUnitsTemperature
+:ValueUnitsTemperature rdf:type owl:Class ;
+                       rdfs:subClassOf :ValueUnits ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                         owl:onClass :TemperatureUnitClass
+                                       ] ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                         owl:onClass :UnitsOfTemperature
+                                       ] ;
+                       <http://purl.org/dc/terms/identifier> "dataset:temperatureunits" ;
+                       rdfs:comment "Thermodynamic temperature (absolute temperature) is a fundamental, non-material-dependent measure of a system's internal energy, primarily representing the average kinetic energy of its constituent particles." ;
+                       rdfs:label "Temperature Units" ;
+                       <http://www.w3.org/2004/02/skos/core#altLabel> "temperatureunits" .
 
 
 ###  http://www.esblurock.info/dataset#ValuesSpecifiedByID
@@ -25608,7 +26574,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
 
 
 ###  http://qudt.org/vocab/quantitykind/MolarEntropy
-<http://qudt.org/vocab/quantitykind/MolarEntropy> <http://qudt.org/schema/qudt/applicableUnit> :CAL-PER-MOL-K .
+<http://qudt.org/vocab/quantitykind/MolarEntropy> rdf:type owl:NamedIndividual ;
+                                                  <http://qudt.org/schema/qudt/applicableUnit> :CAL-PER-MOL-K .
 
 
 ###  http://qudt.org/vocab/quantitykind/MolarHeatCapacity
@@ -25616,7 +26583,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
 
 
 ###  http://qudt.org/vocab/quantitykind/Temperature
-<http://qudt.org/vocab/quantitykind/Temperature> rdf:type :TemperatureParameter .
+<http://qudt.org/vocab/quantitykind/Temperature> rdf:type owl:NamedIndividual ,
+                                                          :TemperatureParameter .
 
 
 ###  http://qudt.org/vocab/unit#JoulePerMoleKelvin

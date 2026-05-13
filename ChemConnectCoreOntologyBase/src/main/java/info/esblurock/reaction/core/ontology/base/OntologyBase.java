@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.gson.JsonObject;
+import info.esblurock.reaction.core.ontology.base.utilities.JsonObjectUtilities;
+
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
@@ -23,6 +26,7 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.sparql.core.ResultBinding;
 
+import info.esblurock.reaction.core.ontology.base.dataset.CreateDocumentTemplate;
 
 public class OntologyBase {
 
@@ -59,36 +63,37 @@ public class OntologyBase {
 		}
 
 		/*
-		public static OntModel getDatabaseOntology() {
-			if (datasetmodelfinal == null) {
-				System.out.println("getDatabaseOntology");
-				OntModel datasetmodelinit = ModelFactory.createOntologyModel();
-				OntologyBase.Util.getDatabaseOntology(datasetmodelinit);
-				if (datasetmodelfinal == null) {
-					System.out.println("database model NULL: getDatabaseOntology");
-					datasetmodelfinal = datasetmodelinit;
-				} else {
-					datasetmodelinit.close();
-					System.out.println("CLOSED: getDatabaseOntology");
-				}
-			}
-			return datasetmodelfinal;
-		}
-*/
+		 * public static OntModel getDatabaseOntology() {
+		 * if (datasetmodelfinal == null) {
+		 * System.out.println("getDatabaseOntology");
+		 * OntModel datasetmodelinit = ModelFactory.createOntologyModel();
+		 * OntologyBase.Util.getDatabaseOntology(datasetmodelinit);
+		 * if (datasetmodelfinal == null) {
+		 * System.out.println("database model NULL: getDatabaseOntology");
+		 * datasetmodelfinal = datasetmodelinit;
+		 * } else {
+		 * datasetmodelinit.close();
+		 * System.out.println("CLOSED: getDatabaseOntology");
+		 * }
+		 * }
+		 * return datasetmodelfinal;
+		 * }
+		 */
 		/**
 		 * This routine generates/returns the ontology for UI structures and data
 		 * structure relationships
 		 * 
 		 * @return The ontology model for data structures and data relations
-		 * @throws FileNotFoundException 
+		 * @throws FileNotFoundException
 		 */
 		public static OntModel getDatabaseOntology() {
-			if(waiting) {
+			if (waiting) {
 				try {
 					System.out.println("Waiting for datasetmodel to be read");
 					long waittTime = System.currentTimeMillis();
 					Thread.sleep(15000);
-					System.out.println("Waited for datasetmodel to be read: " + (System.currentTimeMillis() - waittTime));
+					System.out
+							.println("Waited for datasetmodel to be read: " + (System.currentTimeMillis() - waittTime));
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -97,54 +102,50 @@ public class OntologyBase {
 				waiting = true;
 				AlternativeEntryWithAppFiles alt = new AlternativeEntryWithAppFiles();
 				datasetmodel = ModelFactory.createOntologyModel();
-                datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTQudt(), alt.getQUDTQudtLocal());
-				
-                datasetmodel.getDocumentManager().addAltEntry(alt.getVaemLocal(), alt.getVaem());
-                datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTDatatype(), alt.getQUDTDatatypeLocal());
-                datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTUnit(), alt.getQUDTUnitLocal());
-                datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTQuantitykind(), alt.getQUDTQuantitykindLocal());
-                datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTDimensionvector(), alt.getQUDTDimensionvectorLocal());
-                datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTConstant(), alt.getQUDTConstantLocal());
-                datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTSou(), alt.getQUDTSouLocal());
-                datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTSoqk(), alt.getQUDTSoqkLocal());
-                
-				
-                datasetmodel.getDocumentManager().addAltEntry(alt.getDcTermsURL(), alt.getDcTermsLocal());
-                datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTShacloverlay(), alt.getQUDTShacloverlayLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTQudt(), alt.getQUDTQudtLocal());
 
-                datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTDtype(), alt.getQUDTDtypeLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getVaemLocal(), alt.getVaem());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTDatatype(), alt.getQUDTDatatypeLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTUnit(), alt.getQUDTUnitLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTQuantitykind(),
+						alt.getQUDTQuantitykindLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTDimensionvector(),
+						alt.getQUDTDimensionvectorLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTConstant(), alt.getQUDTConstantLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTSou(), alt.getQUDTSouLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTSoqk(), alt.getQUDTSoqkLocal());
 
-                
-                datasetmodel.getDocumentManager().addAltEntry(alt.getDCatURL(), alt.getDCatLocal());
-                datasetmodel.getDocumentManager().addAltEntry(alt.getVcardURL(), alt.getVcardLocal());
-                datasetmodel.getDocumentManager().addAltEntry(alt.getProvoURL(), alt.getProvoLocal());
-                datasetmodel.getDocumentManager().addAltEntry(alt.getSSNURL(), alt.getSSNLocal());
-                datasetmodel.getDocumentManager().addAltEntry(alt.getSKOSURL(), alt.getSKOSLocal());
-                datasetmodel.getDocumentManager().addAltEntry(alt.getSOSA(), alt.getSOSALocal());
-                datasetmodel.getDocumentManager().addAltEntry(alt.getPrefixURL(), alt.getPrefixLocal());
-                datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTFacadeURL(), alt.getQUDTFacadeLocal());
-                datasetmodel.getDocumentManager().addAltEntry(alt.getShaclURL(), alt.getShaclLocal());
-                datasetmodel.getDocumentManager().addAltEntry(alt.getFunctionsURL(), alt.getFunctionsLocal());
-                datasetmodel.getDocumentManager().addAltEntry(alt.getVaemLocal(), alt.getVaem());
-                datasetmodel.getDocumentManager().addAltEntry(alt.getSplLocal(), alt.getplURL());
-                
-                datasetmodel.getDocumentManager().setProcessImports(false);
-				
-				//String filename = "../ChemConnectCoreOntologyBase/src/main/java/resources/Dataset.ttl";
-				//String filename = "/resources/DatasetQUDT.ttl";
-				//String filename = "/resources/DatasetQUDT20241024.ttl";
-                String filename = "/resources/DatasetQUDT20241116.ttl";
+				datasetmodel.getDocumentManager().addAltEntry(alt.getDcTermsURL(), alt.getDcTermsLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTShacloverlay(),
+						alt.getQUDTShacloverlayLocal());
+
+				datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTDtype(), alt.getQUDTDtypeLocal());
+
+				datasetmodel.getDocumentManager().addAltEntry(alt.getDCatURL(), alt.getDCatLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getVcardURL(), alt.getVcardLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getProvoURL(), alt.getProvoLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getSSNURL(), alt.getSSNLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getSKOSURL(), alt.getSKOSLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getSOSA(), alt.getSOSALocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getPrefixURL(), alt.getPrefixLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTFacadeURL(), alt.getQUDTFacadeLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getShaclURL(), alt.getShaclLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getFunctionsURL(), alt.getFunctionsLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getVaemLocal(), alt.getVaem());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getSplLocal(), alt.getplURL());
+
+				datasetmodel.getDocumentManager().setProcessImports(false);
+				String filename = "/resources/DatasetQUDT20241116.ttl";
 				InputStream str;
 				try {
-				    System.out.println("BEGIN: read(str, \"http://esblurock.info\", \"TURTLE\");");
-				    long startTime = System.currentTimeMillis();
+					System.out.println("BEGIN: read(str, \"http://esblurock.info\", \"TURTLE\");");
+					long startTime = System.currentTimeMillis();
 					str = OntologyBase.class.getResourceAsStream(filename);
 					datasetmodel.read(str, "http://esblurock.info", "TURTLE");
 					long endTime = System.currentTimeMillis();
 					long elapsedTime = endTime - startTime;
-                    System.out.println("END: time(ms)=" + elapsedTime);
-                    waiting = false;
-					//datasetmodel.read(str, "https://blurock-database.ew.r.appspot.com", "TURTLE");
+					System.out.println("END: time(ms)=" + elapsedTime);
+					waiting = false;
 				} catch (Exception ex) {
 					System.out.println("Exception: Error in reading Ontology:   " + filename + "\n" + ex.toString());
 				} catch (java.lang.NoClassDefFoundError ex) {
@@ -360,9 +361,9 @@ public class OntologyBase {
 
 		return lst;
 	}
-	
+
 	public static List<String> isolateProperty(String query, String property) {
-		
+
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
 
@@ -372,7 +373,7 @@ public class OntologyBase {
 			props.add(sup);
 		}
 		return props;
-		
+
 	}
 
 	/**

@@ -128,6 +128,11 @@ export class RunTransactionComponent implements OnInit {
       // Always update these fields for the new transaction run.
       sessionData['dataset:transaction'] = this.transactionEvent;
       sessionData[this.ontology.SessionStatus] = 'Initial';
+      
+      // Clear out the previous transaction's state so the UI properly waits for the backend to generate the new ActivityInfo
+      delete sessionData[this.ontology.ActivityInfo];
+      delete sessionData[this.ontology.ServiceResponseInformation];
+      delete sessionData[this.ontology.SessionWorkflowReturnLink];
 
       // ── Step 2: Write the (new or updated) SessionData back to Firestore ───
       const writePayload: any = {

@@ -20,6 +20,16 @@
     <java.version>17</java.version>
   </properties>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.apache.thrift</groupId>
+        <artifactId>libthrift</artifactId>
+        <version>0.22.0</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
     <!-- Spring Boot Web -->
     <dependency>
@@ -48,12 +58,16 @@
     </dependency>
 
     <!-- Vertex AI / Gemini -->
-    <dependency>
+    <!-- <dependency>
       <groupId>com.google.cloud</groupId>
       <artifactId>google-cloud-vertexai</artifactId>
       <version>1.0.0</version>
-    </dependency>
-
+    </dependency>-->
+<dependency>
+    <groupId>com.google.genai</groupId>
+    <artifactId>google-genai</artifactId>
+    <version>1.17.0</version>
+  </dependency>
     <!-- Ontology Engine Base Module -->
     <dependency>
         <groupId>info.esblurock</groupId>

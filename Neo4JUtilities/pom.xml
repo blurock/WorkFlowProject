@@ -34,6 +34,16 @@
 
 	</properties>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.apache.thrift</groupId>
+        <artifactId>libthrift</artifactId>
+        <version>0.22.0</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
         <dependency>
             <groupId>org.neo4j.driver</groupId>

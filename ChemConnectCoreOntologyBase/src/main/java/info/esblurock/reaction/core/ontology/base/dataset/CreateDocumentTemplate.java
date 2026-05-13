@@ -133,37 +133,41 @@ public class CreateDocumentTemplate {
     private static JsonObject createSubTemplate(String classname, boolean arrexample) {
         JsonObject obj = new JsonObject();
         CompoundObjectDimensionSet set1 = ParseCompoundObject.getCompoundElements(classname);
-        Iterator<CompoundObjectDimensionInformation> iter = set1.iterator();
-        while (iter.hasNext()) {
-            CompoundObjectDimensionInformation info = iter.next();
-            String dimidentifier = DatasetOntologyParseBase.getIDFromAnnotation(info.getClassname());
-            if (info.isCompoundobject()) {
-                if (info.isSinglet()) {
-                    JsonObject subelements = createSubTemplate(info.getClassname(), arrexample);
-                    obj.add(dimidentifier, subelements);
-                } else {
-                    JsonArray arr = new JsonArray();
-                    obj.add(dimidentifier, arr);
-                    if (arrexample) {
-                        JsonObject arrobj = createSubTemplate(info.getClassname(), arrexample);
-                        arr.add(arrobj);
+        if (set1 != null) {
+            Iterator<CompoundObjectDimensionInformation> iter = set1.iterator();
+            while (iter.hasNext()) {
+                CompoundObjectDimensionInformation info = iter.next();
+                String dimidentifier = DatasetOntologyParseBase.getIDFromAnnotation(info.getClassname());
+                if (info.isCompoundobject()) {
+                    if (info.isSinglet()) {
+                        JsonObject subelements = createSubTemplate(info.getClassname(), arrexample);
+                        obj.add(dimidentifier, subelements);
+                    } else {
+                        JsonArray arr = new JsonArray();
+                        obj.add(dimidentifier, arr);
+                        if (arrexample) {
+                            JsonObject arrobj = createSubTemplate(info.getClassname(), arrexample);
+                            arr.add(arrobj);
+                        }
                     }
-                }
-            } else {
-                String singlevalue = "not assigned";
-                if (info.isClassification()) {
-                    singlevalue = "Unassigned classification: " + info.getClassname();
-                }
-                if (info.isSinglet()) {
-                    obj.addProperty(dimidentifier, singlevalue);
                 } else {
-                    JsonArray arr = new JsonArray();
-                    obj.add(dimidentifier, arr);
-                    if (arrexample) {
-                        arr.add(singlevalue);
+                    String singlevalue = "not assigned";
+                    if (info.isClassification()) {
+                        singlevalue = "Unassigned classification: " + info.getClassname();
+                    }
+                    if (info.isSinglet()) {
+                        obj.addProperty(dimidentifier, singlevalue);
+                    } else {
+                        JsonArray arr = new JsonArray();
+                        obj.add(dimidentifier, arr);
+                        if (arrexample) {
+                            arr.add(singlevalue);
+                        }
                     }
                 }
             }
+        } else {
+            obj.addProperty("error", "Could not parse compound object: " + classname);
         }
         return obj;
     }

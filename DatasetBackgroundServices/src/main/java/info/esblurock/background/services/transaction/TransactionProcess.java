@@ -3,6 +3,8 @@ package info.esblurock.background.services.transaction;
 import java.io.Console;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -343,6 +345,106 @@ public enum TransactionProcess {
 		}
 
 	},
+	TransactionInterpretBensonRule {
+		@Override
+		JsonObject process(JsonObject event, JsonObject prerequisites, JsonObject info) {
+			return InterpretTextBlock.interpret(event, prerequisites, info);
+		}
+
+		@Override
+		String transactionKey(JsonObject catalog) {
+
+			String maintainer = catalog.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
+			String label = catalog.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString();
+			return maintainer + "." + label;
+		}
+
+		@Override
+		String transactionObjectName() {
+			return "dataset:DatasetTransactionEventObject";
+		}
+
+	},
+	TransactionInterpretDisassociationEnergy {
+		@Override
+		JsonObject process(JsonObject event, JsonObject prerequisites, JsonObject info) {
+			return InterpretTextBlock.interpret(event, prerequisites, info);
+		}
+
+		@Override
+		String transactionKey(JsonObject catalog) {
+
+			String maintainer = catalog.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
+			String label = catalog.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString();
+			return maintainer + "." + label;
+		}
+
+		@Override
+		String transactionObjectName() {
+			return "dataset:DatasetTransactionEventObject";
+		}
+
+	},
+	TransactionInterpretMetaAtom {
+		@Override
+		JsonObject process(JsonObject event, JsonObject prerequisites, JsonObject info) {
+			return InterpretTextBlock.interpret(event, prerequisites, info);
+		}
+
+		@Override
+		String transactionKey(JsonObject catalog) {
+
+			String maintainer = catalog.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
+			String label = catalog.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString();
+			return maintainer + "." + label;
+		}
+
+		@Override
+		String transactionObjectName() {
+			return "dataset:DatasetTransactionEventObject";
+		}
+
+	},
+	TransactionInterpretSymmetryInformation {
+		@Override
+		JsonObject process(JsonObject event, JsonObject prerequisites, JsonObject info) {
+			return InterpretTextBlock.interpret(event, prerequisites, info);
+		}
+
+		@Override
+		String transactionKey(JsonObject catalog) {
+
+			String maintainer = catalog.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
+			String label = catalog.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString();
+			return maintainer + "." + label;
+		}
+
+		@Override
+		String transactionObjectName() {
+			return "dataset:DatasetTransactionEventObject";
+		}
+
+	},
+	TransactionInterpretVibrationalMode {
+		@Override
+		JsonObject process(JsonObject event, JsonObject prerequisites, JsonObject info) {
+			return InterpretTextBlock.interpret(event, prerequisites, info);
+		}
+
+		@Override
+		String transactionKey(JsonObject catalog) {
+
+			String maintainer = catalog.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
+			String label = catalog.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString();
+			return maintainer + "." + label;
+		}
+
+		@Override
+		String transactionObjectName() {
+			return "dataset:DatasetTransactionEventObject";
+		}
+
+	},
 	/*
 	 * GenerateChemConnectDatabaseUniqueGenericLabelSetEvent {
 	 * 
@@ -613,6 +715,8 @@ public enum TransactionProcess {
 		}
 	};
 
+	private static final Logger logger = Logger.getLogger(TransactionProcess.class.getName());
+
 	public static void addLinkToCatalog(JsonArray catalogobjs, JsonObject linkobj, String type, String concept) {
 		for (int i = 0; i < catalogobjs.size(); i++) {
 			JsonObject catalog = catalogobjs.get(i).getAsJsonObject();
@@ -678,14 +782,16 @@ public enum TransactionProcess {
 				if (response.get(ClassLabelConstants.ServiceProcessSuccessful).getAsBoolean()) {
 					catalog = response.get(ClassLabelConstants.SimpleCatalogObject).getAsJsonObject();
 				} else {
-					System.err.println("Catalog object not found: " + JsonObjectUtilities.toString(stagingid));
-					System.err.println(response.get(ClassLabelConstants.ServiceResponseMessage).getAsString());
+					logger.warning("retrieveSingleOutputFromTransaction: Catalog object not found: "
+							+ JsonObjectUtilities.toString(stagingid));
+					logger.warning(response.get(ClassLabelConstants.ServiceResponseMessage).getAsString());
 				}
 			} else {
-				System.err.println("Error in prerequisites: found prerequisites, but empty");
+				logger.warning(
+						"retrieveSingleOutputFromTransaction: Error in prerequisites: found prerequisites but empty");
 			}
 		} else {
-			System.err.println("Prerequisite '" + transidentifier + "' not found in\n"
+			logger.warning("retrieveSingleOutputFromTransaction: Prerequisite '" + transidentifier + "' not found in\n"
 					+ JsonObjectUtilities.toString(prerequisites));
 		}
 		return catalog;
@@ -693,18 +799,28 @@ public enum TransactionProcess {
 
 	public static JsonArray retrieveSetOfOutputsFromTransaction(JsonObject prerequisites, String transidentifier) {
 		JsonArray catalogset = new JsonArray();
+		JsonObject stagingtransaction = null;
 		// Get the InitialReadInOfRepositoryFile transaction
-		JsonObject stagingtransaction = prerequisites.get(transidentifier).getAsJsonObject();
-		// Get the set of output FirestoreID from transaction
-		JsonArray outobjects = stagingtransaction.get(ClassLabelConstants.DatabaseObjectIDOutputTransaction)
-				.getAsJsonArray();
-		for (int i = 0; i < outobjects.size(); i++) {
-			JsonObject stagingid = outobjects.get(i).getAsJsonObject();
-			// Read the catalog object and isolate it from the response
-			JsonObject response = ReadFirestoreInformation.readFirestoreCatalogObject(stagingid);
-			if (response.get(ClassLabelConstants.ServiceProcessSuccessful).getAsBoolean()) {
-				JsonObject catalog = response.get(ClassLabelConstants.SimpleCatalogObject).getAsJsonObject();
-				catalogset.add(catalog);
+		if (prerequisites == null) {
+			logger.warning("retrieveSetOfOutputsFromTransaction: No prerequisites found");
+		} else if (prerequisites.get(transidentifier) == null) {
+			logger.warning("retrieveSetOfOutputsFromTransaction: Prerequisite '" + transidentifier
+					+ "' not found in\n" + JsonObjectUtilities.toString(prerequisites));
+		} else {
+			stagingtransaction = prerequisites.get(transidentifier).getAsJsonObject();
+		}
+		if (stagingtransaction != null) {
+			// Get the set of output FirestoreID from transaction
+			JsonArray outobjects = stagingtransaction.get(ClassLabelConstants.DatabaseObjectIDOutputTransaction)
+					.getAsJsonArray();
+			for (int i = 0; i < outobjects.size(); i++) {
+				JsonObject stagingid = outobjects.get(i).getAsJsonObject();
+				// Read the catalog object and isolate it from the response
+				JsonObject response = ReadFirestoreInformation.readFirestoreCatalogObject(stagingid);
+				if (response.get(ClassLabelConstants.ServiceProcessSuccessful).getAsBoolean()) {
+					JsonObject catalog = response.get(ClassLabelConstants.SimpleCatalogObject).getAsJsonObject();
+					catalogset.add(catalog);
+				}
 			}
 		}
 		return catalogset;
@@ -733,6 +849,7 @@ public enum TransactionProcess {
 
 	public static JsonObject processFromTransaction(String transaction, JsonObject prerequisites,
 			JsonArray prerequisitelist, JsonObject info, String owner) {
+		System.out.println("DEBUG: processFromTransaction started: owner=" + owner + " transaction=" + transaction);
 		Document document = MessageConstructor.startDocument("Transaction: " + transaction);
 		String transname = transaction.substring(8);
 		TransactionProcess process = TransactionProcess.valueOf(transname);
@@ -749,6 +866,7 @@ public enum TransactionProcess {
 		shortdescr.addProperty(ClassLabelConstants.TransactionKey, transactionID);
 		shortdescr.addProperty(ClassLabelConstants.ShortDescription, title);
 		BaseCatalogData.insertFirestoreAddress(event);
+		System.out.println("DEBUG: Transaction: " + JsonObjectUtilities.toString(event));
 		String shorttitleString = "";
 		if (info.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel) != null) {
 			shorttitleString = info.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString() + ":  "
@@ -966,7 +1084,8 @@ public enum TransactionProcess {
 					prerequisitelist.add(firebaseid);
 					prerequisites.add(label, firebaseid);
 				} else {
-					System.err.println("No transaction found");
+					logger.warning(
+							"No transaction found: " + name + " with info: " + JsonObjectUtilities.toString(info));
 				}
 			} else {
 				if (idlabel == name) {

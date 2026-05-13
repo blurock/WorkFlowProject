@@ -26,11 +26,12 @@ public class InitializeDatasetSessionVariables {
 			 		'dataset:JThermodynamicsVibrationalModes': {
 			            'dataset:specificationLabel': 'Vibrational Modes',
 						'dataset:filesourceformat': 'dataset:JThermodynamicsVibrationalModes',
-						'dataset:partitionMethod': 'dataset:PartitionToLineSet',
-						'dataset:interpretMethod': 'dataset:ParseLinesJThermodynamicsVibrationalStructure',
+						'dataset:filepartitionmethod': 'dataset:PartitionToLineSet',
+						'dataset:blockinterpretationmethod': 'dataset:ParseLinesJThermodynamicsVibrationalStructure',
 						'dataset:blocklinecount': '1',
 						'dcat:catalog': 'dataset:JThermodynamicsVibrationalStructure',
 						'prov:activity': 'dataset:ActivityInformationInterpretVibrationalMode',
+						'dataset:objectype': 'dataset:JThermodynamicsVibrationalStructureDatabase',
 			            'dataset:collectionobjecttype': 'dataset:JThermodynamicsVibrationalStructureDatabase',
 						'dataset:datasetobjecttype': 'dataset:JThermodynamicsVibrationalStructureDataSet',
 						'dataset:transactionid': 'dataset:TransactionInterpretVibrationalMode',
@@ -46,18 +47,29 @@ public class InitializeDatasetSessionVariables {
 					'dataset:TherGasBensonRules': {
 			            'dataset:specificationLabel': 'Benson Rules',
 						'dataset:filesourceformat': 'dataset:TherGasBensonRules',
-						'dataset:partitionMethod': 'dataset:PartitionTherGasThermodynamics',
-						'dataset:interpretMethod': 'dataset:ParseLinesJThermodynamicsBensonRules',
-						'dataset:blocklinecount': '',
+						'dataset:filepartitionmethod': 'dataset:PartitionTherGasThermodynamics',
+						'dataset:blockinterpretationmethod': 'dataset:ParseLinesJThermodynamicsBensonRules',
+						'dataset:blocklinecount': '4',
 						'dcat:catalog': 'dataset:ThermodynamicBensonRuleDefinition',
 						'prov:activity': 'dataset:ActivityInformationInterpretBensonRuleData',
+						'dataset:objectype': 'dataset:ThermodynamicBensonRuleDefinitionDatabase',
 					    'dataset:collectionobjecttype': 'dataset:ThermodynamicBensonRuleDefinitionDatabase',
 						'dataset:datasetobjecttype': 'dataset:ThermodynamicBensonRuleDefinitionDataSet',
 						'dataset:transactionid': 'dataset:TransactionInterpretBensonRule',
 						'dataset:filesourcesubtype': 'dataset:FileMediaText',
 						'dataset:filemediatype': 'dataset:FileMediaText',
 						'dataset:supplementaryparameters': {
-			    		'qudt:hasUnitSystem': ['dataset:paramspecenthalpy',
+			    		'dataset:bensontemperaturelist': {
+						   'dataset:thermotemperature': [
+							300,
+							400,
+							500,
+							600,
+							800,
+							1000,
+							1500
+							]},
+							'qudt:hasUnitSystem': ['dataset:paramspecenthalpy',
 						                       'dataset:thermotemperature',
 											   'dataset:paramspecentropy',
 											   'dataset:paramspecheatcapacity']
@@ -66,17 +78,28 @@ public class InitializeDatasetSessionVariables {
 					'dataset:ThergasSpeciesThermodynamics': {
 			            'dataset:specificationLabel': 'Species Thermodynamics',
 						'dataset:filesourceformat': 'dataset:ThergasSpeciesThermodynamics',
-						'dataset:partitionMethod': 'dataset:PartitionTherGasThermodynamics',
-						'dataset:interpretMethod': 'dataset:ParseLinesJThermodynamicsMolecule',
-						'dataset:blocklinecount': '',
+						'dataset:filepartitionmethod': 'dataset:PartitionTherGasThermodynamics',
+						'dataset:blockinterpretationmethod': 'dataset:ParseLinesJThermodynamicsMolecule',
+						'dataset:blocklinecount': '4',
 						'dcat:catalog': 'dataset:JThermodynamics2DMoleculeThermodynamics',
 						'prov:activity': 'dataset:ActivityInformationMolecularThermodynamics',
+						'dataset:objectype': 'dataset:JThermodynamics2DMoleculeThermodynamicsDatabase',
 			            'dataset:collectionobjecttype': 'dataset:JThermodynamics2DMoleculeThermodynamicsDatabase',
 						'dataset:datasetobjecttype': 'dataset:JThermodynamics2DMoleculeThermodynamicsDataSet',
 						'dataset:transactionid': 'dataset:TransactionInterpretMolecularThermodynamics',
 						'dataset:filesourcesubtype': 'dataset:FileMediaText',
 						'dataset:filemediatype': 'dataset:FileMediaText',
 						'dataset:supplementaryparameters': {
+						'dataset:bensontemperaturelist': {
+						   'dataset:thermotemperature': [
+							300,
+							400,
+							500,
+							600,
+							800,
+							1000,
+							1500
+							]},
 						'qudt:hasUnitSystem': ['dataset:paramspecenthalpy',
 						                       'dataset:thermotemperature',
 											   'dataset:paramspecentropy',
@@ -86,9 +109,10 @@ public class InitializeDatasetSessionVariables {
 					'dataset:TherGasSubstructureThermodynamics': {
 			            'dataset:specificationLabel': 'Substructure Thermodynamics',
 						'dataset:filesourceformat': 'dataset:TherGasSubstructureThermodynamics',
-						'dataset:partitionMethod': 'dataset:PartitionTherGasThermodynamics',
-						'dataset:interpretMethod': 'dataset:ParseLinesJThermodynamicsSubstructures',
-						'dataset:blocklinecount': '',
+						'dataset:filepartitionmethod': 'dataset:PartitionTherGasThermodynamics',
+						'dataset:blockinterpretationmethod': 'dataset:ParseLinesJThermodynamicsSubstructures',
+						'dataset:blocklinecount': '4',
+						'dataset:objectype': 'dataset:JThermodynamics2DSubstructureThermodynamicsDatabase',
 						'dataset:collectionobjecttype': 'dataset:JThermodynamics2DSubstructureThermodynamicsDatabase',
 						'dataset:datasetobjecttype': 'dataset:JThermodynamics2DSubstructureThermodynamicsDataSet',
 						'dcat:catalog': 'dataset:JThermodynamics2DSubstructureThermodynamics',
@@ -99,20 +123,32 @@ public class InitializeDatasetSessionVariables {
 						'dataset:filesourcesubtype': 'dataset:FileMediaText',
 						'dataset:filemediatype': 'dataset:FileMediaText',
 						'dataset:supplementaryparameters': {
-						'qudt:hasUnitSystem': ['dataset:paramspecenthalpy',
-						                       'dataset:thermotemperature',
-											   'dataset:paramspecentropy',
-											   'dataset:paramspecheatcapacity']
+						'dataset:bensontemperaturelist': {
+						   'dataset:thermotemperature': [
+							300,
+							400,
+							500,
+							600,
+							800,
+							1000,
+							1500
+							]},
+							'qudt:hasUnitSystem': [
+							   'dataset:paramspecenthalpy',
+						        'dataset:thermotemperature',
+								'dataset:paramspecentropy',
+								'dataset:paramspecheatcapacity']
 			}
 					},
 					'dataset:TherGasMoleculeThermodynamics': {
 			            'dataset:specificationLabel': 'Molecule Thermodynamics',
 						'dataset:filesourceformat': 'dataset:TherGasMoleculeThermodynamics',
-						'dataset:partitionMethod': 'dataset:PartitionTherGasThermodynamics',
-						'dataset:interpretMethod': 'dataset:ParseLinesJThermodynamicsMolecule',
-						'dataset:blocklinecount': '',
+						'dataset:filepartitionmethod': 'dataset:PartitionTherGasThermodynamics',
+						'dataset:blockinterpretationmethod': 'dataset:ParseLinesJThermodynamicsMolecule',
+						'dataset:blocklinecount': '4',
 						'dcat:catalog': 'dataset:JThermodynamics2DMoleculeThermodynamics',
 						'prov:activity': 'dataset:ActivityInformationMolecularThermodynamics',
+						'dataset:objectype': 'dataset:JThermodynamics2DMoleculeThermodynamicsDatabase',
 			            'dataset:collectionobjecttype': 'dataset:JThermodynamics2DMoleculeThermodynamicsDatabase',
 						'dataset:datasetobjecttype': 'dataset:JThermodynamics2DMoleculeThermodynamicsDataSet',
 						'dcat:dataset':'dataset:JThermodynamics2DMoleculeThermodynamicsDataset',
@@ -120,7 +156,17 @@ public class InitializeDatasetSessionVariables {
 						'dataset:filesourcesubtype': 'dataset:FileMediaText',
 						'dataset:filemediatype': 'dataset:FileMediaText',
 						'dataset:supplementaryparameters': {
-						'qudt:hasUnitSystem': ['dataset:paramspecenthalpy',
+						'dataset:bensontemperaturelist': {
+						   'dataset:thermotemperature': [
+							300,
+							400,
+							500,
+							600,
+							800,
+							1000,
+							1500
+							]},
+							'qudt:hasUnitSystem': ['dataset:paramspecenthalpy',
 						                       'dataset:thermotemperature',
 											   'dataset:paramspecentropy',
 											   'dataset:paramspecheatcapacity']
@@ -129,11 +175,12 @@ public class InitializeDatasetSessionVariables {
 					'dataset:JThermodynamicsDisassociationEnergyFormat': {
 			            'dataset:specificationLabel': 'Disassociation Energy',
 						'dataset:filesourceformat': 'dataset:JThermodynamicsDisassociationEnergyFormat',
-						'dataset:partitionMethod': 'dataset:PartitionToLineSet',
-						'dataset:interpretMethod': 'dataset:ParseLinesJThermodynamicsDisassociationEnergy',
+						'dataset:filepartitionmethod': 'dataset:PartitionToLineSet',
+						'dataset:blockinterpretationmethod': 'dataset:ParseLinesJThermodynamicsDisassociationEnergy',
 						'dataset:blocklinecount': '2',
 						'dcat:catalog': 'dataset:JThermodynamicsDisassociationEnergyOfStructure',
 						'prov:activity': 'dataset:ActivityInformationInterpretDisassociationEnergy',
+						'dataset:objectype': 'dataset:JThermodynamicsDisassociationEnergyOfStructureDatabase',
 			            'dataset:collectionobjecttype': 'dataset:JThermodynamicsDisassociationEnergyOfStructureDatabase',
 						'dataset:datasetobjecttype': 'dataset:JThermodynamicsDisassociationEnergyOfStructureDataSet',
 						'dcat:dataset':'dataset:JThermodynamicsDisassociationEnergyOfStructureDataset',
@@ -148,11 +195,12 @@ public class InitializeDatasetSessionVariables {
 					'dataset:JThermodynamicsMetaAtomFormat': {
 			            'dataset:specificationLabel': 'Meta Atom',
 						'dataset:filesourceformat': 'dataset:JThermodynamicsMetaAtomFormat',
-						'dataset:partitionMethod': 'dataset:PartitionToLineSet',
-						'dataset:interpretMethod': 'dataset:ParseLinesJThermodynamicsMetaAtoms',
+						'dataset:filepartitionmethod': 'dataset:PartitionToLineSet',
+						'dataset:blockinterpretationmethod': 'dataset:ParseLinesJThermodynamicsMetaAtoms',
 						'dataset:blocklinecount': '1',
 						'dcat:catalog': 'dataset:JThermodynamicsMetaAtomDefinition',
 						'prov:activity': 'dataset:ActivityInformationInterpretMetaAtom',
+						'dataset:objectype': 'dataset:JThermodynamicsMetaAtomDefinitionDatabase',
 			            'dataset:collectionobjecttype': 'dataset:JThermodynamicsMetaAtomDefinitionDatabase',
 						'dataset:datasetobjecttype': 'dataset:JThermodynamicsMetaAtomDefinitionDatSset',
 						'dcat:dataset':'dataset:JThermodynamicsMetaAtomDefinitionDataset',
@@ -167,11 +215,12 @@ public class InitializeDatasetSessionVariables {
 					'dataset:JThermodynamicsSymmetryDefinitionFormat': {
 			            'dataset:specificationLabel': 'Symmetry Definition',
 						'dataset:filesourceformat': 'dataset:symmetrystructuredefinition',
-						'dataset:partitionMethod': 'dataset:PartitionXMLListOfCatalogObjects',
-						'dataset:interpretMethod': 'dataset:ParseLinesJThermodynamicsSymmetryDefinition',
-						'dataset:blocklinecount': '',
+						'dataset:filepartitionmethod': 'dataset:PartitionXMLListOfCatalogObjects',
+						'dataset:blockinterpretationmethod': 'dataset:ParseLinesJThermodynamicsSymmetryDefinition',
+						'dataset:blocklinecount': '0',
 						'dcat:catalog': 'dataset:JThermodynamicsSymmetryStructureDefinition',
 						'prov:activity': 'dataset:ActivityInformationInterpretSymmetryInformation',
+						'dataset:objectype': 'dataset:JThermodynamicsSymmetryStructureDefinitionDatabase',
 			            'dataset:collectionobjecttype': 'dataset:JThermodynamicsSymmetryStructureDefinitionDatabase',
 						'dataset:datasetobjecttype': 'dataset:JThermodynamicsSymmetryStructureDefinitionDataSet',
 						'dcat:dataset':'dataset:JThermodynamicsSymmetryStructureDefinitionDataset',
@@ -188,58 +237,86 @@ public class InitializeDatasetSessionVariables {
 	public static String UnitParametersString = """
 			{
 				"dataset:paramspecenthalpy": {
-					"qudt:Unit": {
-						"qudt:SystemOfQuantities": "quantitykind:MolarEnergy",
-						"qudt:QuantityKind": "unit:KiloCAL-PER-MOL"
+					"dataset:molarenthalpyunits": {
+						"dataset:molarenthalpyunitclass": "dataset:UnitClassMolarEnthalpy",
+						"dataset:molarenthalpyunitspecification": "dataset:UnitsCaloriesPerMole"
 					},
 					"dataset:dynamicType": "dataset:FixedParameter",
-					"skos:prefLabel": "Enthaply",
-					"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty"
+					"dataset:parameterlabelenthalpy": "Molar Enthalpy",
+					"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty",
+					"dataset:purposeconceptenthalpy": {
+						"dataset:purposeparameterenthalpy": "dataset:ThermodynamicParameterCalculationElement",
+						"dataset:conceptparameterentalpy": "dataset:ParameterConceptDataset"
+					}
 				},
 				"dataset:thermotemperature": {
-					"qudt:Unit": {
-						"qudt:SystemOfQuantities": "quantitykind:Temperature",
-						"qudt:QuantityKind": "unit:K"
+					"dataset:temperatureunits": {
+						"dataset:temperatureunitclass": "dataset:UnitClassTemperature",
+						"dataset:temperatureunitspecification": "dataset:UnitsKelvin"
 					},
 					"dataset:dynamicType": "dataset:FixedParameter",
-					"skos:prefLabel": "Temperature",
-					"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty"
+					"dataset:parameterlabeltemperature": "Temperature",
+					"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty",
+					"dataset:purposeconcepttemperature": {
+						"dataset:purposeparametertemperature": "dataset:ThermodynamicParameterCalculationElement",
+						"dataset:conceptparametertemperature": "dataset:ParameterConceptDataset"
+					}
 				},
 				"dataset:paramspecentropy": {
-					"qudt:Unit": {
-						"qudt:SystemOfQuantities": "quantitykind:MolarEntropy",
-						"qudt:QuantityKind": "unit:CAL-PER-MOL-K"
+					"dataset:molarentropyunits": {
+						"dataset:molarentropyunitclass": "dataset:UnitClassMolarEntropy",
+						"dataset:molarentropyunitspecification": "dataset:UnitsJoulesPerMole"
 					},
 					"dataset:dynamicType": "dataset:FixedParameter",
-					"skos:prefLabel": "Entropy",
-					"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty"
+					"dataset:parameterlabelentropy": "Entropy",
+					"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty",
+					"dataset:purposeconceptentropy": {
+						"dataset:purposeparameterentropy": "dataset:ThermodynamicParameterCalculationElement",
+						"dataset:conceptparameterentropy": "dataset:ParameterConceptDataset"
+					}
 				},
 				"dataset:paramspecheatcapacity": {
-					"qudt:Unit": {
-						"qudt:SystemOfQuantities": "quantitykind:MolarHeatCapacity",
-						"qudt:QuantityKind": "unit:J-PER-MOL-K"
+					"dataset:heatcapacityunits": {
+						"dataset:heatcapacityunitclass": "dataset:UnitClassHeatCapacity",
+						"dataset:heatcapacityunitspecification": "dataset:UnitsJoulesPerKelvin"
 					},
 					"dataset:dynamicType": "FixedParameter",
-					"skos:prefLabel": "Heat Capacity",
-					"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty"
+					"dataset:parameterlabelheatcapacity": "Heat Capacity",
+					"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty",
+					"dataset:heatcapacityunits": {
+						"dataset:heatcapacityunitspecification": "dataset:UnitsJoulesPerKelvin",
+						"dataset:heatcapacityunitclass": "dataset:UnitClassHeatCapacity"
+					},
+					"dataset:purposeconceptheatcapacity": {
+						"dataset:purposeparameterheatcapacity": "dataset:ThermodynamicParameterCalculationElement",
+						"dataset:conceptparameterheatcapacity": "dataset:ParameterConceptDataset"
+					}
 				},
 				"dataset:hdisassociationparameter": {
-					"qudt:Unit": {
-						"qudt:SystemOfQuantities": "quantitykind:MolarEnergy",
-						"qudt:QuantityKind": "unit:KiloCAL-PER-MOL"
+					"dataset:molarentropyunits": {
+						"dataset:molarentropyunitclass": "dataset:UnitClassMolarEntropy",
+						"dataset:molarentropyunitspecification": "dataset:UnitsJoulesPerMole"
 					},
-					"dataset:dynamicType": "FixedParameter",
-					"skos:prefLabel": "Hydrogen Disassociation Energy",
-					"dataset:uncertainty": "dataset:EstimatedAbsoluteUncertainty"
+					"dataset:dynamicType": "dataset:FixedParameter",
+					"dataset:parameterlabelentropy": "Entropy",
+					"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty",
+					"dataset:purposeconcepthdisassociation": {
+						"dataset:purposeparameterhdisassociation": "dataset:ThermodynamicParameterCalculationElement",
+						"dataset:conceptparameterhdisassociation": "dataset:ParameterConceptDataset"
+					}
 				},
 				"dataset:paramspecfrequency": {
-					"qudt:Unit": {
-						"qudt:SystemOfQuantities": "qudt:FrequencyUnit",
-						"qudt:QuantityKind": "dataset:cmMinus1"
+					"dataset:frequencyunits": {
+						"dataset:frequencyunitclass": "dataset:UnitClassFrequency",
+						"dataset:frequencyunitspecification": "dataset:UnitsCmMinus1"
 					},
-					"dataset:dynamicType": "FixedParameter",
-					"skos:prefLabel": "Frequency",
-					"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty"
+					"dataset:dynamicType": "dataset:FixedParameter",
+					"dataset:parameterlabelfrequency": "Frequency",
+					"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty",
+					"dataset:purposeconceptfrequency": {
+						"dataset:purposeparameterfrequency": "dataset:ThermodynamicParameterCalculationElement",
+						"dataset:conceptparameterfrequency": "dataset:ParameterConceptDataset"
+					}
 				}
 			}
 			""";
@@ -304,8 +381,14 @@ public class InitializeDatasetSessionVariables {
 					for (Map.Entry<String, JsonElement> entry : formatdata.entrySet()) {
 						sessiondata.add(entry.getKey(), entry.getValue());
 					}
+					sessiondata.addProperty(ClassLabelConstants.DescriptionTitle,
+							info.get(ClassLabelConstants.DescriptionTitle).getAsString());
+					sessiondata.addProperty(ClassLabelConstants.CatalogObjectUniqueGenericLabel,
+							info.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString());
 					sessiondata.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer,
 							info.get(ClassLabelConstants.UID).getAsString());
+					sessiondata.addProperty(ClassLabelConstants.CatalogObjectUniqueGenericLabel,
+							info.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString());
 					sessiondata.addProperty(ClassLabelConstants.UploadFileSource,
 							"dataset:GCSSourceFile");
 					addPrerequisitesToSession(sessiondata, formatdata);
@@ -365,7 +448,16 @@ public class InitializeDatasetSessionVariables {
 					sessiondata.add(unit, param);
 				}
 			} else {
-				sessiondata.addProperty(key, supplementaryparameters.get(key).getAsString());
+				JsonElement element = supplementaryparameters.get(key);
+				if (element.isJsonPrimitive()) {
+					sessiondata.addProperty(key, element.getAsString());
+				} else {
+					if (sessiondata.get(key) != null) {
+						sessiondata.remove(key);
+					}
+					sessiondata.add(key, element);
+
+				}
 			}
 		}
 		sessiondata.remove("dataset:supplementaryparameters");

@@ -11,6 +11,17 @@
 
     <name>WorkFlowProject Parent</name>
 
+    <dependencyManagement>
+        <dependencies>
+            <!-- Force libthrift version to 0.22.0 to fix security vulnerability -->
+            <dependency>
+                <groupId>org.apache.thrift</groupId>
+                <artifactId>libthrift</artifactId>
+                <version>0.22.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <!-- Map out the nested sub-modules here -->
     <modules>
         <module>backend-orchestrator</module>

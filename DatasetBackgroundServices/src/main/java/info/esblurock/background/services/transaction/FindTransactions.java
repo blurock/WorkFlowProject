@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -35,7 +37,8 @@ import info.esblurock.reaction.core.ontology.base.utilities.JsonObjectUtilities;
  *
  */
 public class FindTransactions {
-	
+	private static final Logger logger = Logger.getLogger(FindTransactions.class.getName());
+
 	public static JsonObject FindTransactionFromTransactionID(JsonObject input) {
 		Document document = MessageConstructor.startDocument("FindTransactionFromTransactionID");
 		JsonObject response = null;
@@ -47,50 +50,57 @@ public class FindTransactions {
 			JsonObject setofprops = FillInSetOfPropertyValueQueryPairs.createSetOfPropertyValueQueryPairs();
 			FillInSetOfPropertyValueQueryPairs.addProperty(setofprops, "dataset:CatalogObjectOwner", ownerString);
 			FillInSetOfPropertyValueQueryPairs.addProperty(setofprops, "dataset:TransactionID", transactionID);
-			
+
 			JsonObject inputquery = new JsonObject();
 			inputquery.addProperty(ClassLabelConstants.RDFRelationClassName, "dataset:RDFTransactionID");
 			inputquery.add(ClassLabelConstants.SetOfPropertyValueQueryPairs, setofprops);
-			
-			JsonObject queryresponse =  RDFQuestionsUtilities.RDFGeneralQuery(inputquery);
-			if(queryresponse.get(ClassLabelConstants.ServiceProcessSuccessful).getAsBoolean()) {
+
+			JsonObject queryresponse = RDFQuestionsUtilities.RDFGeneralQuery(inputquery);
+			if (queryresponse.get(ClassLabelConstants.ServiceProcessSuccessful).getAsBoolean()) {
 				String querymessage = queryresponse.get(ClassLabelConstants.ServiceResponseMessage).getAsString();
 				MessageConstructor.combineBodyIntoDocument(document, querymessage);
 				JsonArray arr = queryresponse.get(ClassLabelConstants.SimpleCatalogObject).getAsJsonArray();
-                if(arr.size() > 0) {
-                    JsonObject responsecatalog = arr.get(0).getAsJsonObject();
-                    JsonArray properties = responsecatalog.get(ClassLabelConstants.RDFGeneralQueryResultRow).getAsJsonArray();
-                    JsonObject catalogJsonObject = properties.get(0).getAsJsonObject();
-                    JsonObject firestoreid = catalogJsonObject.get(ClassLabelConstants.FirestoreCatalogID).getAsJsonObject();
-                    JsonObject transactionresponse = ReadFirestoreInformation.readFirestoreCatalogObject(firestoreid);
-        			if (transactionresponse.get(ClassLabelConstants.ServiceProcessSuccessful).getAsBoolean()) {
-        				String rdfmessage = transactionresponse.get(ClassLabelConstants.ServiceResponseMessage).getAsString();
-        				MessageConstructor.combineBodyIntoDocument(document, rdfmessage);
-        				JsonObject obj = transactionresponse.get(ClassLabelConstants.SimpleCatalogObject).getAsJsonObject();
-        				if (obj != null) {
-        					response = StandardResponse.standardServiceResponse(document, "Sucesss: Transaction found: ", obj);
-        				} else {
-        					response = StandardResponse.standardErrorResponse(document, "No transactions found with ID=" + transactionID, null);
-        				}
+				if (arr.size() > 0) {
+					JsonObject responsecatalog = arr.get(0).getAsJsonObject();
+					JsonArray properties = responsecatalog.get(ClassLabelConstants.RDFGeneralQueryResultRow)
+							.getAsJsonArray();
+					JsonObject catalogJsonObject = properties.get(0).getAsJsonObject();
+					JsonObject firestoreid = catalogJsonObject.get(ClassLabelConstants.FirestoreCatalogID)
+							.getAsJsonObject();
+					JsonObject transactionresponse = ReadFirestoreInformation.readFirestoreCatalogObject(firestoreid);
+					if (transactionresponse.get(ClassLabelConstants.ServiceProcessSuccessful).getAsBoolean()) {
+						String rdfmessage = transactionresponse.get(ClassLabelConstants.ServiceResponseMessage)
+								.getAsString();
+						MessageConstructor.combineBodyIntoDocument(document, rdfmessage);
+						JsonObject obj = transactionresponse.get(ClassLabelConstants.SimpleCatalogObject)
+								.getAsJsonObject();
+						if (obj != null) {
+							response = StandardResponse.standardServiceResponse(document,
+									"Sucesss: Transaction found: ", obj);
+						} else {
+							response = StandardResponse.standardErrorResponse(document,
+									"No transactions found with ID=" + transactionID, null);
+						}
 
-        			} else {
-        				String rdfmessage = response.get(ClassLabelConstants.ServiceResponseMessage).getAsString();
-        				MessageConstructor.combineBodyIntoDocument(document, rdfmessage);
-        				response = StandardResponse.standardErrorResponse(document, "Error in reading database", null);
-        			}
+					} else {
+						String rdfmessage = response.get(ClassLabelConstants.ServiceResponseMessage).getAsString();
+						MessageConstructor.combineBodyIntoDocument(document, rdfmessage);
+						response = StandardResponse.standardErrorResponse(document, "Error in reading database", null);
+					}
 
-                } else {
-                    response = StandardResponse.standardErrorResponse(document, "No transactions found", null);
-                }
-            } else {
-                String rdfmessage = response.get(ClassLabelConstants.ServiceResponseMessage).getAsString();
-                MessageConstructor.combineBodyIntoDocument(document, rdfmessage);
-                response = StandardResponse.standardErrorResponse(document, "No Transaction found with ID=" + transactionID, null);
+				} else {
+					response = StandardResponse.standardErrorResponse(document, "No transactions found", null);
+				}
+			} else {
+				String rdfmessage = response.get(ClassLabelConstants.ServiceResponseMessage).getAsString();
+				MessageConstructor.combineBodyIntoDocument(document, rdfmessage);
+				response = StandardResponse.standardErrorResponse(document,
+						"No Transaction found with ID=" + transactionID, null);
 			}
 		} catch (Exception ex) {
 			response = StandardResponse.standardErrorResponse(document,
 					"Fatal error in FindTransactions:  " + ex.toString(), null);
-			ex.printStackTrace();
+			logger.log(Level.SEVERE, "Fatal error in FindTransactions", ex);
 		}
 		return response;
 	}
@@ -148,7 +158,7 @@ public class FindTransactions {
 		} catch (Exception ex) {
 			response = StandardResponse.standardErrorResponse(document,
 					"Fatal error in FindTransactions:  " + ex.toString(), null);
-			ex.printStackTrace();
+			logger.log(Level.SEVERE, "Fatal error in FindTransactions", ex);
 		}
 		return response;
 	}
@@ -311,23 +321,27 @@ public class FindTransactions {
 		return response;
 	}
 
-	/** A transaction object of the given type with the given generic label and maintainer.
+	/**
+	 * A transaction object of the given type with the given generic label and
+	 * maintainer.
 	 * 
 	 * @param info    The activity information from the process input
-	 * @param type As set of property value pairs
+	 * @param type    As set of property value pairs
 	 * @param onlyone true if only one is expected
-	 * @return A transaction object of the given type with the given generic label and maintainer.
+	 * @return A transaction object of the given type with the given generic label
+	 *         and maintainer.
 	 * 
-	 * info has the following fields:
-	 *  - CatalogObjectUniqueGenericLabel
-	 *  - CatalogDataObjectMaintainer
-	 *  - DatasetObjectType
+	 *         info has the following fields:
+	 *         - CatalogObjectUniqueGenericLabel
+	 *         - CatalogDataObjectMaintainer
+	 *         - DatasetObjectType
 	 * 
 	 * 
 	 */
 	public static JsonObject findDatasetTransaction(JsonObject info, String type, boolean onlyone) {
 		JsonObject transaction = null;
 		JsonObject emptycatalog = FindTransactionFromActivityInfo.findTransaction(type, info);
+
 		if (emptycatalog != null) {
 			JsonObject firestoreid = CreateHierarchyElement.searchForCatalogObjectInHierarchyTemplate(emptycatalog);
 			firestoreid.remove(ClassLabelConstants.SimpleCatalogName);
@@ -345,12 +359,19 @@ public class FindTransactions {
 							transaction = arr.get(0).getAsJsonObject();
 						}
 					}
+				} else {
+					logger.warning("findDatasetTransaction: Array is null. No transaction found for type: " + type
+							+ "\n" + JsonObjectUtilities.toString(firestoreid));
 				}
 			} else {
-				System.err.println(
-						"Dataset Transaction not found: " + type + "\n" + JsonObjectUtilities.toString(firestoreid));
-				System.err.println("Empty catalog\n" + JsonObjectUtilities.toString(emptycatalog));
+				logger.warning(
+						"findDatasetTransaction:Dataset Transaction not found: " + type + "\n"
+								+ JsonObjectUtilities.toString(firestoreid));
+				logger.warning("Document\n" + response.get(ClassLabelConstants.ServiceResponseMessage));
 			}
+		} else {
+			logger.warning("findDatasetTransaction: Empty catalog for type: " + type + " and info: "
+					+ JsonObjectUtilities.toString(info));
 		}
 		return transaction;
 	}

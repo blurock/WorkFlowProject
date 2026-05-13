@@ -48,15 +48,16 @@ public class CalculateThermodynamicsForDisassociationEnergy {
         return response;
     }
 
-    public static JsonObject calculate(String maintainer, String dataset, IAtomContainer radical, JsonObject info, Document document) {
+    public static JsonObject calculate(String maintainer, String dataset, IAtomContainer radical, JsonObject info,
+            Document document) {
         Element body = MessageConstructor.isolateBody(document);
         body.addElement("div").addText("Maintainer      : " + maintainer);
         body.addElement("div").addText("dataset         : " + dataset);
         JsonObject response = null;
         GetSubstructureMatches matches = new GetSubstructureMatches();
-        
+
         JsonArray disassociationCollection = FindDisassociationEnergyCollection
-                .getTotalDisassociationEnergyCollection(document,maintainer, dataset);
+                .getTotalDisassociationEnergyCollection(document, maintainer, dataset);
         if (disassociationCollection != null) {
             ArrayList<DisassociationEnergyWithAtomCounts> structureCollection = FindDisassociationEnergyCollection
                     .findDisassociationEnergy(disassociationCollection);
@@ -68,20 +69,22 @@ public class CalculateThermodynamicsForDisassociationEnergy {
                 body.addElement("div").addText("Structure            : " + matchname);
                 body.addElement("div").addText("Disassociation Energy: " + energyD.toString());
                 JsonObject disassociationmatch = findCorrespondence(match, disassociationCollection);
-                if(disassociationmatch != null) {
-                JsonObject contribution = convertJThermodynamicsDisassociationEnergyOfStructureToContribution(
-                        disassociationmatch, info);
-                String name = "Disassociation Energy (derived from base: " + matchname + ")";
-                        contribution.addProperty(ClassLabelConstants.DescriptionTitle, name);
-                JsonArray arr = new JsonArray();
-                arr.add(contribution);
-                response = StandardResponse.standardServiceResponse(document, "Disassociation Energy Found",
-                        arr);
+                if (disassociationmatch != null) {
+                    JsonObject contribution = convertJThermodynamicsDisassociationEnergyOfStructureToContribution(
+                            disassociationmatch, info);
+                    String name = "Disassociation Energy (derived from base: " + matchname + ")";
+                    contribution.addProperty(ClassLabelConstants.DescriptionTitle, name);
+                    JsonArray arr = new JsonArray();
+                    arr.add(contribution);
+                    response = StandardResponse.standardServiceResponse(document, "Disassociation Energy Found",
+                            arr);
                 } else {
-                    response = StandardResponse.standardErrorResponse(document, "Disassociation Energy Error: No Corresponding structure found for radical", null);
+                    response = StandardResponse.standardErrorResponse(document,
+                            "Disassociation Energy Error: No Corresponding structure found for radical", null);
                 }
             } else {
-                response = StandardResponse.standardErrorResponse(document, "Disassociation Energy Error: No Corresponding structure found for radical", null);
+                response = StandardResponse.standardErrorResponse(document,
+                        "Disassociation Energy Error: No Corresponding structure found for radical", null);
             }
         } else {
             response = StandardResponse.standardErrorResponse(document,
@@ -95,7 +98,7 @@ public class CalculateThermodynamicsForDisassociationEnergy {
         JsonObject enthalpyparameter = disassociationmatch.get(ClassLabelConstants.JThermodynamicDisassociationEnergy)
                 .getAsJsonObject();
         String enthalpyS = enthalpyparameter.get(ClassLabelConstants.ValueAsString).getAsString();
-        JsonObject spec = enthalpyparameter.get(ClassLabelConstants.ParameterSpecification).getAsJsonObject();
+        JsonObject spec = enthalpyparameter.get(ClassLabelConstants.ParameterSpecificationEnthalpy).getAsJsonObject();
         JsonObject unitspec = spec.get(ClassLabelConstants.ValueUnits).getAsJsonObject();
         String enthalpyspec = unitspec.get(ClassLabelConstants.UnitsOfValue).getAsString();
         double enthalpy = Double.parseDouble(enthalpyS);

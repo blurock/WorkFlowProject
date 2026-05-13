@@ -9,7 +9,7 @@ import { firstValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Ontologyconstants } from '../constants/ontologyconstants';
 import { DynamicPrimitiveComponent } from '../primitives/dynamic-primitive/dynamic-primitive';
-import { OntologyStructure } from '../primitives/base-primitive';
+import { OntologyStructure, WorkflowVisibilityService } from '../primitives/base-primitive';
 import { OntologyService } from '../../services/ontology.service';
 
 @Component({
@@ -26,10 +26,12 @@ export class WorkflowTaskComponent implements OnInit {
   private auth = inject(Auth);
   private ontologyService = inject(OntologyService);
   private cdr = inject(ChangeDetectorRef);
+  public visibilityService = inject(WorkflowVisibilityService);
   public ontology = new Ontologyconstants();
 
   public loading = true;
   public errorMessage = '';
+  public successMessage = '';
 
   /** Stored on arrival so resumeBackendWorkflow can redirect back with them. */
   private currentUid: string = '';
@@ -45,6 +47,10 @@ export class WorkflowTaskComponent implements OnInit {
 
   exportAsTransaction: boolean = false;
   showJsonPreview: boolean = false;
+
+  toggleVisibility() {
+    this.visibilityService.showAllFields = !this.visibilityService.showAllFields;
+  }
 
   get exportJsonContent(): any {
     if (this.exportAsTransaction) {
@@ -138,14 +144,16 @@ export class WorkflowTaskComponent implements OnInit {
           if (catObjects && catObjects.length > 0) {
             const data = catObjects[0];
             const activityInfo = data[this.ontology.ActivityInfo];
+            const callbackUrl = data[this.ontology.SessionWorkflowReturnLink];
 
-            if (!activityInfo) {
+            // Wait until the workflow has deposited BOTH the activity template and the webhook URL
+            if (!activityInfo || !callbackUrl) {
               if (this.currentRetry < this.maxRetries) {
                 this.currentRetry++;
                 setTimeout(() => this.fetchSessionData(uid, sessionId, token), this.retryInterval);
                 return;
               } else {
-                this.showError('No ActivityInformationClass attached to this specific session task after multiple retries.');
+                this.showError('No ActivityInformationClass or Callback URL attached to this session task after retries.');
                 return;
               }
             }
@@ -286,6 +294,9 @@ export class WorkflowTaskComponent implements OnInit {
 
     // 1. Sync updated activity data back into session data
     this.sessionData[this.ontology.ActivityInfo] = this.activityData;
+    
+    // Clear previous service response to ensure we wait for the new one
+    delete this.sessionData[this.ontology.ServiceResponseInformation];
 
     // Set service call
 
@@ -318,23 +329,66 @@ export class WorkflowTaskComponent implements OnInit {
     if (callbackUrl) {
       // We must call our OWN orchestrator proxy to avoid CORS issues with Google APIs
       const resumeUrl = `${environment.orchestratorUrl}/api/orchestration/resume/${executionId}`;
-      const payload = {
+      const payload: any = {
         summary: 'Form submitted by user',
         callbackUrl: callbackUrl
       };
+      
+      let workflowName = this.sessionData[this.ontology.SessionWorkflow];
+      if (!workflowName) {
+        workflowName = 'single-transaction-event'; // Default for UI-driven tasks
+      }
+      payload['workflowName'] = workflowName;
+
+      this.loading = true;
+      this.explanation = 'Waiting for workflow to complete...';
+      this.errorMessage = '';
+      this.cdr.detectChanges();
 
       this.http.post(resumeUrl, payload, {
         headers: { Authorization: `Bearer ${token}` }
       }).subscribe({
-        next: () => {
-          console.log('Orchestrator successfully resumed workflow.');
-          // Return to run-transaction with the same session so another transaction
-          // can be executed within this session.
-          this.router.navigate(['/run-transaction', this.currentUid, this.currentSessionId]);
+        next: (response: any) => {
+          console.log('Orchestrator successfully resumed workflow.', response);
+          if (response && response.status === 'Completed') {
+            try {
+               let resultObj = response.result;
+               try { if (typeof resultObj === 'string') resultObj = JSON.parse(resultObj); } catch(e){}
+               
+               let body = resultObj.body || resultObj;
+               try { if (typeof body === 'string') body = JSON.parse(body); } catch(e){}
+
+               const isSuccess = body[this.ontology.successful] === 'true' || body[this.ontology.successful] === true;
+               const msg = body[this.ontology.message] || JSON.stringify(body, null, 2);
+               
+               if (isSuccess) {
+                   this.successMessage = msg;
+                   this.loading = false;
+                   this.cdr.detectChanges();
+               } else {
+                   this.errorMessage = msg;
+                   delete this.sessionData[this.ontology.SessionWorkflowReturnLink];
+                   this.loading = false;
+                   this.cdr.detectChanges();
+                   return;
+               }
+            } catch (e) {
+               this.successMessage = 'Workflow completed successfully.';
+               this.loading = false;
+               this.cdr.detectChanges();
+            }
+          } else if (response && response.status === 'ResumedButTimeoutWaiting') {
+            this.showError('Workflow took too long to complete. Please check the status later.');
+          } else {
+            this.showError(`Workflow execution failed: ${response?.error || 'Unknown error'}`);
+          }
         },
         error: (err) => {
           console.error('Orchestrator resume failed:', err);
-          this.showError('Failed to resume workflow via orchestrator.');
+          this.errorMessage = 'Failed to resume workflow via orchestrator.';
+          delete this.sessionData[this.ontology.SessionWorkflowReturnLink];
+          this.loading = false;
+          this.cdr.detectChanges();
         }
       });
     } else {
@@ -343,10 +397,79 @@ export class WorkflowTaskComponent implements OnInit {
     }
   }
 
+  async restartWorkflow() {
+    this.loading = true;
+    this.errorMessage = '';
+    this.successMessage = '';
+    this.cdr.detectChanges();
+
+    try {
+      const currentUser = this.auth.currentUser;
+      if (!currentUser) throw new Error('Not logged in');
+      const token = await currentUser.getIdToken();
+
+      // Clear the dead callback link. We want the new workflow to generate a new one.
+      delete this.sessionData[this.ontology.SessionWorkflowReturnLink];
+      
+      // Preserve the user's currently entered activity data by saving it back into the session data!
+      this.sessionData[this.ontology.ActivityInfo] = this.activityData;
+      this.sessionData[this.ontology.SessionStatus] = 'Initial';
+
+      const writePayload: any = {
+        service: 'UpdateSessionDataService',
+        uid: currentUser.uid
+      };
+      writePayload[this.ontology.SessionData] = this.sessionData;
+
+      await firstValueFrom(
+        this.http.post<any>(`${environment.datasetBackgroundUrl}/service`, writePayload, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+      );
+
+      let workflowName = this.sessionData[this.ontology.SessionWorkflow];
+      if (!workflowName) {
+        workflowName = 'single-transaction-workflow';
+      }
+
+      const orchestratorPayload = {
+        workflowName: workflowName,
+        SessionData: this.sessionData
+      };
+
+      this.http.post<any>(
+        `${environment.orchestratorUrl}/api/orchestration/start`,
+        orchestratorPayload,
+        { headers: { Authorization: `Bearer ${token}` } }
+      ).subscribe({
+        next: (response) => {
+          console.log('Workflow restarted successfully!', response);
+          
+          // Poll to reload the session data once the new callback is generated
+          this.currentRetry = 0;
+          this.loading = true;
+          this.explanation = 'Restarting workflow and waiting for callback URL...';
+          this.cdr.detectChanges();
+          
+          setTimeout(() => {
+            this.fetchSessionData(this.currentUid, this.currentSessionId, token);
+          }, 3000);
+        },
+        error: (err) => this.showError(`Failed to restart workflow: ${err.message}`)
+      });
+    } catch (e: any) {
+      this.showError(`Error restarting: ${e.message}`);
+    }
+  }
+
   showError(msg: string) {
     console.error(msg);
     this.errorMessage = msg;
     this.loading = false;
     this.cdr.detectChanges();
+  }
+
+  returnToTransactions() {
+    this.router.navigate(['/run-transaction', this.currentUid, this.currentSessionId]);
   }
 }

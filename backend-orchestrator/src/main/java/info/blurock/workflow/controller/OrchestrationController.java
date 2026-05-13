@@ -69,7 +69,7 @@ public class OrchestrationController {
 
     // The resume endpoint will take the summary and post it to the callback URL
     @PostMapping("/resume/{executionId}")
-    public ResponseEntity<Map<String, String>> resumeWorkflow(@PathVariable String executionId,
+    public ResponseEntity<Map<String, Object>> resumeWorkflow(@PathVariable String executionId,
             @RequestBody Map<String, String> request) {
         String summary = request.get("summary");
         String callbackUrl = request.get("callbackUrl");
@@ -101,7 +101,67 @@ public class OrchestrationController {
             ResponseEntity<String> response = restTemplate.postForEntity(callbackUrl, entity, String.class);
 
             System.out.println("Forwarded callback to workflow: " + response.getStatusCode());
-            return ResponseEntity.ok(Collections.singletonMap("status", "Resumed"));
+            
+            String executionNameStr = null;
+            try {
+                int projectIndex = callbackUrl.indexOf("projects/");
+                int callbacksIndex = callbackUrl.indexOf("/callbacks/");
+                if (projectIndex != -1 && callbacksIndex != -1) {
+                    executionNameStr = callbackUrl.substring(projectIndex, callbacksIndex);
+                }
+            } catch (Exception e) {
+                System.err.println("Could not parse execution name from callback URL");
+            }
+
+            if (executionNameStr == null) {
+                // Fallback to legacy
+                String workflowToPoll = request.getOrDefault("workflowName", this.workflowName);
+                String trueExecutionId = executionId;
+                try {
+                    String keyword = "/executions/";
+                    int startIndex = callbackUrl.indexOf(keyword);
+                    if (startIndex != -1) {
+                        int idStart = startIndex + keyword.length();
+                        int idEnd = callbackUrl.indexOf("/", idStart);
+                        if (idEnd != -1) {
+                            trueExecutionId = callbackUrl.substring(idStart, idEnd);
+                        }
+                    }
+                } catch (Exception e) {}
+                executionNameStr = String.format("projects/%s/locations/%s/workflows/%s/executions/%s", 
+                        projectId, location, workflowToPoll, trueExecutionId);
+            }
+            
+            try (ExecutionsClient executionsClient = ExecutionsClient.create()) {
+                
+                int maxPolls = 30; // Wait up to 60 seconds
+                while (maxPolls > 0) {
+                    Execution execution = executionsClient.getExecution(executionNameStr);
+                    Execution.State state = execution.getState();
+                    
+                    if (state == Execution.State.SUCCEEDED) {
+                        Map<String, Object> result = new HashMap<>();
+                        result.put("status", "Completed");
+                        result.put("result", execution.getResult());
+                        return ResponseEntity.ok(result);
+                    } else if (state == Execution.State.FAILED) {
+                        Map<String, Object> result = new HashMap<>();
+                        result.put("status", "Failed");
+                        if (execution.getError() != null) {
+                            result.put("error", execution.getError().getPayload());
+                        } else {
+                            result.put("error", "Unknown workflow failure");
+                        }
+                        return ResponseEntity.status(500).body(result);
+                    }
+                    Thread.sleep(2000);
+                    maxPolls--;
+                }
+            }
+            
+            Map<String, Object> timeoutResult = new HashMap<>();
+            timeoutResult.put("status", "ResumedButTimeoutWaiting");
+            return ResponseEntity.ok(timeoutResult);
 
         } catch (Exception e) {
             System.err.println("Failed to resume workflow: " + e.getMessage());

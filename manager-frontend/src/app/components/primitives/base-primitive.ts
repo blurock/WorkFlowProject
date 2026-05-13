@@ -1,4 +1,9 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, HostBinding, inject, Injectable } from '@angular/core';
+
+@Injectable({ providedIn: 'root' })
+export class WorkflowVisibilityService {
+  showAllFields = false;
+}
 
 /**
  * Interface representing the structure returned by DocumentTemplateForUI
@@ -33,6 +38,9 @@ export abstract class BasePrimitiveComponent implements OnInit {
   /** The value of the field (JsonObject, JsonArray, or primitive) */
   protected _value: any;
   
+  public initiallyFilled = false;
+  protected visibilityService = inject(WorkflowVisibilityService, {optional: true});
+
   @Input()
   get value(): any {
     return this._value;
@@ -53,6 +61,13 @@ export abstract class BasePrimitiveComponent implements OnInit {
   /** Output for two-way binding */
   @Output() valueChange = new EventEmitter<any>();
 
+  @HostBinding('style.display') get display() {
+    if (this.visibilityService?.showAllFields) {
+      return '';
+    }
+    return this.initiallyFilled ? 'none' : '';
+  }
+
   ngOnInit(): void {
     if (this._value === undefined || this._value === null) {
       if (this.structure?.isArray) {
@@ -65,6 +80,7 @@ export abstract class BasePrimitiveComponent implements OnInit {
         this._value = '';
       }
     }
+    this.initiallyFilled = this.isDeeplyFilled(this.structure, this._value);
   }
 
   updateValue(v: any) {
@@ -78,21 +94,49 @@ export abstract class BasePrimitiveComponent implements OnInit {
    * Returns true if the primitive has been filled with a valid, non-default value.
    */
   get isFilled(): boolean {
-    if (this._value === undefined || this._value === null || this._value === '') {
-      return false;
+    return this.isDeeplyFilled(this.structure, this._value);
+  }
+
+  private isDeeplyFilled(struct: OntologyStructure, value: any): boolean {
+    if (!struct) return this.checkValueAssigned(value);
+
+    if (struct.isArray) {
+      if (!Array.isArray(value)) return false;
+      if (value.length === 0) return true; // Empty array is considered filled
+      
+      if (struct.isObject && struct.properties) {
+        return value.every(item => this.isDeeplyFilled({ ...struct, isArray: false }, item));
+      } else {
+        return value.every(item => this.checkValueAssigned(item));
+      }
     }
-    if (typeof this._value === 'string') {
-      return this._value !== 'not assigned' && !this._value.startsWith('Unassigned classification:');
-    }
-    if (Array.isArray(this._value)) {
-      // It's filled even if the array is empty
+
+    if (struct.isObject && struct.properties) {
+      if (typeof value !== 'object' || value === null) return false;
+      const keys = Object.keys(struct.properties);
+      for (const key of keys) {
+        if (!this.isDeeplyFilled(struct.properties[key], value[key])) {
+          return false;
+        }
+      }
       return true;
     }
-    if (typeof this._value === 'object') {
-      // It's filled if it has keys
-      return Object.keys(this._value).length > 0;
+
+    return this.checkValueAssigned(value);
+  }
+
+  private checkValueAssigned(value: any): boolean {
+    if (value === undefined || value === null || value === '') {
+      return false;
     }
-    return true; // Booleans, numbers are considered filled
+    if (typeof value === 'string') {
+      const trimmed = value.trim();
+      return trimmed !== 'not assigned' && !trimmed.startsWith('Unassigned classification:');
+    }
+    if (Array.isArray(value)) {
+      return true;
+    }
+    return true;
   }
 
   /**

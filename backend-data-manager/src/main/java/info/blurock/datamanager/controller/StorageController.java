@@ -25,7 +25,6 @@ public class StorageController {
 
     @PostMapping(value = "/upload-file", consumes = "multipart/form-data", produces = "application/json")
     public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("uid") String uid) {
-        System.out.println("Received file upload request: uid=" + uid + ", filename=" + file.getOriginalFilename());
         try {
             Document doc = MessageConstructor.startDocument("FileUpload");
             String filename = file.getOriginalFilename();
@@ -50,7 +49,6 @@ public class StorageController {
     public String uploadText(@RequestBody Map<String, String> params) {
         String uid = params.get("uid");
         String filename = params.get("filename");
-        System.out.println("Received text upload request: uid=" + uid + ", filename=" + filename);
         try {
             Document doc = MessageConstructor.startDocument("TextUpload");
             String content = params.get("content");
@@ -63,7 +61,8 @@ public class StorageController {
             result.addProperty("path", path);
             result.addProperty("filename", filename);
 
-            return StandardResponse.standardServiceResponse(doc, "Text content uploaded successfully", result).toString();
+            return StandardResponse.standardServiceResponse(doc, "Text content uploaded successfully", result)
+                    .toString();
         } catch (Exception e) {
             e.printStackTrace();
             return createErrorResponse("Text upload failed: " + e.getMessage());
@@ -74,10 +73,9 @@ public class StorageController {
     public String uploadUrl(@RequestBody Map<String, String> params) {
         String uid = params.get("uid");
         String sourceUrl = params.get("url");
-        System.out.println("Received URL upload request: uid=" + uid + ", url=" + sourceUrl);
         try {
             Document doc = MessageConstructor.startDocument("UrlUpload");
-            
+
             // Extract filename from URL
             String filename = sourceUrl.substring(sourceUrl.lastIndexOf('/') + 1);
             if (filename.contains("?")) {
@@ -86,7 +84,7 @@ public class StorageController {
             if (filename.isEmpty()) {
                 filename = "resource_" + System.currentTimeMillis();
             }
-            
+
             String path = uid + "/LocalStorageFiles/" + filename;
 
             // Fetch content from URL
@@ -101,7 +99,8 @@ public class StorageController {
             result.addProperty("path", path);
             result.addProperty("filename", filename);
 
-            return StandardResponse.standardServiceResponse(doc, "URL resource uploaded successfully", result).toString();
+            return StandardResponse.standardServiceResponse(doc, "URL resource uploaded successfully", result)
+                    .toString();
         } catch (Exception e) {
             e.printStackTrace();
             return createErrorResponse("URL upload failed: " + e.getMessage());

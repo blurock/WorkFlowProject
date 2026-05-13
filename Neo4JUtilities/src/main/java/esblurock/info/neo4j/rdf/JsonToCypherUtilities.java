@@ -24,19 +24,21 @@ public class JsonToCypherUtilities {
 			.getAltLabelFromAnnotation("dataset:CatalogObjectID");
 
 	public static MapOfQueryAndProperties createSimpleRelation(JsonObject obj) {
-		String transactionID = obj.get(ClassLabelConstants.TransactionID).getAsString();
+		// String transactionID =
+		// obj.get(ClassLabelConstants.TransactionID).getAsString();
 		String owner = obj.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
-		String catalogid = obj.get(ClassLabelConstants.CatalogObjectID).getAsString();
+		// String catalogid =
+		// obj.get(ClassLabelConstants.CatalogObjectID).getAsString();
 
 		ListOfRDFInformation rdfs = FindRDFInClass.createFullRDFForObject(obj);
 		MapOfQueryAndProperties queryandproperties = new MapOfQueryAndProperties();
 		for (RDFInformation rdf : rdfs.getList()) {
 			Map<String, Object> proplst = new HashMap<String, Object>();
-			String transid = transactionID;
-			if (obj.has(ClassLabelConstants.TransactionIDinRDF)) {
-				transid = obj.get(ClassLabelConstants.TransactionIDinRDF).getAsString();
-			}
-			proplst.put(transactionaltlabel, transid);
+			// String transid = transactionID;
+			// if (obj.has(ClassLabelConstants.TransactionIDinRDF)) {
+			// transid = obj.get(ClassLabelConstants.TransactionIDinRDF).getAsString();
+			// }
+			// proplst.put(transactionaltlabel, transid);
 			String predicate = rdf.getPredicateClass();
 			QueryAndProperties queryprops = null;
 

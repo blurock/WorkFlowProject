@@ -102,9 +102,11 @@ public class InterpretThermodynamicBlock {
 					.getAsJsonObject();
 			phase = "Interpret Thermodynamics";
 			interpretStandardThermodynamics(point, molthermodynamics, info, row);
-			JsonObject enthalpyObject = molthermodynamics.get(ClassLabelConstants.ThermodynamicStandardEnthalpy).getAsJsonObject();
+			JsonObject enthalpyObject = molthermodynamics.get(ClassLabelConstants.ThermodynamicStandardEnthalpy)
+					.getAsJsonObject();
 			String enthalpyValue = enthalpyObject.get(ClassLabelConstants.ValueAsString).getAsString();
-			JsonObject entropyObject = molthermodynamics.get(ClassLabelConstants.ThermodynamicStandardEntropy).getAsJsonObject();
+			JsonObject entropyObject = molthermodynamics.get(ClassLabelConstants.ThermodynamicStandardEntropy)
+					.getAsJsonObject();
 			String entropyValue = entropyObject.get(ClassLabelConstants.ValueAsString).getAsString();
 			String descriptionString = molnameString + ":\tEnthalpy=" + enthalpyValue + "\tEntropy=" + entropyValue;
 			molthermo.addProperty(ClassLabelConstants.ShortDescription, descriptionString);
@@ -147,7 +149,7 @@ public class InterpretThermodynamicBlock {
 		} catch (ThermodynamicComputeException e) {
 			row.addElement("td").addText("Error in parse");
 			e.printStackTrace();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			System.out.println("interpretMoleculeStructure: exception" + e.getMessage());
 			e.printStackTrace();
 		}
@@ -224,7 +226,7 @@ public class InterpretThermodynamicBlock {
 		JsonObject enthalpyspec = info.get(ClassLabelConstants.ParameterSpecificationEnthalpy).getAsJsonObject();
 		double standardEnthalpy = thermodynamics.getStandardEnthalpy();
 		String enthalpyS = Double.toString(standardEnthalpy);
-		enthalpyobject.add(ClassLabelConstants.ParameterSpecification, enthalpyspec);
+		enthalpyobject.add(ClassLabelConstants.ParameterSpecificationEnthalpy, enthalpyspec);
 		enthalpyobject.addProperty(ClassLabelConstants.ValueAsString, enthalpyS);
 		enthalpyobject.addProperty(ClassLabelConstants.ValueUncertainty, "0.0");
 		row.addElement("td").addText(enthalpyS);
@@ -234,7 +236,7 @@ public class InterpretThermodynamicBlock {
 		JsonObject entropyspec = info.get(ClassLabelConstants.ParameterSpecificationEntropy).getAsJsonObject();
 		double standardEntropy = thermodynamics.getStandardEntropy();
 		String entropyS = Double.toString(standardEntropy);
-		entropyobject.add(ClassLabelConstants.ParameterSpecification, entropyspec);
+		entropyobject.add(ClassLabelConstants.ParameterSpecificationEntropy, entropyspec);
 		entropyobject.addProperty(ClassLabelConstants.ValueAsString, entropyS);
 		entropyobject.addProperty(ClassLabelConstants.ValueUncertainty, "0.0");
 		row.addElement("td").addText(entropyS);
@@ -273,7 +275,8 @@ public class InterpretThermodynamicBlock {
 	 *         converted back to a list of strings
 	 */
 	private static String[] bensonTemperatureSortedArray(JsonObject info) {
-		JsonArray tempsJ = info.get(ClassLabelConstants.JThermodynamicBensonTemperatures).getAsJsonArray();
+		JsonObject temperaturelist = info.get(ClassLabelConstants.JThermodynamicBensonTemperatures).getAsJsonObject();
+		JsonArray tempsJ = temperaturelist.get(ClassLabelConstants.ThermodynamicTemperature).getAsJsonArray();
 		double tempsD[] = new double[tempsJ.size()];
 		for (int i = 0; i < tempsJ.size(); i++) {
 			String tempS = tempsJ.get(i).getAsString();

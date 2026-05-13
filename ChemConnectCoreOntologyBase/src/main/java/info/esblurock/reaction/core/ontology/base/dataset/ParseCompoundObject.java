@@ -18,55 +18,69 @@ public class ParseCompoundObject {
 
 	public static CompoundObjectDimensionSet getCompoundElements(String classname) {
 		CompoundObjectDimensionSet set = new CompoundObjectDimensionSet();
-		compoundObjectTypeObjects(classname,recordtype, set);
-		compoundObjectTypeObjects(classname,hasPartttype, set);
-		return set;	
+
+		if (compoundObjectTypeObjects(classname, recordtype, set)) {
+			if (!compoundObjectTypeObjects(classname, hasPartttype, set)) {
+				set = null;
+			}
+		} else {
+			set = null;
+		}
+		return set;
 	}
-	
+
 	/**
 	 * @param classname The name of the ontology ChemConnectElementCompound class
 	 * @return The set of dimension parameters
 	 */
-	public static void compoundObjectTypeObjects(String classname, String type, CompoundObjectDimensionSet set) {
-		String query = "SELECT ?subject ?record ?cardinality\n" + 
-				"	WHERE { " + classname  + " rdfs:subClassOf ?object ."
-						+ "?object owl:onProperty " + type + " ."
-						+ "{?object owl:someValuesFrom ?record   }"
-						+ "UNION"
-						+ "{?object owl:onClass ?record . ?object owl:qualifiedCardinality ?cardinality}"
-						+ "}";
-		
-		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
-		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
-		
-		for(Map<String, String> map : stringlst) {
-			String elementType = map.get("record");
-			//boolean compoundobject = OntologyUtilityRoutines.isSubClassOf(elementType, compoundclass, false);
-			boolean compoundobject = isCompoundObject(elementType);
-			String cardinalityS = map.get("cardinality");
-			boolean singlet = true;
-			int cardinality = 0;
-			if (cardinalityS != null) {
-				cardinality = Integer.parseInt(cardinalityS);
-				if (cardinality > 1) {
+	public static boolean compoundObjectTypeObjects(String classname, String type, CompoundObjectDimensionSet set) {
+		String query = "SELECT ?subject ?record ?cardinality\n" +
+				"	WHERE { " + classname + " rdfs:subClassOf ?object ."
+				+ "?object owl:onProperty " + type + " ."
+				+ "{?object owl:someValuesFrom ?record   }"
+				+ "UNION"
+				+ "{?object owl:onClass ?record . ?object owl:qualifiedCardinality ?cardinality}"
+				+ "}";
+		try {
+			List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+			List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+
+			for (Map<String, String> map : stringlst) {
+				String elementType = map.get("record");
+				// boolean compoundobject = OntologyUtilityRoutines.isSubClassOf(elementType,
+				// compoundclass, false);
+				boolean compoundobject = isCompoundObject(elementType);
+				String cardinalityS = map.get("cardinality");
+				boolean singlet = true;
+				int cardinality = 0;
+				if (cardinalityS != null) {
+					cardinality = Integer.parseInt(cardinalityS);
+					if (cardinality > 1) {
+						singlet = false;
+					}
+				} else {
 					singlet = false;
 				}
-			} else {
-				singlet = false;
+				boolean classification = OntologyUtilityRoutines.isSubClassOf(elementType, classificationtype, false);
+
+				CompoundObjectDimensionInformation info = new CompoundObjectDimensionInformation(elementType,
+						cardinalityS, singlet, compoundobject, classification);
+				set.add(info);
 			}
-			boolean classification = OntologyUtilityRoutines.isSubClassOf(elementType, classificationtype, false);
-			
-			CompoundObjectDimensionInformation info = new CompoundObjectDimensionInformation(elementType, 
-					cardinalityS, singlet,compoundobject, classification);
-			set.add(info);
+		} catch (Exception e) {
+			System.out.println("Error parsing compound object: " + e.getMessage());
+			e.printStackTrace();
+			set = null;
+			return false;
 		}
+		return true;
 	}
-	
+
 	private static boolean isCompoundObject(String elementType) {
 		boolean activity = elementType.equals("dataset:ActivityInformationRecord");
-        boolean compoundbaseobject = OntologyUtilityRoutines.isSubClassOf(elementType, compoundclass, false);
-        boolean compoundexpobject = OntologyUtilityRoutines.isSubClassOf(elementType, compoundexpclass, false);
-        boolean compoundthermoobject = OntologyUtilityRoutines.isSubClassOf(elementType, thermoclass, false);
-        return compoundbaseobject || compoundexpobject || compoundthermoobject || activity;
+		boolean compoundbaseobject = OntologyUtilityRoutines.isSubClassOf(elementType, compoundclass, false);
+		boolean compoundexpobject = OntologyUtilityRoutines.isSubClassOf(elementType, compoundexpclass, false);
+		boolean compoundthermoobject = OntologyUtilityRoutines.isSubClassOf(elementType, thermoclass, false);
+		return compoundbaseobject || compoundexpobject || compoundthermoobject || activity;
 	}
 }

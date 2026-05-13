@@ -91,7 +91,7 @@ public enum InterpretTextBlock {
 						JsonObject value = CreateDocumentTemplate
 								.createTemplate("dataset:StructureVibrationalFrequency");
 						catalog.add(ClassLabelConstants.StructureVibrationalFrequency, value);
-						value.add(ClassLabelConstants.ParameterSpecification, spec);
+						value.add(ClassLabelConstants.ParameterSpecificationStructureVibrationFrequency, spec);
 						value.addProperty(ClassLabelConstants.ValueUncertainty, "0.0");
 						value.addProperty(ClassLabelConstants.ValueAsString, frequency);
 
@@ -155,7 +155,8 @@ public enum InterpretTextBlock {
 				metaatom.add(ClassLabelConstants.JThermodynamics2DSpeciesStructure, moleculestruct);
 				metaatom.addProperty(ClassLabelConstants.JThermodynamicsMetaAtomLabel, metaatomname);
 				metaatom.addProperty(ClassLabelConstants.JThermodynamicsMetaAtomType, metaatomtype);
-				//metaatom.addProperty(ClassLabelConstants.JThermodynamicsStructureName, elementname);
+				// metaatom.addProperty(ClassLabelConstants.JThermodynamicsStructureName,
+				// elementname);
 				catalog.addProperty(ClassLabelConstants.JThermodynamics2DSpeciesLabel, elementname);
 				catalog.addProperty(ClassLabelConstants.JThermodynamicsStructureSpecification, nancy);
 				catalog.addProperty(ClassLabelConstants.JThermodynamicsSpeciesSpecificationType,
@@ -241,11 +242,12 @@ public enum InterpretTextBlock {
 						JsonObject value = CreateDocumentTemplate
 								.createTemplate("dataset:JThermodynamicDisassociationEnergy");
 						catalog.add(ClassLabelConstants.JThermodynamicDisassociationEnergy, value);
-						value.add(ClassLabelConstants.ParameterSpecification, spec);
+						value.add(ClassLabelConstants.ParameterSpecificationStructureVibrationFrequency, spec);
 						value.addProperty(ClassLabelConstants.ValueUncertainty, errorD.toString());
 						value.addProperty(ClassLabelConstants.ValueAsString, energyD.toString());
 						catalog.add(ClassLabelConstants.JThermodynamics2DSpeciesStructure, structure);
-						String titleString = structure.get(ClassLabelConstants.JThermodynamicsStructureName).getAsString() + " HDisassociation=" +  energyD.toString();
+						String titleString = structure.get(ClassLabelConstants.JThermodynamicsStructureName)
+								.getAsString() + " HDisassociation=" + energyD.toString();
 						catalog.addProperty(ClassLabelConstants.ShortDescription, titleString);
 						row.addElement("td").addText(position);
 						row.addElement("td").addText(nancy);
@@ -380,133 +382,144 @@ public enum InterpretTextBlock {
 	public abstract JsonObject interpret(JsonObject parsed, Element table, JsonObject info);
 
 	/**
-     * @param event: The transaction (DatasetCollectionObjectSetWriteTransaction)
-     * @param prerequisites The prerequisite is of type 'RepositoryDataPartitionBlock'
-     * @param info The info needed to make the interpretation
-     * @return The response.
-     * 
-     * info:
-     * DatasetSpecificationForCollectionSet
-     * BlockInterpretationMethod
-     * The parameter unit information needed to interpret the block
-     * 
-     * 
-     * This creates the set of catalog objects and then, using ManageDatasetCatalogObjects.writeSetOfCatalogObjects
-     * the catalog objects are written. Those which already exist in the database are deleted
-     * (within the writeSetOfCatalogObjects call) and the new values are written in their place.
-     * This assumes that the catalog name, CatalogObjectKey, represents the specific catalog object.
-     * 
-     */
-    public static JsonObject interpret(JsonObject event, JsonObject prerequisites, JsonObject info) {
-    	JsonObject response = null;
-    	try {
-        String owner = event.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
-        String transactionID = event.get(ClassLabelConstants.TransactionID).getAsString();
-        
-		String maintainer = info.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
-		String uniquelabel = info.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString();
-		String type = info.get(ClassLabelConstants.DatasetObjectType).getAsString();
+	 * @param event:        The transaction
+	 *                      (DatasetCollectionObjectSetWriteTransaction)
+	 * @param prerequisites The prerequisite is of type
+	 *                      'RepositoryDataPartitionBlock'
+	 * @param info          The info needed to make the interpretation
+	 * @return The response.
+	 * 
+	 *         info:
+	 *         DatasetSpecificationForCollectionSet
+	 *         BlockInterpretationMethod
+	 *         The parameter unit information needed to interpret the block
+	 * 
+	 * 
+	 *         This creates the set of catalog objects and then, using
+	 *         ManageDatasetCatalogObjects.writeSetOfCatalogObjects
+	 *         the catalog objects are written. Those which already exist in the
+	 *         database are deleted
+	 *         (within the writeSetOfCatalogObjects call) and the new values are
+	 *         written in their place.
+	 *         This assumes that the catalog name, CatalogObjectKey, represents the
+	 *         specific catalog object.
+	 * 
+	 */
+	public static JsonObject interpret(JsonObject event, JsonObject prerequisites, JsonObject info) {
+		JsonObject response = null;
+		try {
+			String owner = event.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
+			String transactionID = event.get(ClassLabelConstants.TransactionID).getAsString();
 
-        
-        JsonObject transfirestoreID = BaseCatalogData.insertFirestoreAddress(event);
-        Document document = MessageConstructor.startDocument("TransactionInterpretTextBlock");
-        Element body = MessageConstructor.isolateBody(document);
-        int errorcnt = 0;
-        JsonArray catalogset = new JsonArray();
-        JsonArray parsedlineset = TransactionProcess.retrieveSetOfOutputsFromTransaction(prerequisites,
-                ClassLabelConstants.PartiionSetWithinRepositoryFile);
-        body.addElement("div").addText("Processing " + parsedlineset.size() + " blocks");
-        InterpretTextBlock method = getMethod(info);
-        Element table = method.setUpOutputTable(info, body);
-        
-        JsonArray errors = new JsonArray();
-        for (int i = 0; i < parsedlineset.size(); i++) {
-            JsonObject parsed = parsedlineset.get(i).getAsJsonObject();
-            if (checkIfCompatableParse(parsed, info)) {
-                JsonObject catalog = method.interpret(parsed, table, info);
-                if (catalog != null) {
-                	catalog.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
-                	catalog.addProperty(ClassLabelConstants.CatalogObjectUniqueGenericLabel, uniquelabel);
-                	catalog.addProperty(ClassLabelConstants.DatasetObjectType, type);
-                	
-                    catalog.add(ClassLabelConstants.FirestoreCatalogIDForTransaction, transfirestoreID.deepCopy());
-                    BaseCatalogData.insertStandardBaseInformation(catalog, owner, transactionID, "false", true);
-                    CreateLinksInStandardCatalogInformation.transfer(info, catalog);
-                    CreateLinksInStandardCatalogInformation.transfer(parsed, catalog);
-                    CreateLinksInStandardCatalogInformation.linkCatalogObjects(parsed,
-                            "dataset:ConceptLinkRepositoryPartitionToInterpretation", catalog);
-                    catalogset.add(catalog);
-                    //DatasetObjectLabelListManipulation.addToChemConnectDatabaseObjectsForLabel(event, catalog);
-     
-                } else {
-                    errors.add(parsed);
-                    errorcnt++;
-                }
-            } else {
-                String sourceformatinfo = info.get(ClassLabelConstants.FileSourceFormat).getAsString();
-                String sourceformatparsed = parsed.get(ClassLabelConstants.FileSourceFormat).getAsString();
-                body.addElement("div")
-                        .addText("Incompatable parse: Expected: " + sourceformatinfo + " Got: " + sourceformatparsed);
-                errorcnt++;
-            }
-        }
-        String classname = "";
-        if (errorcnt == 0) {
-            if (catalogset.size() > 0) {
-                JsonObject catalog = catalogset.get(0).getAsJsonObject();
-                classname = catalog.get(ClassLabelConstants.DatabaseObjectType).getAsString();
-                event.addProperty(ClassLabelConstants.DatasetCollectionObjectType, classname);
-        		JsonArray set = new JsonArray();
-        		Element writetable = body.addElement("table");
-        		Element hrow = writetable.addElement("tr");
-        		hrow.addElement("th").addText("Name");
-        		hrow.addElement("th").addText("Message");
-        		for (int i = 0; i < catalogset.size(); i++) {
-        			Element row = writetable.addElement("tr");
-        			JsonObject interpreted = catalogset.get(i).getAsJsonObject();
-        			String message = WriteFirestoreCatalogObject.writeCatalogObject(interpreted);
-        			String name = catalog.get(ClassLabelConstants.CatalogObjectKey).getAsString();
-        			row.addElement("td").addText(name);
-        			row.addElement("td").addText(message);
-        			set.add(catalog);
-        		}
-/*
-                JsonObject genericset = DatasetObjectLabelListManipulation.addToChemConnectDatabaseUniqueGenericLabelSet(event,info);
-                if(genericset == null) {
-                	errors.add("ERROR: trouble adding the DatabaseUniqueGenericLabelSet");
-                }
-*/
-        		String message = "Successful: " + catalogset.size() + " blocks of '" + classname + "' objects";
-        		response = StandardResponse.standardServiceResponse(document, message, catalogset);
-               /*
-                response = ManageDatasetCatalogObjects.writeSetOfCatalogObjects(event, classname, datasetspec, catalogset);
-                MessageConstructor.combineBodyIntoDocument(document, response.get(ClassLabelConstants.ServiceResponseMessage).getAsString());
-                String message = "Successful: " + catalogset.size() + " blocks of '" + classname + "' objects";
-                response = DatabaseServicesBase.standardServiceResponse(document, message, catalogset);
-                */
-            } else {
-                String errormessage = "No objects created for interpret";
-                response = StandardResponse.standardErrorResponse(document, errormessage, null);
-            }
-            
-        } else {
-            String errormessage = "Errors found in parsing blocks";
-            Element div = body.addElement("div");
-            Element title = div.addElement("div","Block positions were errors occurred");
-            Element ul = div.addElement("ul");
-            for(int i=0; i<errors.size(); i++) {
-                JsonObject parse = errors.get(i).getAsJsonObject();
-                ul.addElement("li",parse.get(ClassLabelConstants.Position).getAsString());
-            }
-            response = StandardResponse.standardErrorResponse(document, errormessage, errors);
-        }
+			String maintainer = info.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+			String uniquelabel = info.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString();
+			String type = info.get(ClassLabelConstants.DatasetObjectType).getAsString();
 
-        
-    	} catch(Exception ex) {
-    		ex.printStackTrace();
-    	}
-    	return response;
-    }
+			JsonObject transfirestoreID = BaseCatalogData.insertFirestoreAddress(event);
+			Document document = MessageConstructor.startDocument("TransactionInterpretTextBlock");
+			Element body = MessageConstructor.isolateBody(document);
+			int errorcnt = 0;
+			JsonArray catalogset = new JsonArray();
+			JsonArray parsedlineset = TransactionProcess.retrieveSetOfOutputsFromTransaction(prerequisites,
+					ClassLabelConstants.PartiionSetWithinRepositoryFile);
+			body.addElement("div").addText("Processing " + parsedlineset.size() + " blocks");
+			InterpretTextBlock method = getMethod(info);
+			Element table = method.setUpOutputTable(info, body);
+
+			JsonArray errors = new JsonArray();
+			for (int i = 0; i < parsedlineset.size(); i++) {
+				JsonObject parsed = parsedlineset.get(i).getAsJsonObject();
+				if (checkIfCompatableParse(parsed, info)) {
+					JsonObject catalog = method.interpret(parsed, table, info);
+					if (catalog != null) {
+						catalog.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+						catalog.addProperty(ClassLabelConstants.CatalogObjectUniqueGenericLabel, uniquelabel);
+						catalog.addProperty(ClassLabelConstants.DatasetObjectType, type);
+
+						catalog.add(ClassLabelConstants.FirestoreCatalogIDForTransaction, transfirestoreID.deepCopy());
+						BaseCatalogData.insertStandardBaseInformation(catalog, owner, transactionID, "false", true);
+						CreateLinksInStandardCatalogInformation.transfer(info, catalog);
+						CreateLinksInStandardCatalogInformation.transfer(parsed, catalog);
+						CreateLinksInStandardCatalogInformation.linkCatalogObjects(parsed,
+								"dataset:ConceptLinkRepositoryPartitionToInterpretation", catalog);
+						catalogset.add(catalog);
+						// DatasetObjectLabelListManipulation.addToChemConnectDatabaseObjectsForLabel(event,
+						// catalog);
+
+					} else {
+						errors.add(parsed);
+						errorcnt++;
+					}
+				} else {
+					String sourceformatinfo = info.get(ClassLabelConstants.FileSourceFormat).getAsString();
+					String sourceformatparsed = parsed.get(ClassLabelConstants.FileSourceFormat).getAsString();
+					body.addElement("div")
+							.addText("Incompatable parse: Expected: " + sourceformatinfo + " Got: "
+									+ sourceformatparsed);
+					errorcnt++;
+				}
+			}
+			String classname = "";
+			if (errorcnt == 0) {
+				if (catalogset.size() > 0) {
+					JsonObject catalog = catalogset.get(0).getAsJsonObject();
+					classname = catalog.get(ClassLabelConstants.DatabaseObjectType).getAsString();
+					event.addProperty(ClassLabelConstants.DatasetCollectionObjectType, classname);
+					JsonArray set = new JsonArray();
+					Element writetable = body.addElement("table");
+					Element hrow = writetable.addElement("tr");
+					hrow.addElement("th").addText("Name");
+					hrow.addElement("th").addText("Message");
+					for (int i = 0; i < catalogset.size(); i++) {
+						Element row = writetable.addElement("tr");
+						JsonObject interpreted = catalogset.get(i).getAsJsonObject();
+						String message = WriteFirestoreCatalogObject.writeCatalogObject(interpreted);
+						String name = catalog.get(ClassLabelConstants.CatalogObjectKey).getAsString();
+						row.addElement("td").addText(name);
+						row.addElement("td").addText(message);
+						set.add(catalog);
+					}
+					/*
+					 * JsonObject genericset = DatasetObjectLabelListManipulation.
+					 * addToChemConnectDatabaseUniqueGenericLabelSet(event,info);
+					 * if(genericset == null) {
+					 * errors.add("ERROR: trouble adding the DatabaseUniqueGenericLabelSet");
+					 * }
+					 */
+					String message = "Successful: " + catalogset.size() + " blocks of '" + classname + "' objects";
+					response = StandardResponse.standardServiceResponse(document, message, catalogset);
+					/*
+					 * response = ManageDatasetCatalogObjects.writeSetOfCatalogObjects(event,
+					 * classname, datasetspec, catalogset);
+					 * MessageConstructor.combineBodyIntoDocument(document,
+					 * response.get(ClassLabelConstants.ServiceResponseMessage).getAsString());
+					 * String message = "Successful: " + catalogset.size() + " blocks of '" +
+					 * classname + "' objects";
+					 * response = DatabaseServicesBase.standardServiceResponse(document, message,
+					 * catalogset);
+					 */
+				} else {
+					String errormessage = "No objects created for interpret";
+					response = StandardResponse.standardErrorResponse(document, errormessage, null);
+				}
+
+			} else {
+				String errormessage = "Errors found in parsing blocks";
+				Element div = body.addElement("div");
+				Element title = div.addElement("div", "Block positions were errors occurred");
+				Element ul = div.addElement("ul");
+				for (int i = 0; i < errors.size(); i++) {
+					JsonObject parse = errors.get(i).getAsJsonObject();
+					ul.addElement("li", parse.get(ClassLabelConstants.Position).getAsString());
+				}
+				response = StandardResponse.standardErrorResponse(document, errormessage, errors);
+			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return response;
+	}
 
 	private static InterpretTextBlock getMethod(JsonObject info) {
 		String methodS = info.get(ClassLabelConstants.BlockInterpretationMethod).getAsString();
@@ -521,10 +534,5 @@ public enum InterpretTextBlock {
 		String sourceformatparsed = parsed.get(ClassLabelConstants.FileSourceFormat).getAsString();
 		return sourceformatinfo.equals(sourceformatparsed);
 	}
-
-	
-	
-
-
 
 }

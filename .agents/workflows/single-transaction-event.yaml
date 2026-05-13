@@ -113,22 +113,5 @@ main:
             "dataset:activityinfo": ${resolved_activity_info}
         result: transaction_response
 
-    - conclude_workflow:
-        assign:
-          # Attach final result back into session data
-          - session_data["dataset:serviceresponse"]: ${transaction_response.body}
-          - session_data["dataset:sessionstatus"]: "Completed"
-          
-    - save_final_session:
-        call: http.post
-        args:
-          url: "https://dataset-background-services-315685320181.europe-west1.run.app/service"
-          auth:
-            type: OIDC
-          body:
-            uid: ${uid}
-            service: "UpdateSessionDataService"
-            "dataset:sessiondata": ${session_data}
-
     - return_result:
-        return: ${session_data}
+        return: ${transaction_response}

@@ -21,8 +21,6 @@ public class GenerateOrderedListOfPrerequisites {
         Element body = MessageConstructor.isolateBody(document);
 
         JsonObject result = new JsonObject();
-        System.out.println("json: " + JsonObjectUtilities.toString(json));
-        System.out.println("ClassLabelConstants.TransactionID: " + ClassLabelConstants.TransactionID);
         String transactionclass = json.get(ClassLabelConstants.TransactionID).getAsString();
         body.addElement("div").addText("GenerateOrderedListOfPrerequisites for " + transactionclass);
         List<String> prerequisites = generate(transactionclass, body);
