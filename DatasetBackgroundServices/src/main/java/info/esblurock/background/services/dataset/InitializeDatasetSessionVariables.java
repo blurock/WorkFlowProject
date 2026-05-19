@@ -349,9 +349,7 @@ public class InitializeDatasetSessionVariables {
 			unitinfo = JsonObjectUtilities.jsonObjectFromString(UnitParametersString);
 
 			Element body = MessageConstructor.isolateBody(document);
-			body.addElement("div").addText("UID: " + info.get(ClassLabelConstants.UID).getAsString());
-			body.addElement("div").addText("Session ID: " + info.get(ClassLabelConstants.SessionId).getAsString());
-			;
+
 			JsonObject shortdescr = event.get(ClassLabelConstants.ShortTransactionDescription)
 					.getAsJsonObject();
 			String key = "InitializeDatasetSessionVariables-"
@@ -365,19 +363,17 @@ public class InitializeDatasetSessionVariables {
 			shortdescr.addProperty(ClassLabelConstants.ShortDescription, description);
 
 			String fileformat = info.get(ClassLabelConstants.FileSourceFormat).getAsString();
-			body.addElement("div").addText("File Format: " + fileformat);
-			JsonObject minimalSessionData = new JsonObject();
-			minimalSessionData.addProperty(AnnotationObjectsLabels.identifier,
-					ClassLabelConstants.SessionData);
-			minimalSessionData.addProperty(ClassLabelConstants.SessionId,
-					info.get(ClassLabelConstants.SessionId).getAsString());
-			minimalSessionData.addProperty(ClassLabelConstants.UID, info.get(ClassLabelConstants.UID).getAsString());
 			JsonObject formatdata = formatinfo.get(fileformat).getAsJsonObject();
+			body.addElement("div").addText("File Format: " + fileformat);
+
+			JsonObject minimalSessionData = SessionDataManagement.createSessionData(info, body);
+
 			JsonObject sessiondataresponse = SessionDataManagement.readSessionData(minimalSessionData);
 			JsonObject sessiondata = null;
 			if (sessiondataresponse.get(ClassLabelConstants.ServiceProcessSuccessful).getAsBoolean()) {
 				sessiondata = sessiondataresponse.get(ClassLabelConstants.SimpleCatalogObject).getAsJsonObject();
 				if (sessiondata != null) {
+
 					for (Map.Entry<String, JsonElement> entry : formatdata.entrySet()) {
 						sessiondata.add(entry.getKey(), entry.getValue());
 					}

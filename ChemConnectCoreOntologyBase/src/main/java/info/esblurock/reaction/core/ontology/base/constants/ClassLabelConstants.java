@@ -708,4 +708,6 @@ public class ClassLabelConstants {
     public static String JThermodynamicsSpeciesCatalogObject = "dataset:speciescatalogobjectcreation";
     public static String SessionWorkflow = "dataset:sessionworkflow";
     public static String SessionWorkflowReturnLink = "dataset:sessionworkflowreturnlink";
+    public static String TransactionEventDatasetCatalogObject = "dataset:repositorytransactiontype";
+
 }

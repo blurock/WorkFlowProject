@@ -40,6 +40,8 @@ import info.esblurock.reaction.core.ontology.base.utilities.JsonObjectUtilities;
 import info.esblurock.reaction.core.ontology.base.utilities.OntologyUtilityRoutines;
 import info.esblurock.background.services.datasetobjects.CreateA2DSpeciesFromGUI;
 import info.esblurock.background.services.dataset.InitializeDatasetSessionVariables;
+import info.esblurock.background.services.dataset.ReadInDatasetTransaction;
+
 import jnr.ffi.Struct.int16_t;
 
 public enum TransactionProcess {
@@ -701,6 +703,23 @@ public enum TransactionProcess {
 		@Override
 		public JsonObject process(JsonObject event, JsonObject prerequisites, JsonObject info) {
 			return InitializeDatasetSessionVariables.initialize(event, info);
+		}
+
+		@Override
+		String transactionKey(JsonObject catalog) {
+			String name = catalog.get(ClassLabelConstants.SessionId).getAsString();
+			return name;
+		}
+
+		@Override
+		String transactionObjectName() {
+			return "dataset:TransactionEventObject";
+		}
+	},
+	StartReadInDataset {
+		@Override
+		public JsonObject process(JsonObject event, JsonObject prerequisites, JsonObject info) {
+			return ReadInDatasetTransaction.process(info);
 		}
 
 		@Override

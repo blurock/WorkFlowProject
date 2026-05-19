@@ -3,11 +3,25 @@ package info.esblurock.background.services.firestore.session;
 import com.google.gson.JsonObject;
 import info.esblurock.background.services.firestore.ReadFirestoreInformation;
 import info.esblurock.background.services.firestore.WriteFirestoreCatalogObject;
+import info.esblurock.reaction.core.ontology.base.constants.AnnotationObjectsLabels;
 import info.esblurock.reaction.core.ontology.base.constants.ClassLabelConstants;
 import info.esblurock.reaction.core.ontology.base.hierarchy.CreateHierarchyElement;
 import info.esblurock.reaction.core.ontology.base.utilities.JsonObjectUtilities;
+import org.dom4j.Element;
 
 public class SessionDataManagement {
+
+    public static JsonObject createSessionData(JsonObject info, Element body) {
+        body.addElement("div").addText("UID: " + info.get(ClassLabelConstants.UID).getAsString());
+        body.addElement("div").addText("Session ID: " + info.get(ClassLabelConstants.SessionId).getAsString());
+        JsonObject minimalSessionData = new JsonObject();
+        minimalSessionData.addProperty(AnnotationObjectsLabels.identifier,
+                ClassLabelConstants.SessionData);
+        minimalSessionData.addProperty(ClassLabelConstants.SessionId,
+                info.get(ClassLabelConstants.SessionId).getAsString());
+        minimalSessionData.addProperty(ClassLabelConstants.UID, info.get(ClassLabelConstants.UID).getAsString());
+        return minimalSessionData;
+    }
 
     /**
      * Reads the SessionData from Firestore using a minimal SessionData object
