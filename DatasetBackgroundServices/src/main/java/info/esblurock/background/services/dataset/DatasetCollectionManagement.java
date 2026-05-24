@@ -39,7 +39,7 @@ public class DatasetCollectionManagement {
 	 * 
 	 */
 	public static JsonObject getDatasetCollectionSets(JsonObject collectionsetidinfo) {
-		String maintainer = collectionsetidinfo.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+		String maintainer = collectionsetidinfo.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 		String dataset = collectionsetidinfo.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
 		JsonObject datasetcollectionset = null;
 		if (setOfDatasetCollectionSets == null) {
@@ -77,7 +77,7 @@ public class DatasetCollectionManagement {
 	 * @return The FirestoreID using the specification.
 	 */
 	public static JsonObject getDatabaseSetID(JsonObject collectionsetidinfo) {
-		String maintainer = collectionsetidinfo.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+		String maintainer = collectionsetidinfo.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 		String dataset = collectionsetidinfo.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
 		JsonObject idcollection = null;
 		if (maintainer.equals("systemthermodynamics")) {
@@ -86,7 +86,7 @@ public class DatasetCollectionManagement {
 		} else {
 			idcollection = CreateDocumentTemplate.createTemplate("dataset:ChemConnectDatasetCollectionIDsSet");
 		}
-		idcollection.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+		idcollection.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
 		idcollection.addProperty(ClassLabelConstants.DatasetCollectionsSetLabel, dataset);
 		BaseCatalogData.insertFirestoreAddress(idcollection);
 
@@ -105,7 +105,7 @@ public class DatasetCollectionManagement {
 	 *                      memory
 	 */
 	private static void putInLocalVersion(JsonObject collectionset) {
-		String maintainer = collectionset.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+		String maintainer = collectionset.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 		String dataset = collectionset.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
 		if (setOfDatasetCollectionSets == null) {
 			setOfDatasetCollectionSets = new JsonObject();
@@ -134,7 +134,7 @@ public class DatasetCollectionManagement {
 		String transactionID = event.get(ClassLabelConstants.TransactionID).getAsString();
 		JsonObject recordid = info.get(ClassLabelConstants.DatasetCollectionSetRecordIDInfo).getAsJsonObject();
 		JsonObject collectionid = info.get(ClassLabelConstants.DatasetSpecificationForCollectionSet).getAsJsonObject();
-		String maintainer = recordid.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+		String maintainer = recordid.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 		String collectionname = recordid.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
 		String title = info.get(ClassLabelConstants.DescriptionTitle).getAsString();
 		String collectiontype = info.get("dcat:dataset").getAsString();
@@ -145,7 +145,7 @@ public class DatasetCollectionManagement {
 		String descr = info.get(ClassLabelConstants.DescriptionAbstract).getAsString();
 		body.addElement("div").addText("Collection Type      : " + collectiontype);
 		body.addElement("div").addText("Owner                : " + owner);
-		body.addElement("div").addText("Maintainer           : " + maintainer);
+		body.addElement("div").addText("Owner           : " + maintainer);
 		body.addElement("div").addText("Collection Name      : " + collectionname);
 		body.addElement("div")
 				.addText("Default Collection   : " + collectionid.get(ClassLabelConstants.CollectionName));
@@ -176,8 +176,8 @@ public class DatasetCollectionManagement {
 		for (JsonElement element : datasets) {
 			JsonObject dataset = (JsonObject) element;
 			JsonObject id = new JsonObject();
-			String maintainer = idcollection.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
-			id.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+			String maintainer = idcollection.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
+			id.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
 			String status = idcollection.get(ClassLabelConstants.CatalogDataObjectStatus).getAsString();
 			id.addProperty(ClassLabelConstants.CatalogDataObjectStatus, status);
 			String collectionname = idcollection.get(ClassLabelConstants.CollectionName).getAsString();
@@ -252,13 +252,13 @@ public class DatasetCollectionManagement {
 		boolean success = true;
 		String identifier = catalog.get(AnnotationObjectsLabels.identifier).getAsString();
 		if (collectionids.get(identifier) != null) {
-			String maintainer = collectionids.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+			String maintainer = collectionids.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 			String collectioname = collectionids.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
 			JsonObject collectionid = collectionids.get(identifier).getAsJsonObject();
 			String collectionname = collectionid.get(ClassLabelConstants.CollectionName).getAsString();
 			String datasetversion = collectionid.get(ClassLabelConstants.DatasetVersion).getAsString();
 			JsonObject recordid = catalog.get(ClassLabelConstants.DatabaseCollectionOfCurrentClass).getAsJsonObject();
-			recordid.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+			recordid.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
 			recordid.addProperty(ClassLabelConstants.DatasetCollectionsSetLabel, collectioname);
 			recordid.addProperty(ClassLabelConstants.CollectionName, collectionname);
 			recordid.addProperty(ClassLabelConstants.DatasetVersion, datasetversion);

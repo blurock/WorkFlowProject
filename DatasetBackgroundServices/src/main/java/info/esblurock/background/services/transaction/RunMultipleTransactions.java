@@ -42,8 +42,8 @@ public class RunMultipleTransactions {
 				if(content != null) {
 				JsonObject json = JsonObjectUtilities.jsonObjectFromString(content);
 				JsonObject activity = json.get(ClassLabelConstants.ActivityInformationRecord).getAsJsonObject();
-				if (activity.get(ClassLabelConstants.CatalogDataObjectMaintainer) != null) {
-					activity.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, owner);
+				if (activity.get(ClassLabelConstants.CatalogObjectOwner) != null) {
+					activity.addProperty(ClassLabelConstants.CatalogObjectOwner, owner);
 				}
 				
 				response = TransactionProcess.processFromTransaction(json, owner);

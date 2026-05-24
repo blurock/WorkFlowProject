@@ -61,13 +61,6 @@ public class BackgroundTransactionController {
                 }
 
                 if (uid != null && (uidfrombody.equals(uid) || uidfrombody.equals("Guest") || isWorkflowSubject(uid))) {
-                    System.out.println("DEBUG: TransactionProcess.processFromTransaction: " + body);
-                    System.out.println("DEBUG: TransactionProcess.processFromTransaction: " + uid.getClass().getName());
-                    System.out.println(
-                            "DEBUG: TransactionProcess.processFromTransaction: " + uidfrombody.getClass().getName());
-                    System.out.println("DEBUG: TransactionProcess.processFromTransaction: " + uidfrombody);
-                    System.out.println("DEBUG: TransactionProcess.processFromTransaction: " + uid.equals(uidfrombody));
-                    System.out.println("DEBUG: TransactionProcess.processFromTransaction: " + uid.toString());
                     answer = TransactionProcess.processFromTransaction(body, uidfrombody);
                 } else {
                     Document document = MessageConstructor.startDocument("Service fatal error UID mismatch");

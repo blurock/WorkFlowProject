@@ -518,7 +518,7 @@ public enum TransactionProcess {
 			JsonObject structure = catalog.get(ClassLabelConstants.DatasetSpecificationForCollectionSet)
 					.getAsJsonObject();
 
-			String maintainer = structure.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+			String maintainer = structure.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 			String dataset = structure.get(ClassLabelConstants.CollectionName).getAsString();
 			return "Transfer." + maintainer + "." + name + "." + dataset;
 		}
@@ -539,7 +539,7 @@ public enum TransactionProcess {
 
 		@Override
 		String transactionKey(JsonObject catalog) {
-			String maintainer = catalog.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+			String maintainer = catalog.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 			String name = catalog.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
 			return maintainer + "." + name;
 		}
@@ -559,7 +559,7 @@ public enum TransactionProcess {
 
 		@Override
 		String transactionKey(JsonObject catalog) {
-			String maintainer = catalog.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+			String maintainer = catalog.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 			String name = catalog.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
 			return maintainer + "." + name;
 		}
@@ -582,7 +582,7 @@ public enum TransactionProcess {
 
 			JsonObject structure = catalog.get(ClassLabelConstants.DatasetSpecificationforDestinationCollectionSet)
 					.getAsJsonObject();
-			String maintainer = structure.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+			String maintainer = structure.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 			String dataset = structure.get(ClassLabelConstants.CollectionName).getAsString();
 			String version = structure.get(ClassLabelConstants.DatasetVersion).getAsString();
 			return "Delete." + maintainer + "." + dataset + ":" + version;
@@ -606,7 +606,7 @@ public enum TransactionProcess {
 
 			JsonObject structure = catalog.get(ClassLabelConstants.DatasetSpecificationforDestinationCollectionSet)
 					.getAsJsonObject();
-			String maintainer = structure.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+			String maintainer = structure.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 			String dataset = structure.get(ClassLabelConstants.CollectionName).getAsString();
 			String version = structure.get(ClassLabelConstants.DatasetVersion).getAsString();
 			return "Copy." + maintainer + "." + dataset + ":" + version;
@@ -630,7 +630,7 @@ public enum TransactionProcess {
 
 			JsonObject structure = catalog.get(ClassLabelConstants.DatasetSpecificationforDestinationCollectionSet)
 					.getAsJsonObject();
-			String maintainer = structure.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+			String maintainer = structure.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 			String dataset = structure.get(ClassLabelConstants.CollectionName).getAsString();
 			String version = structure.get(ClassLabelConstants.DatasetVersion).getAsString();
 			return "Move." + maintainer + "." + dataset + ":" + version;
@@ -696,7 +696,7 @@ public enum TransactionProcess {
 
 		@Override
 		String transactionObjectName() {
-			return "dataset:TransactionEventObject";
+			return "dataset:DatasetTransactionEventObject";
 		}
 	},
 	InitializeDatasetSessionDataProperties {
@@ -713,12 +713,13 @@ public enum TransactionProcess {
 
 		@Override
 		String transactionObjectName() {
-			return "dataset:TransactionEventObject";
+			return "dataset:DatasetTransactionEventObject";
 		}
 	},
 	StartReadInDataset {
 		@Override
 		public JsonObject process(JsonObject event, JsonObject prerequisites, JsonObject info) {
+
 			return ReadInDatasetTransaction.process(info);
 		}
 
@@ -730,7 +731,7 @@ public enum TransactionProcess {
 
 		@Override
 		String transactionObjectName() {
-			return "dataset:TransactionEventObject";
+			return "dataset:DatasetTransactionEventObject";
 		}
 	};
 
@@ -868,7 +869,6 @@ public enum TransactionProcess {
 
 	public static JsonObject processFromTransaction(String transaction, JsonObject prerequisites,
 			JsonArray prerequisitelist, JsonObject info, String owner) {
-		System.out.println("DEBUG: processFromTransaction started: owner=" + owner + " transaction=" + transaction);
 		Document document = MessageConstructor.startDocument("Transaction: " + transaction);
 		String transname = transaction.substring(8);
 		TransactionProcess process = TransactionProcess.valueOf(transname);
@@ -885,7 +885,6 @@ public enum TransactionProcess {
 		shortdescr.addProperty(ClassLabelConstants.TransactionKey, transactionID);
 		shortdescr.addProperty(ClassLabelConstants.ShortDescription, title);
 		BaseCatalogData.insertFirestoreAddress(event);
-		System.out.println("DEBUG: Transaction: " + JsonObjectUtilities.toString(event));
 		String shorttitleString = "";
 		if (info.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel) != null) {
 			shorttitleString = info.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString() + ":  "
@@ -896,6 +895,7 @@ public enum TransactionProcess {
 
 		event.addProperty(ClassLabelConstants.ShortDescription, shorttitleString);
 		JsonObject response = process.process(event, prerequisites, info);
+
 		if (response.get(ClassLabelConstants.ServiceProcessSuccessful).getAsBoolean()) {
 			if (!response.get(ClassLabelConstants.SimpleCatalogObject).isJsonNull()) {
 				JsonArray arr = response.get(ClassLabelConstants.SimpleCatalogObject).getAsJsonArray();

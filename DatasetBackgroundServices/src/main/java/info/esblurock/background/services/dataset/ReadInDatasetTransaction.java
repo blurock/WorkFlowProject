@@ -6,13 +6,16 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 
 import info.esblurock.background.services.firestore.session.SessionDataManagement;
+import info.esblurock.background.services.transaction.FindTransactions;
 import info.esblurock.reaction.core.MessageConstructor;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonElement;
 
 import info.esblurock.reaction.core.ontology.base.utilities.JsonObjectUtilities;
 import info.esblurock.reaction.core.ontology.base.constants.ClassLabelConstants;
+import info.esblurock.reaction.core.ontology.base.transaction.GenerateOrderedListOfPrerequisites;
 import info.esblurock.reaction.core.StandardResponse;
 
 public class ReadInDatasetTransaction {
@@ -20,31 +23,31 @@ public class ReadInDatasetTransaction {
     private static String transactioninfostring = """
                 {
                 'dataset:TransactionInterpretMolecularThermodynamics':  {
-                    'dataset:catobjtype': 'dataset:JThermodynamics2DMoleculeThermodynamicsDataSet',
+                    'dataset:objectype': 'dataset:JThermodynamics2DMoleculeThermodynamicsDataSet',
                     'dataset:filesourceformat': 'dataset:ThergasSpeciesThermodynamics'
                      },
                 'dataset:TransactionInterpretSubstructureThermodynamics': {
-                    'dataset:catobjtype': 'dataset:JThermodynamics2DSubstructureThermodynamicsDataSet',
+                    'dataset:objectype': 'dataset:JThermodynamics2DSubstructureThermodynamicsDataSet',
                     'dataset:filesourceformat': 'dataset:TherGasSubstructureThermodynamics'
                      },
                 'dataset:TransactionInterpretSymmetryInformation': {
-                    'dataset:catobjtype': 'dataset:JThermodynamicsSymmetryStructureDefinitionDataSet',
+                    'dataset:objectype': 'dataset:JThermodynamicsSymmetryStructureDefinitionDataSet',
                     'dataset:filesourceformat': 'dataset:symmetrystructuredefinition'
                      },
                 'dataset:TransactionInterpretMetaAtom': {
-                    'dataset:catobjtype': 'dataset:JThermodynamicsMetaAtomDefinitionDataSet',
+                    'dataset:objectype': 'dataset:JThermodynamicsMetaAtomDefinitionDataSet',
                     'dataset:filesourceformat': 'dataset:JThermodynamicsMetaAtomFormat'
                      },
                 'dataset:TransactionInterpretDisassociationEnergy': {
-                    'dataset:catobjtype': 'dataset:JThermodynamicsDisassociationEnergyOfStructureDataSet',
+                    'dataset:objectype': 'dataset:JThermodynamicsDisassociationEnergyOfStructureDataSet',
                     'dataset:filesourceformat': 'dataset:JThermodynamicsDisassociationEnergyFormat'
                      },
                 'dataset:TransactionInterpretVibrationFrequency': {
-                    'dataset:catobjtype': 'dataset:JThermodynamicsVibrationFrequencyDataSet',
+                    'dataset:objectype': 'dataset:JThermodynamicsVibrationFrequencyDataSet',
                     'dataset:filesourceformat': 'dataset:JThermodynamicsVibrationalModes'
                      },
                 'dataset:TransactionInterpretBensonRule': {
-                    'dataset:catobjtype': 'dataset:ThermodynamicBensonRuleDefinitionDataSet',
+                    'dataset:objectype': 'dataset:ThermodynamicBensonRuleDefinitionDataSet',
                     'dataset:filesourceformat': 'dataset:TherGasBensonRules'
                      }
 
@@ -88,15 +91,17 @@ public class ReadInDatasetTransaction {
                 sessiondata = sessiondataresponse.get(ClassLabelConstants.SimpleCatalogObject).getAsJsonObject();
                 if (sessiondata != null) {
                     sessiondata.addProperty(ClassLabelConstants.TransactionEventType, transactiontype);
-                    sessiondata.addProperty(ClassLabelConstants.CatalogObjectType,
-                            transactioninfo.get(ClassLabelConstants.CatalogObjectType).getAsString());
+                    sessiondata.addProperty(ClassLabelConstants.DatabaseObjectType,
+                            transactioninfo.get(ClassLabelConstants.DatabaseObjectType).getAsString());
                     sessiondata.addProperty(ClassLabelConstants.FileSourceFormat,
                             transactioninfo.get(ClassLabelConstants.FileSourceFormat).getAsString());
                     sessiondata.addProperty(ClassLabelConstants.CatalogObjectUniqueGenericLabel,
                             info.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString());
-
+                    sessiondata.addProperty(ClassLabelConstants.CatalogObjectOwner,
+                            info.get(ClassLabelConstants.UID).getAsString());
                     sessiondata.addProperty(ClassLabelConstants.DescriptionTitle,
                             info.get(ClassLabelConstants.DescriptionTitle).getAsString());
+                    addPrerequisitesToSession(sessiondata, transactiontype);
                     JsonObject updatebody = new JsonObject();
                     updatebody.add(ClassLabelConstants.SessionData, sessiondata);
                     String writeresponse = SessionDataManagement.updateSessionData(updatebody);
@@ -126,5 +131,27 @@ public class ReadInDatasetTransaction {
             response = StandardResponse.standardServiceResponse(document, "Error: " + e.getMessage(), null);
         }
         return response;
+    }
+
+    private static void addPrerequisitesToSession(JsonObject sessiondata, String transactionid) {
+        JsonObject json = new JsonObject();
+        json.addProperty(ClassLabelConstants.TransactionID, transactionid);
+        JsonObject response = GenerateOrderedListOfPrerequisites.generate(json);
+        if (response.get(ClassLabelConstants.ServiceProcessSuccessful).getAsBoolean()) {
+            JsonArray filtered = new JsonArray();
+            JsonArray arr = response.get(ClassLabelConstants.SimpleCatalogObject).getAsJsonArray();
+            JsonObject dataobject = arr.get(0).getAsJsonObject();
+            JsonArray requiredtransactions = dataobject.get(ClassLabelConstants.RequiredTransactionID).getAsJsonArray();
+            requiredtransactions.add(transactionid);
+            sessiondata.add(ClassLabelConstants.RequiredTransactionID, requiredtransactions);
+            for (JsonElement e : requiredtransactions) {
+                String txid = e.getAsString();
+                JsonObject transaction = FindTransactions.findDatasetTransaction(sessiondata, txid, true);
+                if (transaction != null) {
+                    filtered.add(txid);
+                }
+            }
+            sessiondata.add(ClassLabelConstants.RequiredTransactionID, filtered);
+        }
     }
 }

@@ -27,10 +27,10 @@ public class FindDisassociationEnergyCollection {
 		JsonObject json = new JsonObject();
         JsonObject recordid = new JsonObject();
         json.add(ClassLabelConstants.DatasetCollectionSetRecordIDInfo, recordid);
-        recordid.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+        recordid.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
         recordid.addProperty(ClassLabelConstants.DatasetCollectionsSetLabel, dataset);
 		/*
-		json.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+		json.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
 		json.addProperty(ClassLabelConstants.DatasetCollectionsSetLabel, dataset);
 		*/
 		json.addProperty(ClassLabelConstants.DatasetCollectionObjectType, classname);
@@ -51,7 +51,7 @@ public class FindDisassociationEnergyCollection {
 		JsonObject json = new JsonObject();
 		JsonObject recordid = new JsonObject();
 		json.add(ClassLabelConstants.DatasetCollectionSetRecordIDInfo, recordid);
-		recordid.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+		recordid.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
 		recordid.addProperty(ClassLabelConstants.DatasetCollectionsSetLabel, dataset);
 		json.addProperty(ClassLabelConstants.DatasetCollectionObjectType, classname);
 		json.addProperty(DatabaseServicesBase.service, service);

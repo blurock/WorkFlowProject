@@ -54,9 +54,9 @@ export class WorkflowTaskComponent implements OnInit {
 
   get exportJsonContent(): any {
     if (this.exportAsTransaction) {
-      const transactionName = this.sessionData && this.sessionData['dataset:transaction'] 
-                              ? this.sessionData['dataset:transaction'] 
-                              : 'UnknownTransaction';
+      const transactionName = this.sessionData && this.sessionData['dataset:transaction']
+        ? this.sessionData['dataset:transaction']
+        : 'UnknownTransaction';
       return {
         "prov:activity": transactionName,
         "dataset:transreqobj": {},
@@ -79,13 +79,13 @@ export class WorkflowTaskComponent implements OnInit {
     const dataStr = this.exportJsonString;
     const blob = new Blob([dataStr], { type: 'application/json' });
     const url = window.URL.createObjectURL(blob);
-    
+
     const a = document.createElement('a');
     a.href = url;
     a.download = this.exportAsTransaction ? 'transaction_data.json' : 'activity_data.json';
     document.body.appendChild(a);
     a.click();
-    
+
     window.URL.revokeObjectURL(url);
     document.body.removeChild(a);
   }
@@ -190,7 +190,7 @@ export class WorkflowTaskComponent implements OnInit {
 
     // The activity data must map to an ontology class name so the dynamic primitive knows how to render it.
     // E.g., 'dataset:ActivityRepositoryInitialReadLocalFile'
-    const catalogType = this.activityData[this.ontology.CatalogObjectType];
+    const catalogType = this.activityData[this.ontology.DatabaseObjectType];
     console.log("Catalog Type: " + catalogType);
     console.log("ActivityData: " + JSON.stringify(this.activityData));
     if (catalogType) {
@@ -202,9 +202,9 @@ export class WorkflowTaskComponent implements OnInit {
           this.annotations = struct["annotations"];
           this.classannotations = this.annotations ? this.annotations[catalogType] : undefined;
           this.explanation = this.classannotations ? this.classannotations[this.ontology.rdfscomment] : '';
-          this.label = this.classannotations && this.classannotations[this.ontology.rdfslabel] 
-                        ? this.classannotations[this.ontology.rdfslabel] 
-                        : (catalogType.split(':').pop() || catalogType);
+          this.label = this.classannotations && this.classannotations[this.ontology.rdfslabel]
+            ? this.classannotations[this.ontology.rdfslabel]
+            : (catalogType.split(':').pop() || catalogType);
           this.loading = false;
           console.log(JSON.stringify(this.activityTemplateStruct));
           this.cdr.detectChanges();
@@ -248,7 +248,7 @@ export class WorkflowTaskComponent implements OnInit {
     if (struct.isArray) {
       if (!Array.isArray(data)) return false;
       if (data.length === 0) return true; // Empty array is considered filled
-      
+
       // If it's an array of objects
       if (struct.isObject && struct.properties) {
         return data.every(item => this.checkStructureAssigned({ ...struct, isArray: false }, item));
@@ -257,7 +257,7 @@ export class WorkflowTaskComponent implements OnInit {
         return data.every(item => this.checkValueAssigned(item));
       }
     }
-    
+
     if (struct.isObject && struct.properties) {
       if (typeof data !== 'object' || data === null) return false;
       const keys = Object.keys(struct.properties);
@@ -294,7 +294,7 @@ export class WorkflowTaskComponent implements OnInit {
 
     // 1. Sync updated activity data back into session data
     this.sessionData[this.ontology.ActivityInfo] = this.activityData;
-    
+
     // Clear previous service response to ensure we wait for the new one
     delete this.sessionData[this.ontology.ServiceResponseInformation];
 
@@ -333,7 +333,7 @@ export class WorkflowTaskComponent implements OnInit {
         summary: 'Form submitted by user',
         callbackUrl: callbackUrl
       };
-      
+
       let workflowName = this.sessionData[this.ontology.SessionWorkflow];
       if (!workflowName) {
         workflowName = 'single-transaction-event'; // Default for UI-driven tasks
@@ -352,30 +352,30 @@ export class WorkflowTaskComponent implements OnInit {
           console.log('Orchestrator successfully resumed workflow.', response);
           if (response && response.status === 'Completed') {
             try {
-               let resultObj = response.result;
-               try { if (typeof resultObj === 'string') resultObj = JSON.parse(resultObj); } catch(e){}
-               
-               let body = resultObj.body || resultObj;
-               try { if (typeof body === 'string') body = JSON.parse(body); } catch(e){}
+              let resultObj = response.result;
+              try { if (typeof resultObj === 'string') resultObj = JSON.parse(resultObj); } catch (e) { }
 
-               const isSuccess = body[this.ontology.successful] === 'true' || body[this.ontology.successful] === true;
-               const msg = body[this.ontology.message] || JSON.stringify(body, null, 2);
-               
-               if (isSuccess) {
-                   this.successMessage = msg;
-                   this.loading = false;
-                   this.cdr.detectChanges();
-               } else {
-                   this.errorMessage = msg;
-                   delete this.sessionData[this.ontology.SessionWorkflowReturnLink];
-                   this.loading = false;
-                   this.cdr.detectChanges();
-                   return;
-               }
+              let body = resultObj.body || resultObj;
+              try { if (typeof body === 'string') body = JSON.parse(body); } catch (e) { }
+
+              const isSuccess = body[this.ontology.successful] === 'true' || body[this.ontology.successful] === true;
+              const msg = body[this.ontology.message] || JSON.stringify(body, null, 2);
+
+              if (isSuccess) {
+                this.successMessage = msg;
+                this.loading = false;
+                this.cdr.detectChanges();
+              } else {
+                this.errorMessage = msg;
+                delete this.sessionData[this.ontology.SessionWorkflowReturnLink];
+                this.loading = false;
+                this.cdr.detectChanges();
+                return;
+              }
             } catch (e) {
-               this.successMessage = 'Workflow completed successfully.';
-               this.loading = false;
-               this.cdr.detectChanges();
+              this.successMessage = 'Workflow completed successfully.';
+              this.loading = false;
+              this.cdr.detectChanges();
             }
           } else if (response && response.status === 'ResumedButTimeoutWaiting') {
             this.showError('Workflow took too long to complete. Please check the status later.');
@@ -410,7 +410,7 @@ export class WorkflowTaskComponent implements OnInit {
 
       // Clear the dead callback link. We want the new workflow to generate a new one.
       delete this.sessionData[this.ontology.SessionWorkflowReturnLink];
-      
+
       // Preserve the user's currently entered activity data by saving it back into the session data!
       this.sessionData[this.ontology.ActivityInfo] = this.activityData;
       this.sessionData[this.ontology.SessionStatus] = 'Initial';
@@ -444,13 +444,13 @@ export class WorkflowTaskComponent implements OnInit {
       ).subscribe({
         next: (response) => {
           console.log('Workflow restarted successfully!', response);
-          
+
           // Poll to reload the session data once the new callback is generated
           this.currentRetry = 0;
           this.loading = true;
           this.explanation = 'Restarting workflow and waiting for callback URL...';
           this.cdr.detectChanges();
-          
+
           setTimeout(() => {
             this.fetchSessionData(this.currentUid, this.currentSessionId, token);
           }, 3000);

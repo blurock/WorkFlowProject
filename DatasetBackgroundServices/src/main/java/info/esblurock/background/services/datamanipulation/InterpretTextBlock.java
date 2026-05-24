@@ -411,7 +411,7 @@ public enum InterpretTextBlock {
 			String owner = event.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 			String transactionID = event.get(ClassLabelConstants.TransactionID).getAsString();
 
-			String maintainer = info.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+			String maintainer = info.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 			String uniquelabel = info.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString();
 			String type = info.get(ClassLabelConstants.DatasetObjectType).getAsString();
 
@@ -432,7 +432,7 @@ public enum InterpretTextBlock {
 				if (checkIfCompatableParse(parsed, info)) {
 					JsonObject catalog = method.interpret(parsed, table, info);
 					if (catalog != null) {
-						catalog.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+						catalog.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
 						catalog.addProperty(ClassLabelConstants.CatalogObjectUniqueGenericLabel, uniquelabel);
 						catalog.addProperty(ClassLabelConstants.DatasetObjectType, type);
 

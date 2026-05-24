@@ -3,16 +3,20 @@
     <h2>Loading Task Data...</h2>
   </div>
 
-  <div *ngIf="errorMessage" class="error-banner" style="margin: 20px; padding: 20px; border: 2px solid #e74c3c; border-radius: 8px; background-color: #fdedec;">
+  <div *ngIf="errorMessage" class="error-banner"
+    style="margin: 20px; padding: 20px; border: 2px solid #e74c3c; border-radius: 8px; background-color: #fdedec;">
     <h2 style="color: #c0392b; margin-top: 0;">Workflow Error</h2>
-    <div style="margin-bottom: 20px; color: #c0392b; max-height: 400px; overflow-y: auto;" [innerHTML]="errorMessage"></div>
+    <div style="margin-bottom: 20px; color: #c0392b; max-height: 400px; overflow-y: auto;" [innerHTML]="errorMessage">
+    </div>
     <div style="display: flex; gap: 10px;">
-        <button class="btn btn-primary" style="background-color: #e74c3c; border-color: #c0392b;" (click)="restartWorkflow()">Restart Workflow with Current Data</button>
-        <button class="btn btn-secondary" (click)="returnToTransactions()">Return to Transactions</button>
+      <button class="btn btn-primary" style="background-color: #e74c3c; border-color: #c0392b;"
+        (click)="restartWorkflow()">Restart Workflow with Current Data</button>
+      <button class="btn btn-secondary" (click)="returnToTransactions()">Return to Transactions</button>
     </div>
   </div>
 
-  <div *ngIf="successMessage" class="success-banner" style="margin: 20px; padding: 20px; border: 2px solid #2ecc71; border-radius: 8px; background-color: #f0fdf4;">
+  <div *ngIf="successMessage" class="success-banner"
+    style="margin: 20px; padding: 20px; border: 2px solid #2ecc71; border-radius: 8px; background-color: #f0fdf4;">
     <h2 style="color: #27ae60; margin-top: 0;">Workflow Completed Successfully</h2>
     <div style="margin-bottom: 20px;" [innerHTML]="successMessage"></div>
     <button class="btn btn-primary" (click)="returnToTransactions()">Return to Transactions</button>
@@ -46,21 +50,22 @@
           Download JSON
         </button>
       </div>
-      
+
       <div class="json-preview-container" *ngIf="showJsonPreview">
         <pre>{{ exportJsonString }}</pre>
       </div>
     </div>
 
     <div class="activity-form-container">
-      <ng-container [ngSwitch]="activityData[ontology.CatalogObjectType]">
+      <ng-container [ngSwitch]="activityData[ontology.DatabaseObjectType]">
 
         <!-- Generic Fallback or specific mappings -->
         <ng-container *ngSwitchDefault>
           <div *ngIf="activityTemplateStruct" class="activity-form-header">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
               <h3 class="activity-name" style="margin: 0;">{{ label }}</h3>
-              <button class="btn btn-secondary" style="padding: 4px 12px; font-size: 12px;" (click)="toggleVisibility()">
+              <button class="btn btn-secondary" style="padding: 4px 12px; font-size: 12px;"
+                (click)="toggleVisibility()">
                 {{ visibilityService.showAllFields ? 'Hide Filled Fields' : 'Show All Fields' }}
               </button>
             </div>

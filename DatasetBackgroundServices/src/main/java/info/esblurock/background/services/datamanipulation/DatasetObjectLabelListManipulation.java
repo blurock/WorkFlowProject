@@ -25,10 +25,10 @@ public class DatasetObjectLabelListManipulation extends DeleteCatalogDataObject 
 		String owner = event.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 		String transactionID = event.get(ClassLabelConstants.TransactionID).getAsString();
 		JsonObject datasetid = info.get(ClassLabelConstants.SpecificationForDataset).getAsJsonObject();		
-		String maintainer = datasetid.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+		String maintainer = datasetid.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 		String objtype = datasetid.get(ClassLabelConstants.DatasetObjectType).getAsString();
 		JsonObject genericset = CreateDocumentTemplate.createTemplate("dataset:ChemConnectDatabaseUniqueGenericLabelSet");
-		genericset.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+		genericset.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
 		String objtypeshort = objtype.substring(8);
 		genericset.addProperty(ClassLabelConstants.DatasetObjectType,objtype );
 		genericset.addProperty(ClassLabelConstants.DatasetObjectTypeName,objtypeshort );
@@ -97,12 +97,12 @@ public class DatasetObjectLabelListManipulation extends DeleteCatalogDataObject 
 	}
 
 	public static JsonObject createChemConnectDatabaseObjectsForLabel(String owner, String transactionID, String objkey, JsonObject datasetid) {
-		String maintainer = datasetid.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+		String maintainer = datasetid.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 		String objtype = datasetid.get(ClassLabelConstants.DatasetObjectType).getAsString();
 		JsonObject genericset = BaseCatalogData.createStandardDatabaseObject("dataset:ChemConnectDatabaseObjectsForLabel", 
 				owner, transactionID, "false");
 
-		genericset.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+		genericset.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
 		genericset.addProperty(ClassLabelConstants.DatasetObjectType,objtype );
 		
 		String uniquelabelString = datasetid.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString();

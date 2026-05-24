@@ -157,7 +157,7 @@ public class ComputeThermodynamicsHRadicalCorrections {
         JsonObject response = null;
 
         JsonObject colrecordid = info.get(ClassLabelConstants.DatabaseCollectionRecordID).getAsJsonObject();
-        String maintainer = colrecordid.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+        String maintainer = colrecordid.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
         String dataset = colrecordid.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
 
         JsonObject bensonresponse = ComputeBensonRulesForMolecule.compute(maintainer, dataset, RHmolecule, info);
@@ -179,7 +179,7 @@ public class ComputeThermodynamicsHRadicalCorrections {
     public static JsonObject symmetry(IAtomContainer moleculetocompute, Document document, JsonObject info) {
 
         JsonObject colrecordid = info.get(ClassLabelConstants.DatabaseCollectionRecordID).getAsJsonObject();
-        String maintainer = colrecordid.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+        String maintainer = colrecordid.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
         String dataset = colrecordid.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
         Element body = MessageConstructor.isolateBody(document);
 

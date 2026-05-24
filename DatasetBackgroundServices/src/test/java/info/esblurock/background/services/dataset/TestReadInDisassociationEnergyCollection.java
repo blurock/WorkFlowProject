@@ -21,7 +21,7 @@ public class TestReadInDisassociationEnergyCollection {
 		String classname = "dataset:JThermodynamicsDisassociationEnergyOfStructure";
         JsonObject recordid = new JsonObject();
         json.add(ClassLabelConstants.DatasetCollectionSetRecordIDInfo, recordid);
-        recordid.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+        recordid.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
         recordid.addProperty(ClassLabelConstants.DatasetCollectionsSetLabel, dataset);
 		json.addProperty(ClassLabelConstants.DatasetCollectionObjectType, classname);
 		json.addProperty(DatabaseServicesBase.service, service);

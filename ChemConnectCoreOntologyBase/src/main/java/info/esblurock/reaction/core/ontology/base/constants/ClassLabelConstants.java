@@ -550,8 +550,8 @@ public class ClassLabelConstants {
     public static String EntropyReference = "dataset:entropyref";
     public static String CatalogBaseName = "skos:hasTopConcept";
     public static String CatalogDataObjectMaintainer = "dataset:catalogobjectmaintainer";
-    public static String SourceCollectionMaintainer = "dataset:sourcecollectionmaintainer";
-    public static String DestinationCollectionMaintainer = "dataset:destinationcollectionmaintainer";
+    public static String SourceCollectionOwner = "dataset:sourcecollectionowner";
+    public static String DestinationCollectionOwner = "dataset:destinationcollectionowner";
     public static String CatalogSystemDatasetMaintainer = "dataset:systemdatasetmaintainer";
     public static String BensonRuleDatabaseReference = "dataset:bensonruleref";
     public static String TherGasGroupNumber = "dataset:grpnumber";

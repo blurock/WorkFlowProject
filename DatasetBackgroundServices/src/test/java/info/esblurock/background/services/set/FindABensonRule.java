@@ -31,7 +31,7 @@ public class FindABensonRule {
 		String service = "ReadInDatasetWithDatasetCollectionLabel";
 		JsonObject json = new JsonObject();
 		JsonObject recordid = CreateDocumentTemplate.createTemplate("dataset:DatasetCollectionSetRecordIDInfo", false);
-		recordid.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+		recordid.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
 		recordid.addProperty(ClassLabelConstants.DatasetCollectionsSetLabel, dataset);
 		json.add(ClassLabelConstants.DatasetCollectionSetRecordIDInfo, recordid);
 		json.addProperty(ClassLabelConstants.DatasetCollectionObjectType, classname);

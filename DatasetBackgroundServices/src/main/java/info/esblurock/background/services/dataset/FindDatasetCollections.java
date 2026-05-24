@@ -41,7 +41,7 @@ public class FindDatasetCollections {
             String version) {
         JsonObject empty = CreateDocumentTemplate.createTemplate(classname);
         JsonObject recordid = empty.get(ClassLabelConstants.DatasetSpecificationForCollectionSet).getAsJsonObject();
-        recordid.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+        recordid.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
         recordid.addProperty(ClassLabelConstants.DatasetVersion, version);
         recordid.addProperty(ClassLabelConstants.CollectionName, collectionset);
         recordid.addProperty(ClassLabelConstants.CatalogDataObjectStatus, "CatalogObjectStatusCurrent");
@@ -68,8 +68,8 @@ public class FindDatasetCollections {
 
     public static JsonObject findAllDatasetCollectionSets(JsonObject json) {
         JsonObject response = null;
-        if (json.get(ClassLabelConstants.CatalogDataObjectMaintainer) != null) {
-            String maintainer = json.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+        if (json.get(ClassLabelConstants.CatalogObjectOwner) != null) {
+            String maintainer = json.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
             Document docmessage = MessageConstructor
                     .startDocument("Find All Dataset Collection Sets for " + maintainer + " and system");
             Element body = MessageConstructor.isolateBody(docmessage);

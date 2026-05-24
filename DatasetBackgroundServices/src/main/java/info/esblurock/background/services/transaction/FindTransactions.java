@@ -333,7 +333,7 @@ public class FindTransactions {
 	 * 
 	 *         info has the following fields:
 	 *         - CatalogObjectUniqueGenericLabel
-	 *         - CatalogDataObjectMaintainer
+	 *         - CatalogObjectOwner
 	 *         - DatasetObjectType
 	 * 
 	 * 
@@ -437,14 +437,14 @@ public class FindTransactions {
 		Document document = MessageConstructor.startDocument("findCollectionNameForMaintainer");
 		Element body = MessageConstructor.isolateBody(document);
 		JsonObject response = null;
-		String maintainer = info.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+		String maintainer = info.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 		String eventtype = null;
 		if (info.get(ClassLabelConstants.TransactionEventType) != null) {
 			eventtype = info.get(ClassLabelConstants.TransactionEventType).getAsString();
 		}
 		String catalogtype = null;
-		if (info.get(ClassLabelConstants.CatalogObjectType) != null) {
-			catalogtype = info.get(ClassLabelConstants.CatalogObjectType).getAsString();
+		if (info.get(ClassLabelConstants.DatabaseObjectType) != null) {
+			catalogtype = info.get(ClassLabelConstants.DatabaseObjectType).getAsString();
 		}
 		JsonObject firestoreid = CreateDocumentTemplate.createTemplate("dataset:FirestoreCatalogID");
 		JsonArray pairs = new JsonArray();
@@ -456,7 +456,7 @@ public class FindTransactions {
 	}
 
 	public static JsonObject readCatalogTransactionObjectHierarchy(JsonObject info) {
-		String maintainer = info.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+		String maintainer = info.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 		Document docmessage = MessageConstructor.startDocument("readFirestoreCollection");
 		Element body = MessageConstructor.isolateBody(docmessage);
 		JsonObject response = new JsonObject();

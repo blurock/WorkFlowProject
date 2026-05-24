@@ -48,7 +48,7 @@ public class FindJThermodynamics2DSubstructureThermodynamics {
         String service = "ReadInDatasetWithDatasetCollectionLabel";
         JsonObject json = new JsonObject();
         JsonObject recordid = CreateDocumentTemplate.createTemplate("dataset:DatasetCollectionSetRecordIDInfo", false);
-        recordid.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+        recordid.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
         recordid.addProperty(ClassLabelConstants.DatasetCollectionsSetLabel, dataset);
         if (setofproperties != null) {
             json.add(ClassLabelConstants.SetOfPropertyValueQueryPairs, setofproperties);

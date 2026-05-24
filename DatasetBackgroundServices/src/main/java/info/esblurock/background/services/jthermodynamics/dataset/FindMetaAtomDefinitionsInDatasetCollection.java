@@ -37,10 +37,10 @@ public class FindMetaAtomDefinitionsInDatasetCollection {
         IAtomContainer molecule = DatasetMoleculeUtilities.convertLinearFormToMolecule(info);
         if (info.get(ClassLabelConstants.DatabaseCollectionRecordID) != null) {
             JsonObject colrecordid = info.get(ClassLabelConstants.DatabaseCollectionRecordID).getAsJsonObject();
-            String maintainer = colrecordid.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+            String maintainer = colrecordid.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
             String dataset = colrecordid.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
             String metaatomtype = "LinearStructure";
-            body.addElement("div").addText("Maintainer      : " + maintainer);
+            body.addElement("div").addText("Owner      : " + maintainer);
             body.addElement("div").addText("dataset         : " + dataset);
             body.addElement("div").addText("Meta Atom type  : " + metaatomtype);
 
@@ -79,10 +79,10 @@ public class FindMetaAtomDefinitionsInDatasetCollection {
         IAtomContainer molecule = DatasetMoleculeUtilities.convertLinearFormToMolecule(info);
         if (info.get(ClassLabelConstants.DatabaseCollectionRecordID) != null) {
             JsonObject colrecordid = info.get(ClassLabelConstants.DatabaseCollectionRecordID).getAsJsonObject();
-            String maintainer = colrecordid.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+            String maintainer = colrecordid.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
             String dataset = colrecordid.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
             String metaatomtype = info.get(ClassLabelConstants.JThermodynamicsMetaAtomType).getAsString();
-            body.addElement("div").addText("Maintainer      : " + maintainer);
+            body.addElement("div").addText("Owner      : " + maintainer);
             body.addElement("div").addText("dataset         : " + dataset);
             body.addElement("div").addText("Meta Atom type  : " + metaatomtype);
             StructureAsCML cmlstruct = null;
@@ -131,7 +131,7 @@ public class FindMetaAtomDefinitionsInDatasetCollection {
             }
         } else {
             System.out.println("No meta atoms for '" + metaatomtype + "' Substitions found");
-            //substitute = null;
+            // substitute = null;
         }
         return substitute;
     }
@@ -152,7 +152,7 @@ public class FindMetaAtomDefinitionsInDatasetCollection {
         String service = "ReadInDatasetWithDatasetCollectionLabel";
         JsonObject json = new JsonObject();
         JsonObject recordid = CreateDocumentTemplate.createTemplate("dataset:DatasetCollectionSetRecordIDInfo", false);
-        recordid.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+        recordid.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
         recordid.addProperty(ClassLabelConstants.DatasetCollectionsSetLabel, dataset);
         if (setofproperties != null) {
             json.add(ClassLabelConstants.SetOfPropertyValueQueryPairs, setofproperties);

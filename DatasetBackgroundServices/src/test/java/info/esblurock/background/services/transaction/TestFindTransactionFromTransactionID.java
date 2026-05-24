@@ -22,7 +22,7 @@ public class TestFindTransactionFromTransactionID {
 		String typeString = "dataset:JThermodynamicsSymmetryStructureDefinitionDataSet";
 		infoObject.addProperty(ClassLabelConstants.TransactionID, transactionID);
 		infoObject.addProperty(ClassLabelConstants.TransactionEventType, "dataset:InitialReadInOfRepositoryFile");
-		infoObject.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, owner);
+		infoObject.addProperty(ClassLabelConstants.CatalogObjectOwner, owner);
 		infoObject.addProperty(ClassLabelConstants.CatalogObjectUniqueGenericLabel, labelString);
 		infoObject.addProperty(ClassLabelConstants.DatasetObjectType, typeString);
 		try {

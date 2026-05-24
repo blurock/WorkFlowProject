@@ -25,7 +25,7 @@ public class ReadInSpecificDatasetCatalogObject {
         jsontransspec.addProperty(ClassLabelConstants.CollectionName,"Standard");
         jsontransspec.addProperty(ClassLabelConstants.DatasetVersion,"1.0");
         jsontransspec.addProperty(ClassLabelConstants.CatalogObjectUniqueGenericLabel,"tableA1CarbonBensonRules");
-        jsontransspec.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer,"Administrator");
+        jsontransspec.addProperty(ClassLabelConstants.CatalogObjectOwner,"Administrator");
         
         System.out.println(JsonObjectUtilities.toString(json));
         JsonObject response = DatabaseServicesBase.process(json);

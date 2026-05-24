@@ -1,6 +1,5 @@
 package info.esblurock.reaction.core.ontology.base.hierarchy;
 
-
 import org.junit.Test;
 
 import com.google.gson.JsonObject;
@@ -20,7 +19,7 @@ public class TestDatasetFirestoreID {
 		String transactionID = "xxxxxx";
 		String publicB = "true";
 		JsonObject json = BaseCatalogData.createStandardDatabaseObject(classname, owner, transactionID, publicB);
-		
+
 		String recordid = ClassLabelConstants.DatasetSpecificationForCollectionSet;
 		System.out.println("insertStandardBaseInformation: " + recordid);
 		System.out.println("insertStandardBaseInformation: " + JsonObjectUtilities.toString(json));
@@ -28,15 +27,12 @@ public class TestDatasetFirestoreID {
 		rec.addProperty(ClassLabelConstants.CatalogDataObjectStatus, "DatasetStatus");
 		rec.addProperty(ClassLabelConstants.DatasetVersion, "version");
 		rec.addProperty(ClassLabelConstants.CatalogObjectUniqueGenericLabel, "Unique");
-		rec.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, "Maintainer");
-		
-		
+		rec.addProperty(ClassLabelConstants.CatalogObjectOwner, "Owner");
+
 		JsonObject address = CreateHierarchyElement.searchForCatalogObjectInHierarchyTemplate(json);
-		
-		
+
 		System.out.println(JsonObjectUtilities.toString(address));
-		
-		
+
 	}
 
 }

@@ -21,7 +21,7 @@ public class TestCollectionIDManagement {
 		String datasetversion = "20200919";
 		String classname = "dataset:JThermodynamicsMetaAtomDefinition";
 		JsonObject catrecordid = CreateDocumentTemplate.createTemplate("dataset:DatasetforTypeInCollectionSet");
-		catrecordid.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+		catrecordid.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
 		catrecordid.addProperty(ClassLabelConstants.CollectionName, datasetname);
 		catrecordid.addProperty(ClassLabelConstants.DatasetVersion, datasetversion);
 		catrecordid.addProperty(ClassLabelConstants.CatalogDataObjectStatus, "CatalogObjectStatusCurrent");

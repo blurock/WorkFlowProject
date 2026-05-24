@@ -33,7 +33,7 @@ public enum ServiceCollectionComputeThermodynamics {
             if (molecule != null) {
                 if (info.get(ClassLabelConstants.DatabaseCollectionRecordID) != null) {
                     JsonObject colrecordid = info.get(ClassLabelConstants.DatabaseCollectionRecordID).getAsJsonObject();
-                    String maintainer = colrecordid.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+                    String maintainer = colrecordid.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
                     String dataset = colrecordid.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
                     response = ComputeBensonRulesForMolecule.compute(maintainer, dataset, molecule, info);
                 } else {
@@ -59,7 +59,7 @@ public enum ServiceCollectionComputeThermodynamics {
             if (molecule != null) {
                 if (info.get(ClassLabelConstants.DatabaseCollectionRecordID) != null) {
                     JsonObject colrecordid = info.get(ClassLabelConstants.DatabaseCollectionRecordID).getAsJsonObject();
-                    String maintainer = colrecordid.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+                    String maintainer = colrecordid.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
                     String dataset = colrecordid.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
                     response = ComputeThermodynamicsSymmetryContribution.computeExternalSymmetry(maintainer, dataset,
                             molecule, info);
@@ -86,7 +86,7 @@ public enum ServiceCollectionComputeThermodynamics {
             if (molecule != null) {
                 if (info.get(ClassLabelConstants.DatabaseCollectionRecordID) != null) {
                     JsonObject colrecordid = info.get(ClassLabelConstants.DatabaseCollectionRecordID).getAsJsonObject();
-                    String maintainer = colrecordid.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+                    String maintainer = colrecordid.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
                     String dataset = colrecordid.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
                     response = ComputeThermodynamicsSymmetryContribution.computeFromSymmetryObject(maintainer, dataset,
                             molecule, info);
@@ -113,7 +113,7 @@ public enum ServiceCollectionComputeThermodynamics {
             if (molecule != null) {
                 if (info.get(ClassLabelConstants.DatabaseCollectionRecordID) != null) {
                     JsonObject colrecordid = info.get(ClassLabelConstants.DatabaseCollectionRecordID).getAsJsonObject();
-                    String maintainer = colrecordid.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+                    String maintainer = colrecordid.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
                     String dataset = colrecordid.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
                     response = ComputeThermodynamicsSymmetryContribution.computeInternalSymmetry(maintainer, dataset,
                             molecule, info);
@@ -140,7 +140,7 @@ public enum ServiceCollectionComputeThermodynamics {
             if (molecule != null) {
                 if (info.get(ClassLabelConstants.DatabaseCollectionRecordID) != null) {
                     JsonObject colrecordid = info.get(ClassLabelConstants.DatabaseCollectionRecordID).getAsJsonObject();
-                    String maintainer = colrecordid.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+                    String maintainer = colrecordid.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
                     String dataset = colrecordid.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
                     response = ComputeThermodynamicsSymmetryContribution.computeOpticalSymmetry(maintainer, dataset,
                             molecule, info);
@@ -168,9 +168,9 @@ public enum ServiceCollectionComputeThermodynamics {
             if (molecule != null) {
                 if (info.get(ClassLabelConstants.DatabaseCollectionRecordID) != null) {
                     JsonObject colrecordid = info.get(ClassLabelConstants.DatabaseCollectionRecordID).getAsJsonObject();
-                    String maintainer = colrecordid.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+                    String maintainer = colrecordid.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
                     String dataset = colrecordid.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
-                    body.addElement("div").addText("Maintainer      : " + maintainer);
+                    body.addElement("div").addText("Owner      : " + maintainer);
                     body.addElement("div").addText("dataset         : " + dataset);
                     DatabaseCalculateSymmetryCorrection symmcorrection = new DatabaseCalculateSymmetryCorrection(
                             maintainer, dataset);
@@ -214,7 +214,7 @@ public enum ServiceCollectionComputeThermodynamics {
             JsonObject info = activity.get(ClassLabelConstants.ActivityInformationRecord).getAsJsonObject();
             return ComputeTotalThermodynamics.calculateTherGasThermodynamics(info);
         }
-        
+
     },
     CalculateThermThermodynamics {
 
@@ -223,7 +223,7 @@ public enum ServiceCollectionComputeThermodynamics {
             JsonObject info = activity.get(ClassLabelConstants.ActivityInformationRecord).getAsJsonObject();
             return ComputeTotalThermodynamics.calculateTHERMThermodynamics(info);
         }
-        
+
     },
     ComputeThermodynamicsFromHBIStructures {
 
@@ -233,27 +233,29 @@ public enum ServiceCollectionComputeThermodynamics {
             info.addProperty(ClassLabelConstants.JThermodynamicsSubstructureType, "dataset:HBISubstructure");
             return CalculateStructureCorrection.calculate(info);
         }
-        
+
     },
     ComputeThermodynamicsFromRingStrain {
 
         @Override
         public JsonObject process(JsonObject activity) {
             JsonObject info = activity.get(ClassLabelConstants.ActivityInformationRecord).getAsJsonObject();
-            info.addProperty(ClassLabelConstants.JThermodynamicsSubstructureType, "dataset:RingStrainCorrectionSubstructure");
+            info.addProperty(ClassLabelConstants.JThermodynamicsSubstructureType,
+                    "dataset:RingStrainCorrectionSubstructure");
             return CalculateStructureCorrection.calculate(info);
         }
-        
+
     },
     ComputeThermodynamicsFromStericStructures {
 
         @Override
         public JsonObject process(JsonObject activity) {
             JsonObject info = activity.get(ClassLabelConstants.ActivityInformationRecord).getAsJsonObject();
-            info.addProperty(ClassLabelConstants.JThermodynamicsSubstructureType, "dataset:StericCorrectionSubstructure");
+            info.addProperty(ClassLabelConstants.JThermodynamicsSubstructureType,
+                    "dataset:StericCorrectionSubstructure");
             return CalculateStructureCorrection.calculate(info);
         }
-        
+
     },
     SubstituteMetaAtomsInMolecule {
 

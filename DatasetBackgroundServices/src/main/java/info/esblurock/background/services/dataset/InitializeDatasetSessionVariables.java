@@ -381,13 +381,13 @@ public class InitializeDatasetSessionVariables {
 							info.get(ClassLabelConstants.DescriptionTitle).getAsString());
 					sessiondata.addProperty(ClassLabelConstants.CatalogObjectUniqueGenericLabel,
 							info.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString());
-					sessiondata.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer,
+					sessiondata.addProperty(ClassLabelConstants.CatalogObjectOwner,
 							info.get(ClassLabelConstants.UID).getAsString());
 					sessiondata.addProperty(ClassLabelConstants.CatalogObjectUniqueGenericLabel,
 							info.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString());
 					sessiondata.addProperty(ClassLabelConstants.UploadFileSource,
 							"dataset:GCSSourceFile");
-					addPrerequisitesToSession(sessiondata, formatdata);
+
 					addSupplementaryParametersToSession(sessiondata, formatdata);
 					JsonObject updatebody = new JsonObject();
 					updatebody.add(ClassLabelConstants.SessionData, sessiondata);
@@ -417,19 +417,6 @@ public class InitializeDatasetSessionVariables {
 					null);
 		}
 		return response;
-	}
-
-	private static void addPrerequisitesToSession(JsonObject sessiondata, JsonObject formatdata) {
-		JsonObject json = new JsonObject();
-		json.add(ClassLabelConstants.TransactionID, formatdata.get(ClassLabelConstants.TransactionID));
-		JsonObject response = GenerateOrderedListOfPrerequisites.generate(json);
-		if (response.get(ClassLabelConstants.ServiceProcessSuccessful).getAsBoolean()) {
-			JsonArray arr = response.get(ClassLabelConstants.SimpleCatalogObject).getAsJsonArray();
-			JsonObject dataobject = arr.get(0).getAsJsonObject();
-			JsonArray requiredtransactions = dataobject.get(ClassLabelConstants.RequiredTransactionID).getAsJsonArray();
-			requiredtransactions.add(formatdata.get(ClassLabelConstants.TransactionID));
-			sessiondata.add(ClassLabelConstants.RequiredTransactionID, requiredtransactions);
-		}
 	}
 
 	private static void addSupplementaryParametersToSession(JsonObject sessiondata, JsonObject formatdata) {

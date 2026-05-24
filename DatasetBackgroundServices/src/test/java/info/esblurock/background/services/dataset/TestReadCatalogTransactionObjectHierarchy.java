@@ -16,7 +16,7 @@ public class TestReadCatalogTransactionObjectHierarchy {
     public void test() {
         JsonObject json = new JsonObject();
         json.addProperty(DatabaseServicesBase.service, "ReadCatalogTransactionObjectHierarchy");
-        json.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, "kFuG0gJor6otzMSWramHUnxCaxEQ");
+        json.addProperty(ClassLabelConstants.CatalogObjectOwner, "kFuG0gJor6otzMSWramHUnxCaxEQ");
         json.addProperty(ClassLabelConstants.TransactionEventType,"dataset:InitialReadInOfRepositoryFile");
          JsonObject response = DatabaseServicesBase.process(json);
         JsonObjectUtilities.printResponse(response);

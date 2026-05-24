@@ -21,7 +21,7 @@ public class TestGetListOfDatasetCollectionIDsSet {
         JsonObject collrecordid = new JsonObject();
         json.add(ClassLabelConstants.DatasetCollectionSetRecordIDInfo, collrecordid);
         collrecordid.addProperty(ClassLabelConstants.DatasetCollectionsSetLabel, collectionlabel);
-        collrecordid.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, "Administrator");
+        collrecordid.addProperty(ClassLabelConstants.CatalogObjectOwner, "Administrator");
         json.addProperty(DatabaseServicesBase.service, "GetListOfDatasetCollectionIDsSet");
         JsonObject response = DatabaseServicesBase.process(json);
         JsonObjectUtilities.printResponse(response);

@@ -27,7 +27,7 @@ public enum PartitionSetOfStringObjects {
 
 		@Override
 		void partition(JsonArray partitionarr, JsonObject info, String transactionID, String content, Document document) {
-			String maintainer = info.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+			String maintainer = info.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 			JThergasTokenizer tokenizer = new JThergasTokenizer(content);
 			int count = 0;
 			while (tokenizer.countTokens() > 2) {
@@ -69,7 +69,7 @@ public enum PartitionSetOfStringObjects {
 
 		@Override
 		void partition(JsonArray partitionarr, JsonObject info, String transactionID, String content, Document document) {
-			String maintainer = info.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+			String maintainer = info.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 			int sze = info.get(ClassLabelConstants.BlockLineCount).getAsInt();
 			StringTokenizer tok = new StringTokenizer(content, "\n");
 			int count = sze;
@@ -84,7 +84,7 @@ public enum PartitionSetOfStringObjects {
 				if (count == 0) {
 					JsonObject block = BaseCatalogData.createStandardDatabaseObject(
 							"dataset:RepositoryParsedToFixedBlockSize", owner, transactionID, "false");
-					block.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+					block.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
 					block.add(ClassLabelConstants.ParsedLine, linearr);
 					block.addProperty(ClassLabelConstants.BlockLineCount, sze);
 					block.addProperty(ClassLabelConstants.Position, position);
@@ -107,7 +107,7 @@ public enum PartitionSetOfStringObjects {
 
 		@Override
 		void partition(JsonArray partitionarr, JsonObject info, String transactionID, String content, Document document) {
-			String maintainer = info.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+			String maintainer = info.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 			String catalogid = info.get(ClassLabelConstants.FileSourceFormat).getAsString();
 			String[] blocks = XMLUtilityRoutines.parseObjectsFromXMLString(content, catalogid);
 			String owner = info.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
@@ -117,7 +117,7 @@ public enum PartitionSetOfStringObjects {
 				linearr.add(portion);
 					JsonObject block = BaseCatalogData.createStandardDatabaseObject(
 							"dataset:RepositoryParsedToFixedBlockSize", owner, transactionID, "false");
-					block.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+					block.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
 					block.add(ClassLabelConstants.ParsedLine, linearr);
 					block.addProperty(ClassLabelConstants.BlockLineCount, portion.length());
 					block.addProperty(ClassLabelConstants.Position, position);

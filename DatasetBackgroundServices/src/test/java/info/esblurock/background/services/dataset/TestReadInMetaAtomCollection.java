@@ -23,7 +23,7 @@ public class TestReadInMetaAtomCollection {
 		String dataset = "StandardData";
 		String classname = "dataset:JThermodynamicsMetaAtomDefinition";
 
-		json.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+		json.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
 		json.addProperty(ClassLabelConstants.DatasetCollectionsSetLabel, dataset);
 		json.addProperty(ClassLabelConstants.DatasetCollectionObjectType, classname);
 		json.addProperty(DatabaseServicesBase.service, service);
@@ -46,7 +46,7 @@ public class TestReadInMetaAtomCollection {
 	    
         JsonObject json = new JsonObject();
         JsonObject recordid = CreateDocumentTemplate.createTemplate("dataset:DatasetCollectionSetRecordIDInfo", false);
-        recordid.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+        recordid.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
         recordid.addProperty(ClassLabelConstants.DatasetCollectionsSetLabel, dataset);
         if (setofproperties != null) {
             json.add(ClassLabelConstants.SetOfPropertyValueQueryPairs, setofproperties);

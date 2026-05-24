@@ -29,11 +29,11 @@ public class DatasetCollectionIDManagement {
 	 * 
 	 */
 	public static JsonObject firebaseIDOfCollection(String classname, JsonObject recordid) {
-		String maintainer = recordid.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+		String maintainer = recordid.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 		String collectionname = recordid.get(ClassLabelConstants.CollectionName).getAsString();
 		String datasetversion = recordid.get(ClassLabelConstants.DatasetVersion).getAsString();
 		JsonObject catrecordid = CreateDocumentTemplate.createTemplate("dataset:DatasetSpecificationForCollectionSet");
-		catrecordid.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+		catrecordid.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
 		catrecordid.addProperty(ClassLabelConstants.CollectionName, collectionname);
 		catrecordid.addProperty(ClassLabelConstants.DatasetVersion, datasetversion);
 		catrecordid.addProperty(ClassLabelConstants.CatalogDataObjectStatus, "CatalogObjectStatusCurrent");
@@ -57,7 +57,7 @@ public class DatasetCollectionIDManagement {
 			String transactionID, String maintainer, String descr) {
 		JsonObject idcollection = BaseCatalogData.createStandardDatabaseObject(
 				"dataset:ChemConnectDatasetCollectionIDsSet", owner, transactionID, "false");
-		idcollection.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+		idcollection.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
 		idcollection.addProperty(ClassLabelConstants.CatalogObjectOwner, owner);
 		idcollection.addProperty(ClassLabelConstants.DescriptionAbstract, descr);
 		idcollection.addProperty(ClassLabelConstants.DatasetCollectionsSetLabel, collectionname);
@@ -131,7 +131,7 @@ public class DatasetCollectionIDManagement {
 
 	public static JsonObject getCollectionOfDatasetCollectionIDsSetAddress(String maintainer) {
 		JsonObject idcollection = CreateDocumentTemplate.createTemplate("dataset:ChemConnectDatasetCollectionIDsSet");
-		idcollection.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+		idcollection.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
 		idcollection.addProperty(ClassLabelConstants.DatasetCollectionsSetLabel, "default");
 		BaseCatalogData.insertStandardBaseInformation(idcollection, "", "", "false");
 		JsonObject address = idcollection.get(ClassLabelConstants.FirestoreCatalogID).getAsJsonObject();

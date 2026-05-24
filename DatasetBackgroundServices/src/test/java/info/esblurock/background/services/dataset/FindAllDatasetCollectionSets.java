@@ -16,7 +16,7 @@ public class FindAllDatasetCollectionSets {
         JsonObject json = new JsonObject();
         String owner = "kFuG0gJor6otzMSWramHUnxCaxEQ";
         
-        json.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, owner);
+        json.addProperty(ClassLabelConstants.CatalogObjectOwner, owner);
         json.addProperty(DatabaseServicesBase.service, "FindAllDatasetCollectionSets");
         JsonObject response = DatabaseServicesBase.process(json);
         JsonObjectUtilities.printResponse(response);

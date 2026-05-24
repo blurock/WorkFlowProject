@@ -32,7 +32,7 @@ public class CalculateThermodynamicsForDisassociationEnergy {
         Document document = MessageConstructor.startDocument("CalculateThermodynamicsForDisassociationEnergy");
         if (info.get(ClassLabelConstants.DatabaseCollectionRecordID) != null) {
             JsonObject colrecordid = info.get(ClassLabelConstants.DatabaseCollectionRecordID).getAsJsonObject();
-            String maintainer = colrecordid.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+            String maintainer = colrecordid.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
             String dataset = colrecordid.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
             IAtomContainer molecule = DatasetMoleculeUtilities.convertLinearFormToMolecule(info);
 
@@ -51,7 +51,7 @@ public class CalculateThermodynamicsForDisassociationEnergy {
     public static JsonObject calculate(String maintainer, String dataset, IAtomContainer radical, JsonObject info,
             Document document) {
         Element body = MessageConstructor.isolateBody(document);
-        body.addElement("div").addText("Maintainer      : " + maintainer);
+        body.addElement("div").addText("Owner      : " + maintainer);
         body.addElement("div").addText("dataset         : " + dataset);
         JsonObject response = null;
         GetSubstructureMatches matches = new GetSubstructureMatches();

@@ -25,7 +25,7 @@ public class ComputeTotalThermodynamics {
                 .startDocument("Compute Total Thermodynamic Contributions for 2D-graphical Molecule");
         JsonObject response = null;
         JsonObject colrecordid = info.get(ClassLabelConstants.DatabaseCollectionRecordID).getAsJsonObject();
-        String maintainer = colrecordid.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+        String maintainer = colrecordid.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
         String dataset = colrecordid.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
         IAtomContainer molecule = DatasetMoleculeUtilities.convertLinearFormToMolecule(info);
         if (molecule != null) {
@@ -40,7 +40,7 @@ public class ComputeTotalThermodynamics {
     public static JsonObject calculateTherGasThermodynamics(String maintainer, String dataset,
             IAtomContainer moleculetocompute, JsonObject info, Document document) {
         Element body = MessageConstructor.isolateBody(document);
-        body.addElement("div").addText("Maintainer      : " + maintainer);
+        body.addElement("div").addText("Owner      : " + maintainer);
         body.addElement("div").addText("dataset         : " + dataset);
 
         MoleculeUtilities.setImplicitHydrogensToZero(moleculetocompute);

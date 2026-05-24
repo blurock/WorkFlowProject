@@ -14,40 +14,53 @@ public enum FindTransactionFromActivityInfo {
 
 		@Override
 		void fill(JsonObject info, JsonObject transaction) {
-			transaction.addProperty(ClassLabelConstants.CatalogObjectOwner, info.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString());
-            BaseCatalogData.insertFirestoreAddress(transaction);
+			transaction.addProperty(ClassLabelConstants.CatalogObjectOwner,
+					info.get(ClassLabelConstants.CatalogObjectOwner).getAsString());
+			transaction.addProperty(ClassLabelConstants.CatalogObjectUniqueGenericLabel,
+					info.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString());
+			transaction.addProperty(ClassLabelConstants.DatabaseObjectType,
+					info.get(ClassLabelConstants.DatabaseObjectType).getAsString());
+			BaseCatalogData.insertFirestoreAddress(transaction);
+
 		}
 
 		@Override
 		JsonObject createSetOfProperties(JsonObject info) {
-			String datasetid = info.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString();
-			String maintainer = info.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
-			String type = info.get(ClassLabelConstants.DatasetObjectType).getAsString();
-			//String version = recordid.get(ClassLabelConstants.DatasetVersion).getAsString();
+			// String datasetid =
+			// info.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString();
+			// String owner =
+			// info.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
+			// String type = info.get(ClassLabelConstants.CatalogObjectType).getAsString();
 			JsonObject setofprops = CreateDocumentTemplate.createTemplate("dataset:SetOfPropertyValueQueryPairs");
 			JsonArray props = new JsonArray();
 			setofprops.add(ClassLabelConstants.PropertyValueQueryPair, props);
-			
-			String prefix = ClassLabelConstants.ActivityInformationRecord + ".";
-			
-			JsonObject prop1 = CreateDocumentTemplate.createTemplate("dataset:PropertyValueQueryPair");
-			prop1.addProperty(ClassLabelConstants.DatabaseObjectType,prefix + ClassLabelConstants.CatalogObjectUniqueGenericLabel);
-			prop1.addProperty(ClassLabelConstants.ShortStringKey, datasetid);
-			props.add(prop1);
-			
-			JsonObject prop2 = CreateDocumentTemplate.createTemplate("dataset:PropertyValueQueryPair");
-			prop2.addProperty(ClassLabelConstants.DatabaseObjectType, prefix + ClassLabelConstants.CatalogDataObjectMaintainer);
-			prop2.addProperty(ClassLabelConstants.ShortStringKey, maintainer);
-			props.add(prop2);
-			
-			JsonObject prop3 = CreateDocumentTemplate.createTemplate("dataset:PropertyValueQueryPair");
-			prop3.addProperty(ClassLabelConstants.DatabaseObjectType, prefix + ClassLabelConstants.DatasetObjectType);
-			prop3.addProperty(ClassLabelConstants.ShortStringKey, type);
-			props.add(prop3);
-			
+			/*
+			 * String prefix = ClassLabelConstants.ActivityInformationRecord + ".";
+			 * 
+			 * JsonObject prop1 =
+			 * CreateDocumentTemplate.createTemplate("dataset:PropertyValueQueryPair");
+			 * prop1.addProperty(ClassLabelConstants.DatabaseObjectType,
+			 * prefix + ClassLabelConstants.CatalogObjectUniqueGenericLabel);
+			 * prop1.addProperty(ClassLabelConstants.ShortStringKey, datasetid);
+			 * props.add(prop1);
+			 * 
+			 * JsonObject prop2 =
+			 * CreateDocumentTemplate.createTemplate("dataset:PropertyValueQueryPair");
+			 * prop2.addProperty(ClassLabelConstants.DatabaseObjectType, prefix +
+			 * ClassLabelConstants.CatalogObjectOwner);
+			 * prop2.addProperty(ClassLabelConstants.ShortStringKey, owner);
+			 * props.add(prop2);
+			 * 
+			 * JsonObject prop3 =
+			 * CreateDocumentTemplate.createTemplate("dataset:PropertyValueQueryPair");
+			 * prop3.addProperty(ClassLabelConstants.DatabaseObjectType, prefix +
+			 * ClassLabelConstants.DatasetObjectType);
+			 * prop3.addProperty(ClassLabelConstants.ShortStringKey, type);
+			 * props.add(prop3);
+			 */
+
 			return setofprops;
 		}
-		
 
 	},
 	DatasetCollectionManagementTransaction {
@@ -66,13 +79,14 @@ public enum FindTransactionFromActivityInfo {
 	};
 
 	abstract void fill(JsonObject info, JsonObject transaction);
+
 	abstract JsonObject createSetOfProperties(JsonObject info);
 
 	public static JsonObject findTransaction(String transactiontype, JsonObject info) {
-	    JsonObject transaction = null;
-	    String transactionobjectname = "";
-	    String name = "";
-	    
+		JsonObject transaction = null;
+		String transactionobjectname = "";
+		String name = "";
+
 		TransactionProcess process = TransactionProcess.valueOf(transactiontype.substring(8));
 		transactionobjectname = process.transactionObjectName();
 		name = transactionobjectname.substring(8);
@@ -88,13 +102,14 @@ public enum FindTransactionFromActivityInfo {
 		}
 		return transaction;
 	}
+
 	public static JsonObject determineSetOfProps(String transactiontype, JsonObject info) {
 		TransactionProcess process = TransactionProcess.valueOf(transactiontype.substring(8));
 		String transactionobjectname = process.transactionObjectName();
 		String name = transactionobjectname.substring(8);
 		FindTransactionFromActivityInfo fill = FindTransactionFromActivityInfo.valueOf(name);
 		JsonObject setofprops = null;
-		if(fill != null) {
+		if (fill != null) {
 			setofprops = fill.createSetOfProperties(info);
 		}
 		return setofprops;

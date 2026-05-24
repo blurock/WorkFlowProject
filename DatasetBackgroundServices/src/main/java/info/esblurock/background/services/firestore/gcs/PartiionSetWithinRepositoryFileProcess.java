@@ -44,7 +44,7 @@ public class PartiionSetWithinRepositoryFileProcess {
 		event.addProperty(ClassLabelConstants.DatasetCollectionObjectType, colltype);
 		String owner = event.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 		String transactionID = event.get(ClassLabelConstants.TransactionID).getAsString();
-		String maintainer = info.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+		String maintainer = info.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 		String uniquelabel = info.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString();
 		String type = info.get(ClassLabelConstants.DatasetObjectType).getAsString();
 
@@ -74,7 +74,7 @@ public class PartiionSetWithinRepositoryFileProcess {
 
 				catalog.addProperty(ClassLabelConstants.CatalogObjectUniqueGenericLabel, uniquelabel);
 				catalog.addProperty(ClassLabelConstants.DatasetObjectType, type);
-				catalog.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+				catalog.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
 
 				CreateLinksInStandardCatalogInformation.transfer(info, catalog);
 				CreateLinksInStandardCatalogInformation.transfer(staging, catalog);

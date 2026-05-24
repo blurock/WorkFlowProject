@@ -49,9 +49,9 @@ public class ComputeBensonRulesForMolecule {
             int count = 0;
             for (int i = 0; i < bensonarr.size(); i++) {
                 JsonObject bensonobj = bensonarr.get(i).getAsJsonObject();
-                
+
                 String bensonname = bensonobj.get(ClassLabelConstants.BensonRuleDatabaseReference).getAsString();
-               JsonObject rule = readInBensonRuleFromLabel(bensonname, body, maintainer, dataset, document);
+                JsonObject rule = readInBensonRuleFromLabel(bensonname, body, maintainer, dataset, document);
                 if (rule != null) {
                     count++;
                     JsonObject thermo = rule.get(ClassLabelConstants.JThermodynamicStandardThermodynamics)
@@ -76,7 +76,7 @@ public class ComputeBensonRulesForMolecule {
         } else {
             Element table = body.addElement("table");
             Element hrow = table.addElement("tr");
-            hrow.addElement("th").addText("Maintainer");
+            hrow.addElement("th").addText("Owner");
             hrow.addElement("th").addText("Dataset");
             Element drow = table.addElement("tr");
             drow.addElement("td").addText(maintainer);
@@ -114,7 +114,7 @@ public class ComputeBensonRulesForMolecule {
         ParameterUtilities.changeParameterToNewSpecification(enthalpy, info,
                 ClassLabelConstants.ParameterSpecificationEnthalpy);
         contribution.add(ClassLabelConstants.ThermodynamicStandardEnthalpy, enthalpy);
-        
+
         row.addElement("td").addText(enthalpy.get(ClassLabelConstants.ValueAsString).getAsString());
 
         JsonObject entropy = thermo.get(ClassLabelConstants.ThermodynamicStandardEntropy).getAsJsonObject();
@@ -136,7 +136,7 @@ public class ComputeBensonRulesForMolecule {
             JsonObject cpTvalues = CreateDocumentTemplate.createTemplate("dataset:ThermodynamicCpAtTemperature");
             cpTvalues.addProperty(ClassLabelConstants.ThermodynamicTemperature, T);
             String cperror = cpT.get(ClassLabelConstants.ValueUncertainty).getAsString();
-            
+
             String newcp = ParameterUtilities.changeParameterToNewSpecification(cp, cpspec, newcpspec);
             String newcperror = ParameterUtilities.changeParameterToNewSpecification(cperror, cpspec, newcpspec);
 
@@ -258,11 +258,13 @@ public class ComputeBensonRulesForMolecule {
             if (responsearr.size() >= 1) {
                 rule = responsearr.get(0).getAsJsonObject();
             } else {
-                body.addElement("div").addText(bensonname + " not found in database(" + maintainer + ", " + dataset + ")");
+                body.addElement("div")
+                        .addText(bensonname + " not found in database(" + maintainer + ", " + dataset + ")");
             }
 
         } else {
-            body.addElement("div").addText(bensonname + " not found in database(" + maintainer + ", " + dataset + ") read unsuccessful");
+            body.addElement("div").addText(
+                    bensonname + " not found in database(" + maintainer + ", " + dataset + ") read unsuccessful");
         }
         return rule;
     }
@@ -289,10 +291,10 @@ public class ComputeBensonRulesForMolecule {
 
         String classname = "dataset:ThermodynamicBensonRuleDefinitionDatabase";
         String service = "ReadInDatasetWithDatasetCollectionLabel";
-        
+
         JsonObject json = new JsonObject();
         JsonObject recordid = CreateDocumentTemplate.createTemplate("dataset:DatasetCollectionSetRecordIDInfo", false);
-        recordid.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+        recordid.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
         recordid.addProperty(ClassLabelConstants.DatasetCollectionsSetLabel, dataset);
         json.add(ClassLabelConstants.DatasetCollectionSetRecordIDInfo, recordid);
         json.addProperty(ClassLabelConstants.DatasetCollectionObjectType, classname);

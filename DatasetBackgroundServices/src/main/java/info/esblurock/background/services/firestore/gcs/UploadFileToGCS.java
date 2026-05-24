@@ -212,7 +212,7 @@ public enum UploadFileToGCS {
 	public static JsonObject readFromSource(String transactionID, String owner, JsonObject info) {
 		JsonObject response = null;
 		try {
-			String maintainer = info.get(ClassLabelConstants.CatalogDataObjectMaintainer).getAsString();
+			String maintainer = info.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 			String genericname = info.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString();
 			String source = info.get(ClassLabelConstants.UploadFileSource).getAsString();
 			String sourcename = source.substring(8);
@@ -223,7 +223,7 @@ public enum UploadFileToGCS {
 				JsonObject gcsstaging = arr.get(0).getAsJsonObject();
 				gcsstaging.addProperty(ClassLabelConstants.InitialReadTypeClass,
 						info.get(ClassLabelConstants.InitialReadTypeClass).getAsString());
-				gcsstaging.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+				gcsstaging.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
 				gcsstaging.addProperty(ClassLabelConstants.CatalogObjectUniqueGenericLabel, genericname);
 			}
 		} catch (Exception ex) {

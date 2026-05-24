@@ -37,15 +37,15 @@ public class ComputeThermodynamicsSymmetryContribution {
             JsonObject info) {
         Document document = MessageConstructor.startDocument("ComputeBensonRulesForMolecule");
         Element body = MessageConstructor.isolateBody(document);
-        body.addElement("div").addText("Maintainer    : " + maintainer);
+        body.addElement("div").addText("Owner    : " + maintainer);
         body.addElement("div").addText("dataset       : " + dataset);
         body.addElement("div").addText("Symmetry type : " + "dataset:StructureExternalSymmetry");
         JsonObject response = null;
 
         DatabaseCalculateExternalSymmetryCorrection determineTotal = new DatabaseCalculateExternalSymmetryCorrection(
                 maintainer, dataset);
-        Document readdocument =  determineTotal.getReadResponseMessages();
-        MessageConstructor.combineBodyIntoDocument(document,readdocument);
+        Document readdocument = determineTotal.getReadResponseMessages();
+        MessageConstructor.combineBodyIntoDocument(document, readdocument);
         JsonArray contributions = determineTotal.compute(molecule, body, info);
         String message = contributions.size() + " Contributions found to external symmetry";
         response = StandardResponse.standardServiceResponse(document, message,
@@ -66,7 +66,7 @@ public class ComputeThermodynamicsSymmetryContribution {
         JsonObject response = null;
         Document document = MessageConstructor.startDocument("ComputeBensonRulesForMolecule");
         Element body = MessageConstructor.isolateBody(document);
-        body.addElement("div").addText("Maintainer      : " + maintainer);
+        body.addElement("div").addText("Owner      : " + maintainer);
         body.addElement("div").addText("dataset         : " + dataset);
         body.addElement("div").addText("Symmetry type   : " + "dataset:StructureExternalSymmetry");
         String symmname = info.get(ClassLabelConstants.JThermodynamicSymmetryDefinitionLabel).getAsString();
@@ -80,8 +80,9 @@ public class ComputeThermodynamicsSymmetryContribution {
         try {
             result = single.determineSymmetry(symmetry, molecule);
             double symmD = (double) result;
-            //String gasconstantS = SProperties.getProperty("thermo.data.gasconstant.clasmolsk");
-            String gasconstantS ="1.98587755";
+            // String gasconstantS =
+            // SProperties.getProperty("thermo.data.gasconstant.clasmolsk");
+            String gasconstantS = "1.98587755";
             double gasConstant = Double.valueOf(gasconstantS).doubleValue();
             double correction = -gasConstant * Math.log(symmD);
             body.addElement("div").addText("Symmetry      : " + symmD);
@@ -110,7 +111,7 @@ public class ComputeThermodynamicsSymmetryContribution {
         JsonObject response = null;
         Document document = MessageConstructor.startDocument("ComputeThermodynamicsFromInternalSymmetry");
         Element body = MessageConstructor.isolateBody(document);
-        body.addElement("div").addText("Maintainer      : " + maintainer);
+        body.addElement("div").addText("Owner      : " + maintainer);
         body.addElement("div").addText("dataset         : " + dataset);
         body.addElement("div").addText("Symmetry type   : " + "dataset:StructureInternalSymmetry");
         DatabaseCalculateExternalSymmetryCorrection external = new DatabaseCalculateExternalSymmetryCorrection(
@@ -123,7 +124,7 @@ public class ComputeThermodynamicsSymmetryContribution {
             if (internal.getStructureInternalSymmetry().size() > 0) {
                 JsonObject internalresponse = internal.getResponseStructureInternalSymmetryRead();
                 String internalmessage = internalresponse.get(ClassLabelConstants.ServiceResponseMessage).getAsString();
-                MessageConstructor.combineBodyIntoDocument(document,internalmessage);
+                MessageConstructor.combineBodyIntoDocument(document, internalmessage);
                 JsonArray contributions = internal.compute(molecule, body, info);
                 response = StandardResponse.standardServiceResponse(document, "Found External Internal Element",
                         contributions);
@@ -151,7 +152,7 @@ public class ComputeThermodynamicsSymmetryContribution {
         JsonObject response = null;
         Document document = MessageConstructor.startDocument("ComputeThermodynamicsFromOpticalSymmetry");
         Element body = MessageConstructor.isolateBody(document);
-        body.addElement("div").addText("Maintainer      : " + maintainer);
+        body.addElement("div").addText("Owner      : " + maintainer);
         body.addElement("div").addText("dataset         : " + dataset);
         body.addElement("div").addText("Symmetry type   : " + "dataset:StructureOpticalSymmetry");
         JsonArray contributions = new JsonArray();

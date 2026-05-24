@@ -21,6 +21,7 @@ export class Ontologyconstants {
   public datasethttpaddresssrcloc = 'dataset:HttpAddressSourceLocation';
   public CatalogObjectType = 'dataset:catobjtype';
 
+
   public successful = 'dataset:servicesuccessful';
   public message = 'dataset:serviceresponsemessage';
   public catalogobject = 'dataset:simpcatobj';

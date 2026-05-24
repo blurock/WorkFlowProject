@@ -22,7 +22,7 @@ public class testReadInDatasetObjectCollection {
 		JsonObject data = new JsonObject();
 		data.addProperty(ClassLabelConstants.CatalogObjectUniqueGenericLabel, "OpticalIsomerSymmetry");
 		data.addProperty(ClassLabelConstants.DatasetObjectType,"dataset:JThermodynamicsSymmetryStructureDefinitionDataSet");
-		data.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, "Administrator");
+		data.addProperty(ClassLabelConstants.CatalogObjectOwner, "Administrator");
 		info.add(ClassLabelConstants.SpecificationForDataset, data);
 		try {
 		JsonObject response = ReadInDatasetObjectCollectionProcess.process(info);

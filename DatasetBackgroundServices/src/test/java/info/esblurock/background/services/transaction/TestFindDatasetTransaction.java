@@ -20,7 +20,7 @@ public class TestFindDatasetTransaction {
 		String labelString = "ExternalSymmetryCarbonAtomSmall";
 		String typeString = "dataset:JThermodynamicsSymmetryStructureDefinitionDataSet";
 		infoObject.addProperty(ClassLabelConstants.TransactionEventType, "dataset:InitialReadInOfRepositoryFile");
-		infoObject.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, owner);
+		infoObject.addProperty(ClassLabelConstants.CatalogObjectOwner, owner);
 		infoObject.addProperty(ClassLabelConstants.CatalogObjectUniqueGenericLabel, labelString);
 		infoObject.addProperty(ClassLabelConstants.DatasetObjectType, typeString);
 		String type = "dataset:InitialReadInOfRepositoryFile";

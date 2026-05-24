@@ -34,13 +34,13 @@ public class testTransferDatasetObjectCollectionToDatabaseProcess {
 		JsonObject datasetid = new JsonObject();
 		activity.add(ClassLabelConstants.SpecificationForDataset, datasetid);
 		datasetid.addProperty(ClassLabelConstants.CatalogObjectUniqueGenericLabel, "OpticalIsomerSymmetry");
-		datasetid.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+		datasetid.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
 		datasetid.addProperty(ClassLabelConstants.DatasetObjectType, "dataset:JThermodynamicsSymmetryStructureDefinitionDataSet");
 		
 		
 		JsonObject collectionid = new JsonObject();
 		activity.add(ClassLabelConstants.DatasetSpecificationForCollectionSet, collectionid);
-		collectionid.addProperty(ClassLabelConstants.CatalogDataObjectMaintainer, maintainer);
+		collectionid.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
 		collectionid.addProperty(ClassLabelConstants.CatalogDataObjectStatus, "dataset:CatalogObjectStatusCurrent");
 		collectionid.addProperty(ClassLabelConstants.CollectionName, "SystemData");
 		collectionid.addProperty(ClassLabelConstants.DatasetVersion, "1.0");

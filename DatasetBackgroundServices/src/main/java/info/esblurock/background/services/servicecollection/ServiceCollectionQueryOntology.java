@@ -83,11 +83,11 @@ public enum ServiceCollectionQueryOntology {
 				JsonObject source = json.get(ClassLabelConstants.SessionData).getAsJsonObject();
 				JsonObject catalog = json.get(ClassLabelConstants.SimpleCatalogObject).getAsJsonObject();
 				String identifier = catalog.get(AnnotationObjectsLabels.identifier).getAsString();
-				String catalogtype = catalog.get(ClassLabelConstants.CatalogObjectType).getAsString();
+				String catalogtype = catalog.get(ClassLabelConstants.DatabaseObjectType).getAsString();
 				SubstituteJsonValues.substituteJsonObject(catalog, source);
 				// Properties that could overide the identitiy of the catalog object
 				catalog.addProperty(AnnotationObjectsLabels.identifier, identifier);
-				catalog.addProperty(ClassLabelConstants.CatalogObjectType, catalogtype);
+				catalog.addProperty(ClassLabelConstants.DatabaseObjectType, catalogtype);
 				String objtype = GenericSimpleQueries.classFromIdentifier(identifier);
 				// The dataset object type is determined by the identifier
 				catalog.addProperty(ClassLabelConstants.DatabaseObjectType, objtype);
@@ -162,7 +162,7 @@ public enum ServiceCollectionQueryOntology {
 			String activityclass = OntologyUtilityRoutines.exactlyOnePropertySingle(transaction,
 					AnnotationObjectsLabels.transactionActivityClass);
 			JsonObject activity = CreateDocumentTemplate.createTemplate(activityclass);
-			activity.addProperty(ClassLabelConstants.CatalogObjectType, activityclass);
+			activity.addProperty(ClassLabelConstants.DatabaseObjectType, activityclass);
 			JsonArray arr = new JsonArray();
 			arr.add(activity);
 			JsonObject response = StandardResponse.standardServiceResponse(document,
