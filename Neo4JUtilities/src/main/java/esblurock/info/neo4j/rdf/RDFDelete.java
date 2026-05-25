@@ -21,13 +21,13 @@ import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBa
 
 public class RDFDelete {
 	public static JsonObject deleteRDFsWithTransactionID(String transactionid) {
-        String title = "Delete RDF with Transaction ID " + transactionid;
-        Document docmessage = MessageConstructor.startDocument(title);
-        Element body = MessageConstructor.isolateBody(docmessage);
-        body.addElement("h3").addText(title);
-		
+		String title = "Delete RDF with Transaction ID " + transactionid;
+		Document docmessage = MessageConstructor.startDocument(title);
+		Element body = MessageConstructor.isolateBody(docmessage);
+		body.addElement("h3").addText(title);
+
 		JsonObject response = null;
-		String altlabel = DatasetOntologyParseBase.getAltLabelFromAnnotation("dataset:TransactionIDinRDF");
+		String altlabel = DatasetOntologyParseBase.getAltLabelFromAnnotation("dataset:TransactionID");
 		String cypherqueryString = "MATCH (n {" + altlabel + ": \"" + transactionid + "\"}) DETACH DELETE n";
 		body.addElement("pre").addText("Query: " + cypherqueryString);
 		try (Session session = Neo4JInitialization.getDriver().session()) {
@@ -39,14 +39,14 @@ public class RDFDelete {
 			int relationshipsDeleted = counters.relationshipsDeleted();
 			body.addElement("pre").addText("Nodes deleted: " + nodesDeleted);
 			body.addElement("pre").addText("Relationships deleted: " + relationshipsDeleted);
-            transaction.commit();
+			transaction.commit();
 			String mtitle = "Deletion successful";
 			response = StandardResponse.standardServiceResponse(docmessage, mtitle, null);
-	} catch (Exception e) {
-		String mtitle = "Deletion failed: " + e.getMessage();
-		body.addElement("pre").addText(mtitle);		
-		response = StandardResponse.standardServiceResponse(docmessage, mtitle, null);
-    }
+		} catch (Exception e) {
+			String mtitle = "Deletion failed: " + e.getMessage();
+			body.addElement("pre").addText(mtitle);
+			response = StandardResponse.standardServiceResponse(docmessage, mtitle, null);
+		}
 		return response;
 	}
 }

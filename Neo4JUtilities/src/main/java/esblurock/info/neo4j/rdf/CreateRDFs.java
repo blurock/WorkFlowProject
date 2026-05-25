@@ -60,7 +60,7 @@ public class CreateRDFs {
 		}
 		return noerror;
 	}
-	
+
 	public static boolean createRDFFromObject(Transaction transaction, JsonObject catalog, Document document) {
 		Element body = MessageConstructor.isolateBody(document);
 		boolean noerror = true;
@@ -81,17 +81,17 @@ public class CreateRDFs {
 		Document docmessage = MessageConstructor.startDocument("Create RDFs From CatalogObject");
 		Element body = MessageConstructor.isolateBody(docmessage);
 		try (Session session = Neo4JInitialization.getDriver().session()) {
-		
-		Transaction transaction = session.beginTransaction();
-		responseJson = createRDFFromCatalogObject(transaction, obj, docmessage); 
-		transaction.commit();
+
+			Transaction transaction = session.beginTransaction();
+			responseJson = createRDFFromCatalogObject(transaction, obj, docmessage);
+			transaction.commit();
 		} catch (Exception e) {
 			body.addElement("div").addText("Error in creating RDFs in standalone catalog object: " + e.toString());
 			e.printStackTrace();
 		}
 		return responseJson;
 	}
-	
+
 	public static JsonObject createRDFFromCatalogObject(Transaction transaction, JsonObject obj) {
 		Document docmessage = MessageConstructor.startDocument("Create RDFs From CatalogObject");
 		return createRDFFromCatalogObject(transaction, obj, docmessage);
@@ -101,8 +101,6 @@ public class CreateRDFs {
 		Element body = MessageConstructor.isolateBody(docmessage);
 		JsonObject response = null;
 		String rdfpredicateString = ClassLabelConstants.RDFPredicate;
-		body.addElement("h3").addText("Create RDFs From CatalogObject using RDF TransactionID: "
-				+ obj.get(ClassLabelConstants.TransactionID).getAsString());
 		MapOfQueryAndProperties cypherquery = JsonToCypherUtilities.createSimpleRelation(obj);
 		Set<String> keyStrings = cypherquery.keySet();
 		JsonArray jsonarray = new JsonArray();

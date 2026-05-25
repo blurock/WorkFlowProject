@@ -101,6 +101,8 @@ public class ReadInDatasetTransaction {
                             info.get(ClassLabelConstants.UID).getAsString());
                     sessiondata.addProperty(ClassLabelConstants.DescriptionTitle,
                             info.get(ClassLabelConstants.DescriptionTitle).getAsString());
+                    sessiondata.addProperty(ClassLabelConstants.TransactionEventDatasetCatalogObject,
+                            transactiontype);
                     addPrerequisitesToSession(sessiondata, transactiontype);
                     JsonObject updatebody = new JsonObject();
                     updatebody.add(ClassLabelConstants.SessionData, sessiondata);

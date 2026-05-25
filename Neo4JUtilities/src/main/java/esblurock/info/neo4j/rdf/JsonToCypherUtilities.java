@@ -17,7 +17,7 @@ import info.esblurock.reaction.core.ontology.base.utilities.GenericSimpleQueries
 public class JsonToCypherUtilities {
 
 	private static String transactionaltlabel = DatasetOntologyParseBase
-			.getAltLabelFromAnnotation("dataset:TransactionIDinRDF");
+			.getAltLabelFromAnnotation("dataset:TransactionID");
 	private static String owneraltlabel = DatasetOntologyParseBase
 			.getAltLabelFromAnnotation("dataset:CatalogObjectOwner");
 	private static String catalogidabel = DatasetOntologyParseBase
@@ -34,11 +34,6 @@ public class JsonToCypherUtilities {
 		MapOfQueryAndProperties queryandproperties = new MapOfQueryAndProperties();
 		for (RDFInformation rdf : rdfs.getList()) {
 			Map<String, Object> proplst = new HashMap<String, Object>();
-			// String transid = transactionID;
-			// if (obj.has(ClassLabelConstants.TransactionIDinRDF)) {
-			// transid = obj.get(ClassLabelConstants.TransactionIDinRDF).getAsString();
-			// }
-			// proplst.put(transactionaltlabel, transid);
 			String predicate = rdf.getPredicateClass();
 			QueryAndProperties queryprops = null;
 

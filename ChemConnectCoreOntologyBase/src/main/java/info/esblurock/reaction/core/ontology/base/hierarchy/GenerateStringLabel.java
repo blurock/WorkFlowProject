@@ -194,12 +194,25 @@ public enum GenerateStringLabel {
 		String lbl = defaultvalue;
 		JsonArray objectarr = JsonObjectUtilities.getValueUsingIdentifierMultiple(object, identifier);
 		if (objectarr.size() > 0) {
-			lbl = objectarr.get(0).getAsString();
-
-			int position = lbl.indexOf(":");
-			if (position > 0) {
-				lbl = lbl.substring(position + 1);
+			String val = null;
+			for (int i = 0; i < objectarr.size() && val == null; i++) {
+				String value = objectarr.get(i).getAsString();
+				int position = value.indexOf(":");
+				if (position > 0) {
+					val = value.substring(position + 1);
+				} else {
+					if (!value.contains("not assigned")) {
+						val = value;
+					}
+				}
 			}
+			if (val == null) {
+				lbl = defaultvalue;
+			} else {
+				lbl = val;
+			}
+		} else {
+			lbl = defaultvalue;
 		}
 		return lbl;
 	}
