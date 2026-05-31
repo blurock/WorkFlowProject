@@ -345,7 +345,8 @@ public class FindTransactions {
 		if (emptycatalog != null) {
 			JsonObject firestoreid = CreateHierarchyElement.searchForCatalogObjectInHierarchyTemplate(emptycatalog);
 			firestoreid.remove(ClassLabelConstants.SimpleCatalogName);
-			JsonObject setofprops = FindTransactionFromActivityInfo.determineSetOfProps(type, info);
+			JsonObject activity = info.get(ClassLabelConstants.ActivityInformationRecord).getAsJsonObject();
+			JsonObject setofprops = FindTransactionFromActivityInfo.determineSetOfProps(type, activity);
 			JsonObject response = ReadFirestoreInformation.readFirestoreCollection(setofprops, firestoreid);
 			if (response.get(ClassLabelConstants.ServiceProcessSuccessful).getAsBoolean()) {
 				JsonArray arr = response.get(ClassLabelConstants.SimpleCatalogObject).getAsJsonArray();
@@ -400,7 +401,8 @@ public class FindTransactions {
 			JsonObject firestoreid = CreateHierarchyElement.searchForCatalogObjectInHierarchyTemplate(emptycatalog);
 			firestoreid.remove(ClassLabelConstants.SimpleCatalogName);
 			firestoreid.addProperty(ClassLabelConstants.SimpleCatalogName, transactionID);
-			JsonObject setofprops = FindTransactionFromActivityInfo.determineSetOfProps(type, info);
+			JsonObject activity = info.get(ClassLabelConstants.ActivityInformationRecord).getAsJsonObject();
+			JsonObject setofprops = FindTransactionFromActivityInfo.determineSetOfProps(type, activity);
 			response = ReadFirestoreInformation.readFirestoreCollection(setofprops, firestoreid);
 			if (response.get(ClassLabelConstants.ServiceProcessSuccessful).getAsBoolean()) {
 				String rdfmessage = response.get(ClassLabelConstants.ServiceResponseMessage).getAsString();

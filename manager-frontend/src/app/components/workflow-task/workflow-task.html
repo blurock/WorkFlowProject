@@ -19,7 +19,9 @@
     style="margin: 20px; padding: 20px; border: 2px solid #2ecc71; border-radius: 8px; background-color: #f0fdf4;">
     <h2 style="color: #27ae60; margin-top: 0;">Workflow Completed Successfully</h2>
     <div style="margin-bottom: 20px;" [innerHTML]="successMessage"></div>
-    <button class="btn btn-primary" (click)="returnToTransactions()">Return to Transactions</button>
+    <button class="btn btn-primary" (click)="continueSequenceOrReturn()">
+      {{ isSequenceAndNotComplete ? 'Continue to Next Task' : 'Return to Transactions' }}
+    </button>
   </div>
 
   <div *ngIf="!loading && sessionData && activityData && !successMessage" class="task-content">

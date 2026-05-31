@@ -129,7 +129,7 @@ public class PartiionSetWithinRepositoryFileProcess {
 
 	private static JsonObject retrieveContentCatalogObjectFromPrerequisites(JsonObject prerequisites) {
 		JsonObject staging = TransactionProcess.retrieveSingleOutputFromTransaction(prerequisites,
-				"dataset:initreposfile");
+				"dataset:initreadlocal");
 		return staging;
 	}
 }

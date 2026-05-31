@@ -112,7 +112,7 @@ public enum GenerateStringLabel {
 
 		@Override
 		String deriveName(String hierclass, String classname, JsonObject object) {
-			String label = ClassLabelConstants.CatalogDataObjectMaintainer;
+			String label = ClassLabelConstants.CatalogObjectOwner;
 			String owner = object.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 			return getValueFromObject(object, label, owner);
 		}
@@ -193,6 +193,8 @@ public enum GenerateStringLabel {
 	private static String getValueFromObject(JsonObject object, String identifier, String defaultvalue) {
 		String lbl = defaultvalue;
 		JsonArray objectarr = JsonObjectUtilities.getValueUsingIdentifierMultiple(object, identifier);
+		System.out.println("getValueFromObject: " + identifier + " (" + objectarr.size() + ")   objectarr: "
+				+ JsonObjectUtilities.toString(objectarr));
 		if (objectarr.size() > 0) {
 			String val = null;
 			for (int i = 0; i < objectarr.size() && val == null; i++) {
@@ -207,13 +209,18 @@ public enum GenerateStringLabel {
 				}
 			}
 			if (val == null) {
+				System.out.println("Using default value: " + defaultvalue + " for objectarr "
+						+ JsonObjectUtilities.toString(objectarr));
 				lbl = defaultvalue;
 			} else {
 				lbl = val;
 			}
 		} else {
+			System.out.println("Empty object array for identifier: " + identifier + " in object "
+					+ JsonObjectUtilities.toString(object));
 			lbl = defaultvalue;
 		}
+		System.out.println("Returning label: " + lbl);
 		return lbl;
 	}
 

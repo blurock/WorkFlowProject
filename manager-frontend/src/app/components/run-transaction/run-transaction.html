@@ -2,7 +2,7 @@
   <mat-card class="transaction-card" appearance="outlined">
     <mat-card-header>
       <mat-icon mat-card-avatar class="header-icon">play_circle</mat-icon>
-      <mat-card-title>Start Single Transaction Process</mat-card-title>
+      <mat-card-title>Start Orchestration Process</mat-card-title>
       <mat-card-subtitle>
         Initialize a Google Cloud Workflow orchestration pipeline and transfer to the Workflow UI.
       </mat-card-subtitle>
@@ -35,8 +35,19 @@
         <span>{{ errorMessage }}</span>
       </div>
 
-      <!-- Transaction input -->
+      <!-- Workflow Type Select -->
       <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Orchestration Workflow Type</mat-label>
+        <mat-icon matPrefix>lan</mat-icon>
+        <mat-select [(ngModel)]="selectedWorkflow" [disabled]="loading">
+          <mat-option value="single-transaction-workflow">Single Transaction Event</mat-option>
+          <mat-option value="transactionsequence">Prerequisite Transaction Sequence</mat-option>
+        </mat-select>
+        <mat-hint>Select the Google Cloud Workflow orchestration pattern to run.</mat-hint>
+      </mat-form-field>
+
+      <!-- Transaction input -->
+      <mat-form-field appearance="outline" class="full-width" style="margin-top: 1rem;">
         <mat-label>Target Transaction Event</mat-label>
         <mat-icon matPrefix>schema</mat-icon>
         <input
@@ -44,9 +55,23 @@
           matInput
           [(ngModel)]="transactionEvent"
           [disabled]="loading"
-          placeholder="e.g., dataset:InitialReadInLocalStorageSystem"
+          placeholder="e.g., dataset:TransactionInterpretBensonRule"
         />
         <mat-hint>The ontology class referencing the Activity Info Template to load.</mat-hint>
+      </mat-form-field>
+
+      <!-- Unique Generic Name (conditional) -->
+      <mat-form-field *ngIf="selectedWorkflow === 'transactionsequence'" appearance="outline" class="full-width" style="margin-top: 1rem;">
+        <mat-label>Unique Generic Name</mat-label>
+        <mat-icon matPrefix>label</mat-icon>
+        <input
+          id="uniqueGenericNameInput"
+          matInput
+          [(ngModel)]="uniqueGenericName"
+          [disabled]="loading"
+          placeholder="e.g., BensonSM"
+        />
+        <mat-hint>The unique identifier of the dataset (e.g. BensonSM) to search for existing transactions.</mat-hint>
       </mat-form-field>
     </mat-card-content>
 

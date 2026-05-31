@@ -15,6 +15,8 @@ import { firstValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Ontologyconstants } from '../constants/ontologyconstants';
 
+import { MatSelectModule } from '@angular/material/select';
+
 @Component({
   selector: 'app-run-transaction',
   standalone: true,
@@ -28,12 +30,15 @@ import { Ontologyconstants } from '../constants/ontologyconstants';
     MatProgressSpinnerModule,
     MatIconModule,
     MatTooltipModule,
+    MatSelectModule,
   ],
   templateUrl: './run-transaction.html',
   styleUrl: './run-transaction.css'
 })
 export class RunTransactionComponent implements OnInit {
-  transactionEvent: string = 'dataset:InitialReadInLocalStorageSystem';
+  transactionEvent: string = 'dataset:TransactionInterpretBensonRule';
+  selectedWorkflow: string = 'single-transaction-workflow';
+  uniqueGenericName: string = 'BensonSM';
   loading: boolean = false;
   errorMessage: string = '';
 
@@ -127,6 +132,10 @@ export class RunTransactionComponent implements OnInit {
 
       // Always update these fields for the new transaction run.
       sessionData['dataset:transaction'] = this.transactionEvent;
+      sessionData['dataset:sessionworkflow'] = this.selectedWorkflow;
+      if (this.selectedWorkflow === 'transactionsequence') {
+        sessionData['dataset:uniquegenericname'] = this.uniqueGenericName;
+      }
       sessionData[this.ontology.SessionStatus] = 'Initial';
       
       // Clear out the previous transaction's state so the UI properly waits for the backend to generate the new ActivityInfo
@@ -150,7 +159,7 @@ export class RunTransactionComponent implements OnInit {
 
       // ── Step 3: Start the Cloud Workflow ────────────────────────────────────
       const orchestratorPayload = {
-        workflowName: 'single-transaction-workflow',
+        workflowName: this.selectedWorkflow,
         SessionData: sessionData
       };
 

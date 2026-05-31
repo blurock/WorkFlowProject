@@ -194,7 +194,8 @@ public enum TransactionProcess {
 		JsonObject process(JsonObject event, JsonObject prerequisites, JsonObject info) {
 			TransactionProcess process = TransactionProcess.valueOf("InitialReadInOfRepositoryFile");
 			JsonObject simpledescr = event.get(ClassLabelConstants.ShortTransactionDescription).getAsJsonObject();
-			simpledescr.addProperty(ClassLabelConstants.TransactionEventType, "dataset:InitialReadInOfRepositoryFile");
+			simpledescr.addProperty(ClassLabelConstants.TransactionEventType,
+					"dataset:InitialReadInLocalStorageSystem");
 			info.addProperty(ClassLabelConstants.InitialReadTypeClass, "dataset:InitialReadInLocalStorageSystem");
 			info.addProperty(ClassLabelConstants.UploadFileSource, "dataset:GCSSourceFile");
 			return process.process(event, prerequisites, info);
@@ -879,12 +880,18 @@ public enum TransactionProcess {
 		String transactionobjectname = process.transactionObjectName();
 		JsonObject event = BaseCatalogData.createStandardDatabaseObject(transactionobjectname, owner, transactionID,
 				"false");
+		System.out.println("processFromTransaction: event keys: " + event.keySet());
+		System.out.println(
+				"processFromTransaction: event transactionid: " + event.get(ClassLabelConstants.TransactionID));
 		event.add(ClassLabelConstants.ActivityInformationRecord, info);
 		JsonObject shortdescr = event.get(ClassLabelConstants.ShortTransactionDescription).getAsJsonObject();
 		shortdescr.addProperty(ClassLabelConstants.TransactionEventType, transaction);
 		shortdescr.addProperty(ClassLabelConstants.TransactionKey, transactionID);
 		shortdescr.addProperty(ClassLabelConstants.ShortDescription, title);
 		BaseCatalogData.insertFirestoreAddress(event);
+		System.out.println("Firestore: Event creation: "
+				+ JsonObjectUtilities.toString(event.get(ClassLabelConstants.FirestoreCatalogID).getAsJsonObject()));
+
 		String shorttitleString = "";
 		if (info.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel) != null) {
 			shorttitleString = info.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString() + ":  "
@@ -909,16 +916,31 @@ public enum TransactionProcess {
 					JsonArray output = response.get(ClassLabelConstants.SimpleCatalogObject).getAsJsonArray();
 					GenerateTransactionEventObject.addDatabaseObjectIDOutputTransaction(event, output);
 					event.add(ClassLabelConstants.RequiredTransactionIDAndType, prerequisitelist);
+					System.out.println("Firestore: Event before Write: " + JsonObjectUtilities
+							.toString(event.get(ClassLabelConstants.FirestoreCatalogID).getAsJsonObject()));
 					WriteFirestoreCatalogObject.writeCatalogObject(event);
 					String message = response.get(ClassLabelConstants.ServiceResponseMessage).getAsString();
 					MessageConstructor.combineBodyIntoDocument(document, message);
 					response.add(ClassLabelConstants.TransactionEventObject, event);
+					System.out.println("-------------------------------------------------");
+					System.out.println("CreateRDFs.createRDFFromObjectArray: " + arr.size());
+					for (int i = 0; i < arr.size(); i++) {
+						JsonObject objInArr = arr.get(i).getAsJsonObject();
+						if (objInArr.get(ClassLabelConstants.TransactionID) == null) {
+							objInArr.addProperty(ClassLabelConstants.TransactionID, transactionID);
+						}
+						if (objInArr.get(ClassLabelConstants.CatalogObjectOwner) == null) {
+							objInArr.addProperty(ClassLabelConstants.CatalogObjectOwner, owner);
+						}
+					}
 					boolean noerror = CreateRDFs.createRDFFromObjectArray(arr, document);
+					System.out.println("-------------------------------------------------" + noerror);
 					boolean noeventrdferror = CreateRDFs.createRDFFromObject(event, document);
 					if (!noerror || !noeventrdferror) {
 						Element body = MessageConstructor.isolateBody(document);
 						body.addElement("div").addText("Error in RDF generation: ");
 					}
+
 				} else {
 					String docmessage = response.get(ClassLabelConstants.ServiceResponseMessage).getAsString();
 					MessageConstructor.combineBodyIntoDocument(document, docmessage);
@@ -980,12 +1002,17 @@ public enum TransactionProcess {
 	 */
 	public static JsonObject processFromTransaction(JsonObject json, String owner) {
 		String transaction = json.get(ClassLabelConstants.TransactionEventType).getAsString();
-		// Dataset transaction events (subclass of DatabaseTransactionEvent), then can
-		// be filled in automatically
-		JsonArray prerequisitelist = fillInDatasetPrerequisites(transaction, json);
-		JsonObject prerequisites = getPrerequisiteObjects(json);
+		json.addProperty(ClassLabelConstants.CatalogObjectOwner, owner);
 		JsonObject info = json.get(ClassLabelConstants.ActivityInformationRecord).getAsJsonObject();
-		return processFromTransaction(transaction, prerequisites, prerequisitelist, info, owner);
+
+		// Dataset transaction events (subclass of DatabaseTransactionEvent),
+		// then can be filled in automatically
+		JsonArray prerequisitelist = fillInDatasetPrerequisites(transaction,
+				json);
+		JsonObject prerequisites = getPrerequisiteObjects(json);
+
+		return processFromTransaction(transaction, prerequisites,
+				prerequisitelist, info, owner);
 	}
 
 	/**
@@ -1073,7 +1100,8 @@ public enum TransactionProcess {
 	 */
 	public static JsonArray fillInDatasetPrerequisites(String eventtype, JsonObject json) {
 		// Get Activity info of the input
-		JsonObject info = json.get(ClassLabelConstants.ActivityInformationRecord).getAsJsonObject();
+		// JsonObject info =
+		// json.get(ClassLabelConstants.ActivityInformationRecord).getAsJsonObject();
 		// Get prequisites, if not there, create prerequisites object
 		JsonObject prerequisites = null;
 		if (json.get(ClassLabelConstants.DatabaseIDFromRequiredTransaction) == null) {
@@ -1097,14 +1125,14 @@ public enum TransactionProcess {
 			}
 			// If the prerequisite has not been filled in yet, find it and add it in.
 			if (prerequisites.get(label) == null) {
-				JsonObject transaction = FindTransactions.findDatasetTransaction(info, name, true);
+				JsonObject transaction = FindTransactions.findDatasetTransaction(json, name, true);
 				if (transaction != null) {
 					JsonObject firebaseid = transaction.get(ClassLabelConstants.FirestoreCatalogID).getAsJsonObject();
 					prerequisitelist.add(firebaseid);
 					prerequisites.add(label, firebaseid);
 				} else {
 					logger.warning(
-							"No transaction found: " + name + " with info: " + JsonObjectUtilities.toString(info));
+							"No transaction found: " + name + " with info: " + JsonObjectUtilities.toString(json));
 				}
 			} else {
 				if (idlabel == name) {

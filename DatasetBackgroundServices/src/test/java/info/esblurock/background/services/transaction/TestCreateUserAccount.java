@@ -77,11 +77,11 @@ public class TestCreateUserAccount {
 				+ "     	\"dataset:readaccess\": \"Public\",\n" 
 				+ "	        \"dataset:personfullname\":\"Edward Blurock\",\n"
 				+ "	        \"dcterms:identifier\":\"dataset:personcreate\",\n"
-				+ "	        \"dataset:descr-person\": {"
-				+ "	               \"dataset:title-person\": \"Edward Blurock, Sweden\"\n" 
+				+ "	        \"dataset:descrperson\": {"
+				+ "	               \"dataset:titleperson\": \"Edward Blurock, Sweden\"\n" 
 				+ "          },\n" 
 				+ "	        \"dcterms:title\": \"Edward Blurock, Sweden\",\n" 
-				+ "	        \"dcterms:title-person\": \"Edward Blurock, Sweden\"\n" 
+				+ "	        \"dcterms:titleperson\": \"Edward Blurock, Sweden\"\n" 
 				+ "         }\n" 
 				+ "     }\n" + "";
 		JsonObject json = JsonObjectUtilities.jsonObjectFromString(jsonS);

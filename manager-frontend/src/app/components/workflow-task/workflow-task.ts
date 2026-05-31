@@ -143,6 +143,26 @@ export class WorkflowTaskComponent implements OnInit {
           const catObjects = response[this.ontology.catalogobject];
           if (catObjects && catObjects.length > 0) {
             const data = catObjects[0];
+            
+            const status = data[this.ontology.SessionStatus];
+            if (status === 'Processing') {
+              if (this.currentRetry < this.maxRetries) {
+                this.currentRetry++;
+                setTimeout(() => this.fetchSessionData(uid, sessionId, token), this.retryInterval);
+                return;
+              } else {
+                this.showError('Workflow execution is taking too long. Please check the status later.');
+                return;
+              }
+            }
+
+            if (status === 'Complete') {
+              this.successMessage = 'Workflow completed successfully.';
+              this.loading = false;
+              this.cdr.detectChanges();
+              return;
+            }
+
             const activityInfo = data[this.ontology.ActivityInfo];
             const callbackUrl = data[this.ontology.SessionWorkflowReturnLink];
 
@@ -294,6 +314,7 @@ export class WorkflowTaskComponent implements OnInit {
 
     // 1. Sync updated activity data back into session data
     this.sessionData[this.ontology.ActivityInfo] = this.activityData;
+    this.sessionData[this.ontology.SessionStatus] = 'Processing';
 
     // Clear previous service response to ensure we wait for the new one
     delete this.sessionData[this.ontology.ServiceResponseInformation];
@@ -334,10 +355,7 @@ export class WorkflowTaskComponent implements OnInit {
         callbackUrl: callbackUrl
       };
 
-      let workflowName = this.sessionData[this.ontology.SessionWorkflow];
-      if (!workflowName) {
-        workflowName = 'single-transaction-event'; // Default for UI-driven tasks
-      }
+      let workflowName = 'single-transaction-workflow';
       payload['workflowName'] = workflowName;
 
       this.loading = true;
@@ -462,11 +480,106 @@ export class WorkflowTaskComponent implements OnInit {
     }
   }
 
+  checkNextSequenceTask(token: string | undefined, finalMsg: string, oldCallbackUrl?: string, retryCount = 0) {
+    this.explanation = 'Checking for next transaction in sequence...';
+    this.cdr.detectChanges();
+
+    const maxRetries = 10;
+    const retryInterval = 2000;
+
+    setTimeout(async () => {
+      try {
+        const currentUser = this.auth.currentUser;
+        if (!currentUser) {
+          this.successMessage = finalMsg;
+          this.loading = false;
+          this.cdr.detectChanges();
+          return;
+        }
+
+        const resolvedToken = token || await currentUser.getIdToken();
+
+        const readPayload: any = {
+          service: 'ReadSessionDataService',
+          uid: currentUser.uid
+        };
+        readPayload[this.ontology.UID] = currentUser.uid;
+        readPayload[this.ontology.SessionId] = this.currentSessionId;
+        readPayload[this.ontology.dctermsidentifier] = this.ontology.SessionData;
+
+        const readResponse = await firstValueFrom(
+          this.http.post<any>(`${environment.datasetBackgroundUrl}/service`, readPayload, {
+            headers: { Authorization: `Bearer ${resolvedToken}` }
+          })
+        );
+
+        const catObjects = readResponse[this.ontology.catalogobject];
+        if (
+          readResponse[this.ontology.successful] === 'true' &&
+          catObjects && catObjects.length > 0
+        ) {
+          const newSessionData = catObjects[0];
+          const newCallbackUrl = newSessionData[this.ontology.SessionWorkflowReturnLink];
+          const newStatus = newSessionData[this.ontology.SessionStatus];
+
+          if (newCallbackUrl && newCallbackUrl !== oldCallbackUrl && newStatus === 'UserInput') {
+            console.log('Detected next transaction in sequence. Loading task...');
+            this.sessionData = newSessionData;
+            this.processWorkflowState();
+            return;
+          }
+
+          // If the parent workflow is still running/processing or the callback URL hasn't been updated yet, retry polling.
+          if (newStatus === 'Processing' || newStatus === 'Initial' || newCallbackUrl === oldCallbackUrl) {
+            if (retryCount < maxRetries) {
+              console.log(`Sequence check still processing. Retrying check... (${retryCount + 1}/${maxRetries})`);
+              this.checkNextSequenceTask(resolvedToken, finalMsg, oldCallbackUrl, retryCount + 1);
+              return;
+            }
+          }
+          // If we reach here, it means the sequence has finished (or status is 'Complete')
+          this.sessionData = newSessionData;
+        }
+
+        this.successMessage = finalMsg;
+        this.loading = false;
+        this.cdr.detectChanges();
+      } catch (err) {
+        console.error('Error checking next sequence task:', err);
+        this.successMessage = finalMsg;
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
+    }, 3000);
+  }
+
   showError(msg: string) {
     console.error(msg);
     this.errorMessage = msg;
     this.loading = false;
     this.cdr.detectChanges();
+  }
+
+  get isSequenceAndNotComplete(): boolean {
+    return this.sessionData &&
+           this.sessionData['dataset:sessionworkflow'] === 'transactionsequence' &&
+           this.sessionData[this.ontology.SessionStatus] !== 'Complete';
+  }
+
+  async continueSequenceOrReturn() {
+    if (this.isSequenceAndNotComplete) {
+      this.loading = true;
+      this.successMessage = '';
+      this.cdr.detectChanges();
+
+      const currentUser = this.auth.currentUser;
+      const token = await currentUser?.getIdToken();
+      
+      const oldCallbackUrl = this.sessionData && this.sessionData[this.ontology.SessionWorkflowReturnLink];
+      this.checkNextSequenceTask(token, 'All transactions in sequence executed successfully.', oldCallbackUrl);
+    } else {
+      this.returnToTransactions();
+    }
   }
 
   returnToTransactions() {

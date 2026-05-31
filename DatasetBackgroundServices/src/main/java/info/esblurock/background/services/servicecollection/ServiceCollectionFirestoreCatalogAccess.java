@@ -213,7 +213,7 @@ public enum ServiceCollectionFirestoreCatalogAccess {
 			String type = json.get(ClassLabelConstants.TransactionEventType).getAsString();
 			String transactionID = json.get(ClassLabelConstants.TransactionID).getAsString();
 			try {
-				response = FindTransactions.findSpecificDatasetTransaction(info, type, transactionID);
+				response = FindTransactions.findSpecificDatasetTransaction(json, type, transactionID);
 			} catch (Exception ex) {
 				response = new JsonObject();
 				response.addProperty(ClassLabelConstants.ServiceProcessSuccessful, false);
@@ -228,11 +228,12 @@ public enum ServiceCollectionFirestoreCatalogAccess {
 		@Override
 		public JsonObject process(JsonObject json) {
 			JsonObject response = null;
-			JsonObject info = json.get(ClassLabelConstants.ActivityInformationRecord).getAsJsonObject();
+			// JsonObject info =
+			// json.get(ClassLabelConstants.ActivityInformationRecord).getAsJsonObject();
 			String type = json.get(ClassLabelConstants.TransactionEventType).getAsString();
 			String transactionID = json.get(ClassLabelConstants.TransactionID).getAsString();
 			try {
-				response = FindTransactions.findSpecificDatasetTransaction(info, type, transactionID);
+				response = FindTransactions.findSpecificDatasetTransaction(json, type, transactionID);
 			} catch (Exception ex) {
 				response = new JsonObject();
 				response.addProperty(ClassLabelConstants.ServiceProcessSuccessful, false);

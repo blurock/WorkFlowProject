@@ -16,34 +16,28 @@ public enum FindTransactionFromActivityInfo {
 		void fill(JsonObject info, JsonObject transaction) {
 			transaction.addProperty(ClassLabelConstants.CatalogObjectOwner,
 					info.get(ClassLabelConstants.CatalogObjectOwner).getAsString());
-			transaction.addProperty(ClassLabelConstants.CatalogObjectUniqueGenericLabel,
-					info.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString());
-			transaction.addProperty(ClassLabelConstants.DatabaseObjectType,
-					info.get(ClassLabelConstants.DatabaseObjectType).getAsString());
 			BaseCatalogData.insertFirestoreAddress(transaction);
 
 		}
 
 		@Override
 		JsonObject createSetOfProperties(JsonObject info) {
-			// String datasetid =
-			// info.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString();
+			String datasetid = info.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString();
 			// String owner =
 			// info.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 			// String type = info.get(ClassLabelConstants.CatalogObjectType).getAsString();
 			JsonObject setofprops = CreateDocumentTemplate.createTemplate("dataset:SetOfPropertyValueQueryPairs");
 			JsonArray props = new JsonArray();
 			setofprops.add(ClassLabelConstants.PropertyValueQueryPair, props);
+
+			String prefix = ClassLabelConstants.ActivityInformationRecord + ".";
+
+			JsonObject prop1 = CreateDocumentTemplate.createTemplate("dataset:PropertyValueQueryPair");
+			prop1.addProperty(ClassLabelConstants.DatabaseObjectType,
+					prefix + ClassLabelConstants.CatalogObjectUniqueGenericLabel);
+			prop1.addProperty(ClassLabelConstants.ShortStringKey, datasetid);
+			props.add(prop1);
 			/*
-			 * String prefix = ClassLabelConstants.ActivityInformationRecord + ".";
-			 * 
-			 * JsonObject prop1 =
-			 * CreateDocumentTemplate.createTemplate("dataset:PropertyValueQueryPair");
-			 * prop1.addProperty(ClassLabelConstants.DatabaseObjectType,
-			 * prefix + ClassLabelConstants.CatalogObjectUniqueGenericLabel);
-			 * prop1.addProperty(ClassLabelConstants.ShortStringKey, datasetid);
-			 * props.add(prop1);
-			 * 
 			 * JsonObject prop2 =
 			 * CreateDocumentTemplate.createTemplate("dataset:PropertyValueQueryPair");
 			 * prop2.addProperty(ClassLabelConstants.DatabaseObjectType, prefix +
@@ -82,18 +76,28 @@ public enum FindTransactionFromActivityInfo {
 
 	abstract JsonObject createSetOfProperties(JsonObject info);
 
+	/*
+	 * info has the structure:
+	 * set of properties for a general transaction object
+	 * ActivityInformationRecord: properties specific to each transaction type
+	 * 
+	 * The findTransaction method creates a transaction object and fills in the
+	 * ActivityInformationRecord with the properties from the info object.
+	 * 
+	 */
+
 	public static JsonObject findTransaction(String transactiontype, JsonObject info) {
 		JsonObject transaction = null;
 		String transactionobjectname = "";
 		String name = "";
-
+		JsonObject activity = info.get(ClassLabelConstants.ActivityInformationRecord).getAsJsonObject();
 		TransactionProcess process = TransactionProcess.valueOf(transactiontype.substring(8));
 		transactionobjectname = process.transactionObjectName();
 		name = transactionobjectname.substring(8);
 		FindTransactionFromActivityInfo fill = FindTransactionFromActivityInfo.valueOf(name);
 		if (fill != null) {
 			transaction = CreateDocumentTemplate.createTemplate(transactionobjectname);
-			transaction.add(ClassLabelConstants.ActivityInformationRecord, info);
+			transaction.add(ClassLabelConstants.ActivityInformationRecord, activity);
 			JsonObject shortdescr = transaction.get(ClassLabelConstants.ShortTransactionDescription).getAsJsonObject();
 			shortdescr.addProperty(ClassLabelConstants.TransactionEventType, transactiontype);
 			fill.fill(info, transaction);
@@ -103,14 +107,22 @@ public enum FindTransactionFromActivityInfo {
 		return transaction;
 	}
 
-	public static JsonObject determineSetOfProps(String transactiontype, JsonObject info) {
+	/*
+	 * These are properties within the transaction object
+	 * They are used to search for the transaction object in the hierarchy.
+	 * 
+	 * The transaction is used to find the collection, and these properties are used
+	 * to find the individual object
+	 * within the collection.
+	 */
+	public static JsonObject determineSetOfProps(String transactiontype, JsonObject activity) {
 		TransactionProcess process = TransactionProcess.valueOf(transactiontype.substring(8));
 		String transactionobjectname = process.transactionObjectName();
 		String name = transactionobjectname.substring(8);
 		FindTransactionFromActivityInfo fill = FindTransactionFromActivityInfo.valueOf(name);
 		JsonObject setofprops = null;
 		if (fill != null) {
-			setofprops = fill.createSetOfProperties(info);
+			setofprops = fill.createSetOfProperties(activity);
 		}
 		return setofprops;
 	}

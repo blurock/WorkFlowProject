@@ -709,5 +709,6 @@ public class ClassLabelConstants {
     public static String SessionWorkflow = "dataset:sessionworkflow";
     public static String SessionWorkflowReturnLink = "dataset:sessionworkflowreturnlink";
     public static String TransactionEventDatasetCatalogObject = "dataset:repositorytransactiontype";
+    public static String AllowOnlyOne = "dataset:booleanonlyone";
 
 }

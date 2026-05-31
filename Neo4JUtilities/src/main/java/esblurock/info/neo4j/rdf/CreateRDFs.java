@@ -103,13 +103,16 @@ public class CreateRDFs {
 		String rdfpredicateString = ClassLabelConstants.RDFPredicate;
 		MapOfQueryAndProperties cypherquery = JsonToCypherUtilities.createSimpleRelation(obj);
 		Set<String> keyStrings = cypherquery.keySet();
+		System.out.println("CreateRDFs.createRDFFromCatalogObject: " + keyStrings);
+
 		JsonArray jsonarray = new JsonArray();
 		for (String key : keyStrings) {
 			JsonObject jsonobject = new JsonObject();
 			jsonarray.add(jsonobject);
-			jsonobject.addProperty(rdfpredicateString, key);
-			body.addElement("h3").addText(key);
 			QueryAndProperties queryprops = cypherquery.getQuery(key);
+			String predicate = queryprops.getPredicate();
+			jsonobject.addProperty(rdfpredicateString, predicate);
+			body.addElement("h3").addText(predicate);
 			String query = queryprops.getQuery();
 			List<Map<String, Object>> properties = queryprops.getProperties();
 			int nodesCreated = 0;
@@ -118,6 +121,8 @@ public class CreateRDFs {
 			JsonArray jsonproperties = new JsonArray();
 
 			for (Map<String, Object> map : properties) {
+				System.out.println("CreateRDFs.createRDFFromCatalogObject: " + query);
+				System.out.println("CreateRDFs.createRDFFromCatalogObject: " + map);
 				Result result = transaction.run(query, map);
 				while (result.hasNext()) {
 					Record record = result.next();

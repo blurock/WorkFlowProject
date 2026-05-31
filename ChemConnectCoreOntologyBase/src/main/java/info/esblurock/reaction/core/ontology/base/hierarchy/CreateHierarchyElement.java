@@ -1,6 +1,8 @@
 package info.esblurock.reaction.core.ontology.base.hierarchy;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -143,7 +145,27 @@ public class CreateHierarchyElement {
 			String genname = generateHierarchyName(hierarchy.getClassification(), catalogC, json);
 			UpdateHierarchyList(hierarchy.getClassification(), genname, pair, pairs);
 		} else if (hierarchy.getSubclassificatons() != null) {
-			Iterator<ClassificationHierarchy> iter = hierarchy.getSubclassificatons().iterator();
+			List<ClassificationHierarchy> sorted = new ArrayList<>(hierarchy.getSubclassificatons());
+			sorted.sort((h1, h2) -> {
+				String m1 = OntologyUtilityRoutines.exactlyOnePropertySingle(h1.getClassification(), OntologyObjectLabels.member);
+				String m2 = OntologyUtilityRoutines.exactlyOnePropertySingle(h2.getClassification(), OntologyObjectLabels.member);
+				if (m1 == null && m2 == null) {
+					return h1.getClassification().compareTo(h2.getClassification());
+				}
+				if (m1 == null) return 1;
+				if (m2 == null) return -1;
+				if (m1.equals(m2)) {
+					return h1.getClassification().compareTo(h2.getClassification());
+				}
+				if (GenericSimpleQueries.isSubClassOf(m1, m2, true)) {
+					return -1; // h1 is more specific (subclass), so h1 comes first
+				}
+				if (GenericSimpleQueries.isSubClassOf(m2, m1, true)) {
+					return 1;  // h2 is more specific (subclass), so h2 comes first
+				}
+				return h1.getClassification().compareTo(h2.getClassification());
+			});
+			Iterator<ClassificationHierarchy> iter = sorted.iterator();
 			while (iter.hasNext() && !foundB) {
 				ClassificationHierarchy hier = iter.next();
 				foundB = search(hier, json, pairs, pair, catalogC, top);

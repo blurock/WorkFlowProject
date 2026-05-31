@@ -24,9 +24,14 @@ public class JsonToCypherUtilities {
 			.getAltLabelFromAnnotation("dataset:CatalogObjectID");
 
 	public static MapOfQueryAndProperties createSimpleRelation(JsonObject obj) {
-		// String transactionID =
-		// obj.get(ClassLabelConstants.TransactionID).getAsString();
-		String owner = obj.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
+		String transactionID = "";
+		if (obj.get(ClassLabelConstants.TransactionID) != null) {
+			transactionID = obj.get(ClassLabelConstants.TransactionID).getAsString();
+		}
+		String owner = "";
+		if (obj.get(ClassLabelConstants.CatalogObjectOwner) != null) {
+			owner = obj.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
+		}
 		// String catalogid =
 		// obj.get(ClassLabelConstants.CatalogObjectID).getAsString();
 
@@ -38,32 +43,34 @@ public class JsonToCypherUtilities {
 			QueryAndProperties queryprops = null;
 
 			String subjectnodeString = nodeCreate("subject", rdf.getSubjectNodeNameString(), rdf.getSubjectClass(),
-					owner,
+					transactionID, owner,
 					true, proplst, true);
-			String objectnodeString = nodeCreate("object", rdf.getObjectNodeNameString(), rdf.getObjectClass(), owner,
+			String objectnodeString = nodeCreate("object", rdf.getObjectNodeNameString(), rdf.getObjectClass(),
+					transactionID, owner,
 					false, proplst, true);
 			String relationString = createRelation(predicate, null, null, owner, proplst);
 
-			if (!queryandproperties.containsQuery(predicate)) {
-				StringBuffer buffer = new StringBuffer();
+			StringBuffer buffer = new StringBuffer();
+			buffer.append(subjectnodeString);
+			buffer.append(" ");
+			buffer.append(objectnodeString);
+			buffer.append(" MERGE ");
+			buffer.append(relationString);
+			buffer.append(" RETURN noderelation, subject, object ");
+			String queryKey = buffer.toString();
 
-				buffer.append(subjectnodeString);
-				buffer.append(" ");
-				buffer.append(objectnodeString);
-				buffer.append(" MERGE ");
-				buffer.append(relationString);
-				buffer.append(" RETURN noderelation, subject, object ");
-				queryprops = queryandproperties.initialQuery(predicate, buffer.toString());
-
+			if (!queryandproperties.containsQuery(queryKey)) {
+				queryprops = queryandproperties.initialQuery(predicate, queryKey);
 			} else {
-				queryprops = queryandproperties.getQuery(predicate);
+				queryprops = queryandproperties.getQuery(queryKey);
 			}
 			queryprops.addProperties(proplst);
 		}
 		return queryandproperties;
 	}
 
-	public static String nodeCreate(String nodenameString, String classname, Map<String, Object> values, String owner,
+	public static String nodeCreate(String nodenameString, String classname, Map<String, Object> values,
+			String transactionID, String owner,
 			boolean subject, Map<String, Object> proplst, boolean create) {
 
 		StringBuffer createString = new StringBuffer();
@@ -75,6 +82,7 @@ public class JsonToCypherUtilities {
 		createString.append(" MERGE (" + nodenameString + ")<-[:SUPPORTS]-(support_" + nodenameString
 				+ ":Support)-[:FROM_TX]->(transx_" + nodenameString + ") ");
 
+		proplst.put(transactionaltlabel, transactionID);
 		return createString.toString();
 	}
 

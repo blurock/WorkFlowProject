@@ -12,7 +12,7 @@ public class TestFindTransactionFromActivityInfo {
 
     @Test
     public void test() {
-       String infoS = "{\n"
+        String infoS = "{\n"
                 + " \"prov:activity\": \"dataset:InitialReadInOfRepositoryFile\",\n"
                 + " \"dataset:datasettransactionspecification\": {\n"
                 + "     \"dataset:catalogobjectmaintainer\": \"Administrator\",\n"
@@ -27,11 +27,13 @@ public class TestFindTransactionFromActivityInfo {
         JsonObject emptycatalog = FindTransactionFromActivityInfo.findTransaction(type, info);
         System.out.println(JsonObjectUtilities.toString(emptycatalog));
         if (emptycatalog != null) {
-            System.out.println("--------------- CreateHierarchyElement.searchForCatalogObjectInHierarchyTemplate -----------");
+            System.out.println(
+                    "--------------- CreateHierarchyElement.searchForCatalogObjectInHierarchyTemplate -----------");
             JsonObject firestoreid = CreateHierarchyElement.searchForCatalogObjectInHierarchyTemplate(emptycatalog);
             firestoreid.remove(ClassLabelConstants.SimpleCatalogName);
             System.out.println(JsonObjectUtilities.toString(firestoreid));
-            JsonObject setofprops = FindTransactionFromActivityInfo.determineSetOfProps(type,info);
+            JsonObject activity = info.get(ClassLabelConstants.ActivityInformationRecord).getAsJsonObject();
+            JsonObject setofprops = FindTransactionFromActivityInfo.determineSetOfProps(type, activity);
             System.out.println("--------------- FindTransactionFromActivityInfo.determineSetOfProps -----------");
             System.out.println(JsonObjectUtilities.toString(setofprops));
         } else {

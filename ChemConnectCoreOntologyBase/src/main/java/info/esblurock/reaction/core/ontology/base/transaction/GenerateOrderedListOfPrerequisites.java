@@ -21,13 +21,26 @@ public class GenerateOrderedListOfPrerequisites {
         Element body = MessageConstructor.isolateBody(document);
 
         JsonObject result = new JsonObject();
-        String transactionclass = json.get(ClassLabelConstants.TransactionID).getAsString();
+        String transactionclass = null;
+        if (json.has(ClassLabelConstants.TransactionEventType)) {
+            transactionclass = json.get(ClassLabelConstants.TransactionEventType).getAsString();
+        } else if (json.has(ClassLabelConstants.TransactionID)) {
+            transactionclass = json.get(ClassLabelConstants.TransactionID).getAsString();
+        } else if (json.has(ClassLabelConstants.TransactionEvent)) {
+            transactionclass = json.get(ClassLabelConstants.TransactionEvent).getAsString();
+        }
+
+        if (transactionclass == null) {
+            return StandardResponse.standardErrorResponse(document, "Missing transaction class parameter", null);
+        }
+
         body.addElement("div").addText("GenerateOrderedListOfPrerequisites for " + transactionclass);
         List<String> prerequisites = generate(transactionclass, body);
         JsonArray prereqarray = new JsonArray();
         for (String prereq : prerequisites) {
             prereqarray.add(prereq);
         }
+        result.addProperty(ClassLabelConstants.TransactionEventType, transactionclass);
         result.addProperty(ClassLabelConstants.TransactionID, transactionclass);
         result.add(ClassLabelConstants.RequiredTransactionID, prereqarray);
 

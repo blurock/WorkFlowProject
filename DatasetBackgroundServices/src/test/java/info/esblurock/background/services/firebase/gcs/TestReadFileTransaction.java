@@ -6,32 +6,60 @@ import org.junit.Test;
 
 import com.google.gson.JsonObject;
 
+import info.esblurock.background.services.firestore.InitiallizeSystem;
 import info.esblurock.background.services.transaction.TransactionProcess;
+import info.esblurock.reaction.core.ontology.base.OntologyBase;
 import info.esblurock.reaction.core.ontology.base.utilities.JsonObjectUtilities;
 
 public class TestReadFileTransaction {
 
 	@Test
 	public void test() {
-		String infoS = "{\n" + "     \"prov:activity\": \"dataset:InitialReadInLocalStorageSystem\",\n"
-				+ "     \"dataset:transreqobj\": {},\n" + "\"dataset:activityinfo\": {\n"
-				+ "  \"descr-filestaging\": {\n" + "    \"dataset:purpose-filestaging\": {\n"
-				+ "      \"dataset:purposekey-filestaging\": \"dataset:PurposeFileStaging\",\n"
-				+ "      \"dataset:dataconcept-staging\": \"dataset:ConceptFileStaging\"\n" + "    },\n"
-				+ "    \"dataset:keyword-filestaging\": [],\n"
-				+ "    \"dataset:title-staging\": \"Read in a THERGAS molecule set\",\n"
-				+ "    \"dataset:abstract-staging\": \"Read in a THERGAS molecule set. The set of molecules\",\n"
-				+ "    \"dcterms:created\": \"today\"\n" + "  },\n"
-				+ "  \"dataset:uploadsrc\": \"dataset:LocalFileSystem\",\n"
-				+ "  \"dataset:filesourceformat\": \"dataset:TherGasMoleculeFormat\",\n"
-				+ "  \"dataset:fileidentifier\": \"/Users/edwardblurock/project/Thergas/donnees/mol.don\",\n"
-				+ "  \"dataset:filemediatype\": \"dataset:FileTypeText\",\n"
-				+ "  \"dcterms:title\": \"The standard THERGAS molecules\",\n"
-				+ "  \"dataset:filesourcesubtype\": \"\",\n" + "  \"dcterms:identifier\": \"initialrepositorylocal\"\n"
-				+ "}\n" + "}\n";
-		JsonObject info = JsonObjectUtilities.jsonObjectFromString(infoS);
+
+		InitiallizeSystem.initialize();
+		// Initialize Ontology
+		OntologyBase.Util.getDatabaseOntology();
+		System.out.println("Initialization complete.");
+
+		String infoString = """
+				{
+				  "prov:activity": "dataset:InitialReadInLocalStorageSystem",
+				  "dataset:transreqobj": {},
+				  "dataset:activityinfo": {
+					  "dataset:uniquegenericname": "BBBBenson",
+					  "dataset:fileidentifier": "upload/UOqk0KtFtaXma5TGsi8Seh9RMbx1/tableA1CarbonBensonSmallTest.txt",
+					  "dataset:descrfilestaging": {
+					    "dataset:keywordfilestaging": [],
+					    "dataset:titlestaging": "ttttt",
+					    "dataset:abstractstaging": "dddddd",
+					    "dataset:purposefilestaging": {
+					      "dataset:purposekeyfilestaging": "dataset:PurposeRepositoryPublishedResults",
+					      "dataset:dataconceptstaging": "dataset:GCSSourceFile"
+					    }
+					  },
+					  "dcterms:creator": "UOqk0KtFtaXma5TGsi8Seh9RMbx1",
+					  "dataset:uploadsrc": "dataset:GCSSourceFile",
+					  "dcterms:title": "tttttt",
+					  "dcterms:created": "2026-05-27T13:48:22.627Z",
+					  "foaf:page": [],
+					  "dataset:objectype": "dataset:ActivityRepositoryInitialReadLocalFile",
+					  "dataset:collectionobjecttype": "dataset:ThermodynamicBensonRuleDefinitionDatabase",
+					  "dataset:filesourceformat": "dataset:TherGasBensonRules",
+					  "skos:mappingRelation": [],
+					  "dataset:datasetobjecttype": "dataset:ThermodynamicBensonRuleDefinitionDataSet",
+					  "dataset:filesourcesubtype": "dataset:FileMediaText",
+					  "<http://purl.org/dc/elements/1.1/identifier>": "dataset:initialrepositorylocal",
+					  "dcterms:BibliographicResource": [],
+					  "dataset:repositorytransactiontype": "dataset:TransactionInterpretBensonRule",
+					  "dataset:filemediatype": "dataset:FileMediaText"
+				  }
+				}
+				""";
+
+		JsonObject info = JsonObjectUtilities.jsonObjectFromString(infoString);
+		String owner = "UOqk0KtFtaXma5TGsi8Seh9RMbx1";
 		System.out.println(JsonObjectUtilities.toString(info));
-		// TransactionProcess.processFromTransaction(info);
+		TransactionProcess.processFromTransaction(info, owner);
 	}
 
 }

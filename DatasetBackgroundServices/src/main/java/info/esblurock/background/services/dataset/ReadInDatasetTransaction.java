@@ -145,11 +145,12 @@ public class ReadInDatasetTransaction {
             JsonObject dataobject = arr.get(0).getAsJsonObject();
             JsonArray requiredtransactions = dataobject.get(ClassLabelConstants.RequiredTransactionID).getAsJsonArray();
             requiredtransactions.add(transactionid);
+
             sessiondata.add(ClassLabelConstants.RequiredTransactionID, requiredtransactions);
             for (JsonElement e : requiredtransactions) {
                 String txid = e.getAsString();
                 JsonObject transaction = FindTransactions.findDatasetTransaction(sessiondata, txid, true);
-                if (transaction != null) {
+                if (transaction == null) {
                     filtered.add(txid);
                 }
             }

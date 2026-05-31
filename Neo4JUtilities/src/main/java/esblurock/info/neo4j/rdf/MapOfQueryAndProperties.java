@@ -24,7 +24,7 @@ public class MapOfQueryAndProperties {
 	
 	public QueryAndProperties initialQuery(String predicate, String query) {
 		QueryAndProperties queryAndProperties = new QueryAndProperties(predicate, query);
-		this.map.put(predicate, queryAndProperties);
+		this.map.put(query, queryAndProperties);
 		return queryAndProperties;
 	}
 	

@@ -11,7 +11,7 @@ public class GenerateOrderedListOfPrerequisitesTest {
     public void testGenerate() {
         JsonObject input = new JsonObject();
         String transactionclass = "dataset:TransactionInterpretBensonRule";
-        input.addProperty(ClassLabelConstants.TransactionEvent, transactionclass);
+        input.addProperty(ClassLabelConstants.TransactionEventType, transactionclass);
 
         JsonObject response = GenerateOrderedListOfPrerequisites.generate(input);
 
