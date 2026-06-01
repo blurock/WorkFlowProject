@@ -17144,7 +17144,7 @@ _:genid978 rdf:type owl:Restriction ;
                                                    [ rdf:type owl:Restriction ;
                                                      owl:onProperty <http://www.w3.org/2004/02/skos/core#mappingRelation> ;
                                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                     owl:onClass :ParameterLabelTemperature
+                                                     owl:onClass :RDFParameterTemperature
                                                    ] ,
                                                    [ rdf:type owl:Restriction ;
                                                      owl:onProperty <http://www.w3.org/ns/dcat#record> ;

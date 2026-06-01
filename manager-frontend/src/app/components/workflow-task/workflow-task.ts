@@ -469,9 +469,7 @@ export class WorkflowTaskComponent implements OnInit {
           this.explanation = 'Restarting workflow and waiting for callback URL...';
           this.cdr.detectChanges();
 
-          setTimeout(() => {
-            this.fetchSessionData(this.currentUid, this.currentSessionId, token);
-          }, 3000);
+          this.fetchSessionData(this.currentUid, this.currentSessionId, token);
         },
         error: (err) => this.showError(`Failed to restart workflow: ${err.message}`)
       });
@@ -485,7 +483,7 @@ export class WorkflowTaskComponent implements OnInit {
     this.cdr.detectChanges();
 
     const maxRetries = 10;
-    const retryInterval = 2000;
+    const delay = retryCount === 0 ? 0 : 2000;
 
     setTimeout(async () => {
       try {
@@ -521,6 +519,7 @@ export class WorkflowTaskComponent implements OnInit {
           const newSessionData = catObjects[0];
           const newCallbackUrl = newSessionData[this.ontology.SessionWorkflowReturnLink];
           const newStatus = newSessionData[this.ontology.SessionStatus];
+          console.log('checkNextSequenceTask fetched newSessionData. newStatus:', newStatus, 'newCallbackUrl:', newCallbackUrl);
 
           if (newCallbackUrl && newCallbackUrl !== oldCallbackUrl && newStatus === 'UserInput') {
             console.log('Detected next transaction in sequence. Loading task...');
@@ -539,6 +538,8 @@ export class WorkflowTaskComponent implements OnInit {
           }
           // If we reach here, it means the sequence has finished (or status is 'Complete')
           this.sessionData = newSessionData;
+          this.returnToTransactions();
+          return;
         }
 
         this.successMessage = finalMsg;
@@ -550,7 +551,7 @@ export class WorkflowTaskComponent implements OnInit {
         this.loading = false;
         this.cdr.detectChanges();
       }
-    }, 3000);
+    }, delay);
   }
 
   showError(msg: string) {
@@ -561,12 +562,15 @@ export class WorkflowTaskComponent implements OnInit {
   }
 
   get isSequenceAndNotComplete(): boolean {
-    return this.sessionData &&
-           this.sessionData['dataset:sessionworkflow'] === 'transactionsequence' &&
-           this.sessionData[this.ontology.SessionStatus] !== 'Complete';
+    if (!this.sessionData) return false;
+    const workflow = this.sessionData['dataset:sessionworkflow'];
+    const status = this.sessionData[this.ontology.SessionStatus];
+    console.log(`isSequenceAndNotComplete check: workflow=${workflow}, status=${status}, isNotComplete=${status !== 'Complete'}`);
+    return workflow === 'transactionsequence' && status !== 'Complete';
   }
 
   async continueSequenceOrReturn() {
+    console.log('continueSequenceOrReturn clicked, isSequenceAndNotComplete:', this.isSequenceAndNotComplete);
     if (this.isSequenceAndNotComplete) {
       this.loading = true;
       this.successMessage = '';
@@ -576,8 +580,10 @@ export class WorkflowTaskComponent implements OnInit {
       const token = await currentUser?.getIdToken();
       
       const oldCallbackUrl = this.sessionData && this.sessionData[this.ontology.SessionWorkflowReturnLink];
+      console.log('Calling checkNextSequenceTask with oldCallbackUrl:', oldCallbackUrl);
       this.checkNextSequenceTask(token, 'All transactions in sequence executed successfully.', oldCallbackUrl);
     } else {
+      console.log('Not sequence or complete. Calling returnToTransactions()');
       this.returnToTransactions();
     }
   }

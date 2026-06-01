@@ -72,7 +72,7 @@ main:
                       - log_parse_output:
                           call: sys.log
                           args:
-                            text: '${"parse_subworkflow_output completed for event: " + current_event}'
+                            text: '${"parse_subworkflow_output completed for event: " + string(current_event)}'
                             severity: "INFO"
                       - verify_success:
                           switch:
