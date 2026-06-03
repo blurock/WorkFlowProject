@@ -103,7 +103,6 @@ public class CreateRDFs {
 		String rdfpredicateString = ClassLabelConstants.RDFPredicate;
 		MapOfQueryAndProperties cypherquery = JsonToCypherUtilities.createSimpleRelation(obj);
 		Set<String> keyStrings = cypherquery.keySet();
-		System.out.println("CreateRDFs.createRDFFromCatalogObject: " + keyStrings);
 
 		JsonArray jsonarray = new JsonArray();
 		for (String key : keyStrings) {
@@ -121,8 +120,6 @@ public class CreateRDFs {
 			JsonArray jsonproperties = new JsonArray();
 
 			for (Map<String, Object> map : properties) {
-				System.out.println("CreateRDFs.createRDFFromCatalogObject: " + query);
-				System.out.println("CreateRDFs.createRDFFromCatalogObject: " + map);
 				Result result = transaction.run(query, map);
 				while (result.hasNext()) {
 					Record record = result.next();

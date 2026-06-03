@@ -1,6 +1,6 @@
 <div class="workflow-container">
   <div *ngIf="loading" class="loading-overlay">
-    <h2>Loading Task Data...</h2>
+    <h2>{{ explanation || 'Loading Task Data...' }}</h2>
   </div>
 
   <div *ngIf="errorMessage" class="error-banner"

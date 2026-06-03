@@ -15,9 +15,6 @@ public enum FindTransactionFromActivityInfo {
 		@Override
 		void fill(JsonObject info, JsonObject transaction) {
 			String owner = info.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
-			String type = info.get(ClassLabelConstants.TransactionEventType).getAsString();
-			JsonObject descr = transaction.get(ClassLabelConstants.ShortTransactionDescription).getAsJsonObject();
-			descr.addProperty(ClassLabelConstants.TransactionEventType, type);
 			transaction.addProperty(ClassLabelConstants.CatalogObjectOwner, owner);
 			BaseCatalogData.insertFirestoreAddress(transaction);
 		}

@@ -405,7 +405,10 @@ export class WorkflowTaskComponent implements OnInit, OnDestroy {
               }
             }
           } else if (response && response.status === 'ResumedButTimeoutWaiting') {
-            this.showError('Workflow took too long to complete. Please check the status later.');
+            this.loading = true;
+            this.explanation = 'Workflow is taking longer than expected. Continuing to poll in background...';
+            this.cdr.detectChanges();
+            this.pollFirestoreForStatus(token, callbackUrl);
           } else {
             this.showError(`Workflow execution failed: ${response?.error || 'Unknown error'}`);
           }
@@ -422,6 +425,92 @@ export class WorkflowTaskComponent implements OnInit, OnDestroy {
       // Return to run-transaction even without a callback URL.
       this.router.navigate(['/run-transaction', this.currentUid, this.currentSessionId]);
     }
+  }
+
+  pollFirestoreForStatus(token: string | undefined, oldCallbackUrl?: string, retryCount = 0) {
+    const maxRetries = 60; // Poll for up to 3 minutes
+    const delay = 3000;    // Poll every 3 seconds
+
+    setTimeout(async () => {
+      try {
+        const currentUser = this.auth.currentUser;
+        if (!currentUser) {
+          this.showError('User logged out.');
+          return;
+        }
+
+        const resolvedToken = token || await currentUser.getIdToken();
+        const readPayload: any = {
+          service: 'ReadSessionDataService',
+          uid: currentUser.uid
+        };
+        readPayload[this.ontology.UID] = currentUser.uid;
+        readPayload[this.ontology.SessionId] = this.currentSessionId;
+        readPayload[this.ontology.dctermsidentifier] = this.ontology.SessionData;
+
+        const readResponse = await firstValueFrom(
+          this.http.post<any>(`${environment.datasetBackgroundUrl}/service`, readPayload, {
+            headers: { Authorization: `Bearer ${resolvedToken}` }
+          })
+        );
+
+        const catObjects = readResponse[this.ontology.catalogobject];
+        if (readResponse[this.ontology.successful] === 'true' && catObjects && catObjects.length > 0) {
+          const newSessionData = catObjects[0];
+          const newCallbackUrl = newSessionData[this.ontology.SessionWorkflowReturnLink];
+          const newStatus = newSessionData[this.ontology.SessionStatus];
+
+          // 1. Success completion
+          if (newStatus === 'Complete') {
+            this.sessionData = newSessionData;
+            this.successMessage = 'Workflow completed successfully.';
+            this.loading = false;
+            this.cdr.detectChanges();
+            return;
+          }
+
+          // 2. Next human-in-the-loop task generated
+          if (newStatus === 'UserInput' && newCallbackUrl && newCallbackUrl !== oldCallbackUrl) {
+            this.sessionData = newSessionData;
+            this.loading = false;
+            this.explanation = '';
+            this.processWorkflowState();
+            return;
+          }
+
+          // 3. Error response captured from backend execution
+          const responseInfo = newSessionData[this.ontology.ServiceResponseInformation];
+          if (responseInfo) {
+            try {
+              let parsedResponse = responseInfo;
+              if (typeof parsedResponse === 'string') parsedResponse = JSON.parse(parsedResponse);
+              if (parsedResponse[this.ontology.successful] === 'false' || parsedResponse[this.ontology.successful] === false) {
+                this.showError(parsedResponse[this.ontology.message] || 'Transaction failed in background.');
+                return;
+              }
+            } catch (e) {}
+          }
+
+          // Continue polling if still processing
+          if (retryCount < maxRetries) {
+            this.explanation = `Still processing transaction... (Attempt ${retryCount + 1}/${maxRetries})`;
+            this.cdr.detectChanges();
+            this.pollFirestoreForStatus(resolvedToken, oldCallbackUrl, retryCount + 1);
+          } else {
+            this.showError('Workflow took too long to complete. Please check status later.');
+          }
+        } else {
+          this.showError('Failed to read session data from Firestore.');
+        }
+      } catch (err: any) {
+        console.error('Error polling Firestore status:', err);
+        if (retryCount < maxRetries) {
+          this.pollFirestoreForStatus(token, oldCallbackUrl, retryCount + 1);
+        } else {
+          this.showError(`Error polling status: ${err.message}`);
+        }
+      }
+    }, delay);
   }
 
   async restartWorkflow() {

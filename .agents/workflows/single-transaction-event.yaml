@@ -113,5 +113,28 @@ main:
             "dataset:activityinfo": ${resolved_activity_info}
         result: transaction_response
 
+    - process_transaction_result:
+        assign:
+          - session_data["dataset:serviceresponseinformation"]: ${transaction_response.body}
+
+    - check_if_standalone:
+        switch:
+          - condition: ${session_data["dataset:sessionworkflow"] == "single-transaction-workflow"}
+            steps:
+              - mark_standalone_complete:
+                  assign:
+                    - session_data["dataset:sessionstatus"]: "Complete"
+                    - session_data["dataset:sessionworkflowreturnlink"]: ""
+              - write_standalone_complete:
+                  call: http.post
+                  args:
+                    url: "https://dataset-background-services-315685320181.europe-west1.run.app/service"
+                    auth:
+                      type: OIDC
+                    body:
+                      uid: ${uid}
+                      service: "UpdateSessionDataService"
+                      "dataset:sessiondata": ${session_data}
+
     - return_result:
         return: ${transaction_response}

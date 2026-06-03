@@ -1,6 +1,5 @@
 package info.esblurock.background.services.transaction;
 
-import java.io.Console;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -41,8 +40,6 @@ import info.esblurock.reaction.core.ontology.base.utilities.OntologyUtilityRouti
 import info.esblurock.background.services.datasetobjects.CreateA2DSpeciesFromGUI;
 import info.esblurock.background.services.dataset.InitializeDatasetSessionVariables;
 import info.esblurock.background.services.dataset.ReadInDatasetTransaction;
-
-import jnr.ffi.Struct.int16_t;
 
 public enum TransactionProcess {
 
@@ -922,8 +919,6 @@ public enum TransactionProcess {
 					String message = response.get(ClassLabelConstants.ServiceResponseMessage).getAsString();
 					MessageConstructor.combineBodyIntoDocument(document, message);
 					response.add(ClassLabelConstants.TransactionEventObject, event);
-					System.out.println("-------------------------------------------------");
-					System.out.println("CreateRDFs.createRDFFromObjectArray: " + arr.size());
 					for (int i = 0; i < arr.size(); i++) {
 						JsonObject objInArr = arr.get(i).getAsJsonObject();
 						if (objInArr.get(ClassLabelConstants.TransactionID) == null) {
@@ -934,13 +929,12 @@ public enum TransactionProcess {
 						}
 					}
 					boolean noerror = CreateRDFs.createRDFFromObjectArray(arr, document);
-					System.out.println("-------------------------------------------------" + noerror);
 					boolean noeventrdferror = CreateRDFs.createRDFFromObject(event, document);
 					if (!noerror || !noeventrdferror) {
 						Element body = MessageConstructor.isolateBody(document);
 						body.addElement("div").addText("Error in RDF generation: ");
 					}
-
+					response.add(ClassLabelConstants.SimpleCatalogObject, event);
 				} else {
 					String docmessage = response.get(ClassLabelConstants.ServiceResponseMessage).getAsString();
 					MessageConstructor.combineBodyIntoDocument(document, docmessage);
@@ -1113,22 +1107,30 @@ public enum TransactionProcess {
 		// From the event, find the prerequisite transactions
 		List<String> prerequisitenames = OntologyUtilityRoutines.exactlyOnePropertyMultiple(eventtype,
 				OntologyObjectLabels.requires);
+		logger.info("transaction: " + eventtype);
+		logger.info("Prerequisite transactions: " + prerequisitenames.toString());
+		logger.info("Prerequisite json: " + JsonObjectUtilities.toString(json));
 		// Loop through each prerequisite
 		JsonArray prerequisitelist = new JsonArray();
 		for (String name : prerequisitenames) {
+			logger.info("Checking prerequisite: " + name);
 			String label = DatasetOntologyParseBase.getIDFromAnnotation(name);
+			logger.info("label: " + label);
 			String idlabel = label;
 			if (prerequisites.get(idlabel) == null) {
 				if (prerequisites.get(name) != null) {
 					idlabel = name;
 				}
 			}
+			logger.info("idlabel: " + idlabel);
 			// If the prerequisite has not been filled in yet, find it and add it in.
 			if (prerequisites.get(label) == null) {
 				JsonObject transaction = FindTransactions.findDatasetTransaction(json, name, true);
 				if (transaction != null) {
+					logger.info("Found: " + label);
 					JsonObject firebaseid = transaction.get(ClassLabelConstants.FirestoreCatalogID).getAsJsonObject();
 					prerequisitelist.add(firebaseid);
+					logger.info("Added to prereqs: " + JsonObjectUtilities.toString(firebaseid));
 					prerequisites.add(label, firebaseid);
 				} else {
 					logger.warning(

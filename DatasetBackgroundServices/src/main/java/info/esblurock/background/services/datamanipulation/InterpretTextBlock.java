@@ -465,7 +465,6 @@ public enum InterpretTextBlock {
 					JsonObject catalog = catalogset.get(0).getAsJsonObject();
 					classname = catalog.get(ClassLabelConstants.DatabaseObjectType).getAsString();
 					event.addProperty(ClassLabelConstants.DatasetCollectionObjectType, classname);
-					JsonArray set = new JsonArray();
 					Element writetable = body.addElement("table");
 					Element hrow = writetable.addElement("tr");
 					hrow.addElement("th").addText("Name");
@@ -477,15 +476,7 @@ public enum InterpretTextBlock {
 						String name = catalog.get(ClassLabelConstants.CatalogObjectKey).getAsString();
 						row.addElement("td").addText(name);
 						row.addElement("td").addText(message);
-						set.add(catalog);
 					}
-					/*
-					 * JsonObject genericset = DatasetObjectLabelListManipulation.
-					 * addToChemConnectDatabaseUniqueGenericLabelSet(event,info);
-					 * if(genericset == null) {
-					 * errors.add("ERROR: trouble adding the DatabaseUniqueGenericLabelSet");
-					 * }
-					 */
 					String message = "Successful: " + catalogset.size() + " blocks of '" + classname + "' objects";
 					response = StandardResponse.standardServiceResponse(document, message, catalogset);
 					/*
