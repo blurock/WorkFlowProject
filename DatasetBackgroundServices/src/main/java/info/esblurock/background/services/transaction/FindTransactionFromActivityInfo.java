@@ -14,18 +14,25 @@ public enum FindTransactionFromActivityInfo {
 
 		@Override
 		void fill(JsonObject info, JsonObject transaction) {
-			transaction.addProperty(ClassLabelConstants.CatalogObjectOwner,
-					info.get(ClassLabelConstants.CatalogObjectOwner).getAsString());
+			String owner = info.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
+			String type = info.get(ClassLabelConstants.TransactionEventType).getAsString();
+			JsonObject descr = transaction.get(ClassLabelConstants.ShortTransactionDescription).getAsJsonObject();
+			descr.addProperty(ClassLabelConstants.TransactionEventType, type);
+			transaction.addProperty(ClassLabelConstants.CatalogObjectOwner, owner);
 			BaseCatalogData.insertFirestoreAddress(transaction);
-
 		}
 
 		@Override
 		JsonObject createSetOfProperties(JsonObject info) {
-			String datasetid = info.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString();
+			JsonObject activity = info;
+			if (info.get(ClassLabelConstants.ActivityInformationRecord) != null) {
+				activity = info.get(ClassLabelConstants.ActivityInformationRecord).getAsJsonObject();
+			}
+
+			String datasetid = activity.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString();
 			// String owner =
 			// info.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
-			// String type = info.get(ClassLabelConstants.CatalogObjectType).getAsString();
+
 			JsonObject setofprops = CreateDocumentTemplate.createTemplate("dataset:SetOfPropertyValueQueryPairs");
 			JsonArray props = new JsonArray();
 			setofprops.add(ClassLabelConstants.PropertyValueQueryPair, props);
@@ -37,6 +44,7 @@ public enum FindTransactionFromActivityInfo {
 					prefix + ClassLabelConstants.CatalogObjectUniqueGenericLabel);
 			prop1.addProperty(ClassLabelConstants.ShortStringKey, datasetid);
 			props.add(prop1);
+
 			/*
 			 * JsonObject prop2 =
 			 * CreateDocumentTemplate.createTemplate("dataset:PropertyValueQueryPair");
@@ -44,7 +52,8 @@ public enum FindTransactionFromActivityInfo {
 			 * ClassLabelConstants.CatalogObjectOwner);
 			 * prop2.addProperty(ClassLabelConstants.ShortStringKey, owner);
 			 * props.add(prop2);
-			 * 
+			 */
+			/*
 			 * JsonObject prop3 =
 			 * CreateDocumentTemplate.createTemplate("dataset:PropertyValueQueryPair");
 			 * prop3.addProperty(ClassLabelConstants.DatabaseObjectType, prefix +

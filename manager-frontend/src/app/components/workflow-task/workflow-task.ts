@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,7 +19,7 @@ import { OntologyService } from '../../services/ontology.service';
   templateUrl: './workflow-task.html',
   styleUrl: './workflow-task.css'
 })
-export class WorkflowTaskComponent implements OnInit {
+export class WorkflowTaskComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private http = inject(HttpClient);
@@ -36,6 +36,8 @@ export class WorkflowTaskComponent implements OnInit {
   /** Stored on arrival so resumeBackendWorkflow can redirect back with them. */
   private currentUid: string = '';
   private currentSessionId: string = '';
+  private nextSessionData: any = null;
+  private backgroundPollActive = false;
 
   public sessionData: any;
   public activityData: any;
@@ -143,7 +145,7 @@ export class WorkflowTaskComponent implements OnInit {
           const catObjects = response[this.ontology.catalogobject];
           if (catObjects && catObjects.length > 0) {
             const data = catObjects[0];
-            
+
             const status = data[this.ontology.SessionStatus];
             if (status === 'Processing') {
               if (this.currentRetry < this.maxRetries) {
@@ -211,13 +213,10 @@ export class WorkflowTaskComponent implements OnInit {
     // The activity data must map to an ontology class name so the dynamic primitive knows how to render it.
     // E.g., 'dataset:ActivityRepositoryInitialReadLocalFile'
     const catalogType = this.activityData[this.ontology.DatabaseObjectType];
-    console.log("Catalog Type: " + catalogType);
-    console.log("ActivityData: " + JSON.stringify(this.activityData));
     if (catalogType) {
       // Fetch UI structural template
       this.ontologyService.getUITemplate(catalogType).subscribe({
         next: (struct) => {
-          console.log("Catalog Type: " + catalogType);
           this.activityTemplateStruct = struct["dataobject"];
           this.annotations = struct["annotations"];
           this.classannotations = this.annotations ? this.annotations[catalogType] : undefined;
@@ -226,7 +225,6 @@ export class WorkflowTaskComponent implements OnInit {
             ? this.classannotations[this.ontology.rdfslabel]
             : (catalogType.split(':').pop() || catalogType);
           this.loading = false;
-          console.log(JSON.stringify(this.activityTemplateStruct));
           this.cdr.detectChanges();
         },
         error: (err) => this.showError(`Failed to load template for ${catalogType}`)
@@ -250,7 +248,6 @@ export class WorkflowTaskComponent implements OnInit {
           // Merge uploaded data into activityData to preserve metadata like catalogType
           this.activityData = { ...this.activityData, ...content };
           this.cdr.detectChanges();
-          console.log('JSON data merged into activityData successfully.');
         } catch (err) {
           this.showError('Invalid JSON file: ' + err);
         }
@@ -367,8 +364,10 @@ export class WorkflowTaskComponent implements OnInit {
         headers: { Authorization: `Bearer ${token}` }
       }).subscribe({
         next: (response: any) => {
-          console.log('Orchestrator successfully resumed workflow.', response);
+
+
           if (response && response.status === 'Completed') {
+
             try {
               let resultObj = response.result;
               try { if (typeof resultObj === 'string') resultObj = JSON.parse(resultObj); } catch (e) { }
@@ -379,10 +378,16 @@ export class WorkflowTaskComponent implements OnInit {
               const isSuccess = body[this.ontology.successful] === 'true' || body[this.ontology.successful] === true;
               const msg = body[this.ontology.message] || JSON.stringify(body, null, 2);
 
+
               if (isSuccess) {
                 this.successMessage = msg;
                 this.loading = false;
                 this.cdr.detectChanges();
+
+                // Start silent background poll for next task / completion status
+                if (this.sessionData && this.sessionData['dataset:sessionworkflow'] === 'transactionsequence') {
+                  this.startSilentBackgroundPoll(token);
+                }
               } else {
                 this.errorMessage = msg;
                 delete this.sessionData[this.ontology.SessionWorkflowReturnLink];
@@ -394,6 +399,10 @@ export class WorkflowTaskComponent implements OnInit {
               this.successMessage = 'Workflow completed successfully.';
               this.loading = false;
               this.cdr.detectChanges();
+
+              if (this.sessionData && this.sessionData['dataset:sessionworkflow'] === 'transactionsequence') {
+                this.startSilentBackgroundPoll(token);
+              }
             }
           } else if (response && response.status === 'ResumedButTimeoutWaiting') {
             this.showError('Workflow took too long to complete. Please check the status later.');
@@ -461,7 +470,7 @@ export class WorkflowTaskComponent implements OnInit {
         { headers: { Authorization: `Bearer ${token}` } }
       ).subscribe({
         next: (response) => {
-          console.log('Workflow restarted successfully!', response);
+
 
           // Poll to reload the session data once the new callback is generated
           this.currentRetry = 0;
@@ -479,11 +488,12 @@ export class WorkflowTaskComponent implements OnInit {
   }
 
   checkNextSequenceTask(token: string | undefined, finalMsg: string, oldCallbackUrl?: string, retryCount = 0) {
+    this.backgroundPollActive = false;
     this.explanation = 'Checking for next transaction in sequence...';
     this.cdr.detectChanges();
 
     const maxRetries = 10;
-    const delay = retryCount === 0 ? 0 : 2000;
+    const delay = retryCount === 0 ? 0 : 1000;
 
     setTimeout(async () => {
       try {
@@ -519,19 +529,19 @@ export class WorkflowTaskComponent implements OnInit {
           const newSessionData = catObjects[0];
           const newCallbackUrl = newSessionData[this.ontology.SessionWorkflowReturnLink];
           const newStatus = newSessionData[this.ontology.SessionStatus];
-          console.log('checkNextSequenceTask fetched newSessionData. newStatus:', newStatus, 'newCallbackUrl:', newCallbackUrl);
-
           if (newCallbackUrl && newCallbackUrl !== oldCallbackUrl && newStatus === 'UserInput') {
-            console.log('Detected next transaction in sequence. Loading task...');
+            this.loading = true;
+            this.activityTemplateStruct = undefined;
+            this.activityData = null;
+            this.successMessage = '';
             this.sessionData = newSessionData;
             this.processWorkflowState();
             return;
           }
 
           // If the parent workflow is still running/processing or the callback URL hasn't been updated yet, retry polling.
-          if (newStatus === 'Processing' || newStatus === 'Initial' || newCallbackUrl === oldCallbackUrl) {
+          if (newStatus !== 'Complete' && (newStatus === 'Processing' || newStatus === 'Initial' || newCallbackUrl === oldCallbackUrl)) {
             if (retryCount < maxRetries) {
-              console.log(`Sequence check still processing. Retrying check... (${retryCount + 1}/${maxRetries})`);
               this.checkNextSequenceTask(resolvedToken, finalMsg, oldCallbackUrl, retryCount + 1);
               return;
             }
@@ -561,16 +571,41 @@ export class WorkflowTaskComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
+  get isLastTransactionInSequence(): boolean {
+    if (!this.sessionData) return false;
+    const workflow = this.sessionData['dataset:sessionworkflow'];
+    const currentTx = this.sessionData['dataset:transaction'];
+    const targetTx = this.sessionData['dataset:targettransaction'];
+    return workflow === 'transactionsequence' && currentTx === targetTx;
+  }
+
   get isSequenceAndNotComplete(): boolean {
     if (!this.sessionData) return false;
     const workflow = this.sessionData['dataset:sessionworkflow'];
     const status = this.sessionData[this.ontology.SessionStatus];
-    console.log(`isSequenceAndNotComplete check: workflow=${workflow}, status=${status}, isNotComplete=${status !== 'Complete'}`);
+
+    if (this.isLastTransactionInSequence) {
+      return false;
+    }
+
     return workflow === 'transactionsequence' && status !== 'Complete';
   }
 
   async continueSequenceOrReturn() {
-    console.log('continueSequenceOrReturn clicked, isSequenceAndNotComplete:', this.isSequenceAndNotComplete);
+    this.backgroundPollActive = false;
+
+    if (this.nextSessionData) {
+      this.loading = true;
+      this.activityTemplateStruct = undefined;
+      this.activityData = null;
+      this.successMessage = '';
+      this.sessionData = this.nextSessionData;
+      this.nextSessionData = null;
+      this.cdr.detectChanges();
+      this.processWorkflowState();
+      return;
+    }
+
     if (this.isSequenceAndNotComplete) {
       this.loading = true;
       this.successMessage = '';
@@ -578,14 +613,94 @@ export class WorkflowTaskComponent implements OnInit {
 
       const currentUser = this.auth.currentUser;
       const token = await currentUser?.getIdToken();
-      
+
       const oldCallbackUrl = this.sessionData && this.sessionData[this.ontology.SessionWorkflowReturnLink];
-      console.log('Calling checkNextSequenceTask with oldCallbackUrl:', oldCallbackUrl);
+
       this.checkNextSequenceTask(token, 'All transactions in sequence executed successfully.', oldCallbackUrl);
     } else {
-      console.log('Not sequence or complete. Calling returnToTransactions()');
       this.returnToTransactions();
     }
+  }
+
+  startSilentBackgroundPoll(token: string | undefined) {
+    if (this.backgroundPollActive) return;
+    this.backgroundPollActive = true;
+    this.runSilentBackgroundPoll(token);
+  }
+
+  private runSilentBackgroundPoll(token: string | undefined, retryCount = 0) {
+    const maxRetries = 20;
+    const delay = 1000;
+
+    setTimeout(async () => {
+      if (!this.backgroundPollActive) return;
+      try {
+        const currentUser = this.auth.currentUser;
+        if (!currentUser) {
+          this.backgroundPollActive = false;
+          return;
+        }
+
+        const resolvedToken = token || await currentUser.getIdToken();
+
+        const readPayload: any = {
+          service: 'ReadSessionDataService',
+          uid: currentUser.uid
+        };
+        readPayload[this.ontology.UID] = currentUser.uid;
+        readPayload[this.ontology.SessionId] = this.currentSessionId;
+        readPayload[this.ontology.dctermsidentifier] = this.ontology.SessionData;
+
+        const readResponse = await firstValueFrom(
+          this.http.post<any>(`${environment.datasetBackgroundUrl}/service`, readPayload, {
+            headers: { Authorization: `Bearer ${resolvedToken}` }
+          })
+        );
+
+        const catObjects = readResponse[this.ontology.catalogobject];
+        if (
+          readResponse[this.ontology.successful] === 'true' &&
+          catObjects && catObjects.length > 0
+        ) {
+          const newSessionData = catObjects[0];
+          const newCallbackUrl = newSessionData[this.ontology.SessionWorkflowReturnLink];
+          const newStatus = newSessionData[this.ontology.SessionStatus];
+          const oldCallbackUrl = this.sessionData && this.sessionData[this.ontology.SessionWorkflowReturnLink];
+
+          if (newStatus === 'Complete') {
+
+            this.sessionData = newSessionData;
+            this.nextSessionData = null;
+            this.backgroundPollActive = false;
+            this.cdr.detectChanges();
+            return;
+          }
+
+          if (newCallbackUrl && newCallbackUrl !== oldCallbackUrl && newStatus === 'UserInput') {
+
+            this.nextSessionData = newSessionData;
+            this.backgroundPollActive = false;
+            this.cdr.detectChanges();
+            return;
+          }
+
+          if (retryCount < maxRetries && this.backgroundPollActive) {
+            this.runSilentBackgroundPoll(resolvedToken, retryCount + 1);
+          } else {
+            this.backgroundPollActive = false;
+          }
+        } else {
+          this.backgroundPollActive = false;
+        }
+      } catch (err) {
+        console.error('Error in silent background poll:', err);
+        this.backgroundPollActive = false;
+      }
+    }, delay);
+  }
+
+  ngOnDestroy() {
+    this.backgroundPollActive = false;
   }
 
   returnToTransactions() {

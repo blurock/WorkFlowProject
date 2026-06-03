@@ -22,7 +22,7 @@ import { DynamicPrimitiveComponent } from '../dynamic-primitive/dynamic-primitiv
     <div class="array-container">
       <div class="array-header">
         <span class="array-label">{{ structure.label || structure.classname }}</span>
-        <span *ngIf="value.length === 0" class="empty-hint">No items added. Click + to add.</span>
+        <span *ngIf="value?.length === 0" class="empty-hint">No items added. Click + to add.</span>
         <button mat-icon-button color="primary" (click)="addItem()" matTooltip="Add Item">
           <mat-icon>add_circle</mat-icon>
         </button>

@@ -338,41 +338,45 @@ public class FindTransactions {
 	 * 
 	 * 
 	 */
-	public static JsonObject findDatasetTransaction(JsonObject info, String type, boolean onlyone) {
+	public static JsonObject findDatasetTransaction(JsonObject json, String type, boolean onlyone) {
 		JsonObject transaction = null;
-		JsonObject emptycatalog = FindTransactionFromActivityInfo.findTransaction(type, info);
+		try {
+			JsonObject emptycatalog = FindTransactionFromActivityInfo.findTransaction(type, json);
 
-		if (emptycatalog != null) {
-			JsonObject firestoreid = CreateHierarchyElement.searchForCatalogObjectInHierarchyTemplate(emptycatalog);
-			firestoreid.remove(ClassLabelConstants.SimpleCatalogName);
-			JsonObject activity = info.get(ClassLabelConstants.ActivityInformationRecord).getAsJsonObject();
-			JsonObject setofprops = FindTransactionFromActivityInfo.determineSetOfProps(type, activity);
-			JsonObject response = ReadFirestoreInformation.readFirestoreCollection(setofprops, firestoreid);
-			if (response.get(ClassLabelConstants.ServiceProcessSuccessful).getAsBoolean()) {
-				JsonArray arr = response.get(ClassLabelConstants.SimpleCatalogObject).getAsJsonArray();
-				if (arr != null) {
-					if (onlyone) {
-						if (arr.size() == 1) {
-							transaction = arr.get(0).getAsJsonObject();
+			if (emptycatalog != null) {
+				JsonObject firestoreid = CreateHierarchyElement.searchForCatalogObjectInHierarchyTemplate(emptycatalog);
+				firestoreid.remove(ClassLabelConstants.SimpleCatalogName);
+
+				JsonObject setofprops = FindTransactionFromActivityInfo.determineSetOfProps(type, json);
+				JsonObject response = ReadFirestoreInformation.readFirestoreCollection(setofprops, firestoreid);
+				if (response.get(ClassLabelConstants.ServiceProcessSuccessful).getAsBoolean()) {
+					JsonArray arr = response.get(ClassLabelConstants.SimpleCatalogObject).getAsJsonArray();
+					if (arr != null) {
+						if (onlyone) {
+							if (arr.size() == 1) {
+								transaction = arr.get(0).getAsJsonObject();
+							}
+						} else {
+							if (arr.size() > 0) {
+								transaction = arr.get(0).getAsJsonObject();
+							}
 						}
 					} else {
-						if (arr.size() > 0) {
-							transaction = arr.get(0).getAsJsonObject();
-						}
+						logger.warning("findDatasetTransaction: Array is null. No transaction found for type: " + type
+								+ "\n" + JsonObjectUtilities.toString(firestoreid));
 					}
 				} else {
-					logger.warning("findDatasetTransaction: Array is null. No transaction found for type: " + type
-							+ "\n" + JsonObjectUtilities.toString(firestoreid));
+					logger.warning(
+							"findDatasetTransaction:Dataset Transaction not found: " + type + "\n"
+									+ JsonObjectUtilities.toString(firestoreid));
+					logger.warning("Document\n" + response.get(ClassLabelConstants.ServiceResponseMessage));
 				}
 			} else {
-				logger.warning(
-						"findDatasetTransaction:Dataset Transaction not found: " + type + "\n"
-								+ JsonObjectUtilities.toString(firestoreid));
-				logger.warning("Document\n" + response.get(ClassLabelConstants.ServiceResponseMessage));
+				logger.warning("findDatasetTransaction: Empty catalog for type: " + type + " and info: "
+						+ JsonObjectUtilities.toString(json));
 			}
-		} else {
-			logger.warning("findDatasetTransaction: Empty catalog for type: " + type + " and info: "
-					+ JsonObjectUtilities.toString(info));
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return transaction;
 	}

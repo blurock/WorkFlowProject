@@ -43,10 +43,9 @@ main:
                     service: "FindDatasetTransaction"
                     "prov:activity": ${current_event}
                     "dataset:booleanonlyone": false
+                    "dcterms:creator": ${uid}
                     "dataset:activityinfo":
-                      "dataset:catalogobjectmaintainer": ${uid}
                       "dataset:uniquegenericname": ${uniquegenericname}
-                      "dataset:objecttype": ${current_event}
                 result: find_response
 
             - run_single_transaction:
@@ -72,7 +71,7 @@ main:
                       - log_parse_output:
                           call: sys.log
                           args:
-                            text: '${"parse_subworkflow_output completed for event: " + string(current_event)}'
+                            text: '${"parse_subworkflow_output completed for event: " + json.encode_to_string(current_event)}'
                             severity: "INFO"
                       - verify_success:
                           switch:

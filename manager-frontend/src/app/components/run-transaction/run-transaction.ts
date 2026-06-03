@@ -135,9 +135,10 @@ export class RunTransactionComponent implements OnInit {
       sessionData['dataset:sessionworkflow'] = this.selectedWorkflow;
       if (this.selectedWorkflow === 'transactionsequence') {
         sessionData['dataset:uniquegenericname'] = this.uniqueGenericName;
+        sessionData['dataset:repositorytransactiontype'] = this.transactionEvent;
       }
       sessionData[this.ontology.SessionStatus] = 'Initial';
-      
+
       // Clear out the previous transaction's state so the UI properly waits for the backend to generate the new ActivityInfo
       delete sessionData[this.ontology.ActivityInfo];
       delete sessionData[this.ontology.ServiceResponseInformation];

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transaction Sequence Workflow - WorkFlowProject</title>
+    <link rel="stylesheet" href="../src/style.css">
+  </head>
+  <body>
+    <div class="glow-bg"></div>
+    <div class="container">
+      <header>
+        <button class="back-btn" onclick="location.href='transactionsequence.html'">← Back to Sequence Overview</button>
+        <h1 class="hero-title">Workflow & Backend Layer</h1>
+        <p class="hero-summary">
+          Deep dive into the Google Cloud Workflows orchestrating transaction sequences and database updates.
+        </p>
+      </header>
+
+      <main class="page-content">
+        <section class="info-content">
+          <h2>Overview</h2>
+          <p>
+            The backend orchestration of transaction sequences is defined in <a href="file:///Users/edwardblurock/git/WorkFlowProject/.agents/workflows/transactionsequence.yaml">transactionsequence.yaml</a> and executed within Google Cloud Workflows. It coordinates Spring Boot microservices hosted on Cloud Run and handles nested sub-workflow triggers.
+          </p>
+        </section>
+
+        <section class="info-content">
+          <h2>1. Parameters and Initialization</h2>
+          <p>
+            The workflow receives a single input containing the <code>SessionData</code>:
+          </p>
+          <div class="code-block">
+            <pre><code>main:
+  params: [input]
+  steps:
+    - init:
+        assign:
+          - session_data: ${input.SessionData}
+          - uid: ${session_data["dataset:authorizationuid"]}
+          - session_id: ${session_data["dataset:sessionId"]}
+          - transaction_event: ${session_data["dataset:transaction"]}
+          - uniquegenericname: ${session_data["dataset:uniquegenericname"]}</code></pre>
+          </div>
+        </section>
+
+        <section class="info-content">
+          <h2>2. Dependency Calculation</h2>
+          <div class="pub-item">
+            <h4>Ordered List of Prerequisites</h4>
+            <p>
+              The step <code>get_prerequisites</code> fires an HTTP POST request to the <code>DatasetBackgroundServices</code> microservice, requesting the service <code>"OrderedListOfPrerequisites"</code>:
+            </p>
+            <div class="code-block">
+              <pre><code>    - get_prerequisites:
+        call: http.post
+        args:
+          url: "https://dataset-background-services-315685320181.europe-west1.run.app/service"
+          auth:
+            type: OIDC
+          body:
+            uid: ${uid}
+            service: "OrderedListOfPrerequisites"
+            "prov:activity": ${transaction_event}
+            "dataset:uniquegenericname": ${uniquegenericname}
+        result: prereq_response</code></pre>
+            </div>
+            <p>
+              This retrieves the complete list of required transaction classes. The workflow appends the final target transaction event to this list, forming the <code>full_list</code> of events that must be verified and executed.
+            </p>
+          </div>
+        </section>
+
+        <section class="info-content">
+          <h2>3. Prerequisite Checking & Sub-workflow Looping</h2>
+          <p>
+            The workflow loops over each event in <code>full_list</code>. For each event:
+          </p>
+
+          <div class="pub-item">
+            <h4>A. Existence Check</h4>
+            <p>
+              The workflow calls the <code>"FindDatasetTransaction"</code> service to determine if the transaction instance for the current event already exists in Firestore:
+            </p>
+            <div class="code-block">
+              <pre><code>            - check_prerequisite_exists:
+                call: http.post
+                args:
+                  url: "https://dataset-background-services-315685320181.europe-west1.run.app/service"
+                  auth:
+                    type: OIDC
+                  body:
+                    uid: ${uid}
+                    service: "FindDatasetTransaction"
+                    "prov:activity": ${current_event}
+                    "dataset:booleanonlyone": false
+                    "dataset:activityinfo":
+                      "dataset:catalogobjectmaintainer": ${uid}
+                      "dataset:uniquegenericname": ${uniquegenericname}
+                      "dataset:objecttype": ${current_event}
+                result: find_response</code></pre>
+            </div>
+          </div>
+
+          <div class="pub-item">
+            <h4>B. Sub-workflow Execution (Conditional)</h4>
+            <p>
+              If <code>dataset:servicesuccessful</code> is not <code>"true"</code>, the transaction is missing. The parent workflow launches the child workflow <code>"single-transaction-workflow"</code>:
+            </p>
+            <div class="code-block">
+              <pre><code>                      - execute_subworkflow:
+                          call: googleapis.workflowexecutions.v1.projects.locations.workflows.executions.run
+                          args:
+                            workflow_id: "single-transaction-workflow"
+                            project_id: ${sys.get_env("GOOGLE_CLOUD_PROJECT_ID")}
+                            location: ${sys.get_env("GOOGLE_CLOUD_LOCATION")}
+                            argument: ${subworkflow_args}
+                          result: subworkflow_result</code></pre>
+            </div>
+            <p>
+              This child workflow registers callback URLs, saves state, and halts until user interaction resumes it.
+            </p>
+          </div>
+
+          <div class="pub-item">
+            <h4>C. Re-querying Session Data</h4>
+            <p>
+              After the child workflow resumes and successfully finishes its task, the parent workflow queries the updated session document using <code>ReadSessionDataService</code> and updates its local state variable <code>session_data</code>:
+            </p>
+            <div class="code-block">
+              <pre><code>                      - requery_session_data:
+                          call: http.post
+                          args:
+                            url: "https://dataset-background-services-315685320181.europe-west1.run.app/service"
+                            auth:
+                              type: OIDC
+                            body:
+                              uid: ${uid}
+                              "&lt;http://purl.org/dc/elements/1.1/identifier&gt;": "dataset:sessiondata"
+                              "dataset:authorizationuid": ${uid}
+                              service: "ReadSessionDataService"
+                              "dataset:sessionId": ${session_id}
+                          result: new_session_response</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <section class="info-content">
+          <h2>4. Resiliency & Type Safety</h2>
+          <div class="pub-item">
+            <h4>Type Error Mitigation</h4>
+            <p>
+              In Cloud Workflows, standard <code>string()</code> functions can crash if passed list structures instead of primitives (e.g., if a loop variable resolves to an array under specific branches). 
+              To handle logging safely, the workflow utilizes <code>json.encode_to_string()</code>:
+            </p>
+            <div class="code-block">
+              <pre><code>text: '${"parse_subworkflow_output completed for event: " + json.encode_to_string(current_event)}'</code></pre>
+            </div>
+          </div>
+          <div class="pub-item">
+            <h4>Pre-parsed Response Direct Mapping</h4>
+            <p>
+              The Cloud Workflows HTTP connector automatically pre-parses HTTP responses. Attempting to parse the nested result body field manually using <code>json.decode()</code> led to `KeyError` crashes. Reverting to direct assignment resolved this:
+            </p>
+            <div class="code-block">
+              <pre><code>- parse_subworkflow_output:
+    assign:
+      - run_output: ${subworkflow_result}</code></pre>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <style>
+      .back-btn {
+        background: none;
+        border: 1px solid var(--glass-border);
+        color: var(--accent-color);
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-bottom: 24px;
+        transition: all 0.2s;
+      }
+      .back-btn:hover {
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .page-content {
+        max-width: 800px;
+        margin: 0 auto;
+        padding-bottom: 100px;
+      }
+      .pub-item {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 24px;
+        border-radius: 12px;
+        margin-bottom: 16px;
+      }
+      .pub-item h4 {
+        margin: 0 0 12px 0;
+        color: var(--accent-color);
+      }
+      .pub-item p {
+        margin: 0;
+        line-height: 1.6;
+        color: var(--text-secondary);
+      }
+      code {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: monospace;
+      }
+      ul { padding-left: 20px; list-style: disc; }
+      li { margin-bottom: 8px; color: var(--text-secondary); }
+    </style>
+  </body>
+</html>
