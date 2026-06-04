@@ -47,9 +47,9 @@ CCHPrimary(rk)-Bend                             c/ch3                GeneralPrim
 CCHPrimary(rk)-BendRadical.CCH                  c(.)/ch3             GeneralPrimaryCH3C.           1150.0   3
 CCHPrimary(tw)-Bend                             c/ch3                GeneralPrimaryCH3C            1150.0  -3
 CCHPrimary(tw)-BendRadical.CCH                  c(.)/ch3             GeneralPrimaryCH3C.           1150.0  -3
-CCHSecondary(op)-Bend                           c/ch2/c              GeneralTertiaryCHC2C.         700.0   -4
+CCHSecondary(op)-Bend                           c/ch2/c              GeneralSecondaryCH2C2         700.0   -4
 CCHSecondary(op)-BendRadical.CCH                c/ch2/c(.)           GeneralSecondaryCH2CC.        700.0   -2
-CCHSecondary(rk)-Bend                           c/ch2/c              GeneralPrimaryCH3C.           700.0    4
+CCHSecondary(rk)-Bend                           c/ch2/c              GeneralSecondaryCH2C2           700.0    4
 CCHSecondary(rk)-BendRadical.CCH                c/ch2/c(.)           GeneralSecondaryCH2CC.        700.0    2
 CCHSecondary(tw)-Bend                           c/ch2/c              GeneralSecondaryCH2C2         1150.0   2
 CCHSecondary(tw)-BendRadical.CCH                c/ch2/c(.)           GeneralSecondaryCH2CC.        1150.0   1
