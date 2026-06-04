@@ -877,17 +877,13 @@ public enum TransactionProcess {
 		String transactionobjectname = process.transactionObjectName();
 		JsonObject event = BaseCatalogData.createStandardDatabaseObject(transactionobjectname, owner, transactionID,
 				"false");
-		System.out.println("processFromTransaction: event keys: " + event.keySet());
-		System.out.println(
-				"processFromTransaction: event transactionid: " + event.get(ClassLabelConstants.TransactionID));
+
 		event.add(ClassLabelConstants.ActivityInformationRecord, info);
 		JsonObject shortdescr = event.get(ClassLabelConstants.ShortTransactionDescription).getAsJsonObject();
 		shortdescr.addProperty(ClassLabelConstants.TransactionEventType, transaction);
 		shortdescr.addProperty(ClassLabelConstants.TransactionKey, transactionID);
 		shortdescr.addProperty(ClassLabelConstants.ShortDescription, title);
 		BaseCatalogData.insertFirestoreAddress(event);
-		System.out.println("Firestore: Event creation: "
-				+ JsonObjectUtilities.toString(event.get(ClassLabelConstants.FirestoreCatalogID).getAsJsonObject()));
 
 		String shorttitleString = "";
 		if (info.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel) != null) {
@@ -913,8 +909,6 @@ public enum TransactionProcess {
 					JsonArray output = response.get(ClassLabelConstants.SimpleCatalogObject).getAsJsonArray();
 					GenerateTransactionEventObject.addDatabaseObjectIDOutputTransaction(event, output);
 					event.add(ClassLabelConstants.RequiredTransactionIDAndType, prerequisitelist);
-					System.out.println("Firestore: Event before Write: " + JsonObjectUtilities
-							.toString(event.get(ClassLabelConstants.FirestoreCatalogID).getAsJsonObject()));
 					WriteFirestoreCatalogObject.writeCatalogObject(event);
 					String message = response.get(ClassLabelConstants.ServiceResponseMessage).getAsString();
 					MessageConstructor.combineBodyIntoDocument(document, message);
@@ -1107,9 +1101,6 @@ public enum TransactionProcess {
 		// From the event, find the prerequisite transactions
 		List<String> prerequisitenames = OntologyUtilityRoutines.exactlyOnePropertyMultiple(eventtype,
 				OntologyObjectLabels.requires);
-		logger.info("transaction: " + eventtype);
-		logger.info("Prerequisite transactions: " + prerequisitenames.toString());
-		logger.info("Prerequisite json: " + JsonObjectUtilities.toString(json));
 		// Loop through each prerequisite
 		JsonArray prerequisitelist = new JsonArray();
 		for (String name : prerequisitenames) {
@@ -1130,11 +1121,11 @@ public enum TransactionProcess {
 					logger.info("Found: " + label);
 					JsonObject firebaseid = transaction.get(ClassLabelConstants.FirestoreCatalogID).getAsJsonObject();
 					prerequisitelist.add(firebaseid);
-					logger.info("Added to prereqs: " + JsonObjectUtilities.toString(firebaseid));
 					prerequisites.add(label, firebaseid);
 				} else {
-					logger.warning(
-							"No transaction found: " + name + " with info: " + JsonObjectUtilities.toString(json));
+					// logger.warning(
+					// "No transaction found: " + name + " with info: " +
+					// JsonObjectUtilities.toString(json));
 				}
 			} else {
 				if (idlabel == name) {

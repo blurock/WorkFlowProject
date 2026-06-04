@@ -111,6 +111,7 @@ main:
             uid: ${uid}
             "prov:activity": ${transaction_event}
             "dataset:activityinfo": ${resolved_activity_info}
+          timeout: 900
         result: transaction_response
 
     - process_transaction_result:

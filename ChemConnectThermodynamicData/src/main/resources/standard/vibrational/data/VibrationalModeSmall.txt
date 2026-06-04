@@ -1,0 +1,4 @@
+C.C-ResonantSecondaryStretch 	                chc(.)/c//c          SecondaryResonantCarbonRadial 1300.0   1
+C.C-ResonantStretch                             ch2(.)/c//c          PrimaryResonantCarbonRadial   1300.0   2
+C.F-Stretch                  	       c(.)/f                C.F-Bond             	      1100.0  1
+C.I-Stretch                  	       c(.)/i                C.I-Bond             	      500.0   1

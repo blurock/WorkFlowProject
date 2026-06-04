@@ -245,6 +245,8 @@
 										<argument>--allow-unauthenticated</argument>
 										<argument>--port</argument>
 										<argument>8081</argument>
+										<argument>--timeout</argument>
+										<argument>900</argument>
 									</arguments>
 								</configuration>
 							</execution>

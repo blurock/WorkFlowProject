@@ -362,18 +362,21 @@ public class FindTransactions {
 							}
 						}
 					} else {
-						logger.warning("findDatasetTransaction: Array is null. No transaction found for type: " + type
-								+ "\n" + JsonObjectUtilities.toString(firestoreid));
+						// logger.warning("findDatasetTransaction: Array is null. No transaction found
+						// for type: " + type
+						// + "\n" + JsonObjectUtilities.toString(firestoreid));
 					}
 				} else {
-					logger.warning(
-							"findDatasetTransaction:Dataset Transaction not found: " + type + "\n"
-									+ JsonObjectUtilities.toString(firestoreid));
-					logger.warning("Document\n" + response.get(ClassLabelConstants.ServiceResponseMessage));
+					// logger.warning(
+					// "findDatasetTransaction:Dataset Transaction not found: " + type + "\n"
+					// + JsonObjectUtilities.toString(firestoreid));
+					// logger.warning("Document\n" +
+					// response.get(ClassLabelConstants.ServiceResponseMessage));
 				}
 			} else {
-				logger.warning("findDatasetTransaction: Empty catalog for type: " + type + " and info: "
-						+ JsonObjectUtilities.toString(json));
+				// logger.warning("findDatasetTransaction: Empty catalog for type: " + type + "
+				// and info: "
+				// + JsonObjectUtilities.toString(json));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

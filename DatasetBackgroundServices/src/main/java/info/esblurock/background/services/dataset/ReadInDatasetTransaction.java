@@ -42,7 +42,7 @@ public class ReadInDatasetTransaction {
                     'dataset:objectype': 'dataset:JThermodynamicsDisassociationEnergyOfStructureDataSet',
                     'dataset:filesourceformat': 'dataset:JThermodynamicsDisassociationEnergyFormat'
                      },
-                'dataset:TransactionInterpretVibrationFrequency': {
+                'dataset:TransactionInterpretVibrationalMode': {
                     'dataset:objectype': 'dataset:JThermodynamicsVibrationFrequencyDataSet',
                     'dataset:filesourceformat': 'dataset:JThermodynamicsVibrationalModes'
                      },
