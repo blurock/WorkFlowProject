@@ -8,7 +8,7 @@ import org.junit.Test;
 import java.util.UUID;
 import com.google.gson.JsonObject;
 import info.esblurock.background.services.firestore.InitiallizeSystem;
-import info.esblurock.background.services.firestore.polling.JobPollingService;
+import info.esblurock.reaction.core.firestore.polling.JobPollingService;
 
 public class TestJobPollingService {
 

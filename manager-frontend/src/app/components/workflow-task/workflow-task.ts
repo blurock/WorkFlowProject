@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Auth, idToken, authState } from '@angular/fire/auth';
+import { Firestore, doc, onSnapshot } from '@angular/fire/firestore';
 import { switchMap, take } from 'rxjs/operators';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -24,6 +25,7 @@ export class WorkflowTaskComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private http = inject(HttpClient);
   private auth = inject(Auth);
+  private firestore = inject(Firestore);
   private ontologyService = inject(OntologyService);
   private cdr = inject(ChangeDetectorRef);
   public visibilityService = inject(WorkflowVisibilityService);
@@ -38,6 +40,13 @@ export class WorkflowTaskComponent implements OnInit, OnDestroy {
   private currentSessionId: string = '';
   private nextSessionData: any = null;
   private backgroundPollActive = false;
+
+  private sessionListenerUnsubscribe?: () => void;
+  private progressListenerUnsubscribe?: () => void;
+  private lastCompletedTimestamp?: number;
+  public pollingProgress: number = 0;
+  public pollingStatus: string = '';
+  public pollingMessage: string = '';
 
   public sessionData: any;
   public activityData: any;
@@ -92,6 +101,175 @@ export class WorkflowTaskComponent implements OnInit, OnDestroy {
     document.body.removeChild(a);
   }
 
+  startSessionListener(uid: string, sessionId: string) {
+    if (this.sessionListenerUnsubscribe) {
+      this.sessionListenerUnsubscribe();
+    }
+
+    const sessionRef = doc(this.firestore, `workflows/${uid}/sessions/${sessionId}/SessionData/${sessionId}`);
+    this.sessionListenerUnsubscribe = onSnapshot(sessionRef, (snapshot) => {
+      if (!snapshot.exists()) return;
+      
+      const newSessionData = snapshot.data() as any;
+      const newCallbackUrl = newSessionData[this.ontology.SessionWorkflowReturnLink];
+      const newStatus = newSessionData[this.ontology.SessionStatus];
+      const oldCallbackUrl = this.sessionData && this.sessionData[this.ontology.SessionWorkflowReturnLink];
+      const activityInfo = newSessionData[this.ontology.ActivityInfo];
+      const callbackUrl = newSessionData[this.ontology.SessionWorkflowReturnLink];
+
+      console.log('[WorkflowTask] Session status updated:', newStatus, 'Callback:', newCallbackUrl);
+
+      // Scenario 1: Initial load
+      if (this.loading && !this.sessionData && !this.successMessage) {
+        if (activityInfo && callbackUrl) {
+          this.stopProgressListen();
+          this.sessionData = newSessionData;
+          this.loading = false;
+          this.cdr.detectChanges();
+          this.processWorkflowState();
+        } else if (newStatus === 'Complete') {
+          this.stopProgressListen();
+          
+          let msg = 'Workflow completed successfully.';
+          const serviceResponse = newSessionData[this.ontology.ServiceResponseInformation] || newSessionData['dataset:serviceresponseinformation'];
+          if (serviceResponse) {
+            msg = serviceResponse[this.ontology.message] || serviceResponse['dataset:serviceresponsemessage'] || JSON.stringify(serviceResponse, null, 2);
+          }
+          
+          this.successMessage = msg;
+          this.loading = false;
+          this.cdr.detectChanges();
+        } else if ((newStatus === 'Processing' || newStatus === 'Initial') && !this.progressListenerUnsubscribe) {
+          this.listenToProgress(uid, sessionId);
+        }
+        return;
+      }
+
+      // Scenario 2: If we are actively waiting for the next sequence task (user clicked "Continue to Next Task")
+      if (this.loading && !this.successMessage && newStatus === 'UserInput' && newCallbackUrl && newCallbackUrl !== oldCallbackUrl) {
+        this.stopProgressListen();
+        this.loading = false;
+        this.activityTemplateStruct = undefined;
+        this.activityData = null;
+        this.successMessage = '';
+        this.sessionData = newSessionData;
+        this.cdr.detectChanges();
+        this.processWorkflowState();
+        return;
+      }
+
+      // Scenario 3: If we are showing the success banner (silent background transition detection)
+      if (this.successMessage && newStatus === 'UserInput' && newCallbackUrl && newCallbackUrl !== oldCallbackUrl) {
+        this.stopProgressListen();
+        this.nextSessionData = newSessionData;
+        this.cdr.detectChanges();
+        return;
+      }
+
+      // Scenario 4: If the sequence completes
+      if (newStatus === 'Complete') {
+        this.stopProgressListen();
+        this.sessionData = newSessionData;
+        this.nextSessionData = null;
+        
+        let msg = 'Workflow completed successfully.';
+        const serviceResponse = newSessionData[this.ontology.ServiceResponseInformation] || newSessionData['dataset:serviceresponseinformation'];
+        if (serviceResponse) {
+          msg = serviceResponse[this.ontology.message] || serviceResponse['dataset:serviceresponsemessage'] || JSON.stringify(serviceResponse, null, 2);
+        }
+        
+        this.successMessage = msg;
+        this.loading = false;
+        this.cdr.detectChanges();
+        return;
+      }
+    }, (error) => {
+      console.error('[WorkflowTask] Error in session listener:', error);
+    });
+  }
+
+  stopSessionListen() {
+    if (this.sessionListenerUnsubscribe) {
+      this.sessionListenerUnsubscribe();
+      this.sessionListenerUnsubscribe = undefined;
+    }
+  }
+
+  listenToProgress(uid: string, sessionId: string) {
+    console.log('[WorkflowTask] listenToProgress called with uid:', uid, 'sessionId:', sessionId);
+    if (this.progressListenerUnsubscribe) {
+      console.log('[WorkflowTask] Unsubscribing previous progress listener.');
+      this.progressListenerUnsubscribe();
+    }
+
+    const path = `workflows/${uid}/sessions/${sessionId}/pollStatus/progress`;
+    console.log('[WorkflowTask] Subscribing to progress path:', path);
+    const progressRef = doc(this.firestore, path);
+    
+    this.progressListenerUnsubscribe = onSnapshot(progressRef, (snapshot) => {
+      console.log('[WorkflowTask] Progress snapshot received. Exists:', snapshot.exists());
+      if (snapshot.exists()) {
+        const data = snapshot.data();
+        console.log('[WorkflowTask] Progress data payload:', data);
+
+        let docTime = 0;
+        const timestamp = data['timestamp'];
+        if (timestamp) {
+          if (typeof timestamp.toMillis === 'function') {
+            docTime = timestamp.toMillis();
+          } else if (typeof timestamp.toDate === 'function') {
+            docTime = timestamp.toDate().getTime();
+          } else if (timestamp.seconds !== undefined) {
+            docTime = timestamp.seconds * 1000 + Math.floor((timestamp.nanoseconds || 0) / 1000000);
+          } else if (typeof timestamp === 'string' || typeof timestamp === 'number') {
+            docTime = new Date(timestamp).getTime();
+          }
+        }
+
+        console.log('[WorkflowTask] Progress snapshot docTime:', docTime, 'lastCompletedTimestamp:', this.lastCompletedTimestamp);
+
+        if (this.lastCompletedTimestamp && docTime && docTime <= this.lastCompletedTimestamp) {
+          console.log('[WorkflowTask] Ignoring stale progress snapshot matching or older than last completed timestamp.');
+          return;
+        }
+
+        this.pollingProgress = data['progress'] !== undefined ? data['progress'] : 0;
+        this.pollingStatus = data['status'] || '';
+        this.pollingMessage = data['message'] || '';
+        const error = data['error'] || '';
+
+        if (this.pollingStatus === 'Failed' || this.pollingProgress === -1) {
+          console.error('[WorkflowTask] Progress reported failure:', error);
+          this.showError(error || 'Transaction failed in background.');
+          this.stopProgressListen();
+          return;
+        }
+
+        if (this.pollingStatus === 'Complete' || this.pollingProgress === 100) {
+          console.log('[WorkflowTask] Progress completed. Recording completed timestamp:', docTime);
+          this.lastCompletedTimestamp = docTime;
+          this.stopProgressListen();
+        }
+      } else {
+        console.log('[WorkflowTask] Progress document does not exist yet.');
+        // Document does not exist yet (waiting for transaction servlet to start)
+        this.pollingProgress = 0;
+        this.pollingStatus = 'Connecting';
+        this.pollingMessage = 'Waiting for transaction to start...';
+      }
+      this.cdr.detectChanges();
+    }, (error) => {
+      console.error('[WorkflowTask] Error in progress listener:', error);
+    });
+  }
+
+  stopProgressListen() {
+    if (this.progressListenerUnsubscribe) {
+      this.progressListenerUnsubscribe();
+      this.progressListenerUnsubscribe = undefined;
+    }
+  }
+
   async ngOnInit() {
     this.route.paramMap.subscribe(async params => {
       const uidFromQuery = params.get('uid');
@@ -114,92 +292,11 @@ export class WorkflowTaskComponent implements OnInit, OnDestroy {
       this.currentUid = uidFromQuery;
       this.currentSessionId = sessionId;
 
-      const token = await currentUser.getIdToken();
-      await this.fetchSessionData(uidFromQuery, sessionId, token);
+      this.startSessionListener(uidFromQuery, sessionId);
     });
   }
 
-  private currentRetry = 0;
-  private maxRetries = 15;
-  private retryInterval = 2000;
 
-  async fetchSessionData(uid: string, sessionId: string, token: string) {
-    this.loading = true;
-    this.errorMessage = '';
-
-    // Construct minimal payload required for backend address calc
-    const payload: any = {
-      service: 'ReadSessionDataService',
-      uid: uid
-    };
-    payload[this.ontology.UID] = uid;
-    payload[this.ontology.SessionId] = sessionId;
-    payload[this.ontology.dctermsidentifier] = this.ontology.SessionData;
-
-    this.http.post<any>(`${environment.datasetBackgroundUrl}/service`, payload, {
-      headers: { Authorization: `Bearer ${token}` }
-    }).subscribe({
-      next: (response) => {
-        if (response[this.ontology.successful] === 'true') {
-          // Check if data exists
-          const catObjects = response[this.ontology.catalogobject];
-          if (catObjects && catObjects.length > 0) {
-            const data = catObjects[0];
-
-            const status = data[this.ontology.SessionStatus];
-            if (status === 'Processing') {
-              if (this.currentRetry < this.maxRetries) {
-                this.currentRetry++;
-                setTimeout(() => this.fetchSessionData(uid, sessionId, token), this.retryInterval);
-                return;
-              } else {
-                this.showError('Workflow execution is taking too long. Please check the status later.');
-                return;
-              }
-            }
-
-            if (status === 'Complete') {
-              this.successMessage = 'Workflow completed successfully.';
-              this.loading = false;
-              this.cdr.detectChanges();
-              return;
-            }
-
-            const activityInfo = data[this.ontology.ActivityInfo];
-            const callbackUrl = data[this.ontology.SessionWorkflowReturnLink];
-
-            // Wait until the workflow has deposited BOTH the activity template and the webhook URL
-            if (!activityInfo || !callbackUrl) {
-              if (this.currentRetry < this.maxRetries) {
-                this.currentRetry++;
-                setTimeout(() => this.fetchSessionData(uid, sessionId, token), this.retryInterval);
-                return;
-              } else {
-                this.showError('No ActivityInformationClass or Callback URL attached to this session task after retries.');
-                return;
-              }
-            }
-
-            this.sessionData = data;
-            this.currentRetry = 0;
-            this.processWorkflowState();
-          } else {
-            if (this.currentRetry < this.maxRetries) {
-              this.currentRetry++;
-              setTimeout(() => this.fetchSessionData(uid, sessionId, token), this.retryInterval);
-              return;
-            }
-            this.showError('Session Data returned empty.');
-          }
-        } else {
-          this.showError(response[this.ontology.message]);
-        }
-      },
-      error: (err) => {
-        this.showError(`HTTP Error: ${err.message}`);
-      }
-    });
-  }
 
   processWorkflowState() {
     // ActivityInformationClass is stored under dataset:activityinfo
@@ -315,6 +412,7 @@ export class WorkflowTaskComponent implements OnInit, OnDestroy {
 
     // Clear previous service response to ensure we wait for the new one
     delete this.sessionData[this.ontology.ServiceResponseInformation];
+    delete this.sessionData['dataset:serviceresponseinformation'];
 
     // Set service call
 
@@ -356,18 +454,22 @@ export class WorkflowTaskComponent implements OnInit, OnDestroy {
       payload['workflowName'] = workflowName;
 
       this.loading = true;
-      this.explanation = 'Waiting for workflow to complete...';
+      this.explanation = '';
+      this.pollingProgress = 0;
+      this.pollingStatus = 'Initialized';
+      this.pollingMessage = 'Starting job...';
       this.errorMessage = '';
+      this.successMessage = '';
       this.cdr.detectChanges();
+
+      // Start listening to progress immediately
+      this.listenToProgress(this.currentUid, this.currentSessionId);
 
       this.http.post(resumeUrl, payload, {
         headers: { Authorization: `Bearer ${token}` }
       }).subscribe({
         next: (response: any) => {
-
-
           if (response && response.status === 'Completed') {
-
             try {
               let resultObj = response.result;
               try { if (typeof resultObj === 'string') resultObj = JSON.parse(resultObj); } catch (e) { }
@@ -378,39 +480,24 @@ export class WorkflowTaskComponent implements OnInit, OnDestroy {
               const isSuccess = body[this.ontology.successful] === 'true' || body[this.ontology.successful] === true;
               const msg = body[this.ontology.message] || JSON.stringify(body, null, 2);
 
-
               if (isSuccess) {
                 this.successMessage = msg;
                 this.loading = false;
                 this.cdr.detectChanges();
-
-                // Start silent background poll for next task / completion status
-                if (this.sessionData && this.sessionData['dataset:sessionworkflow'] === 'transactionsequence') {
-                  this.startSilentBackgroundPoll(token);
-                }
               } else {
-                this.errorMessage = msg;
-                delete this.sessionData[this.ontology.SessionWorkflowReturnLink];
-                this.loading = false;
-                this.cdr.detectChanges();
-                return;
+                this.showError(msg);
+                this.stopProgressListen();
               }
             } catch (e) {
               this.successMessage = 'Workflow completed successfully.';
               this.loading = false;
               this.cdr.detectChanges();
-
-              if (this.sessionData && this.sessionData['dataset:sessionworkflow'] === 'transactionsequence') {
-                this.startSilentBackgroundPoll(token);
-              }
             }
           } else if (response && response.status === 'ResumedButTimeoutWaiting') {
-            this.loading = true;
-            this.explanation = 'Workflow is taking longer than expected. Continuing to poll in background...';
             this.cdr.detectChanges();
-            this.pollFirestoreForStatus(token, callbackUrl);
           } else {
             this.showError(`Workflow execution failed: ${response?.error || 'Unknown error'}`);
+            this.stopProgressListen();
           }
         },
         error: (err) => {
@@ -418,6 +505,7 @@ export class WorkflowTaskComponent implements OnInit, OnDestroy {
           this.errorMessage = 'Failed to resume workflow via orchestrator.';
           delete this.sessionData[this.ontology.SessionWorkflowReturnLink];
           this.loading = false;
+          this.stopProgressListen();
           this.cdr.detectChanges();
         }
       });
@@ -427,91 +515,7 @@ export class WorkflowTaskComponent implements OnInit, OnDestroy {
     }
   }
 
-  pollFirestoreForStatus(token: string | undefined, oldCallbackUrl?: string, retryCount = 0) {
-    const maxRetries = 60; // Poll for up to 3 minutes
-    const delay = 3000;    // Poll every 3 seconds
 
-    setTimeout(async () => {
-      try {
-        const currentUser = this.auth.currentUser;
-        if (!currentUser) {
-          this.showError('User logged out.');
-          return;
-        }
-
-        const resolvedToken = token || await currentUser.getIdToken();
-        const readPayload: any = {
-          service: 'ReadSessionDataService',
-          uid: currentUser.uid
-        };
-        readPayload[this.ontology.UID] = currentUser.uid;
-        readPayload[this.ontology.SessionId] = this.currentSessionId;
-        readPayload[this.ontology.dctermsidentifier] = this.ontology.SessionData;
-
-        const readResponse = await firstValueFrom(
-          this.http.post<any>(`${environment.datasetBackgroundUrl}/service`, readPayload, {
-            headers: { Authorization: `Bearer ${resolvedToken}` }
-          })
-        );
-
-        const catObjects = readResponse[this.ontology.catalogobject];
-        if (readResponse[this.ontology.successful] === 'true' && catObjects && catObjects.length > 0) {
-          const newSessionData = catObjects[0];
-          const newCallbackUrl = newSessionData[this.ontology.SessionWorkflowReturnLink];
-          const newStatus = newSessionData[this.ontology.SessionStatus];
-
-          // 1. Success completion
-          if (newStatus === 'Complete') {
-            this.sessionData = newSessionData;
-            this.successMessage = 'Workflow completed successfully.';
-            this.loading = false;
-            this.cdr.detectChanges();
-            return;
-          }
-
-          // 2. Next human-in-the-loop task generated
-          if (newStatus === 'UserInput' && newCallbackUrl && newCallbackUrl !== oldCallbackUrl) {
-            this.sessionData = newSessionData;
-            this.loading = false;
-            this.explanation = '';
-            this.processWorkflowState();
-            return;
-          }
-
-          // 3. Error response captured from backend execution
-          const responseInfo = newSessionData[this.ontology.ServiceResponseInformation];
-          if (responseInfo) {
-            try {
-              let parsedResponse = responseInfo;
-              if (typeof parsedResponse === 'string') parsedResponse = JSON.parse(parsedResponse);
-              if (parsedResponse[this.ontology.successful] === 'false' || parsedResponse[this.ontology.successful] === false) {
-                this.showError(parsedResponse[this.ontology.message] || 'Transaction failed in background.');
-                return;
-              }
-            } catch (e) {}
-          }
-
-          // Continue polling if still processing
-          if (retryCount < maxRetries) {
-            this.explanation = `Still processing transaction... (Attempt ${retryCount + 1}/${maxRetries})`;
-            this.cdr.detectChanges();
-            this.pollFirestoreForStatus(resolvedToken, oldCallbackUrl, retryCount + 1);
-          } else {
-            this.showError('Workflow took too long to complete. Please check status later.');
-          }
-        } else {
-          this.showError('Failed to read session data from Firestore.');
-        }
-      } catch (err: any) {
-        console.error('Error polling Firestore status:', err);
-        if (retryCount < maxRetries) {
-          this.pollFirestoreForStatus(token, oldCallbackUrl, retryCount + 1);
-        } else {
-          this.showError(`Error polling status: ${err.message}`);
-        }
-      }
-    }, delay);
-  }
 
   async restartWorkflow() {
     this.loading = true;
@@ -559,15 +563,19 @@ export class WorkflowTaskComponent implements OnInit, OnDestroy {
         { headers: { Authorization: `Bearer ${token}` } }
       ).subscribe({
         next: (response) => {
-
-
-          // Poll to reload the session data once the new callback is generated
-          this.currentRetry = 0;
+          this.sessionData = null;
+          this.activityTemplateStruct = undefined;
+          this.activityData = null;
+          this.successMessage = '';
+          this.errorMessage = '';
           this.loading = true;
           this.explanation = 'Restarting workflow and waiting for callback URL...';
+          
+          // Reset last completed timestamp on restart to allow listening to newly restarted run
+          this.lastCompletedTimestamp = undefined;
+          this.listenToProgress(this.currentUid, this.currentSessionId);
+          
           this.cdr.detectChanges();
-
-          this.fetchSessionData(this.currentUid, this.currentSessionId, token);
         },
         error: (err) => this.showError(`Failed to restart workflow: ${err.message}`)
       });
@@ -576,82 +584,7 @@ export class WorkflowTaskComponent implements OnInit, OnDestroy {
     }
   }
 
-  checkNextSequenceTask(token: string | undefined, finalMsg: string, oldCallbackUrl?: string, retryCount = 0) {
-    this.backgroundPollActive = false;
-    this.explanation = 'Checking for next transaction in sequence...';
-    this.cdr.detectChanges();
 
-    const maxRetries = 10;
-    const delay = retryCount === 0 ? 0 : 1000;
-
-    setTimeout(async () => {
-      try {
-        const currentUser = this.auth.currentUser;
-        if (!currentUser) {
-          this.successMessage = finalMsg;
-          this.loading = false;
-          this.cdr.detectChanges();
-          return;
-        }
-
-        const resolvedToken = token || await currentUser.getIdToken();
-
-        const readPayload: any = {
-          service: 'ReadSessionDataService',
-          uid: currentUser.uid
-        };
-        readPayload[this.ontology.UID] = currentUser.uid;
-        readPayload[this.ontology.SessionId] = this.currentSessionId;
-        readPayload[this.ontology.dctermsidentifier] = this.ontology.SessionData;
-
-        const readResponse = await firstValueFrom(
-          this.http.post<any>(`${environment.datasetBackgroundUrl}/service`, readPayload, {
-            headers: { Authorization: `Bearer ${resolvedToken}` }
-          })
-        );
-
-        const catObjects = readResponse[this.ontology.catalogobject];
-        if (
-          readResponse[this.ontology.successful] === 'true' &&
-          catObjects && catObjects.length > 0
-        ) {
-          const newSessionData = catObjects[0];
-          const newCallbackUrl = newSessionData[this.ontology.SessionWorkflowReturnLink];
-          const newStatus = newSessionData[this.ontology.SessionStatus];
-          if (newCallbackUrl && newCallbackUrl !== oldCallbackUrl && newStatus === 'UserInput') {
-            this.loading = true;
-            this.activityTemplateStruct = undefined;
-            this.activityData = null;
-            this.successMessage = '';
-            this.sessionData = newSessionData;
-            this.processWorkflowState();
-            return;
-          }
-
-          // If the parent workflow is still running/processing or the callback URL hasn't been updated yet, retry polling.
-          if (newStatus !== 'Complete' && (newStatus === 'Processing' || newStatus === 'Initial' || newCallbackUrl === oldCallbackUrl)) {
-            if (retryCount < maxRetries) {
-              this.checkNextSequenceTask(resolvedToken, finalMsg, oldCallbackUrl, retryCount + 1);
-              return;
-            }
-          }
-          // If we reach here, it means the sequence has finished (or status is 'Complete')
-          this.sessionData = newSessionData;
-          this.returnToTransactions();
-          return;
-        }
-
-        this.successMessage = finalMsg;
-        this.loading = false;
-        this.cdr.detectChanges();
-      } catch (err) {
-        console.error('Error checking next sequence task:', err);
-        this.successMessage = finalMsg;
-        this.loading = false;
-        this.cdr.detectChanges();
-      }
-    }, delay);
-  }
 
   showError(msg: string) {
     console.error(msg);
@@ -699,97 +632,16 @@ export class WorkflowTaskComponent implements OnInit, OnDestroy {
       this.loading = true;
       this.successMessage = '';
       this.cdr.detectChanges();
-
-      const currentUser = this.auth.currentUser;
-      const token = await currentUser?.getIdToken();
-
-      const oldCallbackUrl = this.sessionData && this.sessionData[this.ontology.SessionWorkflowReturnLink];
-
-      this.checkNextSequenceTask(token, 'All transactions in sequence executed successfully.', oldCallbackUrl);
+      // The Firestore session listener will detect when the next task becomes available (UserInput status with new callback URL) and load it.
     } else {
       this.returnToTransactions();
     }
   }
 
-  startSilentBackgroundPoll(token: string | undefined) {
-    if (this.backgroundPollActive) return;
-    this.backgroundPollActive = true;
-    this.runSilentBackgroundPoll(token);
-  }
-
-  private runSilentBackgroundPoll(token: string | undefined, retryCount = 0) {
-    const maxRetries = 20;
-    const delay = 1000;
-
-    setTimeout(async () => {
-      if (!this.backgroundPollActive) return;
-      try {
-        const currentUser = this.auth.currentUser;
-        if (!currentUser) {
-          this.backgroundPollActive = false;
-          return;
-        }
-
-        const resolvedToken = token || await currentUser.getIdToken();
-
-        const readPayload: any = {
-          service: 'ReadSessionDataService',
-          uid: currentUser.uid
-        };
-        readPayload[this.ontology.UID] = currentUser.uid;
-        readPayload[this.ontology.SessionId] = this.currentSessionId;
-        readPayload[this.ontology.dctermsidentifier] = this.ontology.SessionData;
-
-        const readResponse = await firstValueFrom(
-          this.http.post<any>(`${environment.datasetBackgroundUrl}/service`, readPayload, {
-            headers: { Authorization: `Bearer ${resolvedToken}` }
-          })
-        );
-
-        const catObjects = readResponse[this.ontology.catalogobject];
-        if (
-          readResponse[this.ontology.successful] === 'true' &&
-          catObjects && catObjects.length > 0
-        ) {
-          const newSessionData = catObjects[0];
-          const newCallbackUrl = newSessionData[this.ontology.SessionWorkflowReturnLink];
-          const newStatus = newSessionData[this.ontology.SessionStatus];
-          const oldCallbackUrl = this.sessionData && this.sessionData[this.ontology.SessionWorkflowReturnLink];
-
-          if (newStatus === 'Complete') {
-
-            this.sessionData = newSessionData;
-            this.nextSessionData = null;
-            this.backgroundPollActive = false;
-            this.cdr.detectChanges();
-            return;
-          }
-
-          if (newCallbackUrl && newCallbackUrl !== oldCallbackUrl && newStatus === 'UserInput') {
-
-            this.nextSessionData = newSessionData;
-            this.backgroundPollActive = false;
-            this.cdr.detectChanges();
-            return;
-          }
-
-          if (retryCount < maxRetries && this.backgroundPollActive) {
-            this.runSilentBackgroundPoll(resolvedToken, retryCount + 1);
-          } else {
-            this.backgroundPollActive = false;
-          }
-        } else {
-          this.backgroundPollActive = false;
-        }
-      } catch (err) {
-        console.error('Error in silent background poll:', err);
-        this.backgroundPollActive = false;
-      }
-    }, delay);
-  }
-
   ngOnDestroy() {
     this.backgroundPollActive = false;
+    this.stopSessionListen();
+    this.stopProgressListen();
   }
 
   returnToTransactions() {

@@ -40,6 +40,7 @@ import info.esblurock.reaction.core.ontology.base.utilities.OntologyUtilityRouti
 import info.esblurock.background.services.datasetobjects.CreateA2DSpeciesFromGUI;
 import info.esblurock.background.services.dataset.InitializeDatasetSessionVariables;
 import info.esblurock.background.services.dataset.ReadInDatasetTransaction;
+import info.esblurock.reaction.core.firestore.polling.JobPollingService;
 
 public enum TransactionProcess {
 
@@ -734,6 +735,11 @@ public enum TransactionProcess {
 	};
 
 	private static final Logger logger = Logger.getLogger(TransactionProcess.class.getName());
+	public static int BEGIN_PROCESSING = 1;
+	public static int START_RUN_PREREQUISITES = 5;
+	public static int RUN_TRANSACTION = 10;
+	public static int START_RUN_CREATE_RDFS = 60;
+	public static int DONE = 100;
 
 	public static void addLinkToCatalog(JsonArray catalogobjs, JsonObject linkobj, String type, String concept) {
 		for (int i = 0; i < catalogobjs.size(); i++) {
@@ -893,6 +899,11 @@ public enum TransactionProcess {
 			shorttitleString = title;
 		}
 
+		String uid = info.get(ClassLabelConstants.UID).getAsString();
+		String sessionid = info.get(ClassLabelConstants.SessionId).getAsString();
+		JobPollingService.updateStatus(uid, sessionid, "Transaction " + transactionID + " Starting", RUN_TRANSACTION,
+				"Processing " + shorttitleString);
+
 		event.addProperty(ClassLabelConstants.ShortDescription, shorttitleString);
 		JsonObject response = process.process(event, prerequisites, info);
 
@@ -922,7 +933,11 @@ public enum TransactionProcess {
 							objInArr.addProperty(ClassLabelConstants.CatalogObjectOwner, owner);
 						}
 					}
-					boolean noerror = CreateRDFs.createRDFFromObjectArray(arr, document);
+					JobPollingService.updateStatus(uid, sessionid,
+							"Start creating RDFs for transaction: " + transactionID + " Starting",
+							START_RUN_CREATE_RDFS, "Processing " + shorttitleString);
+					int spanarray = DONE - START_RUN_CREATE_RDFS;
+					boolean noerror = CreateRDFs.createRDFFromObjectArray(arr, document, uid, sessionid, spanarray);
 					boolean noeventrdferror = CreateRDFs.createRDFFromObject(event, document);
 					if (!noerror || !noeventrdferror) {
 						Element body = MessageConstructor.isolateBody(document);
@@ -992,15 +1007,28 @@ public enum TransactionProcess {
 		String transaction = json.get(ClassLabelConstants.TransactionEventType).getAsString();
 		json.addProperty(ClassLabelConstants.CatalogObjectOwner, owner);
 		JsonObject info = json.get(ClassLabelConstants.ActivityInformationRecord).getAsJsonObject();
+		String uid = owner;
+		String sessionid = info.get(ClassLabelConstants.SessionId).getAsString();
+		JobPollingService.initialize(uid, sessionid);
+		JobPollingService.updateStatus(uid, sessionid, "Prerequisite List", START_RUN_PREREQUISITES,
+				"Filling in Prerequisite Transaction List");
 
 		// Dataset transaction events (subclass of DatabaseTransactionEvent),
 		// then can be filled in automatically
 		JsonArray prerequisitelist = fillInDatasetPrerequisites(transaction,
 				json);
 		JsonObject prerequisites = getPrerequisiteObjects(json);
+		JobPollingService.updateStatus(uid, sessionid, "Start Processing", RUN_TRANSACTION,
+				"Starting Processing of the Transaction");
 
-		return processFromTransaction(transaction, prerequisites,
+		JsonObject response = processFromTransaction(transaction, prerequisites,
 				prerequisitelist, info, owner);
+		if (response.get(ClassLabelConstants.ServiceProcessSuccessful).getAsBoolean()) {
+			JobPollingService.updateStatus(uid, sessionid, "Completed", DONE, "Transaction Completed");
+		} else {
+			JobPollingService.updateStatus(uid, sessionid, "Failed", DONE, "Transaction Failed");
+		}
+		return response;
 	}
 
 	/**

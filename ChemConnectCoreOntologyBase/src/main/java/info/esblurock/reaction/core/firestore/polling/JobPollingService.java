@@ -1,4 +1,4 @@
-package info.esblurock.background.services.firestore.polling;
+package info.esblurock.reaction.core.firestore.polling;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.Timestamp;
@@ -7,7 +7,7 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
 import com.google.gson.JsonObject;
-import info.esblurock.background.services.firestore.FirestoreBaseClass;
+import info.esblurock.reaction.core.firestore.FirestoreBaseClass;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;

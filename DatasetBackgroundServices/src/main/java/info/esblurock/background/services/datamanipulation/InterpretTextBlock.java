@@ -35,6 +35,7 @@ import thermo.data.structure.structure.MetaAtomInfo;
 import thermo.data.structure.structure.MetaAtomLine;
 import thermo.data.structure.structure.StructureAsCML;
 import thermo.exception.ThermodynamicComputeException;
+import info.esblurock.reaction.core.firestore.polling.JobPollingService;
 
 public enum InterpretTextBlock {
 
@@ -425,12 +426,19 @@ public enum InterpretTextBlock {
 			body.addElement("div").addText("Processing " + parsedlineset.size() + " blocks");
 			InterpretTextBlock method = getMethod(info);
 			Element table = method.setUpOutputTable(info, body);
+			String uid = info.get(ClassLabelConstants.UID).getAsString();
+			String sessionid = info.get(ClassLabelConstants.SessionId).getAsString();
+			int diff = TransactionProcess.START_RUN_CREATE_RDFS - TransactionProcess.RUN_TRANSACTION;
 
 			JsonArray errors = new JsonArray();
 			for (int i = 0; i < parsedlineset.size(); i++) {
 				JsonObject parsed = parsedlineset.get(i).getAsJsonObject();
+				int poll = TransactionProcess.RUN_TRANSACTION + i * (diff / parsedlineset.size());
+				JobPollingService.updateStatus(uid, sessionid,
+						"Interpreting partition " + i + " of " + parsedlineset.size(), poll, "Interpretation");
 				if (checkIfCompatableParse(parsed, info)) {
 					JsonObject catalog = method.interpret(parsed, table, info);
+
 					if (catalog != null) {
 						catalog.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
 						catalog.addProperty(ClassLabelConstants.CatalogObjectUniqueGenericLabel, uniquelabel);

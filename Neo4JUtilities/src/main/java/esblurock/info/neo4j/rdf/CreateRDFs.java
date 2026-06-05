@@ -26,17 +26,24 @@ import info.esblurock.reaction.core.MessageConstructor;
 import info.esblurock.reaction.core.StandardResponse;
 import info.esblurock.reaction.core.ontology.base.constants.ClassLabelConstants;
 import info.esblurock.reaction.core.ontology.base.utilities.JsonObjectUtilities;
+import info.esblurock.reaction.core.firestore.polling.JobPollingService;
 
 public class CreateRDFs {
 
-	public static boolean createRDFFromObjectArray(JsonArray arr, Document document) {
+	public static boolean createRDFFromObjectArray(JsonArray arr, Document document, String uid, String sessionid,
+			int polling) {
 		Element body = MessageConstructor.isolateBody(document);
 		boolean noerror = true;
 		try (Session session = Neo4JInitialization.getDriver().session()) {
 			Transaction transaction = session.beginTransaction();
 
 			for (int i = 0; i < arr.size(); i++) {
+
 				JsonObject catalog = arr.get(i).getAsJsonObject();
+				int poll = polling + (i * (polling / arr.size()));
+				JobPollingService.updateStatus(uid, sessionid, "RDF Generation", poll,
+						"Processing:  " + i + " of " + arr.size());
+
 				noerror = noerror && CreateRDFs.createRDFFromObject(transaction, catalog, document);
 			}
 			transaction.commit();

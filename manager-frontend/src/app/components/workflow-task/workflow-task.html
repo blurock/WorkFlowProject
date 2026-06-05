@@ -1,6 +1,19 @@
 <div class="workflow-container">
   <div *ngIf="loading" class="loading-overlay">
-    <h2>{{ explanation || 'Loading Task Data...' }}</h2>
+    <div class="polling-card">
+      <div class="spinner"></div>
+      <h2>{{ explanation || 'Loading Task Data...' }}</h2>
+      <div *ngIf="pollingStatus" class="progress-details">
+        <div class="progress-bar-container">
+          <div class="progress-bar" [style.width.%]="pollingProgress"></div>
+        </div>
+        <div class="polling-meta">
+          <span class="polling-status">{{ pollingStatus }}</span>
+          <span class="polling-percent">{{ pollingProgress }}%</span>
+        </div>
+        <p class="polling-message">{{ pollingMessage }}</p>
+      </div>
+    </div>
   </div>
 
   <div *ngIf="errorMessage" class="error-banner"

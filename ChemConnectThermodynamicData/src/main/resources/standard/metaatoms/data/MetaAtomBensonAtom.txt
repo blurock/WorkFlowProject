@@ -4,7 +4,6 @@ cR2//R         BensonDoubleBondCarbon       c/d  BensonAtom
 cR///R         BensonTripleBondedCarbon     c/t  BensonAtom
 nR3             BensonSingleBondedNitrogen   n    BensonAtom
 cR4             BensonCarbonAtom             c    BensonAtom
-nR3             BensonSingleBondNitrogen     n    BensonAtom
 n(//nR)R        BensonAzoNitrogen            n/a  BensonAtom
 n(//R)R         BensonIminoNitrogen          n/i  BensonAtom
 n(//o)oR        BensonNO2                    no2  BensonAtom

@@ -528,7 +528,7 @@ public class ClassLabelConstants {
     public static String TransactionComponentOldValue = "dataset:transcompold";
     public static String StringNameLabel = "dataset:stringnamelabel";
     public static String JThermodynamicsSymmetryDefinitionNodeLabel = "dataset:symnodelabel";
-    public static String JThermodynamics2DSpeciesLabel = "dataset:2dmollabel";
+    public static String JThermodynamics2DSpeciesLabel = "dataset:twodmollabel";
     public static String DatasetCollectionsSetLabel = "dataset:datasetcollectionslabel";
     public static String SystemDatasetCollectionsSetLabel = "dataset:systemdatasaetcollectionlabel";
     public static String DatasetCollectionSetDestinationLabel = "dataset:destinationcollectionset";

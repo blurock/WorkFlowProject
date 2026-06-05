@@ -13,6 +13,7 @@ import info.esblurock.background.services.transaction.TransactionProcess;
 import info.esblurock.background.services.utilities.CreateLinksInStandardCatalogInformation;
 import info.esblurock.reaction.core.MessageConstructor;
 import info.esblurock.reaction.core.StandardResponse;
+import info.esblurock.reaction.core.firestore.polling.JobPollingService;
 import info.esblurock.reaction.core.ontology.base.constants.AnnotationObjectsLabels;
 import info.esblurock.reaction.core.ontology.base.constants.ClassLabelConstants;
 import info.esblurock.reaction.core.ontology.base.dataset.BaseCatalogData;
@@ -65,7 +66,13 @@ public class PartiionSetWithinRepositoryFileProcess {
 			Element hrow = table.addElement("tr");
 			hrow.addElement("th").addText("Position");
 			hrow.addElement("th").addText("Message");
+			int diff = TransactionProcess.START_RUN_CREATE_RDFS - TransactionProcess.RUN_TRANSACTION;
+			String uid = info.get(ClassLabelConstants.UID).getAsString();
+			String sessionid = info.get(ClassLabelConstants.SessionId).getAsString();
 			for (int i = 0; i < objects.size(); i++) {
+				int poll = TransactionProcess.RUN_TRANSACTION + i * (diff / objects.size());
+				JobPollingService.updateStatus(uid, sessionid, "Processing partition " + i + " of " + objects.size(),
+						poll, "Partitioning ");
 				Element row = table.addElement("tr");
 				JsonObject catalog = objects.get(i).getAsJsonObject();
 				catalog.add(ClassLabelConstants.FirestoreCatalogIDForTransaction, transfirestoreID.deepCopy());
