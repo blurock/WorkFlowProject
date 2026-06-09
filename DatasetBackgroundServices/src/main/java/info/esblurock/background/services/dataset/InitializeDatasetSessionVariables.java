@@ -86,7 +86,7 @@ public class InitializeDatasetSessionVariables {
 						'dataset:objectype': 'dataset:JThermodynamics2DMoleculeThermodynamicsDatabase',
 			            'dataset:collectionobjecttype': 'dataset:JThermodynamics2DMoleculeThermodynamicsDatabase',
 						'dataset:datasetobjecttype': 'dataset:JThermodynamics2DMoleculeThermodynamicsDataSet',
-						'dataset:transactionid': 'dataset:TransactionInterpretMolecularThermodynamics',
+						'dataset:transactionid': 'dataset:TransactionInterpretTextBlock',
 						'dataset:filesourcesubtype': 'dataset:FileMediaText',
 						'dataset:filemediatype': 'dataset:FileMediaText',
 						'dataset:supplementaryparameters': {
@@ -119,7 +119,7 @@ public class InitializeDatasetSessionVariables {
 						'prov:activity': 'dataset:ActivityInformationInterpretSubstructureThermodynamics',
 			            'dataset:collectionobjecttype': 'dataset:JThermodynamics2DSubstructureThermodynamics',
 						'dcat:dataset':'dataset:JThermodynamics2DSubstructureThermodynamics',
-						'dataset:transactionid': 'dataset:TransactionInterpretSubstructureThermodynamics',
+						'dataset:transactionid': 'dataset:TransactionInterpretMolecularThermodynamics',
 						'dataset:filesourcesubtype': 'dataset:FileMediaText',
 						'dataset:filemediatype': 'dataset:FileMediaText',
 						'dataset:supplementaryparameters': {
@@ -152,7 +152,7 @@ public class InitializeDatasetSessionVariables {
 			            'dataset:collectionobjecttype': 'dataset:JThermodynamics2DMoleculeThermodynamicsDatabase',
 						'dataset:datasetobjecttype': 'dataset:JThermodynamics2DMoleculeThermodynamicsDataSet',
 						'dcat:dataset':'dataset:JThermodynamics2DMoleculeThermodynamicsDataset',
-						'dataset:transactionid': 'dataset:TransactionInterpretMolecularThermodynamics',
+						'dataset:transactionid': 'dataset:TransactionInterpretTextBlock',
 						'dataset:filesourcesubtype': 'dataset:FileMediaText',
 						'dataset:filemediatype': 'dataset:FileMediaText',
 						'dataset:supplementaryparameters': {
@@ -293,12 +293,12 @@ public class InitializeDatasetSessionVariables {
 					}
 				},
 				"dataset:hdisassociationparameter": {
-					"dataset:molarentropyunits": {
-						"dataset:molarentropyunitclass": "dataset:UnitClassMolarEntropy",
-						"dataset:molarentropyunitspecification": "dataset:UnitsJoulesPerMole"
+					"dataset:molarenthalpyunits": {
+						"dataset:molarenthalpyunitclass": "dataset:UnitClassMolarEnthalpy",
+						"dataset:molarenthalpyunitspecification": "dataset:UnitsCaloriesPerMole"
 					},
 					"dataset:dynamicType": "dataset:FixedParameter",
-					"dataset:parameterlabelentropy": "Entropy",
+					"dataset:parameterlabelhdisassociation": "Dissociation Enthalpy",
 					"dataset:uncertainty": "dataset:ImpliedDigitsUncertainty",
 					"dataset:purposeconcepthdisassociation": {
 						"dataset:purposeparameterhdisassociation": "dataset:ThermodynamicParameterCalculationElement",

@@ -243,7 +243,7 @@ public enum InterpretTextBlock {
 						JsonObject value = CreateDocumentTemplate
 								.createTemplate("dataset:JThermodynamicDisassociationEnergy");
 						catalog.add(ClassLabelConstants.JThermodynamicDisassociationEnergy, value);
-						value.add(ClassLabelConstants.ParameterSpecificationStructureVibrationFrequency, spec);
+						value.add(ClassLabelConstants.ParameterSpecificationHDisassociationEnergy, spec);
 						value.addProperty(ClassLabelConstants.ValueUncertainty, errorD.toString());
 						value.addProperty(ClassLabelConstants.ValueAsString, energyD.toString());
 						catalog.add(ClassLabelConstants.JThermodynamics2DSpeciesStructure, structure);

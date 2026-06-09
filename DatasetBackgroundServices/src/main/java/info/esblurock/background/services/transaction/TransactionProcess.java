@@ -326,7 +326,27 @@ public enum TransactionProcess {
 		}
 
 	},
-	TransactionInterpretTextBlock {
+	TransactionInterpretMolecularThermodynamics {
+		@Override
+		JsonObject process(JsonObject event, JsonObject prerequisites, JsonObject info) {
+			return InterpretTextBlock.interpret(event, prerequisites, info);
+		}
+
+		@Override
+		String transactionKey(JsonObject catalog) {
+
+			String maintainer = catalog.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
+			String label = catalog.get(ClassLabelConstants.CatalogObjectUniqueGenericLabel).getAsString();
+			return maintainer + "." + label;
+		}
+
+		@Override
+		String transactionObjectName() {
+			return "dataset:DatasetTransactionEventObject";
+		}
+
+	},
+	TransactionInterpretSubstructureThermodynamics {
 		@Override
 		JsonObject process(JsonObject event, JsonObject prerequisites, JsonObject info) {
 			return InterpretTextBlock.interpret(event, prerequisites, info);

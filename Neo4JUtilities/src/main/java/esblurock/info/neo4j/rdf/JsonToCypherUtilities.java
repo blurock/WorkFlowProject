@@ -78,7 +78,7 @@ public class JsonToCypherUtilities {
 		createString.append("MERGE ");
 		createString.append(nodeString);
 		createString.append(" ON CREATE SET " + nodenameString + ".createdAt = datetime()");
-		createString.append(" MERGE (transx_" + nodenameString + ":Transaction {id: $" + transactionaltlabel + "}) ");
+		createString.append(" MERGE (transx_" + nodenameString + ":Transaction {`id`: $`" + transactionaltlabel + "`}) ");
 		createString.append(" MERGE (" + nodenameString + ")<-[:SUPPORTS]-(support_" + nodenameString
 				+ ":Support)-[:FROM_TX]->(transx_" + nodenameString + ") ");
 
@@ -157,9 +157,7 @@ public class JsonToCypherUtilities {
 	}
 
 	private static void addProperty(String id, StringBuffer buf) {
-		buf.append(id);
-		buf.append(": $");
-		buf.append(id);
-		buf.append(" ");
+		buf.append("`").append(id).append("`");
+		buf.append(": $`").append(id).append("` ");
 	}
 }

@@ -24,33 +24,33 @@ public class TestCreateRDFBensonAldehydeKetone {
 		try {
 			// 1. Read catalog object from Firestore
 			Firestore db = FirestoreBaseClass.getFirebaseDatabase();
-			String path = "hierthermodynamicdataset/UOqk0KtFtaXma5TGsi8Seh9RMbx1/datainformationhierarchy/hierdatasetseriesdataobjects/JThermodynamicsMetaAtomDefinitionDatSset/JThermodynamicsMetaAtomDefinitionDataSet/MetaAtoms/BensonAldehydeKetone";
+			String path = "hierthermodynamicdataset/UOqk0KtFtaXma5TGsi8Seh9RMbx1/datainformationhierarchy/hierdatasetseriesdataobjects/JThermodynamics2DSubstructureThermodynamicsDataSet/JThermodynamics2DSubstructureThermodynamicsDataSet/cyc5/R2y%231zxcR2xcR2x1";
 			DocumentReference docref = db.document(path);
 			ApiFuture<DocumentSnapshot> future = docref.get();
 			DocumentSnapshot documentSnapshot = future.get();
-			
+
 			assertTrue("Document does not exist in Firestore at path: " + path, documentSnapshot.exists());
-			
+
 			Map<String, Object> mapObj = documentSnapshot.getData();
 			String jsonString = new Gson().toJson(mapObj);
 			JsonObject catalog = JsonObjectUtilities.jsonObjectFromString(jsonString);
-			
+
 			System.out.println("Successfully read catalog object from Firestore:");
 			System.out.println(JsonObjectUtilities.toString(catalog));
 
 			// 2. Call createRDFFromObject with Neo4J transaction and dom4j document
 			try (Session session = Neo4JInitialization.getDriver().session()) {
 				Transaction transaction = session.beginTransaction();
-				
+
 				Document document = MessageConstructor.startDocument("Transaction: " + transaction);
-				
+
 				boolean success = CreateRDFs.createRDFFromObject(transaction, catalog, document);
-				
+
 				System.out.println("Result of CreateRDFs.createRDFFromObject: " + success);
 				System.out.println("Document XML output: \n" + document.asXML());
-				
+
 				assertTrue("RDF creation failed", success);
-				
+
 				transaction.commit();
 				System.out.println("Transaction committed successfully.");
 			}

@@ -32,7 +32,7 @@ public class ReadInDatasetTransaction {
                      },
                 'dataset:TransactionInterpretSymmetryInformation': {
                     'dataset:objectype': 'dataset:JThermodynamicsSymmetryStructureDefinitionDataSet',
-                    'dataset:filesourceformat': 'dataset:symmetrystructuredefinition'
+                    'dataset:filesourceformat': 'dataset:JThermodynamicsSymmetryDefinitionFormat'
                      },
                 'dataset:TransactionInterpretMetaAtom': {
                     'dataset:objectype': 'dataset:JThermodynamicsMetaAtomDefinitionDataSet',
