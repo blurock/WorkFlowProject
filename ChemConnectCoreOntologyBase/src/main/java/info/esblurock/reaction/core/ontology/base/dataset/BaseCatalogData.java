@@ -7,7 +7,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
-
 import com.google.gson.JsonObject;
 
 import info.esblurock.reaction.core.ontology.base.constants.AnnotationObjectsLabels;
@@ -29,11 +28,13 @@ public class BaseCatalogData {
 
 	public static void insertCatalogObjectKey(JsonObject json, String type) {
 		String namesrc = DatasetOntologyParseBase.getAnnotationObject(type, AnnotationObjectsLabels.documentNameSource);
+		System.out.println("documentNameSource: " + namesrc + " for " + type);
 		String id = UUID.randomUUID().toString();
 		if (namesrc != null) {
 			if (namesrc.length() > 0) {
 				String identifier = DatasetOntologyParseBase.getAnnotationObject(namesrc,
 						AnnotationObjectsLabels.identifier);
+
 				String name = JsonObjectUtilities.getValueUsingIdentifier(json, identifier);
 				if (name != null) {
 					id = name.replace('/', 'x').replace('(', 'y').replace(')', 'z').replace('=', 'e').replace('\'',
@@ -41,6 +42,7 @@ public class BaseCatalogData {
 				}
 			}
 		}
+		System.out.println("identifier: " + id);
 		json.addProperty(ClassLabelConstants.CatalogObjectKey, id);
 	}
 
@@ -77,8 +79,7 @@ public class BaseCatalogData {
 				.classFromIdentifier(obj.get(AnnotationObjectsLabels.identifier).getAsString());
 		insertCatalogObjectKey(obj, type);
 		obj.addProperty(ClassLabelConstants.DatabaseObjectType, type);
-		
-		
+
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd:HH mm:ss");
 		df.setTimeZone(TimeZone.getTimeZone("GMT"));
 		Date date = new Date();

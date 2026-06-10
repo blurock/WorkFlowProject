@@ -179,16 +179,24 @@ public class JsonObjectUtilities {
 		boolean success = response.get(ClassLabelConstants.ServiceProcessSuccessful).getAsBoolean();
 		if (success) {
 			String message = response.get(ClassLabelConstants.ServiceResponseMessage).getAsString();
+			System.out.println(message);
+			System.out.println("----------------------------------------");
 			if (response.get(ClassLabelConstants.SimpleCatalogObject).isJsonNull()) {
+				System.out.println("No object returned");
 			} else if (response.get(ClassLabelConstants.SimpleCatalogObject).isJsonObject()) {
 				JsonObject object = response.get(ClassLabelConstants.SimpleCatalogObject).getAsJsonObject();
+				System.out.println(JsonObjectUtilities.toString(object));
 			} else {
 				JsonArray object = response.get(ClassLabelConstants.SimpleCatalogObject).getAsJsonArray();
+				System.out.println(JsonObjectUtilities.toString(object));
 			}
 
 		} else {
+			System.out.println("Process Failed");
 			String message = response.get(ClassLabelConstants.ServiceResponseMessage).getAsString();
+			System.out.println(message);
 		}
+
 	}
 
 	public static JsonObject jsonObjectFromString(String jsonS) {

@@ -19,6 +19,7 @@ import info.esblurock.reaction.core.ontology.base.dataset.BaseCatalogData;
 import info.esblurock.reaction.core.ontology.base.dataset.CreateDocumentTemplate;
 import info.esblurock.reaction.core.ontology.base.utilities.GenericSimpleQueries;
 import info.esblurock.reaction.core.ontology.base.utilities.JsonObjectUtilities;
+import info.esblurock.reaction.core.ontology.base.utilities.OntologyUtilityRoutines;
 
 public class DatasetCollectionManagement {
 
@@ -132,36 +133,37 @@ public class DatasetCollectionManagement {
 	public static JsonObject setupNewDatabaseCollectionSet(JsonObject event, JsonObject info) {
 		String owner = event.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 		String transactionID = event.get(ClassLabelConstants.TransactionID).getAsString();
-		JsonObject recordid = info.get(ClassLabelConstants.DatasetCollectionSetRecordIDInfo).getAsJsonObject();
-		JsonObject collectionid = info.get(ClassLabelConstants.DatasetSpecificationForCollectionSet).getAsJsonObject();
-		String maintainer = recordid.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
-		String collectionname = recordid.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
-		String title = info.get(ClassLabelConstants.DescriptionTitle).getAsString();
-		String collectiontype = info.get("dcat:dataset").getAsString();
-		event.add(ClassLabelConstants.DatasetCollectionSetRecordIDInfo, recordid);
-		event.add(ClassLabelConstants.DatasetCollectionsSetLabel, collectionid);
+		String collectionname = info.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
+		String shortdescription = info.get(ClassLabelConstants.ShortDescription).getAsString();
+		String collectiontype = info.get(ClassLabelConstants.DatasetCollectionType).getAsString();
+		String descrabstrace = info.get(ClassLabelConstants.DescriptionAbstract).getAsString();
+		event.addProperty(ClassLabelConstants.CatalogObjectKey, collectionname);
+
+		event.addProperty(ClassLabelConstants.TransactionID, transactionID);
+		event.addProperty(ClassLabelConstants.DatasetCollectionsSetLabel, collectionname);
+		event.addProperty(ClassLabelConstants.ShortDescription, shortdescription);
+		event.addProperty(ClassLabelConstants.DatasetCollectionType, collectiontype);
+		event.addProperty(ClassLabelConstants.DescriptionAbstract, descrabstrace);
 		Document document = MessageConstructor.startDocument("Dataset Collection Set Creation Event");
 		Element body = MessageConstructor.isolateBody(document);
 		String descr = info.get(ClassLabelConstants.DescriptionAbstract).getAsString();
 		body.addElement("div").addText("Collection Type      : " + collectiontype);
 		body.addElement("div").addText("Owner                : " + owner);
-		body.addElement("div").addText("Owner           : " + maintainer);
 		body.addElement("div").addText("Collection Name      : " + collectionname);
-		body.addElement("div")
-				.addText("Default Collection   : " + collectionid.get(ClassLabelConstants.CollectionName));
-		body.addElement("div")
-				.addText("Default Status       : " + collectionid.get(ClassLabelConstants.CatalogDataObjectStatus));
-		body.addElement("div")
-				.addText("Default Version      : " + collectionid.get(ClassLabelConstants.DatasetVersion));
+
 		JsonObject idcollection = DatasetCollectionIDManagement
-				.createEmptyChemConnectCurrentDatasetIDSet(collectionname, owner, transactionID, maintainer, descr);
-		idcollection.addProperty(ClassLabelConstants.DescriptionTitle, title);
-		fillInDatasetCollectionWithDefaults(collectiontype, collectionid, idcollection);
+				.createEmptyChemConnectCurrentDatasetIDSet(collectionname, owner, transactionID, descr);
+		idcollection.addProperty(ClassLabelConstants.ShortDescription, shortdescription);
+		idcollection.addProperty(ClassLabelConstants.DescriptionAbstract, descrabstrace);
+		idcollection.addProperty(ClassLabelConstants.DatasetCollectionType, collectiontype);
+		BaseCatalogData.insertStandardBaseInformation(idcollection, owner, transactionID, "false", true);
+
+		fillInDatasetCollectionWithDefaults(collectiontype, owner, idcollection);
 		JsonObject transfirestoreID = BaseCatalogData.insertFirestoreAddress(event);
 		idcollection.add(ClassLabelConstants.FirestoreCatalogIDForTransaction, transfirestoreID.deepCopy());
 		String message = WriteFirestoreCatalogObject.writeCatalogObject(idcollection);
 		body.addElement("div").addText(message);
-		putInLocalVersion(idcollection);
+		// putInLocalVersion(idcollection);
 		JsonArray arr = new JsonArray();
 		arr.add(idcollection);
 		JsonObject response = StandardResponse.standardServiceResponse(document,
@@ -169,24 +171,17 @@ public class DatasetCollectionManagement {
 		return response;
 	}
 
-	static void fillInDatasetCollectionWithDefaults(String collectiontype, JsonObject idcollection,
-			JsonObject collectionid) {
-		collectionid.addProperty(ClassLabelConstants.DatasetCollectionType, collectiontype);
+	static void fillInDatasetCollectionWithDefaults(String collectiontype, String owner, JsonObject idcollection) {
+		idcollection.addProperty(ClassLabelConstants.DatasetCollectionType, collectiontype);
 		JsonArray datasets = CollectionSetUtilities.collectionDatasetInfo(collectiontype);
 		for (JsonElement element : datasets) {
 			JsonObject dataset = (JsonObject) element;
-			JsonObject id = new JsonObject();
-			String maintainer = idcollection.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
-			id.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
-			String status = idcollection.get(ClassLabelConstants.CatalogDataObjectStatus).getAsString();
-			id.addProperty(ClassLabelConstants.CatalogDataObjectStatus, status);
-			String collectionname = idcollection.get(ClassLabelConstants.CollectionName).getAsString();
-			id.addProperty(ClassLabelConstants.CollectionName, collectionname);
-			String version = idcollection.get(ClassLabelConstants.DatasetVersion).getAsString();
-			id.addProperty(ClassLabelConstants.DatasetVersion, version);
+			dataset.addProperty(ClassLabelConstants.CatalogObjectOwner, owner);
 
 			String identifier = dataset.get(AnnotationObjectsLabels.identifier).getAsString();
-			collectionid.add(identifier, id);
+			String type = OntologyUtilityRoutines.typesFromIdentifier(identifier);
+			dataset.addProperty(AnnotationObjectsLabels.type, type);
+			idcollection.add(identifier, dataset);
 		}
 	}
 
@@ -210,12 +205,10 @@ public class DatasetCollectionManagement {
 			String newtitle = info.get(ClassLabelConstants.DescriptionTitle).getAsString();
 			String newabstract = newtitle + "\n\n" + origabstract;
 			collectionset.addProperty(ClassLabelConstants.DescriptionAbstract, newabstract);
-			collectionset.addProperty(ClassLabelConstants.DescriptionTitle, newtitle);
+			collectionset.addProperty(ClassLabelConstants.ShortDescription, newtitle);
 			String collectiontype = collectionset.get(ClassLabelConstants.DatasetCollectionType).getAsString();
 			JsonObject catrecordid = info.get(ClassLabelConstants.DatasetSpecificationForCollectionSet)
 					.getAsJsonObject();
-			JsonObject recordid = info.get(ClassLabelConstants.DatasetCollectionSetRecordIDInfo).getAsJsonObject();
-			event.add(ClassLabelConstants.DatasetCollectionSetRecordIDInfo, recordid);
 			String classname = info.get(ClassLabelConstants.DatabaseObjectType).getAsString();
 
 			String collectionname = catrecordid.get(ClassLabelConstants.CollectionName).getAsString();
@@ -228,8 +221,8 @@ public class DatasetCollectionManagement {
 			body.addElement("div").addText("Into collection: '" + collection + "'");
 			DatasetCollectionIDManagement.insertCollectionInfoDataset(classname, collectiontype, catrecordid,
 					collectionset);
-			collectionset.add(ClassLabelConstants.DatasetCollectionSetRecordIDInfo, recordid);
-			String newlabel = recordid.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
+			String newlabel = catrecordid.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
+
 			collectionset.addProperty(ClassLabelConstants.DatasetCollectionsSetLabel, newlabel);
 			BaseCatalogData.insertFirestoreAddress(collectionset);
 			JsonObject transfirestoreid = BaseCatalogData.insertFirestoreAddress(event);
@@ -257,15 +250,9 @@ public class DatasetCollectionManagement {
 			JsonObject collectionid = collectionids.get(identifier).getAsJsonObject();
 			String collectionname = collectionid.get(ClassLabelConstants.CollectionName).getAsString();
 			String datasetversion = collectionid.get(ClassLabelConstants.DatasetVersion).getAsString();
-			JsonObject recordid = catalog.get(ClassLabelConstants.DatabaseCollectionOfCurrentClass).getAsJsonObject();
-			recordid.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
-			recordid.addProperty(ClassLabelConstants.DatasetCollectionsSetLabel, collectioname);
-			recordid.addProperty(ClassLabelConstants.CollectionName, collectionname);
-			recordid.addProperty(ClassLabelConstants.DatasetVersion, datasetversion);
-			recordid.addProperty(ClassLabelConstants.CatalogDataObjectStatus, "CatalogObjectStatusCurrent");
+
 			String classname = GenericSimpleQueries.classFromIdentifier(identifier);
-			recordid.addProperty(ClassLabelConstants.DatasetCollectionObjectType, classname);
-			JsonObject catid = FindDatasetCollections.findDatasetCollectionID(classname, recordid);
+			JsonObject catid = FindDatasetCollections.findDatasetCollectionID(classname, collectionid);
 			String id = catalog.get(ClassLabelConstants.CatalogObjectKey).getAsString();
 			catid.addProperty(ClassLabelConstants.SimpleCatalogName, id);
 			catalog.add(ClassLabelConstants.FirestoreCatalogID, catid);

@@ -3,19 +3,15 @@
 	"dataset:transreqobj": {},
 	"dcterms:creator": "Administrator",
 	"dataset:activityinfo": {
+		"dcterms:creator": "Administrator",
 		"dcterms:description": "This is the standard JThermodynamic dataset IDs.",
-		"dataset:collectionsetrecordidinfo": {
-			"dataset:catalogobjectmaintainer": "Administrator",
-			"dataset:datasetcollectionslabel": "StandardDataset"
-		},
-		"dataset:datasetfortypeincollection": {
-			"dataset:catalogobjectmaintainer": "Administrator",
-			"dataset:dataobjstatus": "CatalogObjectStatusCurrent",
-			"dataset:datasetname": "Standard",
-			"dataset:datasetversion": "1.0"
-		},
+		"dataset:datasetcollectionslabel": "StandardThermodynamicDatasetCollectionSet",
 		"dcat:dataset": "dataset:ThermodynamicDatasetCollection",
 		"dcterms:title": "Standard JThermodynamic Dataset IDs",
-		"dcterms:identifier": "dataset:datasetcollectionsetcreationinfo"
+		"dcterms:identifier": "dataset:datasetcollectionsetcreationinfo",
+		"dcterms:created": "2026-06-09T00:00:00",
+		"dataset:authorizationuid": "Administrator",
+		"dataset:sessionid": "1111111111",
+		"dataset:objectype": "dataset:DatasetCollectionSetCreationEvent"
 	}
 }

@@ -54,11 +54,9 @@ public class DatasetCollectionIDManagement {
 	 * 
 	 */
 	public static JsonObject createEmptyChemConnectCurrentDatasetIDSet(String collectionname, String owner,
-			String transactionID, String maintainer, String descr) {
+			String transactionID, String descr) {
 		JsonObject idcollection = BaseCatalogData.createStandardDatabaseObject(
 				"dataset:ChemConnectDatasetCollectionIDsSet", owner, transactionID, "false");
-		idcollection.addProperty(ClassLabelConstants.CatalogObjectOwner, maintainer);
-		idcollection.addProperty(ClassLabelConstants.CatalogObjectOwner, owner);
 		idcollection.addProperty(ClassLabelConstants.DescriptionAbstract, descr);
 		idcollection.addProperty(ClassLabelConstants.DatasetCollectionsSetLabel, collectionname);
 		BaseCatalogData.insertFirestoreAddress(idcollection);
@@ -78,8 +76,9 @@ public class DatasetCollectionIDManagement {
 	 *                          (DatasetSpecificationForCollectionSet) is inserted.
 	 * 
 	 */
-	public static void insertCollectionInfoDataset(String classname, String collectiontype, JsonObject recordid, JsonObject collectionids) {
-	    JsonArray collectioninfo = CollectionSetUtilities.collectionDatasetInfo(collectiontype);
+	public static void insertCollectionInfoDataset(String classname, String collectiontype, JsonObject recordid,
+			JsonObject collectionids) {
+		JsonArray collectioninfo = CollectionSetUtilities.collectionDatasetInfo(collectiontype);
 		String identifier = CollectionSetUtilities.datasetIdentifierInDatasetIDs(classname, collectioninfo);
 		collectionids.add(identifier, recordid);
 	}

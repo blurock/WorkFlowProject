@@ -233,10 +233,14 @@ public class CreateHierarchyElement {
 			pair.addProperty(identifier, genname);
 		} else {
 			JsonObject newjson = initialCollectionDocumentIDPair();
-			String docid = pair.get(ClassLabelConstants.DatasetDocumentID).getAsString();
-			newjson.addProperty(ClassLabelConstants.DatasetDocumentID, docid);
-			String colid = pair.get(ClassLabelConstants.DatasetCollectionID).getAsString();
-			newjson.addProperty(ClassLabelConstants.DatasetCollectionID, colid);
+			if (pair.get(ClassLabelConstants.DatasetDocumentID) != null) {
+				String docid = pair.get(ClassLabelConstants.DatasetDocumentID).getAsString();
+				newjson.addProperty(ClassLabelConstants.DatasetDocumentID, docid);
+			}
+			if (pair.get(ClassLabelConstants.DatasetCollectionID) != null) {
+				String colid = pair.get(ClassLabelConstants.DatasetCollectionID).getAsString();
+				newjson.addProperty(ClassLabelConstants.DatasetCollectionID, colid);
+			}
 			pair.remove(ClassLabelConstants.DatasetDocumentID);
 			pair.remove(ClassLabelConstants.DatasetCollectionID);
 			pair.addProperty(identifier, genname);

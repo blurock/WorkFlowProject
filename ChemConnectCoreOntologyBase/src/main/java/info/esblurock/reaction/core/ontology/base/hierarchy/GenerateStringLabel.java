@@ -131,6 +131,7 @@ public enum GenerateStringLabel {
 
 		@Override
 		String deriveName(String hierclass, String classname, JsonObject object) {
+			System.out.println("DerivedFromHierarchyClassAnnotationAltLabel:" + hierclass);
 			String name = DatasetOntologyParseBase.getAltLabelFromAnnotation(hierclass);
 			return name;
 		}
