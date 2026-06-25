@@ -1,0 +1,101 @@
+Description
+This is the general instructions to display the objects that are in the hierarchy of the ChemConnectDatabaseBaseElement Classes.
+The interface to display a specific object within this hierarchy are the following classes:
+
+Subclasses of MinimumDatabaseObjectStructure
+dataset:RepositoryFileStaging
+dataset:RepositoryParsedToFixedBlockSize
+dataset:RepositoryTherGasThermodynamicsBlock
+dataset:JThermodynamicsVibrationalStructureDatabase
+dataset:JThermodynamicsVibrationalStructureDataSet
+dataset:JThermodynamicsVibrationalStructureWithCount
+dataset:JThermodynamicsSymmetryStructureDefinitionDatabase
+dataset:JThermodynamicsSymmetryStructureDefinitionDataSet
+dataset:JThermodynamicsMetaAtomDefinitionDatabase
+dataset:JThermodynamicsMetaAtomDefinitionDataSet
+dataset:JThermodynamicsDisassociationEnergyOfStructureDatabase
+dataset:JThermodynamicsDisassociationEnergyOfStructureDataSet
+dataset:ThermodynamicBensonRuleDefinitionDatabase
+dataset:ThermodynamicBensonRuleDefinitionDataSet
+dataset:JThermodynamics2DSubstructureThermodynamicsDataSet
+dataset:JThermodynamics2DSubstructureThermodynamicsDatabase
+dataset:JThermodynamics2DMoleculeThermodynamicsDatabase
+dataset:JThermodynamics2DMoleculeThermodynamicsDataSet
+
+Subclasses of ChemConnectTransactionEvent
+dataset:DatasetTransactionEventObject
+dataset:DatasetCollectionObjectSetManipulationTransaction
+dataset:UserManagementTransactionObject
+dataset:DatasetSystemCollectionManagementTransaction
+dataset:DatasetCollectionObjectSetWriteTransaction
+dataset:DataCollectionAddCollectionTransaction
+dataset:ChemConnectUpdateCatalogObjectTransaction
+
+
+*** Angular Component
+Each class should have its own angular component.
+
+
+
+*** Single line representation
+
+Those components that are subclasses of MinimumDatabaseObjectStructure should, 
+    by default, have the ShortDescription on the one line display.
+
+    For those object classes ending in Dataset and for the classes 
+    dataset:RepositoryFileStaging, dataset:RepositoryParsedToFixedBlockSize and 
+dataset:RepositoryTherGasThermodynamicsBlock, the one line display should also have 
+    the CatalogObjectUniqueGenericLabel (with identifier dataset:uniquegenericname) in front of the 
+    ShortDescription.
+
+    For those object classes ending in Database, the one line display should also have 
+    DatasetCollectionsSetLabel (with identifier dataset:datasetcollectionslabel) in front of the 
+    ShortDescription. 
+
+Those components that are subclasses of ChemConnectTransactionEvent should, 
+by default, have the The information in ShortTransactionDescription on the one line display,
+meaning: TransactionEventType, ShortDescription, and TransactionKey, in that order.
+
+The one line description could be modified by the user. 
+
+*** MinimumDatabaseObject and SimpleCatalogObject
+All subclasses of MinimumDatabaseObjectStructure should have this MinimumDatabaseObject as their parent class and parameters
+should be displayed by using this MinimumDatabaseObject to display them:
+/Users/edwardblurock/git/WorkFlowProject/manager-frontend/src/app/features/catalog/interfaces/minimum-database-object/minimum-database-object.ts
+
+For the transaction objects, the set of common (simple) properties can be found in SimpleCatalogObject. This should be a component and all the properties should be non-editable. In the oneline description should be CatalogObjectKey.
+
+In addition, MinimumDatabaseObjectStructure is a subclass of SimpleCatalogObject so it has all the properties of SimpleCatalogObject. MinimumDatabaseObjectStructure should use the SimpleCatalogObject component to display the properties of SimpleCatalogObject. It will add additional properties above the SimpleCatalogObject component.
+
+Both MinimumDatabaseObjectStructure and SimpleCatalogObject should be displayed as the last component in the display of any object.
+
+*** Common Component of MinimumDatabaseObjectStructure
+
+All the subclasses of MinimumDatabaseObjectStructure and subclasses of ChemConnectTransactionEvent have common properties and methods. 
+These should be collected as much as possible in one class that the subclass should inherit from to avoid redundancy.
+
+*** Example to base the common component and all the other subclasses on:
+The component for the subclass for dataset:ThermodynamicBensonRuleDefinitionDataSet 
+can be used as the basis for the other implementations. It can also be an indication of the 
+common properties of the all the subclasses. 
+
+*** Order of objects of common objects in MinimumDatabaseObjectStructure
+
+1. Array of BibliographicReferenceLink
+2. Array of ObjectSiteReference
+3. Array of DataObjectLink
+4. FirestoreCatalogIDForTransaction
+5. MinimumDatabaseObject component
+
+Each BibliographicReferenceLink, ObjectSiteReference and DataObjectLink all should have one line component (in addition to the full detail).
+
+BibliographicReferenceLink displays BibliographicLinkType in the one line display.
+ObjectSiteReference displays DescriptionTitleHttpAddress in the one line display.
+DataObjectLink displays DatabaseObjectTypeLink in the one line display.
+
+
+
+
+
+
+

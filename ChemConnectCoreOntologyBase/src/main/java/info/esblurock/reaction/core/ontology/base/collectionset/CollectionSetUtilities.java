@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import java.util.ArrayList;
 
 import info.esblurock.reaction.core.ontology.base.constants.AnnotationObjectsLabels;
 import info.esblurock.reaction.core.ontology.base.constants.ClassLabelConstants;
@@ -60,6 +61,20 @@ public class CollectionSetUtilities {
             JsonObject json = createcCollectionDatasetInfoElement(name);
             datasets.add(json);
         }
+    }
+
+    public static List<String> setOfSubClasses(String topclass) {
+        List<String> set = new ArrayList<String>();
+        return setOfSubClasses(topclass, set);
+    }
+
+    private static List<String> setOfSubClasses(String topclass, List<String> set) {
+        List<String> subclasses = GenericSimpleQueries.listOfSubClasses(topclass, false);
+        for (String subclass : subclasses) {
+            set.add(subclass);
+            setOfSubClasses(subclass, set);
+        }
+        return set;
     }
 
     private static JsonObject createcCollectionDatasetInfoElement(String name) {

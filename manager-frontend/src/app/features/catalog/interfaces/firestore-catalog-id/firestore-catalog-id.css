@@ -1,0 +1,237 @@
+.fcid-container {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background-color: #ffffff;
+  margin: 16px 0;
+  overflow: hidden;
+  font-family: 'Google Sans', 'Inter', sans-serif;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.fcid-header {
+  padding: 12px 16px;
+  cursor: pointer;
+  background-color: #f8fafc;
+  user-select: none;
+  transition: background-color 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fcid-header:hover {
+  background-color: #f1f5f9;
+}
+
+.fcid-line1 {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.expand-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #0284c7;
+  margin-right: 12px;
+  cursor: pointer;
+  outline: none;
+}
+
+.expand-btn mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.fcid-text-group {
+  flex: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-right: 16px;
+}
+
+.fcid-label {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #0f172a;
+}
+
+.fcid-comment {
+  font-size: 0.85rem;
+  color: #64748b;
+  font-style: italic;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.fetch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border-radius: 6px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 0 12px;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.2s;
+}
+
+.fetch-btn:hover:not([disabled]) {
+  background-color: #1d4ed8;
+}
+
+.fetch-btn[disabled] {
+  background-color: #cbd5e1;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.fetch-btn mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.fcid-line2 {
+  font-size: 0.85rem;
+  color: #475569;
+  padding-left: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+
+.desc-label, .path-label {
+  font-weight: 600;
+  color: #64748b;
+}
+
+.desc-val {
+  color: #334155;
+}
+
+.path-val {
+  font-family: monospace;
+  color: #0369a1;
+  background-color: #f0f9ff;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.fcid-body {
+  padding: 16px;
+  border-top: 1px solid #cbd5e1;
+  background-color: #ffffff;
+}
+
+.fcid-loading {
+  font-size: 0.9rem;
+  color: #64748b;
+  text-align: center;
+  padding: 8px;
+}
+
+.fcid-properties {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.fcid-property-row {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  border-radius: 6px;
+  background-color: #f8fafc;
+  border: 1px solid #f1f5f9;
+}
+
+.fcid-prop-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #64748b;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.fcid-prop-value {
+  font-size: 0.9rem;
+  color: #1e293b;
+}
+
+.readonly-fields {
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+.readonly-fields ::ng-deep button,
+.readonly-fields ::ng-deep mat-icon,
+.readonly-fields ::ng-deep .expand-btn,
+.readonly-fields ::ng-deep .fetch-btn,
+.readonly-fields ::ng-deep .fcid-header,
+.readonly-fields ::ng-deep app-firestore-catalog-id,
+.readonly-fields ::ng-deep app-j-thermodynamic-standard-thermodynamics,
+.readonly-fields ::ng-deep app-j-thermodynamic-standard-thermodynamics input,
+.readonly-fields ::ng-deep app-j-thermodynamic-standard-thermodynamics button,
+.readonly-fields ::ng-deep app-minimum-database-object-structure {
+  pointer-events: auto !important;
+}
+
+.fcid-property-row.full-width-prop {
+  grid-column: 1 / -1;
+}
+
+.address-matrix-container {
+  width: 100%;
+  margin: 8px 0;
+  overflow-x: auto;
+}
+.address-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.table-header {
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #475569;
+  background-color: #f1f5f9;
+  letter-spacing: 0.05em;
+  padding: 12px 16px;
+}
+.table-cell {
+  font-size: 0.85rem;
+  color: #334155;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e2e8f0;
+}
+.label-cell {
+  font-weight: 600;
+  color: #0f172a;
+}
+.collection-cell {
+  font-family: monospace;
+  color: #2563eb;
+}
+.doc-cell {
+  font-family: monospace;
+  color: #0369a1;
+}

@@ -5,6 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.google.gson.JsonArray;
+import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 
 import info.esblurock.reaction.core.ontology.base.collectionset.CollectionSetUtilities;
 import info.esblurock.reaction.core.ontology.base.utilities.JsonObjectUtilities;
@@ -17,18 +20,18 @@ public class TestCollectionSertUtilities {
         System.out.println("testListOfCollectionDatasets");
         JsonArray collections = CollectionSetUtilities.listOfCollectionDatasets();
         System.out.println(JsonObjectUtilities.toString(collections));
-        
+
         System.out.println("-----------------------------------------------------------");
-        
+
     }
 
     @Test
     public void testCollectionDatasetInfo() {
         System.out.println("-----------------------------------------------------------");
         System.out.println("testCollectionDatasetInfo()");
-        JsonArray datasets = CollectionSetUtilities.collectionDatasetInfo("dataset:ThermodynamicDatasetCollection");
+        JsonArray datasets = CollectionSetUtilities.collectionDatasetInfo("dataset:ChemConnectDatabaseBaseElement");
         System.out.println(JsonObjectUtilities.toString(datasets));
-       System.out.println("-----------------------------------------------------------");
+        System.out.println("-----------------------------------------------------------");
     }
 
     @Test
@@ -39,7 +42,20 @@ public class TestCollectionSertUtilities {
         String catalogname = "dataset:ThermodynamicBensonRuleDefinition";
         String identifier = CollectionSetUtilities.datasetIdentifierInDatasetIDs(catalogname, datasets);
         System.out.println("Catalog name: " + catalogname + "  Identifier in dataset: '" + identifier + "'");
-        
+
+        System.out.println("-----------------------------------------------------------");
+    }
+
+    @Test
+    public void listOfSubClasses() {
+        System.out.println("-----------------------------------------------------------");
+        System.out.println("listOfSubClasses()");
+        List<String> subclasses = CollectionSetUtilities.setOfSubClasses("dataset:ChemConnectDatabaseBaseElement");
+        Set<String> uniqueSet = new HashSet<String>(subclasses);
+        for (String s : uniqueSet) {
+            System.out.println(s);
+        }
+
         System.out.println("-----------------------------------------------------------");
     }
 

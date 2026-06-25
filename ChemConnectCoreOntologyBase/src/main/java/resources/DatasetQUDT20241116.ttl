@@ -483,6 +483,26 @@
 :personalDescriptionID rdf:type owl:AnnotationProperty .
 
 
+###  http://www.esblurock.info/dataset#titleMain
+:titleMain rdf:type owl:AnnotationProperty ;
+           rdfs:subPropertyOf <http://purl.org/dc/elements/1.1/title> .
+
+
+###  http://www.esblurock.info/dataset#titleSubA
+:titleSubA rdf:type owl:AnnotationProperty ;
+           rdfs:subPropertyOf <http://purl.org/dc/elements/1.1/title> .
+
+
+###  http://www.esblurock.info/dataset#titleSubB
+:titleSubB rdf:type owl:AnnotationProperty ;
+           rdfs:subPropertyOf <http://purl.org/dc/elements/1.1/title> .
+
+
+###  http://www.esblurock.info/dataset#titleSubC
+:titleSubC rdf:type owl:AnnotationProperty ;
+           rdfs:subPropertyOf <http://purl.org/dc/elements/1.1/title> .
+
+
 ###  http://www.linkedmodel.org/schema/vaem#comment
 <http://www.linkedmodel.org/schema/vaem#comment> rdf:type owl:AnnotationProperty .
 
@@ -7333,7 +7353,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#DataCatalog
 :DataCatalog rdf:type owl:Class ;
-             rdfs:subClassOf :DataLinkType ;
+             rdfs:subClassOf :StringNameLabel ;
              <http://purl.org/dc/elements/1.1/type> "Classification" ;
              <http://purl.org/dc/terms/identifier> "skos:inScheme" ;
              rdfs:comment "This specifies the catalog to which the data belongs. This name reflects on the type of catalog object is contained." ;
@@ -8201,7 +8221,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
                     <http://purl.org/dc/elements/1.1/type> :DatabaseObjectType ;
                     <http://purl.org/dc/terms/identifier> "dataset:objectype" ;
                     rdfs:comment "This is the data type of the referenced object." ;
-                    rdfs:isDefinedBy :ChemConnectDatabaseBaseElement ;
                     rdfs:label "Database Object Type" ;
                     <http://www.w3.org/2004/02/skos/core#altLabel> "objecttype" .
 
@@ -23870,6 +23889,7 @@ The transaction type specifies which type of dataset objects are to be read in. 
                                           <http://purl.org/dc/elements/1.1/type> :ThermodynamicBensonRuleDefinitionDataSet ;
                                           <http://purl.org/dc/terms/identifier> "dataset:bensonruledataset" ;
                                           :documentNameSource :BensonRuleDatabaseReference ;
+                                          :titleMain :ShortDescription ;
                                           rdfs:comment "The Benson rule for the data set" ;
                                           rdfs:label "Benson Rule Dataset" ;
                                           <http://www.w3.org/2004/02/skos/core#altLabel> "bensonruledataset" .
@@ -24064,7 +24084,7 @@ The transaction type specifies which type of dataset objects are to be read in. 
 :ThermodynamicStandardEnthalpy rdf:type owl:Class ;
                                rdfs:subClassOf :JThermodynamicMolarQuantities ,
                                                [ rdf:type owl:Restriction ;
-                                                 owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                                 owl:onProperty <http://www.w3.org/ns/dcat#record> ;
                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                  owl:onClass :ParameterSpecificationEnthalpy
                                                ] ;
