@@ -128,7 +128,6 @@ export class ParameterSpecificationEnthalpyComponent extends BasePrimitiveCompon
   private ontologyService = inject(OntologyService);
   private cdr = inject(ChangeDetectorRef);
   expanded = false;
-  resolvedStructure?: OntologyStructure;
   loading = false;
 
   override get value(): any {
@@ -156,7 +155,7 @@ export class ParameterSpecificationEnthalpyComponent extends BasePrimitiveCompon
       this.loading = true;
       this.ontologyService.getUITemplate(cls).subscribe({
         next: (res) => {
-          this.resolvedStructure = res['dataobject'];
+          this.structure = res['dataobject'];
           this.loading = false;
           this.cdr.detectChanges();
         },
@@ -167,7 +166,7 @@ export class ParameterSpecificationEnthalpyComponent extends BasePrimitiveCompon
         }
       });
     } else {
-      this.resolvedStructure = this.structure;
+      this.structure = this.structure;
     }
   }
 
@@ -206,7 +205,7 @@ export class ParameterSpecificationEnthalpyComponent extends BasePrimitiveCompon
 
   mapGenericToSpecific(): void {
     if (!this.value || typeof this.value !== 'object') return;
-    
+
     // 1. Label Mapping
     if (!this.value['dataset:parameterlabelenthalpy']) {
       const labelVal = this.value['skos:prefLabel'] || this.value['dataset:parameterlabel'];
@@ -254,8 +253,8 @@ export class ParameterSpecificationEnthalpyComponent extends BasePrimitiveCompon
       if (this.value['skos:prefLabel']) return this.value['skos:prefLabel'];
       if (this.value['dataset:parameterlabel']) return this.value['dataset:parameterlabel'];
     }
-    if (this.resolvedStructure?.label && !this.resolvedStructure.label.startsWith('paramspec') && !this.resolvedStructure.label.startsWith('thermo')) {
-      return this.resolvedStructure.label;
+    if (this.structure?.label && !this.structure.label.startsWith('paramspec') && !this.structure.label.startsWith('thermo')) {
+      return this.structure.label;
     }
     return 'Enthalpy Specification';
   }
@@ -284,47 +283,13 @@ export class ParameterSpecificationEnthalpyComponent extends BasePrimitiveCompon
     return cleaned;
   }
 
-  get propertyKeys(): string[] {
-    if (this.resolvedStructure?.properties && Object.keys(this.resolvedStructure.properties).length > 0) {
-      return Object.keys(this.resolvedStructure.properties);
-    }
-    if (this.value) {
-      return Object.keys(this.value).filter(k => k !== 'dcterms:identifier');
-    }
-    return [];
-  }
-
-  getPropertyStructure(key: string): OntologyStructure {
-    if (this.resolvedStructure?.properties?.[key]) {
-      return this.resolvedStructure.properties[key];
-    }
-    const val = this.value ? this.value[key] : null;
-    const isValObject = val !== null && typeof val === 'object' && !Array.isArray(val);
-    const isValArray = Array.isArray(val);
-    return {
-      identifier: key,
-      classname: isValObject ? 'dataset:JsonObject' : (isValArray ? 'dataset:JsonArray' : 'dataset:OneLine'),
-      isClassification: false,
-      isParagraph: false,
-      isOneLine: !isValObject && !isValArray,
-      isEmail: false,
-      isURL: false,
-      isBoolean: typeof val === 'boolean',
-      isKeywordSet: false,
-      isFileSource: false,
-      isObject: isValObject,
-      isArray: isValArray,
-      label: key.split(':').pop() || key
-    };
-  }
-
   updateProperty(key: string, newValue: any): void {
     if (this.value) {
       const updatedValue = {
         ...this.value,
         [key]: newValue
       };
-      
+
       // Sync specific keys back to generic keys
       if (key === 'dataset:parameterlabelenthalpy') {
         updatedValue['skos:prefLabel'] = newValue;
@@ -337,7 +302,7 @@ export class ParameterSpecificationEnthalpyComponent extends BasePrimitiveCompon
           'qudt:SystemOfQuantities': unitclass
         };
       }
-      
+
       this.updateValue(updatedValue);
       this.cdr.detectChanges();
     }

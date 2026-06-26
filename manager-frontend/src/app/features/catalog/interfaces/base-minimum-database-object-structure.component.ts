@@ -150,7 +150,7 @@ import { BibliographicReferenceLinkComponent } from './bibliographic-reference-l
           <div class="metadata-block">
             <mat-divider class="section-divider"></mat-divider>
             <app-minimum-database-object-structure
-              [structure]="resolvedStructure!"
+              [structure]="structure!"
               [value]="value"
               (valueChange)="updateValue($event)">
             </app-minimum-database-object-structure>
@@ -252,7 +252,6 @@ export class BaseMinimumDatabaseObjectStructureComponent extends BasePrimitiveCo
     return true;
   }
 
-  resolvedStructure?: OntologyStructure;
   loading = false;
   expanded = false;
 
@@ -260,14 +259,14 @@ export class BaseMinimumDatabaseObjectStructureComponent extends BasePrimitiveCo
     super.ngOnInit();
 
     this.loading = true;
-    this.ontologyService.getUITemplate('dataset:MinimumDatabaseObjectStructure').subscribe({
+    this.ontologyService.getUITemplate('dataset:ChemConnectDataStructure').subscribe({
       next: (res) => {
-        this.resolvedStructure = res['dataobject'];
+        this.structure = res['dataobject'];
         this.loading = false;
         this.cdr.detectChanges();
       },
       error: (err) => {
-        console.error('[BaseMinimumDatabaseObjectStructureComponent] Failed loading ontology template', err);
+        console.error('[ChemConnectDataStructure] Failed loading ontology template', err);
         this.loading = false;
         this.cdr.detectChanges();
       }
@@ -280,8 +279,8 @@ export class BaseMinimumDatabaseObjectStructureComponent extends BasePrimitiveCo
   }
 
   get title(): string {
-    if (this.resolvedStructure?.label) {
-      return this.resolvedStructure.label;
+    if (this.structure?.label) {
+      return this.structure.label;
     }
     return this.classname.split(':').pop() || this.classname;
   }
@@ -319,28 +318,9 @@ export class BaseMinimumDatabaseObjectStructureComponent extends BasePrimitiveCo
   }
 
   hasProperty(key: string): boolean {
-    return !!(this.resolvedStructure?.properties?.[key] || this.value?.[key]);
+    return !!(this.structure?.properties?.[key] || this.value?.[key]);
   }
 
-  getPropertyStructure(key: string): OntologyStructure {
-    if (this.resolvedStructure?.properties?.[key]) {
-      return this.resolvedStructure.properties[key];
-    }
-    return {
-      identifier: key,
-      classname: 'dataset:OneLine',
-      isOneLine: true,
-      isObject: false,
-      isArray: false,
-      isClassification: false,
-      isParagraph: false,
-      isEmail: false,
-      isURL: false,
-      isBoolean: false,
-      isKeywordSet: false,
-      isFileSource: false
-    };
-  }
 
   updateProperty(key: string, newValue: any): void {
     if (this.value) {
@@ -407,8 +387,9 @@ export class BaseMinimumDatabaseObjectStructureComponent extends BasePrimitiveCo
 
   addObjectSiteReferenceItem(): void {
     const newItem = {
-      'dataset:HttpAddressSourceLocation': 'Unassigned classification: dataset',
-      'dataset:HttpAddress': 'not assigned'
+      'dataset:httpinformationtype': 'dataset:UniversityHomepage',
+      'dataset:httpdescriptiontitle': 'Title of Object Site Reference',
+      'dataset:HttpAddress': 'http://address/reference'
     };
     const currentList = this.getObjectSiteReferenceArray();
     this.updateProperty('foaf:page', [...currentList, newItem]);
@@ -441,11 +422,10 @@ export class BaseMinimumDatabaseObjectStructureComponent extends BasePrimitiveCo
 
   addBibliographicReferenceLinkItem(): void {
     const newItem = {
-      'datacite:PrimaryResourceIdentifier': 'not assigned',
-      'dataset:referencestring': 'not assigned',
-      'dataset:referencetitle': 'not assigned',
-      'dc:creator': []
+      'dataset:bibliographiclinktype': 'dataset:DataDOILink',
+      'dataset:bibliographiclink': 'DOI, ISBN or URL for reference',
     };
+
     const currentList = this.getBibliographicReferenceLinkArray();
     this.updateProperty('dataset:bibliographicreferencelink', [...currentList, newItem]);
   }

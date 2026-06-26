@@ -48,24 +48,24 @@ export interface OntologyStructure {
 export abstract class BasePrimitiveComponent implements OnInit {
   /** The value of the field (JsonObject, JsonArray, or primitive) */
   protected _value: any;
-  
+
   public initiallyFilled = false;
-  protected visibilityService = inject(WorkflowVisibilityService, {optional: true});
+  protected visibilityService = inject(WorkflowVisibilityService, { optional: true });
 
   @Input()
   get value(): any {
     return this._value;
   }
-  
+
   set value(v: any) {
     if (this._value !== v) {
       this._value = v;
     }
   }
-  
+
   /** The ontology classname of the field */
   @Input() classname!: string;
-  
+
   /** The UI structure hints from the ontology */
   @Input() structure!: OntologyStructure;
 
@@ -121,7 +121,7 @@ export abstract class BasePrimitiveComponent implements OnInit {
     if (struct.isArray) {
       if (!Array.isArray(value)) return false;
       if (value.length === 0) return true; // Empty array is considered filled
-      
+
       if (struct.isObject && struct.properties) {
         return value.every(item => this.isDeeplyFilled({ ...struct, isArray: false }, item));
       } else {
@@ -155,6 +155,32 @@ export abstract class BasePrimitiveComponent implements OnInit {
       return true;
     }
     return true;
+  }
+
+  getPropertyStructure(key: string): OntologyStructure {
+    if (this.structure?.properties?.[key]) {
+      return this.structure.properties[key];
+    }
+    return {
+      identifier: key,
+      classname: 'dataset:OneLine',
+      isOneLine: true,
+      isObject: false,
+      isArray: false,
+      isClassification: false,
+      isParagraph: false,
+      isEmail: false,
+      isURL: false,
+      isBoolean: false,
+      isKeywordSet: false,
+      isFileSource: false
+    };
+  }
+  get propertyKeys(): string[] {
+    if (this.value) {
+      return Object.keys(this.value);
+    }
+    return [];
   }
 
   /**

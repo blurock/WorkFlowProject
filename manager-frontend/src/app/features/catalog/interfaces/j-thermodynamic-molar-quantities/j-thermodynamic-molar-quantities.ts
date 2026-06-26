@@ -165,7 +165,7 @@ export class JThermodynamicMolarQuantitiesComponent extends BasePrimitiveCompone
   private ontologyService = inject(OntologyService);
   private cdr = inject(ChangeDetectorRef);
   expanded = false;
-  resolvedStructure?: OntologyStructure;
+
   loading = false;
 
   override ngOnInit(): void {
@@ -180,7 +180,7 @@ export class JThermodynamicMolarQuantitiesComponent extends BasePrimitiveCompone
       this.loading = true;
       this.ontologyService.getUITemplate(cls).subscribe({
         next: (res) => {
-          this.resolvedStructure = res['dataobject'];
+          this.structure = res['dataobject'];
           this.loading = false;
           this.cdr.detectChanges();
         },
@@ -191,7 +191,7 @@ export class JThermodynamicMolarQuantitiesComponent extends BasePrimitiveCompone
         }
       });
     } else {
-      this.resolvedStructure = this.structure;
+      this.structure = this.structure;
     }
   }
 
@@ -206,11 +206,11 @@ export class JThermodynamicMolarQuantitiesComponent extends BasePrimitiveCompone
       if (spec['skos:prefLabel']) return spec['skos:prefLabel'];
       if (spec['dataset:parameterlabel']) return spec['dataset:parameterlabel'];
     }
-    if (this.resolvedStructure) {
-      if (this.resolvedStructure.label) return this.resolvedStructure.label;
-      if (this.resolvedStructure.classname) {
+    if (this.structure) {
+      if (this.structure.label) return this.structure.label;
+      if (this.structure.classname) {
         // Clean classname, e.g. dataset:ThermodynamicStandardEnthalpy -> Standard Enthalpy
-        const name = this.resolvedStructure.classname.split(':').pop() || '';
+        const name = this.structure.classname.split(':').pop() || '';
         return name.replace(/Thermodynamic/, '').replace(/([A-Z])/g, ' $1').trim();
       }
     }
@@ -249,8 +249,8 @@ export class JThermodynamicMolarQuantitiesComponent extends BasePrimitiveCompone
   }
 
   getSpecKey(): string | null {
-    if (this.resolvedStructure?.properties) {
-      for (const key of Object.keys(this.resolvedStructure.properties)) {
+    if (this.structure?.properties) {
+      for (const key of Object.keys(this.structure.properties)) {
         if (key.startsWith('dataset:paramspec') || key.startsWith('dataset:hdisassociation') || key === 'qb:ComponentSpecification') {
           return key;
         }
@@ -273,16 +273,16 @@ export class JThermodynamicMolarQuantitiesComponent extends BasePrimitiveCompone
 
   getSpecStructure(): OntologyStructure {
     const key = this.getSpecKey();
-    if (key && this.resolvedStructure?.properties?.[key]) {
-      return this.resolvedStructure.properties[key];
+    if (key && this.structure?.properties?.[key]) {
+      return this.structure.properties[key];
     }
-    if (this.resolvedStructure?.properties?.['qb:ComponentSpecification']) {
-      return this.resolvedStructure.properties['qb:ComponentSpecification'];
+    if (this.structure?.properties?.['qb:ComponentSpecification']) {
+      return this.structure.properties['qb:ComponentSpecification'];
     }
-    
+
     // Infer the spec subclass from the parent molar quantity's classname
     let specClass = 'dataset:ParameterSpecification';
-    const cls = this.classname || this.resolvedStructure?.classname || '';
+    const cls = this.classname || this.structure?.classname || '';
     const lowerCls = cls.toLowerCase();
     if (lowerCls.includes('enthalpy') || lowerCls.includes('stdenthalpy')) specClass = 'dataset:paramspecenthalpy';
     else if (lowerCls.includes('entropy') || lowerCls.includes('stdentropy')) specClass = 'dataset:paramspecentropy';

@@ -161,7 +161,6 @@ export class ThermodynamicStandardEnthalpyComponent extends BasePrimitiveCompone
   private ontologyService = inject(OntologyService);
   private cdr = inject(ChangeDetectorRef);
   expanded = false;
-  resolvedStructure?: OntologyStructure;
   loading = false;
 
   override ngOnInit(): void {
@@ -176,7 +175,7 @@ export class ThermodynamicStandardEnthalpyComponent extends BasePrimitiveCompone
       this.loading = true;
       this.ontologyService.getUITemplate(cls).subscribe({
         next: (res) => {
-          this.resolvedStructure = res['dataobject'];
+          this.structure = res['dataobject'];
           this.loading = false;
           this.cdr.detectChanges();
         },
@@ -187,7 +186,7 @@ export class ThermodynamicStandardEnthalpyComponent extends BasePrimitiveCompone
         }
       });
     } else {
-      this.resolvedStructure = this.structure;
+      this.structure = this.structure;
     }
   }
 
@@ -202,8 +201,8 @@ export class ThermodynamicStandardEnthalpyComponent extends BasePrimitiveCompone
       if (spec['skos:prefLabel']) return spec['skos:prefLabel'];
       if (spec['dataset:parameterlabel']) return spec['dataset:parameterlabel'];
     }
-    if (this.resolvedStructure?.label && !this.resolvedStructure.label.startsWith('std') && !this.resolvedStructure.label.startsWith('thermo')) {
-      return this.resolvedStructure.label;
+    if (this.structure?.label && !this.structure.label.startsWith('std') && !this.structure.label.startsWith('thermo')) {
+      return this.structure.label;
     }
     return 'Standard Enthalpy';
   }
@@ -240,18 +239,18 @@ export class ThermodynamicStandardEnthalpyComponent extends BasePrimitiveCompone
   }
 
   hasSpec(): boolean {
-    return !!(this.resolvedStructure?.properties?.['dataset:paramspecenthalpy'] || 
-              this.resolvedStructure?.properties?.['qb:ComponentSpecification'] || 
-              this.value?.['dataset:paramspecenthalpy'] || 
-              this.value?.['qb:ComponentSpecification']);
+    return !!(this.structure?.properties?.['dataset:paramspecenthalpy'] ||
+      this.structure?.properties?.['qb:ComponentSpecification'] ||
+      this.value?.['dataset:paramspecenthalpy'] ||
+      this.value?.['qb:ComponentSpecification']);
   }
 
   getSpecStructure(): OntologyStructure {
-    if (this.resolvedStructure?.properties?.['dataset:paramspecenthalpy']) {
-      return this.resolvedStructure.properties['dataset:paramspecenthalpy'];
+    if (this.structure?.properties?.['dataset:paramspecenthalpy']) {
+      return this.structure.properties['dataset:paramspecenthalpy'];
     }
-    if (this.resolvedStructure?.properties?.['qb:ComponentSpecification']) {
-      return this.resolvedStructure.properties['qb:ComponentSpecification'];
+    if (this.structure?.properties?.['qb:ComponentSpecification']) {
+      return this.structure.properties['qb:ComponentSpecification'];
     }
     return {
       identifier: 'dataset:paramspecenthalpy',

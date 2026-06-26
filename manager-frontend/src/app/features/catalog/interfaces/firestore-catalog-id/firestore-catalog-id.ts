@@ -166,11 +166,11 @@ export class FetchedObjectDialogComponent implements OnInit, OnDestroy {
     try {
       const docRef = doc(this.firestore, cleanPath);
       const snap = await getDoc(docRef);
-      
+
       if (snap.exists()) {
         this.value = snap.data();
         this.resolvedClassname = this.value['dataset:objectype'] || this.value['dataset:catobjtype'] || this.value['dataset:DatabaseObjectType'] || 'dataset:FirestoreCatalogID';
-        
+
         this.ontologyService.getUITemplate(this.resolvedClassname).subscribe({
           next: (res) => {
             this.structure = res['dataobject'];
@@ -228,7 +228,7 @@ export class FirestoreCatalogIDComponent extends BasePrimitiveComponent implemen
 
   isExpanded = false;
   loading = false;
-  resolvedStructure?: OntologyStructure;
+
 
   override ngOnInit(): void {
     super.ngOnInit();
@@ -236,7 +236,7 @@ export class FirestoreCatalogIDComponent extends BasePrimitiveComponent implemen
       this.loading = true;
       this.ontologyService.getUITemplate('dataset:FirestoreCatalogID').subscribe({
         next: (res) => {
-          this.resolvedStructure = res['dataobject'];
+          this.structure = res['dataobject'];
           this.loading = false;
           this.cdr.detectChanges();
         },
@@ -247,7 +247,7 @@ export class FirestoreCatalogIDComponent extends BasePrimitiveComponent implemen
         }
       });
     } else {
-      this.resolvedStructure = this.structure;
+      this.structure = this.structure;
     }
   }
 
@@ -269,28 +269,13 @@ export class FirestoreCatalogIDComponent extends BasePrimitiveComponent implemen
     return this.value?.['dataset:shortdescription'] || 'not assigned';
   }
 
-  get propertyKeys(): string[] {
-    if (this.resolvedStructure?.properties) {
-      return Object.keys(this.resolvedStructure.properties).filter(
-        key => key !== 'dataset:addressidpairs' && 
-               key !== 'skos:inScheme' && 
-               key !== 'qb:DataSet'
-      );
-    }
-    return [];
-  }
-
-  getPropertyStructure(key: string): OntologyStructure {
-    return this.resolvedStructure!.properties![key];
-  }
-
   isFullWidthKey(key: string): boolean {
     const struct = this.getPropertyStructure(key);
     if (!struct) return false;
-    return key === 'dataset:firestorecatalog' || 
-           struct.classname === 'dataset:FirestoreCatalogID' ||
-           struct.classname === 'dataset:CollectionDocumentIDPairAddress' ||
-           (!!struct.classname && (struct.classname.endsWith('CatalogID') || struct.classname.includes('CatalogID')));
+    return key === 'dataset:firestorecatalog' ||
+      struct.classname === 'dataset:FirestoreCatalogID' ||
+      struct.classname === 'dataset:CollectionDocumentIDPairAddress' ||
+      (!!struct.classname && (struct.classname.endsWith('CatalogID') || struct.classname.includes('CatalogID')));
   }
 
   get firestorePath(): string {
@@ -316,20 +301,20 @@ export class FirestoreCatalogIDComponent extends BasePrimitiveComponent implemen
     }).filter(s => s !== '');
 
     if (segments.length === 0) return '';
-    
+
     let path = '/' + segments.join('/');
-    
+
     // Append skos:inScheme and qb:DataSet if present and assigned
     const scheme = this.value?.['skos:inScheme'];
     const dataset = this.value?.['qb:DataSet'];
-    
+
     if (scheme && scheme !== 'not assigned') {
       path += '/' + scheme;
     }
     if (dataset && dataset !== 'not assigned') {
       path += '/' + dataset;
     }
-    
+
     return path;
   }
 

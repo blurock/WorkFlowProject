@@ -29,7 +29,7 @@ export class MinimumDatabaseObjectStructureComponent extends BasePrimitiveCompon
 
   isExpanded = false;
   loading = false;
-  resolvedStructure?: OntologyStructure;
+
 
   override ngOnInit(): void {
     super.ngOnInit();
@@ -37,7 +37,7 @@ export class MinimumDatabaseObjectStructureComponent extends BasePrimitiveCompon
       this.loading = true;
       this.ontologyService.getUITemplate('dataset:MinimumDatabaseObjectStructure').subscribe({
         next: (res) => {
-          this.resolvedStructure = res['dataobject'];
+          this.structure = res['dataobject'];
           this.loading = false;
           this.cdr.detectChanges();
         },
@@ -48,14 +48,14 @@ export class MinimumDatabaseObjectStructureComponent extends BasePrimitiveCompon
         }
       });
     } else {
-      this.resolvedStructure = this.structure;
+      this.structure = this.structure;
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['structure']) {
       if (this.structure && this.structure.properties) {
-        this.resolvedStructure = this.structure;
+        this.structure = this.structure;
         this.cdr.detectChanges();
       }
     }
@@ -90,9 +90,9 @@ export class MinimumDatabaseObjectStructureComponent extends BasePrimitiveCompon
     'dcterms:identifier'
   ];
 
-  get propertyKeys(): string[] {
-    if (this.resolvedStructure?.properties) {
-      return Object.keys(this.resolvedStructure.properties).filter(
+  override get propertyKeys(): string[] {
+    if (this.structure?.properties) {
+      return Object.keys(this.structure.properties).filter(
         key => !this.FILTERED_KEYS.includes(key)
       );
     }
@@ -100,11 +100,11 @@ export class MinimumDatabaseObjectStructureComponent extends BasePrimitiveCompon
   }
 
   hasProperty(key: string): boolean {
-    return !!(this.resolvedStructure?.properties?.[key] || this.value?.[key]);
+    return !!(this.structure?.properties?.[key] || this.value?.[key]);
   }
 
   getBibliographicKey(): string {
-    if (this.resolvedStructure?.properties?.['dataset:bibliographicreferencelink'] || this.value?.['dataset:bibliographicreferencelink']) {
+    if (this.structure?.properties?.['dataset:bibliographicreferencelink'] || this.value?.['dataset:bibliographicreferencelink']) {
       return 'dataset:bibliographicreferencelink';
     }
     return 'dcterms:BibliographicResource';
@@ -118,25 +118,6 @@ export class MinimumDatabaseObjectStructureComponent extends BasePrimitiveCompon
     }
   }
 
-  getPropertyStructure(key: string): OntologyStructure {
-    if (this.resolvedStructure?.properties?.[key]) {
-      return this.resolvedStructure.properties[key];
-    }
-    return {
-      identifier: key,
-      classname: 'dataset:OneLine',
-      isOneLine: true,
-      isObject: false,
-      isArray: false,
-      isClassification: false,
-      isParagraph: false,
-      isEmail: false,
-      isURL: false,
-      isBoolean: false,
-      isKeywordSet: false,
-      isFileSource: false
-    };
-  }
 
   isFullWidthKey(key: string): boolean {
     const struct = this.getPropertyStructure(key);

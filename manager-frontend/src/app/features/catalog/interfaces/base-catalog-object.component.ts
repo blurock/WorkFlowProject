@@ -247,19 +247,18 @@ export class BaseCatalogObjectComponent extends BasePrimitiveComponent implement
 
   @Input() isTransaction = false;
 
-  resolvedStructure?: OntologyStructure;
   loading = false;
   expanded = false;
 
   override ngOnInit(): void {
     super.ngOnInit();
-    
+
     // Attempt loading the UI template from the ontology service if not present
     if (!this.structure || !this.structure.properties) {
       this.loading = true;
       this.ontologyService.getUITemplate(this.classname).subscribe({
         next: (res) => {
-          this.resolvedStructure = res['dataobject'];
+          this.structure = res['dataobject'];
           this.loading = false;
           this.cdr.detectChanges();
         },
@@ -270,7 +269,7 @@ export class BaseCatalogObjectComponent extends BasePrimitiveComponent implement
         }
       });
     } else {
-      this.resolvedStructure = this.structure;
+      this.structure = this.structure;
     }
   }
 
@@ -280,8 +279,8 @@ export class BaseCatalogObjectComponent extends BasePrimitiveComponent implement
   }
 
   get title(): string {
-    if (this.resolvedStructure?.label) {
-      return this.resolvedStructure.label;
+    if (this.structure?.label) {
+      return this.structure.label;
     }
     return this.classname.split(':').pop() || this.classname;
   }
@@ -305,23 +304,23 @@ export class BaseCatalogObjectComponent extends BasePrimitiveComponent implement
     if (this.isTransaction) {
       // Transaction format: TransactionEventType, ShortDescription, and TransactionKey
       const eventType = this.value['prov:activity'] || 'Unknown Event';
-      const shortDesc = this.value['dataset:activityinfo']?.['dataset:descrfilestaging']?.['dataset:titlestaging'] || 
-                        this.value['dataset:shortdescription'] || 
-                        '';
+      const shortDesc = this.value['dataset:activityinfo']?.['dataset:descrfilestaging']?.['dataset:titlestaging'] ||
+        this.value['dataset:shortdescription'] ||
+        '';
       const transKey = this.value['dataset:catalogkey'] || this.value['transaction'] || '';
       return `[${eventType.split(':').pop() || eventType}] ${shortDesc} (${transKey})`;
     } else {
       const shortDesc = this.value['dataset:shortdescription'] || 'not assigned';
       const endsWithDataset = this.classname.endsWith('DataSet') || this.classname.endsWith('Dataset');
-      const isStagingOrBlock = this.classname === 'dataset:RepositoryFileStaging' || 
-                               this.classname === 'dataset:RepositoryParsedToFixedBlockSize' ||
-                               this.classname === 'dataset:RepositoryTherGasThermodynamicsBlock';
-                               
+      const isStagingOrBlock = this.classname === 'dataset:RepositoryFileStaging' ||
+        this.classname === 'dataset:RepositoryParsedToFixedBlockSize' ||
+        this.classname === 'dataset:RepositoryTherGasThermodynamicsBlock';
+
       if (endsWithDataset || isStagingOrBlock) {
         const uniqueLabel = this.value['dataset:uniquegenericname'] || this.value['dataset:dataset:uniquegenericname'] || '';
         return uniqueLabel ? `[${uniqueLabel}] ${shortDesc}` : shortDesc;
       }
-      
+
       if (this.classname.endsWith('Database')) {
         const setLabel = this.value['dataset:datasetcollectionslabel'] || this.value['dataset:uniquegenericname'] || '';
         return setLabel ? `[${setLabel}] ${shortDesc}` : shortDesc;
@@ -332,29 +331,9 @@ export class BaseCatalogObjectComponent extends BasePrimitiveComponent implement
   }
 
   hasProperty(key: string): boolean {
-    return !!(this.resolvedStructure?.properties?.[key] || this.value?.[key]);
+    return !!(this.structure?.properties?.[key] || this.value?.[key]);
   }
 
-  getPropertyStructure(key: string): OntologyStructure {
-    if (this.resolvedStructure?.properties?.[key]) {
-      return this.resolvedStructure.properties[key];
-    }
-    // Fallback template
-    return {
-      identifier: key,
-      classname: 'dataset:OneLine',
-      isOneLine: true,
-      isObject: false,
-      isArray: false,
-      isClassification: false,
-      isParagraph: false,
-      isEmail: false,
-      isURL: false,
-      isBoolean: false,
-      isKeywordSet: false,
-      isFileSource: false
-    };
-  }
 
   get specificKeys(): string[] {
     const metaKeys = [
@@ -379,8 +358,8 @@ export class BaseCatalogObjectComponent extends BasePrimitiveComponent implement
     ];
 
     let allKeys: string[] = [];
-    if (this.resolvedStructure?.properties) {
-      allKeys = Object.keys(this.resolvedStructure.properties);
+    if (this.structure?.properties) {
+      allKeys = Object.keys(this.structure.properties);
     } else if (this.value) {
       allKeys = Object.keys(this.value);
     }

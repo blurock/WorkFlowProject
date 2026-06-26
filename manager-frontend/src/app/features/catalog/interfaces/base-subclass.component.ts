@@ -13,7 +13,7 @@ export abstract class BaseSubclassComponent extends BasePrimitiveComponent imple
     return true;
   }
 
-  resolvedStructure?: OntologyStructure;
+
   specificSubclassKeys: string[] = [];
   loading = false;
 
@@ -39,11 +39,11 @@ export abstract class BaseSubclassComponent extends BasePrimitiveComponent imple
 
   override ngOnInit(): void {
     super.ngOnInit();
-    
+
     this.loading = true;
     this.ontologyService.getUITemplate(this.classname).subscribe({
       next: (res) => {
-        this.resolvedStructure = res['dataobject'];
+        this.structure = res['dataobject'];
         this.resolveSpecificKeys();
         this.loading = false;
         this.cdr.detectChanges();
@@ -57,32 +57,13 @@ export abstract class BaseSubclassComponent extends BasePrimitiveComponent imple
   }
 
   resolveSpecificKeys() {
-    if (this.resolvedStructure?.properties) {
-      this.specificSubclassKeys = Object.keys(this.resolvedStructure.properties).filter(
+    if (this.structure?.properties) {
+      this.specificSubclassKeys = Object.keys(this.structure.properties).filter(
         key => !this.MDO_KEYS.includes(key)
       );
     }
   }
 
-  getPropertyStructure(key: string): OntologyStructure {
-    if (this.resolvedStructure?.properties?.[key]) {
-      return this.resolvedStructure.properties[key];
-    }
-    return {
-      identifier: key,
-      classname: 'dataset:OneLine',
-      isOneLine: true,
-      isObject: false,
-      isArray: false,
-      isClassification: false,
-      isParagraph: false,
-      isEmail: false,
-      isURL: false,
-      isBoolean: false,
-      isKeywordSet: false,
-      isFileSource: false
-    };
-  }
 
   updateProperty(key: string, newValue: any): void {
     if (this.value) {

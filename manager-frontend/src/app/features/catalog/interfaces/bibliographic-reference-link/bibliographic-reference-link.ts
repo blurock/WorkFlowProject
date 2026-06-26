@@ -132,12 +132,6 @@ export class BibliographicReferenceLinkComponent extends BasePrimitiveComponent 
     return this.value?.['dataset:bibliographiclinktype'] || 'not assigned';
   }
 
-  get propertyKeys(): string[] {
-    if (this.value) {
-      return Object.keys(this.value);
-    }
-    return [];
-  }
 
   getLabel(key: string): string {
     const parts = key.split(':');
@@ -145,26 +139,7 @@ export class BibliographicReferenceLinkComponent extends BasePrimitiveComponent 
     return term.charAt(0).toUpperCase() + term.slice(1).replace(/([A-Z])/g, ' $1');
   }
 
-  getPropertyStructure(key: string): OntologyStructure {
-    // Generate an fallback structure for nested fields in BibliographicReference
-    const isArray = Array.isArray(this.value?.[key]);
-    const isObject = !isArray && typeof this.value?.[key] === 'object' && this.value?.[key] !== null;
 
-    return {
-      identifier: key,
-      classname: isObject ? 'dataset:Object' : 'dataset:OneLine',
-      isOneLine: !isObject && !isArray,
-      isObject: isObject,
-      isArray: isArray,
-      isClassification: false,
-      isParagraph: false,
-      isEmail: false,
-      isURL: false,
-      isBoolean: false,
-      isKeywordSet: false,
-      isFileSource: false
-    };
-  }
 
   updateProperty(key: string, newValue: any) {
     if (this.value) {

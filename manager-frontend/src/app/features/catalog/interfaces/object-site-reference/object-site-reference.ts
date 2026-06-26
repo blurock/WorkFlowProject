@@ -134,43 +134,19 @@ export class ObjectSiteReferenceComponent extends BasePrimitiveComponent impleme
   }
 
   get httpAddress(): string {
-    return this.value?.['dataset:HttpAddress'] || 
-           this.value?.['dataset:HttpAddressSourceLocation'] ||
-           'not assigned';
+    return this.value?.['dataset:HttpAddress'] ||
+      this.value?.['dataset:HttpAddressSourceLocation'] ||
+      'not assigned';
   }
 
   get sourceLocation(): string {
     return this.value?.['dataset:HttpAddressSourceLocation'] || '';
   }
 
-  get propertyKeys(): string[] {
-    if (this.value) {
-      return Object.keys(this.value);
-    }
-    return [];
-  }
-
   getLabel(key: string): string {
     const parts = key.split(':');
     const term = parts.pop() || key;
     return term.charAt(0).toUpperCase() + term.slice(1).replace(/([A-Z])/g, ' $1');
-  }
-
-  getPropertyStructure(key: string): OntologyStructure {
-    return {
-      identifier: key,
-      classname: 'dataset:OneLine',
-      isOneLine: true,
-      isObject: false,
-      isArray: false,
-      isClassification: false,
-      isParagraph: false,
-      isEmail: false,
-      isURL: key.includes('Address') || key.includes('Http'),
-      isBoolean: false,
-      isKeywordSet: false,
-      isFileSource: false
-    };
   }
 
   updateProperty(key: string, newValue: any) {

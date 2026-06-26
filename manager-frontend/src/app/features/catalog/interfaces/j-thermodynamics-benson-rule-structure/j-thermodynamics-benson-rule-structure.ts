@@ -136,7 +136,7 @@ export class JThermodynamicsBensonRuleStructureComponent extends BasePrimitiveCo
   private ontologyService = inject(OntologyService);
   private cdr = inject(ChangeDetectorRef);
   expanded = false;
-  resolvedStructure?: OntologyStructure;
+
   loading = false;
 
   override ngOnInit(): void {
@@ -151,7 +151,7 @@ export class JThermodynamicsBensonRuleStructureComponent extends BasePrimitiveCo
       this.loading = true;
       this.ontologyService.getUITemplate(cls).subscribe({
         next: (res) => {
-          this.resolvedStructure = res['dataobject'];
+          this.structure = res['dataobject'];
           this.loading = false;
           this.cdr.detectChanges();
         },
@@ -162,7 +162,7 @@ export class JThermodynamicsBensonRuleStructureComponent extends BasePrimitiveCo
         }
       });
     } else {
-      this.resolvedStructure = this.structure;
+      this.structure = this.structure;
     }
   }
 
@@ -172,8 +172,8 @@ export class JThermodynamicsBensonRuleStructureComponent extends BasePrimitiveCo
   }
 
   getLabel(): string {
-    if (this.resolvedStructure?.label && !this.resolvedStructure.label.startsWith('benson') && !this.resolvedStructure.label.startsWith('param')) {
-      return this.resolvedStructure.label;
+    if (this.structure?.label && !this.structure.label.startsWith('benson') && !this.structure.label.startsWith('param')) {
+      return this.structure.label;
     }
     return 'Benson Rule Structure';
   }
@@ -185,39 +185,7 @@ export class JThermodynamicsBensonRuleStructureComponent extends BasePrimitiveCo
     return '';
   }
 
-  get propertyKeys(): string[] {
-    if (this.resolvedStructure?.properties && Object.keys(this.resolvedStructure.properties).length > 0) {
-      return Object.keys(this.resolvedStructure.properties);
-    }
-    if (this.value) {
-      return Object.keys(this.value).filter(k => k !== 'dcterms:identifier');
-    }
-    return [];
-  }
 
-  getPropertyStructure(key: string): OntologyStructure {
-    if (this.resolvedStructure?.properties?.[key]) {
-      return this.resolvedStructure.properties[key];
-    }
-    const val = this.value ? this.value[key] : null;
-    const isValObject = val !== null && typeof val === 'object' && !Array.isArray(val);
-    const isValArray = Array.isArray(val);
-    return {
-      identifier: key,
-      classname: isValObject ? 'dataset:JsonObject' : (isValArray ? 'dataset:JsonArray' : 'dataset:OneLine'),
-      isClassification: false,
-      isParagraph: false,
-      isOneLine: !isValObject && !isValArray,
-      isEmail: false,
-      isURL: false,
-      isBoolean: typeof val === 'boolean',
-      isKeywordSet: false,
-      isFileSource: false,
-      isObject: isValObject,
-      isArray: isValArray,
-      label: key.split(':').pop() || key
-    };
-  }
 
   updateProperty(key: string, newValue: any): void {
     if (this.value) {

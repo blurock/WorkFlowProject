@@ -130,7 +130,6 @@ export class ParameterSpecificationComponent extends BasePrimitiveComponent impl
   private ontologyService = inject(OntologyService);
   private cdr = inject(ChangeDetectorRef);
   expanded = false;
-  resolvedStructure?: OntologyStructure;
   loading = false;
 
   override ngOnInit(): void {
@@ -145,7 +144,7 @@ export class ParameterSpecificationComponent extends BasePrimitiveComponent impl
       this.loading = true;
       this.ontologyService.getUITemplate(cls).subscribe({
         next: (res) => {
-          this.resolvedStructure = res['dataobject'];
+          this.structure = res['dataobject'];
           this.loading = false;
           this.cdr.detectChanges();
         },
@@ -156,7 +155,7 @@ export class ParameterSpecificationComponent extends BasePrimitiveComponent impl
         }
       });
     } else {
-      this.resolvedStructure = this.structure;
+      this.structure = this.structure;
     }
   }
 
@@ -170,12 +169,12 @@ export class ParameterSpecificationComponent extends BasePrimitiveComponent impl
       if (this.value['skos:prefLabel']) return this.value['skos:prefLabel'];
       if (this.value['dataset:parameterlabel']) return this.value['dataset:parameterlabel'];
     }
-    if (this.resolvedStructure) {
-      if (this.resolvedStructure.label && !this.resolvedStructure.label.startsWith('paramspec') && !this.resolvedStructure.label.startsWith('thermo')) {
-        return this.resolvedStructure.label;
+    if (this.structure) {
+      if (this.structure.label && !this.structure.label.startsWith('paramspec') && !this.structure.label.startsWith('thermo')) {
+        return this.structure.label;
       }
-      if (this.resolvedStructure.classname) {
-        const cls = this.resolvedStructure.classname;
+      if (this.structure.classname) {
+        const cls = this.structure.classname;
         if (cls === 'dataset:paramspecenthalpy' || cls === 'dataset:ParameterSpecificationEnthalpy') return 'Enthalpy Specification';
         if (cls === 'dataset:paramspecentropy' || cls === 'dataset:ParameterSpecificationEntropy') return 'Entropy Specification';
         if (cls === 'dataset:paramspecheatcapacity' || cls === 'dataset:ParameterSpecificationHeatCapacity') return 'Heat Capacity Specification';
@@ -184,7 +183,7 @@ export class ParameterSpecificationComponent extends BasePrimitiveComponent impl
         if (cls === 'dataset:thermotemperature' || cls === 'dataset:ParameterSpecificationTemperature') return 'Temperature Specification';
 
         // Clean classname fallback, e.g. dataset:ParameterSpecificationEnthalpy -> Enthalpy Specification
-        const name = this.resolvedStructure.classname.split(':').pop() || '';
+        const name = this.structure.classname.split(':').pop() || '';
         return name.replace(/ParameterSpecification/, '').replace(/([A-Z])/g, ' $1').trim() + ' Spec';
       }
     }
@@ -216,39 +215,6 @@ export class ParameterSpecificationComponent extends BasePrimitiveComponent impl
     return cleaned;
   }
 
-  get propertyKeys(): string[] {
-    if (this.resolvedStructure?.properties && Object.keys(this.resolvedStructure.properties).length > 0) {
-      return Object.keys(this.resolvedStructure.properties);
-    }
-    if (this.value) {
-      return Object.keys(this.value).filter(k => k !== 'dcterms:identifier');
-    }
-    return [];
-  }
-
-  getPropertyStructure(key: string): OntologyStructure {
-    if (this.resolvedStructure?.properties?.[key]) {
-      return this.resolvedStructure.properties[key];
-    }
-    const val = this.value ? this.value[key] : null;
-    const isValObject = val !== null && typeof val === 'object' && !Array.isArray(val);
-    const isValArray = Array.isArray(val);
-    return {
-      identifier: key,
-      classname: isValObject ? 'dataset:JsonObject' : (isValArray ? 'dataset:JsonArray' : 'dataset:OneLine'),
-      isClassification: false,
-      isParagraph: false,
-      isOneLine: !isValObject && !isValArray,
-      isEmail: false,
-      isURL: false,
-      isBoolean: typeof val === 'boolean',
-      isKeywordSet: false,
-      isFileSource: false,
-      isObject: isValObject,
-      isArray: isValArray,
-      label: key.split(':').pop() || key
-    };
-  }
 
   updateProperty(key: string, newValue: any): void {
     if (this.value) {

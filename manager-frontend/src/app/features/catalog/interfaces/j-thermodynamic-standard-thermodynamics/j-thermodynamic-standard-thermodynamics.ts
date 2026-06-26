@@ -45,7 +45,7 @@ import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dy
           Loading structure metadata...
         </div>
 
-        <div class="thermo-properties" *ngIf="!loading && resolvedStructure">
+        <div class="thermo-properties" *ngIf="!loading && structure">
           
           <!-- Standard Properties (Enthalpy, Entropy, Specs) rendered full width -->
           <div class="std-props-list" *ngIf="propertyKeys.length > 0">
@@ -272,29 +272,29 @@ export class JThermodynamicStandardThermodynamicsComponent extends BasePrimitive
   private ontologyService = inject(OntologyService);
   private cdr = inject(ChangeDetectorRef);
 
-  resolvedStructure?: OntologyStructure;
+
   loading = false;
-  
+
   displayedColumns: string[] = ['thermodynamicTemperature', 'thermodynamicHeatCapacityValue', 'valueUncertainty', 'actions'];
   cpList: any[] = [];
   expanded = false;
 
   override ngOnInit(): void {
     super.ngOnInit();
-    
+
     // Attempt loading metadata templates
     if (!this.structure || !this.structure.properties) {
       this.loading = true;
       this.ontologyService.getUITemplate('dataset:jthermostandardthermo').subscribe({
         next: (res) => {
-          this.resolvedStructure = res['dataobject'];
+          this.structure = res['dataobject'];
           this.loading = false;
           this.cdr.detectChanges();
         },
         error: () => {
           this.ontologyService.getUITemplate('dataset:JThermodynamicStandardThermodynamics').subscribe({
             next: (res2) => {
-              this.resolvedStructure = res2['dataobject'];
+              this.structure = res2['dataobject'];
               this.loading = false;
               this.cdr.detectChanges();
             },
@@ -307,10 +307,19 @@ export class JThermodynamicStandardThermodynamicsComponent extends BasePrimitive
         }
       });
     } else {
-      this.resolvedStructure = this.structure;
+      this.structure = this.structure;
     }
 
     this.extractCpList();
+  }
+
+  override get propertyKeys(): string[] {
+    var keys: string[] = [];
+    if (this.value) {
+      keys = Object.keys(this.value);
+      keys = keys.filter(k => k !== 'dataset:cpattemp');
+    }
+    return keys;
   }
 
   override set value(v: any) {
@@ -322,19 +331,6 @@ export class JThermodynamicStandardThermodynamicsComponent extends BasePrimitive
 
   override get value() {
     return this._value;
-  }
-
-  get propertyKeys(): string[] {
-    if (this.resolvedStructure?.properties) {
-      return Object.keys(this.resolvedStructure.properties).filter(
-        key => key !== 'dataset:cpattemp'
-      );
-    }
-    return [];
-  }
-
-  getPropertyStructure(key: string): OntologyStructure {
-    return this.resolvedStructure!.properties![key];
   }
 
   updateProperty(key: string, newValue: any) {
@@ -393,8 +389,8 @@ export class JThermodynamicStandardThermodynamicsComponent extends BasePrimitive
   }
 
   getLabel(): string {
-    if (this.resolvedStructure?.label && !this.resolvedStructure.label.startsWith('jthermostandard') && !this.resolvedStructure.label.startsWith('param')) {
-      return this.resolvedStructure.label;
+    if (this.structure?.label && !this.structure.label.startsWith('jthermostandard') && !this.structure.label.startsWith('param')) {
+      return this.structure.label;
     }
     return 'Standard Thermodynamics';
   }

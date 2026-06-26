@@ -262,7 +262,7 @@ export class ThermodynamicBensonRuleDefinitionComponent extends BasePrimitiveCom
     if (!this.value || typeof this.value !== 'object') {
       this.value = {};
     }
-    
+
     // Check if any MDO keys are present in structure
     if (this.structure?.properties) {
       this.isFirebaseObject = this.MDO_KEYS.some(key => key in this.structure.properties!);
@@ -281,23 +281,23 @@ export class ThermodynamicBensonRuleDefinitionComponent extends BasePrimitiveCom
   }
 
   getUniqueGenericLabel(): string {
-    return this.value?.['dataset:uniquegenericname'] || 
-           this.value?.['dataset:dataset:uniquegenericname'] || 
-           '';
+    return this.value?.['dataset:uniquegenericname'] ||
+      this.value?.['dataset:dataset:uniquegenericname'] ||
+      '';
   }
 
   getBensonRef(): string {
-    return this.value?.['dataset:bensonrulestructure']?.['dataset:bensonruleref'] || 
-           this.value?.['dataset:bensonrulestructure']?.['dataset:centeratom'] || 
-           '';
+    return this.value?.['dataset:bensonrulestructure']?.['dataset:bensonruleref'] ||
+      this.value?.['dataset:bensonrulestructure']?.['dataset:centeratom'] ||
+      '';
   }
 
   getThermoSummary(): string {
     const thermo = this.value?.['dataset:jthermostandardthermo'];
     if (!thermo) return '';
-    
+
     const parts: string[] = [];
-    
+
     // 1. Enthalpy
     const enthalpy = thermo['dataset:stdenthalpy'];
     if (enthalpy && enthalpy['dataset:ValueAsString'] !== undefined) {
@@ -349,55 +349,6 @@ export class ThermodynamicBensonRuleDefinitionComponent extends BasePrimitiveCom
     return !!(this.structure?.properties?.[key] || this.value?.[key]);
   }
 
-  getPropertyStructure(key: string): OntologyStructure {
-    if (this.structure?.properties?.[key]) {
-      return this.structure.properties[key];
-    }
-    // Fallback templates based on key name
-    if (key === 'dataset:bensonrulestructure') {
-      return {
-        identifier: key,
-        classname: 'dataset:JThermodynamicsBensonRuleStructure',
-        isClassification: false,
-        isParagraph: false,
-        isOneLine: false,
-        isEmail: false,
-        isURL: false,
-        isBoolean: false,
-        isObject: true,
-        isKeywordSet: false,
-        isFileSource: false
-      };
-    }
-    if (key === 'dataset:jthermostandardthermo') {
-      return {
-        identifier: key,
-        classname: 'dataset:JThermodynamicStandardThermodynamics',
-        isClassification: false,
-        isParagraph: false,
-        isOneLine: false,
-        isEmail: false,
-        isURL: false,
-        isBoolean: false,
-        isObject: true,
-        isKeywordSet: false,
-        isFileSource: false
-      };
-    }
-    return {
-      identifier: key,
-      classname: 'dataset:OneLine',
-      isClassification: false,
-      isParagraph: false,
-      isOneLine: true,
-      isEmail: false,
-      isURL: false,
-      isBoolean: false,
-      isKeywordSet: false,
-      isFileSource: false
-    };
-  }
-
   get remainingKeys(): string[] {
     const definedKeys = ['dataset:bensonrulestructure', 'dataset:jthermostandardthermo'];
     let allKeys: string[] = [];
@@ -407,8 +358,8 @@ export class ThermodynamicBensonRuleDefinitionComponent extends BasePrimitiveCom
       allKeys = Object.keys(this.value);
     }
 
-    return allKeys.filter(key => 
-      !definedKeys.includes(key) && 
+    return allKeys.filter(key =>
+      !definedKeys.includes(key) &&
       (!this.isFirebaseObject || !this.MDO_KEYS.includes(key)) &&
       key !== 'dcterms:identifier'
     );
