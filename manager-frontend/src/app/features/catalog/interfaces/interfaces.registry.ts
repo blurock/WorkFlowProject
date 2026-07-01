@@ -44,6 +44,7 @@ import { DatasetCollectionObjectSetWriteTransactionComponent } from './dataset-c
 import { DataCollectionAddCollectionTransactionComponent } from './data-collection-add-collection-transaction/data-collection-add-collection-transaction';
 import { ChemConnectUpdateCatalogObjectTransactionComponent } from './chem-connect-update-catalog-object-transaction/chem-connect-update-catalog-object-transaction';
 import { ActivityInformationRecordComponent } from './activity-information/activity-information';
+import { JThermodynamicBensonTemperaturesComponent } from './j-thermodynamic-benson-temperatures/j-thermodynamic-benson-temperatures';
 
 export const INTERFACE_REGISTRY: Record<string, Type<any>> = {
   'dataset:MinimumDatabaseObjectStructure': MinimumDatabaseObjectStructureComponent,
@@ -108,6 +109,8 @@ export const INTERFACE_REGISTRY: Record<string, Type<any>> = {
   'dataset:DataCollectionAddCollectionTransaction': DataCollectionAddCollectionTransactionComponent,
   'dataset:ChemConnectUpdateCatalogObjectTransaction': ChemConnectUpdateCatalogObjectTransactionComponent,
   'dataset:ActivityInformationRecord': ActivityInformationRecordComponent,
+  'dataset:JThermodynamicBensonTemperatures': JThermodynamicBensonTemperaturesComponent,
+  'dataset:bensontemperaturelist': JThermodynamicBensonTemperaturesComponent,
 };
 
 const IDENTIFIER_TO_CLASSNAME: Record<string, string> = {
@@ -161,6 +164,7 @@ const IDENTIFIER_TO_CLASSNAME: Record<string, string> = {
   'dataset:DatasetCollectionObjectSetWriteTransaction': 'dataset:DatasetCollectionObjectSetWriteTransaction',
   'dataset:DataCollectionAddCollectionTransaction': 'dataset:DataCollectionAddCollectionTransaction',
   'dataset:ChemConnectUpdateCatalogObjectTransaction': 'dataset:ChemConnectUpdateCatalogObjectTransaction',
+  'dataset:bensontemperaturelist': 'dataset:JThermodynamicBensonTemperatures',
 };
 
 export function resolveCustomInterface(classname: string): Type<any> | undefined {

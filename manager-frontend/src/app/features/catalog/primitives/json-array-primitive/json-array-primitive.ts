@@ -28,26 +28,28 @@ import { DynamicPrimitiveComponent } from '../dynamic-primitive/dynamic-primitiv
         </button>
       </div>
       
-      <div *ngFor="let item of value; let i = index; trackBy: trackByIndex" class="array-item">
-        <div class="item-content">
-          <app-dynamic-primitive 
-            [structure]="elementStructure" 
-            [value]="value[i]"
-            (valueChange)="updateItem(i, $event)">
-          </app-dynamic-primitive>
-        </div>
-        <div class="item-actions">
-           <button mat-icon-button color="warn" (click)="removeItem(i)" matTooltip="Remove Item">
-             <mat-icon>remove_circle_outline</mat-icon>
-           </button>
+      <div class="array-items-list" [class.scrollable-list]="value?.length > 5">
+        <div *ngFor="let item of value; let i = index; trackBy: trackByIndex" class="array-item">
+          <div class="item-content">
+            <app-dynamic-primitive 
+              [structure]="elementStructure" 
+              [value]="value[i]"
+              (valueChange)="updateItem(i, $event)">
+            </app-dynamic-primitive>
+          </div>
+          <div class="item-actions">
+             <button mat-icon-button color="warn" (click)="removeItem(i)" matTooltip="Remove Item">
+               <mat-icon>remove_circle_outline</mat-icon>
+             </button>
+          </div>
         </div>
       </div>
     </div>
   `,
   styles: [`
     .array-container {
-      margin: 12px 0;
-      padding: 12px;
+      margin: 4px 0;
+      padding: 4px;
       border: 1px dashed #ccc;
       border-radius: 8px;
     }
@@ -55,11 +57,12 @@ import { DynamicPrimitiveComponent } from '../dynamic-primitive/dynamic-primitiv
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
     .array-label {
       font-weight: 500;
       color: #555;
+      font-size: 0.9rem;
     }
     .empty-hint {
       color: #888;
@@ -69,21 +72,44 @@ import { DynamicPrimitiveComponent } from '../dynamic-primitive/dynamic-primitiv
       flex: 1;
       text-align: right;
     }
+    .array-items-list {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+    .array-items-list.scrollable-list {
+      max-height: 280px;
+      overflow-y: auto;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 8px 6px;
+      background-color: #f8fafc;
+    }
     .array-item {
       display: flex;
-      gap: 12px;
-      margin-bottom: 16px;
-      padding: 8px;
-      background: #fafafa;
-      border-radius: 4px;
+      gap: 6px;
+      margin-bottom: 2px;
+      padding: 0;
+      background: transparent;
+      align-items: center;
+    }
+    .array-item ::ng-deep .fcid-single-line,
+    .array-item ::ng-deep .sco-container,
+    .array-item ::ng-deep .catalog-card,
+    .array-item ::ng-deep .activity-container,
+    .array-item ::ng-deep .primitive-container,
+    .array-item ::ng-deep mat-card,
+    .array-item ::ng-deep .mat-mdc-card {
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
     }
     .item-content {
       flex: 1;
     }
     .item-actions {
       display: flex;
-      align-items: flex-start;
-      padding-top: 8px;
+      align-items: center;
+      padding-top: 0;
     }
   `]
 })
