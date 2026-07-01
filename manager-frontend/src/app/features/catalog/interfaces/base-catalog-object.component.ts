@@ -48,16 +48,16 @@ import { OntologyService } from '../../../core/services/ontology.service';
         <div *ngIf="loading" class="loading-msg">Loading UI template...</div>
 
         <div class="properties-container" *ngIf="!loading">
-          <!-- 1. Array of BibliographicReferenceLink (dcterms:BibliographicResource) -->
-          <div class="section-block" *ngIf="hasProperty('dcterms:BibliographicResource')">
+          <!-- 1. Array of BibliographicReferenceLink (dcterms:BibliographicResource / dataset:bibliographicreferencelink) -->
+          <div class="section-block" *ngIf="hasProperty('dcterms:BibliographicResource') || hasProperty('dataset:bibliographicreferencelink')">
             <div class="section-title">
               <mat-icon color="primary">menu_book</mat-icon>
               <h4>Bibliographic References</h4>
             </div>
             <app-dynamic-primitive
-              [structure]="getPropertyStructure('dcterms:BibliographicResource')"
-              [value]="value?.['dcterms:BibliographicResource']"
-              (valueChange)="updateProperty('dcterms:BibliographicResource', $event)">
+              [structure]="getPropertyStructure(getBibliographicKey())"
+              [value]="value ? value[getBibliographicKey()] : null"
+              (valueChange)="updateProperty(getBibliographicKey(), $event)">
             </app-dynamic-primitive>
           </div>
 
@@ -87,16 +87,29 @@ import { OntologyService } from '../../../core/services/ontology.service';
             </app-dynamic-primitive>
           </div>
 
-          <!-- 4. FirestoreCatalogIDForTransaction (dataset:firestorecatalog) -->
+          <!-- 4. FirestoreCatalogID (dataset:firestorecatalog) -->
           <div class="section-block" *ngIf="hasProperty('dataset:firestorecatalog')">
             <div class="section-title">
               <mat-icon color="primary">receipt_long</mat-icon>
-              <h4>Firestore Transaction Catalog ID</h4>
+              <h4>Firestore Catalog ID</h4>
             </div>
             <app-dynamic-primitive
               [structure]="getPropertyStructure('dataset:firestorecatalog')"
               [value]="value?.['dataset:firestorecatalog']"
               (valueChange)="updateProperty('dataset:firestorecatalog', $event)">
+            </app-dynamic-primitive>
+          </div>
+
+          <!-- 4b. FirestoreCatalogIDForTransaction (dataset:transactionforobject) -->
+          <div class="section-block" *ngIf="hasProperty('dataset:transactionforobject')">
+            <div class="section-title">
+              <mat-icon color="primary">receipt_long</mat-icon>
+              <h4>Firestore Transaction Catalog ID</h4>
+            </div>
+            <app-dynamic-primitive
+              [structure]="getPropertyStructure('dataset:transactionforobject')"
+              [value]="value?.['dataset:transactionforobject']"
+              (valueChange)="updateProperty('dataset:transactionforobject', $event)">
             </app-dynamic-primitive>
           </div>
 
@@ -334,6 +347,13 @@ export class BaseCatalogObjectComponent extends BasePrimitiveComponent implement
     return !!(this.structure?.properties?.[key] || this.value?.[key]);
   }
 
+  getBibliographicKey(): string {
+    if (this.hasProperty('dataset:bibliographicreferencelink')) {
+      return 'dataset:bibliographicreferencelink';
+    }
+    return 'dcterms:BibliographicResource';
+  }
+
 
   get specificKeys(): string[] {
     const metaKeys = [
@@ -342,6 +362,7 @@ export class BaseCatalogObjectComponent extends BasePrimitiveComponent implement
       'foaf:page',
       'skos:mappingRelation',
       'dataset:firestorecatalog',
+      'dataset:transactionforobject',
       // properties handled by MDO / SCO component at bottom
       'dataset:shortdescription',
       'dataset:catobjid',

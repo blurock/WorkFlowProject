@@ -254,6 +254,7 @@ export class ThermodynamicBensonRuleDefinitionComponent extends BasePrimitiveCom
     'dataset:readaccess',
     'dataset:accessmodify',
     'dataset:firestorecatalog',
+    'dataset:transactionforobject',
     'transaction'
   ];
 

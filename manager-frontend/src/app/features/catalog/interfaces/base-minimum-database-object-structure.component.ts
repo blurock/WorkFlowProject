@@ -56,93 +56,115 @@ import { BibliographicReferenceLinkComponent } from './bibliographic-reference-l
           <ng-content></ng-content>
 
           <!-- 1. Array of BibliographicReferenceLink (dataset:bibliographicreferencelink) -->
-          <div class="section-block" *ngIf="hasProperty('dataset:bibliographicreferencelink')">
-            <div class="section-title">
-              <mat-icon color="primary">menu_book</mat-icon>
-              <h4>Bibliographic References</h4>
-              <button mat-icon-button color="primary" (click)="addBibliographicReferenceLinkItem()" matTooltip="Add Bibliographic Reference" type="button" style="margin-left: 8px;">
+          <mat-card class="section-card mat-elevation-z1" *ngIf="hasProperty('dataset:bibliographicreferencelink')">
+            <mat-card-header>
+              <mat-icon mat-card-avatar color="primary">menu_book</mat-icon>
+              <mat-card-title>Bibliographic References</mat-card-title>
+              <div class="spacer"></div>
+              <button mat-icon-button color="primary" (click)="addBibliographicReferenceLinkItem()" matTooltip="Add Bibliographic Reference" type="button">
                 <mat-icon>add_circle</mat-icon>
               </button>
-            </div>
-            <div *ngFor="let item of getBibliographicReferenceLinkArray(); let i = index" class="bibliographic-reference-row" style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; width: 100%;">
-              <div style="flex: 1;">
-                <app-bibliographic-reference-link
-                  [structure]="getPropertyStructure('dataset:bibliographicreferencelink')"
-                  [value]="item"
-                  (valueChange)="updateBibliographicReferenceLinkItem(i, $event)">
-                </app-bibliographic-reference-link>
+            </mat-card-header>
+            <mat-card-content>
+              <div *ngFor="let item of getBibliographicReferenceLinkArray(); let i = index" class="bibliographic-reference-row" style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; width: 100%;">
+                <div style="flex: 1;">
+                  <app-bibliographic-reference-link
+                    [structure]="getPropertyStructure('dataset:bibliographicreferencelink')"
+                    [value]="item"
+                    (valueChange)="updateBibliographicReferenceLinkItem(i, $event)">
+                  </app-bibliographic-reference-link>
+                </div>
+                <button mat-icon-button color="warn" (click)="removeBibliographicReferenceLinkItem(i)" matTooltip="Remove Bibliographic Reference" type="button" style="margin-top: 12px;">
+                  <mat-icon>delete</mat-icon>
+                </button>
               </div>
-              <button mat-icon-button color="warn" (click)="removeBibliographicReferenceLinkItem(i)" matTooltip="Remove Bibliographic Reference" type="button" style="margin-top: 12px;">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </div>
-            <div *ngIf="getBibliographicReferenceLinkArray().length === 0" class="no-links-text" style="color: #94a3b8; font-style: italic; font-size: 0.9rem; padding: 4px 0;">
-              No bibliographic references assigned. Click the plus button above to add.
-            </div>
-          </div>
+              <div *ngIf="getBibliographicReferenceLinkArray().length === 0" class="no-links-text" style="color: #94a3b8; font-style: italic; font-size: 0.9rem; padding: 4px 0;">
+                No bibliographic references assigned. Click the plus button above to add.
+              </div>
+            </mat-card-content>
+          </mat-card>
 
           <!-- 2. Array of ObjectSiteReference (foaf:page) -->
-          <div class="section-block" *ngIf="hasProperty('foaf:page')">
-            <div class="section-title">
-              <mat-icon color="primary">link</mat-icon>
-              <h4>Web References / Site Links</h4>
-              <button mat-icon-button color="primary" (click)="addObjectSiteReferenceItem()" matTooltip="Add Web Reference" type="button" style="margin-left: 8px;">
+          <mat-card class="section-card mat-elevation-z1" *ngIf="hasProperty('foaf:page')">
+            <mat-card-header>
+              <mat-icon mat-card-avatar color="primary">link</mat-icon>
+              <mat-card-title>Web References / Site Links</mat-card-title>
+              <div class="spacer"></div>
+              <button mat-icon-button color="primary" (click)="addObjectSiteReferenceItem()" matTooltip="Add Web Reference" type="button">
                 <mat-icon>add_circle</mat-icon>
               </button>
-            </div>
-            <div *ngFor="let item of getObjectSiteReferenceArray(); let i = index" class="site-reference-row" style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; width: 100%;">
-              <div style="flex: 1;">
-                <app-object-site-reference
-                  [structure]="getPropertyStructure('foaf:page')"
-                  [value]="item"
-                  (valueChange)="updateObjectSiteReferenceItem(i, $event)">
-                </app-object-site-reference>
+            </mat-card-header>
+            <mat-card-content>
+              <div *ngFor="let item of getObjectSiteReferenceArray(); let i = index" class="site-reference-row" style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; width: 100%;">
+                <div style="flex: 1;">
+                  <app-object-site-reference
+                    [structure]="getPropertyStructure('foaf:page')"
+                    [value]="item"
+                    (valueChange)="updateObjectSiteReferenceItem(i, $event)">
+                  </app-object-site-reference>
+                </div>
+                <button mat-icon-button color="warn" (click)="removeObjectSiteReferenceItem(i)" matTooltip="Remove Web Reference" type="button" style="margin-top: 12px;">
+                  <mat-icon>delete</mat-icon>
+                </button>
               </div>
-              <button mat-icon-button color="warn" (click)="removeObjectSiteReferenceItem(i)" matTooltip="Remove Web Reference" type="button" style="margin-top: 12px;">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </div>
-            <div *ngIf="getObjectSiteReferenceArray().length === 0" class="no-links-text" style="color: #94a3b8; font-style: italic; font-size: 0.9rem; padding: 4px 0;">
-              No web references assigned. Click the plus button above to add.
-            </div>
-          </div>
+              <div *ngIf="getObjectSiteReferenceArray().length === 0" class="no-links-text" style="color: #94a3b8; font-style: italic; font-size: 0.9rem; padding: 4px 0;">
+                No web references assigned. Click the plus button above to add.
+              </div>
+            </mat-card-content>
+          </mat-card>
 
           <!-- 3. Array of DataObjectLink (skos:mappingRelation) -->
-          <div class="section-block" *ngIf="hasProperty('skos:mappingRelation')">
-            <div class="section-title">
-              <mat-icon color="primary">hub</mat-icon>
-              <h4>Data Object Links</h4>
-              <button mat-icon-button color="primary" (click)="addMappingRelationItem()" matTooltip="Add Data Object Link" type="button" style="margin-left: 8px;">
+          <mat-card class="section-card mat-elevation-z1" *ngIf="hasProperty('skos:mappingRelation')">
+            <mat-card-header>
+              <mat-icon mat-card-avatar color="primary">hub</mat-icon>
+              <mat-card-title>Data Object Links</mat-card-title>
+              <div class="spacer"></div>
+              <button mat-icon-button color="primary" (click)="addMappingRelationItem()" matTooltip="Add Data Object Link" type="button">
                 <mat-icon>add_circle</mat-icon>
               </button>
-            </div>
-            <div *ngFor="let item of getMappingRelationArray(); let i = index" class="mapping-relation-row" style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; width: 100%;">
-              <div style="flex: 1;">
-                <app-data-object-link
-                  [structure]="getPropertyStructure('skos:mappingRelation')"
-                  [value]="item"
-                  (valueChange)="updateMappingRelationItem(i, $event)">
-                </app-data-object-link>
+            </mat-card-header>
+            <mat-card-content>
+              <div *ngFor="let item of getMappingRelationArray(); let i = index" class="mapping-relation-row" style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; width: 100%;">
+                <div style="flex: 1;">
+                  <app-data-object-link
+                    [structure]="getPropertyStructure('skos:mappingRelation')"
+                    [value]="item"
+                    (valueChange)="updateMappingRelationItem(i, $event)">
+                  </app-data-object-link>
+                </div>
+                <button mat-icon-button color="warn" (click)="removeMappingRelationItem(i)" matTooltip="Remove Data Object Link" type="button" style="margin-top: 12px;">
+                  <mat-icon>delete</mat-icon>
+                </button>
               </div>
-              <button mat-icon-button color="warn" (click)="removeMappingRelationItem(i)" matTooltip="Remove Data Object Link" type="button" style="margin-top: 12px;">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </div>
-            <div *ngIf="getMappingRelationArray().length === 0" class="no-links-text" style="color: #94a3b8; font-style: italic; font-size: 0.9rem; padding: 4px 0;">
-              No data object links assigned. Click the plus button above to add.
-            </div>
-          </div>
+              <div *ngIf="getMappingRelationArray().length === 0" class="no-links-text" style="color: #94a3b8; font-style: italic; font-size: 0.9rem; padding: 4px 0;">
+                No data object links assigned. Click the plus button above to add.
+              </div>
+            </mat-card-content>
+          </mat-card>
 
-          <!-- 4. FirestoreCatalogIDForTransaction (dataset:firestorecatalog) -->
+          <!-- 4. FirestoreCatalogID (dataset:firestorecatalog) -->
           <div class="section-block" *ngIf="hasProperty('dataset:firestorecatalog')">
             <div class="section-title">
               <mat-icon color="primary">receipt_long</mat-icon>
-              <h4>Firestore Transaction Catalog ID</h4>
+              <h4>Firestore Catalog ID</h4>
             </div>
             <app-dynamic-primitive
               [structure]="getPropertyStructure('dataset:firestorecatalog')"
               [value]="value?.['dataset:firestorecatalog']"
               (valueChange)="updateProperty('dataset:firestorecatalog', $event)">
+            </app-dynamic-primitive>
+          </div>
+
+          <!-- 4b. FirestoreCatalogIDForTransaction (dataset:transactionforobject) -->
+          <div class="section-block" *ngIf="hasProperty('dataset:transactionforobject')">
+            <div class="section-title">
+              <mat-icon color="primary">receipt_long</mat-icon>
+              <h4>Firestore Transaction Catalog ID</h4>
+            </div>
+            <app-dynamic-primitive
+              [structure]="getPropertyStructure('dataset:transactionforobject')"
+              [value]="value?.['dataset:transactionforobject']"
+              (valueChange)="updateProperty('dataset:transactionforobject', $event)">
             </app-dynamic-primitive>
           </div>
 
@@ -218,22 +240,26 @@ import { BibliographicReferenceLinkComponent } from './bibliographic-reference-l
       flex-direction: column;
       gap: 20px;
     }
-    .section-block {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+    .section-card {
+      margin-bottom: 16px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      background: #f8fafc;
+      overflow: visible;
     }
-    .section-title {
+    .section-card mat-card-header {
+      padding: 12px 16px 8px 16px;
       display: flex;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 4px;
     }
-    .section-title h4 {
-      font-size: 0.95rem;
+    .section-card mat-card-title {
+      font-size: 1.05rem;
       font-weight: 700;
-      color: #475569;
+      color: #334155;
       margin: 0;
+    }
+    .section-card mat-card-content {
+      padding: 0 16px 16px 16px;
     }
     .section-divider {
       margin: 8px 0;

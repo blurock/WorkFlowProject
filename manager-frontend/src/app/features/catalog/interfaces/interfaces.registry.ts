@@ -43,6 +43,7 @@ import { DatasetSystemCollectionManagementTransactionComponent } from './dataset
 import { DatasetCollectionObjectSetWriteTransactionComponent } from './dataset-collection-object-set-write-transaction/dataset-collection-object-set-write-transaction';
 import { DataCollectionAddCollectionTransactionComponent } from './data-collection-add-collection-transaction/data-collection-add-collection-transaction';
 import { ChemConnectUpdateCatalogObjectTransactionComponent } from './chem-connect-update-catalog-object-transaction/chem-connect-update-catalog-object-transaction';
+import { ActivityInformationRecordComponent } from './activity-information/activity-information';
 
 export const INTERFACE_REGISTRY: Record<string, Type<any>> = {
   'dataset:MinimumDatabaseObjectStructure': MinimumDatabaseObjectStructureComponent,
@@ -77,7 +78,9 @@ export const INTERFACE_REGISTRY: Record<string, Type<any>> = {
   'dataset:JThermodynamicsBensonRuleStructure': JThermodynamicsBensonRuleStructureComponent,
   'dataset:SimpleCatalogObject': SimpleCatalogObjectComponent,
   'dcterms:BibliographicResource': BibliographicReferenceLinkComponent,
+  'dataset:bibliographicreferencelink': BibliographicReferenceLinkComponent,
   'foaf:page': ObjectSiteReferenceComponent,
+  'dataset:ObjectSiteReference': ObjectSiteReferenceComponent,
   'skos:mappingRelation': DataObjectLinkComponent,
   'dataset:RepositoryFileStaging': RepositoryFileStagingComponent,
   'dataset:RepositoryParsedToFixedBlockSize': RepositoryParsedToFixedBlockSizeComponent,
@@ -104,6 +107,7 @@ export const INTERFACE_REGISTRY: Record<string, Type<any>> = {
   'dataset:DatasetCollectionObjectSetWriteTransaction': DatasetCollectionObjectSetWriteTransactionComponent,
   'dataset:DataCollectionAddCollectionTransaction': DataCollectionAddCollectionTransactionComponent,
   'dataset:ChemConnectUpdateCatalogObjectTransaction': ChemConnectUpdateCatalogObjectTransactionComponent,
+  'dataset:ActivityInformationRecord': ActivityInformationRecordComponent,
 };
 
 const IDENTIFIER_TO_CLASSNAME: Record<string, string> = {
@@ -124,10 +128,14 @@ const IDENTIFIER_TO_CLASSNAME: Record<string, string> = {
   'dataset:connectmult': 'dataset:JThermodynamicsBensonConnectionWithMultiplicity',
   'dataset:bensonrulestructure': 'dataset:JThermodynamicsBensonRuleStructure',
   'dcterms:BibliographicResource': 'dcterms:BibliographicResource',
+  'dataset:bibliographicreferencelink': 'dcterms:BibliographicResource',
   'terms:BibliographicResource': 'dcterms:BibliographicResource',
   'foaf:page': 'foaf:page',
+  'dataset:ObjectSiteReference': 'foaf:page',
   'skos:mappingRelation': 'skos:mappingRelation',
   'dataset:firestorecatalog': 'dataset:FirestoreCatalogIDForTransaction',
+  'dataset:transactionforobject': 'dataset:FirestoreCatalogIDForTransaction',
+  'dataset:activityinfo': 'dataset:ActivityInformationRecord',
   'dataset:RepositoryFileStaging': 'dataset:RepositoryFileStaging',
   'dataset:RepositoryParsedToFixedBlockSize': 'dataset:RepositoryParsedToFixedBlockSize',
   'dataset:RepositoryTherGasThermodynamicsBlock': 'dataset:RepositoryTherGasThermodynamicsBlock',

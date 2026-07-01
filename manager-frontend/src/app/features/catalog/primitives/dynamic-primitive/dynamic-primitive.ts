@@ -103,7 +103,7 @@ export class DynamicPrimitiveComponent implements OnInit, OnChanges, AfterViewIn
   private isViewInit = false;
 
   get customComponent() {
-    if (this.structure && this.structure.classname) {
+    if (this.structure && this.structure.classname && !this.structure.isArray) {
       return resolveCustomInterface(this.structure.classname);
     }
     return undefined;

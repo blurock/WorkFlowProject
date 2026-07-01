@@ -22,18 +22,20 @@ import { OntologyService } from '../../../../core/services/ontology.service';
     forwardRef(() => DynamicPrimitiveComponent)
   ],
   template: `
-    <div class="structure-container" [class.expanded]="expanded">
-      <div class="summary-line">
-        <mat-icon class="struct-icon" color="primary">account_tree</mat-icon>
-        <span class="struct-label">{{ getLabel() }}</span>
-        <span class="struct-ref-pill" *ngIf="getReference()">{{ getReference() }}</span>
-        <span class="spacer"></span>
+    <mat-card class="structure-card mat-elevation-z2" [class.expanded-card]="expanded">
+      <mat-card-header>
+        <mat-icon mat-card-avatar color="primary">account_tree</mat-icon>
+        <mat-card-title>
+          <span>{{ getLabel() }}</span>
+          <span class="struct-ref-pill" *ngIf="getReference()">{{ getReference() }}</span>
+        </mat-card-title>
+        <div class="spacer"></div>
         <button mat-icon-button (click)="toggleExpand()" [matTooltip]="expanded ? 'Collapse details' : 'Expand details'" type="button">
           <mat-icon>{{ expanded ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
-      </div>
+      </mat-card-header>
 
-      <div class="details-section" *ngIf="expanded">
+      <mat-card-content *ngIf="expanded" class="card-content-expanded">
         <div *ngIf="loading" class="loading-template-msg">
           Loading Benson Rule Structure template...
         </div>
@@ -52,40 +54,23 @@ import { OntologyService } from '../../../../core/services/ontology.service';
             No detailed properties available for this Benson Rule Structure.
           </div>
         </div>
-      </div>
-    </div>
+      </mat-card-content>
+    </mat-card>
   `,
   styles: [`
-    .structure-container {
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      padding: 10px 16px;
-      background: #f8fafc;
-      transition: all 0.3s ease;
-      margin-bottom: 8px;
-      width: 100%;
-      box-sizing: border-box;
+    .structure-card {
+      margin: 16px 0;
+      border-left: 4px solid #3b82f6;
+      background: white;
+      overflow: visible;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .structure-container.expanded {
-      background: #ffffff;
-      border-color: #cbd5e1;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    .expanded-card {
+      border-color: #2563eb;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     }
-    .summary-line {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 0.95rem;
-    }
-    .struct-icon {
-      font-size: 20px;
-      width: 20px;
-      height: 20px;
-      color: #3b82f6;
-    }
-    .struct-label {
-      font-weight: 600;
-      color: #334155;
+    .spacer {
+      flex: 1;
     }
     .struct-ref-pill {
       font-family: 'Roboto Mono', monospace;
@@ -96,14 +81,13 @@ import { OntologyService } from '../../../../core/services/ontology.service';
       border-radius: 6px;
       border: 1px solid #bfdbfe;
       font-weight: 500;
+      margin-left: 12px;
     }
-    .spacer {
-      flex: 1;
-    }
-    .details-section {
-      margin-top: 14px;
-      padding-top: 14px;
-      border-top: 1px dashed #e2e8f0;
+    .card-content-expanded {
+      padding: 0 16px 16px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
     .props-list {
       display: flex;

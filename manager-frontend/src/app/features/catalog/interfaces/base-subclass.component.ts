@@ -23,6 +23,7 @@ export abstract class BaseSubclassComponent extends BasePrimitiveComponent imple
     'foaf:page',
     'skos:mappingRelation',
     'dataset:firestorecatalog',
+    'dataset:transactionforobject',
     'dataset:shortdescription',
     'dataset:catobjid',
     'dataset:transactionid',

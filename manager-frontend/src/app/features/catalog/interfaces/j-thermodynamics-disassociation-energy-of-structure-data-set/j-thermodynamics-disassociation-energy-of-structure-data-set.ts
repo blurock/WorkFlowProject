@@ -1,4 +1,4 @@
-import { Component, OnInit, forwardRef} from '@angular/core';
+import { Component, OnInit, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dynamic-primitive';
 import { BaseSubclassComponent } from '../base-subclass.component';
@@ -44,5 +44,13 @@ export class JThermodynamicsDisassociationEnergyOfStructureDataSetComponent exte
   override ngOnInit(): void {
     this.classname = 'dataset:JThermodynamicsDisassociationEnergyOfStructureDataSet';
     super.ngOnInit();
+  }
+  override resolveSpecificKeys() {
+    this.specificSubclassKeys = [
+      "dataset:CatalogObjectUniqueGenericLabel",
+      "dataset:JThermodynamicStandardThermodynamics",
+      "dataset:JThermodynamicsBensonRuleStructure",
+      ""
+    ]
   }
 }

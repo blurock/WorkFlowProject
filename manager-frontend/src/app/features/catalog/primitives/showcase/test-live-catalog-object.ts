@@ -515,7 +515,7 @@ export class TestLiveCatalogObjectComponent implements OnInit, OnDestroy {
   private navSubscription?: any;
 
   // Pre-populated default path requested by user
-  firestorePath = '/hierthermodynamicdataset/UOqk0KtFtaXma5TGsi8Seh9RMbx1/datainformationhierarchy/hierdatasetseriesdataobjects/ThermodynamicBensonRuleDefinitionDataSet/ThermodynamicBensonRuleDefinitionDataSet/BensonSmall/c-ycz-yhzx3';
+  firestorePath = '/transaction/UOqk0KtFtaXma5TGsi8Seh9RMbx1/TransactionInterpretBensonRule/BensonSmall';
 
   loading = false;
   error: string | null = null;
@@ -554,13 +554,13 @@ export class TestLiveCatalogObjectComponent implements OnInit, OnDestroy {
 
   async fetchObject() {
     if (!this.firestorePath) return;
-    
+
     // Clean trailing/leading spaces and slashes
     let cleanPath = this.firestorePath.trim();
     if (cleanPath.startsWith('/')) {
       cleanPath = cleanPath.substring(1);
     }
-    
+
     const segments = cleanPath.split('/').filter(x => x);
     if (segments.length % 2 !== 0) {
       this.error = `Invalid document path: A document path must have an even number of segments. Your path has ${segments.length} segments.`;
@@ -584,30 +584,30 @@ export class TestLiveCatalogObjectComponent implements OnInit, OnDestroy {
     try {
       const docRef = doc(this.firestore, cleanPath);
       const snap = await getDoc(docRef);
-      
+
       if (snap.exists()) {
         const docData = snap.data() as any;
-        
+
         // Read objectype / catobjtype / DatabaseObjectType to determine class template
-        const resolvedClassname = docData['dataset:objectype'] || 
-                                  docData['dataset:catobjtype'] || 
-                                  docData['dataset:DatabaseObjectType'] || 
-                                  'dataset:FirestoreCatalogID';
+        const resolvedClassname = docData['dataset:objectype'] ||
+          docData['dataset:catobjtype'] ||
+          docData['dataset:DatabaseObjectType'] ||
+          'dataset:FirestoreCatalogID';
 
         this.ontologyService.getUITemplate(resolvedClassname).subscribe({
           next: (res: any) => {
             const structure = res['dataobject'];
-            
+
             const newObj: FetchedObject = {
               path: '/' + cleanPath,
               value: docData,
               structure: structure,
               classname: resolvedClassname
             };
-            
+
             this.fetchedObjects.push(newObj);
             this.activeTabIndex = this.fetchedObjects.length - 1;
-            
+
             this.loading = false;
             this.cdr.detectChanges();
             this.snackBar.open('Catalog object fetched and added to tabs!', 'Close', { duration: 3000 });

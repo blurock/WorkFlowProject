@@ -87,6 +87,7 @@ export class MinimumDatabaseObjectStructureComponent extends BasePrimitiveCompon
     'foaf:page',
     'skos:mappingRelation',
     'dataset:firestorecatalog',
+    'dataset:transactionforobject',
     'dcterms:identifier'
   ];
 
@@ -123,6 +124,7 @@ export class MinimumDatabaseObjectStructureComponent extends BasePrimitiveCompon
     const struct = this.getPropertyStructure(key);
     if (!struct) return false;
     return key === 'dataset:firestorecatalog' ||
+      key === 'dataset:transactionforobject' ||
       struct.classname === 'dataset:FirestoreCatalogID' ||
       struct.classname === 'dataset:CollectionDocumentIDPairAddress' ||
       (!!struct.classname && (struct.classname.endsWith('CatalogID') || struct.classname.includes('CatalogID')));

@@ -1,38 +1,62 @@
-<div class="fcid-container">
-  <div class="fcid-header" (click)="toggleExpand($event)">
-    <div class="fcid-line1">
-      <button class="expand-btn" type="button" aria-label="Toggle Firestore details">
-        <mat-icon>{{ isExpanded ? 'visibility_off' : 'visibility' }}</mat-icon>
-      </button>
-      <div class="fcid-text-group">
-        <span class="fcid-label">{{ rdfsLabel }}</span>
-        <span class="fcid-comment" *ngIf="rdfsComment">— {{ rdfsComment }}</span>
-      </div>
-      <button class="fetch-btn" mat-raised-button color="primary" (click)="onFetchObject($event)"
-        [disabled]="!firestorePath" type="button">
-        <mat-icon>cloud_download</mat-icon>
-        <span>Fetch Object</span>
-      </button>
+<div class="fcid-wrapper">
+  <!-- Single-line view -->
+  <div class="fcid-single-line">
+    <!-- 1. Fetch Object button -->
+    <button class="fcid-fetch-btn" mat-flat-button color="primary" (click)="onFetchObject($event)" [disabled]="!firestorePath" type="button" matTooltip="Fetch and navigate to this catalog object">
+      <mat-icon>cloud_download</mat-icon>
+      <span>Fetch Object</span>
+    </button>
+
+    <!-- 2. SimpleCatalogName (qb:DataSet) -->
+    <div class="fcid-dataset-name">
+      <span class="name-label">Dataset Name:</span>
+      <span class="name-val">{{ simpleCatalogName }}</span>
     </div>
 
-    <div class="fcid-line2">
-      <span class="path-label" *ngIf="firestorePath">Path: </span>
-      <span class="path-val" *ngIf="firestorePath">{{ firestorePath }}</span>
-    </div>
+    <div class="fcid-spacer"></div>
+
+    <!-- 3. Eye icon button to toggle full details -->
+    <button class="fcid-view-btn" mat-icon-button color="accent" (click)="toggleDetails($event)" type="button" [matTooltip]="showFullDetails ? 'Hide details' : 'Show details'">
+      <mat-icon>{{ showFullDetails ? 'visibility_off' : 'visibility' }}</mat-icon>
+    </button>
   </div>
 
-  <div class="fcid-body" *ngIf="isExpanded">
-    <div *ngIf="loading" class="fcid-loading">
-      Loading structure metadata...
+  <!-- Detailed Container (appears below the single line when showFullDetails is true) -->
+  <div class="fcid-container" *ngIf="showFullDetails">
+    <div class="fcid-header" (click)="toggleExpand($event)">
+      <div class="fcid-line1">
+        <button class="expand-btn" type="button" aria-label="Toggle Firestore details">
+          <mat-icon>{{ isExpanded ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <div class="fcid-text-group">
+          <span class="fcid-label">{{ rdfsLabel }}</span>
+          <span class="fcid-comment" *ngIf="rdfsComment">— {{ rdfsComment }}</span>
+        </div>
+        <button class="fetch-btn" mat-raised-button color="primary" (click)="onFetchObject($event)"
+          [disabled]="!firestorePath" type="button">
+          <mat-icon>cloud_download</mat-icon>
+          <span>Fetch Object</span>
+        </button>
+      </div>
+
+      <div class="fcid-line2">
+        <span class="path-label" *ngIf="firestorePath">Path: </span>
+        <span class="path-val" *ngIf="firestorePath">{{ firestorePath }}</span>
+      </div>
     </div>
 
-    <div *ngIf="!loading && structure" class="fcid-properties readonly-fields">
-      <!-- Standard property inputs -->
-      <div *ngFor="let key of propertyKeys" class="fcid-property-row" [class.full-width-prop]="isFullWidthKey(key)">
-        <div class="fcid-prop-label">{{ getPropertyStructure(key).label || key }}</div>
-        <div class="fcid-prop-value">
-          <app-dynamic-primitive [structure]="getPropertyStructure(key)" [value]="value ? value[key] : null"
-            (valueChange)="value ? value[key] = $event : null">
+    <div class="fcid-body" *ngIf="isExpanded">
+      <div *ngIf="loading" class="fcid-loading">
+        Loading structure metadata...
+      </div>
+
+      <div *ngIf="!loading && structure" class="fcid-properties readonly-fields">
+        <!-- Standard property inputs -->
+        <div *ngFor="let key of propertyKeys" class="fcid-property-row" [class.full-width-prop]="isFullWidthKey(key)">
+          <div class="fcid-prop-label">{{ getPropertyStructure(key).label || key }}</div>
+          <div class="fcid-prop-value">
+            <app-dynamic-primitive [structure]="getPropertyStructure(key)" [value]="value ? value[key] : null"
+              (valueChange)="value ? value[key] = $event : null">
           </app-dynamic-primitive>
         </div>
       </div>

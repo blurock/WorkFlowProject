@@ -27,19 +27,124 @@ import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dy
 
       <div class="sco-body" *ngIf="isExpanded">
         <div class="sco-properties readonly-fields">
-          <div *ngFor="let field of fields" class="sco-property-row" [class.full-width-prop]="field.fullWidth">
-            <div class="sco-prop-label">{{ field.label }}</div>
+          
+          <!-- 1. Catalog Object Key (dataset:catalogkey) -->
+          <div class="sco-property-row full-width-prop">
+            <div class="sco-prop-label">Catalog Object Key</div>
             <div class="sco-prop-value">
-              <ng-container *ngIf="value?.[field.key]; else emptyVal">
+              <ng-container *ngIf="value?.['dataset:catalogkey']; else emptyVal">
                 <app-dynamic-primitive 
-                  [structure]="field.structure" 
-                  [value]="value[field.key]"
-                  (valueChange)="updateValueField(field.key, $event)">
+                  [structure]="getPropertyStructure('dataset:catalogkey')" 
+                  [value]="value?.['dataset:catalogkey']"
+                  (valueChange)="updateValueField('dataset:catalogkey', $event)">
                 </app-dynamic-primitive>
               </ng-container>
               <ng-template #emptyVal><span class="sco-empty">not assigned</span></ng-template>
             </div>
           </div>
+
+          <!-- 2. Database Object Type (dataset:objectype) -->
+          <div class="sco-property-row full-width-prop">
+            <div class="sco-prop-label">Database Object Type</div>
+            <div class="sco-prop-value">
+              <ng-container *ngIf="value?.['dataset:objectype']; else emptyVal">
+                <app-dynamic-primitive 
+                  [structure]="getPropertyStructure('dataset:objectype')" 
+                  [value]="value?.['dataset:objectype']"
+                  (valueChange)="updateValueField('dataset:objectype', $event)">
+                </app-dynamic-primitive>
+              </ng-container>
+              <ng-template #emptyVal><span class="sco-empty">not assigned</span></ng-template>
+            </div>
+          </div>
+
+          <!-- 3. Owner (dcterms:creator) -->
+          <div class="sco-property-row">
+            <div class="sco-prop-label">Owner</div>
+            <div class="sco-prop-value">
+              <ng-container *ngIf="value?.['dcterms:creator']; else emptyVal">
+                <app-dynamic-primitive 
+                  [structure]="getPropertyStructure('dcterms:creator')" 
+                  [value]="value?.['dcterms:creator']"
+                  (valueChange)="updateValueField('dcterms:creator', $event)">
+                </app-dynamic-primitive>
+              </ng-container>
+              <ng-template #emptyVal><span class="sco-empty">not assigned</span></ng-template>
+            </div>
+          </div>
+
+          <!-- 4. Date Created (dcterms:created) -->
+          <div class="sco-property-row">
+            <div class="sco-prop-label">Date Created</div>
+            <div class="sco-prop-value">
+              <ng-container *ngIf="value?.['dcterms:created']; else emptyVal">
+                <app-dynamic-primitive 
+                  [structure]="getPropertyStructure('dcterms:created')" 
+                  [value]="value?.['dcterms:created']"
+                  (valueChange)="updateValueField('dcterms:created', $event)">
+                </app-dynamic-primitive>
+              </ng-container>
+              <ng-template #emptyVal><span class="sco-empty">not assigned</span></ng-template>
+            </div>
+          </div>
+
+          <!-- 5. Read Access (dataset:readaccess) -->
+          <div class="sco-property-row">
+            <div class="sco-prop-label">Read Access</div>
+            <div class="sco-prop-value">
+              <ng-container *ngIf="value?.['dataset:readaccess']; else emptyVal">
+                <app-dynamic-primitive 
+                  [structure]="getPropertyStructure('dataset:readaccess')" 
+                  [value]="value?.['dataset:readaccess']"
+                  (valueChange)="updateValueField('dataset:readaccess', $event)">
+                </app-dynamic-primitive>
+              </ng-container>
+              <ng-template #emptyVal><span class="sco-empty">not assigned</span></ng-template>
+            </div>
+          </div>
+
+          <!-- 6. Can Modify/Delete Object (dataset:accessmodify) -->
+          <div class="sco-property-row">
+            <div class="sco-prop-label">Can Modify/Delete Object</div>
+            <div class="sco-prop-value">
+              <ng-container *ngIf="value?.['dataset:accessmodify']; else emptyVal">
+                <app-dynamic-primitive 
+                  [structure]="getPropertyStructure('dataset:accessmodify')" 
+                  [value]="value?.['dataset:accessmodify']"
+                  (valueChange)="updateValueField('dataset:accessmodify', $event)">
+                </app-dynamic-primitive>
+              </ng-container>
+              <ng-template #emptyVal><span class="sco-empty">not assigned</span></ng-template>
+            </div>
+          </div>
+
+          <!-- 7. Transaction ID (dataset:transactionid) -->
+          <div class="sco-property-row full-width-prop">
+            <div class="sco-prop-label">Transaction ID</div>
+            <div class="sco-prop-value">
+              <ng-container *ngIf="value?.['dataset:transactionid']; else emptyVal">
+                <app-dynamic-primitive 
+                  [structure]="getPropertyStructure('dataset:transactionid')" 
+                  [value]="value?.['dataset:transactionid']"
+                  (valueChange)="updateValueField('dataset:transactionid', $event)">
+                </app-dynamic-primitive>
+              </ng-container>
+              <ng-template #emptyVal><span class="sco-empty">not assigned</span></ng-template>
+            </div>
+          </div>
+
+          <!-- 8. Firestore Catalog ID (dataset:firestorecatalog) -->
+          <div class="sco-property-row full-width-prop" *ngIf="value?.['dataset:firestorecatalog']">
+            <div class="sco-prop-label">Firestore Catalog ID</div>
+            <div class="sco-prop-value">
+              <app-dynamic-primitive 
+                [structure]="getPropertyStructure('dataset:firestorecatalog')" 
+                [value]="value?.['dataset:firestorecatalog']"
+                (valueChange)="updateValueField('dataset:firestorecatalog', $event)">
+              </app-dynamic-primitive>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -154,161 +259,6 @@ export class SimpleCatalogObjectComponent extends BasePrimitiveComponent impleme
     return true;
   }
 
-  readonly fields = [
-    {
-      key: 'dataset:catalogkey',
-      label: 'Catalog Key',
-      fullWidth: true,
-      structure: {
-        identifier: 'dataset:catalogkey',
-        classname: 'dataset:OneLine',
-        isOneLine: true,
-        isObject: false,
-        isArray: false,
-        isClassification: false,
-        isParagraph: false,
-        isEmail: false,
-        isURL: false,
-        isBoolean: false,
-        isKeywordSet: false,
-        isFileSource: false
-      } as OntologyStructure
-    },
-    {
-      key: 'dcterms:creator',
-      label: 'Owner / Creator',
-      fullWidth: false,
-      structure: {
-        identifier: 'dcterms:creator',
-        classname: 'dataset:OneLine',
-        isOneLine: true,
-        isObject: false,
-        isArray: false,
-        isClassification: false,
-        isParagraph: false,
-        isEmail: false,
-        isURL: false,
-        isBoolean: false,
-        isKeywordSet: false,
-        isFileSource: false
-      } as OntologyStructure
-    },
-    {
-      key: 'dcterms:created',
-      label: 'Date Created',
-      fullWidth: false,
-      structure: {
-        identifier: 'dcterms:created',
-        classname: 'dataset:OneLine',
-        isOneLine: true,
-        isObject: false,
-        isArray: false,
-        isClassification: false,
-        isParagraph: false,
-        isEmail: false,
-        isURL: false,
-        isBoolean: false,
-        isKeywordSet: false,
-        isFileSource: false
-      } as OntologyStructure
-    },
-    {
-      key: 'dataset:objectype',
-      label: 'Database Object Type',
-      fullWidth: true,
-      structure: {
-        identifier: 'dataset:objectype',
-        classname: 'dataset:OneLine',
-        isOneLine: true,
-        isObject: false,
-        isArray: false,
-        isClassification: false,
-        isParagraph: false,
-        isEmail: false,
-        isURL: false,
-        isBoolean: false,
-        isKeywordSet: false,
-        isFileSource: false
-      } as OntologyStructure
-    },
-    {
-      key: 'dataset:readaccess',
-      label: 'Read Access',
-      fullWidth: false,
-      structure: {
-        identifier: 'dataset:readaccess',
-        classname: 'dataset:OneLine',
-        isOneLine: true,
-        isObject: false,
-        isArray: false,
-        isClassification: false,
-        isParagraph: false,
-        isEmail: false,
-        isURL: false,
-        isBoolean: false,
-        isKeywordSet: false,
-        isFileSource: false
-      } as OntologyStructure
-    },
-    {
-      key: 'dataset:accessmodify',
-      label: 'Modify Access',
-      fullWidth: false,
-      structure: {
-        identifier: 'dataset:accessmodify',
-        classname: 'dataset:OneLine',
-        isOneLine: true,
-        isObject: false,
-        isArray: false,
-        isClassification: false,
-        isParagraph: false,
-        isEmail: false,
-        isURL: false,
-        isBoolean: false,
-        isKeywordSet: false,
-        isFileSource: false
-      } as OntologyStructure
-    },
-    {
-      key: 'transaction',
-      label: 'Transaction ID',
-      fullWidth: true,
-      structure: {
-        identifier: 'transaction',
-        classname: 'dataset:OneLine',
-        isOneLine: true,
-        isObject: false,
-        isArray: false,
-        isClassification: false,
-        isParagraph: false,
-        isEmail: false,
-        isURL: false,
-        isBoolean: false,
-        isKeywordSet: false,
-        isFileSource: false
-      } as OntologyStructure
-    },
-    {
-      key: 'skos:inScheme',
-      label: 'Data Catalog',
-      fullWidth: true,
-      structure: {
-        identifier: 'skos:inScheme',
-        classname: 'dataset:OneLine',
-        isOneLine: true,
-        isObject: false,
-        isArray: false,
-        isClassification: false,
-        isParagraph: false,
-        isEmail: false,
-        isURL: false,
-        isBoolean: false,
-        isKeywordSet: false,
-        isFileSource: false
-      } as OntologyStructure
-    }
-  ];
-
   override ngOnInit(): void {
     super.ngOnInit();
   }
@@ -321,6 +271,21 @@ export class SimpleCatalogObjectComponent extends BasePrimitiveComponent impleme
 
   get catalogKey(): string {
     return this.value?.['dataset:catalogkey'] || 'not assigned';
+  }
+
+  override getPropertyStructure(key: string): OntologyStructure {
+    if (this.structure?.properties?.[key]) {
+      return this.structure.properties[key];
+    }
+    const isObject = key === 'dataset:firestorecatalog';
+    return {
+      identifier: key,
+      classname: isObject ? 'dataset:FirestoreCatalogID' : 'dataset:OneLine',
+      isObject,
+      isArray: false,
+      isOneLine: !isObject,
+      label: key.split(':').pop() || key
+    } as OntologyStructure;
   }
 
   updateValueField(key: string, newVal: any) {

@@ -154,7 +154,8 @@ export class JsonObjectPrimitiveComponent extends BasePrimitiveComponent impleme
     'dataset:objectype',
     'dataset:readaccess',
     'dataset:accessmodify',
-    'dataset:firestorecatalog'
+    'dataset:firestorecatalog',
+    'dataset:transactionforobject'
   ];
 
   override get value(): any {
