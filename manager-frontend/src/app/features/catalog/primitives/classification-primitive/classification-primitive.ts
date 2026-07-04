@@ -60,30 +60,17 @@ import { BasePrimitiveComponent, OntologyStructure } from '../base-primitive';
   `]
 })
 export class ClassificationPrimitiveComponent extends BasePrimitiveComponent implements OnInit, OnChanges {
-  private _cachedChoices: any = null;
-  private _cachedOptions: { id: string, label: string }[] = [];
-
-  get options(): { id: string, label: string }[] {
-    if (this.structure && this.structure.choices) {
-      if (this.structure.choices !== this._cachedChoices) {
-        this._cachedChoices = this.structure.choices;
-        this.extractOptions();
-      }
-    } else {
-      if (this._cachedChoices !== null) {
-        this._cachedChoices = null;
-        this._cachedOptions = [];
-      }
-    }
-    return this._cachedOptions;
-  }
+  options: { id: string, label: string }[] = [];
 
   override ngOnInit(): void {
     super.ngOnInit();
+    this.extractOptions();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // Handled reactively by the options getter
+    if (changes['structure']) {
+      this.extractOptions();
+    }
   }
 
   private extractOptions() {
@@ -134,9 +121,9 @@ export class ClassificationPrimitiveComponent extends BasePrimitiveComponent imp
         });
       }
 
-      this._cachedOptions = allOptions;
+      this.options = allOptions;
     } else {
-      this._cachedOptions = [];
+      this.options = [];
     }
   }
 

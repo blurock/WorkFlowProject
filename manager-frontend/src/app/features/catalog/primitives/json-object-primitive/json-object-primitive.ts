@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, forwardRef, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, forwardRef, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -121,7 +121,7 @@ interface PropertyItem {
     }
   `]
 })
-export class JsonObjectPrimitiveComponent extends BasePrimitiveComponent implements OnInit {
+export class JsonObjectPrimitiveComponent extends BasePrimitiveComponent implements OnInit, OnChanges {
   private cdr = inject(ChangeDetectorRef);
 
   gridProps: PropertyItem[] = [];
@@ -172,6 +172,12 @@ export class JsonObjectPrimitiveComponent extends BasePrimitiveComponent impleme
       this._value = {};
     }
     this.buildProperties();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['structure']) {
+      this.buildProperties();
+    }
   }
 
   buildProperties(): void {

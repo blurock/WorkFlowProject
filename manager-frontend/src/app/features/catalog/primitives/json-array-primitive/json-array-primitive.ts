@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, forwardRef } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -113,7 +113,7 @@ import { DynamicPrimitiveComponent } from '../dynamic-primitive/dynamic-primitiv
     }
   `]
 })
-export class JsonArrayPrimitiveComponent extends BasePrimitiveComponent implements OnInit {
+export class JsonArrayPrimitiveComponent extends BasePrimitiveComponent implements OnInit, OnChanges {
   
   elementStructure!: OntologyStructure;
 
@@ -122,9 +122,16 @@ export class JsonArrayPrimitiveComponent extends BasePrimitiveComponent implemen
     if (!Array.isArray(this.value)) {
       this.value = [];
     }
-    
-    // The element structure is the structure itself but without isArray=true
-    // (Essentially it describes the structure of each item in the array)
+    this.updateElementStructure();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['structure']) {
+      this.updateElementStructure();
+    }
+  }
+
+  private updateElementStructure() {
     this.elementStructure = {
       ...this.structure,
       isArray: false
