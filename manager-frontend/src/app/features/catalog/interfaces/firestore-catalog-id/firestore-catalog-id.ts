@@ -152,6 +152,17 @@ export class FirestoreCatalogIDComponent extends BasePrimitiveComponent implemen
     } as OntologyStructure;
   }
 
+  override get propertyKeys(): string[] {
+    const keys = super.propertyKeys;
+    const exclude = [
+      'dataset:addressidpairs',
+      'skos:inScheme',
+      'qb:DataSet',
+      'dataset:objectype'
+    ];
+    return keys.filter(k => !exclude.includes(k));
+  }
+
   getData() {
     return this.value;
   }

@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { BasePrimitiveComponent } from '../base-primitive';
+import { BasePrimitiveComponent, OntologyStructure } from '../base-primitive';
 
 @Component({
   selector: 'app-classification-primitive',
@@ -21,7 +21,8 @@ import { BasePrimitiveComponent } from '../base-primitive';
   template: `
     <mat-form-field appearance="outline" style="width: 100%; display: block;" floatLabel="always" [class.filled-field]="isFilled">
       <mat-label>{{ structure.label || structure.classname }}</mat-label>
-      <mat-select [ngModel]="value" (selectionChange)="onSelectionChange($event.value)">
+      <mat-select [ngModel]="value" (selectionChange)="onSelectionChange($event.value)" [disabled]="options.length === 0" [placeholder]="options.length === 0 ? 'Loading options...' : 'Select option'">
+      
         <mat-option *ngFor="let option of options" [value]="option.id">
           {{ option.label }}
         </mat-option>
@@ -58,24 +59,49 @@ import { BasePrimitiveComponent } from '../base-primitive';
     }
   `]
 })
-export class ClassificationPrimitiveComponent extends BasePrimitiveComponent {
-  options: { id: string, label: string }[] = [];
+export class ClassificationPrimitiveComponent extends BasePrimitiveComponent implements OnInit, OnChanges {
+  private _cachedChoices: any = null;
+  private _cachedOptions: { id: string, label: string }[] = [];
+
+  get options(): { id: string, label: string }[] {
+    if (this.structure && this.structure.choices) {
+      if (this.structure.choices !== this._cachedChoices) {
+        this._cachedChoices = this.structure.choices;
+        this.extractOptions();
+      }
+    } else {
+      if (this._cachedChoices !== null) {
+        this._cachedChoices = null;
+        this._cachedOptions = [];
+      }
+    }
+    return this._cachedOptions;
+  }
 
   override ngOnInit(): void {
     super.ngOnInit();
-    this.extractOptions();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // Handled reactively by the options getter
   }
 
   private extractOptions() {
-    if (this.structure.choices && typeof this.structure.choices === 'object') {
+    if (this.structure && this.structure.choices && typeof this.structure.choices === 'object') {
       const allOptions: { id: string, label: string }[] = [];
       const tree = this.structure.choices;
+      const visited = new Set<string>();
 
       const extractRecursive = (node: any, depth: number) => {
         const classname = node['dataset:catalogtype'];
+        if (!classname || visited.has(classname)) {
+          return;
+        }
+        visited.add(classname);
+
         const label = node['rdfs:label'] || classname;
 
-        if (classname && classname !== 'dataset:NoChoices') {
+        if (classname !== 'dataset:NoChoices') {
           // Add indentation based on depth using non-breaking spaces
           const indent = '\u00A0\u00A0'.repeat(depth);
           allOptions.push({ id: classname, label: indent + label });
@@ -108,9 +134,9 @@ export class ClassificationPrimitiveComponent extends BasePrimitiveComponent {
         });
       }
 
-      this.options = allOptions;
+      this._cachedOptions = allOptions;
     } else {
-      console.warn(`Classification [${this.structure?.identifier}]: No choices found or choices not an object`, this.structure.choices);
+      this._cachedOptions = [];
     }
   }
 

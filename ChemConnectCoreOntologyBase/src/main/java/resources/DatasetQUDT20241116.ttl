@@ -21656,6 +21656,7 @@ The SetOfPropertyValueQueryPairs is used if a subset of the collection of standa
                          <http://purl.org/dc/elements/1.1/type> :RequiredTransactionType ;
                          <http://purl.org/dc/terms/identifier> "dataset:requiredtransactiontype" ;
                          rdfs:comment "This is the transaction type of the required prerequisite transaction." ;
+                         rdfs:isDefinedBy :TransactionEvent ;
                          rdfs:label "Required Transaction Type" ;
                          <http://www.w3.org/2004/02/skos/core#altLabel> "requiredtransactiontype" .
 

@@ -4,7 +4,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { OntologyStructure, BasePrimitiveComponent } from '../base-primitive';
 import { DynamicPrimitiveComponent } from '../dynamic-primitive/dynamic-primitive';
-import { MinimumDatabaseObjectStructureComponent } from '../../interfaces/minimum-database-object/minimum-database-object';
 
 interface PropertyItem {
   key: string;
@@ -15,11 +14,10 @@ interface PropertyItem {
   selector: 'app-json-object-primitive',
   standalone: true,
   imports: [
-    CommonModule, 
-    MatCardModule, 
+    CommonModule,
+    MatCardModule,
     MatIconModule,
-    forwardRef(() => DynamicPrimitiveComponent),
-    forwardRef(() => MinimumDatabaseObjectStructureComponent)
+    forwardRef(() => DynamicPrimitiveComponent)
   ],
   template: `
     <mat-card class="object-card mat-elevation-z2">
@@ -76,15 +74,6 @@ interface PropertyItem {
               </app-dynamic-primitive>
             </div>
           </div>
-
-          <!-- Category 5: Minimum Database Object Structure (at the end of Firebase objects) -->
-          <div *ngIf="isFirebaseObject && mdoValue" class="props-mdo">
-            <app-minimum-database-object-structure
-              [value]="mdoValue"
-              (valueChange)="updateMdoProperties($event)">
-            </app-minimum-database-object-structure>
-          </div>
-
         </div>
       </mat-card-content>
     </mat-card>
@@ -161,7 +150,7 @@ export class JsonObjectPrimitiveComponent extends BasePrimitiveComponent impleme
   override get value(): any {
     return this._value;
   }
-  
+
   override set value(v: any) {
     if (this._value !== v) {
       this._value = v;
@@ -178,9 +167,9 @@ export class JsonObjectPrimitiveComponent extends BasePrimitiveComponent impleme
 
   override ngOnInit(): void {
     super.ngOnInit();
-    
+
     if (!this._value || typeof this._value !== 'object') {
-      this._value = {}; 
+      this._value = {};
     }
     this.buildProperties();
   }
@@ -231,7 +220,7 @@ export class JsonObjectPrimitiveComponent extends BasePrimitiveComponent impleme
 
       allProps.forEach(prop => {
         const s = prop.structure;
-        
+
         if (this.isFirebaseObject && this.MDO_KEYS.includes(prop.key)) {
           return;
         }

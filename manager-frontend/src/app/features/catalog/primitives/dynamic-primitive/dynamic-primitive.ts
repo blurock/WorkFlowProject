@@ -89,9 +89,8 @@ export class DynamicPrimitiveComponent implements OnInit, OnChanges, AfterViewIn
   set value(v: any) {
     if (this._value !== v) {
       this._value = v;
-      if (this.componentRef && this.componentRef.instance) {
-        this.componentRef.instance.value = v;
-        this.componentRef.changeDetectorRef.detectChanges();
+      if (this.componentRef) {
+        this.componentRef.setInput('value', v);
       }
     }
   }
@@ -147,10 +146,9 @@ export class DynamicPrimitiveComponent implements OnInit, OnChanges, AfterViewIn
 
     // If already created and matches type, update inputs
     if (this.componentRef && this.componentRef.componentType === compType) {
-      this.componentRef.instance.structure = this.structure;
-      this.componentRef.instance.value = this.value;
-      this.componentRef.instance.classname = this.structure.classname;
-      this.componentRef.changeDetectorRef.detectChanges();
+      this.componentRef.setInput('structure', this.structure);
+      this.componentRef.setInput('value', this.value);
+      this.componentRef.setInput('classname', this.structure.classname);
       return;
     }
 
@@ -158,16 +156,15 @@ export class DynamicPrimitiveComponent implements OnInit, OnChanges, AfterViewIn
     this.customContainer.clear();
     const ref = this.customContainer.createComponent(compType);
     this.componentRef = ref;
-    ref.instance.structure = this.structure;
-    ref.instance.value = this.value;
-    ref.instance.classname = this.structure.classname;
+    ref.setInput('structure', this.structure);
+    ref.setInput('value', this.value);
+    ref.setInput('classname', this.structure.classname);
     
     if (ref.instance.valueChange) {
       ref.instance.valueChange.subscribe((v: any) => {
         this.onChildValueChange(v);
       });
     }
-    ref.changeDetectorRef.detectChanges();
   }
 
   onChildValueChange(v: any) {

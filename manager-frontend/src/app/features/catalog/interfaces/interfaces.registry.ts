@@ -45,6 +45,9 @@ import { DataCollectionAddCollectionTransactionComponent } from './data-collecti
 import { ChemConnectUpdateCatalogObjectTransactionComponent } from './chem-connect-update-catalog-object-transaction/chem-connect-update-catalog-object-transaction';
 import { ActivityInformationRecordComponent } from './activity-information/activity-information';
 import { JThermodynamicBensonTemperaturesComponent } from './j-thermodynamic-benson-temperatures/j-thermodynamic-benson-temperatures';
+import { TransactionDescriptionShortComponent } from './transaction-description-short/transaction-description-short';
+import { OneLinePrimitiveComponent } from '../primitives/oneline-primitive/oneline-primitive';
+import { KeywordPrimitiveComponent } from '../primitives/keyword-primitive/keyword-primitive';
 
 export const INTERFACE_REGISTRY: Record<string, Type<any>> = {
   'dataset:MinimumDatabaseObjectStructure': MinimumDatabaseObjectStructureComponent,
@@ -101,7 +104,7 @@ export const INTERFACE_REGISTRY: Record<string, Type<any>> = {
   'dataset:JThermodynamics2DSubstructureThermodynamicsDatabase': JThermodynamics2DSubstructureThermodynamicsDatabaseComponent,
   'dataset:JThermodynamics2DMoleculeThermodynamicsDatabase': JThermodynamics2DMoleculeThermodynamicsDatabaseComponent,
   'dataset:JThermodynamics2DMoleculeThermodynamicsDataSet': JThermodynamics2DMoleculeThermodynamicsDataSetComponent,
-  'dataset:DatasetTransactionEventObject': DatasetTransactionEventObjectComponent,
+  'dataset:datasettransactionevent': DatasetTransactionEventObjectComponent,
   'dataset:DatasetCollectionObjectSetManipulationTransaction': DatasetCollectionObjectSetManipulationTransactionComponent,
   'dataset:UserManagementTransactionObject': UserManagementTransactionObjectComponent,
   'dataset:DatasetSystemCollectionManagementTransaction': DatasetSystemCollectionManagementTransactionComponent,
@@ -111,6 +114,9 @@ export const INTERFACE_REGISTRY: Record<string, Type<any>> = {
   'dataset:ActivityInformationRecord': ActivityInformationRecordComponent,
   'dataset:JThermodynamicBensonTemperatures': JThermodynamicBensonTemperaturesComponent,
   'dataset:bensontemperaturelist': JThermodynamicBensonTemperaturesComponent,
+  'dataset:ShortTransactionDescription': TransactionDescriptionShortComponent,
+  'dataset:transactiondescriptionshort': TransactionDescriptionShortComponent,
+
 };
 
 const IDENTIFIER_TO_CLASSNAME: Record<string, string> = {
@@ -165,9 +171,20 @@ const IDENTIFIER_TO_CLASSNAME: Record<string, string> = {
   'dataset:DataCollectionAddCollectionTransaction': 'dataset:DataCollectionAddCollectionTransaction',
   'dataset:ChemConnectUpdateCatalogObjectTransaction': 'dataset:ChemConnectUpdateCatalogObjectTransaction',
   'dataset:bensontemperaturelist': 'dataset:JThermodynamicBensonTemperatures',
+  'dataset:transactiondescriptionshort': 'dataset:TransactionDescriptionShort',
+
+
 };
 
 export function resolveCustomInterface(classname: string): Type<any> | undefined {
   const resolvedKey = IDENTIFIER_TO_CLASSNAME[classname] || classname;
-  return INTERFACE_REGISTRY[resolvedKey];
+  const reg = INTERFACE_REGISTRY[resolvedKey];
+  /*
+  if (reg == undefined) {
+    console.log('resolveCustomInterface missing: ', resolvedKey);
+    console.log('Class name from server: ', classname);
+  }
+  */
+  return reg;
+
 }
