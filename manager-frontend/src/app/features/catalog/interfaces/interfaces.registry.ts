@@ -46,6 +46,7 @@ import { ChemConnectUpdateCatalogObjectTransactionComponent } from './chem-conne
 import { ActivityInformationRecordComponent } from './activity-information/activity-information';
 import { JThermodynamicBensonTemperaturesComponent } from './j-thermodynamic-benson-temperatures/j-thermodynamic-benson-temperatures';
 import { TransactionDescriptionShortComponent } from './transaction-description-short/transaction-description-short';
+import { RequiredTransactionInformationComponent } from './required-transaction-information/required-transaction-information';
 import { OneLinePrimitiveComponent } from '../primitives/oneline-primitive/oneline-primitive';
 import { KeywordPrimitiveComponent } from '../primitives/keyword-primitive/keyword-primitive';
 
@@ -104,7 +105,7 @@ export const INTERFACE_REGISTRY: Record<string, Type<any>> = {
   'dataset:JThermodynamics2DSubstructureThermodynamicsDatabase': JThermodynamics2DSubstructureThermodynamicsDatabaseComponent,
   'dataset:JThermodynamics2DMoleculeThermodynamicsDatabase': JThermodynamics2DMoleculeThermodynamicsDatabaseComponent,
   'dataset:JThermodynamics2DMoleculeThermodynamicsDataSet': JThermodynamics2DMoleculeThermodynamicsDataSetComponent,
-  'dataset:datasettransactionevent': DatasetTransactionEventObjectComponent,
+  'dataset:DatasetTransactionEventObject': DatasetTransactionEventObjectComponent,
   'dataset:DatasetCollectionObjectSetManipulationTransaction': DatasetCollectionObjectSetManipulationTransactionComponent,
   'dataset:UserManagementTransactionObject': UserManagementTransactionObjectComponent,
   'dataset:DatasetSystemCollectionManagementTransaction': DatasetSystemCollectionManagementTransactionComponent,
@@ -116,6 +117,7 @@ export const INTERFACE_REGISTRY: Record<string, Type<any>> = {
   'dataset:bensontemperaturelist': JThermodynamicBensonTemperaturesComponent,
   'dataset:ShortTransactionDescription': TransactionDescriptionShortComponent,
   'dataset:transactiondescriptionshort': TransactionDescriptionShortComponent,
+  'dataset:RequiredTransactionInformation': RequiredTransactionInformationComponent,
 
 };
 
@@ -146,8 +148,8 @@ const IDENTIFIER_TO_CLASSNAME: Record<string, string> = {
   'dataset:transactionforobject': 'dataset:FirestoreCatalogIDForTransaction',
   'dataset:activityinfo': 'dataset:ActivityInformationRecord',
   'dataset:RepositoryFileStaging': 'dataset:RepositoryFileStaging',
-  'dataset:RepositoryParsedToFixedBlockSize': 'dataset:RepositoryParsedToFixedBlockSize',
-  'dataset:RepositoryTherGasThermodynamicsBlock': 'dataset:RepositoryTherGasThermodynamicsBlock',
+  'dataset:parsetofixsize': 'dataset:RepositoryParsedToFixedBlockSize',
+  'dataset:thergasthermoblock': 'dataset:RepositoryTherGasThermodynamicsBlock',
   'dataset:JThermodynamicsVibrationalStructureDatabase': 'dataset:JThermodynamicsVibrationalStructureDatabase',
   'dataset:JThermodynamicsVibrationalStructureDataSet': 'dataset:JThermodynamicsVibrationalStructureDataSet',
   'dataset:JThermodynamicsVibrationalStructureWithCount': 'dataset:JThermodynamicsVibrationalStructureWithCount',
@@ -157,13 +159,11 @@ const IDENTIFIER_TO_CLASSNAME: Record<string, string> = {
   'dataset:JThermodynamicsMetaAtomDefinitionDataSet': 'dataset:JThermodynamicsMetaAtomDefinitionDataSet',
   'dataset:JThermodynamicsDisassociationEnergyOfStructureDatabase': 'dataset:JThermodynamicsDisassociationEnergyOfStructureDatabase',
   'dataset:JThermodynamicsDisassociationEnergyOfStructureDataSet': 'dataset:JThermodynamicsDisassociationEnergyOfStructureDataSet',
-  'dataset:ThermodynamicBensonRuleDefinitionDatabase': 'dataset:ThermodynamicBensonRuleDefinitionDatabase',
-  'dataset:ThermodynamicBensonRuleDefinitionDataSet': 'dataset:ThermodynamicBensonRuleDefinitionDataSet',
-  'dataset:JThermodynamics2DSubstructureThermodynamicsDataSet': 'dataset:JThermodynamics2DSubstructureThermodynamicsDataSet',
-  'dataset:JThermodynamics2DSubstructureThermodynamicsDatabase': 'dataset:JThermodynamics2DSubstructureThermodynamicsDatabase',
+  'dataset:2dsubstructurethermodataset': 'dataset:JThermodynamics2DSubstructureThermodynamicsDataSet',
+  'dataset:2dsubstructurethermodatabase': 'dataset:JThermodynamics2DSubstructureThermodynamicsDatabase',
   'dataset:JThermodynamics2DMoleculeThermodynamicsDatabase': 'dataset:JThermodynamics2DMoleculeThermodynamicsDatabase',
   'dataset:JThermodynamics2DMoleculeThermodynamicsDataSet': 'dataset:JThermodynamics2DMoleculeThermodynamicsDataSet',
-  'dataset:DatasetTransactionEventObject': 'dataset:DatasetTransactionEventObject',
+  'dataset:datasettransactionevent': 'dataset:DatasetTransactionEventObject',
   'dataset:DatasetCollectionObjectSetManipulationTransaction': 'dataset:DatasetCollectionObjectSetManipulationTransaction',
   'dataset:UserManagementTransactionObject': 'dataset:UserManagementTransactionObject',
   'dataset:DatasetSystemCollectionManagementTransaction': 'dataset:DatasetSystemCollectionManagementTransaction',
@@ -172,6 +172,7 @@ const IDENTIFIER_TO_CLASSNAME: Record<string, string> = {
   'dataset:ChemConnectUpdateCatalogObjectTransaction': 'dataset:ChemConnectUpdateCatalogObjectTransaction',
   'dataset:bensontemperaturelist': 'dataset:JThermodynamicBensonTemperatures',
   'dataset:transactiondescriptionshort': 'dataset:TransactionDescriptionShort',
+  'dataset:requiredtransactioninfo': 'dataset:RequiredTransactionInformation',
 
 
 };

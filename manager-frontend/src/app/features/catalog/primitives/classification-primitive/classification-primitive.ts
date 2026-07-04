@@ -1,11 +1,68 @@
-import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter, ViewChild, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatMenu, MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BasePrimitiveComponent, OntologyStructure } from '../base-primitive';
+
+export interface MenuNode {
+  id: string;
+  label: string;
+  children: MenuNode[];
+}
+
+@Component({
+  selector: 'app-classification-menu-node',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatMenuModule,
+    forwardRef(() => ClassificationMenuNodeComponent)
+  ],
+  template: `
+    <mat-menu #subMenu="matMenu">
+      <button mat-menu-item *ngIf="isSelectableParent" (click)="selectItem(node.id)" style="font-weight: 500; font-style: italic;">
+        Select: {{ node.label }}
+      </button>
+      
+      <ng-container *ngFor="let child of node.children">
+        <ng-container *ngIf="child.children.length > 0; else leaf">
+          <button mat-menu-item [matMenuTriggerFor]="sub.subMenu">
+            {{ child.label }}
+          </button>
+          <app-classification-menu-node 
+            #sub 
+            [node]="child" 
+            (itemSelected)="selectItem($event)">
+          </app-classification-menu-node>
+        </ng-container>
+        
+        <ng-template #leaf>
+          <button mat-menu-item (click)="selectItem(child.id)">
+            {{ child.label }}
+          </button>
+        </ng-template>
+      </ng-container>
+    </mat-menu>
+  `
+})
+export class ClassificationMenuNodeComponent {
+  @Input() node!: MenuNode;
+  @Output() itemSelected = new EventEmitter<string>();
+
+  @ViewChild('subMenu', { static: true }) subMenu!: MatMenu;
+
+  get isSelectableParent(): boolean {
+    return this.node && this.node.id !== 'dataset:NoChoices' && !this.node.id.startsWith('Unassigned classification');
+  }
+
+  selectItem(id: string) {
+    this.itemSelected.emit(id);
+  }
+}
 
 @Component({
   selector: 'app-classification-primitive',
@@ -14,19 +71,47 @@ import { BasePrimitiveComponent, OntologyStructure } from '../base-primitive';
     CommonModule,
     FormsModule,
     MatFormFieldModule,
-    MatSelectModule,
+    MatInputModule,
+    MatMenuModule,
     MatIconModule,
-    MatTooltipModule
+    MatTooltipModule,
+    ClassificationMenuNodeComponent
   ],
   template: `
     <mat-form-field appearance="outline" style="width: 100%; display: block;" floatLabel="always" [class.filled-field]="isFilled">
       <mat-label>{{ structure.label || structure.classname }}</mat-label>
-      <mat-select [ngModel]="value" (selectionChange)="onSelectionChange($event.value)" [disabled]="options.length === 0" [placeholder]="options.length === 0 ? 'Loading options...' : 'Select option'">
+      <input matInput 
+             [value]="selectedLabel" 
+             readonly 
+             [disabled]="menuNodes.length === 0" 
+             [placeholder]="menuNodes.length === 0 ? 'Loading options...' : 'Select option'"
+             [matMenuTriggerFor]="menu"
+             style="cursor: pointer;"
+             type="text">
       
-        <mat-option *ngFor="let option of options" [value]="option.id">
-          {{ option.label }}
-        </mat-option>
-      </mat-select>
+      <mat-icon matSuffix style="color: rgba(0, 0, 0, 0.54); cursor: pointer;" [matMenuTriggerFor]="menu">arrow_drop_down</mat-icon>
+      
+      <mat-menu #menu="matMenu" class="classification-menu">
+        <ng-container *ngFor="let node of menuNodes">
+          <ng-container *ngIf="node.children.length > 0; else leaf">
+            <button mat-menu-item [matMenuTriggerFor]="sub.subMenu">
+              {{ node.label }}
+            </button>
+            <app-classification-menu-node 
+              #sub 
+              [node]="node" 
+              (itemSelected)="onSelectionChange($event)">
+            </app-classification-menu-node>
+          </ng-container>
+          
+          <ng-template #leaf>
+            <button mat-menu-item (click)="onSelectionChange(node.id)">
+              {{ node.label }}
+            </button>
+          </ng-template>
+        </ng-container>
+      </mat-menu>
+      
       <mat-icon matSuffix *ngIf="isFilled" class="filled-icon" matTooltip="Field is filled">check_circle</mat-icon>
       <mat-icon matSuffix *ngIf="structure.comment && !isFilled" [matTooltip]="structure.comment" class="info-icon">info</mat-icon>
     </mat-form-field>
@@ -60,7 +145,24 @@ import { BasePrimitiveComponent, OntologyStructure } from '../base-primitive';
   `]
 })
 export class ClassificationPrimitiveComponent extends BasePrimitiveComponent implements OnInit, OnChanges {
-  options: { id: string, label: string }[] = [];
+  menuNodes: MenuNode[] = [];
+
+  get selectedLabel(): string {
+    if (!this.value) return '';
+    const findLabel = (nodes: MenuNode[]): string | null => {
+      for (const node of nodes) {
+        if (node.id === this.value) {
+          return node.label;
+        }
+        if (node.children && node.children.length > 0) {
+          const result = findLabel(node.children);
+          if (result) return result;
+        }
+      }
+      return null;
+    };
+    return findLabel(this.menuNodes) || this.value;
+  }
 
   override ngOnInit(): void {
     super.ngOnInit();
@@ -75,37 +177,52 @@ export class ClassificationPrimitiveComponent extends BasePrimitiveComponent imp
 
   private extractOptions() {
     if (this.structure && this.structure.choices && typeof this.structure.choices === 'object') {
-      const allOptions: { id: string, label: string }[] = [];
       const tree = this.structure.choices;
       const visited = new Set<string>();
 
-      const extractRecursive = (node: any, depth: number) => {
+      const parseNodeRecursive = (node: any): MenuNode | null => {
         const classname = node['dataset:catalogtype'];
         if (!classname || visited.has(classname)) {
-          return;
+          return null;
         }
         visited.add(classname);
 
         const label = node['rdfs:label'] || classname;
+        const children: MenuNode[] = [];
 
-        if (classname !== 'dataset:NoChoices') {
-          // Add indentation based on depth using non-breaking spaces
-          const indent = '\u00A0\u00A0'.repeat(depth);
-          allOptions.push({ id: classname, label: indent + label });
+        const rawChildren = node['dataset:classificationtree'];
+        if (Array.isArray(rawChildren)) {
+          rawChildren.forEach(child => {
+            const parsedChild = parseNodeRecursive(child);
+            if (parsedChild) {
+              children.push(parsedChild);
+            }
+          });
         }
 
-        const children = node['dataset:classificationtree'];
-        if (Array.isArray(children)) {
-          children.forEach(child => extractRecursive(child, depth + 1));
-        }
+        return {
+          id: classname,
+          label: label,
+          children: children
+        };
       };
+
+      const nodes: MenuNode[] = [];
 
       // Check if it's the tree structure from DatabaseOntologyClassification
       if (tree['dataset:classificationtree'] !== undefined) {
         if (Array.isArray(tree['dataset:classificationtree'])) {
-          tree['dataset:classificationtree'].forEach((child: any) => extractRecursive(child, 0));
+          tree['dataset:classificationtree'].forEach((child: any) => {
+            const parsed = parseNodeRecursive(child);
+            if (parsed) {
+              nodes.push(parsed);
+            }
+          });
         } else if (tree['dataset:catalogtype']) {
-          extractRecursive(tree, 0);
+          const parsed = parseNodeRecursive(tree);
+          if (parsed) {
+            nodes.push(parsed);
+          }
         }
       } else {
         // Fallback to key-value or other structures
@@ -117,13 +234,13 @@ export class ClassificationPrimitiveComponent extends BasePrimitiveComponent imp
           } else if (choice && typeof choice === 'object') {
             label = choice['rdfs:label'] || choice['label'] || key;
           }
-          allOptions.push({ id: key, label: label });
+          nodes.push({ id: key, label: label, children: [] });
         });
       }
 
-      this.options = allOptions;
+      this.menuNodes = nodes;
     } else {
-      this.options = [];
+      this.menuNodes = [];
     }
   }
 

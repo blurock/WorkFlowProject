@@ -11,9 +11,9 @@ import { DynamicPrimitiveComponent } from '../dynamic-primitive/dynamic-primitiv
   selector: 'app-json-array-primitive',
   standalone: true,
   imports: [
-    CommonModule, 
-    MatButtonModule, 
-    MatIconModule, 
+    CommonModule,
+    MatButtonModule,
+    MatIconModule,
     MatDividerModule,
     MatCardModule,
     forwardRef(() => DynamicPrimitiveComponent)
@@ -21,7 +21,7 @@ import { DynamicPrimitiveComponent } from '../dynamic-primitive/dynamic-primitiv
   template: `
     <div class="array-container">
       <div class="array-header">
-        <span class="array-label">{{ structure.label || structure.classname }}</span>
+        <span class="array-label">{{ structure.comment || structure.label || structure.classname }}</span>
         <span *ngIf="value?.length === 0" class="empty-hint">No items added. Click + to add.</span>
         <button mat-icon-button color="primary" (click)="addItem()" matTooltip="Add Item">
           <mat-icon>add_circle</mat-icon>
@@ -114,7 +114,7 @@ import { DynamicPrimitiveComponent } from '../dynamic-primitive/dynamic-primitiv
   `]
 })
 export class JsonArrayPrimitiveComponent extends BasePrimitiveComponent implements OnInit, OnChanges {
-  
+
   elementStructure!: OntologyStructure;
 
   override ngOnInit(): void {
@@ -148,7 +148,7 @@ export class JsonArrayPrimitiveComponent extends BasePrimitiveComponent implemen
     } else if (this.elementStructure.isKeywordSet) {
       defaultValue = [];
     }
-    
+
     this.updateValue([...this.value, defaultValue]);
   }
 

@@ -115,12 +115,12 @@ export class ActivityInformationRecordComponent extends BasePrimitiveComponent i
 
   get activityTitle(): string {
     if (this.subclassStructure?.label) {
-      return "Title 1:" + this.subclassStructure.label;
+      return this.subclassStructure.label;
     }
     if (this.currentSubclassType) {
-      return "Title 2:" + this.currentSubclassType.split(':').pop() || this.currentSubclassType;
+      return this.currentSubclassType.split(':').pop() || this.currentSubclassType;
     }
-    return "Title 3:Activity Information";
+    return "Activity Information";
   }
 
   loadSubclassTemplate() {

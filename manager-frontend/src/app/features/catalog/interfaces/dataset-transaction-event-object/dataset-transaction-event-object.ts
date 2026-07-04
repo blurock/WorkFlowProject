@@ -96,6 +96,16 @@ import { BaseTransactionMetadataComponent } from '../transaction-metadata/transa
                 (valueChange)="updateProperty('dataset:transoutobjid', $event)">
               </app-dynamic-primitive>
             </div>
+
+            <!-- Required Transaction Information (dataset:requiredtransactioninfo) -->
+            <div class="field-row full-width" *ngIf="value?.['dataset:requiredtransactioninfo']">
+              <div class="object-section-header">Required Transaction Information</div>
+              <app-dynamic-primitive
+                [structure]="getPropertyStructure('dataset:requiredtransactioninfo')"
+                [value]="value?.['dataset:requiredtransactioninfo']"
+                (valueChange)="updateProperty('dataset:requiredtransactioninfo', $event)">
+              </app-dynamic-primitive>
+            </div>
           </div>
 
           <!-- Section 5: Base Transaction Metadata (from parent SimpleCatalogObject) -->
