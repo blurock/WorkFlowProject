@@ -34,7 +34,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         </div>
 
         <!-- 2. Transaction Type -->
-        <div *ngIf="hasProperty('prov:activity')" class="tds-property-row">
+        <div *ngIf="hasProperty('prov:activity')" class="tds-property-row full-width-prop">
           <div class="tds-prop-label">{{ getPropertyStructure('prov:activity').label || 'Transaction Type' }}</div>
           <div class="tds-prop-value">
             <app-dynamic-primitive [structure]="getPropertyStructure('prov:activity')"
@@ -45,7 +45,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         </div>
 
         <!-- 3. Transaction Key -->
-        <div *ngIf="hasProperty('dataset:transactionkey')" class="tds-property-row">
+        <div *ngIf="hasProperty('dataset:transactionkey')" class="tds-property-row full-width-prop">
           <div class="tds-prop-label">{{ getPropertyStructure('dataset:transactionkey').label || 'Transaction Key' }}</div>
           <div class="tds-prop-value">
             <app-dynamic-primitive [structure]="getPropertyStructure('dataset:transactionkey')"
