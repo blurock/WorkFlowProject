@@ -79,23 +79,13 @@ import { BaseTransactionMetadataComponent } from '../transaction-metadata/transa
               </mat-card-content>
             </mat-card>
 
-            <!-- Section 4: Associated Objects -->
+            <!-- Section 2: Catalog & Activity Information Records -->
             <mat-card class="section-card mat-elevation-z1" *ngIf="value?.['dataset:simpcatobj'] || value?.['dataset:activityinfo']">
               <div class="section-card-header">
                 <mat-icon color="accent">grid_view</mat-icon>
                 <div class="section-title">Catalog & Activity Information Records</div>
               </div>
               <mat-card-content class="section-card-content objects-container">
-                <!-- Simple Catalog Object (dataset:simpcatobj) -->
-                <div class="field-row full-width" *ngIf="value?.['dataset:simpcatobj']">
-                  <div class="object-section-header">Target Simple Catalog Object</div>
-                  <app-simple-catalog-object
-                    [structure]="getPropertyStructure('dataset:simpcatobj')"
-                    [value]="value?.['dataset:simpcatobj']"
-                    (valueChange)="updateProperty('dataset:simpcatobj', $event)">
-                  </app-simple-catalog-object>
-                </div>
-
                 <!-- Activity Information (dataset:activityinfo) -->
                 <div class="field-row full-width" *ngIf="value?.['dataset:activityinfo']">
                   <app-activity-information
@@ -107,7 +97,7 @@ import { BaseTransactionMetadataComponent } from '../transaction-metadata/transa
               </mat-card-content>
             </mat-card>
 
-            <!-- Transaction Output Object ID (dataset:transoutobjid) -->
+            <!-- Section 3: Transaction Output Object ID (dataset:transoutobjid) -->
             <mat-card class="section-card mat-elevation-z1" *ngIf="value?.['dataset:transoutobjid']">
               <div class="section-card-header">
                 <mat-icon color="primary">label</mat-icon>
@@ -122,7 +112,7 @@ import { BaseTransactionMetadataComponent } from '../transaction-metadata/transa
               </mat-card-content>
             </mat-card>
 
-            <!-- Required Transaction Information (dataset:requiredtransactioninfo) -->
+            <!-- Section 4: Required Transaction Information (dataset:requiredtransactioninfo) -->
             <mat-card class="section-card mat-elevation-z1" *ngIf="value?.['dataset:requiredtransactioninfo']">
               <div class="section-card-header">
                 <mat-icon color="accent">assignment_turned_in</mat-icon>
