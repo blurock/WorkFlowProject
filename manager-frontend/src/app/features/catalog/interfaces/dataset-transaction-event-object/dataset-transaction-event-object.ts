@@ -63,14 +63,12 @@ import { BaseTransactionMetadataComponent } from '../transaction-metadata/transa
           <div class="transaction-grid">
             
             <!-- Section 1: Descriptions & Overview -->
-            <div class="grid-section" *ngIf="hasProperty('dataset:transactiondescriptionshort')">
-              <h3 class="section-heading">
+            <mat-card class="section-card mat-elevation-z1" *ngIf="hasProperty('dataset:transactiondescriptionshort')">
+              <div class="section-card-header">
                 <mat-icon color="primary">description</mat-icon>
-                <span>Transaction Short Decription</span>
-              </h3>
-
-              <!-- Transaction Description Short (dataset:transactiondescriptionshort) -->
-              <div class="field-row full-width">
+                <div class="section-title">Transaction Short Description</div>
+              </div>
+              <mat-card-content class="section-card-content">
                 <div class="field-body">
                   <app-dynamic-primitive
                     [structure]="getPropertyStructure('dataset:transactiondescriptionshort')"
@@ -78,64 +76,81 @@ import { BaseTransactionMetadataComponent } from '../transaction-metadata/transa
                     (valueChange)="updateProperty('dataset:transactiondescriptionshort', $event)">
                   </app-dynamic-primitive>
                 </div>
-              </div>
-            </div>
+              </mat-card-content>
+            </mat-card>
 
             <!-- Section 4: Associated Objects -->
-            <div class="grid-section objects-container">
-              <h3 class="section-heading">
+            <mat-card class="section-card mat-elevation-z1" *ngIf="value?.['dataset:simpcatobj'] || value?.['dataset:activityinfo']">
+              <div class="section-card-header">
                 <mat-icon color="accent">grid_view</mat-icon>
-                <span>Catalog & Activity Information Records</span>
-              </h3>
-
-              <!-- Simple Catalog Object (dataset:simpcatobj) -->
-              <div class="field-row full-width" *ngIf="value?.['dataset:simpcatobj']">
-                <div class="object-section-header">Target Simple Catalog Object</div>
-                <app-simple-catalog-object
-                  [structure]="getPropertyStructure('dataset:simpcatobj')"
-                  [value]="value?.['dataset:simpcatobj']"
-                  (valueChange)="updateProperty('dataset:simpcatobj', $event)">
-                </app-simple-catalog-object>
+                <div class="section-title">Catalog & Activity Information Records</div>
               </div>
+              <mat-card-content class="section-card-content objects-container">
+                <!-- Simple Catalog Object (dataset:simpcatobj) -->
+                <div class="field-row full-width" *ngIf="value?.['dataset:simpcatobj']">
+                  <div class="object-section-header">Target Simple Catalog Object</div>
+                  <app-simple-catalog-object
+                    [structure]="getPropertyStructure('dataset:simpcatobj')"
+                    [value]="value?.['dataset:simpcatobj']"
+                    (valueChange)="updateProperty('dataset:simpcatobj', $event)">
+                  </app-simple-catalog-object>
+                </div>
 
-              <!-- Activity Information (dataset:activityinfo) -->
-              <div class="field-row full-width" *ngIf="value?.['dataset:activityinfo']">
-                <div class="object-section-header">Linked Activity Information Record</div>
-                <app-activity-information
-                  [structure]="getPropertyStructure('dataset:activityinfo')"
-                  [value]="value?.['dataset:activityinfo']"
-                  (valueChange)="updateProperty('dataset:activityinfo', $event)">
-                </app-activity-information>
+                <!-- Activity Information (dataset:activityinfo) -->
+                <div class="field-row full-width" *ngIf="value?.['dataset:activityinfo']">
+                  <app-activity-information
+                    [structure]="getPropertyStructure('dataset:activityinfo')"
+                    [value]="value?.['dataset:activityinfo']"
+                    (valueChange)="updateProperty('dataset:activityinfo', $event)">
+                  </app-activity-information>
+                </div>
+              </mat-card-content>
+            </mat-card>
+
+            <!-- Transaction Output Object ID (dataset:transoutobjid) -->
+            <mat-card class="section-card mat-elevation-z1" *ngIf="value?.['dataset:transoutobjid']">
+              <div class="section-card-header">
+                <mat-icon color="primary">label</mat-icon>
+                <div class="section-title">Transaction Output Object ID</div>
               </div>
-
-              <!-- Transaction Output Object ID (dataset:transoutobjid) -->
-              <div class="field-row full-width" *ngIf="value?.['dataset:transoutobjid']">
-                <div class="object-section-header">Transaction Output Object ID</div>
+              <mat-card-content class="section-card-content">
                 <app-dynamic-primitive
                   [structure]="getPropertyStructure('dataset:transoutobjid')"
                   [value]="value?.['dataset:transoutobjid']"
                   (valueChange)="updateProperty('dataset:transoutobjid', $event)">
                 </app-dynamic-primitive>
-              </div>
+              </mat-card-content>
+            </mat-card>
 
-              <!-- Required Transaction Information (dataset:requiredtransactioninfo) -->
-              <div class="field-row full-width" *ngIf="value?.['dataset:requiredtransactioninfo']">
-                <div class="object-section-header">Required Transaction Information</div>
+            <!-- Required Transaction Information (dataset:requiredtransactioninfo) -->
+            <mat-card class="section-card mat-elevation-z1" *ngIf="value?.['dataset:requiredtransactioninfo']">
+              <div class="section-card-header">
+                <mat-icon color="accent">assignment_turned_in</mat-icon>
+                <div class="section-title">Required Transaction Information</div>
+              </div>
+              <mat-card-content class="section-card-content">
                 <app-dynamic-primitive
                   [structure]="getPropertyStructure('dataset:requiredtransactioninfo')"
                   [value]="value?.['dataset:requiredtransactioninfo']"
                   (valueChange)="updateProperty('dataset:requiredtransactioninfo', $event)">
                 </app-dynamic-primitive>
-              </div>
-            </div>
+              </mat-card-content>
+            </mat-card>
 
             <!-- Section 5: Base Transaction Metadata (from parent SimpleCatalogObject) -->
-            <mat-divider class="section-divider"></mat-divider>
-            <app-transaction-metadata
-              [structure]="structure"
-              [value]="value"
-              (valueChange)="updateValue($event)">
-            </app-transaction-metadata>
+            <mat-card class="section-card mat-elevation-z1">
+              <div class="section-card-header">
+                <mat-icon color="primary">info</mat-icon>
+                <div class="section-title">Transaction Metadata</div>
+              </div>
+              <mat-card-content class="section-card-content">
+                <app-transaction-metadata
+                  [structure]="structure"
+                  [value]="value"
+                  (valueChange)="updateValue($event)">
+                </app-transaction-metadata>
+              </mat-card-content>
+            </mat-card>
 
           </div>
         </mat-card-content>
@@ -198,14 +213,14 @@ import { BaseTransactionMetadataComponent } from '../transaction-metadata/transa
       font-style: italic;
     }
     .transaction-event-card {
-      margin: 16px 0;
+      margin: 8px 0;
       border-left: 6px solid #4f46e5;
       border-radius: 12px;
       background-color: #ffffff;
       font-family: 'Google Sans', 'Inter', sans-serif;
     }
     .event-header {
-      padding: 16px 20px;
+      padding: 10px 16px;
       display: flex;
       align-items: center;
     }
@@ -215,11 +230,11 @@ import { BaseTransactionMetadataComponent } from '../transaction-metadata/transa
       justify-content: center;
       background-color: #f5f3ff;
       border-radius: 50%;
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
     }
     .header-title {
-      font-size: 1.25rem;
+      font-size: 1.1rem;
       font-weight: 700;
       color: #1e1b4b;
       display: flex;
@@ -237,9 +252,9 @@ import { BaseTransactionMetadataComponent } from '../transaction-metadata/transa
       border: 1px solid #c7d2fe;
     }
     .header-subtitle {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: #6b7280;
-      margin-top: 4px;
+      margin-top: 2px;
     }
     .key-code {
       font-family: 'Roboto Mono', monospace;
@@ -254,23 +269,46 @@ import { BaseTransactionMetadataComponent } from '../transaction-metadata/transa
       margin: 0;
     }
     .event-content {
-      padding: 16px 20px 24px;
+      padding: 8px 12px 12px;
     }
     .transaction-grid {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 8px;
     }
-    .section-heading {
+    .section-card {
+      margin-bottom: 4px;
+      border-radius: 8px;
+      background-color: #fafafa;
+      border: 1px solid #e2e8f0;
+      width: 100%;
+      box-sizing: border-box;
+      overflow: visible;
+    }
+    .section-card-header {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 1rem;
+      gap: 6px;
+      padding: 6px 12px;
+      border-bottom: 1px solid #f1f5f9;
+      background-color: #f8fafc;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+    }
+    .section-card-header mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+    }
+    .section-title {
+      font-size: 0.75rem;
       font-weight: 700;
       color: #3730a3;
-      margin: 12px 0;
       text-transform: uppercase;
       letter-spacing: 0.05em;
+    }
+    .section-card-content {
+      padding: 6px 12px !important;
     }
     .grid-section {
       width: 100%;
@@ -278,7 +316,7 @@ import { BaseTransactionMetadataComponent } from '../transaction-metadata/transa
     .two-column-layout {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 16px;
+      gap: 12px;
     }
     .field-row {
       display: flex;
@@ -286,12 +324,12 @@ import { BaseTransactionMetadataComponent } from '../transaction-metadata/transa
       background-color: #fafafa;
       border: 1px solid #f3f4f6;
       border-radius: 8px;
-      padding: 10px 14px;
+      padding: 6px 10px;
     }
     .field-row.full-width {
       width: 100%;
       box-sizing: border-box;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
     .field-header {
       font-size: 0.75rem;
@@ -299,14 +337,14 @@ import { BaseTransactionMetadataComponent } from '../transaction-metadata/transa
       text-transform: uppercase;
       color: #6b7280;
       letter-spacing: 0.05em;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
     .field-body {
       font-size: 0.9rem;
       color: #111827;
     }
     .section-divider {
-      margin: 8px 0;
+      margin: 4px 0;
     }
     .response-log-panel {
       border: 1px solid #e5e7eb;
@@ -338,17 +376,17 @@ import { BaseTransactionMetadataComponent } from '../transaction-metadata/transa
       white-space: pre-wrap;
     }
     .object-section-header {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 700;
       color: #4b5563;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
     .objects-container {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 8px;
     }
   `]
 })
