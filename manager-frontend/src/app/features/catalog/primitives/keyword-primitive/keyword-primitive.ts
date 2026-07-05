@@ -11,11 +11,11 @@ import { BasePrimitiveComponent } from '../base-primitive';
   selector: 'app-keyword-primitive',
   standalone: true,
   imports: [
-    CommonModule, 
-    FormsModule, 
-    MatFormFieldModule, 
-    MatInputModule, 
-    MatIconModule, 
+    CommonModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
     MatTooltipModule
   ],
   template: `
@@ -30,7 +30,6 @@ import { BasePrimitiveComponent } from '../base-primitive';
     .primitive-field {
       display: block;
       width: 100%;
-      margin-bottom: 8px;
     }
     .info-icon {
       font-size: 18px;
@@ -56,7 +55,7 @@ import { BasePrimitiveComponent } from '../base-primitive';
   `]
 })
 export class KeywordPrimitiveComponent extends BasePrimitiveComponent {
-  
+
   onValueChange(newValue: any) {
     this.updateValue(newValue);
   }

@@ -24,7 +24,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
       <div *ngIf="!loading && structure" class="tds-properties">
         <!-- 1. Short Description -->
         <div *ngIf="hasProperty('dataset:shortdescription')" class="tds-property-row full-width-prop">
-          <div class="tds-prop-label">{{ getPropertyStructure('dataset:shortdescription').label || 'Short Description' }}</div>
           <div class="tds-prop-value">
             <app-dynamic-primitive [structure]="getPropertyStructure('dataset:shortdescription')"
               [value]="value ? value['dataset:shortdescription'] : null"
@@ -35,7 +34,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
         <!-- 2. Transaction Type -->
         <div *ngIf="hasProperty('prov:activity')" class="tds-property-row full-width-prop">
-          <div class="tds-prop-label">{{ getPropertyStructure('prov:activity').label || 'Transaction Type' }}</div>
+         
           <div class="tds-prop-value">
             <app-dynamic-primitive [structure]="getPropertyStructure('prov:activity')"
               [value]="value ? value['prov:activity'] : null"
@@ -46,7 +45,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
         <!-- 3. Transaction Key -->
         <div *ngIf="hasProperty('dataset:transactionkey')" class="tds-property-row full-width-prop">
-          <div class="tds-prop-label">{{ getPropertyStructure('dataset:transactionkey').label || 'Transaction Key' }}</div>
+          
           <div class="tds-prop-value">
             <app-dynamic-primitive [structure]="getPropertyStructure('dataset:transactionkey')"
               [value]="value ? value['dataset:transactionkey'] : null"
@@ -69,21 +68,22 @@ import { MatTooltipModule } from '@angular/material/tooltip';
       text-align: center;
     }
     .tds-properties {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 0px;
       width: 100%;
     }
     .tds-property-row {
       display: flex;
       flex-direction: column;
-      padding: 8px;
-      border-radius: 6px;
-      background-color: #f8fafc;
-      border: 1px solid #f1f5f9;
+      padding: 0px;
+      margin-bottom: 4px;
+      border-radius: 0px;
+      background-color: transparent;
+      border: none;
     }
     .tds-property-row.full-width-prop {
-      grid-column: 1 / -1;
+      width: 100%;
     }
     .tds-prop-label {
       font-size: 0.75rem;
@@ -91,7 +91,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
       text-transform: uppercase;
       color: #64748b;
       letter-spacing: 0.05em;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
     .tds-prop-value {
       font-size: 0.9rem;
@@ -100,6 +100,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     :host {
       display: block;
       width: 100%;
+    }
+    ::ng-deep .tds-properties .mat-mdc-form-field-subscript-wrapper {
+      display: none !important;
+    }
+    ::ng-deep .tds-properties .mat-mdc-form-field {
+      margin-bottom: 0px !important;
     }
   `]
 })

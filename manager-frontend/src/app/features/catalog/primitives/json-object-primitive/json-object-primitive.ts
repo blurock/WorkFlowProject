@@ -80,28 +80,28 @@ interface PropertyItem {
   `,
   styles: [`
     .object-card {
-      margin: 12px 0;
+      margin: 6px 0;
       border-left: 4px solid #1a73e8;
       background: white;
       overflow: visible;
     }
     .properties-container {
-      padding: 8px 0;
+      padding: 4px 0;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 4px;
     }
     .props-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 16px;
+      gap: 8px;
       width: 100%;
     }
     .property-cell {
       min-width: 0;
     }
     .property-row {
-      margin-bottom: 8px;
+      margin-bottom: 0px;
       width: 100%;
     }
     .props-grid, .props-wide, .props-content, .props-recursive, .props-mdo {
@@ -109,15 +109,21 @@ interface PropertyItem {
     }
     .props-recursive {
       border-top: 1px solid #eee;
-      padding-top: 16px;
+      padding-top: 8px;
     }
     .props-mdo {
       border-top: 1px solid #e2e8f0;
-      padding-top: 16px;
-      margin-top: 8px;
+      padding-top: 8px;
+      margin-top: 4px;
     }
     mat-card-header {
-      margin-bottom: 12px;
+      margin-bottom: 6px;
+    }
+    ::ng-deep .properties-container .mat-mdc-form-field-subscript-wrapper {
+      display: none !important;
+    }
+    ::ng-deep .properties-container .mat-mdc-form-field {
+      margin-bottom: 0px !important;
     }
   `]
 })

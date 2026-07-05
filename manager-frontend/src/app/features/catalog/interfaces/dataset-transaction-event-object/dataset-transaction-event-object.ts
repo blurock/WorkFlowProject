@@ -4,6 +4,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { BasePrimitiveComponent, OntologyStructure } from '../../primitives/base-primitive';
 import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dynamic-primitive';
 import { SimpleCatalogObjectComponent } from '../simple-catalog-object/simple-catalog-object';
@@ -19,108 +21,182 @@ import { BaseTransactionMetadataComponent } from '../transaction-metadata/transa
     MatIconModule,
     MatDividerModule,
     MatExpansionModule,
+    MatButtonModule,
+    MatTooltipModule,
     forwardRef(() => DynamicPrimitiveComponent),
     forwardRef(() => SimpleCatalogObjectComponent),
     forwardRef(() => ActivityInformationRecordComponent),
     forwardRef(() => BaseTransactionMetadataComponent)
   ],
   template: `
-    <mat-card class="transaction-event-card mat-elevation-z3">
-      <mat-card-header class="event-header">
-        <mat-icon mat-card-avatar color="primary" class="header-avatar">receipt_long</mat-icon>
-        <mat-card-title class="header-title">
-          <span>ChemConnect Transaction Event</span>
-        </mat-card-title>
-      </mat-card-header>
+    <div class="event-container">
+      <!-- Collapsed / Single Line Preview State -->
+      <div class="event-preview-row" *ngIf="!expanded">
+        <div class="event-preview-text">
+          <mat-icon color="primary" class="preview-avatar">receipt_long</mat-icon>
+          <span class="event-badge" *ngIf="getActivityLabel()">{{ getActivityLabel() }}</span>
+          <span class="event-title" *ngIf="getShortDescription()">{{ getShortDescription() }}</span>
+          <span class="event-placeholder" *ngIf="!getActivityLabel() && !getShortDescription()">Empty Transaction Event</span>
+        </div>
+        <button mat-icon-button (click)="toggleExpand()" matTooltip="View details" type="button">
+          <mat-icon>visibility</mat-icon>
+        </button>
+      </div>
 
-      <mat-card-content class="event-content">
-        <mat-divider class="event-divider"></mat-divider>
+      <!-- Expanded State (renders the card) -->
+      <mat-card class="transaction-event-card mat-elevation-z3" *ngIf="expanded">
+        <mat-card-header class="event-header">
+          <mat-icon mat-card-avatar color="primary" class="header-avatar">receipt_long</mat-icon>
+          <mat-card-title class="header-title">
+            <span>ChemConnect Transaction Event</span>
+            <span class="activity-badge" *ngIf="getActivityLabel()">{{ getActivityLabel() }}</span>
+          </mat-card-title>
+          <div style="flex-grow: 1;"></div>
+          <button mat-icon-button (click)="toggleExpand()" matTooltip="Collapse details" type="button" style="margin-top: -8px;">
+            <mat-icon>visibility_off</mat-icon>
+          </button>
+        </mat-card-header>
 
-        <div class="transaction-grid">
-          
-          <!-- Section 1: Descriptions & Overview -->
-          <div class="grid-section" *ngIf="hasProperty('dataset:transactiondescriptionshort')">
-            <h3 class="section-heading">
-              <mat-icon color="primary">description</mat-icon>
-              <span>Descriptions & Overview</span>
-            </h3>
+        <mat-card-content class="event-content">
+          <mat-divider class="event-divider"></mat-divider>
 
-            <!-- Transaction Description Short (dataset:transactiondescriptionshort) -->
-            <div class="field-row full-width">
-              <div class="field-header">Transaction Description Short</div>
-              <div class="field-body">
+          <div class="transaction-grid">
+            
+            <!-- Section 1: Descriptions & Overview -->
+            <div class="grid-section" *ngIf="hasProperty('dataset:transactiondescriptionshort')">
+              <h3 class="section-heading">
+                <mat-icon color="primary">description</mat-icon>
+                <span>Transaction Short Decription</span>
+              </h3>
+
+              <!-- Transaction Description Short (dataset:transactiondescriptionshort) -->
+              <div class="field-row full-width">
+                <div class="field-body">
+                  <app-dynamic-primitive
+                    [structure]="getPropertyStructure('dataset:transactiondescriptionshort')"
+                    [value]="value?.['dataset:transactiondescriptionshort']"
+                    (valueChange)="updateProperty('dataset:transactiondescriptionshort', $event)">
+                  </app-dynamic-primitive>
+                </div>
+              </div>
+            </div>
+
+            <!-- Section 4: Associated Objects -->
+            <div class="grid-section objects-container">
+              <h3 class="section-heading">
+                <mat-icon color="accent">grid_view</mat-icon>
+                <span>Catalog & Activity Information Records</span>
+              </h3>
+
+              <!-- Simple Catalog Object (dataset:simpcatobj) -->
+              <div class="field-row full-width" *ngIf="value?.['dataset:simpcatobj']">
+                <div class="object-section-header">Target Simple Catalog Object</div>
+                <app-simple-catalog-object
+                  [structure]="getPropertyStructure('dataset:simpcatobj')"
+                  [value]="value?.['dataset:simpcatobj']"
+                  (valueChange)="updateProperty('dataset:simpcatobj', $event)">
+                </app-simple-catalog-object>
+              </div>
+
+              <!-- Activity Information (dataset:activityinfo) -->
+              <div class="field-row full-width" *ngIf="value?.['dataset:activityinfo']">
+                <div class="object-section-header">Linked Activity Information Record</div>
+                <app-activity-information
+                  [structure]="getPropertyStructure('dataset:activityinfo')"
+                  [value]="value?.['dataset:activityinfo']"
+                  (valueChange)="updateProperty('dataset:activityinfo', $event)">
+                </app-activity-information>
+              </div>
+
+              <!-- Transaction Output Object ID (dataset:transoutobjid) -->
+              <div class="field-row full-width" *ngIf="value?.['dataset:transoutobjid']">
+                <div class="object-section-header">Transaction Output Object ID</div>
                 <app-dynamic-primitive
-                  [structure]="getPropertyStructure('dataset:transactiondescriptionshort')"
-                  [value]="value?.['dataset:transactiondescriptionshort']"
-                  (valueChange)="updateProperty('dataset:transactiondescriptionshort', $event)">
+                  [structure]="getPropertyStructure('dataset:transoutobjid')"
+                  [value]="value?.['dataset:transoutobjid']"
+                  (valueChange)="updateProperty('dataset:transoutobjid', $event)">
+                </app-dynamic-primitive>
+              </div>
+
+              <!-- Required Transaction Information (dataset:requiredtransactioninfo) -->
+              <div class="field-row full-width" *ngIf="value?.['dataset:requiredtransactioninfo']">
+                <div class="object-section-header">Required Transaction Information</div>
+                <app-dynamic-primitive
+                  [structure]="getPropertyStructure('dataset:requiredtransactioninfo')"
+                  [value]="value?.['dataset:requiredtransactioninfo']"
+                  (valueChange)="updateProperty('dataset:requiredtransactioninfo', $event)">
                 </app-dynamic-primitive>
               </div>
             </div>
+
+            <!-- Section 5: Base Transaction Metadata (from parent SimpleCatalogObject) -->
+            <mat-divider class="section-divider"></mat-divider>
+            <app-transaction-metadata
+              [structure]="structure"
+              [value]="value"
+              (valueChange)="updateValue($event)">
+            </app-transaction-metadata>
+
           </div>
-
-          <mat-divider class="section-divider" *ngIf="hasProperty('dataset:transactiondescriptionshort')"></mat-divider>
-
-          <!-- Section 4: Associated Objects -->
-          <div class="grid-section objects-container">
-            <h3 class="section-heading">
-              <mat-icon color="accent">grid_view</mat-icon>
-              <span>Catalog & Activity Information Records</span>
-            </h3>
-
-            <!-- Simple Catalog Object (dataset:simpcatobj) -->
-            <div class="field-row full-width" *ngIf="value?.['dataset:simpcatobj']">
-              <div class="object-section-header">Target Simple Catalog Object</div>
-              <app-simple-catalog-object
-                [structure]="getPropertyStructure('dataset:simpcatobj')"
-                [value]="value?.['dataset:simpcatobj']"
-                (valueChange)="updateProperty('dataset:simpcatobj', $event)">
-              </app-simple-catalog-object>
-            </div>
-
-            <!-- Activity Information (dataset:activityinfo) -->
-            <div class="field-row full-width" *ngIf="value?.['dataset:activityinfo']">
-              <div class="object-section-header">Linked Activity Information Record</div>
-              <app-activity-information
-                [structure]="getPropertyStructure('dataset:activityinfo')"
-                [value]="value?.['dataset:activityinfo']"
-                (valueChange)="updateProperty('dataset:activityinfo', $event)">
-              </app-activity-information>
-            </div>
-
-            <!-- Transaction Output Object ID (dataset:transoutobjid) -->
-            <div class="field-row full-width" *ngIf="value?.['dataset:transoutobjid']">
-              <div class="object-section-header">Transaction Output Object ID</div>
-              <app-dynamic-primitive
-                [structure]="getPropertyStructure('dataset:transoutobjid')"
-                [value]="value?.['dataset:transoutobjid']"
-                (valueChange)="updateProperty('dataset:transoutobjid', $event)">
-              </app-dynamic-primitive>
-            </div>
-
-            <!-- Required Transaction Information (dataset:requiredtransactioninfo) -->
-            <div class="field-row full-width" *ngIf="value?.['dataset:requiredtransactioninfo']">
-              <div class="object-section-header">Required Transaction Information</div>
-              <app-dynamic-primitive
-                [structure]="getPropertyStructure('dataset:requiredtransactioninfo')"
-                [value]="value?.['dataset:requiredtransactioninfo']"
-                (valueChange)="updateProperty('dataset:requiredtransactioninfo', $event)">
-              </app-dynamic-primitive>
-            </div>
-          </div>
-
-          <!-- Section 5: Base Transaction Metadata (from parent SimpleCatalogObject) -->
-          <mat-divider class="section-divider"></mat-divider>
-          <app-transaction-metadata
-            [structure]="structure"
-            [value]="value"
-            (valueChange)="updateValue($event)">
-          </app-transaction-metadata>
-
-        </div>
-      </mat-card-content>
-    </mat-card>
+        </mat-card-content>
+      </mat-card>
+    </div>
   `,
   styles: [`
+    :host {
+      display: block;
+      width: 100% !important;
+    }
+    .event-container {
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .event-preview-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      background: #fafafa;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      width: 100%;
+      box-sizing: border-box;
+      transition: background-color 0.2s ease;
+      margin: 8px 0;
+    }
+    .event-preview-row:hover {
+      background-color: #f1f5f9;
+    }
+    .event-preview-text {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .preview-avatar {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+    }
+    .event-badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      background-color: #f5f3ff;
+      color: #5b21b6;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      border: 1px solid #ddd6fe;
+    }
+    .event-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #1e293b;
+    }
+    .event-placeholder {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      font-style: italic;
+    }
     .transaction-event-card {
       margin: 16px 0;
       border-left: 6px solid #4f46e5;
@@ -130,6 +206,8 @@ import { BaseTransactionMetadataComponent } from '../transaction-metadata/transa
     }
     .event-header {
       padding: 16px 20px;
+      display: flex;
+      align-items: center;
     }
     .header-avatar {
       display: inline-flex;
@@ -276,6 +354,7 @@ import { BaseTransactionMetadataComponent } from '../transaction-metadata/transa
 })
 export class DatasetTransactionEventObjectComponent extends BasePrimitiveComponent implements OnInit {
   private cdr = inject(ChangeDetectorRef);
+  expanded = false;
 
   protected override isLayoutComponent(): boolean {
     return true;
@@ -285,42 +364,47 @@ export class DatasetTransactionEventObjectComponent extends BasePrimitiveCompone
     super.ngOnInit();
   }
 
+  toggleExpand(): void {
+    this.expanded = !this.expanded;
+    this.cdr.detectChanges();
+  }
+
   hasProperty(key: string): boolean {
     return !!(this.structure?.properties?.[key] || this.value?.[key]);
   }
 
-  getLabelForActivityType(): string {
+  getActivityLabel(): string {
     const act = this.value?.['prov:activity'];
     if (!act) return '';
     return act.split(':').pop() || act;
+  }
+
+  getShortDescription(): string {
+    return this.value?.['dataset:transactiondescriptionshort']?.['dataset:shortdescription'] || '';
   }
 
   override getPropertyStructure(key: string): OntologyStructure {
     let struct: OntologyStructure;
     if (this.structure?.properties?.[key]) {
       struct = { ...this.structure.properties[key] };
-
-
     } else {
       const isObject = [
         'dataset:simpcatobj',
         'dataset:activityinfo',
         'dataset:transoutobjid',
-        'dataset:firestorecatalog'
+        'dataset:firestorecatalog',
+        'dataset:requiredtransactioninfo'
       ].includes(key);
 
       struct = {
         identifier: key,
         classname: isObject ? 'dataset:JsonObject' : 'dataset:OneLine',
         isObject: isObject,
-        isArray: false,
+        isArray: key === 'dataset:requiredtransactioninfo', // mark as array if it is
         isOneLine: !isObject,
         label: key.split(':').pop() || key
       } as OntologyStructure;
     }
-
-
-
     return struct;
   }
 
