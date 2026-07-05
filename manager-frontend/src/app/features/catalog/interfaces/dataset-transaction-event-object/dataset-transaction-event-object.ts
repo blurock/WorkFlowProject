@@ -63,12 +63,12 @@ import { BaseTransactionMetadataComponent } from '../transaction-metadata/transa
           <div class="transaction-grid">
             
             <!-- Section 1: Descriptions & Overview -->
-            <mat-card class="section-card mat-elevation-z1" *ngIf="hasProperty('dataset:transactiondescriptionshort')">
-              <div class="section-card-header">
+            <mat-card class="summary-section-card mat-elevation-z1" *ngIf="hasProperty('dataset:transactiondescriptionshort')">
+              <mat-card-header class="summary-section-card-header">
                 <mat-icon color="primary">description</mat-icon>
-                <div class="section-title">Transaction Short Description</div>
-              </div>
-              <mat-card-content class="section-card-content">
+                <mat-card-title class="summary-section-card-title">Transaction Short Description</mat-card-title>
+              </mat-card-header>
+              <mat-card-content class="summary-section-card-content">
                 <div class="field-body">
                   <app-dynamic-primitive
                     [structure]="getPropertyStructure('dataset:transactiondescriptionshort')"
@@ -80,12 +80,12 @@ import { BaseTransactionMetadataComponent } from '../transaction-metadata/transa
             </mat-card>
 
             <!-- Section 2: Catalog & Activity Information Records -->
-            <mat-card class="section-card mat-elevation-z1" *ngIf="value?.['dataset:simpcatobj'] || value?.['dataset:activityinfo']">
-              <div class="section-card-header">
+            <mat-card class="summary-section-card mat-elevation-z1" *ngIf="value?.['dataset:simpcatobj'] || value?.['dataset:activityinfo']">
+              <mat-card-header class="summary-section-card-header">
                 <mat-icon color="accent">grid_view</mat-icon>
-                <div class="section-title">Catalog & Activity Information Records</div>
-              </div>
-              <mat-card-content class="section-card-content objects-container">
+                <mat-card-title class="summary-section-card-title">Catalog & Activity Information Records</mat-card-title>
+              </mat-card-header>
+              <mat-card-content class="summary-section-card-content objects-container">
                 <!-- Activity Information (dataset:activityinfo) -->
                 <div class="field-row full-width" *ngIf="value?.['dataset:activityinfo']">
                   <app-activity-information
@@ -98,12 +98,12 @@ import { BaseTransactionMetadataComponent } from '../transaction-metadata/transa
             </mat-card>
 
             <!-- Section 3: Transaction Output Object ID (dataset:transoutobjid) -->
-            <mat-card class="section-card mat-elevation-z1" *ngIf="value?.['dataset:transoutobjid']">
-              <div class="section-card-header">
+            <mat-card class="summary-section-card mat-elevation-z1" *ngIf="value?.['transoutobjid'] || value?.['dataset:transoutobjid']">
+              <mat-card-header class="summary-section-card-header">
                 <mat-icon color="primary">label</mat-icon>
-                <div class="section-title">Transaction Output Object ID</div>
-              </div>
-              <mat-card-content class="section-card-content">
+                <mat-card-title class="summary-section-card-title">Transaction Output Object ID</mat-card-title>
+              </mat-card-header>
+              <mat-card-content class="summary-section-card-content">
                 <app-dynamic-primitive
                   [structure]="getPropertyStructure('dataset:transoutobjid')"
                   [value]="value?.['dataset:transoutobjid']"
@@ -113,12 +113,12 @@ import { BaseTransactionMetadataComponent } from '../transaction-metadata/transa
             </mat-card>
 
             <!-- Section 4: Required Transaction Information (dataset:requiredtransactioninfo) -->
-            <mat-card class="section-card mat-elevation-z1" *ngIf="value?.['dataset:requiredtransactioninfo']">
-              <div class="section-card-header">
+            <mat-card class="summary-section-card mat-elevation-z1" *ngIf="value?.['dataset:requiredtransactioninfo']">
+              <mat-card-header class="summary-section-card-header">
                 <mat-icon color="accent">assignment_turned_in</mat-icon>
-                <div class="section-title">Required Transaction Information</div>
-              </div>
-              <mat-card-content class="section-card-content">
+                <mat-card-title class="summary-section-card-title">Required Transaction Information</mat-card-title>
+              </mat-card-header>
+              <mat-card-content class="summary-section-card-content">
                 <app-dynamic-primitive
                   [structure]="getPropertyStructure('dataset:requiredtransactioninfo')"
                   [value]="value?.['dataset:requiredtransactioninfo']"
@@ -128,12 +128,12 @@ import { BaseTransactionMetadataComponent } from '../transaction-metadata/transa
             </mat-card>
 
             <!-- Section 5: Base Transaction Metadata (from parent SimpleCatalogObject) -->
-            <mat-card class="section-card mat-elevation-z1">
-              <div class="section-card-header">
+            <mat-card class="summary-section-card mat-elevation-z1">
+              <mat-card-header class="summary-section-card-header">
                 <mat-icon color="primary">info</mat-icon>
-                <div class="section-title">Transaction Metadata</div>
-              </div>
-              <mat-card-content class="section-card-content">
+                <mat-card-title class="summary-section-card-title">Transaction Metadata</mat-card-title>
+              </mat-card-header>
+              <mat-card-content class="summary-section-card-content">
                 <app-transaction-metadata
                   [structure]="structure"
                   [value]="value"
@@ -266,40 +266,7 @@ import { BaseTransactionMetadataComponent } from '../transaction-metadata/transa
       flex-direction: column;
       gap: 8px;
     }
-    .section-card {
-      margin-bottom: 4px;
-      border-radius: 8px;
-      background-color: #fafafa;
-      border: 1px solid #e2e8f0;
-      width: 100%;
-      box-sizing: border-box;
-      overflow: visible;
-    }
-    .section-card-header {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      border-bottom: 1px solid #f1f5f9;
-      background-color: #f8fafc;
-      border-top-left-radius: 8px;
-      border-top-right-radius: 8px;
-    }
-    .section-card-header mat-icon {
-      font-size: 16px;
-      width: 16px;
-      height: 16px;
-    }
-    .section-title {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: #3730a3;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    .section-card-content {
-      padding: 6px 12px !important;
-    }
+
     .grid-section {
       width: 100%;
     }

@@ -37,11 +37,11 @@ import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dy
 
       <div *ngIf="!loadingSubclass && subclassStructure" class="activity-content">
         <!-- Collapsed / Single Line Preview State -->
-        <div class="activity-preview-row" *ngIf="!expanded">
-          <div class="activity-preview-text">
-            <span class="activity-badge" *ngIf="activityTitle">{{ activityTitle }}</span>
-            <span class="activity-title" *ngIf="getDescriptionTitle()">{{ getDescriptionTitle() }}</span>
-            <span class="activity-placeholder" *ngIf="!getDescriptionTitle()">Empty Activity Record</span>
+        <div class="one-line-summary-row" *ngIf="!expanded">
+          <div class="one-line-summary-text">
+            <span class="one-line-summary-badge badge-green" *ngIf="activityTitle">{{ activityTitle }}</span>
+            <span class="one-line-summary-title" *ngIf="getDescriptionTitle()">{{ getDescriptionTitle() }}</span>
+            <span class="one-line-summary-placeholder" *ngIf="!getDescriptionTitle()">Empty Activity Record</span>
           </div>
           <button mat-icon-button (click)="toggleExpand()" matTooltip="View details" type="button">
             <mat-icon>visibility</mat-icon>
@@ -49,9 +49,9 @@ import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dy
         </div>
 
         <!-- Expanded State -->
-        <div class="activity-expanded-card" *ngIf="expanded">
-          <div class="activity-expanded-header">
-            <div class="activity-expanded-title">
+        <div class="one-line-summary-card" *ngIf="expanded">
+          <div class="one-line-summary-card-header">
+            <div class="one-line-summary-card-title">
               <mat-icon color="primary">run_circle</mat-icon>
               <span>{{ activityTitle }} Details</span>
             </div>
@@ -60,7 +60,7 @@ import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dy
             </button>
           </div>
           
-          <mat-divider class="activity-divider"></mat-divider>
+          <mat-divider style="margin-bottom: 16px;"></mat-divider>
           
           <div class="activity-body">
             <app-dynamic-primitive
@@ -100,74 +100,6 @@ import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dy
       padding: 12px;
       color: #b91c1c;
       font-size: 0.9rem;
-    }
-    .activity-preview-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 16px;
-      background: #fafafa;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      width: 100%;
-      box-sizing: border-box;
-      transition: background-color 0.2s ease;
-    }
-    .activity-preview-row:hover {
-      background-color: #f1f5f9;
-    }
-    .activity-preview-text {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .activity-badge {
-      font-size: 0.75rem;
-      font-weight: 600;
-      background-color: #f0fdf4;
-      color: #166534;
-      padding: 4px 10px;
-      border-radius: 9999px;
-      border: 1px solid #bbf7d0;
-    }
-    .activity-title {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: #1e293b;
-    }
-    .activity-placeholder {
-      font-size: 0.85rem;
-      color: #94a3b8;
-      font-style: italic;
-    }
-    .activity-expanded-card {
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      background-color: #ffffff;
-      padding: 16px 20px;
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
-      width: 100%;
-      box-sizing: border-box;
-    }
-    .activity-expanded-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 12px;
-    }
-    .activity-expanded-title {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #3730a3;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    .activity-divider {
-      margin-bottom: 16px;
     }
     .activity-body {
       width: 100%;

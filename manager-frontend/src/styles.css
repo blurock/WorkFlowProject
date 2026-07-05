@@ -29,3 +29,148 @@ body {
   border-radius: 12px;
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 }
+
+/* Generic One-Line Summary Styles */
+.one-line-summary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: #fafafa;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: background-color 0.2s ease;
+  margin: 6px 0;
+}
+
+.one-line-summary-row:hover {
+  background-color: #f1f5f9;
+}
+
+.one-line-summary-text {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.one-line-summary-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  border: 1px solid;
+}
+
+/* Green Badge (default/activity) */
+.one-line-summary-badge.badge-green {
+  background-color: #f0fdf4;
+  color: #166534;
+  border-color: #bbf7d0;
+}
+
+/* Indigo Badge (transaction event) */
+.one-line-summary-badge.badge-indigo {
+  background-color: #f5f3ff;
+  color: #5b21b6;
+  border-color: #ddd6fe;
+}
+
+/* Blue Badge (metadata) */
+.one-line-summary-badge.badge-blue {
+  background-color: #f0f9ff;
+  color: #0369a1;
+  border-color: #bae6fd;
+}
+
+/* Gray/Default Badge */
+.one-line-summary-badge.badge-gray {
+  background-color: #f8fafc;
+  color: #475569;
+  border-color: #e2e8f0;
+}
+
+.one-line-summary-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.one-line-summary-placeholder {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.one-line-summary-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background-color: #ffffff;
+  padding: 16px 20px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+  width: 100%;
+  box-sizing: border-box;
+  margin: 8px 0;
+}
+
+.one-line-summary-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.one-line-summary-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #3730a3;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Generic Summary Section Card Styles */
+.summary-section-card {
+  margin-bottom: 4px;
+  border-radius: 8px !important;
+  background-color: #fafafa !important;
+  border: 1px solid #e2e8f0 !important;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: visible;
+  box-shadow: none !important;
+}
+
+.summary-section-card-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-bottom: 1px solid #f1f5f9;
+  background-color: #f8fafc;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.summary-section-card-header mat-icon {
+  font-size: 16px !important;
+  width: 16px !important;
+  height: 16px !important;
+}
+
+.summary-section-card-title {
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  color: #3730a3 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 !important;
+}
+
+.summary-section-card-content {
+  padding: 6px 12px !important;
+}
