@@ -48,6 +48,7 @@ import { JThermodynamicBensonTemperaturesComponent } from './j-thermodynamic-ben
 import { TransactionDescriptionShortComponent } from './transaction-description-short/transaction-description-short';
 import { RequiredTransactionInformationComponent } from './required-transaction-information/required-transaction-information';
 import { OneLinePrimitiveComponent } from '../primitives/oneline-primitive/oneline-primitive';
+import { JThermodynamics2DSpeciesStructureComponent } from './j-thermodynamics-2d-species-structure/j-thermodynamics-2d-species-structure';
 import { KeywordPrimitiveComponent } from '../primitives/keyword-primitive/keyword-primitive';
 
 export const INTERFACE_REGISTRY: Record<string, Type<any>> = {
@@ -118,6 +119,7 @@ export const INTERFACE_REGISTRY: Record<string, Type<any>> = {
   'dataset:ShortTransactionDescription': TransactionDescriptionShortComponent,
   'dataset:transactiondescriptionshort': TransactionDescriptionShortComponent,
   'dataset:RequiredTransactionInformation': RequiredTransactionInformationComponent,
+  'dataset:JThermodynamics2DSpeciesStructure': JThermodynamics2DSpeciesStructureComponent,
 
 };
 
@@ -173,6 +175,7 @@ const IDENTIFIER_TO_CLASSNAME: Record<string, string> = {
   'dataset:bensontemperaturelist': 'dataset:JThermodynamicBensonTemperatures',
   'dataset:transactiondescriptionshort': 'dataset:TransactionDescriptionShort',
   'dataset:requiredtransactioninfo': 'dataset:RequiredTransactionInformation',
+  'dataset:2dspeciesstructure': 'dataset:JThermodynamics2DSpeciesStructure',
 
 
 };

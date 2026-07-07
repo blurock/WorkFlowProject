@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDividerModule } from '@angular/material/divider';
 import { BasePrimitiveComponent, OntologyStructure } from '../../primitives/base-primitive';
 import { OntologyService } from '../../../../core/services/ontology.service';
 import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dynamic-primitive';
@@ -21,238 +22,195 @@ import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dy
     MatButtonModule,
     MatTableModule,
     MatTooltipModule,
+    MatDividerModule,
     forwardRef(() => DynamicPrimitiveComponent)
   ],
   template: `
-    <mat-card class="thermo-card mat-elevation-z2" [class.expanded-card]="expanded">
-      <mat-card-header>
-        <mat-icon mat-card-avatar color="primary">thermostat</mat-icon>
-        <mat-card-title>{{ getLabel() }}</mat-card-title>
-        <mat-card-subtitle *ngIf="!expanded" class="subtitle-summary">
-          <span class="thermo-summary" *ngIf="getThermoSummary()">
-            <mat-icon class="inline-icon">trending_up</mat-icon>
-            {{ getThermoSummary() }}
-          </span>
-        </mat-card-subtitle>
-        <div class="spacer"></div>
-        <button mat-icon-button (click)="toggleExpand()" [matTooltip]="expanded ? 'Collapse details' : 'Expand details'" type="button">
-          <mat-icon>{{ expanded ? 'visibility_off' : 'visibility' }}</mat-icon>
+    <div class="metadata-container">
+      <!-- 1. Collapsed State -->
+      <div class="one-line-summary-row" *ngIf="!expanded">
+        <div class="one-line-summary-text">
+          <mat-icon color="primary">thermostat</mat-icon>
+          <span class="one-line-summary-badge badge-gray">Standard Thermodynamics</span>
+          <span class="one-line-summary-title" *ngIf="getThermoSummary()">{{ getThermoSummary() }}</span>
+          <span class="one-line-summary-placeholder" *ngIf="!getThermoSummary()">No Thermodynamics Values</span>
+        </div>
+        <button mat-icon-button (click)="toggleExpand()" matTooltip="View details" type="button">
+          <mat-icon>visibility</mat-icon>
         </button>
-      </mat-card-header>
+      </div>
 
-      <mat-card-content *ngIf="expanded" class="card-content-expanded">
-        <div *ngIf="loading" class="loading-msg">
-          Loading structure metadata...
+      <!-- 2. Expanded State -->
+      <div class="one-line-summary-card" *ngIf="expanded">
+        <div class="one-line-summary-card-header">
+          <div class="one-line-summary-card-title">
+            <mat-icon color="primary">thermostat</mat-icon>
+            <span>Standard Thermodynamics Details</span>
+          </div>
+          <button mat-icon-button (click)="toggleExpand()" matTooltip="Collapse details" type="button">
+            <mat-icon>visibility_off</mat-icon>
+          </button>
         </div>
-
-        <div class="thermo-properties" *ngIf="!loading && structure">
-          
-          <!-- Standard Properties (Enthalpy, Entropy, Specs) rendered full width -->
-          <div class="std-props-list" *ngIf="propertyKeys.length > 0">
-            <div *ngFor="let key of propertyKeys" class="std-prop-row">
-              <app-dynamic-primitive 
-                [structure]="getPropertyStructure(key)" 
-                [value]="value ? value[key] : null"
-                (valueChange)="updateProperty(key, $event)">
-              </app-dynamic-primitive>
-            </div>
+        
+        <mat-divider style="margin-bottom: 12px;"></mat-divider>
+        
+        <div class="grid-section metadata-section">
+          <div *ngIf="loading" class="loading-msg">
+            Loading structure metadata...
           </div>
 
-          <!-- CpAtTemperature Matrix Table Section -->
-          <div class="matrix-section">
-            <div class="matrix-header">
-              <mat-icon color="accent">show_chart</mat-icon>
-              <h3>Heat Capacity Cp At Temperature Matrix</h3>
+          <div class="thermo-properties" *ngIf="!loading && structure">
+            
+            <!-- Standard Properties (Enthalpy, Entropy, Specs) rendered full width -->
+            <div class="std-props-list" *ngIf="propertyKeys.length > 0">
+              <div *ngFor="let key of propertyKeys" class="std-prop-row">
+                <app-dynamic-primitive 
+                  [structure]="getPropertyStructure(key)" 
+                  [value]="value ? value[key] : null"
+                  (valueChange)="updateProperty(key, $event)">
+                </app-dynamic-primitive>
+              </div>
             </div>
 
-            <div class="table-container" *ngIf="cpList && cpList.length > 0">
-              <table mat-table [dataSource]="cpList" class="mat-elevation-z1 matrix-table">
-                
-                <!-- ThermodynamicTemperature Column -->
-                <ng-container matColumnDef="thermodynamicTemperature">
-                  <th mat-header-cell *matHeaderCellDef class="table-header">ThermodynamicTemperature</th>
-                  <td mat-cell *matCellDef="let element; let i = index" class="table-cell">
-                    <input type="text" class="cell-input" [(ngModel)]="element['dataset:thermotemperature']" (ngModelChange)="onCpValuesChange()">
-                  </td>
-                </ng-container>
+            <!-- CpAtTemperature Matrix Table Section -->
+            <mat-card class="summary-section-card mat-elevation-z1" style="overflow: visible;">
+              <mat-card-header class="summary-section-card-header" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <mat-icon color="accent">show_chart</mat-icon>
+                  <mat-card-title class="summary-section-card-title">Heat Capacity Cp At Temperature Matrix</mat-card-title>
+                </div>
+              </mat-card-header>
+              <mat-card-content class="summary-section-card-content" style="padding-top: 12px;">
+                <div class="table-container" *ngIf="cpList && cpList.length > 0">
+                  <table mat-table [dataSource]="cpList" class="mat-elevation-z1 matrix-table">
+                    
+                    <!-- ThermodynamicTemperature Column -->
+                    <ng-container matColumnDef="thermodynamicTemperature">
+                      <th mat-header-cell *matHeaderCellDef class="table-header">Temperature</th>
+                      <td mat-cell *matCellDef="let element; let i = index" class="table-cell">
+                        <input type="text" class="cell-input" [(ngModel)]="element['dataset:thermotemperature']" (ngModelChange)="onCpValuesChange()">
+                      </td>
+                    </ng-container>
 
-                <!-- ThermodynamicHeatCapacityValue Column -->
-                <ng-container matColumnDef="thermodynamicHeatCapacityValue">
-                  <th mat-header-cell *matHeaderCellDef class="table-header">ThermodynamicHeatCapacityValue</th>
-                  <td mat-cell *matCellDef="let element; let i = index" class="table-cell">
-                    <input type="text" class="cell-input" [(ngModel)]="element['dataset:heatcapacityvalue']" (ngModelChange)="onCpValuesChange()">
-                  </td>
-                </ng-container>
+                    <!-- ThermodynamicHeatCapacityValue Column -->
+                    <ng-container matColumnDef="thermodynamicHeatCapacityValue">
+                      <th mat-header-cell *matHeaderCellDef class="table-header">Heat Capacity</th>
+                      <td mat-cell *matCellDef="let element; let i = index" class="table-cell">
+                        <input type="text" class="cell-input" [(ngModel)]="element['dataset:heatcapacityvalue']" (ngModelChange)="onCpValuesChange()">
+                      </td>
+                    </ng-container>
 
-                <!-- ValueUncertainty Column -->
-                <ng-container matColumnDef="valueUncertainty">
-                  <th mat-header-cell *matHeaderCellDef class="table-header">ValueUncertainty</th>
-                  <td mat-cell *matCellDef="let element; let i = index" class="table-cell">
-                    <input type="text" class="cell-input" [(ngModel)]="element['qudt:standardUncertainty']" (ngModelChange)="onCpValuesChange()">
-                  </td>
-                </ng-container>
+                    <!-- ValueUncertainty Column -->
+                    <ng-container matColumnDef="valueUncertainty">
+                      <th mat-header-cell *matHeaderCellDef class="table-header">Uncertainty</th>
+                      <td mat-cell *matCellDef="let element; let i = index" class="table-cell">
+                        <input type="text" class="cell-input" [(ngModel)]="element['qudt:standardUncertainty']" (ngModelChange)="onCpValuesChange()">
+                      </td>
+                    </ng-container>
 
-                <!-- Actions Column -->
-                <ng-container matColumnDef="actions">
-                  <th mat-header-cell *matHeaderCellDef class="table-header actions-header"></th>
-                  <td mat-cell *matCellDef="let element; let i = index" class="table-cell actions-cell">
-                    <button mat-icon-button color="warn" (click)="deleteRow(i)" matTooltip="Delete Row" type="button">
-                      <mat-icon>delete</mat-icon>
-                    </button>
-                  </td>
-                </ng-container>
+                    <!-- Actions Column with Add Button in Header (matching structural atom count style) -->
+                    <ng-container matColumnDef="actions">
+                      <th mat-header-cell *matHeaderCellDef class="table-header actions-header">
+                        <button mat-icon-button color="primary" (click)="addRow()" type="button" matTooltip="Add Temperature Point" style="width: 32px; height: 32px; line-height: 32px; display: inline-flex; align-items: center; justify-content: center;">
+                          <mat-icon style="font-size: 20px; width: 20px; height: 20px; margin: 0;">add</mat-icon>
+                        </button>
+                      </th>
+                      <td mat-cell *matCellDef="let element; let i = index" class="table-cell actions-cell">
+                        <button mat-icon-button color="warn" (click)="deleteRow(i)" matTooltip="Delete Row" type="button" style="width: 32px; height: 32px; line-height: 32px; display: inline-flex; align-items: center; justify-content: center;">
+                          <mat-icon style="font-size: 18px; width: 18px; height: 18px; margin: 0;">delete</mat-icon>
+                        </button>
+                      </td>
+                    </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-              </table>
-            </div>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  </table>
+                </div>
 
-            <div *ngIf="!cpList || cpList.length === 0" class="no-rows-msg">
-              No heat capacity values set. Click below to add one.
-            </div>
-
-            <div class="add-row-action">
-              <button mat-stroked-button color="primary" (click)="addRow()" type="button">
-                <mat-icon>add</mat-icon>
-                <span>Add Temperature Point</span>
-              </button>
-            </div>
+                <div *ngIf="!cpList || cpList.length === 0" class="no-rows-msg" style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                  <span>No heat capacity values set.</span>
+                  <button mat-stroked-button color="primary" (click)="addRow()" type="button">
+                    <mat-icon>add</mat-icon>
+                    <span>Add Cp Point</span>
+                  </button>
+                </div>
+              </mat-card-content>
+            </mat-card>
           </div>
-
         </div>
-      </mat-card-content>
-    </mat-card>
+      </div>
+    </div>
   `,
   styles: [`
-    .thermo-card {
-      margin: 16px 0;
-      border-left: 4px solid #10b981;
-      background: white;
-      overflow: visible;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    :host {
+      display: block;
+      width: 100% !important;
     }
-    .expanded-card {
-      border-color: #059669;
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    }
-    .spacer {
-      flex: 1;
-    }
-    .subtitle-summary {
-      margin-top: 4px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-    .thermo-summary {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      color: #10b981;
-      font-weight: 600;
-      font-size: 0.85rem;
-    }
-    .inline-icon {
-      font-size: 16px;
-      width: 16px;
-      height: 16px;
-    }
-    .card-content-expanded {
-      padding: 0 16px 16px 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
-    .loading-msg {
-      font-size: 0.9rem;
-      color: #64748b;
-      padding: 16px;
-      text-align: center;
+    .metadata-container {
+      width: 100%;
+      box-sizing: border-box;
     }
     .thermo-properties {
-      padding: 8px 0;
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 20px;
+      width: 100%;
     }
     .std-props-list {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
       width: 100%;
-      margin-bottom: 24px;
     }
     .std-prop-row {
       width: 100%;
     }
-    .matrix-section {
-      border-top: 1px solid #e2e8f0;
-      padding-top: 20px;
-      margin-top: 8px;
-    }
-    .matrix-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-    .matrix-header h3 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #1e293b;
-      margin: 0;
-    }
     .table-container {
       width: 100%;
-      margin-bottom: 16px;
       overflow-x: auto;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
     }
     .matrix-table {
       width: 100%;
       border-collapse: collapse;
       background: #ffffff;
-      border-radius: 6px;
-      overflow: hidden;
     }
     .table-header {
       font-weight: 700;
       font-size: 0.75rem;
       text-transform: uppercase;
       color: #475569;
-      background-color: #f1f5f9;
+      background-color: #f8fafc;
       letter-spacing: 0.05em;
-      padding: 12px 16px;
+      padding: 10px 14px;
     }
     .table-cell {
       font-size: 0.9rem;
       color: #334155;
-      padding: 8px 16px;
-      border-bottom: 1px solid #e2e8f0;
+      padding: 6px 14px;
+      border-bottom: 1px solid #f1f5f9;
+      vertical-align: middle;
     }
     .cell-input {
       width: 100%;
-      border: 1px solid transparent;
-      background: transparent;
-      padding: 6px 8px;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      padding: 6px 10px;
       font-family: inherit;
       font-size: 0.85rem;
       border-radius: 4px;
+      box-sizing: border-box;
       transition: all 0.2s;
     }
-    .cell-input:hover {
-      border-color: #cbd5e1;
-      background-color: #f8fafc;
-    }
     .cell-input:focus {
-      border-color: #10b981;
-      background-color: #ffffff;
-      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1);
+      border-color: #3b82f6;
       outline: none;
     }
     .actions-header, .actions-cell {
-      width: 60px;
+      width: 50px;
       text-align: center;
-      padding: 8px;
+      padding: 4px !important;
     }
     .no-rows-msg {
       font-size: 0.85rem;
@@ -261,10 +219,11 @@ import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dy
       padding: 16px 0;
       text-align: center;
     }
-    .add-row-action {
-      display: flex;
-      justify-content: flex-start;
-      margin-top: 8px;
+    ::ng-deep .metadata-section .mat-mdc-form-field-subscript-wrapper {
+      display: none !important;
+    }
+    ::ng-deep .metadata-section .mat-mdc-form-field {
+      margin-bottom: 0px !important;
     }
   `]
 })

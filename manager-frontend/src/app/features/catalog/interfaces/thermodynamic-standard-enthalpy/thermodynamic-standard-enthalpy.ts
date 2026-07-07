@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatDividerModule } from '@angular/material/divider';
 import { BasePrimitiveComponent, OntologyStructure } from '../../primitives/base-primitive';
 import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dynamic-primitive';
 import { OntologyService } from '../../../../core/services/ontology.service';
@@ -23,82 +24,81 @@ import { OntologyService } from '../../../../core/services/ontology.service';
     MatTooltipModule,
     MatFormFieldModule,
     MatInputModule,
+    MatDividerModule,
     forwardRef(() => DynamicPrimitiveComponent)
   ],
   template: `
-    <div class="molar-container" [class.expanded]="expanded">
-      <div class="summary-line">
-        <mat-icon class="molar-icon" color="accent">query_stats</mat-icon>
-        <span class="molar-label">{{ getLabel() }}:</span>
-        <span class="molar-value">{{ getValue() }}</span>
-        <span class="molar-units" *ngIf="getUnits()">{{ getUnits() }}</span>
-        <span class="spacer"></span>
-        <button mat-icon-button (click)="toggleExpand()" [matTooltip]="expanded ? 'Collapse details' : 'Expand details'" type="button">
-          <mat-icon>{{ expanded ? 'visibility_off' : 'visibility' }}</mat-icon>
+    <div class="metadata-container">
+      <!-- 1. Collapsed State -->
+      <div class="one-line-summary-row" *ngIf="!expanded">
+        <div class="one-line-summary-text">
+          <mat-icon color="accent">query_stats</mat-icon>
+          <span class="one-line-summary-badge badge-gray">Standard Enthalpy</span>
+          <span class="one-line-summary-title" *ngIf="getValue()">
+            {{ getLabel() }}: <span class="molar-value">{{ getValue() }}</span> <span class="molar-units" *ngIf="getUnits()">{{ getUnits() }}</span>
+          </span>
+          <span class="one-line-summary-placeholder" *ngIf="!getValue()">No Enthalpy Value</span>
+        </div>
+        <button mat-icon-button (click)="toggleExpand()" matTooltip="View details" type="button">
+          <mat-icon>visibility</mat-icon>
         </button>
       </div>
 
-      <div class="details-section" *ngIf="expanded">
-        <div *ngIf="loading" class="loading-template-msg">
-          Loading Enthalpy metadata template...
+      <!-- 2. Expanded State -->
+      <div class="one-line-summary-card" *ngIf="expanded">
+        <div class="one-line-summary-card-header">
+          <div class="one-line-summary-card-title">
+            <mat-icon color="accent">query_stats</mat-icon>
+            <span>Standard Enthalpy Details</span>
+          </div>
+          <button mat-icon-button (click)="toggleExpand()" matTooltip="Collapse details" type="button">
+            <mat-icon>visibility_off</mat-icon>
+          </button>
         </div>
-
-        <div *ngIf="!loading">
-          <div class="inputs-grid">
-            <mat-form-field appearance="outline">
-              <mat-label>Value</mat-label>
-              <input matInput type="text" [ngModel]="value?.['dataset:ValueAsString']" (ngModelChange)="updateValueField($event)">
-              <mat-hint>Enthalpy value as string</mat-hint>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Standard Uncertainty</mat-label>
-              <input matInput type="text" [ngModel]="value?.['qudt:standardUncertainty']" (ngModelChange)="updateUncertaintyField($event)">
-              <mat-hint>Standard uncertainty value</mat-hint>
-            </mat-form-field>
+        
+        <mat-divider style="margin-bottom: 12px;"></mat-divider>
+        
+        <div class="grid-section metadata-section">
+          <div *ngIf="loading" class="loading-template-msg">
+            Loading Enthalpy metadata template...
           </div>
 
-          <div class="spec-section" *ngIf="hasSpec()">
-            <h4 class="section-title">Component Specification</h4>
-            <app-dynamic-primitive
-              [structure]="getSpecStructure()"
-              [value]="value?.['dataset:paramspecenthalpy'] || value?.['qb:ComponentSpecification']"
-              (valueChange)="updateSpec($event)">
-            </app-dynamic-primitive>
+          <div *ngIf="!loading">
+            <div class="inputs-grid">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Value</mat-label>
+                <input matInput type="text" [ngModel]="value?.['dataset:ValueAsString']" (ngModelChange)="updateValueField($event)">
+                <mat-hint>Enthalpy value as string</mat-hint>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Standard Uncertainty</mat-label>
+                <input matInput type="text" [ngModel]="value?.['qudt:standardUncertainty']" (ngModelChange)="updateUncertaintyField($event)">
+                <mat-hint>Standard uncertainty value</mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="spec-section" *ngIf="hasSpec()">
+              <h4 class="section-title">Component Specification</h4>
+              <app-dynamic-primitive
+                [structure]="getSpecStructure()"
+                [value]="value?.['dataset:paramspecenthalpy'] || value?.['qb:ComponentSpecification']"
+                (valueChange)="updateSpec($event)">
+              </app-dynamic-primitive>
+            </div>
           </div>
         </div>
       </div>
     </div>
   `,
   styles: [`
-    .molar-container {
-      border: 1px solid #cbd5e1;
-      border-left: 4px solid #10b981;
-      border-radius: 8px;
-      padding: 12px 16px;
-      background: #ffffff;
-      transition: all 0.3s ease;
-      margin-bottom: 12px;
+    :host {
+      display: block;
+      width: 100% !important;
     }
-    .molar-container.expanded {
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      border-color: #94a3b8;
-    }
-    .summary-line {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.95rem;
-    }
-    .molar-icon {
-      font-size: 20px;
-      width: 20px;
-      height: 20px;
-      color: #10b981;
-    }
-    .molar-label {
-      font-weight: 700;
-      color: #1e293b;
+    .metadata-container {
+      width: 100%;
+      box-sizing: border-box;
     }
     .molar-value {
       font-weight: 500;
@@ -107,31 +107,26 @@ import { OntologyService } from '../../../../core/services/ontology.service';
       padding: 2px 8px;
       border-radius: 4px;
       font-family: monospace;
+      font-size: 0.85rem;
     }
     .molar-units {
       color: #475569;
       font-weight: 600;
-      font-size: 0.88rem;
-    }
-    .spacer {
-      flex: 1;
-    }
-    .details-section {
-      margin-top: 14px;
-      padding-top: 14px;
-      border-top: 1px solid #f1f5f9;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+      font-size: 0.85rem;
     }
     .inputs-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 16px;
+      width: 100%;
+    }
+    .full-width {
+      width: 100%;
     }
     .spec-section {
       border-top: 1px dashed #e2e8f0;
       padding-top: 12px;
+      margin-top: 16px;
     }
     .section-title {
       font-size: 0.85rem;
@@ -148,12 +143,11 @@ import { OntologyService } from '../../../../core/services/ontology.service';
       text-align: center;
       padding: 10px;
     }
-    mat-form-field {
-      width: 100%;
+    ::ng-deep .metadata-section .mat-mdc-form-field-subscript-wrapper {
+      display: none !important;
     }
-    :host {
-      display: block;
-      width: 100% !important;
+    ::ng-deep .metadata-section .mat-mdc-form-field {
+      margin-bottom: 0px !important;
     }
   `]
 })

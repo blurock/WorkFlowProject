@@ -41,17 +41,31 @@ import { OntologyService } from '../../../../core/services/ontology.service';
         </div>
 
         <div *ngIf="!loading">
-          <div class="props-list" *ngIf="propertyKeys.length > 0">
-            <div *ngFor="let key of propertyKeys" class="prop-row">
+          <!-- 1. Benson Rule Ref and Center Atom in a Flex Row -->
+          <div class="row-flex">
+            <div class="flex-col" *ngIf="hasProperty('dataset:bensonruleref')">
               <app-dynamic-primitive
-                [structure]="getPropertyStructure(key)"
-                [value]="value ? value[key] : null"
-                (valueChange)="updateProperty(key, $event)">
+                [structure]="getPropertyStructure('dataset:bensonruleref')"
+                [value]="value ? value['dataset:bensonruleref'] : null"
+                (valueChange)="updateProperty('dataset:bensonruleref', $event)">
+              </app-dynamic-primitive>
+            </div>
+            <div class="flex-col" *ngIf="hasProperty('dataset:centeratom')">
+              <app-dynamic-primitive
+                [structure]="getPropertyStructure('dataset:centeratom')"
+                [value]="value ? value['dataset:centeratom'] : null"
+                (valueChange)="updateProperty('dataset:centeratom', $event)">
               </app-dynamic-primitive>
             </div>
           </div>
-          <div *ngIf="propertyKeys.length === 0" class="no-props-msg">
-            No detailed properties available for this Benson Rule Structure.
+
+          <!-- 2. Connect Mult Matrix row underneath -->
+          <div class="matrix-row-container" *ngIf="hasProperty('dataset:connectmult')">
+            <app-dynamic-primitive
+              [structure]="getPropertyStructure('dataset:connectmult')"
+              [value]="value ? value['dataset:connectmult'] : null"
+              (valueChange)="updateProperty('dataset:connectmult', $event)">
+            </app-dynamic-primitive>
           </div>
         </div>
       </mat-card-content>
@@ -87,21 +101,30 @@ import { OntologyService } from '../../../../core/services/ontology.service';
       padding: 0 16px 16px 16px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
-    }
-    .props-list {
-      display: flex;
-      flex-direction: column;
       gap: 12px;
     }
-    .prop-row {
+    .row-flex {
+      display: flex;
+      flex-direction: row;
+      gap: 16px;
+      width: 100%;
+      box-sizing: border-box;
+      align-items: flex-start;
+    }
+    @media (max-width: 600px) {
+      .row-flex {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+    .flex-col {
+      flex: 1;
+      min-width: 0;
       width: 100%;
     }
-    .no-props-msg {
-      font-size: 0.85rem;
-      color: #64748b;
-      font-style: italic;
-      text-align: center;
+    .matrix-row-container {
+      width: 100%;
+      margin-top: 8px;
     }
     .loading-template-msg {
       font-size: 0.85rem;
@@ -167,6 +190,10 @@ export class JThermodynamicsBensonRuleStructureComponent extends BasePrimitiveCo
       return this.value['dataset:bensonruleref'] || this.value['dataset:centeratom'] || '';
     }
     return '';
+  }
+
+  hasProperty(key: string): boolean {
+    return !!(this.structure?.properties?.[key] || (this.value && this.value[key] !== undefined));
   }
 
 

@@ -18,20 +18,17 @@ import { BasePrimitiveComponent } from '../../primitives/base-primitive';
   ],
   template: `
     <div class="matrix-container">
-      <div class="matrix-header">
-        <span class="matrix-title">Benson Connecting Atoms</span>
-        <button mat-flat-button color="primary" class="add-btn" (click)="addRow()" type="button" matTooltip="Add connection to Benson rule">
-          <mat-icon>add</mat-icon> Add Connection
-        </button>
-      </div>
-      
       <div class="table-wrapper">
         <table class="matrix-table">
           <thead>
             <tr>
               <th>Connecting Atom</th>
               <th>Multiplicity</th>
-              <th class="actions-col"></th>
+              <th class="actions-col">
+                <button mat-icon-button color="primary" (click)="addRow()" type="button" matTooltip="Add connection to Benson rule">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -62,7 +59,7 @@ import { BasePrimitiveComponent } from '../../primitives/base-primitive';
             </tr>
             <tr *ngIf="connections.length === 0">
               <td colspan="3" class="empty-matrix-msg">
-                No connections defined. Click "Add Connection" to start.
+                No connections defined. Click the "+" button in the table header to start.
               </td>
             </tr>
           </tbody>
@@ -75,27 +72,9 @@ import { BasePrimitiveComponent } from '../../primitives/base-primitive';
       border: 1px solid #cbd5e1;
       border-radius: 8px;
       background: #f8fafc;
-      padding: 16px;
+      padding: 12px;
       margin-bottom: 12px;
       box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
-    }
-    .matrix-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 14px;
-    }
-    .matrix-title {
-      font-weight: 600;
-      color: #334155;
-      font-size: 0.95rem;
-    }
-    .add-btn {
-      font-size: 0.85rem;
-      border-radius: 6px;
-      padding: 0 12px;
-      background-color: #3b82f6 !important;
-      color: #ffffff !important;
     }
     .table-wrapper {
       width: 100%;
