@@ -1,0 +1,12 @@
+Refractor ThermodynamicBensonRuleDefinitionDataSetComponent (app-thermodynamic-benson-rule-definition-data-set)
+to ThermodynamicBensonRuleDefinitionRootComponent (app-thermodynamic-benson-rule-definition-root).
+
+Don't need to change the interface.registry.ts
+
+Create a new ThermodynamicBensonRuleDefinitionDataSetComponent which extends BaseSubclassComponent and implements
+OnInit.
+
+In the template use the newly created ThermodynamicBensonRuleDefinitionRootComponent.
+<app-thermodynamic-benson-rule-definition-root [structure]="structure" [value]="value"
+    [classname]="'dataset:ThermodynamicBensonRuleDefinitionDataSet'" (valueChange)="updateValue($event)">
+</app-thermodynamic-benson-rule-definition-root>

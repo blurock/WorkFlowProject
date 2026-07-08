@@ -1,4 +1,4 @@
-import { Component, OnInit, forwardRef} from '@angular/core';
+import { Component, OnInit, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dynamic-primitive';
 import { BaseSubclassComponent } from '../base-subclass.component';
@@ -9,12 +9,7 @@ import { BaseMinimumDatabaseObjectStructureComponent } from '../base-minimum-dat
   standalone: true,
   imports: [CommonModule, forwardRef(() => DynamicPrimitiveComponent), BaseMinimumDatabaseObjectStructureComponent],
   template: `
-    <app-base-minimum-database-object-structure
-      [structure]="structure"
-      [value]="value"
-      [classname]="'dataset:JThermodynamicsMetaAtomDefinitionDataSet'"
-      (valueChange)="updateValue($event)">
-      
+
       <!-- Subclass-specific properties projected at the top -->
       <div class="subclass-specific-properties" *ngIf="!loading">
         <div *ngFor="let key of specificSubclassKeys" class="specific-prop-row">
@@ -25,6 +20,12 @@ import { BaseMinimumDatabaseObjectStructureComponent } from '../base-minimum-dat
           </app-dynamic-primitive>
         </div>
       </div>
+      
+    <app-base-minimum-database-object-structure
+      [structure]="structure"
+      [value]="value"
+      [classname]="'dataset:JThermodynamicsMetaAtomDefinitionDataSet'"
+      (valueChange)="updateValue($event)">
       
     </app-base-minimum-database-object-structure>
   `,

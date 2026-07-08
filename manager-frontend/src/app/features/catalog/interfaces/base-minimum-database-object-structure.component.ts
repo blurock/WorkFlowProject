@@ -30,42 +30,53 @@ import { BibliographicReferenceLinkComponent } from './bibliographic-reference-l
     BibliographicReferenceLinkComponent
   ],
   template: `
-    <mat-card class="catalog-card mat-elevation-z3" [class.expanded-card]="expanded">
-      <mat-card-header>
-        <mat-icon mat-card-avatar color="primary">inventory_2</mat-icon>
-        <mat-card-title class="card-title">
-          <span>{{ title }}</span>
-          <span class="label-badge" *ngIf="headerBadge">{{ headerBadge }}</span>
-        </mat-card-title>
-        <mat-card-subtitle *ngIf="!expanded" class="subtitle-summary">
-          <span class="summary-text">{{ oneLineDescription }}</span>
-        </mat-card-subtitle>
-        <div class="spacer"></div>
-        <button mat-icon-button (click)="toggleExpand()" [matTooltip]="expanded ? 'Collapse to single line' : 'Expand detailed form'" type="button">
-          <mat-icon>{{ expanded ? 'visibility_off' : 'visibility' }}</mat-icon>
+    <div class="metadata-container">
+      <!-- 1. Collapsed State -->
+      <div class="one-line-summary-row" *ngIf="!expanded">
+        <div class="one-line-summary-text">
+          <mat-icon color="primary">inventory_2</mat-icon>
+          <span class="one-line-summary-badge badge-blue" *ngIf="headerBadge">{{ headerBadge }}</span>
+          <span class="one-line-summary-title">{{ title }}</span>
+          <span class="one-line-summary-title" *ngIf="oneLineDescription && oneLineDescription !== 'not assigned'"> - {{ oneLineDescription }}</span>
+          <span class="one-line-summary-placeholder" *ngIf="!oneLineDescription || oneLineDescription === 'not assigned'"> - not assigned</span>
+        </div>
+        <button mat-icon-button (click)="toggleExpand()" matTooltip="View details" type="button">
+          <mat-icon>visibility</mat-icon>
         </button>
-      </mat-card-header>
+      </div>
 
-      <mat-card-content *ngIf="expanded" class="card-content-expanded">
-        <mat-divider class="header-divider"></mat-divider>
+      <!-- 2. Expanded State -->
+      <div class="one-line-summary-card" *ngIf="expanded">
+        <div class="one-line-summary-card-header">
+          <div class="one-line-summary-card-title">
+            <mat-icon color="primary">inventory_2</mat-icon>
+            <span>{{ title }} Details</span>
+            <span class="one-line-summary-badge badge-blue" *ngIf="headerBadge" style="margin-left: 8px;">{{ headerBadge }}</span>
+          </div>
+          <button mat-icon-button (click)="toggleExpand()" matTooltip="Collapse details" type="button">
+            <mat-icon>visibility_off</mat-icon>
+          </button>
+        </div>
+
+        <mat-divider style="margin-bottom: 12px;"></mat-divider>
 
         <div *ngIf="loading" class="loading-msg">Loading UI template...</div>
 
-        <div class="properties-container" *ngIf="!loading">
+        <div class="properties-container metadata-section" *ngIf="!loading">
           <!-- Subclass-specific properties slot (Projected) -->
           <ng-content></ng-content>
 
           <!-- 1. Array of BibliographicReferenceLink (dataset:bibliographicreferencelink) -->
-          <mat-card class="section-card mat-elevation-z1" *ngIf="hasProperty('dataset:bibliographicreferencelink')">
-            <mat-card-header>
-              <mat-icon mat-card-avatar color="primary">menu_book</mat-icon>
-              <mat-card-title>Bibliographic References</mat-card-title>
+          <mat-card class="summary-section-card" *ngIf="hasProperty('dataset:bibliographicreferencelink')">
+            <mat-card-header class="summary-section-card-header">
+              <mat-icon color="primary">menu_book</mat-icon>
+              <mat-card-title class="summary-section-card-title">Bibliographic References</mat-card-title>
               <div class="spacer"></div>
               <button mat-icon-button color="primary" (click)="addBibliographicReferenceLinkItem()" matTooltip="Add Bibliographic Reference" type="button">
                 <mat-icon>add_circle</mat-icon>
               </button>
             </mat-card-header>
-            <mat-card-content>
+            <mat-card-content class="summary-section-card-content">
               <div *ngFor="let item of getBibliographicReferenceLinkArray(); let i = index" class="bibliographic-reference-row" style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; width: 100%;">
                 <div style="flex: 1;">
                   <app-bibliographic-reference-link
@@ -85,16 +96,16 @@ import { BibliographicReferenceLinkComponent } from './bibliographic-reference-l
           </mat-card>
 
           <!-- 2. Array of ObjectSiteReference (foaf:page) -->
-          <mat-card class="section-card mat-elevation-z1" *ngIf="hasProperty('foaf:page')">
-            <mat-card-header>
-              <mat-icon mat-card-avatar color="primary">link</mat-icon>
-              <mat-card-title>Web References / Site Links</mat-card-title>
+          <mat-card class="summary-section-card" *ngIf="hasProperty('foaf:page')">
+            <mat-card-header class="summary-section-card-header">
+              <mat-icon color="primary">link</mat-icon>
+              <mat-card-title class="summary-section-card-title">Web References / Site Links</mat-card-title>
               <div class="spacer"></div>
               <button mat-icon-button color="primary" (click)="addObjectSiteReferenceItem()" matTooltip="Add Web Reference" type="button">
                 <mat-icon>add_circle</mat-icon>
               </button>
             </mat-card-header>
-            <mat-card-content>
+            <mat-card-content class="summary-section-card-content">
               <div *ngFor="let item of getObjectSiteReferenceArray(); let i = index" class="site-reference-row" style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; width: 100%;">
                 <div style="flex: 1;">
                   <app-object-site-reference
@@ -114,16 +125,16 @@ import { BibliographicReferenceLinkComponent } from './bibliographic-reference-l
           </mat-card>
 
           <!-- 3. Array of DataObjectLink (skos:mappingRelation) -->
-          <mat-card class="section-card mat-elevation-z1" *ngIf="hasProperty('skos:mappingRelation')">
-            <mat-card-header>
-              <mat-icon mat-card-avatar color="primary">hub</mat-icon>
-              <mat-card-title>Data Object Links</mat-card-title>
+          <mat-card class="summary-section-card" *ngIf="hasProperty('skos:mappingRelation')">
+            <mat-card-header class="summary-section-card-header">
+              <mat-icon color="primary">hub</mat-icon>
+              <mat-card-title class="summary-section-card-title">Data Object Links</mat-card-title>
               <div class="spacer"></div>
               <button mat-icon-button color="primary" (click)="addMappingRelationItem()" matTooltip="Add Data Object Link" type="button">
                 <mat-icon>add_circle</mat-icon>
               </button>
             </mat-card-header>
-            <mat-card-content>
+            <mat-card-content class="summary-section-card-content">
               <div *ngFor="let item of getMappingRelationArray(); let i = index" class="mapping-relation-row" style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; width: 100%;">
                 <div style="flex: 1;">
                   <app-data-object-link
@@ -142,11 +153,11 @@ import { BibliographicReferenceLinkComponent } from './bibliographic-reference-l
             </mat-card-content>
           </mat-card>
 
-          <!-- 4. FirestoreCatalogID (dataset:firestorecatalog) -->
+          <!-- 4. FirestoreCatalogID (dataset:firestorecatalog) 
           <div class="section-block" *ngIf="hasProperty('dataset:firestorecatalog')">
-            <div class="section-title">
-              <mat-icon color="primary">receipt_long</mat-icon>
-              <h4>Firestore Catalog ID</h4>
+            <div class="section-title" style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+              <mat-icon color="primary" style="font-size: 20px; width: 20px; height: 20px;">receipt_long</mat-icon>
+              <h4 style="margin: 0; font-size: 0.9rem; font-weight: 700; color: #3730a3; text-transform: uppercase; letter-spacing: 0.05em;">Firestore Catalog ID</h4>
             </div>
             <app-dynamic-primitive
               [structure]="getPropertyStructure('dataset:firestorecatalog')"
@@ -154,12 +165,12 @@ import { BibliographicReferenceLinkComponent } from './bibliographic-reference-l
               (valueChange)="updateProperty('dataset:firestorecatalog', $event)">
             </app-dynamic-primitive>
           </div>
-
+-->
           <!-- 4b. FirestoreCatalogIDForTransaction (dataset:transactionforobject) -->
           <div class="section-block" *ngIf="hasProperty('dataset:transactionforobject')">
-            <div class="section-title">
-              <mat-icon color="primary">receipt_long</mat-icon>
-              <h4>Firestore Transaction Catalog ID</h4>
+            <div class="section-title" style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+              <mat-icon color="primary" style="font-size: 20px; width: 20px; height: 20px;">receipt_long</mat-icon>
+              <h4 style="margin: 0; font-size: 0.9rem; font-weight: 700; color: #3730a3; text-transform: uppercase; letter-spacing: 0.05em;">Firestore Transaction Catalog ID</h4>
             </div>
             <app-dynamic-primitive
               [structure]="getPropertyStructure('dataset:transactionforobject')"
@@ -170,7 +181,7 @@ import { BibliographicReferenceLinkComponent } from './bibliographic-reference-l
 
           <!-- 5. MinimumDatabaseObject component -->
           <div class="metadata-block">
-            <mat-divider class="section-divider"></mat-divider>
+            <mat-divider class="section-divider" style="margin: 16px 0;"></mat-divider>
             <app-minimum-database-object-structure
               [structure]="structure!"
               [value]="value"
@@ -178,57 +189,12 @@ import { BibliographicReferenceLinkComponent } from './bibliographic-reference-l
             </app-minimum-database-object-structure>
           </div>
         </div>
-      </mat-card-content>
-    </mat-card>
+      </div>
+    </div>
   `,
   styles: [`
-    .catalog-card {
-      margin: 16px 0;
-      border-left: 5px solid #3b82f6;
-      background: #ffffff;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      overflow: visible;
-    }
-    .expanded-card {
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    }
-    .card-title {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 700;
-      color: #1e293b;
-    }
-    .label-badge {
-      font-size: 0.8rem;
-      background: #f1f5f9;
-      color: #475569;
-      padding: 2px 8px;
-      border-radius: 6px;
-      font-weight: 500;
-      border: 1px solid #cbd5e1;
-    }
-    .subtitle-summary {
-      margin-top: 4px;
-      display: flex;
-      align-items: center;
-    }
-    .summary-text {
-      color: #64748b;
-      font-weight: 500;
-      font-size: 0.85rem;
-    }
     .spacer {
       flex: 1;
-    }
-    .card-content-expanded {
-      padding: 0 8px 16px 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    .header-divider {
-      margin-bottom: 8px;
     }
     .loading-msg {
       padding: 20px;
@@ -240,33 +206,15 @@ import { BibliographicReferenceLinkComponent } from './bibliographic-reference-l
       flex-direction: column;
       gap: 20px;
     }
-    .section-card {
-      margin-bottom: 16px;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      background: #f8fafc;
-      overflow: visible;
-    }
-    .section-card mat-card-header {
-      padding: 12px 16px 8px 16px;
-      display: flex;
-      align-items: center;
-    }
-    .section-card mat-card-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: #334155;
-      margin: 0;
-    }
-    .section-card mat-card-content {
-      padding: 0 16px 16px 16px;
-    }
-    .section-divider {
-      margin: 8px 0;
-    }
     :host {
       display: block;
       width: 100% !important;
+    }
+    ::ng-deep .metadata-section .mat-mdc-form-field-subscript-wrapper {
+      display: none !important;
+    }
+    ::ng-deep .metadata-section .mat-mdc-form-field {
+      margin-bottom: 0px !important;
     }
   `]
 })

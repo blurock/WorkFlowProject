@@ -36,12 +36,42 @@ import { BaseMinimumDatabaseObjectStructureComponent } from '../base-minimum-dat
 
       <mat-card-content *ngIf="expanded" class="card-content-expanded">
         <div class="subclass-specific-properties" *ngIf="!loading">
-          <div *ngFor="let key of specificSubclassKeys" class="specific-prop-row">
-            <app-dynamic-primitive
-              [structure]="getPropertyStructure(key)"
-              [value]="value ? value[key] : null"
-              (valueChange)="updateProperty(key, $event)">
-            </app-dynamic-primitive>
+          <!-- Row 1: substructurecorrectiontype & uniquegenericname in a 2-column grid -->
+          <div class="properties-row-2col">
+            <div class="prop-cell">
+              <app-dynamic-primitive
+                [structure]="getPropertyStructure('dataset:substructurecorrectiontype')"
+                [value]="value ? value['dataset:substructurecorrectiontype'] : null"
+                (valueChange)="updateProperty('dataset:substructurecorrectiontype', $event)">
+              </app-dynamic-primitive>
+            </div>
+            <div class="prop-cell">
+              <app-dynamic-primitive
+                [structure]="getPropertyStructure('dataset:uniquegenericname')"
+                [value]="value ? value['dataset:uniquegenericname'] : null"
+                (valueChange)="updateProperty('dataset:uniquegenericname', $event)">
+              </app-dynamic-primitive>
+            </div>
+          </div>
+          <!-- Row 2: datasetobjecttype -->
+          <div class="properties-row-1col">
+            <div class="prop-cell">
+              <app-dynamic-primitive
+                [structure]="getPropertyStructure('dataset:datasetobjecttype')"
+                [value]="value ? value['dataset:datasetobjecttype'] : null"
+                (valueChange)="updateProperty('dataset:datasetobjecttype', $event)">
+              </app-dynamic-primitive>
+            </div>
+          </div>
+          <!-- Row 3: dataset:2dspeciesstructure -->
+          <div class="properties-row-1col">
+            <div class="prop-cell">
+              <app-dynamic-primitive
+                [structure]="getPropertyStructure('dataset:2dspeciesstructure')"
+                [value]="value ? value['dataset:2dspeciesstructure'] : null"
+                (valueChange)="updateProperty('dataset:2dspeciesstructure', $event)">
+              </app-dynamic-primitive>
+            </div>
           </div>
         </div>
 
@@ -81,20 +111,36 @@ import { BaseMinimumDatabaseObjectStructureComponent } from '../base-minimum-dat
       padding: 0 16px 16px 16px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 8px; /* minimized gap */
     }
     .subclass-specific-properties {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      margin-bottom: 16px;
+      gap: 4px; /* minimized gap */
+      margin-bottom: 8px; /* minimized margin */
     }
-    .specific-prop-row {
+    .properties-row-2col {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 8px;
       width: 100%;
+    }
+    .properties-row-1col {
+      width: 100%;
+    }
+    .prop-cell {
+      width: 100%;
+      min-width: 0;
     }
     :host {
       display: block;
       width: 100% !important;
+    }
+    ::ng-deep .subclass-specific-properties .mat-mdc-form-field-subscript-wrapper {
+      display: none !important;
+    }
+    ::ng-deep .subclass-specific-properties .mat-mdc-form-field {
+      margin-bottom: 0px !important;
     }
   `]
 })

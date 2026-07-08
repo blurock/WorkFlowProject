@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { BasePrimitiveComponent, OntologyStructure } from '../../primitives/base-primitive';
 import { OntologyService } from '../../../../core/services/ontology.service';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDividerModule } from '@angular/material/divider';
 import { forwardRef } from '@angular/core';
 import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dynamic-primitive';
 import { SimpleCatalogObjectComponent } from '../simple-catalog-object/simple-catalog-object';
@@ -13,6 +16,9 @@ import { SimpleCatalogObjectComponent } from '../simple-catalog-object/simple-ca
   imports: [
     CommonModule,
     MatIconModule,
+    MatButtonModule,
+    MatTooltipModule,
+    MatDividerModule,
     forwardRef(() => DynamicPrimitiveComponent),
     SimpleCatalogObjectComponent
   ],
@@ -27,7 +33,7 @@ export class MinimumDatabaseObjectStructureComponent extends BasePrimitiveCompon
     return true;
   }
 
-  isExpanded = false;
+  expanded = false;
   loading = false;
 
 
@@ -61,9 +67,11 @@ export class MinimumDatabaseObjectStructureComponent extends BasePrimitiveCompon
     }
   }
 
-  toggleExpand(event: Event) {
-    event.stopPropagation();
-    this.isExpanded = !this.isExpanded;
+  toggleExpand(event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
+    this.expanded = !this.expanded;
     this.cdr.detectChanges();
   }
 

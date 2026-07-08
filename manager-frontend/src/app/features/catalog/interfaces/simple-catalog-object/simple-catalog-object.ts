@@ -2,6 +2,9 @@ import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BasePrimitiveComponent, OntologyStructure } from '../../primitives/base-primitive';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDividerModule } from '@angular/material/divider';
 import { forwardRef } from '@angular/core';
 import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dynamic-primitive';
 
@@ -11,26 +14,46 @@ import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dy
   imports: [
     CommonModule,
     MatIconModule,
+    MatButtonModule,
+    MatTooltipModule,
+    MatDividerModule,
     forwardRef(() => DynamicPrimitiveComponent)
   ],
   template: `
-    <div class="sco-container">
-      <div class="sco-header-row" (click)="toggleExpand($event)">
-        <button class="expand-btn-icon" type="button" aria-label="Toggle catalog object details">
-          <mat-icon>{{ isExpanded ? 'visibility_off' : 'visibility' }}</mat-icon>
-        </button>
-        <div class="sco-summary-text">
-          <span class="sco-label">Simple Catalog Key: </span>
-          <code class="sco-key-code">{{ catalogKey }}</code>
+    <div class="metadata-container">
+      <!-- 1. Collapsed State -->
+      <div class="one-line-summary-row" *ngIf="!expanded">
+        <div class="one-line-summary-text">
+          <mat-icon color="primary">key</mat-icon>
+          <span class="one-line-summary-badge badge-blue">Catalog Metadata</span>
+          <span class="one-line-summary-title">Simple Catalog Key:</span>
+          <span class="one-line-summary-title" *ngIf="catalogKey && catalogKey !== 'not assigned'"> - {{ catalogKey }}</span>
+          <span class="one-line-summary-placeholder" *ngIf="!catalogKey || catalogKey === 'not assigned'"> - not assigned</span>
         </div>
+        <button mat-icon-button (click)="toggleExpand($event)" matTooltip="View details" type="button">
+          <mat-icon>visibility</mat-icon>
+        </button>
       </div>
 
-      <div class="sco-body" *ngIf="isExpanded">
-        <div class="sco-properties readonly-fields">
+      <!-- 2. Expanded State -->
+      <div class="one-line-summary-card" *ngIf="expanded">
+        <div class="one-line-summary-card-header">
+          <div class="one-line-summary-card-title">
+            <mat-icon color="primary">key</mat-icon>
+            <span>Simple Catalog Object Details</span>
+          </div>
+          <button mat-icon-button (click)="toggleExpand($event)" matTooltip="Collapse details" type="button">
+            <mat-icon>visibility_off</mat-icon>
+          </button>
+        </div>
+
+        <mat-divider style="margin-bottom: 12px;"></mat-divider>
+
+        <div class="sco-properties readonly-fields metadata-section">
           
           <!-- 1. Catalog Object Key (dataset:catalogkey) -->
           <div class="sco-property-row full-width-prop">
-            <div class="sco-prop-label">Catalog Object Key</div>
+            
             <div class="sco-prop-value">
               <ng-container *ngIf="value?.['dataset:catalogkey']; else emptyVal">
                 <app-dynamic-primitive 
@@ -45,7 +68,7 @@ import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dy
 
           <!-- 2. Database Object Type (dataset:objectype) -->
           <div class="sco-property-row full-width-prop">
-            <div class="sco-prop-label">Database Object Type</div>
+            
             <div class="sco-prop-value">
               <ng-container *ngIf="value?.['dataset:objectype']; else emptyVal">
                 <app-dynamic-primitive 
@@ -60,7 +83,7 @@ import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dy
 
           <!-- 3. Owner (dcterms:creator) -->
           <div class="sco-property-row">
-            <div class="sco-prop-label">Owner</div>
+            
             <div class="sco-prop-value">
               <ng-container *ngIf="value?.['dcterms:creator']; else emptyVal">
                 <app-dynamic-primitive 
@@ -75,7 +98,7 @@ import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dy
 
           <!-- 4. Date Created (dcterms:created) -->
           <div class="sco-property-row">
-            <div class="sco-prop-label">Date Created</div>
+            
             <div class="sco-prop-value">
               <ng-container *ngIf="value?.['dcterms:created']; else emptyVal">
                 <app-dynamic-primitive 
@@ -90,7 +113,7 @@ import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dy
 
           <!-- 5. Read Access (dataset:readaccess) -->
           <div class="sco-property-row">
-            <div class="sco-prop-label">Read Access</div>
+            
             <div class="sco-prop-value">
               <ng-container *ngIf="value?.['dataset:readaccess']; else emptyVal">
                 <app-dynamic-primitive 
@@ -105,7 +128,7 @@ import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dy
 
           <!-- 6. Can Modify/Delete Object (dataset:accessmodify) -->
           <div class="sco-property-row">
-            <div class="sco-prop-label">Can Modify/Delete Object</div>
+            
             <div class="sco-prop-value">
               <ng-container *ngIf="value?.['dataset:accessmodify']; else emptyVal">
                 <app-dynamic-primitive 
@@ -120,7 +143,7 @@ import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dy
 
           <!-- 7. Transaction ID (dataset:transactionid) -->
           <div class="sco-property-row full-width-prop">
-            <div class="sco-prop-label">Transaction ID</div>
+            
             <div class="sco-prop-value">
               <ng-container *ngIf="value?.['dataset:transactionid']; else emptyVal">
                 <app-dynamic-primitive 
@@ -150,69 +173,6 @@ import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dy
     </div>
   `,
   styles: [`
-    .sco-container {
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      background-color: #f8fafc;
-      margin: 16px 0;
-      overflow: hidden;
-      font-family: 'Google Sans', 'Inter', sans-serif;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    }
-    .sco-header-row {
-      display: flex;
-      align-items: center;
-      padding: 10px 16px;
-      cursor: pointer;
-      background-color: #f1f5f9;
-      user-select: none;
-      transition: background-color 0.2s;
-    }
-    .sco-header-row:hover {
-      background-color: #e2e8f0;
-    }
-    .expand-btn-icon {
-      background: transparent;
-      border: none;
-      padding: 0;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      color: #3b82f6;
-      margin-right: 12px;
-      cursor: pointer;
-      outline: none;
-    }
-    .expand-btn-icon mat-icon {
-      font-size: 20px;
-      width: 20px;
-      height: 20px;
-    }
-    .sco-summary-text {
-      font-size: 0.95rem;
-      color: #1e293b;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .sco-label {
-      font-weight: 600;
-      color: #475569;
-    }
-    .sco-key-code {
-      font-family: 'Roboto Mono', monospace;
-      background: #eff6ff;
-      color: #2563eb;
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-size: 0.85rem;
-      border: 1px solid #bfdbfe;
-    }
-    .sco-body {
-      padding: 16px;
-      border-top: 1px solid #e2e8f0;
-      background-color: white;
-    }
     .sco-properties {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -221,7 +181,7 @@ import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dy
     .sco-property-row {
       display: flex;
       flex-direction: column;
-      padding: 8px;
+      
       border-radius: 6px;
       background-color: #f8fafc;
       border: 1px solid #f1f5f9;
@@ -232,7 +192,7 @@ import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dy
       text-transform: uppercase;
       color: #64748b;
       letter-spacing: 0.05em;
-      margin-bottom: 4px;
+      
     }
     .sco-prop-value {
       font-size: 0.9rem;
@@ -249,11 +209,21 @@ import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dy
     .sco-property-row.full-width-prop {
       grid-column: 1 / -1;
     }
+    :host {
+      display: block;
+      width: 100% !important;
+    }
+    ::ng-deep .metadata-section .mat-mdc-form-field-subscript-wrapper {
+      display: none !important;
+    }
+    ::ng-deep .metadata-section .mat-mdc-form-field {
+      margin-bottom: 0px !important;
+    }
   `]
 })
 export class SimpleCatalogObjectComponent extends BasePrimitiveComponent implements OnInit {
   private cdr = inject(ChangeDetectorRef);
-  isExpanded = false;
+  expanded = false;
 
   protected override isLayoutComponent(): boolean {
     return true;
@@ -263,9 +233,11 @@ export class SimpleCatalogObjectComponent extends BasePrimitiveComponent impleme
     super.ngOnInit();
   }
 
-  toggleExpand(event: Event) {
-    event.stopPropagation();
-    this.isExpanded = !this.isExpanded;
+  toggleExpand(event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
+    this.expanded = !this.expanded;
     this.cdr.detectChanges();
   }
 
