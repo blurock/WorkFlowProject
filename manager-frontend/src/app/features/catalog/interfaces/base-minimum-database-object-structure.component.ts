@@ -32,15 +32,19 @@ import { BibliographicReferenceLinkComponent } from './bibliographic-reference-l
   template: `
     <div class="metadata-container">
       <!-- 1. Collapsed State -->
-      <div class="one-line-summary-row" *ngIf="!expanded">
-        <div class="one-line-summary-text">
-          <mat-icon color="primary">inventory_2</mat-icon>
-          <span class="one-line-summary-badge badge-blue" *ngIf="headerBadge">{{ headerBadge }}</span>
-          <span class="one-line-summary-title">{{ title }}</span>
-          <span class="one-line-summary-title" *ngIf="oneLineDescription && oneLineDescription !== 'not assigned'"> - {{ oneLineDescription }}</span>
-          <span class="one-line-summary-placeholder" *ngIf="!oneLineDescription || oneLineDescription === 'not assigned'"> - not assigned</span>
+      <div class="one-line-summary-row" *ngIf="!expanded" style="flex-wrap: nowrap;">
+        <div class="one-line-summary-text" style="flex-wrap: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;">
+          <mat-icon color="primary" style="flex-shrink: 0;">inventory_2</mat-icon>
+          <span class="one-line-summary-badge badge-blue" *ngIf="headerBadge" style="flex-shrink: 0;">{{ headerBadge }}</span>
+          
+          <span class="one-line-summary-badge badge-gray" *ngIf="value?.['dcterms:creator'] && value?.['dcterms:creator'] !== 'not assigned'" style="flex-shrink: 0;">
+            Owner: {{ value?.['dcterms:creator'] }}
+          </span>
+          <span class="one-line-summary-badge badge-gray" *ngIf="value?.['dcterms:created'] && value?.['dcterms:created'] !== 'not assigned'" style="flex-shrink: 0;">
+            Created: {{ value?.['dcterms:created'] }}
+          </span>
         </div>
-        <button mat-icon-button (click)="toggleExpand()" matTooltip="View details" type="button">
+        <button mat-icon-button (click)="toggleExpand()" matTooltip="View details" type="button" style="flex-shrink: 0;">
           <mat-icon>visibility</mat-icon>
         </button>
       </div>

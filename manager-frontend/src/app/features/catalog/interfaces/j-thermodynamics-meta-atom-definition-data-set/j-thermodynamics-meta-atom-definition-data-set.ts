@@ -2,42 +2,93 @@ import { Component, OnInit, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dynamic-primitive';
 import { BaseSubclassComponent } from '../base-subclass.component';
-import { BaseMinimumDatabaseObjectStructureComponent } from '../base-minimum-database-object-structure.component';
+import { ThermodynamicDefinitionRootComponent } from '../thermodynamic-benson-rule-definition-data-set/thermodynamic-definition-root';
 
 @Component({
   selector: 'app-j-thermodynamics-meta-atom-definition-data-set',
   standalone: true,
-  imports: [CommonModule, forwardRef(() => DynamicPrimitiveComponent), BaseMinimumDatabaseObjectStructureComponent],
+  imports: [CommonModule, forwardRef(() => DynamicPrimitiveComponent), forwardRef(() => ThermodynamicDefinitionRootComponent)],
   template: `
-
-      <!-- Subclass-specific properties projected at the top -->
-      <div class="subclass-specific-properties" *ngIf="!loading">
-        <div *ngFor="let key of specificSubclassKeys" class="specific-prop-row">
+    <div class="subclass-specific-properties metadata-section" *ngIf="!loading">
+      <!-- 1. dataset:twodmollabel on one line -->
+      <div class="properties-row-1col no-padding-row">
+        <div class="prop-cell">
           <app-dynamic-primitive
-            [structure]="getPropertyStructure(key)"
-            [value]="value ? value[key] : null"
-            (valueChange)="updateProperty(key, $event)">
+            [structure]="getPropertyStructure('dataset:twodmollabel')"
+            [value]="value ? value['dataset:twodmollabel'] : null"
+            (valueChange)="updateProperty('dataset:twodmollabel', $event)">
           </app-dynamic-primitive>
         </div>
       </div>
+
+      <!-- 2. dataset:structuredef and dataset:speciespectype on one line -->
+      <div class="properties-row-2col no-padding-row">
+        <div class="prop-cell">
+          <app-dynamic-primitive
+            [structure]="getPropertyStructure('dataset:structuredef')"
+            [value]="value ? value['dataset:structuredef'] : null"
+            (valueChange)="updateProperty('dataset:structuredef', $event)">
+          </app-dynamic-primitive>
+        </div>
+        <div class="prop-cell">
+          <app-dynamic-primitive
+            [structure]="getPropertyStructure('dataset:speciespectype')"
+            [value]="value ? value['dataset:speciespectype'] : null"
+            (valueChange)="updateProperty('dataset:speciespectype', $event)">
+          </app-dynamic-primitive>
+        </div>
+      </div>
+
+      <!-- 3. dataset:jthermometaatominfo -->
+      <div class="properties-row-1col no-padding-row">
+        <div class="prop-cell">
+          <app-dynamic-primitive
+            [structure]="getPropertyStructure('dataset:jthermometaatominfo')"
+            [value]="value ? value['dataset:jthermometaatominfo'] : null"
+            (valueChange)="updateProperty('dataset:jthermometaatominfo', $event)">
+          </app-dynamic-primitive>
+        </div>
+      </div>
+    </div>
       
-    <app-base-minimum-database-object-structure
+    <app-thermodynamic-definition-root
       [structure]="structure"
       [value]="value"
       [classname]="'dataset:JThermodynamicsMetaAtomDefinitionDataSet'"
+      [titleLabel]="'Meta Atom Definition Dataset: '"
       (valueChange)="updateValue($event)">
-      
-    </app-base-minimum-database-object-structure>
+    </app-thermodynamic-definition-root>
   `,
   styles: [`
     .subclass-specific-properties {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 4px;
       margin-bottom: 16px;
     }
-    .specific-prop-row {
+    .properties-row-2col {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 8px;
       width: 100%;
+    }
+    .properties-row-1col {
+      width: 100%;
+    }
+    .prop-cell {
+      width: 100%;
+      min-width: 0;
+    }
+    .no-padding-row {
+      width: 100%;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+    ::ng-deep .metadata-section .mat-mdc-form-field-subscript-wrapper {
+      display: none !important;
+    }
+    ::ng-deep .metadata-section .mat-mdc-form-field {
+      margin-bottom: 0px !important;
     }
   `]
 })

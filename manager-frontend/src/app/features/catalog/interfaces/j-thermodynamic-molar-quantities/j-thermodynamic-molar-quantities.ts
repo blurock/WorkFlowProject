@@ -1,12 +1,12 @@
 import { Component, OnInit, forwardRef, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatDividerModule } from '@angular/material/divider';
 import { BasePrimitiveComponent, OntologyStructure } from '../../primitives/base-primitive';
 import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dynamic-primitive';
 import { OntologyService } from '../../../../core/services/ontology.service';
@@ -17,93 +17,81 @@ import { OntologyService } from '../../../../core/services/ontology.service';
   imports: [
     CommonModule,
     FormsModule,
-    MatCardModule,
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,
     MatFormFieldModule,
     MatInputModule,
+    MatDividerModule,
     forwardRef(() => DynamicPrimitiveComponent)
   ],
   template: `
-    <div class="molar-container" [class.expanded]="expanded">
-      <!-- Read-only Summary First Line -->
-      <div class="summary-line">
-        <mat-icon class="molar-icon" color="accent">query_stats</mat-icon>
-        <span class="molar-label">{{ getLabel() }}:</span>
-        <span class="molar-value">{{ getValue() }}</span>
-        <span class="molar-units" *ngIf="getUnits()">{{ getUnits() }}</span>
-        <span class="spacer"></span>
-        <button mat-icon-button (click)="toggleExpand()" [matTooltip]="expanded ? 'Collapse details' : 'Expand details'" type="button">
-          <mat-icon>{{ expanded ? 'visibility_off' : 'visibility' }}</mat-icon>
+    <div class="metadata-container">
+      <!-- 1. Collapsed State -->
+      <div class="one-line-summary-row" *ngIf="!expanded">
+        <div class="one-line-summary-text">
+          <mat-icon color="primary">query_stats</mat-icon>
+          <span class="one-line-summary-badge badge-blue">Molar Quantity</span>
+          <span class="one-line-summary-title">
+            {{ getLabel() }}: <span class="molar-value">{{ getValue() }}</span> <span class="molar-units" *ngIf="getUnits()">{{ getUnits() }}</span>
+          </span>
+        </div>
+        <button mat-icon-button (click)="toggleExpand()" matTooltip="View details" type="button">
+          <mat-icon>visibility</mat-icon>
         </button>
       </div>
 
-      <!-- Expanded Detailed View -->
-      <div class="details-section" *ngIf="expanded">
-        <div *ngIf="loading" class="loading-template-msg">
-          Loading metadata template...
+      <!-- 2. Expanded State -->
+      <div class="one-line-summary-card" *ngIf="expanded">
+        <div class="one-line-summary-card-header">
+          <div class="one-line-summary-card-title">
+            <mat-icon color="primary">query_stats</mat-icon>
+            <span>{{ getLabel() }} Details</span>
+            <span class="one-line-summary-badge badge-blue" style="margin-left: 8px;">{{ getValue() }} <span *ngIf="getUnits()">{{ getUnits() }}</span></span>
+          </div>
+          <button mat-icon-button (click)="toggleExpand()" matTooltip="Collapse details" type="button">
+            <mat-icon>visibility_off</mat-icon>
+          </button>
         </div>
 
-        <div *ngIf="!loading">
-          <!-- Render Value and Uncertainty inputs side-by-side -->
-          <div class="inputs-grid">
-            <mat-form-field appearance="outline">
-              <mat-label>Value</mat-label>
-              <input matInput type="text" [ngModel]="value?.['dataset:ValueAsString']" (ngModelChange)="updateValueField($event)">
-              <mat-hint>Molar quantity value as string</mat-hint>
-            </mat-form-field>
+        <mat-divider style="margin-bottom: 12px;"></mat-divider>
 
-            <mat-form-field appearance="outline">
-              <mat-label>Standard Uncertainty</mat-label>
-              <input matInput type="text" [ngModel]="value?.['qudt:standardUncertainty']" (ngModelChange)="updateUncertaintyField($event)">
-              <mat-hint>Standard uncertainty value</mat-hint>
-            </mat-form-field>
+        <div class="grid-section metadata-section">
+          <div *ngIf="loading" class="loading-template-msg">
+            Loading metadata template...
           </div>
 
-          <!-- Render the underlying component specification -->
-          <div class="spec-section" *ngIf="hasSpec()">
-            <h4 class="section-title">Component Specification</h4>
-            <app-dynamic-primitive
-              [structure]="getSpecStructure()"
-              [value]="value?.[getSpecKey() || 'qb:ComponentSpecification']"
-              (valueChange)="updateSpec($event)">
-            </app-dynamic-primitive>
+          <div *ngIf="!loading">
+            <!-- Render Value and Uncertainty inputs side-by-side -->
+            <div class="inputs-grid">
+              <mat-form-field appearance="outline">
+                <mat-label>Value</mat-label>
+                <input matInput type="text" [ngModel]="value?.['dataset:ValueAsString']" (ngModelChange)="updateValueField($event)">
+                <mat-hint>Molar quantity value as string</mat-hint>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Standard Uncertainty</mat-label>
+                <input matInput type="text" [ngModel]="value?.['qudt:standardUncertainty']" (ngModelChange)="updateUncertaintyField($event)">
+                <mat-hint>Standard uncertainty value</mat-hint>
+              </mat-form-field>
+            </div>
+
+            <!-- Render the underlying component specification -->
+            <div class="spec-section" *ngIf="hasSpec()">
+              <h4 class="section-title">Component Specification</h4>
+              <app-dynamic-primitive
+                [structure]="getSpecStructure()"
+                [value]="value?.[getSpecKey() || 'qb:ComponentSpecification']"
+                (valueChange)="updateSpec($event)">
+              </app-dynamic-primitive>
+            </div>
           </div>
         </div>
       </div>
     </div>
   `,
   styles: [`
-    .molar-container {
-      border: 1px solid #cbd5e1;
-      border-left: 4px solid #10b981;
-      border-radius: 8px;
-      padding: 12px 16px;
-      background: #ffffff;
-      transition: all 0.3s ease;
-      margin-bottom: 12px;
-    }
-    .molar-container.expanded {
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      border-color: #94a3b8;
-    }
-    .summary-line {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.95rem;
-    }
-    .molar-icon {
-      font-size: 20px;
-      width: 20px;
-      height: 20px;
-      color: #10b981;
-    }
-    .molar-label {
-      font-weight: 700;
-      color: #1e293b;
-    }
     .molar-value {
       font-weight: 500;
       color: #0f172a;
@@ -117,17 +105,6 @@ import { OntologyService } from '../../../../core/services/ontology.service';
       font-weight: 600;
       font-size: 0.88rem;
     }
-    .spacer {
-      flex: 1;
-    }
-    .details-section {
-      margin-top: 14px;
-      padding-top: 14px;
-      border-top: 1px solid #f1f5f9;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
     .inputs-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -136,6 +113,7 @@ import { OntologyService } from '../../../../core/services/ontology.service';
     .spec-section {
       border-top: 1px dashed #e2e8f0;
       padding-top: 12px;
+      margin-top: 16px;
     }
     .section-title {
       font-size: 0.85rem;
@@ -152,12 +130,15 @@ import { OntologyService } from '../../../../core/services/ontology.service';
       text-align: center;
       padding: 10px;
     }
-    mat-form-field {
-      width: 100%;
-    }
     :host {
       display: block;
       width: 100% !important;
+    }
+    ::ng-deep .metadata-section .mat-mdc-form-field-subscript-wrapper {
+      display: none !important;
+    }
+    ::ng-deep .metadata-section .mat-mdc-form-field {
+      margin-bottom: 0px !important;
     }
   `]
 })

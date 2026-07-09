@@ -20,15 +20,15 @@ interface PropertyItem {
     forwardRef(() => DynamicPrimitiveComponent)
   ],
   template: `
-    <mat-card class="object-card mat-elevation-z2">
-      <mat-card-header *ngIf="structure.label">
-        <mat-icon mat-card-avatar color="primary" *ngIf="!structure.isArray">account_tree</mat-icon>
-        <mat-icon mat-card-avatar color="accent" *ngIf="structure.isArray">layers</mat-icon>
-        <mat-card-title>{{ structure.label }}</mat-card-title>
+    <mat-card class="summary-section-card">
+      <mat-card-header class="summary-section-card-header" *ngIf="structure.label">
+        <mat-icon color="primary" *ngIf="!structure.isArray">account_tree</mat-icon>
+        <mat-icon color="accent" *ngIf="structure.isArray">layers</mat-icon>
+        <mat-card-title class="summary-section-card-title">{{ structure.label }}</mat-card-title>
         <mat-card-subtitle *ngIf="structure.comment">{{ structure.comment }}</mat-card-subtitle>
       </mat-card-header>
       
-      <mat-card-content>
+      <mat-card-content class="summary-section-card-content">
         <div class="properties-container">
           
           <!-- Category 1: Grid Primitives (Classification, Logic, Keywords) -->
@@ -79,12 +79,6 @@ interface PropertyItem {
     </mat-card>
   `,
   styles: [`
-    .object-card {
-      margin: 6px 0;
-      border-left: 4px solid #1a73e8;
-      background: white;
-      overflow: visible;
-    }
     .properties-container {
       padding: 4px 0;
       display: flex;

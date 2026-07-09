@@ -176,6 +176,8 @@ const IDENTIFIER_TO_CLASSNAME: Record<string, string> = {
   'dataset:transactiondescriptionshort': 'dataset:TransactionDescriptionShort',
   'dataset:requiredtransactioninfo': 'dataset:RequiredTransactionInformation',
   'dataset:2dspeciesstructure': 'dataset:JThermodynamics2DSpeciesStructure',
+  'dataset:disassociationenergyparameter': 'dataset:JThermodynamicDisassociationEnergy'
+
 
 
 };

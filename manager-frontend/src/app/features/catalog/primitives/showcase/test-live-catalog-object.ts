@@ -515,7 +515,7 @@ export class TestLiveCatalogObjectComponent implements OnInit, OnDestroy {
   private navSubscription?: any;
 
   // Pre-populated default path requested by user
-  firestorePath = '/hierthermodynamicdataset/UOqk0KtFtaXma5TGsi8Seh9RMbx1/datainformationhierarchy/hierdatasetseriesdataobjects/JThermodynamicsMetaAtomDefinitionDatSset/JThermodynamicsMetaAtomDefinitionDataSet/MetaAtom/BensonAldehydeKetone';
+  firestorePath = '/hierthermodynamicdataset/UOqk0KtFtaXma5TGsi8Seh9RMbx1/datainformationhierarchy/hierdatasetseriesdataobjects/JThermodynamicsVibrationalStructureDataSet/JThermodynamicsVibrationalStructureDataSet/VibrationalModesStandard/C.C-ResonantSecondaryStretch';
 
 
   loading = false;

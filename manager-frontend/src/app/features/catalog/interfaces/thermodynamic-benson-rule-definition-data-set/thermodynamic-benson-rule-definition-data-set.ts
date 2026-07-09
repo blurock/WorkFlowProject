@@ -1,100 +1,108 @@
 import { Component, OnInit, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dynamic-primitive';
+import { MatDividerModule } from '@angular/material/divider';
 import { BaseSubclassComponent } from '../base-subclass.component';
-import { BaseMinimumDatabaseObjectStructureComponent } from '../base-minimum-database-object-structure.component';
+import { ThermodynamicDefinitionRootComponent } from './thermodynamic-definition-root';
+import { DynamicPrimitiveComponent } from '../../primitives/dynamic-primitive/dynamic-primitive';
 
 @Component({
   selector: 'app-thermodynamic-benson-rule-definition-data-set',
   standalone: true,
   imports: [
     CommonModule,
-    MatCardModule,
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,
+    MatDividerModule,
     forwardRef(() => DynamicPrimitiveComponent),
-    BaseMinimumDatabaseObjectStructureComponent
+    forwardRef(() => ThermodynamicDefinitionRootComponent)
   ],
   template: `
-    <mat-card class="dataset-card mat-elevation-z2" [class.expanded-card]="expanded">
-      <mat-card-header>
-        <mat-icon mat-card-avatar color="primary">inventory_2</mat-icon>
-        <mat-card-title>
-          <span class="dataset-label">Benson Rules Dataset: </span>
-          <span class="dataset-short-desc">{{ shortDescription }}</span>
-        </mat-card-title>
-        <div class="spacer"></div>
-        <button mat-icon-button (click)="toggleExpand($event)" [matTooltip]="expanded ? 'Collapse details' : 'Expand details'" type="button">
-          <mat-icon>{{ expanded ? 'visibility_off' : 'visibility' }}</mat-icon>
+    <div class="metadata-container">
+      <!-- 1. Collapsed State -->
+      <div class="one-line-summary-row" *ngIf="!expanded">
+        <div class="one-line-summary-text">
+          <mat-icon color="primary">inventory_2</mat-icon>
+          <span class="one-line-summary-badge badge-indigo">Benson Rules Dataset</span>
+          <span class="one-line-summary-title" *ngIf="shortDescription && shortDescription !== 'not assigned'">
+            {{ shortDescription }}
+          </span>
+          <span class="one-line-summary-placeholder" *ngIf="!shortDescription || shortDescription === 'not assigned'">
+            No Description
+          </span>
+        </div>
+        <button mat-icon-button (click)="toggleExpand()" matTooltip="View details" type="button">
+          <mat-icon>visibility</mat-icon>
         </button>
-      </mat-card-header>
+      </div>
 
-      <mat-card-content *ngIf="expanded" class="card-content-expanded">
-        <div class="subclass-specific-properties" *ngIf="!loading">
-          <div *ngFor="let key of specificSubclassKeys" class="specific-prop-row">
-            <app-dynamic-primitive
-              [structure]="getPropertyStructure(key)"
-              [value]="value ? value[key] : null"
-              (valueChange)="updateProperty(key, $event)">
-            </app-dynamic-primitive>
+      <!-- 2. Expanded State -->
+      <div class="one-line-summary-card" *ngIf="expanded">
+        <div class="one-line-summary-card-header">
+          <div class="one-line-summary-card-title">
+            <mat-icon color="primary">inventory_2</mat-icon>
+            <span>Benson Rules Dataset Details</span>
+            <span class="one-line-summary-badge badge-indigo" style="margin-left: 8px;">{{ shortDescription }}</span>
           </div>
+          <button mat-icon-button (click)="toggleExpand()" matTooltip="Collapse details" type="button">
+            <mat-icon>visibility_off</mat-icon>
+          </button>
         </div>
 
-        <app-base-minimum-database-object-structure
-          [structure]="structure"
-          [value]="value"
-          [classname]="'dataset:ThermodynamicBensonRuleDefinitionDataSet'"
-          (valueChange)="updateValue($event)">
-        </app-base-minimum-database-object-structure>
-      </mat-card-content>
-    </mat-card>
+        <mat-divider style="margin-bottom: 12px;"></mat-divider>
+
+        <div class="grid-section metadata-section">
+          <div class="no-padding-row">
+            <app-dynamic-primitive
+              [structure]="getPropertyStructure('dataset:datasetobjecttype')"
+              [value]="value ? value['dataset:datasetobjecttype'] : null"
+              (valueChange)="updateProperty('dataset:datasetobjecttype', $event)">
+            </app-dynamic-primitive>
+          </div>
+          <div class="no-padding-row">
+            <app-dynamic-primitive
+              [structure]="getPropertyStructure('dataset:uniquegenericname')"
+              [value]="value ? value['dataset:uniquegenericname'] : null"
+              (valueChange)="updateProperty('dataset:uniquegenericname', $event)">
+            </app-dynamic-primitive>
+          </div>
+          <div class="no-padding-row">
+            <app-dynamic-primitive
+              [structure]="getPropertyStructure('dataset:bensonrulestructure')"
+              [value]="value ? value['dataset:bensonrulestructure'] : null"
+              (valueChange)="updateProperty('dataset:bensonrulestructure', $event)">
+            </app-dynamic-primitive>
+          </div>
+
+          <app-thermodynamic-definition-root
+            [structure]="structure"
+            [value]="value"
+            [classname]="'dataset:ThermodynamicBensonRuleDefinitionDataSet'"
+            [titleLabel]="'Benson Rules Dataset: '"
+            (valueChange)="updateValue($event)">
+          </app-thermodynamic-definition-root>
+        </div>
+      </div>
+    </div>
   `,
   styles: [`
-    .dataset-card {
-      margin: 16px 0;
-      border-left: 4px solid #3b82f6;
-      background: white;
-      overflow: visible;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .expanded-card {
-      border-color: #2563eb;
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    }
-    .spacer {
-      flex: 1;
-    }
-    .dataset-label {
-      font-weight: 700;
-      color: #475569;
-    }
-    .dataset-short-desc {
-      font-weight: 500;
-      color: #0f172a;
-    }
-    .card-content-expanded {
-      padding: 0 16px 16px 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .subclass-specific-properties {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-    .specific-prop-row {
-      width: 100%;
-    }
     :host {
       display: block;
       width: 100% !important;
+    }
+    .no-padding-row {
+      width: 100%;
+      padding: 0 !important;
+      margin: 4 !important;
+    }
+    ::ng-deep .metadata-section .mat-mdc-form-field-subscript-wrapper {
+      display: none !important;
+    }
+    ::ng-deep .metadata-section .mat-mdc-form-field {
+      margin-bottom: 0px !important;
     }
   `]
 })
@@ -106,8 +114,7 @@ export class ThermodynamicBensonRuleDefinitionDataSetComponent extends BaseSubcl
     super.ngOnInit();
   }
 
-  toggleExpand(event: Event): void {
-    event.stopPropagation();
+  toggleExpand(): void {
     this.expanded = !this.expanded;
     this.cdr.detectChanges();
   }
