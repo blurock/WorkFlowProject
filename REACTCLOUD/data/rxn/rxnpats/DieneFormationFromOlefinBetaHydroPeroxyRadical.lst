@@ -1,0 +1,93 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% Diene Formation from Olefin Beta Hydroperoxy radical
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2 = 2
+%%%-------------------------------------------------------------------
+DieneFormationFromOlefinBetaHydroPeroxyRadical-(h)(hh)\
+       c=cccooh(h)(hh)  =  c=cc=c(h)(hh) peroxyl-radical
+- ID 41500
+- Correspondences
+1 2 3 4 5 6 7 8 9 10   2 2 2 4 2 2 2 2 2
+1 2 3 4 8 9 10         2 2 2 2 2 2
+7 6 5                  2 2
+>  <ForwardRxn>
+Standard  2.307e+17   -1.71   1.554e+04 2; 3-c7h14 + ho2 = 3-ooh-hep-4
+>  <ReverseRxn>
+Standard 8.5e+10 0.0 7800 2; Type XX: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2=2
+%%%-------------------------------------------------------------------
+DieneFormationFromOlefinBetaHydroPeroxyRadical-(r)(hh)\
+       c=cccooh(r)(hh)  =  c=cc=c(r)(hh) peroxyl-radical
+- ID 41501
+- Correspondences
+1 2 3 4 5 6 7 8 9 10   2 2 2 4 2 2 2 2 2
+1 2 3 4 8 9 10         2 2 2 2 2 2
+7 6 5                  2 2
+>  <ForwardRxn>
+Standard  2.307e+17   -1.71   1.554e+04 2; 3-c7h14 + ho2 = 3-ooh-hep-4
+>  <ReverseRxn>
+Standard 8.5e+10 0.0 7800 2; Type XX: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1=1
+%%%-------------------------------------------------------------------
+DieneFormationFromOlefinBetaHydroPeroxyRadical-(h)(rh)\
+       c=cccooh(h)(rh)  =  c=cc=c(h)(rh) peroxyl-radical
+- ID 41502
+- Correspondences
+1 2 3 4 5 6 7 8 9 10   2 2 2 4 2 2 2 2 2
+1 2 3 4 8 9 10         2 2 2 2 2 2
+7 6 5                  2 2
+>  <ForwardRxn>
+Standard  2.307e+17   -1.71   1.554e+04 1; 3-c7h14 + ho2 = 3-ooh-hep-4
+>  <ReverseRxn>
+Standard 8.5e+10 0.0 7800 1; Type XX: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1=1
+%%%-------------------------------------------------------------------
+DieneFormationFromOlefinBetaHydroPeroxyRadical-(r)(rh)\
+       c=cccooh(r)(rh)  =  c=cc=c(r)(rh) peroxyl-radical
+- ID 41503
+- Correspondences
+1 2 3 4 5 6 7 8 9 10   2 2 2 4 2 2 2 2 2
+1 2 3 4 8 9 10         2 2 2 2 2 2
+7 6 5                  2 2
+>  <ForwardRxn>
+Standard  2.307e+17   -1.71   1.554e+04 1; 3-c7h14 + ho2 = 3-ooh-hep-4
+>  <ReverseRxn>
+Standard 8.5e+10 0.0 7800 1; Type XX: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2=2
+%%%-------------------------------------------------------------------
+DieneFormationFromOlefinBetaHydroPeroxyRadical-(h)(rr)\
+       c=cccooh(h)(rr)  =  c=cc=c(h)(rr) peroxyl-radical
+- ID 41504
+- Correspondences
+1 2 3 4 5 6 7 8 9 10   2 2 2 4 2 2 2 2 2
+1 2 3 4 8 9 10         2 2 2 2 2 2
+7 6 5                  2 2
+>  <ForwardRxn>
+Standard  2.307e+17   -1.71   1.554e+04 2; 3-c7h14 + ho2 = 3-ooh-hep-4
+>  <ReverseRxn>
+Standard 8.5e+10 0.0 7800 2; Type XX: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2=2
+%%%-------------------------------------------------------------------
+DieneFormationFromOlefinBetaHydroPeroxyRadical-(r)(rr)\
+       c=cccooh(r)(rr)  =  c=cc=c(r)(rr) peroxyl-radical
+- ID 41505
+- Correspondences
+1 2 3 4 5 6 7 8 9 10   2 2 2 4 2 2 2 2 2
+1 2 3 4 8 9 10         2 2 2 2 2 2
+7 6 5                  2 2
+>  <ForwardRxn>
+Standard  2.307e+17   -1.71   1.554e+04 2; 3-c7h14 + ho2 = 3-ooh-hep-4
+>  <ReverseRxn>
+Standard 8.5e+10 0.0 7800 2; Type XX: Combustion and Flame, 114:149-177 (1998)
+$$$$

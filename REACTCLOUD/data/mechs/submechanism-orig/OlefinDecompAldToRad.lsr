@@ -1,0 +1,62 @@
+Olefin Decomposition through aldehyde and then to radical
+oxygen,hydroxyl-radical,hydrogen-radical,\
+oxygen-atom,peroxyl-radical,\
+methyl-radical,methoxy-radical,\
+methylperoxy
+%%% ----------------------------------------------------
+H-Abstraction-Oxygen-Tertiary,\
+H-Abstraction-Oxygen-Secondary,\
+H-Abstraction-Oxygen-Primary,\
+:oxygen
+%%% ----------------------------------------------------
+HLoss-ethyl-radical(hh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rhh)-to-olefin,\
+HLoss-ethyl-radical(rr)(hhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(rhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rrh)-to-olefin,\
+HLoss-ethyl-radical(rr)(rhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(rrh)-to-olefin,\
+HLoss-ethyl-radical(rr)(rrh)-to-olefin
+%%% ----------------------------------------------------
+OlefinToAldehydeDecomp-(hh)(hh),\
+OlefinToAldehydeDecomp-(rh)(hh),\
+OlefinToAldehydeDecomp-(rr)(hh),\
+OlefinToAldehydeDecomp-(hh)(rh),\
+OlefinToAldehydeDecomp-(rh)(rh),\
+OlefinToAldehydeDecomp-(rr)(rh),\
+OlefinToAldehydeDecomp-(hh)(rr),\
+OlefinToAldehydeDecomp-(rh)(rr),\
+OlefinToAldehydeDecomp-(rr)(rr),\
+OlefinToAldehydeDecompB-(rh)(hh),\
+OlefinToAldehydeDecompB-(rr)(hh),\
+OlefinToAldehydeDecompB-(hh)(rh),\
+OlefinToAldehydeDecompB-(rr)(rh),\
+OlefinToAldehydeDecompB-(hh)(rr),\
+OlefinToAldehydeDecompB-(rh)(rr)\
+:hydroxyl-radical,oxygen-atom
+%%% -----------------------------------------------------------
+AldehydeHAbstractionH-(hh),\
+AldehydeHAbstractionH-(rh),\
+AldehydeHAbstractionOH-(hh),\
+AldehydeHAbstractionOH-(rh),\
+AldehydeHAbstractionCH3-(hh),\
+AldehydeHAbstractionCH3-(rh),\
+AldehydeHAbstractionO2-(hh),\
+AldehydeHAbstractionO2-(rh),\
+AldehydeHAbstractionHO2-(hh),\
+AldehydeHAbstractionHO2-(rh),\
+AldehydeHAbstractionCH3O-(hh),\
+AldehydeHAbstractionCH3O-(rh),\
+AldehydeHAbstractionCH3O2-(hh),\
+AldehydeHAbstractionCH3O2-(rh)\
+:oxygen,hydroxyl-radical,hydrogen-radical,\
+oxygen-atom,peroxyl-radical,\
+methyl-radical,methoxy-radical,\
+methylperoxy
+%%% -----------------------------------------------------------
+KetoneRadicalDecomp-HHH,\
+KetoneRadicalDecomp-RHH,\
+KetoneRadicalDecomp-RRH,\
+KetoneRadicalDecomp-RRR,\
+:oxygen

@@ -1,0 +1,128 @@
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%%  Symmetry  2*2 = 4
+%%%-------------------------------------------------------------------
+BetaHPeroxyToOlefin-HHHH .c(h)(h)c(h)(h)(ooh) = olefin-(hh)(hh) peroxyl-radical
+- ID 201111
+- Correspondences
+1 2 3 4 5 6 7 8 9      2 4 2 2 2 2 2 2
+1 2 6 7 8 9            2 2 2 2 2
+3 4 5                  2 2
+>  <ForwardRxn>
+Standard   9.290E+30  -6.10  1.993E+04 4; (isooctane, Curran, et al.) c2h4o2h  =  c2h4+ho2 
+>  <ReverseRxn>
+Standard  1.906E+27  -4.96  1.451E+04 4; (isooctane, Curran, et al.) c2h4o2h  =  c2h4+ho2 
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry  1*2 = 2
+%%%-------------------------------------------------------------------
+BetaHPeroxyToOlefin-RHHH .c(r)(h)c(h)(h)(ooh) = olefin-(rh)(hh) peroxyl-radical
+- ID 202111
+- Correspondences
+1 2 3 4 5 6 7 8 9      2 4 2 2 2 2 2 2
+1 2 6 7 8 9            2 2 2 2 2
+3 4 5                  2 2
+>  <ForwardRxn>
+Standard  4.35864E+19   -1.975  18829.0 2;  Lund Calculated (Ea=78.835) ; 1-OOH-HEP-2 = 1-C7H14+ HO2
+>  <ReverseRxn>
+Standard  1.000E+11  0.00  1.25E+04 2; Type XX: Combustion and Flame, 129:253-280 (2002)
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry  2*2 = 4
+%%%-------------------------------------------------------------------
+BetaHPeroxyToOlefin-RRHH .c(r)(r)c(h)(h)(ooh) = olefin-(rr)(hh) peroxyl-radical
+- ID 202211
+- Correspondences
+1 2 3 4 5 6 7 8 9      2 4 2 2 2 2 2 2
+1 2 6 7 8 9            2 2 2 2 2
+3 4 5                  2 2
+>  <ForwardRxn>
+Standard 2.72993E+22   -2.549  18530.0  4;  Lund Calculated (Ea=77.580) ; D-C8H16 + HO2 = E-OOH-I-OCT-D
+>  <ReverseRxn>
+Standard  1.000E+11  0.00  1.25E+04 4; Type XX: Combustion and Flame, 129:253-280 (2002)
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry  2*1 = 2
+%%%-------------------------------------------------------------------
+BetaHPeroxyToOlefin-HHRH .c(h)(h)c(r)(h)(ooh) = olefin-(rh)(hh) peroxyl-radical
+- ID 201121
+- Correspondences
+1 2 3 4 5 6 7 8 9      2 4 2 2 2 2 2 2
+1 2 8 9 6 7            2 2 2 2 2
+3 4 5                  2 2
+>  <ForwardRxn>
+Standard  3.17367E+21   -2.544 19244.0  2; Lund Calculated (Ea= 80.571) ; 1-C7H14+HO2 =2-OOH-HEP-1 
+>  <ReverseRxn>
+Standard  1.000E+11  0.00  1.10E+04 2; Type XX: Combustion and Flame, 129:253-280 (2002)
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry  1*1 = 1
+%%%-------------------------------------------------------------------
+BetaHPeroxyToOlefin-RHRH .c(r)(h)c(r)(h)(ooh) = olefin-(rh)(rh) peroxyl-radical
+- ID 202121
+- Correspondences
+1 2 3 4 5 6 7 8 9      2 4 2 2 2 2 2 2
+1 2 6 7 8 9            2 2 2 2 2
+3 4 5                  2 2
+>  <ForwardRxn>
+Standard 3.27597E+20   -2.334  18907.0 1; Lund Calculated (Ea=79.159) ; 2-C7H14 + HO2 = 2-OOH-HEP-3 
+>  <ReverseRxn>
+Standard 1.000E+11  0.00  1.100E+04 1; Type XX: Combustion and Flame, 129:253-280 (2002)
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry  2*1 = 2
+%%%-------------------------------------------------------------------
+BetaHPeroxyToOlefin-RRRH .c(r)(r)c(r)(h)(ooh) = olefin-(rr)(rh) peroxyl-radical
+- ID 202221
+- Correspondences
+1 2 3 4 5 6 7 8 9      2 4 2 2 2 2 2 2
+1 2 6 7 8 9            2 2 2 2 2
+3 4 5                  2 2
+>  <ForwardRxn>
+Standard  1.37012E+21   -2.258 19688.0 2; Lund Calculated (Ea= 82.428) ; C-C8H16+HO2 =C-OOH-I-OCT-D
+>  <ReverseRxn>
+Standard  1.0E+11  0.00  1.1000E+04 2; Type XX: Combustion and Flame, 129:253-280 (2002)
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry  2*2 = 4
+%%%-------------------------------------------------------------------
+BetaHPeroxyToOlefin-HHRR .c(h)(h)c(r)(r)(ooh) = olefin-(rr)(hh) peroxyl-radical
+- ID 201122
+- Correspondences
+1 2 3 4 5 6 7 8 9      2 4 2 2 2 2 2 2
+1 2 8 9 6 7            2 2 2 2 2
+3 4 5                  2 2
+>  <ForwardRxn>
+Standard  1.32692E+20   -2.056 13087 4;  Lund Calculated (Ea=54.792) ;D-C8H16 +HO2 = D-OOH-I-OCT-E
+>  <ReverseRxn>
+Standard 5.754E+11  0.00  7.600E+03 4; Type XX: Combustion and Flame, 129:253-280 (2002)
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry  1*2 = 2
+%%%-------------------------------------------------------------------
+BetaHPeroxyToOlefin-RHRR .c(r)(h)c(r)(r)(ooh) = olefin-(rr)(rh) peroxyl-radical
+- ID 202122
+- Correspondences
+1 2 3 4 5 6 7 8 9      2 4 2 2 2 2 2 2
+1 2 8 9 6 7            2 2 2 2 2
+3 4 5                  2 2
+>  <ForwardRxn>
+Standard  2.01905E+21   -2.433 18594.0  2;   Lund Calculated (Ea= 77.849) ; C-C8H16+HO2 =D-OOH-I-OCT-C 
+>  <ReverseRxn>
+Standard 1.000E+11  0.00  7600.0 2;  Type XX: Combustion and Flame, 129:253-280 (2002)
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry  2*2 = 4
+%%%-------------------------------------------------------------------
+BetaHPeroxyToOlefin-RRRR .c(r)(r)c(r)(r)(ooh) = olefin-(rr)(rr) peroxyl-radical
+- ID 202222
+- Correspondences
+1 2 3 4 5 6 7 8 9      2 4 2 2 2 2 2 2
+1 2 6 7 8 9            2 2 2 2 2
+3 4 5                  2 2
+>  <ForwardRxn>
+Standard  2.01905E+21   -2.433 18594.0  4;   Lund Calculated (Ea= 77.849) ; C-C8H16+HO2 =D-OOH-I-OCT-C
+>  <ReverseRxn>
+Standard 1.000E+11  0.00 7600.0  4; Type XX: Combustion and Flame, 129:253-280 (2002)  
+$$$$

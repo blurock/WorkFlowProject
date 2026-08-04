@@ -1,0 +1,71 @@
+Structures for Graphic Text
+5 xwinstring
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%       
+   StringStyle 100 stringstyle
+      0 The Font Name
+        STRING FontName Pointer Create
+      1 The Position of the text relative to start
+        INT TextPosition Create
+      DONE
+%%%
+   StringObject  100 stringobject
+      0 The position of the corner of the string
+        ObjectPosition Corner Pointer Create
+      1 The string to print
+      STRING TheString Pointer Create
+      DONE 
+%%% 
+StringElement 101 stringelements
+     0 The corresponding data
+       VOID Data Create
+     DONE
+ListOfStringObjects 101 listofstringobjects
+     0 The position of the corner of the string
+       ObjectPosition Corner Pointer Create
+     1 The Width of the Frame of Buttons
+       FLOAT Width Create
+     2 The number of strings horizontally
+       INT NumberInRow Create
+     3 The Spacing of the Buttons (includes the Button size)
+       FLOAT Spacing Create
+     4 The Number of Strings
+       INT NumberOfStrings Create
+     5 The string object
+       StringElement Element Pointer Create Array=NumberOfStrings
+     DONE
+%%%
+   StringFont 103 stringfont
+      0 The Full Font Name
+        STRING FontName Pointer Create
+      DONE
+   StandardFonts 104 standardfonts
+      0 tiny font
+        StringFont tiny Pointer Create
+      1 small font
+        StringFont small Pointer Create
+      2 normalsize
+        StringFont normalsize Pointer Create
+      3 large 
+        StringFont large Pointer Create
+      4 huge
+        StringFont huge Pointer Create
+      DONE
+   FontTypesLists 105 fonttypelists
+      0 The default font (one that is ALWAYS there)
+        StringFont Default Pointer Create
+      1 Normal Font Type
+        StandardFonts Normal Pointer Create
+      2 Bold Font Type
+        StandardFonts Bold Pointer Create
+      3 Italized Font Type
+        StandardFonts Italic Pointer Create
+      DONE
+   AllAvailableFonts 106 allavailablefonts
+      0 The number of fonts
+        INT NumberOfFonts Create
+      1 The Font Set
+        StringFont Set Pointer Create  Array=NumberOfFonts
+      DONE
+DONE
+   

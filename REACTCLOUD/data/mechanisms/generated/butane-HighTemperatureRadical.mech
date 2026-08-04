@@ -1,0 +1,175 @@
+CLASSCOEFFICIENTS
+H-Abstraction-Hydroxyl-Radical-Primary   =      1.7500e+09     0.9700       6.65     1.0741e+08     1.4460      91.09
+H-Abstraction-Hydroxyl-Radical-Secondary =      2.3400e+07     1.6100      -0.15     5.7979e+05     2.0220     101.29
+H-Abstraction-Oxygen-Radical-Primary     =      7.3300e+05     2.4000      23.00     4.8731e+02     3.1410      33.36
+H-Abstraction-Oxygen-Radical-Secondary   =      2.3500e+05     2.5000       9.33     1.3385e+02     3.1690      36.76
+H-Abstraction-Oxygen-Primary             =      4.1700e+12     0.0000     204.92     6.5375e+10     0.3130      -2.52
+H-Abstraction-Oxygen-Secondary           =      1.0000e+13     0.0000     199.06     1.3265e+11     0.2420       8.67
+H-Abstraction-PeroxylRadical-Primary     =      1.3400e+12     0.0000      81.13     1.5904e+12     0.0070      30.72
+H-Abstraction-PeroxylRadical-Secondary   =      1.2200e+12     0.0000      71.09     4.8800e+12     0.0000      71.08
+H-Abstraction-Methoxy-Primary            =      5.2700e+10     0.0000      29.27     1.7916e+09     0.4240      49.41
+H-Abstraction-Methoxy-Secondary          =      5.4800e+11     0.0000      20.91     1.1350e+10     0.3940      57.08
+H-Abstraction-EthylRadical-Primary       =      1.6700e+10     0.0000      56.04     8.8659e+12    -0.3300      67.21
+H-Abstraction-EthylRadical-Secondary     =      2.5000e+10     0.0000      43.49     8.0860e+12    -0.3600      67.69
+H-Abstraction-EthenylRadical-Primary     =      1.6700e+11     0.0000      75.28     1.9030e+13    -0.2640     116.46
+H-Abstraction-EthenylRadical-Secondary   =      2.0000e+11     0.0000      70.26     1.9220e+13    -0.3340     128.48
+H-Abstraction-MethylPeroxyl-Primary      =      2.0200e+12     0.0000      85.44     3.6000e+12     0.0000      40.98
+H-Abstraction-MethylPeroxyl-Secondary    =      2.0200e+12     0.0000      74.02     2.3760e+11     0.0000      15.47
+H-Abstraction-Hydrogen-Radical-Primary   =      9.3300e+06     2.0000      32.20     8.9451e+03     2.7950      49.87
+H-Abstraction-Hydrogen-Radical-Secondary =      4.5500e+06     2.0000      20.91     2.6577e+03     2.7650      54.62
+H-Abstraction-Methyl-Primary             =      2.1700e+11     0.0000      48.51     5.4024e+12    -0.0220      78.67
+H-Abstraction-Methyl-Secondary           =      2.0000e+11     0.0000      39.73     3.0335e+12    -0.0520      85.92
+ethyl-radical(hh)(hhh)-oxidation-to-olefin =      5.4200e+09     0.0000       0.00     7.6000e+16     0.0000      68.41
+ethyl-radical(rh)(hhh)-oxidation-to-olefin =      5.4200e+09     0.0000       0.00     7.6000e+16     0.0000      68.41
+ethyl-radical(hh)(rhh)-oxidation-to-olefin =      5.4200e+09     0.0000       0.00     7.6000e+16     0.0000      68.41
+ethyl-radical(rh)(rhh)-oxidation-to-olefin =      5.4200e+09     0.0000       0.00     7.6000e+16     0.0000      68.41
+HLoss-ethyl-radical(hh)(hhh)-to-olefin   =      3.9730e+19    -0.9500     430.75     1.0000e+13     0.0000       5.02
+HLoss-ethyl-radical(rh)(hhh)-to-olefin   =      1.3380e+15    -0.5500     162.09     1.0000e+13     0.0000       5.02
+HLoss-ethyl-radical(hh)(rhh)-to-olefin   =      2.0710e+16    -0.8900     158.71     1.0000e+13     0.0000      12.13
+HLoss-ethyl-radical(rh)(rhh)-to-olefin   =      1.6393e+14    -0.3620     153.61     1.0000e+13     0.0000      12.13
+PropylRadicalToEthene-(hh)(hh)(hhh)      =      9.4680e+13    -0.5500     121.28     1.7000e+11     0.0000      32.62
+PropylRadicalToEthene-(rh)(hh)(hhh)      =      4.9880e+13    -0.4200     122.49     8.5000e+10     0.0000      32.62
+PropylRadicalToEthene-(hh)(hh)(rhh)      =      3.1752e+19    -2.0880     130.50     8.5000e+10     0.0000      32.62
+Decomp-(rhh)(hhh)                        =      5.8959e+24    -2.3380     382.46     1.0000e+13     0.0000       0.00
+Decomp-(rhh)(rhh)                        =      5.9713e+24    -2.4660     359.21     8.0000e+12     0.0000       0.00
+HLossDecomposition-(rhh)                 =      1.6743e+19    -0.8920     429.72     1.0000e+14     0.0000       0.00
+HLossDecomposition-(rrh)                 =      2.2690e+20    -1.3400     421.13     3.6100e+13     0.0000       0.00
+HShift-12-Alkyl-(rh)(hh)                 =      1.7400e+07     2.0100     172.63     0.0000e+00     0.0000       0.00
+HShift-12-Alkyl-(hh)(rh)                 =      5.4800e+08     1.6200     162.09     0.0000e+00     0.0000       0.00
+HShift-12-Alkyl-(rh)(rh)                 =      9.5870e+08     1.3900     166.03     0.0000e+00     0.0000       0.00
+AlkylIsomerization4Ring-(hh)(hh)         =      3.8000e+10     0.6700     162.26     9.9999e-41     0.0000       0.00
+AlkylIsomerization4Ring-(hh)(rh)         =      3.3121e+11     0.3920     141.75     9.9999e-41     0.0000       0.00
+AlkylIsomerization4Ring-(rh)(hh)         =      3.8000e+10     0.6700     153.06     9.9999e-41     0.0000       0.00
+AlkylIsomerization5Ring-(hh)(hh)         =      7.8500e+11    -0.1200      96.60     9.9999e-41     0.0000       0.00
+END
+CLASSEQUIVALENT
+END
+REACTIONCLASS  = H-Abstraction-Hydroxyl-Radical-Primary
+    6 {butane} + {hydroxyl-radical} = {1-butyl-radical} + {water}
+END
+REACTIONCLASS  = H-Abstraction-Hydroxyl-Radical-Secondary
+    4 {butane} + {hydroxyl-radical} = {2-butyl-radical} + {water}
+END
+REACTIONCLASS  = H-Abstraction-Oxygen-Radical-Primary
+    6 {butane} + {oxygen-radical} = {hydroxyl-radical} + {1-butyl-radical}
+END
+REACTIONCLASS  = H-Abstraction-Oxygen-Radical-Secondary
+    4 {butane} + {oxygen-radical} = {hydroxyl-radical} + {2-butyl-radical}
+END
+REACTIONCLASS  = H-Abstraction-Oxygen-Primary
+    6 {butane} + {oxygen} = {peroxyl-radical} + {1-butyl-radical}
+END
+REACTIONCLASS  = H-Abstraction-Oxygen-Secondary
+    4 {butane} + {oxygen} = {peroxyl-radical} + {2-butyl-radical}
+END
+REACTIONCLASS  = H-Abstraction-PeroxylRadical-Primary
+    6 {butane} + {peroxyl-radical} = {hydrogen-peroxide} + {1-butyl-radical}
+END
+REACTIONCLASS  = H-Abstraction-PeroxylRadical-Secondary
+    4 {butane} + {peroxyl-radical} = {hydrogen-peroxide} + {2-butyl-radical}
+END
+REACTIONCLASS  = H-Abstraction-Methoxy-Primary
+    6 {butane} + {methoxy-radical} = {1-butyl-radical} + {methanol}
+END
+REACTIONCLASS  = H-Abstraction-Methoxy-Secondary
+    4 {butane} + {methoxy-radical} = {2-butyl-radical} + {methanol}
+END
+REACTIONCLASS  = H-Abstraction-EthylRadical-Primary
+    6 {butane} + {ethyl-radical} = {1-butyl-radical} + {ethane}
+END
+REACTIONCLASS  = H-Abstraction-EthylRadical-Secondary
+    4 {butane} + {ethyl-radical} = {2-butyl-radical} + {ethane}
+END
+REACTIONCLASS  = H-Abstraction-EthenylRadical-Primary
+    6 {butane} + {ethenyl-radical} = {1-butyl-radical} + {ethene}
+END
+REACTIONCLASS  = H-Abstraction-EthenylRadical-Secondary
+    4 {butane} + {ethenyl-radical} = {2-butyl-radical} + {ethene}
+END
+REACTIONCLASS  = H-Abstraction-MethylPeroxyl-Primary
+    6 {butane} + {methylperoxy-radical} = {1-butyl-radical} + {methyl-hydroperoxide}
+END
+REACTIONCLASS  = H-Abstraction-MethylPeroxyl-Secondary
+    4 {butane} + {methylperoxy-radical} = {2-butyl-radical} + {methyl-hydroperoxide}
+END
+REACTIONCLASS  = H-Abstraction-Hydrogen-Radical-Primary
+    6 {butane} + {hydrogen-radical} = {1-butyl-radical} + {hydrogen}
+END
+REACTIONCLASS  = H-Abstraction-Hydrogen-Radical-Secondary
+    4 {butane} + {hydrogen-radical} = {2-butyl-radical} + {hydrogen}
+END
+REACTIONCLASS  = H-Abstraction-Methyl-Primary
+    6 {butane} + {methyl-radical} = {1-butyl-radical} + {methane}
+END
+REACTIONCLASS  = H-Abstraction-Methyl-Secondary
+    4 {butane} + {methyl-radical} = {2-butyl-radical} + {methane}
+END
+REACTIONCLASS  = ethyl-radical(hh)(hhh)-oxidation-to-olefin
+    6 {oxygen} + {ethyl-radical} = {ethene} + {peroxyl-radical}
+END
+REACTIONCLASS  = ethyl-radical(rh)(hhh)-oxidation-to-olefin
+    3 {2-butyl-radical} + {oxygen} = {peroxyl-radical} + {1-butene}
+END
+REACTIONCLASS  = ethyl-radical(hh)(rhh)-oxidation-to-olefin
+    2 {1-butyl-radical} + {oxygen} = {peroxyl-radical} + {1-butene}
+    2 {1-propyl-radical} + {oxygen} = {peroxyl-radical} + {propene}
+END
+REACTIONCLASS  = ethyl-radical(rh)(rhh)-oxidation-to-olefin
+    1 {2-butyl-radical} + {oxygen} = {peroxyl-radical} + {2-butene}
+END
+REACTIONCLASS  = HLoss-ethyl-radical(hh)(hhh)-to-olefin
+    1 {ethyl-radical} = {ethene} + {hydrogen-radical}
+END
+REACTIONCLASS  = HLoss-ethyl-radical(rh)(hhh)-to-olefin
+    1 {2-butyl-radical} = {hydrogen-radical} + {1-butene}
+END
+REACTIONCLASS  = HLoss-ethyl-radical(hh)(rhh)-to-olefin
+    1 {1-butyl-radical} = {hydrogen-radical} + {1-butene}
+    1 {1-propyl-radical} = {hydrogen-radical} + {propene}
+END
+REACTIONCLASS  = HLoss-ethyl-radical(rh)(rhh)-to-olefin
+    1 {2-butyl-radical} = {hydrogen-radical} + {2-butene}
+END
+REACTIONCLASS  = PropylRadicalToEthene-(hh)(hh)(hhh)
+    1 {1-propyl-radical} = {ethene} + {methyl-radical}
+END
+REACTIONCLASS  = PropylRadicalToEthene-(rh)(hh)(hhh)
+    1 {2-butyl-radical} = {methyl-radical} + {propene}
+END
+REACTIONCLASS  = PropylRadicalToEthene-(hh)(hh)(rhh)
+    1 {1-butyl-radical} = {ethene} + {ethyl-radical}
+END
+REACTIONCLASS  = Decomp-(rhh)(hhh)
+    2 {butane} = {methyl-radical} + {1-propyl-radical}
+END
+REACTIONCLASS  = Decomp-(rhh)(rhh)
+    1 {butane} = {ethyl-radical} + {ethyl-radical}
+END
+REACTIONCLASS  = HLossDecomposition-(rhh)
+    2 {butane} = {hydrogen-radical} + {1-butyl-radical}
+END
+REACTIONCLASS  = HLossDecomposition-(rrh)
+    2 {butane} = {hydrogen-radical} + {2-butyl-radical}
+END
+REACTIONCLASS  = HShift-12-Alkyl-(rh)(hh)
+    1 {2-butyl-radical} = {1-butyl-radical}
+END
+REACTIONCLASS  = HShift-12-Alkyl-(hh)(rh)
+    1 {1-butyl-radical} = {2-butyl-radical}
+    1 {1-propyl-radical} = {2-propyl-radical}
+END
+REACTIONCLASS  = HShift-12-Alkyl-(rh)(rh)
+    1 {2-butyl-radical} = {2-butyl-radical}
+END
+REACTIONCLASS  = AlkylIsomerization4Ring-(hh)(hh)
+    1 {1-propyl-radical} = {1-propyl-radical}
+END
+REACTIONCLASS  = AlkylIsomerization4Ring-(hh)(rh)
+    1 {1-butyl-radical} = {2-butyl-radical}
+END
+REACTIONCLASS  = AlkylIsomerization4Ring-(rh)(hh)
+    1 {2-butyl-radical} = {1-butyl-radical}
+END
+REACTIONCLASS  = AlkylIsomerization5Ring-(hh)(hh)
+    1 {1-butyl-radical} = {1-butyl-radical}
+END

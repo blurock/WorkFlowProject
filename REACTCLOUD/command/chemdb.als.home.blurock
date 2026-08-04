@@ -1,0 +1,34 @@
+ROOT                   /home/reaction/react
+DATA                   /home/reaction/react/data
+DBDIRECTORY            /home/reaction/react/data/DB
+MOLDIR                 /home/reaction/react/data/mol
+RXNDIR                 /home/reaction/react/data/rxn
+PERFDIR                /home/reaction/react/data/mech
+
+MOLECULEROOT           mol/molecule
+REACTIONROOT           rxn/reaction
+SUBSTRUCTUREROOT       mol/substructure
+
+BENSONROOT             benson
+BENSONTREEROOT         bensontree
+
+BackGround             gray
+Command_BitMap         /usr/users/blurock/bitmaps/commands.xbm
+Quit_BitMap            /usr/users/blurock/bitmaps/up.xbm
+Help_BitMap            /usr/users/blurock/bitmaps/ned.help.xbm
+Util_BitMap            /usr/users/blurock/bitmaps/tools.xbm
+Left_BitMap            /usr/users/blurock/bitmaps/leftpage.xbm
+Right_BitMap           /usr/users/blurock/bitmaps/rightpage.xbm
+
+CURRENT                .
+
+DBDataDirectory               (DbaseOps)DBDataDirectory
+DBDataMolRoot                 (DbaseOps.Molecules)DBDataMolRoot
+DBDataSubstructureRoot        (DbaseOps.Substructures)DBDataSubstructureRoot
+DBDirectory                   (CreateOpenClose)DBDirectory
+TablesDataDirectory           (Tables)TablesDataDirectory
+TablesOutputDirectory         (Tables)TablesOutputDirectory
+RootMolName                   (Mol)RootMolName
+MolDirectory                  (Mol)MolDirectory
+MolOutName                    (Mol)MolOutName
+MolOutDir                     (Mol)MolOutDir

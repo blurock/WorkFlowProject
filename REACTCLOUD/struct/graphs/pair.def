@@ -1,0 +1,33 @@
+Structures for Pair Correlations
+0 pairs
+     Pair 40 pairelement
+       0 The first in the pair
+         INT I Create
+       1 The second in the pair
+         INT J Create
+       DONE
+     PairSet 41 pairset 
+       0 The Number of Pairs
+         INT NumberOfPairs Create
+       1 The set of Pairs
+         Pair Pairs Pointer Create Array=NumberOfPairs
+       DONE
+     SetOfPairSets 42 setofpairsets
+       0 The Number of sets
+         INT NumberOfSets Create
+       1 The set of PairSets
+         PairSet Sets Pointer Create Array=NumberOfSets
+       DONE
+     DataSetPair 53 datasetpair
+       0 The first set in the pair
+         DataSubSet Set1 Pointer Create
+       1 The second set in the pair
+         DataSubSet Set2 Pointer Create
+       DONE
+     EquivalentSets 53 equivalentsets
+       0 The Number of Sets
+         INT NumberOfSets Create
+       1 The set of equivalent sets (sets of DataSetPairs)
+         DataSetPair Sets Pointer Create Array=NumberOfSets
+       DONE
+DONE

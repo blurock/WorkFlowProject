@@ -1,0 +1,64 @@
+1 alkeneC5-C10
+1-pentene
+- AlternativeNames CHEMKIN c5h10-1
+- AlternativeNames SHORT c5h10-1
+1-hexene
+- AlternativeNames CHEMKIN c6h12-1
+- AlternativeNames SHORT c6h12-1
+1-heptene
+- AlternativeNames CHEMKIN c7h14-1
+- AlternativeNames SHORT c7h14-1
+1-octene
+- AlternativeNames CHEMKIN c8h16-1
+- AlternativeNames SHORT c8h16-1
+1-nonene
+- AlternativeNames CHEMKIN c9h18-1
+- AlternativeNames SHORT c9h18-1
+1-decene
+- AlternativeNames CHEMKIN c10h20-1
+- AlternativeNames SHORT c10h20-1
+2-pentene
+- AlternativeNames CHEMKIN c5h10-2
+- AlternativeNames SHORT c5h10-2
+2-hexene
+- AlternativeNames CHEMKIN c6h12-2
+- AlternativeNames SHORT c6h12-2
+2-heptene
+- AlternativeNames CHEMKIN c7h14-2
+- AlternativeNames SHORT c7h14-2
+2-octene
+- AlternativeNames CHEMKIN c8h16-2
+- AlternativeNames SHORT c8h16-2
+2-nonene
+- AlternativeNames CHEMKIN c9h18-2
+- AlternativeNames SHORT c9h18-2
+2-decene
+- AlternativeNames CHEMKIN c9h20-2
+- AlternativeNames SHORT c9h20-2
+3-hexene
+- AlternativeNames CHEMKIN c6h12-3
+- AlternativeNames SHORT c6h12-3
+3-heptene
+- AlternativeNames CHEMKIN c7h14-3
+- AlternativeNames SHORT c7h14-3
+3-octene
+- AlternativeNames CHEMKIN c8h16-3
+- AlternativeNames SHORT c8h16-3
+3-nonene
+- AlternativeNames CHEMKIN c9h16-3
+- AlternativeNames SHORT c9h16-3
+3-decene
+- AlternativeNames CHEMKIN c10h20-3
+- AlternativeNames SHORT c10h20-3
+4-octene
+- AlternativeNames CHEMKIN c8h16-4
+- AlternativeNames SHORT c8h16-4
+4-nonene
+- AlternativeNames CHEMKIN c9h18-4
+- AlternativeNames SHORT c9h18-4
+4-decene
+- AlternativeNames CHEMKIN c10h20-4
+- AlternativeNames SHORT c10h20-4
+5-decene
+- AlternativeNames CHEMKIN c10h20-5
+- AlternativeNames SHORT c10h20-5

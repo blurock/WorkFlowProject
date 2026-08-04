@@ -1,0 +1,98 @@
+hydroxymethyl
+- Enthalpy StandardEnthalpy -2.60e+4 J-mol
+- CpPowerSeries CpSeriesInT .001 Kcals-K-mol Barbieri -1.496E+00  4.985E+01 -4.949E+01  2.501E+01 -6.297E+00  6.240E-01 
+- Equilibrium ExpEquilibrium 3.03e-17 9.65 -5777.0 A Kojima
+- CalculateS StandardEntropy 298.0 StandardEnthalpy ExpEquilibrium 
+- CalculateBenson CH2OH StandardEnthalpy StandardEntropy CpSeriesInT Standard  
+methylperoxy
+- Enthalpy StandardEnthalpy 1.76e+4 J-mol
+- CpPowerSeries CpSeriesInT .001 Kcals-K-mol Barbieri 2.550E+00  4.318E+01 -3.095E+01  1.184E+01 -2.315E+00  1.816E-01 
+- Equilibrium ExpEquilibrium 1.21e-25 12.78 -2881 A Kojima
+- CalculateS StandardEntropy 298.0 StandardEnthalpy ExpEquilibrium 
+- CalculateBenson CH3O2 StandardEnthalpy StandardEntropy CpSeriesInT Standard  
+methylperoxide
+- Enthalpy StandardEnthalpy -1.34e+5 J-mol
+- CpPowerSeries CpSeriesInT .001 Kcals-K-mol Barbieri 6.364E+00  3.435E+01 -1.969E+01  6.528E+00 -1.169E+00  8.697E-02 
+- Equilibrium ExpEquilibrium 7.35e-20 11.40 -19577 A Kojima
+- CalculateS StandardEntropy 298.0 StandardEnthalpy ExpEquilibrium 
+- CalculateBenson CH3O2H StandardEnthalpy StandardEntropy CpSeriesInT Standard  
+oxyethene
+- Enthalpy StandardEnthalpy -1.67e+4 J-mol
+- CpPowerSeries CpSeriesInT .001 Kcals-K-mol Barbieri 
+- Equilibrium ExpEquilibrium 1.09e-23 12.23 -1755 A Kojima -1.823E+00  4.434E+01 -2.457E+01  7.278E+00 -1.260E+00  1.040E-01 
+- CalculateS StandardEntropy 298.0 StandardEnthalpy ExpEquilibrium 
+- CalculateBenson C2H3O StandardEnthalpy StandardEntropy CpSeriesInT Standard  
+ethanal
+- Enthalpy StandardEnthalpy -1.66e+5 J-mol
+- CpPowerSeries CpSeriesInT .001 Kcals-K-mol Barbieri -4.696E+00  6.914E+01 -5.857E+01  2.707E+01 -6.555E+00  6.410E-01 
+- Equilibrium ExpEquilibrium 5.98e-30 14.15 -25602 A Kojima
+- CalculateS StandardEntropy 298.0 StandardEnthalpy ExpEquilibrium 
+- CalculateBenson CH3CHO StandardEnthalpy StandardEntropy CpSeriesInT Standard  
+oxirane
+- Enthalpy StandardEnthalpy -5.27e+4 J-mol
+- CpPowerSeries CpSeriesInT .001 Kcals-K-mol Barbieri -2.412E+00  5.768E+01 -4.096E+01  1.633E+01 -3.460E+00  3.020E-01 
+- Equilibrium ExpEquilibrium 5.04e-32 14.42 -12279 A Kojima
+- CalculateS StandardEntropy 298.0 StandardEnthalpy ExpEquilibrium 
+- CalculateBenson C2H4O StandardEnthalpy StandardEntropy CpSeriesInT Standard  
+methylcarboxy
+- Enthalpy StandardEnthalpy -1.22e+5 J-mol
+- CpPowerSeries CpSeriesInT .001 Kcals-K-mol Barbieri 8.590E+00  4.077E+01 -1.111E+01  O.OOOE+00  O.OOOE+00  O.OOOE+00 
+- Equilibrium ExpEquilibrium 2.24e-25 13.77 -30176 A Kojima
+- CalculateS StandardEntropy 298.0 StandardEnthalpy ExpEquilibrium 
+- CalculateBenson CH3CO2 StandardEnthalpy StandardEntropy CpSeriesInT Standard  
+ethoxy-radical
+- Enthalpy StandardEnthalpy -1.79e+4 J-mol
+- CpPowerSeries CpSeriesInT .001 Kcals-K-mol Barbieri -2.272E+01  1.542E+02 -1.644E+02  8.578E+01 -2.187E+01  2.177E+00 
+- Equilibrium ExpEquilibrium 1.16e-33 15.42 -8317 A Kojima
+- CalculateS StandardEntropy 298.0 StandardEnthalpy ExpEquilibrium 
+- CalculateBenson C2H5O StandardEnthalpy StandardEntropy CpSeriesInT Standard  
+methylpercarboxy
+- Enthalpy StandardEnthalpy -2.05e+5 J-mol
+- CpPowerSeries CpSeriesInT .001 Kcals-K-mol Barbieri 8.590E+00  4.077E+01 -1.111E+01  O.OOOE+00  O.OOOE+00  O.OOOE+00 
+- Equilibrium ExpEquilibrium 2.24e-25 13.77 -30176 A Kojima
+- CalculateS StandardEntropy 298.0 StandardEnthalpy ExpEquilibrium 
+- CalculateBenson CH3CO3 StandardEnthalpy StandardEntropy CpSeriesInT Standard  
+ethylperoxy
+- Enthalpy StandardEnthalpy -1.59e+4 J-mol
+- CpPowerSeries CpSeriesInT .001 Kcals-K-mol Barbieri -2.272E+01  1.542E+02 -1.644E+02  8.578E+01 -2.187E+01  2.177E+00 
+- Equilibrium ExpEquilibrium 5.90e-27 13.94 -9242 A Kojima
+- CalculateS StandardEntropy 298.0 StandardEnthalpy ExpEquilibrium 
+- CalculateBenson C2H5O2 StandardEnthalpy StandardEntropy CpSeriesInT Standard  
+perethanoic-acid
+- Enthalpy StandardEnthalpy -3.37e+5 J-mol
+- CpPowerSeries CpSeriesInT .001 Kcals-K-mol Barbieri -2.272E+01  1.542E+02 -1.644E+02  8.578E+01 -2.187E+01  2.177E+00 
+- Equilibrium ExpEquilibrium 6.61e-27 14.60 -48283 A Kojima
+- CalculateS StandardEntropy 298.0 StandardEnthalpy ExpEquilibrium 
+- CalculateBenson CH3CO3H StandardEnthalpy StandardEntropy CpSeriesInT Standard  
+ethylperoxide
+- Enthalpy StandardEnthalpy -1.68e+5 J-mol
+- CpPowerSeries CpSeriesInT .001 Kcals-K-mol Barbieri -2.272E+01  1.542E+02 -1.644E+02  8.578E+01 -2.187E+01  2.177E+00 
+- Equilibrium ExpEquilibrium 1.95e-27 14.77 -24372 A Kojima
+- CalculateS StandardEntropy 298.0 StandardEnthalpy ExpEquilibrium 
+- CalculateBenson C2H5O2H StandardEnthalpy StandardEntropy CpSeriesInT Standard  
+dimethylperoxide
+- Enthalpy StandardEnthalpy -1.26e+5 J-mol
+- CpPowerSeries CpSeriesInT .001 Kcals-K-mol Barbieri 8.590E+00  4.077E+01 -1.111E+01  O.OOOE+00  O.OOOE+00  O.OOOE+00 
+- Entropy StandardEntropy 74.1 cals-K-mol Benson
+- CalculateBenson CH3O2CH3 StandardEnthalpy StandardEntropy CpSeriesInT Standard  
+ethanol
+- Enthalpy StandardEnthalpy -2.35e+5 J-mol
+- CpPowerSeries CpSeriesInT .001 Kcals-K-mol Barbieri -2.272E+01  1.542E+02 -1.644E+02  8.578E+01 -2.187E+01  2.177E+00 
+- Entropy StandardEntropy 67.5 cals-K-mol Benson
+- CalculateBenson C2H5OH StandardEnthalpy StandardEntropy CpSeriesInT Standard  
+propenal
+- Enthalpy StandardEnthalpy -2.01e+5 J-mol
+- CpPowerSeries CpSeriesInT .001 Kcals-K-mol Barbieri -1.509E+01  1.285E+02 -1.181E+02  5.738E+01 -1.415E+01  1.375E+00 
+- Entropy StandardEntropy 69 cals-K-mol Benson
+- CalculateBenson C2H3CHO StandardEnthalpy StandardEntropy CpSeriesInT Standard  
+ethanoic-acid
+- Enthalpy StandardEnthalpy -3.37e+5 J-mol
+- CpPowerSeries CpSeriesInT .001 Kcals-K-mol Barbieri 8.590E+00  4.077E+01 -1.111E+01  O.OOOE+00  O.OOOE+00  O.OOOE+00 
+- Entropy StandardEntropy 69 cals-K-mol Benson
+- CalculateBenson CH3CO2H StandardEnthalpy StandardEntropy CpSeriesInT Standard  
+1-propene-3-ol
+- Enthalpy StandardEnthalpy 8.67E+04 J-mol
+- CpPowerSeries CpSeriesInT .001 Kcals-K-mol Barbieri -2.272E+01  1.542E+02 -1.644E+02  8.578E+01 -2.187E+01  2.177E+00 
+- Entropy StandardEntropy 77.33 cals-K-mol Benson 
+- CalculateBenson C3H5OH StandardEnthalpy StandardEntropy CpSeriesInT Standard  
+

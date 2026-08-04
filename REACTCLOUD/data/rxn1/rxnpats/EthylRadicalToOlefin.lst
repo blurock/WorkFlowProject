@@ -1,0 +1,138 @@
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+ethyl-radical(hh)(hhh)-oxidation-to-olefin ethyl-radical-(hh)(hhh) oxygen = olefin-(hh)(hh) peroxyl-radical
+- ID 10001
+- Correspondences
+1 2 3 4 5 6 7     2 2 2 2 2 4
+8 9               2
+1 2 3 6 4 5       2 2 2 2 2
+7 8 9             4 2
+>  <ForwardRxn>
+Standard 5.42e+9 0.0 0.0 4; Ranzi Value ; Estimate  
+
+>  <ReverseRxn>
+Standard 7.6e+16 0.0 16358 1; Ranzi Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+ethyl-radical(rh)(hhh)-oxidation-to-olefin ethyl-radical-(rh)(hhh) oxygen = olefin-(rh)(hh) peroxyl-radical
+- ID 10002
+- Correspondences
+1 2 3 4 5 6 7     2 2 2 2 2 4
+8 9               2
+1 2 3 6 4 5       2 2 2 2 2
+7 8 9             4 2
+>  <ForwardRxn>
+Standard 5.42e+9 0.0 0.0 4; Ranzi Value ; Estimate  
+
+>  <ReverseRxn>
+Standard 7.6e+16 0.0 16358 1; Ranzi Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+ethyl-radical(hh)(rhh)-oxidation-to-olefin ethyl-radical-(hh)(rhh) oxygen = olefin-(rh)(hh) peroxyl-radical
+- ID 10003
+- Correspondences
+1 2 3 4 5 6 7     2 2 2 2 2 4
+8 9               2
+1 2 5 4 3 6       2 2 2 2 2
+7 8 9             4 2
+>  <ForwardRxn>
+Standard 5.42e+9 0.0 0.0 4; Ranzi Value ; Estimate  
+
+>  <ReverseRxn>
+Standard 7.6e+16 0.0 16358 1; Ranzi Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry:   (2)((3*2*1)/3)(2)=8
+%%%-------------------------------------------------------------------
+ethyl-radical(rr)(hhh)-oxidation-to-olefin ethyl-radical-(rr)(hhh) oxygen = olefin-(rr)(hh) peroxyl-radical
+- ID 10004
+- Correspondences
+1 2 3 4 5 6 7     2 2 2 2 2 4
+8 9               2
+1 2 3 6 4 5       2 2 2 2 2
+7 8 9             4 2
+>  <ForwardRxn>
+Standard 5.42e+9 0.0 0.0 8; Ranzi Value ; Estimate  
+
+>  <ReverseRxn>
+Standard 7.6e+16 0.0 16358 1; Ranzi Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+ethyl-radical(rh)(rhh)-oxidation-to-olefin ethyl-radical-(rh)(rhh) oxygen = olefin-(rh)(rh) peroxyl-radical
+- ID 10005
+- Correspondences
+1 2 3 4 5 6 7     2 2 2 2 2 4
+8 9               2
+1 2 3 6 5 4       2 2 2 2 2
+7 8 9             4 2
+>  <ForwardRxn>
+Standard 5.42e+9 0.0 0.0 4; Ranzi Value ; Estimate  
+
+>  <ReverseRxn>
+Standard 7.6e+16 0.0 16358 1; Ranzi Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+ethyl-radical(hh)(rrh)-oxidation-to-olefin ethyl-radical-(hh)(rrh) oxygen = olefin-(rr)(hh) peroxyl-radical
+- ID 10006
+- Correspondences
+1 2 3 4 5 6 7     2 2 2 2 2 4
+8 9               2
+1 2 4 5 3 6       2 2 2 2 2
+7 8 9             4 2
+>  <ForwardRxn>
+Standard 5.42e+9 0.0 0.0 4; Ranzi Value ; Estimate  
+
+>  <ReverseRxn>
+Standard 7.6e+16 0.0 16358 1; Ranzi Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+ethyl-radical(rr)(rhh)-oxidation-to-olefin ethyl-radical-(rr)(rhh) oxygen = olefin-(rr)(rh) peroxyl-radical
+- ID 10007
+- Correspondences
+1 2 3 4 5 6 7     2 2 2 2 2 4
+8 9               2
+1 2 3 6 5 4       2 2 2 2 2
+7 8 9             4 2
+>  <ForwardRxn>
+Standard 5.42e+9 0.0 0.0 4; Ranzi Value ; Estimate  
+
+>  <ReverseRxn>
+Standard 7.6e+16 0.0 16358 1; Ranzi Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+ethyl-radical(rh)(rrh)-oxidation-to-olefin ethyl-radical-(rh)(rrh) oxygen = olefin-(rr)(rh) peroxyl-radical
+- ID 10008
+- Correspondences
+1 2 3 4 5 6 7     2 2 2 2 2 4
+8 9               2
+1 2 4 5 3 6       2 2 2 2 2
+7 8 9             4 2
+>  <ForwardRxn>
+Standard 5.42e+9 0.0 0.0 4; Ranzi Value ; Estimate  
+
+>  <ReverseRxn>
+Standard 7.6e+16 0.0 16358 1; Ranzi Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+ethyl-radical(rr)(rrh)-oxidation-to-olefin ethyl-radical-(rr)(rrh) oxygen = olefin-(rr)(rr) peroxyl-radical
+- ID 10009
+- Correspondences
+1 2 3 4 5 6 7     2 2 2 2 2 4
+8 9               2
+1 2 3 6 5 4       2 2 2 2 2
+7 8 9             4 2
+>  <ForwardRxn>
+Standard 5.42e+9 0.0 0.0 4; Ranzi Value ; Estimate  
+
+>  <ReverseRxn>
+Standard 7.6e+16 0.0 16358 1; Ranzi Value ; Estimate  
+$$$$

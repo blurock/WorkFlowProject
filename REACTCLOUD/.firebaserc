@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "blurock-database"
+  },
+  "targets": {
+    "blurock-database": {
+      "hosting": {
+        "react-chemdb": [
+          "react-chemdb"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

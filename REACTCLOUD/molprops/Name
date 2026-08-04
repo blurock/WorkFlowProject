@@ -1,0 +1,8 @@
+molread.c:     bond->Name = CopyNAME("");
+molread.c:     sscanf(line,"%3d%3d%3d",&(bond->I),&(bond->J),&(bond->Order));     
+molread.c:     bond->I -= 1;
+molread.c:     bond->J -= 1;
+molread.c:     bond->Parameters = ReadIntegerParameters(line+9,NUMBER_BOND_PARAMETERS);
+molread.c:     bond->NumberOfParameters = NUMBER_BOND_PARAMETERS;
+molread.c:     switch(bond->Order)
+molread.c:	     bond->I,bond->J);

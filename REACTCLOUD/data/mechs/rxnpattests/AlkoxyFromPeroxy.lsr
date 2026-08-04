@@ -1,0 +1,18 @@
+The Standard Combustion Chain
+NONE
+%%% ----------------------------------------------------
+Carbon-Radical-Initiation-Step-(RH+O2->R+HO2)
+%%% ----------------------------------------------------
+Primary-Carbon-Radical-(R.+O2-->RO2.),\
+Secondary-Carbon-Radical-(R.+O2-->RO2.),\
+Tertiary-Carbon-Radical-(R.+O2-->RO2.)\
+:oxygen
+%%% ----------------------------------------------------
+Intramolecular-1-4-QOOH-Formation,\
+Intramolecular-1-5-QOOH-Formation,\
+Intramolecular-1-6-QOOH-Formation
+%%% ----------------------------------------------------
+AlkoxyFromPeroxy-HHH,\
+AlkoxyFromPeroxy-RHH,\
+AlkoxyFromPeroxy-RRH,\
+AlkoxyFromPeroxy-RRR

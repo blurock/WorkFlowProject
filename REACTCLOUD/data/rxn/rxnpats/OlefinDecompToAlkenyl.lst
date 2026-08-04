@@ -1,0 +1,240 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*6 = 24
+%%%-------------------------------------------------------------------
+OlefinDecompToAkenyl(hh)(hhh)\
+  betaolefin(qq)(q)(hh)(hhh)  = alkenyl-(qq)(q) ethyl-radical-(hh)(hhh)
+- ID 73001
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12           2 4 2 2 2 2 2 2 2 2 2
+1 2 5 6 7                            2 2 2 2
+3 4 8 10 11 9 12                     2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 1.000E+16   0.00 7.100E+04  24; Curran, et. al.
+>  <ReverseRxn>
+Standard 1.000E+13   0.00 0.000      24; Curran, et. al.
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*6 = 12
+%%%-------------------------------------------------------------------
+OlefinDecompToAkenyl(rh)(hhh)\
+  betaolefin(qq)(q)(rh)(hhh)  = alkenyl-(qq)(q) ethyl-radical-(rh)(hhh)
+- ID 73002
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12           2 4 2 2 2 2 2 2 2 2 2
+1 2 5 6 7                            2 2 2 2
+3 4 8 10 11 9 12                     2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 1.000E+16   0.00 7.100E+04  12; Curran, et. al.
+>  <ReverseRxn>
+Standard 1.000E+13   0.00 0.000      12; Curran, et. al.
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*6 = 24
+%%%-------------------------------------------------------------------
+OlefinDecompToAkenyl(rr)(hhh)\
+  betaolefin(qq)(q)(rr)(hhh)  = alkenyl-(qq)(q) ethyl-radical-(rr)(hhh)
+- ID 73003
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12           2 4 2 2 2 2 2 2 2 2 2
+1 2 5 6 7                            2 2 2 2
+3 4 8 10 11 9 12                     2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 1.000E+16   0.00 7.100E+04  24; Curran, et. al.
+>  <ReverseRxn>
+Standard 1.000E+13   0.00 0.000      24; Curran, et. al.
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+OlefinDecompToAkenyl(hh)(rhh)\
+  betaolefin(qq)(q)(hh)(rhh)  = alkenyl-(qq)(q) ethyl-radical-(hh)(rhh)
+- ID 73004
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12           2 4 2 2 2 2 2 2 2 2 2
+1 2 5 6 7                            2 2 2 2
+3 4 8 11 10 9 12                     2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 1.000E+16   0.00 7.100E+04  8; Curran, et. al.
+>  <ReverseRxn>
+Standard 1.000E+13   0.00 0.000      8; Curran, et. al.
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+OlefinDecompToAkenyl(rh)(rhh)\
+  betaolefin(qq)(q)(rh)(rhh)  = alkenyl-(qq)(q) ethyl-radical-(rh)(rhh)
+- ID 73005
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12           2 4 2 2 2 2 2 2 2 2 2
+1 2 5 6 7                            2 2 2 2
+3 4 8 11 10 9 12                     2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 1.000E+16   0.00 7.100E+04  4; Curran, et. al.
+>  <ReverseRxn>
+Standard 1.000E+13   0.00 0.000      4; Curran, et. al.
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+OlefinDecompToAkenyl(rr)(rhh)\
+  betaolefin(qq)(q)(rr)(rhh)  = alkenyl-(qq)(q) ethyl-radical-(rr)(rhh)
+- ID 73006
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12           2 4 2 2 2 2 2 2 2 2 2
+1 2 5 6 7                            2 2 2 2
+3 4 8 11 10 9 12                     2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 1.000E+16   0.00 7.100E+04  8; Curran, et. al.
+>  <ReverseRxn>
+Standard 1.000E+13   0.00 0.000      8; Curran, et. al.
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+OlefinDecompToAkenyl(hh)(rrh)\
+  betaolefin(qq)(q)(hh)(rrh)  = alkenyl-(qq)(q) ethyl-radical-(hh)(rrh)
+- ID 73007
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12           2 4 2 2 2 2 2 2 2 2 2
+1 2 5 6 7                            2 2 2 2
+3 4 8 10 11 9 12                     2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 1.000E+16   0.00 7.100E+04  8; Curran, et. al.
+>  <ReverseRxn>
+Standard 1.000E+13   0.00 0.000      8; Curran, et. al.
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+OlefinDecompToAkenyl(rh)(rrh)\
+  betaolefin(qq)(q)(rh)(rrh)  = alkenyl-(qq)(q) ethyl-radical-(rh)(rrh)
+- ID 73008
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12           2 4 2 2 2 2 2 2 2 2 2
+1 2 5 6 7                            2 2 2 2
+3 4 8 10 11 9 12                     2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 1.000E+16   0.00 7.100E+04  4; Curran, et. al.
+>  <ReverseRxn>
+Standard 1.000E+13   0.00 0.000      4; Curran, et. al.
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+OlefinDecompToAkenyl(rr)(rrh)\
+  betaolefin(qq)(q)(rr)(rrh)  = alkenyl-(qq)(q) ethyl-radical-(rr)(rrh)
+- ID 73009
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12           2 4 2 2 2 2 2 2 2 2 2
+1 2 5 6 7                            2 2 2 2
+3 4 8 10 11 9 12                     2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 1.000E+16   0.00 7.100E+04  8; Curran, et. al.
+>  <ReverseRxn>
+Standard 1.000E+13   0.00 0.000      8; Curran, et. al.
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*6 = 24
+%%%-------------------------------------------------------------------
+OlefinDecompToAkenyl(hh)(rrr)\
+  betaolefin(qq)(q)(hh)(rrr)  = alkenyl-(qq)(q) ethyl-radical-(hh)(rrr)
+- ID 73010
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12           2 4 2 2 2 2 2 2 2 2 2
+1 2 5 6 7                            2 2 2 2
+3 4 8 10 11 9 12                     2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 1.000E+16   0.00 7.100E+04  24; Curran, et. al.
+>  <ReverseRxn>
+Standard 1.000E+13   0.00 0.000      24; Curran, et. al.
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*6 = 12
+%%%-------------------------------------------------------------------
+OlefinDecompToAkenyl(rh)(rrr)\
+  betaolefin(qq)(q)(rh)(rrr)  = alkenyl-(qq)(q) ethyl-radical-(rh)(rrr)
+- ID 73011
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12           2 4 2 2 2 2 2 2 2 2 2
+1 2 5 6 7                            2 2 2 2
+3 4 8 10 11 9 12                     2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 1.000E+16   0.00 7.100E+04  12; Curran, et. al.
+>  <ReverseRxn>
+Standard 1.000E+13   0.00 0.000      12; Curran, et. al.
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*6 = 24
+%%%-------------------------------------------------------------------
+OlefinDecompToAkenyl(rr)(hhh)\
+  betaolefin(qq)(q)(rr)(hhh)  = alkenyl-(qq)(q) ethyl-radical-(rr)(hhh)
+- ID 73012
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12           2 4 2 2 2 2 2 2 2 2 2
+1 2 5 6 7                            2 2 2 2
+3 4 8 10 11 9 12                     2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 1.000E+16   0.00 7.100E+04  24; Curran, et. al.
+>  <ReverseRxn>
+Standard 1.000E+13   0.00 0.000      24; Curran, et. al.
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*6 = 12
+%%%-------------------------------------------------------------------
+OlefinDecompToAkenyl(hhh)\
+  alphaolefin-(qq)(q)(hhh)  = alkenyl-(qq)(q) methane-carbon-radical
+- ID 73020
+- Correspondences
+1 2 3 4 5 6 7 8 9              2 4 2 2 2 2 2 2
+1 2 4 5 6                      2 2 2 2
+3 7 8 9                        2 2 2
+>  <ForwardRxn>
+Standard 1.000E+19  -1.00  9.677E+04 12; Curran, et. al. c3h6  =  c2h3+ch3
+>  <ReverseRxn>
+Standard 9.000E+12  0.00  0.000E+00 12; Curran, et. al. (rev) c3h6  =  c2h3+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+OlefinDecompToAkenyl(rhh)\
+  alphaolefin-(qq)(q)(rhh)  = alkenyl-(qq)(q) primary-carbon-radical
+- ID 73021
+- Correspondences
+1 2 3 4 5 6 7 8 9              2 4 2 2 2 2 2 2
+1 2 4 5 6                      2 2 2 2
+3 7 8 9                        2 2 2
+>  <ForwardRxn>
+Standard 1.000E+19  -1.00  9.677E+04 4; Curran, et. al. 1-c4h8 = c2h3+c2h5
+>  <ReverseRxn>
+Standard 9.000E+12  0.00  0.000E+00 4; Curran, et. al. (rev) 1-c4h8 = c2h3+c2h5
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+OlefinDecompToAkenyl(rrh)\
+  alphaolefin-(qq)(q)(rrh)  = alkenyl-(qq)(q) secondary-carbon-radical
+- ID 73022
+- Correspondences
+1 2 3 4 5 6 7 8 9              2 4 2 2 2 2 2 2
+1 2 4 5 6                      2 2 2 2
+3 7 8 9                        2 2 2
+>  <ForwardRxn>
+Standard 1.000E+19  -1.00  9.677E+04 4; Curran, et. al. 1-c4h8 = c2h3+c2h5
+>  <ReverseRxn>
+Standard 9.000E+12  0.00  0.000E+00 4; Curran, et. al. (rev) 1-c4h8 = c2h3+c2h5
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*6 = 12
+%%%-------------------------------------------------------------------
+OlefinDecompToAkenyl(rrr)\
+  alphaolefin-(qq)(q)(rrr)  = alkenyl-(qq)(q) tertiary-carbon-radical
+- ID 73023
+- Correspondences
+1 2 3 4 5 6 7 8 9              2 4 2 2 2 2 2 2
+1 2 4 5 6                      2 2 2 2
+3 7 8 9                        2 2 2
+>  <ForwardRxn>
+Standard 1.000E+19  -1.00  9.677E+04 12; Curran, et. al. 1-c4h8 = c2h3+c2h5
+>  <ReverseRxn>
+Standard 9.000E+12  0.00  0.000E+00 12; Curran, et. al. (rev) 1-c4h8 = c2h3+c2h5
+$$$$

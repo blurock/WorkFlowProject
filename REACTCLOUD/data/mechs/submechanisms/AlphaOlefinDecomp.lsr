@@ -1,0 +1,97 @@
+BetaOlefinRadicalDecomp
+oxygen
+%%% ----------------------------------------------------
+%%%  Olefin Formation Precursor:  Radical Formation
+%%% ----------------------------------------------------
+H-Abstraction-Oxygen-Tertiary,\
+H-Abstraction-Oxygen-Secondary,\
+H-Abstraction-Oxygen-Primary\
+:oxygen
+%%% ----------------------------------------------------
+%%%  Olefin Formation Precursor:  Olefin Formation
+%%% ----------------------------------------------------
+HLoss-ethyl-radical(hh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rhh)-to-olefin,\
+HLoss-ethyl-radical(rr)(hhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(rhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rrh)-to-olefin,\
+HLoss-ethyl-radical(rr)(rhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(rrh)-to-olefin,\
+HLoss-ethyl-radical(rr)(rrh)-to-olefin
+%%% ----------------------------------------------------
+%%% Formation of AlphaOlefin-Radical 
+%%%    AlphaHAbstractionFromOlefinH: 
+%%%            H Abstraction with hydrogen-radical
+%%%    AlphaHAbstractionFromOlefinO: 
+%%%            O Abstraction with oxygen-radical
+%%%    AlphaHAbstractionFromOlefinOH: 
+%%%            OH Abstraction with hydroxyl-radical
+%%%    AlphaHAbstractionFromOlefinCH3: 
+%%%            CH3 Abstraction with methyl-radical
+%%%    BetaOlefinDecomp
+%%%            Thermal Decomposition
+%%% ----------------------------------------------------
+BetaOlefinDecomp(qq)(q)(hh)(hhh),\
+BetaOlefinDecomp(qq)(q)(rh)(hhh),\
+BetaOlefinDecomp(qq)(q)(rr)(hhh),\
+BetaOlefinDecomp(qq)(q)(hh)(rhh),\
+BetaOlefinDecomp(qq)(q)(rh)(rhh),\
+BetaOlefinDecomp(qq)(q)(rr)(rhh),\
+BetaOlefinDecomp(qq)(q)(hh)(rrh),\
+BetaOlefinDecomp(qq)(q)(rh)(rrh),\
+BetaOlefinDecomp(qq)(q)(rr)(rrh),\
+BetaOlefinDecomp(qq)(q)(hh)(rrr),\
+BetaOlefinDecomp(qq)(q)(rh)(rrr),\
+BetaOlefinDecomp(qq)(q)(rr)(rrr),\
+AlphaHAbstractionFromOlefinH-(hh),\
+AlphaHAbstractionFromOlefinH-(rh),\
+AlphaHAbstractionFromOlefinH-(rr),\
+AlphaHAbstractionFromOlefinO-(hh),\
+AlphaHAbstractionFromOlefinO-(rh),\
+AlphaHAbstractionFromOlefinO-(rr),\
+AlphaHAbstractionFromOlefinOH-(hh),\
+AlphaHAbstractionFromOlefinOH-(rh),\
+AlphaHAbstractionFromOlefinOH-(rr),\
+AlphaHAbstractionFromOlefinCH3-(hh),\
+AlphaHAbstractionFromOlefinCH3-(rh),\
+AlphaHAbstractionFromOlefinCH3-(rr)\
+:oxygen-radical,hydrogen-radical,hydroxyl-radical,methyl-radical
+%%% ----------------------------------------------------
+%%%   Decomposition of AlphaOlefin-Radical
+%%%       AlphaOlefinRadicalDecompOH:
+%%%          Based on aC3H5 + OH  =  C2H4  + HCHO
+%%%       AlphaOlefinRadicalDecompHO2
+%%%          Based on aC3H5 + HO2 = OH + CHO + C2H4
+%%% ----------------------------------------------------
+AlphaOlefinRadicalDecompOH-(hh)(h)(hh),\
+AlphaOlefinRadicalDecompOH-(rh)(h)(hh),\
+AlphaOlefinRadicalDecompOH-(rr)(h)(hh),\
+AlphaOlefinRadicalDecompOH-(hh)(r)(hh),\
+AlphaOlefinRadicalDecompOH-(rh)(r)(hh),\
+AlphaOlefinRadicalDecompOH-(rr)(r)(hh),\
+AlphaOlefinRadicalDecompOH-(hh)(h)(rh),\
+AlphaOlefinRadicalDecompOH-(rh)(h)(rh),\
+AlphaOlefinRadicalDecompOH-(rr)(h)(rh),\
+AlphaOlefinRadicalDecompOH-(hh)(r)(rh),\
+AlphaOlefinRadicalDecompOH-(rh)(r)(rh),\
+AlphaOlefinRadicalDecompOH-(rr)(r)(rh),\
+AlphaOlefinRadicalDecompOH-(hh)(h)(rr),\
+AlphaOlefinRadicalDecompOH-(rh)(h)(rr),\
+AlphaOlefinRadicalDecompOH-(rr)(h)(rr),\
+AlphaOlefinRadicalDecompOH-(hh)(r)(rr),\
+AlphaOlefinRadicalDecompOH-(rh)(r)(rr),\
+AlphaOlefinRadicalDecompOH-(rr)(r)(rr),\
+AlphaOlefinRadicalDecompHO2-(hh)(h)(hh),\
+AlphaOlefinRadicalDecompHO2-(rh)(h)(hh),\
+AlphaOlefinRadicalDecompHO2-(rr)(h)(hh),\
+AlphaOlefinRadicalDecompHO2-(hh)(r)(hh),\
+AlphaOlefinRadicalDecompHO2-(rh)(r)(hh),\
+AlphaOlefinRadicalDecompHO2-(rr)(r)(hh),\
+AlphaOlefinRadicalDecompHO2-(hh)(h)(rh),\
+AlphaOlefinRadicalDecompHO2-(rh)(h)(rh),\
+AlphaOlefinRadicalDecompHO2-(rr)(h)(rh),\
+AlphaOlefinRadicalDecompHO2-(hh)(r)(rh),\
+AlphaOlefinRadicalDecompHO2-(rh)(r)(rh),\
+AlphaOlefinRadicalDecompHO2-(rr)(r)(rh)\
+:hydroxyl-radical,peroxyl-radical

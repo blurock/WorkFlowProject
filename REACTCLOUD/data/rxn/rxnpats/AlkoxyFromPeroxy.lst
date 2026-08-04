@@ -1,0 +1,51 @@
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+AlkoxyFromPeroxy-HHH c(h)(h)(h)(ooh) = c(h)(h)(h)(o.) hydroxyl-radical
+- ID 17111
+- Correspondences
+1 2 3 4 5 6 7      2 4 2 2 2 2
+3 4 5 6 7          2 2 2 2
+1 2                2
+>  <ForwardRxn>
+Standard 2.8960e+20    -1.7100     46000 6; Reverse calculated (LUND)
+>  <ReverseRxn>
+Standard 1.00e+13 0.0 0.0 6; Type XVII: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+AlkoxyFromPeroxy-RHH c(r)(h)(h)(ooh) = c(r)(h)(h)(o.) hydroxyl-radical
+- ID 17211
+- Correspondences
+1 2 3 4 5 6 7      2 4 2 2 2 2
+3 4 5 6 7          2 2 2 2
+1 2                2
+>  <ForwardRxn>
+Standard 2.8960e+20    -1.7100 46000 2; Reverse calculated (LUND)
+>  <ReverseRxn>
+Standard 1.00e+13 0.0 0.0 2; Type XVII: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+AlkoxyFromPeroxy-RRH c(r)(r)(h)(ooh) = c(r)(r)(h)(o.) hydroxyl-radical
+- ID 17221
+- Correspondences
+1 2 3 4 5 6 7      2 4 2 2 2 2
+3 4 5 6 7          2 2 2 2
+1 2                2
+>  <ForwardRxn>
+Standard 1.2020e+21  -1.8100 46000 2; Reverse calculated (LUND)
+>  <ReverseRxn>
+Standard 1.00e+13 0.0 0.0 2; Type XVII: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+AlkoxyFromPeroxy-RRR c(r)(r)(r)(ooh) = c(r)(r)(r)(o.) hydroxyl-radical
+- ID 17222
+- Correspondences
+1 2 3 4 5 6 7      2 4 2 2 2 2
+3 4 5 6 7          2 2 2 2
+1 2                2
+>  <ForwardRxn>
+Standard 1.2020e+21  -1.8100 46000 6; Using RRH Reverse calculated (LUND)
+>  <ReverseRxn>
+Standard 1.00e+13 0.0 0.0 6; Type XVII: Using RRH Value Combustion and Flame, 114:149-177 (1998)
+$$$$

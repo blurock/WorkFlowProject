@@ -1,0 +1,540 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*6 = 24
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(hh)(hh)(hhh)\
+       propyl-radical-(hh)(hh)(hhh) = olefin-(hh)(hh) methane-carbon-radical
+- ID 70300
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+1 2 4 5 6 7              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 9.468e+13  -0.55  2.900e+04 24; From nc3h7 = ch3+c2h4
+>  <ReverseRxn>
+Standard 1.700e+11   0.00  7.800e+03 24; From nc3h7 = ch3+c2h4
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*6 = 12
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(rh)(hh)(hhh)\
+       propyl-radical-(rh)(hh)(hhh) = olefin-(rh)(hh) methane-carbon-radical
+- ID 70301
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+1 2 4 5 6 7              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 1.898e+17  -1.40  3.083e+04 12; From sc4h9 = c3h6+ch3
+>  <ReverseRxn>
+Standard 8.500e+10   0.00  7.800e+03 12; From sc4h9 = c3h6+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*6 = 24
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(rr)(hh)(hhh)\
+       propyl-radical-(rr)(hh)(hhh) = olefin-(rr)(hh) methane-carbon-radical
+- ID 70302
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+1 2 4 5 6 7              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 1.898e+17  -1.40  3.083e+04 24; From sc4h9 = c3h6+ch3
+>  <ReverseRxn>
+Standard 8.500e+10   0.00  7.800e+03 24; From sc4h9 = c3h6+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*6 = 12
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(hh)(rh)(hhh)\
+       propyl-radical-(hh)(rh)(hhh) = olefin-(rh)(hh) methane-carbon-radical
+- ID 70303
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+2 1 6 7 4 5              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 9.468e+13  -0.55  2.900e+04 12; From nc3h7 = ch3+c2h4
+>  <ReverseRxn>
+Standard 1.700e+11   0.00  7.800e+03 12; From nc3h7 = ch3+c2h4
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1*6 = 12
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(rh)(rh)(hhh)\
+       propyl-radical-(rh)(rh)(hhh) = olefin-(rh)(rh) methane-carbon-radical
+- ID 70304
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+1 2 4 5 6 7              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 1.898e+17  -1.40  3.083e+04 6; From sc4h9 = c3h6+ch3
+>  <ReverseRxn>
+Standard 8.500e+10   0.00  7.800e+03 6; From sc4h9 = c3h6+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*6 = 12
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(rr)(rh)(hhh)\
+       propyl-radical-(rr)(rh)(hhh) = olefin-(rr)(rh) methane-carbon-radical
+- ID 70305
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+1 2 4 5 6 7              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 1.898e+17  -1.40  3.083e+04 12; From sc4h9 = c3h6+ch3
+>  <ReverseRxn>
+Standard 8.500e+10   0.00  7.800e+03 12; From sc4h9 = c3h6+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*6 = 24
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(hh)(rr)(hhh)\
+       propyl-radical-(hh)(rr)(hhh) = olefin-(rr)(hh) methane-carbon-radical
+- ID 70306
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+2 1 6 7 4 5              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 9.468e+13  -0.55  2.900e+04 24; From nc3h7 = ch3+c2h4
+>  <ReverseRxn>
+Standard 1.700e+11   0.00  7.800e+03 24; From nc3h7 = ch3+c2h4
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*6 = 12
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(rh)(rr)(hhh)\
+       propyl-radical-(rh)(rr)(hhh) = olefin-(rr)(rh) methane-carbon-radical
+- ID 70307
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+2 1 6 7 4 5              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 1.898e+17  -1.40  3.083e+04 12; From sc4h9 = c3h6+ch3
+>  <ReverseRxn>
+Standard 8.500e+10   0.00  7.800e+03 12; From sc4h9 = c3h6+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*6 = 24
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(rr)(rr)(hhh)\
+       propyl-radical-(rr)(rr)(hhh) = olefin-(rr)(rr) methane-carbon-radical
+- ID 70308
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+1 2 4 5 6 7              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 1.898e+17  -1.40  3.083e+04 24; From sc4h9 = c3h6+ch3
+>  <ReverseRxn>
+Standard 8.500e+10   0.00  7.800e+03 24; From sc4h9 = c3h6+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(hh)(hh)(rhh)\
+       propyl-radical-(hh)(hh)(rhh) = olefin-(hh)(hh) primary-carbon-radical
+- ID 70309
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+1 2 4 5 6 7              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 9.468e+13  -0.55  2.900e+04 8; From nc3h7 = ch3+c2h4
+>  <ReverseRxn>
+Standard 1.700e+11   0.00  7.800e+03 8; From nc3h7 = ch3+c2h4
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*2 = 4
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(rh)(hh)(rhh)\
+       propyl-radical-(rh)(hh)(rhh) = olefin-(rh)(hh) primary-carbon-radical
+- ID 70310
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+1 2 4 5 6 7              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 1.898e+17  -1.40  3.083e+04 4; From sc4h9 = c3h6+ch3
+>  <ReverseRxn>
+Standard 8.500e+10   0.00  7.800e+03 4; From sc4h9 = c3h6+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(rr)(hh)(rhh)\
+       propyl-radical-(rr)(hh)(rhh) = olefin-(rr)(hh) primary-carbon-radical
+- ID 70311
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+1 2 4 5 6 7              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 1.898e+17  -1.40  3.083e+04 8; From sc4h9 = c3h6+ch3
+>  <ReverseRxn>
+Standard 8.500e+10   0.00  7.800e+03 8; From sc4h9 = c3h6+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*2 = 4
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(hh)(rh)(rhh)\
+       propyl-radical-(hh)(rh)(rhh) = olefin-(rh)(hh) primary-carbon-radical
+- ID 70312
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+2 1 6 7 4 5              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 9.468e+13  -0.55  2.900e+04 4; From nc3h7 = ch3+c2h4
+>  <ReverseRxn>
+Standard 1.700e+11   0.00  7.800e+03 4; From nc3h7 = ch3+c2h4
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1*2 = 2
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(rh)(rh)(rhh)\
+       propyl-radical-(rh)(rh)(rhh) = olefin-(rh)(rh) primary-carbon-radical
+- ID 70313
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+1 2 4 5 6 7              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 1.898e+17  -1.40  3.083e+04 2; From sc4h9 = c3h6+ch3
+>  <ReverseRxn>
+Standard 8.500e+10   0.00  7.800e+03 2; From sc4h9 = c3h6+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*2 = 4
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(rr)(rh)(rhh)\
+       propyl-radical-(rr)(rh)(rhh) = olefin-(rr)(hh) primary-carbon-radical
+- ID 70314
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+1 2 4 5 6 7              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 1.898e+17  -1.40  3.083e+04 4; From sc4h9 = c3h6+ch3
+>  <ReverseRxn>
+Standard 8.500e+10   0.00  7.800e+03 4; From sc4h9 = c3h6+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(hh)(rr)(rhh)\
+       propyl-radical-(hh)(rr)(rhh) = olefin-(rr)(hh) primary-carbon-radical
+- ID 70315
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+2 1 6 7 4 5              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 9.468e+13  -0.55  2.900e+04 8; From nc3h7 = ch3+c2h4
+>  <ReverseRxn>
+Standard 1.700e+11   0.00  7.800e+03 8; From nc3h7 = ch3+c2h4
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*2 = 4
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(rh)(rr)(rhh)\
+       propyl-radical-(rh)(rr)(rhh) = olefin-(rr)(rh) primary-carbon-radical
+- ID 70316
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+2 1 6 7 4 5              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 1.898e+17  -1.40  3.083e+04 4; From sc4h9 = c3h6+ch3
+>  <ReverseRxn>
+Standard 8.500e+10   0.00  7.800e+03 4; From sc4h9 = c3h6+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(rr)(rr)(rhh)\
+       propyl-radical-(rr)(rr)(rhh) = olefin-(rr)(rr) primary-carbon-radical
+- ID 70317
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+1 2 4 5 6 7              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 1.898e+17  -1.40  3.083e+04 8; From sc4h9 = c3h6+ch3
+>  <ReverseRxn>
+Standard 8.500e+10   0.00  7.800e+03 8; From sc4h9 = c3h6+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(hh)(hh)(rrh)\
+       propyl-radical-(hh)(hh)(rrh) = olefin-(hh)(hh) secondary-carbon-radical
+- ID 70318
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+1 2 4 5 6 7              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 9.468e+13  -0.55  2.900e+04 8; From nc3h7 = ch3+c2h4
+>  <ReverseRxn>
+Standard 1.700e+11   0.00  7.800e+03 8; From nc3h7 = ch3+c2h4
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*2 = 4
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(rh)(hh)(rrh)\
+       propyl-radical-(rh)(hh)(rrh) = olefin-(rh)(hh) secondary-carbon-radical
+- ID 70319
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+1 2 4 5 6 7              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 1.898e+17  -1.40  3.083e+04 4; From sc4h9 = c3h6+ch3
+>  <ReverseRxn>
+Standard 8.500e+10   0.00  7.800e+03 4; From sc4h9 = c3h6+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(rr)(hh)(rrh)\
+       propyl-radical-(rr)(hh)(rrh) = olefin-(rr)(hh) secondary-carbon-radical
+- ID 70320
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+1 2 4 5 6 7              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 1.898e+17  -1.40  3.083e+04 8; From sc4h9 = c3h6+ch3
+>  <ReverseRxn>
+Standard 8.500e+10   0.00  7.800e+03 8; From sc4h9 = c3h6+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*2 = 4
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(hh)(rh)(rrh)\
+       propyl-radical-(hh)(rh)(rrh) = olefin-(rh)(hh) secondary-carbon-radical
+- ID 70321
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+2 1 6 7 4 5              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 9.468e+13  -0.55  2.900e+04 4; From nc3h7 = ch3+c2h4
+>  <ReverseRxn>
+Standard 1.700e+11   0.00  7.800e+03 4; From nc3h7 = ch3+c2h4
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1*2 = 12
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(rh)(rh)(rrh)\
+       propyl-radical-(rh)(rh)(rrh) = olefin-(rh)(hh) secondary-carbon-radical
+- ID 70322
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+1 2 4 5 6 7              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 1.898e+17  -1.40  3.083e+04 2; From sc4h9 = c3h6+ch3
+>  <ReverseRxn>
+Standard 8.500e+10   0.00  7.800e+03 2; From sc4h9 = c3h6+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*2 = 4
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(rr)(rh)(rrh)\
+       propyl-radical-(rr)(rh)(rrh) = olefin-(rr)(rh) secondary-carbon-radical
+- ID 70323
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+1 2 4 5 6 7              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 1.898e+17  -1.40  3.083e+04 4; From sc4h9 = c3h6+ch3
+>  <ReverseRxn>
+Standard 8.500e+10   0.00  7.800e+03 4; From sc4h9 = c3h6+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(hh)(rr)(rrh)\
+       propyl-radical-(hh)(rr)(rrh) = olefin-(rr)(hh) secondary-carbon-radical
+- ID 70324
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+2 1 6 7 4 5              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 9.468e+13  -0.55  2.900e+04 8; From nc3h7 = ch3+c2h4
+>  <ReverseRxn>
+Standard 1.700e+11   0.00  7.800e+03 8; From nc3h7 = ch3+c2h4
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*2 = 4
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(rh)(rr)(rrh)\
+       propyl-radical-(rh)(rr)(rrh) = olefin-(rr)(rh) secondary-carbon-radical
+- ID 70325
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+2 1 6 7 4 5              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 1.898e+17  -1.40  3.083e+04 4; From sc4h9 = c3h6+ch3
+>  <ReverseRxn>
+Standard 8.500e+10   0.00  7.800e+03 4; From sc4h9 = c3h6+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(rr)(rr)(rrh)\
+       propyl-radical-(rr)(rr)(rrh) = olefin-(rr)(rr) secondary-carbon-radical
+- ID 70326
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+1 2 4 5 6 7              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 1.898e+17  -1.40  3.083e+04 8; From sc4h9 = c3h6+ch3
+>  <ReverseRxn>
+Standard 8.500e+10   0.00  7.800e+03 8; From sc4h9 = c3h6+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*6 = 24
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(hh)(hh)(rrr)\
+       propyl-radical-(hh)(hh)(rrr) = olefin-(hh)(hh) tertiary-carbon-radical
+- ID 70327
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+1 2 4 5 6 7              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 9.468e+13  -0.55  2.900e+04 24; From nc3h7 = ch3+c2h4
+>  <ReverseRxn>
+Standard 1.700e+11   0.00  7.800e+03 24; From nc3h7 = ch3+c2h4
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*6 = 12
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(rh)(hh)(rrr)\
+       propyl-radical-(rh)(hh)(rrr) = olefin-(rh)(hh) tertiary-carbon-radical
+- ID 70328
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+1 2 4 5 6 7              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 1.898e+17  -1.40  3.083e+04 12; From sc4h9 = c3h6+ch3
+>  <ReverseRxn>
+Standard 8.500e+10   0.00  7.800e+03 12; From sc4h9 = c3h6+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*6 = 24
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(rr)(hh)(rrr)\
+       propyl-radical-(rr)(hh)(rrr) = olefin-(rr)(hh) tertiary-carbon-radical
+- ID 70329
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+1 2 4 5 6 7              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 1.898e+17  -1.40  3.083e+04 24; From sc4h9 = c3h6+ch3
+>  <ReverseRxn>
+Standard 8.500e+10   0.00  7.800e+03 24; From sc4h9 = c3h6+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*6 = 12
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(hh)(rh)(rrr)\
+       propyl-radical-(hh)(rh)(rrr) = olefin-(rh)(hh) tertiary-carbon-radical
+- ID 70330
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+2 1 6 7 4 5              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 9.468e+13  -0.55  2.900e+04 12; From nc3h7 = ch3+c2h4
+>  <ReverseRxn>
+Standard 1.700e+11   0.00  7.800e+03 12; From nc3h7 = ch3+c2h4
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1*6 = 6
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(rh)(rh)(rrr)\
+       propyl-radical-(rh)(rh)(rrr) = olefin-(rh)(rh) tertiary-carbon-radical
+- ID 70331
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+1 2 4 5 6 7              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 1.898e+17  -1.40  3.083e+04 6; From sc4h9 = c3h6+ch3
+>  <ReverseRxn>
+Standard 8.500e+10   0.00  7.800e+03 6; From sc4h9 = c3h6+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*6 = 12
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(rr)(rh)(rrr)\
+       propyl-radical-(rr)(rh)(rrr) = olefin-(rr)(rh) tertiary-carbon-radical
+- ID 70332
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+1 2 4 5 6 7              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 1.898e+17  -1.40  3.083e+04 12; From sc4h9 = c3h6+ch3
+>  <ReverseRxn>
+Standard 8.500e+10   0.00  7.800e+03 12; From sc4h9 = c3h6+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*6 = 24
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(hh)(rr)(rrr)\
+       propyl-radical-(hh)(rr)(rrr) = olefin-(rr)(hh) tertiary-carbon-radical
+- ID 70333
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+2 1 6 7 4 5              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 9.468e+13  -0.55  2.900e+04 24; From nc3h7 = ch3+c2h4
+>  <ReverseRxn>
+Standard 1.700e+11   0.00  7.800e+03 24; From nc3h7 = ch3+c2h4
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*6 = 12
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(rh)(rr)(rrr)\
+       propyl-radical-(rh)(rr)(rrr) = olefin-(rr)(rh) tertiary-carbon-radical
+- ID 70334
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+2 1 6 7 4 5              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 1.898e+17  -1.40  3.083e+04 12; From sc4h9 = c3h6+ch3
+>  <ReverseRxn>
+Standard 8.500e+10   0.00  7.800e+03 12; From sc4h9 = c3h6+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*6 = 24
+%%%-------------------------------------------------------------------
+PropylRadicalToEthene-(rr)(rr)(rrr)\
+       propyl-radical-(rr)(rr)(rrr) = olefin-(rr)(rr) tertiary-carbon-radical
+- ID 70335
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 4 2 2 2 2 2 2 2
+1 2 4 5 6 7              2 2 2 2 2
+3 8 9 10                 2 2 2
+>  <ForwardRxn>
+Standard 1.898e+17  -1.40  3.083e+04 24; From sc4h9 = c3h6+ch3
+>  <ReverseRxn>
+Standard 8.500e+10   0.00  7.800e+03 24; From sc4h9 = c3h6+ch3
+$$$$

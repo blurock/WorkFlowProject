@@ -1,0 +1,110 @@
+Database Structures
+0 database
+%%% DbaseLinkedList
+%%%  This element is the basic record of a data structure
+%%%  in linear binary form.  The form is a linked list of 
+%%%  memory blocks. 
+%%%
+     DbaseLinkedList 100 dbaselinkedlist
+        0 The allocated space
+          INT AllocatedSize Create
+        1 The space filled in (used in writing)
+          INT Size Create
+        2 The postion in the file (used in reading)
+          INT Position Create
+        3 The stored element
+          CHAR Element Pointer Create Array=AllocatedSize
+        4 The next link element
+          DbaseLinkedList Next Pointer Create
+        DONE
+
+%%% DbaseKeyword
+%%%  The keyword as used by the dbase packae
+%%%
+     DbaseKeyword 101 dbasekeyword
+        0 The size of the Keyword
+          INT Size Create
+        1 The keyword itself
+          CHAR KeyWord Pointer Create Array=Size
+        DONE
+%%% SingleSearchKey
+%%%  The correspondence between the search keys and the 
+%%%  database keys used in reading and writing
+%%%
+SingleSearchKey 102 singlesearchkey
+   0 The Database key
+     DbaseKeyword DBKey Pointer Create
+   1 The Search Keyword
+     DbaseKeyword Search Pointer Create
+   DONE
+%%% SetOfSearchKeys
+%%%  For each element in the database there is a SingleSearchKey
+%%%  structure.  The certain number of keys are allocated, but
+%%%  NumberOfKeys keeps track of how many keys are actually used.
+%%%
+SetOfSearchKeys 103 setofsearchkeys
+   0 The allocated number of search keys
+     INT NumberOfAllocatedKeys Create
+   1 The number of filled in keys
+     INT NumberOfKeys Create
+   2 The keys 
+     SingleSearchKey Keys Pointer Create Array=NumberOfKeys
+   DONE
+%%% SearchKeyInfo
+%%%  This is the basic information of a particular key in the
+%%%  database.  
+%%%%    InsertKey(VOID element, DbaseKeyword *key)
+%%%        This routine inserts the appropriate information
+%%%        from element into the key (key is just allocated,
+%%%        all information must be filled in.
+%%%
+SearchKeyInfo 104 searchkeyinfo
+   0 The initial number of keys allocated
+     INT InitialAllocation Create
+   1 The incremental allocation
+     INT AllocationIncrement Create
+   2 The set of keys
+     SetOfSearchKeys Keys Pointer Create
+   4 Routine to fill in keyword
+     FUNCTION InsertKey Create Return=void
+   DONE
+%%% SetOfSearchKeys
+%%%
+SetOfSearchKeyTypes 105 setofsearchkeytypes
+   0 The number of Allocated Keys
+     INT NumberOfAllocatedKeys Create
+   1 The Number of Keys Types
+     INT NumberOfKeyTypes Create
+   2 The set of key types
+     SearchKeyInfo KeyTypes Pointer Create Array=NumberOfKeyTypes
+   DONE
+
+
+%%% DataBaseInformation
+     DataBaseInformation 101 databaseinformation
+        0 The filename root
+          STRING FilenameRoot Pointer Create
+        1 The Directory of the database
+          STRING Directory Pointer Create
+        4 Element Write conversion
+          FUNCTION WriteConversion Create Return=void
+        5 Element Read conversion
+          FUNCTION ReadConversion Create Return=void
+        6 Database File Information
+          VOID File Create
+        7 Database Key Information
+          SetOfSearchKeyTypes Keys Pointer Create
+        8 The allocate element routine
+          FUNCTION AllocateElement Create Return=VOID
+        3 Routine to Free element
+          FUNCTION FreeElement Create Return=void
+        DONE
+
+     DbaseMaster 100 dbasemaster
+        0 The number of databases
+          INT NumberOfDatabases Create
+        1 The set of databases
+          DataBaseInformation Databases Pointer Create Array=NumberOfDatabases
+        DONE
+DONE
+

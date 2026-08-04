@@ -1,0 +1,86 @@
+Olefin Decomposition through OH addition
+hydroxyl-radical,oxygen,hydrogen-radical,methyl-radical,oxygen-radical
+%%% ----------------------------------------------------
+H-Abstraction-Oxygen-Tertiary,\
+H-Abstraction-Oxygen-Secondary,\
+H-Abstraction-Oxygen-Primary,\
+:oxygen
+%%% ----------------------------------------------------
+HLoss-ethyl-radical(hh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rhh)-to-olefin,\
+HLoss-ethyl-radical(rr)(hhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(rhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rrh)-to-olefin,\
+HLoss-ethyl-radical(rr)(rhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(rrh)-to-olefin,\
+HLoss-ethyl-radical(rr)(rrh)-to-olefin
+%%% ----------------------------------------------------
+%%% OlefinToAldehydeDecomp
+%%%        Through the addition of a hydroxyl radical to the double
+%%%        bond, the alkene decomposes to an aldehyde/ketone and a radical
+%%% ----------------------------------------------------
+OlefinToAldehydeDecomp-(hh)(hh),\
+OlefinToAldehydeDecomp-(rh)(hh),\
+OlefinToAldehydeDecomp-(rr)(hh),\
+OlefinToAldehydeDecomp-(hh)(rh),\
+OlefinToAldehydeDecomp-(rh)(rh),\
+OlefinToAldehydeDecomp-(rr)(rh),\
+OlefinToAldehydeDecomp-(hh)(rr),\
+OlefinToAldehydeDecomp-(rh)(rr),\
+OlefinToAldehydeDecomp-(rr)(rr)\
+:hydroxyl-radical
+%%% -----------------------------------------------------------
+%%% H-Abstraction:
+%%%         H abstraction away from the ketone (this could also happen on the
+%%%         radical formed previously.
+%%% -----------------------------------------------------------
+H-Abstraction-AlphaToKetone-(h)(hh),\
+H-Abstraction-AlphaToKetone-(r)(hh),\
+H-Abstraction-AlphaToKetone-(h)(rh),\
+H-Abstraction-AlphaToKetone-(r)(rh),\
+H-Abstraction-AlphaToKetone-(h)(rr),\
+H-Abstraction-AlphaToKetone-(r)(rr)\
+:hydroxyl-radical
+%%% -----------------------------------------------------------
+KeteneFormationO2Abstraction-(hh),\
+KeteneFormationO2Abstraction-(rh),\
+KeteneFormationO2Abstraction-(rr),\
+KeteneFormation-(hh),\
+KeteneFormation-(rh),\
+KeteneFormation-(rr),\
+KeteneFormationRadicalDecomp-(hh)(hhh),\
+KeteneFormationRadicalDecomp-(hh)(rhh),\
+KeteneFormationRadicalDecomp-(hh)(rrh),\
+KeteneFormationRadicalDecomp-(hh)(rrr),\
+KeteneFormationRadicalDecomp-(rh)(hhh),\
+KeteneFormationRadicalDecomp-(rh)(rhh),\
+KeteneFormationRadicalDecomp-(rh)(rrh),\
+KeteneFormationRadicalDecomp-(rh)(rrr),\
+KeteneFormationRadicalDecomp-(rr)(hhh),\
+KeteneFormationRadicalDecomp-(rr)(rhh),\
+KeteneFormationRadicalDecomp-(rr)(rrh),\
+KeteneFormationRadicalDecomp-(rr)(rrr)\
+:oxygen
+%%% -----------------------------------------------------------
+%%% KeteneDecompHToCO:
+%%%               The ketene decomposes, through the addition 
+%%%               of a hydrogen to carbonmonoxide and a alkyl
+%%%               radical
+%%% ----------------------------------------------------
+KeteneDecompHOToCO2-(hhh)(h),\
+KeteneDecompHOToCO2-(rhh)(h),\
+KeteneDecompHOToCO2-(rrh)(h),\
+KeteneDecompHOToCO2-(hhh)(r),\
+KeteneDecompHOToCO2-(rhh)(r),\
+KeteneDecompHOToCO2-(rrh)(r),\
+KeteneDecompOToCO2-(hhh)(h),\
+KeteneDecompOToCO2-(rhh)(h),\
+KeteneDecompOToCO2-(rrh)(h),\
+KeteneDecompOToCO2-(hhh)(r),\
+KeteneDecompOToCO2-(rhh)(r),\
+KeteneDecompOToCO2-(rrh)(r),\
+KeteneDecompHToCO-(hh),\
+KeteneDecompHToCO-(rh),\
+KeteneDecompHToCO-(rr)\
+:hydrogen-radical,oxygen-radical,hydroxyl-radical

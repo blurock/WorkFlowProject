@@ -1,0 +1,37 @@
+1 methylalkanesC4-C11
+2-methylbutane 
+- AlternativeNames CHEMKIN 2MC4H9
+2-methylpentane
+- AlternativeNames CHEMKIN 2MC5H11
+2-methylhexane 
+- AlternativeNames CHEMKIN 2MC6H13
+2-methylheptane 
+- AlternativeNames CHEMKIN 2MC7H13
+2-methyloctane 
+- AlternativeNames CHEMKIN 2MC8H17
+2-methylnonane 
+- AlternativeNames CHEMKIN 2MC9H19
+2-methyldecane 
+- AlternativeNames CHEMKIN 2MC10H21
+3-methylhexane
+- AlternativeNames CHEMKIN 3MC6H13
+3-methylheptane
+- AlternativeNames CHEMKIN 3MC7H15
+3-methyloctane
+- AlternativeNames CHEMKIN 3MC8H17
+3-methylnonane
+- AlternativeNames CHEMKIN 3MC9H19
+3-methyldecane
+- AlternativeNames CHEMKIN 3MC10H21
+4-methylheptane
+- AlternativeNames CHEMKIN 4MC7H15
+4-methyloctane
+- AlternativeNames CHEMKIN 4MC8H17
+4-methylnonane
+- AlternativeNames CHEMKIN 4MC9H19
+4-methyldecane
+- AlternativeNames CHEMKIN 4MC10H21
+5-methylnonane
+- AlternativeNames CHEMKIN 5MC9H19
+5-methyldecane
+- AlternativeNames CHEMKIN 5MC10H21

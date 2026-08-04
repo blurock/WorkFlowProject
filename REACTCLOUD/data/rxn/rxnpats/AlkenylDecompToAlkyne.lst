@@ -1,0 +1,242 @@
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%%   Symmetry 3*2 = 6
+%%%-------------------------------------------------------------------
+AlkenylDecompToAlkyne-(h)(h)(hhh) \
+   propenyl-radical-(h)(h)(hhh) = methane-carbon-radical ethyne-(h)(h)
+- ID 42900
+- Correspondences
+1 2 3 4 5 6 7 8   2 4 2 2 2 2 2
+3 6 7 8           2 2 2
+1 2 4 5           2 2 2
+>  <ForwardRxn>
+Standard 1.260E+13 0.0 33390.0 6; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+>  <ReverseRxn>
+Standard 6.310E+11 0.0 7700.0  6; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 3*2 = 6
+%%%-------------------------------------------------------------------
+AlkenylDecompToAlkyne-(r)(h)(hhh) \
+   propenyl-radical-(r)(h)(hhh) = methane-carbon-radical ethyne-(r)(h)
+- ID 42901
+- Correspondences
+1 2 3 4 5 6 7 8   2 4 2 2 2 2 2
+3 6 7 8           2 2 2
+1 2 4 5           2 2 2
+>  <ForwardRxn>
+Standard 1.260E+13 0.0 33390.0 6; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+>  <ReverseRxn>
+Standard 6.310E+11 0.0 7700.0  6; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 3*2 = 6
+%%%-------------------------------------------------------------------
+AlkenylDecompToAlkyne-(h)(r)(hhh) \
+   propenyl-radical-(h)(r)(hhh) = methane-carbon-radical ethyne-(r)(h)
+- ID 42902
+- Correspondences
+1 2 3 4 5 6 7 8   2 4 2 2 2 2 2
+3 6 7 8           2 2 2
+2 1 5 4           2 2 2
+>  <ForwardRxn>
+Standard 1.260E+13 0.0 33390.0 6; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+>  <ReverseRxn>
+Standard 6.310E+11 0.0 7700.0  6; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 3*2 = 6
+%%%-------------------------------------------------------------------
+AlkenylDecompToAlkyne-(r)(r)(hhh) \
+   propenyl-radical-(r)(r)(hhh) = methane-carbon-radical ethyne-(r)(r)
+- ID 42903
+- Correspondences
+1 2 3 4 5 6 7 8   2 4 2 2 2 2 2
+3 6 7 8           2 2 2
+1 2 4 5           2 2 2
+>  <ForwardRxn>
+Standard 1.260E+13 0.0 33390.0 6; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+>  <ReverseRxn>
+Standard 6.310E+11 0.0 7700.0  6; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2 = 2
+%%%-------------------------------------------------------------------
+AlkenylDecompToAlkyne-(h)(h)(rhh) \
+   propenyl-radical-(h)(h)(rhh) = primary-carbon-radical ethyne-(h)(h)
+- ID 42904
+- Correspondences
+1 2 3 4 5 6 7 8   2 4 2 2 2 2 2
+3 6 7 8           2 2 2
+1 2 4 5           2 2 2
+>  <ForwardRxn>
+Standard 1.260E+13 0.0 33390.0 2; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+>  <ReverseRxn>
+Standard 6.310E+11 0.0 7700.0  2; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2 = 2
+%%%-------------------------------------------------------------------
+AlkenylDecompToAlkyne-(r)(h)(rhh) \
+   propenyl-radical-(r)(h)(rhh) = primary-carbon-radical ethyne-(r)(h)
+- ID 42905
+- Correspondences
+1 2 3 4 5 6 7 8   2 4 2 2 2 2 2
+3 6 7 8           2 2 2
+1 2 4 5           2 2 2
+>  <ForwardRxn>
+Standard 1.260E+13 0.0 33390.0 2; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+>  <ReverseRxn>
+Standard 6.310E+11 0.0 7700.0  2; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2 = 2
+%%%-------------------------------------------------------------------
+AlkenylDecompToAlkyne-(h)(r)(rhh) \
+   propenyl-radical-(h)(r)(rhh) = primary-carbon-radical ethyne-(r)(h)
+- ID 42906
+- Correspondences
+1 2 3 4 5 6 7 8   2 4 2 2 2 2 2
+3 6 7 8           2 2 2
+2 1 5 4           2 2 2
+>  <ForwardRxn>
+Standard 1.260E+13 0.0 33390.0 2; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+>  <ReverseRxn>
+Standard 6.310E+11 0.0 7700.0  2; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2 = 2
+%%%-------------------------------------------------------------------
+AlkenylDecompToAlkyne-(r)(r)(rhh) \
+   propenyl-radical-(r)(r)(rhh) = primary-carbon-radical ethyne-(r)(r)
+- ID 42907
+- Correspondences
+1 2 3 4 5 6 7 8   2 4 2 2 2 2 2
+3 6 7 8           2 2 2
+1 2 4 5           2 2 2
+>  <ForwardRxn>
+Standard 1.260E+13 0.0 33390.0 2; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+>  <ReverseRxn>
+Standard 6.310E+11 0.0 7700.0  2; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2 = 2
+%%%-------------------------------------------------------------------
+AlkenylDecompToAlkyne-(h)(h)(rrh) \
+   propenyl-radical-(h)(h)(rrh) = secondary-carbon-radical ethyne-(h)(h)
+- ID 42908
+- Correspondences
+1 2 3 4 5 6 7 8   2 4 2 2 2 2 2
+3 6 7 8           2 2 2
+1 2 4 5           2 2 2
+>  <ForwardRxn>
+Standard 1.260E+13 0.0 33390.0 2; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+>  <ReverseRxn>
+Standard 6.310E+11 0.0 7700.0  2; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2 = 2
+%%%-------------------------------------------------------------------
+AlkenylDecompToAlkyne-(r)(h)(rrh) \
+   propenyl-radical-(r)(h)(rrh) = secondary-carbon-radical ethyne-(r)(h)
+- ID 42909
+- Correspondences
+1 2 3 4 5 6 7 8   2 4 2 2 2 2 2
+3 6 7 8           2 2 2
+1 2 4 5           2 2 2
+>  <ForwardRxn>
+Standard 1.260E+13 0.0 33390.0 2; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+>  <ReverseRxn>
+Standard 6.310E+11 0.0 7700.0  2; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2 = 2
+%%%-------------------------------------------------------------------
+AlkenylDecompToAlkyne-(h)(r)(rrh) \
+   propenyl-radical-(h)(r)(rrh) = secondary-carbon-radical ethyne-(r)(h)
+- ID 42910
+- Correspondences
+1 2 3 4 5 6 7 8   2 4 2 2 2 2 2
+3 6 7 8           2 2 2
+2 1 5 4           2 2 2
+>  <ForwardRxn>
+Standard 1.260E+13 0.0 33390.0 2; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+>  <ReverseRxn>
+Standard 6.310E+11 0.0 7700.0  2; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2 = 2
+%%%-------------------------------------------------------------------
+AlkenylDecompToAlkyne-(r)(r)(rrh) \
+   propenyl-radical-(r)(r)(rrh) = secondary-carbon-radical ethyne-(r)(r)
+- ID 42911
+- Correspondences
+1 2 3 4 5 6 7 8   2 4 2 2 2 2 2
+3 6 7 8           2 2 2
+1 2 4 5           2 2 2
+>  <ForwardRxn>
+Standard 1.260E+13 0.0 33390.0 2; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+>  <ReverseRxn>
+Standard 6.310E+11 0.0 7700.0  2; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 3*2 = 6
+%%%-------------------------------------------------------------------
+AlkenylDecompToAlkyne-(h)(h)(rrr) \
+   propenyl-radical-(h)(h)(rrr) = tertiary-carbon-radical ethyne-(h)(h)
+- ID 42912
+- Correspondences
+1 2 3 4 5 6 7 8   2 4 2 2 2 2 2
+3 6 7 8           2 2 2
+1 2 4 5           2 2 2
+>  <ForwardRxn>
+Standard 1.260E+13 0.0 33390.0 6; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+>  <ReverseRxn>
+Standard 6.310E+11 0.0 7700.0  6; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 3*2 = 6
+%%%-------------------------------------------------------------------
+AlkenylDecompToAlkyne-(r)(h)(rrr) \
+   propenyl-radical-(r)(h)(rrr) = tertiary-carbon-radical ethyne-(r)(h)
+- ID 42913
+- Correspondences
+1 2 3 4 5 6 7 8   2 4 2 2 2 2 2
+3 6 7 8           2 2 2
+1 2 4 5           2 2 2
+>  <ForwardRxn>
+Standard 1.260E+13 0.0 33390.0 6; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+>  <ReverseRxn>
+Standard 6.310E+11 0.0 7700.0  6; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 3*2 = 6
+%%%-------------------------------------------------------------------
+AlkenylDecompToAlkyne-(h)(r)(rrr) \
+   propenyl-radical-(h)(r)(rrr) = tertiary-carbon-radical ethyne-(r)(h)
+- ID 42914
+- Correspondences
+1 2 3 4 5 6 7 8   2 4 2 2 2 2 2
+3 6 7 8           2 2 2
+2 1 5 4           2 2 2
+>  <ForwardRxn>
+Standard 1.260E+13 0.0 33390.0 6; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+>  <ReverseRxn>
+Standard 6.310E+11 0.0 7700.0  6; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 3*2 = 6
+%%%-------------------------------------------------------------------
+AlkenylDecompToAlkyne-(r)(r)(rrr) \
+   propenyl-radical-(r)(r)(rrr) = tertiary-carbon-radical ethyne-(r)(r)
+- ID 42915
+- Correspondences
+1 2 3 4 5 6 7 8   2 4 2 2 2 2 2
+3 6 7 8           2 2 2
+1 2 4 5           2 2 2
+>  <ForwardRxn>
+Standard 1.260E+13 0.0 33390.0 6; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+>  <ReverseRxn>
+Standard 6.310E+11 0.0 7700.0  6; Dean, A.M., J. Phys. Chem. 89, 4600-4608 (1985)
+$$$$

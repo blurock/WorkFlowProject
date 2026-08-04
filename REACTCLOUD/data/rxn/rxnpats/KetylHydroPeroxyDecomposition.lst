@@ -1,0 +1,48 @@
+%%%-------------------------------------------------------------------
+%%%  Decomposition of a hooc(rr)co to co+oh+(rr)co
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2
+%%%-------------------------------------------------------------------
+KetylHydroPeroxyDecomposition-HH  oc.c(h)(h)(ooh) = (h)(h)c(o) carbonmonoxide hydroxyl-radical
+- ID 3161
+- Correspondences
+1 2 3 4 5 6 7 8     2 4 2 2 2 4 2
+3 6 4 5             2 2 2
+8 7                 2
+1 2                 2
+>  <ForwardRxn>
+Standard 4.244e+18 -1.43 4800   2; Neopentane (tc3h6o2hco = ch3coch3+co+oh); Combustion and Flame, 118:415-430 (1999)
+>  <ReverseRxn>
+Standard 1.000e-40  0.0 0.0 2; three products, no reverse; Combustion and Flame, 118:415-430 (1999)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2
+%%%-------------------------------------------------------------------
+KetylHydroPeroxyDecomposition-RH  oc.c(r)(h)(ooh) = (r)(h)c(o) carbonmonoxide hydroxyl-radical
+- ID 3162
+- Correspondences
+1 2 3 4 5 6 7 8     2 4 2 2 2 4 2
+3 6 4 5             2 2 2
+8 7                 2
+1 2                 2
+>  <ForwardRxn>
+Standard 4.244e+18 -1.43 4800   2; Neopentane (tc3h6o2hco = ch3coch3+co+oh); Combustion and Flame, 118:415-430 (1999)
+>  <ReverseRxn>
+Standard 1.000e-40  0.0 0.0 2; three products, no reverse; Combustion and Flame, 118:415-430 (1999)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2
+%%%-------------------------------------------------------------------
+KetylHydroPeroxyDecomposition-RR  oc.c(r)(r)(ooh) = (r)(r)c(o) carbonmonoxide hydroxyl-radical
+- ID 3163
+- Correspondences
+1 2 3 4 5 6 7 8     2 4 2 2 2 4 2
+3 6 4 5             2 2 2
+8 7                 2
+1 2                 2
+>  <ForwardRxn>
+Standard 4.244e+18 -1.43 4800   2; Neopentane (tc3h6o2hco = ch3coch3+co+oh); Combustion and Flame, 118:415-430 (1999)
+>  <ReverseRxn>
+Standard 1.000e-40  0.0 0.0 2; three products, no reverse; Combustion and Flame, 118:415-430 (1999)
+$$$$

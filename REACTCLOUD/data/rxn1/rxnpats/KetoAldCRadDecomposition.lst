@@ -1,0 +1,252 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+KetoAldCRadDecomp-H-HH-HH\
+     co(h)c(hh)c.(hh) = (h).c(o) olefin-(hh)(hh)
+- ID 62001
+- Correspondences
+1 2 3 4 5 6 7 8 9            2 4 2 2 2 2 2 2
+1 2 5                        2 2
+3 4 6 7 8 9                  2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 4; Guess/Come beta-scission; From olefin formation from CH3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+KetoAldCRadDecomp-R-HH-HH\
+     co(r)c(hh)c.(hh) = (r).c(o) olefin-(hh)(hh)
+- ID 62002
+- Correspondences
+1 2 3 4 5 6 7 8 9            2 4 2 2 2 2 2 2
+1 2 5                        2 2
+3 4 6 7 8 9                  2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 4; Guess/Come beta-scission; From olefin formation from CH3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2 = 2
+%%%-------------------------------------------------------------------
+KetoAldCRadDecomp-H-RH-HH\
+     co(h)c(rh)c.(hh) = (h).c(o) olefin-(rh)(hh)
+- ID 62003
+- Correspondences
+1 2 3 4 5 6 7 8 9            2 4 2 2 2 2 2 2
+1 2 5                        2 2
+3 4 6 7 8 9                  2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 2; Guess/Come beta-scission; From olefin formation from CH3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2 = 2
+%%%-------------------------------------------------------------------
+KetoAldCRadDecomp-R-RH-HH\
+     co(r)c(rh)c.(hh) = (r).c(o) olefin-(rh)(hh)
+- ID 62004
+- Correspondences
+1 2 3 4 5 6 7 8 9            2 4 2 2 2 2 2 2
+1 2 5                        2 2
+3 4 6 7 8 9                  2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 2; Guess/Come beta-scission; From olefin formation from CH3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+KetoAldCRadDecomp-H-RR-HH\
+     co(h)c(rr)c.(hh) = (h).c(o) olefin-(rr)(hh)
+- ID 62005
+- Correspondences
+1 2 3 4 5 6 7 8 9            2 4 2 2 2 2 2 2
+1 2 5                        2 2
+3 4 6 7 8 9                  2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 4; Guess/Come beta-scission; From olefin formation from CH3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+KetoAldCRadDecomp-R-RR-HH\
+     co(r)c(rr)c.(hh) = (r).c(o) olefin-(rr)(hh)
+- ID 62006
+- Correspondences
+1 2 3 4 5 6 7 8 9            2 4 2 2 2 2 2 2
+1 2 5                        2 2
+3 4 6 7 8 9                  2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 4; Guess/Come beta-scission; From olefin formation from CH3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1 = 2
+%%%  olefin-(hh)(rh) --> olefin-(rh)(hh)
+%%%      3 4 6 7 8 9
+%%%      3 4 8 9 6 7
+%%%-------------------------------------------------------------------
+KetoAldCRadDecomp-H-HH-RH\
+     co(h)c(hh)c.(rh) = (h).c(o) olefin-(rh)(hh)
+- ID 62007
+- Correspondences
+1 2 3 4 5 6 7 8 9            2 4 2 2 2 2 2 2
+1 2 5                        2 2
+3 4 8 9 6 7                  2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 2; Guess/Come beta-scission; From olefin formation from CH3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1 = 2
+%%%  olefin-(hh)(rh) --> olefin-(rh)(hh)
+%%%      3 4 6 7 8 9
+%%%      3 4 8 9 6 7
+%%%-------------------------------------------------------------------
+KetoAldCRadDecomp-R-HH-RH\
+     co(r)c(hh)c.(rh) = (r).c(o) olefin-(rh)(hh)
+- ID 62008
+- Correspondences
+1 2 3 4 5 6 7 8 9            2 4 2 2 2 2 2 2
+1 2 5                        2 2
+3 4 8 9 6 7                  2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 2; Guess/Come beta-scission; From olefin formation from CH3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1 = 1
+%%%-------------------------------------------------------------------
+KetoAldCRadDecomp-H-RH-RH\
+     co(h)c(rh)c.(rh) = (h).c(o) olefin-(rh)(rh)
+- ID 62009
+- Correspondences
+1 2 3 4 5 6 7 8 9            2 4 2 2 2 2 2 2
+1 2 5                        2 2
+3 4 6 7 8 9                  2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 1; Guess/Come beta-scission; From olefin formation from CH3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1 = 1
+%%%-------------------------------------------------------------------
+KetoAldCRadDecomp-R-RH-RH\
+     co(r)c(rh)c.(rh) = (r).c(o) olefin-(rh)(rh)
+- ID 62010
+- Correspondences
+1 2 3 4 5 6 7 8 9            2 4 2 2 2 2 2 2
+1 2 5                        2 2
+3 4 6 7 8 9                  2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 1; Guess/Come beta-scission; From olefin formation from CH3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1 = 2
+%%%-------------------------------------------------------------------
+KetoAldCRadDecomp-H-RR-RH\
+     co(h)c(rr)c.(rh) = (h).c(o) olefin-(rr)(rh)
+- ID 62011
+- Correspondences
+1 2 3 4 5 6 7 8 9            2 4 2 2 2 2 2 2
+1 2 5                        2 2
+3 4 6 7 8 9                  2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 2; Guess/Come beta-scission; From olefin formation from CH3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1 = 2
+%%%-------------------------------------------------------------------
+KetoAldCRadDecomp-R-RR-RH\
+     co(r)c(rr)c.(rh) = (r).c(o) olefin-(rr)(rh)
+- ID 62012
+- Correspondences
+1 2 3 4 5 6 7 8 9            2 4 2 2 2 2 2 2
+1 2 5                        2 2
+3 4 6 7 8 9                  2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 2; Guess/Come beta-scission; From olefin formation from CH3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%  olefin-(hh)(rr) --> olefin-(rr)(hh)
+%%%      3 4 6 7 8 9
+%%%      3 4 8 9 6 7
+%%%-------------------------------------------------------------------
+KetoAldCRadDecomp-H-HH-RR\
+     co(h)c(hh)c.(rr) = (h).c(o) olefin-(rr)(hh)
+- ID 62013
+- Correspondences
+1 2 3 4 5 6 7 8 9            2 4 2 2 2 2 2 2
+1 2 5                        2 2
+3 4 8 9 6 7                  2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 4; Guess/Come beta-scission; From olefin formation from CH3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%  olefin-(hh)(rr) --> olefin-(rr)(hh)
+%%%      3 4 6 7 8 9
+%%%      3 4 8 9 6 7
+%%%-------------------------------------------------------------------
+KetoAldCRadDecomp-R-HH-RR\
+     co(r)c(hh)c.(rr) = (r).c(o) olefin-(rr)(hh)
+- ID 62014
+- Correspondences
+1 2 3 4 5 6 7 8 9            2 4 2 2 2 2 2 2
+1 2 5                        2 2
+3 4 8 9 6 7                  2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 4; Guess/Come beta-scission; From olefin formation from CH3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2 = 2
+%%%  olefin-(rh)(rr) --> olefin-(rr)(rh)
+%%%      3 4 6 7 8 9
+%%%      3 4 8 9 6 7
+%%%-------------------------------------------------------------------
+KetoAldCRadDecomp-H-RH-RR\
+     co(h)c(rh)c.(rr) = (h).c(o) olefin-(rr)(rh)
+- ID 62015
+- Correspondences
+1 2 3 4 5 6 7 8 9            2 4 2 2 2 2 2 2
+1 2 5                        2 2
+3 4 8 9 6 7                  2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 2; Guess/Come beta-scission; From olefin formation from CH3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2 = 2
+%%%  olefin-(rh)(rr) --> olefin-(rr)(rh)
+%%%      3 4 6 7 8 9
+%%%      3 4 8 9 6 7
+%%%-------------------------------------------------------------------
+KetoAldCRadDecomp-R-RH-RR\
+     co(r)c(rh)c.(rr) = (r).c(o) olefin-(rr)(rh)
+- ID 62016
+- Correspondences
+1 2 3 4 5 6 7 8 9            2 4 2 2 2 2 2 2
+1 2 5                        2 2
+3 4 8 9 6 7                  2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 2; Guess/Come beta-scission; From olefin formation from CH3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+KetoAldCRadDecomp-H-RR-RR\
+     co(h)c(rr)c.(rr) = (h).c(o) olefin-(rr)(rr)
+- ID 62017
+- Correspondences
+1 2 3 4 5 6 7 8 9            2 4 2 2 2 2 2 2
+1 2 5                        2 2
+3 4 6 7 8 9                  2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 4; Guess/Come beta-scission; From olefin formation from CH3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+KetoAldCRadDecomp-R-RR-RR\
+     co(r)c(rr)c.(rr) = (r).c(o) olefin-(rr)(rr)
+- ID 62018
+- Correspondences
+1 2 3 4 5 6 7 8 9            2 4 2 2 2 2 2 2
+1 2 5                        2 2
+3 4 6 7 8 9                  2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 4; Guess/Come beta-scission; From olefin formation from CH3
+$$$$

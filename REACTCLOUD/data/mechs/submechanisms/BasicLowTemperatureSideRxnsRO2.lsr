@@ -1,0 +1,80 @@
+BasicLowTemperatureSideRxnsRO2V3: Basic Low Temperature Side Reactions Scheme (Version 3)
+oxygen,peroxyl-radical,hydrogen-peroxide,methylperoxy-radical
+%%% ----------------------------------------------------
+%%%    Type I: (setup)
+%%%    Only oxygen H-Abstraction (the rest done by HAbstractionBySimpleRadical submechanism)
+%%%    More extensive comments on last stages.
+%%% ----------------------------------------------------
+H-Abstraction-Oxygen-Tertiary,\
+H-Abstraction-Oxygen-Secondary,\
+H-Abstraction-Oxygen-Primary\
+:oxygen
+%%% ----------------------------------------------------
+%%%  Type X: (setup)
+%%%    Initial addition of O2 to the radical formed
+%%% ----------------------------------------------------
+Primary-Carbon-Radical-(R.+O2-->RO2.),\
+Secondary-Carbon-Radical-(R.+O2-->RO2.),\
+Tertiary-Carbon-Radical-(R.+O2-->RO2.)\
+:oxygen
+%%% ----------------------------------------------------
+%%%  Type XIII: RO2 + HO2 = RO2H + O2
+%%%  Type XIV:  RO2 + H2O2 = RO2H + HO2
+%%%  Type XV:   CH3O2 + RO2 = CH3O + RO2
+%%%  Type XVI:  RO2 + RO2 = RO + RO + RO2
+%%% ----------------------------------------------------
+ROOHFromPeroxy-HHH,\
+ROOHFromPeroxy-RHH,\
+ROOHFromPeroxy-RRH,\
+ROOHFromPeroxy-RRR,\
+PeroxyFromHydrogenPeroxide-HHH,\
+PeroxyFromHydrogenPeroxide-RHH,\
+PeroxyFromHydrogenPeroxide-RRH,\
+PeroxyFromHydrogenPeroxide-RRR,\
+RO2ToAlkoxy-(hhh)(hhh),\
+RO2ToAlkoxy-(hhh)(rhh),\
+RO2ToAlkoxy-(hhh)(rrh),\
+RO2ToAlkoxy-(hhh)(rrr),\
+RO2ToAlkoxy-(rhh)(rhh),\
+RO2ToAlkoxy-(rhh)(rrh),\
+RO2ToAlkoxy-(rhh)(rrr),\
+RO2ToAlkoxy-(rrh)(rrh),\
+RO2ToAlkoxy-(rrh)(rrr),\
+RO2ToAlkoxy-(rrr)(rrr)\
+:peroxyl-radical,hydrogen-peroxide,methylperoxy-radical
+%%% ----------------------------------------------------
+%%% Type XVII: RO2H = RO + OH
+%%% Type XVIII: RO Decomposition
+%%% ----------------------------------------------------
+AlkoxyDecomp-(hh)(hhh),\
+AlkoxyDecomp-(rh)(hhh),\
+AlkoxyDecomp-(rr)(hhh),\
+AlkoxyDecomp-(hh)(rhh),\
+AlkoxyDecomp-(rh)(rhh),\
+AlkoxyDecomp-(rr)(rhh),\
+AlkoxyDecomp-(hh)(rrh),\
+AlkoxyDecomp-(rh)(rrh),\
+AlkoxyDecomp-(rr)(rhh),\
+AlkoxyDecomp-(hh)(rrr),\
+AlkoxyDecomp-(rh)(rrr),\
+AlkoxyDecomp-(rr)(rrr),\
+AlkoxyFromPeroxy-HHH,\
+AlkoxyFromPeroxy-RHH,\
+AlkoxyFromPeroxy-RRH,\
+AlkoxyFromPeroxy-RRR
+%%% ----------------------------------------------------
+%%% Type XVIII: RO Decomposition
+%%% ----------------------------------------------------
+AlkoxyDecomp-(hh)(hhh),\
+AlkoxyDecomp-(rh)(hhh),\
+AlkoxyDecomp-(rr)(hhh),\
+AlkoxyDecomp-(hh)(rhh),\
+AlkoxyDecomp-(rh)(rhh),\
+AlkoxyDecomp-(rr)(rhh),\
+AlkoxyDecomp-(hh)(rrh),\
+AlkoxyDecomp-(rh)(rrh),\
+AlkoxyDecomp-(rr)(rhh),\
+AlkoxyDecomp-(hh)(rrr),\
+AlkoxyDecomp-(rh)(rrr),\
+AlkoxyDecomp-(rr)(rrr)
+

@@ -1,0 +1,90 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1 = 1
+%%%-------------------------------------------------------------------
+RO2IsomerizationCyclohexane-5RingSecondary\
+  peroxycyclohexane-2-radical-HHH  = hydroperoxycyclohexane-2-radical-HH
+- ID 3150
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         2 2 2 2 2 2 2 2 2 4 2
+1 2 3 4 5 6 7 8 9 10 11         2 2 2 2 2 2 2 2 2 4 2
+
+>  <ForwardRxn>
+Standard 4.94e+11 0.0 3.1e+4 1; LLNL Values; J. Chem Phys. Vol 111 p3761
+>  <ReverseRxn>
+Standard 2.36e+10 -1.40e-01 1.76e+04  1; Type XII (5-Ring, secondary): (rev) c7h15o2-1 = c7h14ooh1-2, the alkyl value
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1 = 1
+%%%------------------------------------------------------------------
+RO2IsomerizationCyclohexane-5RingTertiary\
+  peroxycyclohexane-2-radical-HRH  = hydroperoxycyclohexane-2-radical-HR
+- ID 3151
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         2 2 2 2 2 2 2 2 2 4 2
+1 2 3 4 5 6 7 8 9 10 11         2 2 2 2 2 2 2 2 2 4 2
+
+>  <ForwardRxn>
+Standard 4.94e+11 0.0 3.1e+4 1;  LLNL Values; J. Chem Phys. Vol 111 p3761 same as secondary
+>  <ReverseRxn>
+Standard 2.36e+10 -1.40e-01 1.76e+04 1; Type XII (5-Ring, secondary): (rev) c7h15o2-1 = c7h14ooh1-2, same as secondary
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1 = 1
+%%%-------------------------------------------------------------------
+RO2IsomerizationCyclohexane-6RingSecondary\
+  peroxycyclohexane-3-radical-HHH  = hydroperoxycyclohexane-3-radical-HH
+- ID 3152
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         2 2 2 2 2 2 2 2 2 4 2
+1 2 3 4 5 6 7 8 9 10 11         2 2 2 2 2 2 2 2 2 4 2
+
+>  <ForwardRxn>
+Standard 1.86e+10 0.0  2.4076e+04  1;  LLNL Values; J. Chem Phys. Vol 111 p3761
+>  <ReverseRxn>
+Standard 8.92e09 -1.40e-01 1.19e+04 1; Type XII (6-Ring, secondary): c7h15o2-1 = c7h14ooh1-3, the alkyl value
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1 = 1
+%%%-------------------------------------------------------------------
+RO2IsomerizationCyclohexane-6RingTertiary\
+  peroxycyclohexane-3-radical-HRH  = hydroperoxycyclohexane-3-radical-HR
+- ID 3153
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         2 2 2 2 2 2 2 2 2 4 2
+1 2 3 4 5 6 7 8 9 10 11         2 2 2 2 2 2 2 2 2 4 2
+
+>  <ForwardRxn>
+Standard 1.86e+10 0.0  2.4076e+04  1;  LLNL Values; J. Chem Phys. Vol 111 p3761
+>  <ReverseRxn>
+Standard 8.92e09 -1.40e-01 1.19e+04 1; Type XII (6-Ring, secondary): c7h15o2-1 = c7h14ooh1-3, the alkyl value
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1 = 1
+%%%-------------------------------------------------------------------
+RO2IsomerizationCyclohexane-7RingSecondary\
+  peroxycyclohexane-4-radical-HHH  = hydroperoxycyclohexane-4-radical-HH
+- ID 3154
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         2 2 2 2 2 2 2 2 2 4 2
+1 2 3 4 5 6 7 8 9 10 11         2 2 2 2 2 2 2 2 2 4 2
+
+>  <ForwardRxn>
+Standard 1.08e+10 0.0 2.4355e+04 1;  LLNL Values; J. Chem Phys. Vol 111 p3761
+>  <ReverseRxn>
+Standard  1.417e+10 -1.40e-01 9.09e+03  1; Type XII (7-Ring, secondary): (rev) c7h15o2-1 = c7h14ooh1-4, the alkyl value
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1 = 1
+%%%-------------------------------------------------------------------
+RO2IsomerizationCyclohexane-7RingTertiary\
+  peroxycyclohexane-4-radical-HRH  = hydroperoxycyclohexane-4-radical-HR
+- ID 3155
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         2 2 2 2 2 2 2 2 2 4 2
+1 2 3 4 5 6 7 8 9 10 11         2 2 2 2 2 2 2 2 2 4 2
+
+>  <ForwardRxn>
+Standard 1.08e+10 0.0 2.4355e+04 1;  LLNL Values; J. Chem Phys. Vol 111 p3761
+>  <ReverseRxn>
+Standard  1.417e+10 -1.40e-01 9.09e+03 1; Type XII (7-Ring, secondary): (rev) c7h15o2-1 = c7h14ooh1-4, the alkyl value
+$$$$

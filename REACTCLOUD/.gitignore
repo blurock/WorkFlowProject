@@ -1,0 +1,59 @@
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Libraries
+*.lib
+*.a
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+#other
+.cvsignore
+CVS
+
+# Docker build artifacts
+*.tar
+*.tar.gz
+docker-build/
+.docker/
+
+# Build temp dirs (Docker-related)
+genc/
+genh/
+tmp/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment
+.env
+.env.local
+*.log
+.firebase/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test artifacts
+test-results/
+coverage/

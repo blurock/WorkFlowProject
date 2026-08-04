@@ -1,0 +1,56 @@
+%%%-------------------------------------------------------------------
+aldehyde-from-primary-peroxyl (h).cooh-r = (h).c(o)-r hydroxyl-radical
+- ID 14444
+- Correspondences
+1 2 3 4 5 6     2 2 2 4 2
+1 2 3 4         2 2 2
+5 6             2
+>  <ForwardRxn>
+Standard 1.0e+9 0.0 7.5 1; Come Value ; Estimate  
+
+>  <ReverseRxn>
+Standard 0.0e+0 0.0 0.0 1; Ranzi Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+ketone-from-secondary-peroxyl r-.cooh-r = r-.c(o)-r hydroxyl-radical
+- ID 14445
+- Correspondences
+1 2 3 4 5 6     2 2 2 4 2
+1 2 3 4         2 2 2
+5 6             2
+>  <ForwardRxn>
+Standard 1.0e+9 0.0 7.5 1; Come Value ; Estimate  
+
+>  <ReverseRxn>
+Standard 0.0e+0 0.0 0.0 1; Ranzi Value ; Estimate  
+$$$$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,246 @@
+CLASSCOEFFICIENTS
+H-Abstraction-Oxygen-Primary             =      4.1700e+12     0.0000     204.92     6.5375e+10     0.3130      -2.52
+H-Abstraction-Oxygen-Secondary           =      1.0000e+13     0.0000     199.06     1.3265e+11     0.2420       8.67
+Primary-Carbon-Radical-(R.+O2-->RO2.)    =      4.5200e+12     0.0000       0.00     2.6570e+20    -1.6700     148.04
+Secondary-Carbon-Radical-(R.+O2-->RO2.)  =      7.5400e+12     0.0000       0.00     1.3570e+23    -2.3600     157.54
+RO2-Isomerization-5RingPrimary           =      8.9400e+12     0.0000     124.21     2.7040e+13    -0.5400      70.80
+RO2-Isomerization-5RingSecondary         =      5.9600e+12     0.0000     116.68     5.6790e+11    -0.1400      73.81
+RO2-Isomerization-6RingPrimary           =      7.4200e+11     0.0000      99.95     2.2550e+12    -0.5400      46.55
+RO2-Isomerization-6RingSecondary         =      4.9600e+11     0.0000      92.63     4.7340e+10    -0.1400      49.77
+RO2-Isomerization-7RingPrimary           =      6.1800e+10     0.0000      88.24     1.8780e+11    -0.5400      34.84
+RO2-Isomerization-7RingSecondary         =      4.1200e+10     0.0000      80.92     3.9420e+09    -0.1400      38.06
+RO2-Isomerization-8RingPrimary           =      5.1600e+09     0.0000      99.95     1.5650e+10    -0.5400      46.55
+RO2-Isomerization-8RingSecondary         =      3.4400e+09     0.0000      92.63     1.9420e+08    -0.0700      49.47
+CyclicEtherFromQOOH-3Ring                =      3.0000e+11     0.0000      92.00     5.9178e+07     1.0980     149.55
+CyclicEtherFromQOOH-4Ring                =      2.5000e+10     0.0000      63.78     9.2744e+08     0.7790     129.33
+CyclicEtherFromQOOH-5Ring                =      2.0800e+09     0.0000      27.18     4.2658e+09     0.4340     181.62
+CyclicEtherFromQOOH-6Ring                =      1.5000e+08     0.0000       7.53     9.2145e+10     0.1860     190.64
+CyclicEther-4Ring-(h)                    =      1.9000e+08     1.6100      -0.15     1.0000e-30     0.0000       0.00
+CyclicEther-4Ring-(r)                    =      8.8400e+09     1.0000      -0.62     1.0000e-30     0.0000       0.00
+CyclicEther-5Ring-(h)                    =      1.9000e+08     1.6100      -0.15     1.0000e-30     0.0000       0.00
+CyclicEther-5Ring-(r)                    =      8.8400e+09     1.0000      -0.62     1.0000e-30     0.0000       0.00
+CyclicEther-6Ring-(h)                    =      1.9000e+08     1.6100      -0.15     1.0000e-30     0.0000       0.00
+CyclicEther-6Ring-(r)                    =      8.8400e+09     1.0000      -0.62     1.0000e-30     0.0000       0.00
+CyclicEther-3Ring-(hh)                   =      1.9000e+08     1.6100      -0.15     1.0000e-30     0.0000       0.00
+CyclicEther-3Ring-(rh)                   =      1.9000e+08     1.6100      -0.15     1.0000e-30     0.0000       0.00
+CyclicEther-3RingDecomp-(rh)(h)(hhh)     =      8.8400e+09     1.0000      -0.62     1.0000e-30     0.0000       0.00
+CyclicEther-3RingDecomp-(hh)(h)(rhh)     =      8.8400e+09     1.0000      -0.62     1.0000e-30     0.0000       0.00
+CyclicEther-3RingDecomp-(rh)(h)(rhh)     =      8.8400e+09     1.0000      -0.62     1.0000e-30     0.0000       0.00
+KetoneAdditionOH-Alpha-(h)(hh)           =      1.5300e+08     1.5300      36.70     1.0130e+03     2.7600     118.81
+END
+CLASSEQUIVALENT
+END
+REACTIONCLASS  = H-Abstraction-Oxygen-Primary
+    6 {tridecane} + {oxygen} = {peroxyl-radical} + {PP18}
+END
+REACTIONCLASS  = H-Abstraction-Oxygen-Secondary
+    4 {tridecane} + {oxygen} = {peroxyl-radical} + {PP14}
+    4 {tridecane} + {oxygen} = {peroxyl-radical} + {PP12}
+    4 {tridecane} + {oxygen} = {peroxyl-radical} + {PP16}
+    4 {tridecane} + {oxygen} = {peroxyl-radical} + {PP13}
+    2 {tridecane} + {oxygen} = {peroxyl-radical} + {PP17}
+    4 {tridecane} + {oxygen} = {peroxyl-radical} + {PP15}
+END
+REACTIONCLASS  = Primary-Carbon-Radical-(R.+O2-->RO2.)
+    1 {PP18} + {oxygen} = {PP19}
+END
+REACTIONCLASS  = Secondary-Carbon-Radical-(R.+O2-->RO2.)
+    1 {PP15} + {oxygen} = {PP23}
+    1 {PP13} + {oxygen} = {PP21}
+    1 {PP14} + {oxygen} = {PP22}
+    1 {PP12} + {oxygen} = {PP20}
+    1 {PP16} + {oxygen} = {PP24}
+    1 {PP17} + {oxygen} = {PP25}
+END
+REACTIONCLASS  = RO2-Isomerization-5RingPrimary
+    1 {PP20} = {PP26}
+END
+REACTIONCLASS  = RO2-Isomerization-5RingSecondary
+    1 {PP22} = {PP31}
+    1 {PP19} = {PP27}
+    1 {PP20} = {PP28}
+    1 {PP21} = {PP29}
+    1 {PP21} = {PP30}
+    1 {PP22} = {PP32}
+    1 {PP23} = {PP33}
+    1 {PP23} = {PP34}
+    1 {PP24} = {PP35}
+    1 {PP24} = {PP36}
+    2 {PP25} = {PP37}
+END
+REACTIONCLASS  = RO2-Isomerization-6RingPrimary
+    1 {PP21} = {PP38}
+END
+REACTIONCLASS  = RO2-Isomerization-6RingSecondary
+    1 {PP19} = {PP39}
+    1 {PP20} = {PP40}
+    1 {PP21} = {PP41}
+    1 {PP22} = {PP42}
+    1 {PP22} = {PP43}
+    1 {PP23} = {PP45}
+    1 {PP24} = {PP46}
+    1 {PP24} = {PP47}
+    2 {PP25} = {PP48}
+    1 {PP23} = {PP44}
+END
+REACTIONCLASS  = RO2-Isomerization-7RingPrimary
+    1 {PP22} = {PP49}
+END
+REACTIONCLASS  = RO2-Isomerization-7RingSecondary
+    1 {PP20} = {PP51}
+    1 {PP19} = {PP50}
+    1 {PP21} = {PP52}
+    1 {PP22} = {PP53}
+    1 {PP23} = {PP54}
+    1 {PP23} = {PP55}
+    1 {PP24} = {PP56}
+    1 {PP24} = {PP57}
+    2 {PP25} = {PP58}
+END
+REACTIONCLASS  = RO2-Isomerization-8RingPrimary
+    1 {PP23} = {PP59}
+END
+REACTIONCLASS  = RO2-Isomerization-8RingSecondary
+    1 {PP23} = {PP64}
+    1 {PP24} = {PP65}
+    1 {PP24} = {PP66}
+    2 {PP25} = {PP67}
+    1 {PP19} = {PP60}
+    1 {PP20} = {PP61}
+    1 {PP22} = {PP63}
+    1 {PP21} = {PP62}
+END
+REACTIONCLASS  = CyclicEtherFromQOOH-3Ring
+    1 {PP35} = {hydroxyl-radical} + {PP72}
+    1 {PP36} = {hydroxyl-radical} + {PP73}
+    1 {PP37} = {hydroxyl-radical} + {PP73}
+    1 {PP33} = {hydroxyl-radical} + {PP71}
+    1 {PP26} = {hydroxyl-radical} + {PP68}
+    1 {PP27} = {hydroxyl-radical} + {PP68}
+    1 {PP28} = {hydroxyl-radical} + {PP69}
+    1 {PP29} = {hydroxyl-radical} + {PP69}
+    1 {PP30} = {hydroxyl-radical} + {PP70}
+    1 {PP31} = {hydroxyl-radical} + {PP70}
+    1 {PP32} = {hydroxyl-radical} + {PP71}
+    1 {PP34} = {hydroxyl-radical} + {PP72}
+END
+REACTIONCLASS  = CyclicEtherFromQOOH-4Ring
+    1 {PP48} = {hydroxyl-radical} + {PP78}
+    1 {PP39} = {hydroxyl-radical} + {PP74}
+    1 {PP40} = {hydroxyl-radical} + {PP75}
+    1 {PP41} = {hydroxyl-radical} + {PP76}
+    1 {PP42} = {hydroxyl-radical} + {PP75}
+    1 {PP43} = {hydroxyl-radical} + {PP77}
+    1 {PP44} = {hydroxyl-radical} + {PP76}
+    1 {PP45} = {hydroxyl-radical} + {PP78}
+    1 {PP46} = {hydroxyl-radical} + {PP77}
+    1 {PP47} = {hydroxyl-radical} + {PP79}
+    1 {PP38} = {hydroxyl-radical} + {PP74}
+END
+REACTIONCLASS  = CyclicEtherFromQOOH-5Ring
+    1 {PP49} = {hydroxyl-radical} + {PP80}
+    1 {PP50} = {hydroxyl-radical} + {PP80}
+    1 {PP51} = {hydroxyl-radical} + {PP81}
+    1 {PP52} = {hydroxyl-radical} + {PP82}
+    1 {PP53} = {hydroxyl-radical} + {PP83}
+    1 {PP54} = {hydroxyl-radical} + {PP81}
+    1 {PP55} = {hydroxyl-radical} + {PP84}
+    1 {PP56} = {hydroxyl-radical} + {PP82}
+    1 {PP57} = {hydroxyl-radical} + {PP84}
+    1 {PP58} = {hydroxyl-radical} + {PP83}
+END
+REACTIONCLASS  = CyclicEtherFromQOOH-6Ring
+    1 {PP59} = {hydroxyl-radical} + {PP85}
+    1 {PP60} = {hydroxyl-radical} + {PP85}
+    1 {PP61} = {hydroxyl-radical} + {PP86}
+    1 {PP62} = {hydroxyl-radical} + {PP87}
+    1 {PP63} = {hydroxyl-radical} + {PP88}
+    1 {PP64} = {hydroxyl-radical} + {PP89}
+    1 {PP65} = {hydroxyl-radical} + {PP86}
+    1 {PP66} = {hydroxyl-radical} + {PP88}
+    1 {PP67} = {hydroxyl-radical} + {PP87}
+END
+REACTIONCLASS  = CyclicEther-4Ring-(h)
+    1 {PP74} + {hydroxyl-radical} = {water} + {formyl-radical} + {PP122}
+END
+REACTIONCLASS  = CyclicEther-4Ring-(r)
+    1 {PP74} + {hydroxyl-radical} = {water} + {ethene} + {PP124}
+    2 {PP79} + {hydroxyl-radical} = {water} + {1-heptene} + {PP142}
+    1 {PP78} + {hydroxyl-radical} = {water} + {PP139} + {1-octene}
+    1 {PP78} + {hydroxyl-radical} = {water} + {1-hexene} + {PP138}
+    1 {PP77} + {hydroxyl-radical} = {water} + {1-yl-1-butanal} + {1-nonene}
+    1 {PP77} + {hydroxyl-radical} = {water} + {1-pentene} + {PP134}
+    1 {PP76} + {hydroxyl-radical} = {water} + {propanoyl-radical} + {1-decene}
+    1 {PP76} + {hydroxyl-radical} = {water} + {1-butene} + {PP130}
+    1 {PP75} + {hydroxyl-radical} = {water} + {ethanoyl-radical} + {PP128}
+    1 {PP75} + {hydroxyl-radical} = {water} + {propene} + {PP126}
+END
+REACTIONCLASS  = CyclicEther-5Ring-(h)
+    1 {PP80} + {hydroxyl-radical} = {water} + {PP128} + {ethanal-2-yl-radical}
+END
+REACTIONCLASS  = CyclicEther-5Ring-(r)
+    1 {PP80} + {hydroxyl-radical} = {water} + {ethene} + {PP144}
+    1 {PP81} + {hydroxyl-radical} = {water} + {propene} + {PP145}
+    1 {PP81} + {hydroxyl-radical} = {water} + {1-decene} + {propanon-1-yl-radical}
+    1 {PP82} + {hydroxyl-radical} = {water} + {1-butene} + {PP147}
+    1 {PP82} + {hydroxyl-radical} = {water} + {1-nonene} + {1-yl-2-butanone}
+    1 {PP83} + {hydroxyl-radical} = {water} + {1-pentene} + {PP149}
+    1 {PP83} + {hydroxyl-radical} = {water} + {1-octene} + {PP150}
+    1 {PP84} + {hydroxyl-radical} = {water} + {1-hexene} + {PP151}
+    1 {PP84} + {hydroxyl-radical} = {water} + {1-heptene} + {PP152}
+END
+REACTIONCLASS  = CyclicEther-6Ring-(h)
+    1 {PP85} + {hydroxyl-radical} = {water} + {1-decene} + {propanal-3-yl-radical}
+END
+REACTIONCLASS  = CyclicEther-6Ring-(r)
+    1 {PP85} + {hydroxyl-radical} = {water} + {ethene} + {PP154}
+    2 {PP89} + {hydroxyl-radical} = {water} + {1-hexene} + {PP161}
+    1 {PP88} + {hydroxyl-radical} = {water} + {1-heptene} + {PP160}
+    1 {PP88} + {hydroxyl-radical} = {water} + {1-pentene} + {PP159}
+    1 {PP87} + {hydroxyl-radical} = {water} + {1-octene} + {PP158}
+    1 {PP87} + {hydroxyl-radical} = {water} + {1-butene} + {PP157}
+    1 {PP86} + {hydroxyl-radical} = {water} + {1-nonene} + {4-yl-2-butanone}
+    1 {PP86} + {hydroxyl-radical} = {water} + {propene} + {PP155}
+END
+REACTIONCLASS  = CyclicEther-3Ring-(hh)
+    1 {PP68} + {hydroxyl-radical} = {propen-3-al} + {water} + {PP92}
+END
+REACTIONCLASS  = CyclicEther-3Ring-(rh)
+    1 {PP70} + {hydroxyl-radical} = {water} + {methyl-radical} + {PP95}
+    1 {PP69} + {hydroxyl-radical} = {water} + {2-butanal-3-ene} + {PP94}
+    1 {PP71} + {hydroxyl-radical} = {water} + {ethyl-radical} + {PP98}
+    1 {PP71} + {hydroxyl-radical} = {water} + {PP99} + {PP100}
+    1 {PP70} + {hydroxyl-radical} = {water} + {PP96} + {PP97}
+    1 {PP73} + {hydroxyl-radical} = {water} + {PP107} + {PP108}
+    1 {PP73} + {hydroxyl-radical} = {water} + {1-butyl-radical} + {PP106}
+    1 {PP72} + {hydroxyl-radical} = {water} + {PP103} + {PP104}
+    1 {PP72} + {hydroxyl-radical} = {water} + {1-propyl-radical} + {PP102}
+END
+REACTIONCLASS  = CyclicEther-3RingDecomp-(rh)(h)(hhh)
+    1 {PP69} + {hydroxyl-radical} = {water} + {methyl-radical} + {PP109}
+END
+REACTIONCLASS  = CyclicEther-3RingDecomp-(hh)(h)(rhh)
+    1 {PP68} + {hydroxyl-radical} = {water} + {ethenone} + {PP111}
+END
+REACTIONCLASS  = CyclicEther-3RingDecomp-(rh)(h)(rhh)
+    1 {PP69} + {hydroxyl-radical} = {water} + {PP92} + {methyl-ketene}
+    1 {PP70} + {hydroxyl-radical} = {water} + {ethyl-radical} + {PP113}
+    1 {PP70} + {hydroxyl-radical} = {water} + {PP94} + {ethyl-ketene}
+    1 {PP71} + {hydroxyl-radical} = {water} + {1-propyl-radical} + {PP115}
+    1 {PP71} + {hydroxyl-radical} = {water} + {PP97} + {PP116}
+    1 {PP72} + {hydroxyl-radical} = {water} + {1-butyl-radical} + {PP117}
+    1 {PP72} + {hydroxyl-radical} = {water} + {PP100} + {PP118}
+    1 {PP73} + {hydroxyl-radical} = {water} + {PP108} + {PP119}
+    1 {PP73} + {hydroxyl-radical} = {water} + {PP104} + {PP120}
+END
+REACTIONCLASS  = KetoneAdditionOH-Alpha-(h)(hh)
+    2 {PP95} + {hydroxyl-radical} = {PP126} + {ethanal}
+    2 {PP107} + {hydroxyl-radical} = {PP142} + {ethanal}
+    2 {PP106} + {hydroxyl-radical} = {PP138} + {ethanal}
+    2 {PP103} + {hydroxyl-radical} = {PP139} + {ethanal}
+    2 {PP102} + {hydroxyl-radical} = {PP134} + {ethanal}
+    2 {PP99} + {hydroxyl-radical} = {1-yl-1-butanal} + {ethanal}
+    2 {PP98} + {hydroxyl-radical} = {PP130} + {ethanal}
+    2 {PP96} + {hydroxyl-radical} = {propanoyl-radical} + {ethanal}
+    2 {2-butanal-3-ene} + {hydroxyl-radical} = {ethanoyl-radical} + {ethanal}
+END

@@ -1,0 +1,283 @@
+BasicLowTemperatureV3: Basic Low Temperature Scheme (Version 3)
+oxygen,hydrogen-radical
+%%% ----------------------------------------------------
+%%%    Type I: (minimum)
+%%%    Only oxygen H-Abstraction (the rest done by HAbstractionBySimpleRadical submechanism)
+%%%    More extensive comments on last stages.
+%%% ----------------------------------------------------
+H-Abstraction-Oxygen-Tertiary,\
+H-Abstraction-Oxygen-Secondary,\
+H-Abstraction-Oxygen-Primary\
+:oxygen
+%%% ----------------------------------------------------
+%%%  Type X: 
+%%%    Initial addition of O2 to the radical formed
+%%% ----------------------------------------------------
+Primary-Carbon-Radical-(R.+O2-->RO2.),\
+Secondary-Carbon-Radical-(R.+O2-->RO2.),\
+Tertiary-Carbon-Radical-(R.+O2-->RO2.)\
+:oxygen
+%%% ----------------------------------------------------
+%%%  Type XII: RO2 Isomerization
+%%%    Intramolecular H abstraction
+%%% ----------------------------------------------------
+RO2-Isomerization-5RingPrimary,\
+RO2-Isomerization-5RingSecondary,\
+RO2-Isomerization-5RingTertiary,\
+RO2-Isomerization-6RingPrimary,\
+RO2-Isomerization-6RingSecondary,\
+RO2-Isomerization-6RingTertiary,\
+RO2-Isomerization-7RingPrimary,\
+RO2-Isomerization-7RingSecondary,\
+RO2-Isomerization-7RingTertiary,\
+RO2-Isomerization-8RingPrimary,\
+RO2-Isomerization-8RingSecondary,\
+RO2-Isomerization-8RingTertiary
+%%% ----------------------------------------------------
+%%%  Type XXII: 
+%%%    Initial addition of O2 to QOOH
+%%% ----------------------------------------------------
+Activated-Primary-Carbon-Radical-(R.+O2-->RO2.),\
+Activated-Secondary-Carbon-Radical-(R.+O2-->RO2.),\
+Activated-Tertiary-Carbon-Radical-(R.+O2-->RO2.)\
+:oxygen
+%%% ----------------------------------------------------
+%%% Type XXIII: O2QOOH Isomerization to Ketohydroperoxide + OH
+%%%   This is the first production of OH in the main low
+%%%   temperature path producing a ketohydroperoxide
+%%% ----------------------------------------------------
+OOQOOH-Isomerization-5Ring-Primary,\
+OOQOOH-Isomerization-5Ring-Secondary,\
+OOQOOH-Isomerization-6Ring-Primary,\
+OOQOOH-Isomerization-6Ring-Secondary,\
+OOQOOH-Isomerization-7Ring-Primary,\
+OOQOOH-Isomerization-7Ring-Secondary,\
+OOQOOH-Isomerization-8Ring-Primary,\
+OOQOOH-Isomerization-8Ring-Secondary
+%%% ----------------------------------------------------
+%%% TypeXXIV: Ketohydroperoxide Decomposition
+%%%   This is the second OH formation with the production
+%%%   of two aldehyde/ketones and aldehyde/ketone radicals
+%%% ----------------------------------------------------
+KetoHydroPeroxideDecompositionC4,\
+KetoHydroPeroxideDecompositionC5,\
+KetoHydroPeroxideDecompositionC6,\
+KetoHydroPeroxideDecompToAldRadical-HHH,\
+KetoHydroPeroxideDecompToAldRadical-HRH,\
+KetoHydroPeroxideDecompToAldRadical-HRR,\
+KetoHydroPeroxideDecompToAldRadical-RHH,\
+KetoHydroPeroxideDecompToAldRadical-RRH,\
+KetoHydroPeroxideDecompToAldRadical-RRR,\
+KetoHydroPeroxideDecompToAldRadical-CHHHH,\
+KetoHydroPeroxideDecompToAldRadical-CRHHH,\
+KetoHydroPeroxideDecompToAldRadical-CRRHH,\
+KetoHydroPeroxideDecompToAldRadical-CHHRH,\
+KetoHydroPeroxideDecompToAldRadical-CRHRH,\
+KetoHydroPeroxideDecompToAldRadical-CRRRH,\
+KetoHydroPeroxideDecompToAldRadical-CHHRR,\
+KetoHydroPeroxideDecompToAldRadical-CRHRR,\
+KetoHydroPeroxideDecompToAldRadical-CRRRR
+%%% ----------------------------------------------------
+%%% The Aldehydes and the Aldehyde radicals are taken
+%%%  care of in the aldehyde decomposition paths.  This
+%%%  path just involves the ketone radicals.
+%%% KetoneRadicalDecomp: 
+%%%                The ketyl radical decomposes to a carbonmonoxide
+%%% KeteneFormationRadicalDecomp:
+%%%                The radical in the alpha position to the
+%%%                aldehyde/ketone decomposes to a ketene through the 
+%%%                loss of an alkyl radical.
+%%% KetoneDecompToAlkeneAndch2co-Alkyl
+%%% KetoneDecompToAlkene-Alkyl
+%%%                The Radical is in the beta position, loss
+%%%                of a ketone radical to form an olefin.
+%%% PropylRadicalToEthene
+%%%                Generic Decomposition of the radical
+%%%                to an alkene.  If the radical is on the
+%%%                ketone, then it decomposes in the next step.
+%%% ----------------------------------------------------
+KetoneRadicalDecomp-HHH,\
+KetoneRadicalDecomp-RHH,\
+KetoneRadicalDecomp-RRH,\
+KetoneRadicalDecomp-RRR,\
+KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(hh)(hh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rh)(hh)(hh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rr)(hh)(hh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(rh)(hh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rh)(rh)(hh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rr)(rh)(hh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(rr)(hh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rh)(rr)(hh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rr)(rr)(hh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(hh)(rh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rh)(hh)(rh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rr)(hh)(rh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(rh)(rh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rh)(rh)(rh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rr)(rh)(rh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(rr)(rh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rh)(rr)(rh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rr)(rr)(rh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(hh)(rr),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rh)(hh)(rr),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rr)(hh)(rr),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(rh)(rr),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rh)(rh)(rr),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rr)(rh)(rr),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(rr)(rr),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rh)(rr)(rr),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rr)(rr)(rr),\
+KetoneDecompToAlkene-Alkyl-(hh)(hh),\
+KetoneDecompToAlkene-Alkyl-(rh)(hh),\
+KetoneDecompToAlkene-Alkyl-(rr)(hh),\
+KetoneDecompToAlkene-Alkyl-(hh)(rh),\
+KetoneDecompToAlkene-Alkyl-(rh)(rh),\
+KetoneDecompToAlkene-Alkyl-(rr)(rh),\
+KetoneDecompToAlkene-Alkyl-(hh)(rr),\
+KetoneDecompToAlkene-Alkyl-(rh)(rr),\
+KetoneDecompToAlkene-Alkyl-(rr)(rr),\
+KeteneFormationRadicalDecomp-(hh)(hhh),\
+KeteneFormationRadicalDecomp-(hh)(rhh),\
+KeteneFormationRadicalDecomp-(hh)(rrh),\
+KeteneFormationRadicalDecomp-(hh)(rrr),\
+KeteneFormationRadicalDecomp-(rh)(hhh),\
+KeteneFormationRadicalDecomp-(rh)(rhh),\
+KeteneFormationRadicalDecomp-(rh)(rrh),\
+KeteneFormationRadicalDecomp-(rh)(rrr),\
+KeteneFormationRadicalDecomp-(rr)(hhh),\
+KeteneFormationRadicalDecomp-(rr)(rhh),\
+KeteneFormationRadicalDecomp-(rr)(rrh),\
+KeteneFormationRadicalDecomp-(rr)(rrr),\
+PropylRadicalToEthene-(hh)(hh)(hhh),\
+PropylRadicalToEthene-(rh)(hh)(hhh),\
+PropylRadicalToEthene-(rr)(hh)(hhh),\
+PropylRadicalToEthene-(hh)(rh)(hhh),\
+PropylRadicalToEthene-(rh)(rh)(hhh),\
+PropylRadicalToEthene-(rr)(rh)(hhh),\
+PropylRadicalToEthene-(hh)(rr)(hhh),\
+PropylRadicalToEthene-(rh)(rr)(hhh),\
+PropylRadicalToEthene-(rr)(rr)(hhh),\
+PropylRadicalToEthene-(hh)(hh)(rhh),\
+PropylRadicalToEthene-(rh)(hh)(rhh),\
+PropylRadicalToEthene-(rr)(hh)(rhh),\
+PropylRadicalToEthene-(hh)(rh)(rhh),\
+PropylRadicalToEthene-(rh)(rh)(rhh),\
+PropylRadicalToEthene-(rr)(rh)(rhh),\
+PropylRadicalToEthene-(hh)(rr)(rhh),\
+PropylRadicalToEthene-(rh)(rr)(rhh),\
+PropylRadicalToEthene-(rr)(rr)(rhh),\
+PropylRadicalToEthene-(hh)(hh)(rrh),\
+PropylRadicalToEthene-(rh)(hh)(rrh),\
+PropylRadicalToEthene-(rr)(hh)(rrh),\
+PropylRadicalToEthene-(hh)(rh)(rrh),\
+PropylRadicalToEthene-(rh)(rh)(rrh),\
+PropylRadicalToEthene-(rr)(rh)(rrh),\
+PropylRadicalToEthene-(hh)(rr)(rrh),\
+PropylRadicalToEthene-(rh)(rr)(rrh),\
+PropylRadicalToEthene-(rr)(rr)(rrh),\
+PropylRadicalToEthene-(hh)(hh)(rrr),\
+PropylRadicalToEthene-(rh)(hh)(rrr),\
+PropylRadicalToEthene-(rr)(hh)(rrr),\
+PropylRadicalToEthene-(hh)(rh)(rrr),\
+PropylRadicalToEthene-(rh)(rh)(rrr),\
+PropylRadicalToEthene-(rr)(rh)(rrr),\
+PropylRadicalToEthene-(hh)(rr)(rrr),\
+PropylRadicalToEthene-(rh)(rr)(rrr),\
+PropylRadicalToEthene-(rr)(rr)(rrr)
+%%% ----------------------------------------------------
+%%% KeteneFormationRadicalDecomp:
+%%%                The radical in the alpha position to the
+%%%                aldehyde/ketone decomposes to a ketene through the 
+%%%                loss of an alkyl radical.
+%%% KetoneDecompToAlkeneAndch2co-Alkyl
+%%% KetoneDecompToAlkene-Alkyl
+%%%                The Radical is in the beta position, loss
+%%%                of a ketone radical to form an olefin.
+%%% PropylRadicalToEthene
+%%%                Generic Decomposition of the radical
+%%%                to an alkene.  
+%%% ----------------------------------------------------
+KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(hh)(hh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rh)(hh)(hh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rr)(hh)(hh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(rh)(hh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rh)(rh)(hh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rr)(rh)(hh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(rr)(hh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rh)(rr)(hh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rr)(rr)(hh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(hh)(rh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rh)(hh)(rh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rr)(hh)(rh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(rh)(rh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rh)(rh)(rh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rr)(rh)(rh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(rr)(rh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rh)(rr)(rh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rr)(rr)(rh),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(hh)(rr),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rh)(hh)(rr),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rr)(hh)(rr),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(rh)(rr),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rh)(rh)(rr),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rr)(rh)(rr),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(rr)(rr),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rh)(rr)(rr),\
+KetoneDecompToAlkeneAndch2co-Alkyl-(rr)(rr)(rr),\
+KetoneDecompToAlkene-Alkyl-(hh)(hh),\
+KetoneDecompToAlkene-Alkyl-(rh)(hh),\
+KetoneDecompToAlkene-Alkyl-(rr)(hh),\
+KetoneDecompToAlkene-Alkyl-(hh)(rh),\
+KetoneDecompToAlkene-Alkyl-(rh)(rh),\
+KetoneDecompToAlkene-Alkyl-(rr)(rh),\
+KetoneDecompToAlkene-Alkyl-(hh)(rr),\
+KetoneDecompToAlkene-Alkyl-(rh)(rr),\
+KetoneDecompToAlkene-Alkyl-(rr)(rr),\
+KeteneFormationRadicalDecomp-(hh)(hhh),\
+KeteneFormationRadicalDecomp-(hh)(rhh),\
+KeteneFormationRadicalDecomp-(hh)(rrh),\
+KeteneFormationRadicalDecomp-(hh)(rrr),\
+KeteneFormationRadicalDecomp-(rh)(hhh),\
+KeteneFormationRadicalDecomp-(rh)(rhh),\
+KeteneFormationRadicalDecomp-(rh)(rrh),\
+KeteneFormationRadicalDecomp-(rh)(rrr),\
+KeteneFormationRadicalDecomp-(rr)(hhh),\
+KeteneFormationRadicalDecomp-(rr)(rhh),\
+KeteneFormationRadicalDecomp-(rr)(rrh),\
+KeteneFormationRadicalDecomp-(rr)(rrr),\
+PropylRadicalToEthene-(hh)(hh)(hhh),\
+PropylRadicalToEthene-(rh)(hh)(hhh),\
+PropylRadicalToEthene-(rr)(hh)(hhh),\
+PropylRadicalToEthene-(hh)(rh)(hhh),\
+PropylRadicalToEthene-(rh)(rh)(hhh),\
+PropylRadicalToEthene-(rr)(rh)(hhh),\
+PropylRadicalToEthene-(hh)(rr)(hhh),\
+PropylRadicalToEthene-(rh)(rr)(hhh),\
+PropylRadicalToEthene-(rr)(rr)(hhh),\
+PropylRadicalToEthene-(hh)(hh)(rhh),\
+PropylRadicalToEthene-(rh)(hh)(rhh),\
+PropylRadicalToEthene-(rr)(hh)(rhh),\
+PropylRadicalToEthene-(hh)(rh)(rhh),\
+PropylRadicalToEthene-(rh)(rh)(rhh),\
+PropylRadicalToEthene-(rr)(rh)(rhh),\
+PropylRadicalToEthene-(hh)(rr)(rhh),\
+PropylRadicalToEthene-(rh)(rr)(rhh),\
+PropylRadicalToEthene-(rr)(rr)(rhh),\
+PropylRadicalToEthene-(hh)(hh)(rrh),\
+PropylRadicalToEthene-(rh)(hh)(rrh),\
+PropylRadicalToEthene-(rr)(hh)(rrh),\
+PropylRadicalToEthene-(hh)(rh)(rrh),\
+PropylRadicalToEthene-(rh)(rh)(rrh),\
+PropylRadicalToEthene-(rr)(rh)(rrh),\
+PropylRadicalToEthene-(hh)(rr)(rrh),\
+PropylRadicalToEthene-(rh)(rr)(rrh),\
+PropylRadicalToEthene-(rr)(rr)(rrh),\
+PropylRadicalToEthene-(hh)(hh)(rrr),\
+PropylRadicalToEthene-(rh)(hh)(rrr),\
+PropylRadicalToEthene-(rr)(hh)(rrr),\
+PropylRadicalToEthene-(hh)(rh)(rrr),\
+PropylRadicalToEthene-(rh)(rh)(rrr),\
+PropylRadicalToEthene-(rr)(rh)(rrr),\
+PropylRadicalToEthene-(hh)(rr)(rrr),\
+PropylRadicalToEthene-(rh)(rr)(rrr),\
+PropylRadicalToEthene-(rr)(rr)(rrr)

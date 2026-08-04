@@ -1,0 +1,52 @@
+Benson Calculations
+100 BensonCalc
+%%%
+   BensonCalcConnections 100 bensoncalcconnections
+      0 The number of Neighbors
+        INT NumberOfNeighbors Create
+      1 The set of Valences of Neighbors
+        INT Valences Pointer Create Array=NumberOfNeighbors
+      2 The Number of Unique Connections
+        INT NumberOfUniqueConnections Create
+      3 The Set of Connections and Multiplicities
+        BensonAtomConnections Connections Pointer Create Array=NumberOfUniqueConnections
+      DONE
+   SetOfBensonCalcConnections 101 setofbensoncalcconnections
+      0 The number of atoms
+        INT NumberOfAtoms Create
+      1 The set of Connections for each Atom
+        BensonCalcConnections Connections Pointer Create Array=NumberOfAtoms
+      DONE
+%%%
+   BensonConnectionTree 100 bensonconnectiontree
+      0 The Connection Valence and Multiplicity (Zero if the first one after Central atom)
+        BensonAtomConnections  Connection Pointer Create
+      1 If Finished, the thermodynamic values
+        BensonSecondThermoTable ThermoValues Pointer Create
+      2 The number of Further Connection Cases
+        INT NumberOfConnectionCases Create
+      3 The further Connection Cases
+        BensonConnectionTree Cases Pointer Create Array=NumberOfConnectionCases
+      DONE
+%%%
+%%%
+   CentralAtomBranch 100 bensoncentralatombranch
+      0 Central Atom Valence
+        INT CentralAtomValence Create
+      1 The Connection Tree
+        BensonConnectionTree Tree Pointer Create
+      DONE
+%%%
+   SecondOrderBensonTree 100 secondorderbensontree
+      0 Number of Central Atom Types
+        INT NumberOfCentralAtomTypes Create
+      1 The Central Atom Tree
+        CentralAtomBranch CentralAtomTree Pointer Array=NumberOfCentralAtomTypes Create
+      DONE
+   BensonCalculation 100 bensoncalculation
+      0 The Second Order Central Atom Tree
+        SecondOrderBensonTree SecondOrderTree Pointer Create
+      1 The number of temperatures for the Heat Capactities
+        INT NumberOfTemperatures Create
+      DONE
+DONE

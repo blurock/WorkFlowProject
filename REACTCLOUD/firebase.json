@@ -1,0 +1,12 @@
+{
+  "hosting": {
+    "target": "react-chemdb",
+    "public": "react-chemdb",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "cleanUrls": true
+  }
+}

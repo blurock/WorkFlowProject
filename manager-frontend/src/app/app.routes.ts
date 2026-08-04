@@ -54,4 +54,8 @@ export const routes: Routes = [
     path: 'test-live-catalog-object',
     loadComponent: () => import('./features/catalog/primitives/showcase/test-live-catalog-object').then(m => m.TestLiveCatalogObjectComponent)
   },
+  {
+    path: 'test-ontology-class',
+    loadComponent: () => import('./features/catalog/primitives/showcase/test-ontology-class').then(m => m.TestOntologyClassComponent)
+  }
 ];

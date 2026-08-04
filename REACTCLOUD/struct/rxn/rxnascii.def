@@ -1,0 +1,49 @@
+Mecahiism Structures
+0 mechanism
+
+   MolFileReaction 13 reactionmolfile
+        0 The Number of reactants
+          INT NumberOfReactants Create
+        1 The Number of Products
+          INT NumberOfProducts Create
+        2 The Set of Reactants
+          MolFileMolecule Reactants Pointer Create Array=NumberOfReactants
+        3 The Set of Products
+          MolFileMolecule Products Pointer Create Array=NumberOfProducts
+        4 The Primitive Reaction Properties
+          ASCIIProperties Properties Pointer Create
+        DONE
+
+
+
+%%% ASCIIReaction
+%%%  The reaction is given as ASCII text.  The molecules are
+%%%  identified by name and the properties are given (at first)
+%%%  as ASCII strings after the reaction specification
+%%%
+   ASCIIReaction 02 asciireaction
+      0 The set of Reactant Molecules
+        ReadInMoleculeSet Reactants Pointer Create
+      1 Reaction Types (forward, reverse, equilibrium)
+        INT ReactionType Create
+      1 The set of Product Molecules
+        ReadInMoleculeSet Products Pointer Create
+      2 The set of properties
+        ASCIIProperties  Properties Pointer Create
+      DONE
+   ASCIIReactionSet 03 asciireactionset
+      0 The number of reactions
+        INT NumberOfReactions Create
+      1 The set of reactions
+        ASCIIReaction Reactions Pointer Create Array=NumberOfReactions
+      DONE
+%%%
+     ReadInReaction 03 readinreaction
+       DONE
+     ReadInReactionSet 04 readinreactionset
+      0 The number of reactions
+        INT NumberOfReactions Create
+      1 The set of reactions
+        ReadInReaction Reactions Pointer Create Array=NumberOfReactions
+        DONE
+DONE

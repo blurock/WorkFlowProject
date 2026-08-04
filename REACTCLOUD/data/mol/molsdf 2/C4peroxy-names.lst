@@ -1,0 +1,52 @@
+1 C4peroxy-names
+1-butylperoxy-radical
+- AlternativeNames CHEMKIN pc4h9o2
+- AlternativeNames Formula C4H9O2
+2-butylperoxy-radical
+- AlternativeNames CHEMKIN sc4h9o2
+- AlternativeNames Formula C4H9O2
+1-butyl-1-hydroperoxy-radical 
+- AlternativeNames CHEMKIN c4h8ooh1-1
+- AlternativeNames Formula C4H9O2
+2-butyl-1-hydroperoxy-radical 
+- AlternativeNames CHEMKIN c4h8ooh1-2
+- AlternativeNames Formula C4H9O2
+3-butyl-1-hydroperoxy-radical 
+- AlternativeNames CHEMKIN c4h8ooh1-3
+- AlternativeNames Formula C4H9O2
+4-butyl-1-hydroperoxy-radical 
+- AlternativeNames CHEMKIN c4h8ooh1-4
+- AlternativeNames Formula C4H9O2
+1-butyl-2-hydroperoxy-radical
+- AlternativeNames CHEMKIN c4h8ooh2-1
+- AlternativeNames Formula C4H9O2
+2-butyl-2-hydroperoxy-radical
+- AlternativeNames CHEMKIN c4h8ooh2-2
+- AlternativeNames Formula C4H9O2
+3-butyl-2-hydroperoxy-radical
+- AlternativeNames CHEMKIN c4h8ooh2-3
+- AlternativeNames Formula C4H9O2
+4-butyl-2-hydroperoxy-radical
+- AlternativeNames CHEMKIN c4h8ooh2-4
+- AlternativeNames Formula C4H9O2
+1-hydroperoxy-1-peroxy-butane
+- AlternativeNames CHEMKIN c4h8ooh1-102
+- AlternativeNames Formula C4H9O4
+1-hydroperoxy-2-peroxy-butane
+- AlternativeNames CHEMKIN c4h8ooh1-2o2
+- AlternativeNames Formula C4H9O4
+1-hydroperoxy-3-peroxy-butane
+- AlternativeNames CHEMKIN c4h8ooh1-3o2
+- AlternativeNames Formula C4H9O4
+1-hydroperoxy-4-peroxy-butane
+- AlternativeNames CHEMKIN c4h8ooh1-4o2
+- AlternativeNames Formula C4H9O4
+2-hydroperoxy-2-peroxy-butane
+- AlternativeNames CHEMKIN c4h8ooh2-2o2
+- AlternativeNames Formula C4H9O4
+2-hydroperoxy-3-peroxy-butane
+- AlternativeNames CHEMKIN c4h8ooh2-3o2
+- AlternativeNames Formula C4H9O4
+2-hydroperoxy-4-peroxy-butane
+- AlternativeNames CHEMKIN c4h8ooh2-4o2
+- AlternativeNames Formula C4H9O4

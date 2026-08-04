@@ -1,0 +1,32 @@
+Olefin Decomposition through OH addition
+hydroxyl-radical,oxygen,hydrogen-radical,methyl-radical
+%%% ----------------------------------------------------
+H-Abstraction-Oxygen-Tertiary,\
+H-Abstraction-Oxygen-Secondary,\
+H-Abstraction-Oxygen-Primary,\
+:oxygen
+%%% ----------------------------------------------------
+HLoss-ethyl-radical(hh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rhh)-to-olefin,\
+HLoss-ethyl-radical(rr)(hhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(rhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rrh)-to-olefin,\
+HLoss-ethyl-radical(rr)(rhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(rrh)-to-olefin,\
+HLoss-ethyl-radical(rr)(rrh)-to-olefin
+%%% ----------------------------------------------------
+%%% OlefinToAldehydeDecomp
+%%%        Through the addition of a hydroxyl radical to the double
+%%%        bond, the alkene decomposes to an aldehyde/ketone and a radical
+%%% ----------------------------------------------------
+OlefinToAldehydeDecomp-(hh)(hh),\
+OlefinToAldehydeDecomp-(rh)(hh),\
+OlefinToAldehydeDecomp-(rr)(hh),\
+OlefinToAldehydeDecomp-(hh)(rh),\
+OlefinToAldehydeDecomp-(rh)(rh),\
+OlefinToAldehydeDecomp-(rr)(rh),\
+OlefinToAldehydeDecomp-(hh)(rr),\
+OlefinToAldehydeDecomp-(rh)(rr),\
+OlefinToAldehydeDecomp-(rr)(rr)\
+:hydroxyl-radical

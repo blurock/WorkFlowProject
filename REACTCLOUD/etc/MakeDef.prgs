@@ -1,0 +1,55 @@
+STD_INCLUDES = -I$(CCROOT)/genc\
+               -I$(CCROOT)/genh\
+               -I$(CCROOT)/standard
+DEPLIBS = -L$(MYLIBDIR)        \
+           $(STD_LIBRARIES)    \
+          -lm $(EXTRASYSTEMLIBS)
+
+CFLAGS = $(CCOPTIONS) $(STD_INCLUDES)
+all: $(ALL_PROGS)
+
+$(PROGNAME): $(ALL_OBJECTS) main.o
+	$(CC) -o $(PROGNAME) $(CCFLAGS) $(ALL_OBJECTS) main.o $(DEPLIBS)
+	cp $(PROGNAME) $(CCROOT)/bin/$(PROGNAME)
+
+str_form:
+	cd $(CCROOT); $(CREATESTRUCT) $(PROGNAME) Str
+clean:
+	$(CCROOT)/bin/cleandir
+
+library: $(ALL_OBJECTS)
+	$(AR) rv $(LIBFILE) $(ALL_OBJECTS)
+	$(RANLIB) $(LIBFILE)
+
+backup2: backup1 commandfiles
+
+backup1: backup0 structfiles
+
+backup0: clean tarfile mkfile hfiles
+
+tarfile:
+	cd $(CCROOT)/$(PROGNAME);tar -cf $(BACKUPDIR)/$(PROGNAME).tar $(ALL_SOURCES) $(EXTRAS)
+	compress $(BACKUPDIR)/$(PROGNAME).tar
+
+hfiles:
+	cd $(CCROOT)/standard; tar -cf $(BACKUPDIR)/hfiles.$(PROGNAME).tar $(HFILES)
+	compress $(BACKUPDIR)/hfiles.$(PROGNAME).tar
+
+structfiles:
+	cd $(CCROOT)/struct; tar -cf $(BACKUPDIR)/struct.$(PROGNAME).tar ./$(PROGNAME)/*.def $(PROGNAME).lst
+	compress $(BACKUPDIR)/struct.$(PROGNAME).tar
+
+commandfiles:
+	cd $(CCROOT)/command; tar -cf $(BACKUPDIR)/command.$(PROGNAME).tar $(COMMANDFILES)
+	compress $(BACKUPDIR)/command.$(PROGNAME).tar
+
+mkfile:
+	cp $(CCROOT)/$(PROGNAME)/make.defs $(BACKUPDIR)/make.defs.$(PROGNAME)
+
+depend:
+	makedepend  -- $(CFLAGS) -- $(ALL_SOURCES)
+
+
+
+# DO NOT DELETE THIS LINE -- make depend depends on it.
+

@@ -1,0 +1,20 @@
+%%% /Users/edwardblurock/reactionrun/mechanisms/Test-CombinedClass.inp ======================= Read in Generated Mechanism ======================= 
+ObjectClasses:
+DataType: MoleculeSummarySet The set of standard molecule summaries
+StandardMoleculeSummary
+MoleculeSummary
+END
+ClassNamePairs:
+%% -----------------------------------------------------
+Generated KeyWords
+RefGenerated LiteratureReference
+StandardMoleculeSummary StandardMoleculeSummary
+Mechanism String
+END
+%% ----------------------------------------------------
+ObjectClasses:
+END
+%% ----------------------------------------------------
+ClassNamePairs:
+END
+%% ----------------------------------------------------

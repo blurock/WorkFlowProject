@@ -1,0 +1,339 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% Butadiene decomposition through addition of hydrogen-radical
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+ButaDieneDecompThroughHAddition-(hh)(h)(h)(hh)\
+     c=cc=c(hh)(h)(h)(hh) hydrogen-radical =  olefin-(hh)(hh) alkenyl-(hh)(h) 
+- ID 41400
+- Correspondences
+1 2 3 4 5 6 7 8 9 10  2 4 2 2 2 2 2 2 2
+11                    
+1 2 5 6 7 11          2 2 2 2 4
+4 3 9 10 8            2 2 2 2
+>  <ForwardRxn>
+Standard  1.000e+13  0.00  4.700e+03  4; rev: Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+>  <ReverseRxn>
+Standard 5.000e+11  0.00  7.300e+03 4; Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2 = 2
+%%%-------------------------------------------------------------------
+ButaDieneDecompThroughHAddition-(rh)(h)(h)(hh)\
+     c=cc=c(rh)(h)(h)(hh) hydrogen-radical =  olefin-(rh)(hh) alkenyl-(hh)(h) 
+- ID 41401
+- Correspondences
+1 2 3 4 5 6 7 8 9 10  2 4 2 2 2 2 2 2 2
+11                    
+1 2 5 6 7 11          2 2 2 2 4
+4 3 9 10 8            2 2 2 2
+>  <ForwardRxn>
+Standard  1.000e+13  0.00  4.700e+03  2; rev: Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+>  <ReverseRxn>
+Standard 5.000e+11  0.00  7.300e+03 2; Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2
+%%%-------------------------------------------------------------------
+ButaDieneDecompThroughHAddition-(rr)(h)(h)(hh)\
+     c=cc=c(rr)(h)(h)(hh) hydrogen-radical =  olefin-(rr)(hh) alkenyl-(hh)(h) 
+- ID 41402
+- Correspondences
+1 2 3 4 5 6 7 8 9 10  2 4 2 2 2 2 2 2 2
+11                    
+1 2 5 6 7 11          2 2 2 2 4
+4 3 9 10 8            2 2 2 2
+>  <ForwardRxn>
+Standard  1.000e+13  0.00  4.700e+03  4; rev: Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+>  <ReverseRxn>
+Standard 5.000e+11  0.00  7.300e+03 4; Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2
+%%%-------------------------------------------------------------------
+ButaDieneDecompThroughHAddition-(hh)(h)(r)(hh)\
+     c=cc=c(hh)(h)(r)(hh) hydrogen-radical =  olefin-(hh)(hh) alkenyl-(hh)(r) 
+- ID 41403
+- Correspondences
+1 2 3 4 5 6 7 8 9 10  2 4 2 2 2 2 2 2 2
+11                    
+1 2 5 6 7 11          2 2 2 2 4
+4 3 9 10 8            2 2 2 2
+>  <ForwardRxn>
+Standard  1.000e+13  0.00  4.700e+03  4; rev: Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+>  <ReverseRxn>
+Standard 5.000e+11  0.00  7.300e+03 4; Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2=2
+%%%-------------------------------------------------------------------
+ButaDieneDecompThroughHAddition-(rh)(h)(r)(hh)\
+     c=cc=c(rh)(h)(r)(hh) hydrogen-radical =  olefin-(rh)(hh) alkenyl-(hh)(r) 
+- ID 41404
+- Correspondences
+1 2 3 4 5 6 7 8 9 10  2 4 2 2 2 2 2 2 2
+11                    
+1 2 5 6 7 11          2 2 2 2 4
+4 3 9 10 8            2 2 2 2
+>  <ForwardRxn>
+Standard  1.000e+13  0.00  4.700e+03  2; rev: Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+>  <ReverseRxn>
+Standard 5.000e+11  0.00  7.300e+03 2; Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2=4
+%%%-------------------------------------------------------------------
+ButaDieneDecompThroughHAddition-(rr)(h)(r)(hh)\
+     c=cc=c(rr)(h)(r)(hh) hydrogen-radical =  olefin-(rr)(hh) alkenyl-(hh)(r) 
+- ID 41405
+- Correspondences
+1 2 3 4 5 6 7 8 9 10  2 4 2 2 2 2 2 2 2
+11                    
+1 2 5 6 7 11          2 2 2 2 4
+4 3 9 10 8            2 2 2 2
+>  <ForwardRxn>
+Standard  1.000e+13  0.00  4.700e+03  4; rev: Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+>  <ReverseRxn>
+Standard 5.000e+11  0.00  7.300e+03 4; Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2=2
+%%%-------------------------------------------------------------------
+ButaDieneDecompThroughHAddition-(rh)(r)(h)(hh)\
+     c=cc=c(rh)(r)(h)(hh) hydrogen-radical =  olefin-(rh)(rh) alkenyl-(hh)(h) 
+- ID 41406
+- Correspondences
+1 2 3 4 5 6 7 8 9 10  2 4 2 2 2 2 2 2 2
+11                    
+1 2 5 6 7 11          2 2 2 2 4
+4 3 9 10 8            2 2 2 2
+>  <ForwardRxn>
+Standard  1.000e+13  0.00  4.700e+03  2; rev: Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+>  <ReverseRxn>
+Standard 5.000e+11  0.00  7.300e+03 2; Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2=4
+%%%-------------------------------------------------------------------
+ButaDieneDecompThroughHAddition-(rr)(r)(h)(hh)\
+     c=cc=c(rr)(r)(h)(hh) hydrogen-radical =  olefin-(rr)(rh) alkenyl-(hh)(h) 
+- ID 41407
+- Correspondences
+1 2 3 4 5 6 7 8 9 10  2 4 2 2 2 2 2 2 2
+11                    
+1 2 5 6 7 11          2 2 2 2 4
+4 3 9 10 8            2 2 2 2
+>  <ForwardRxn>
+Standard  1.000e+13  0.00  4.700e+03  4; rev: Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+>  <ReverseRxn>
+Standard 5.000e+11  0.00  7.300e+03 4; Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2=4
+%%%-------------------------------------------------------------------
+ButaDieneDecompThroughHAddition-(hh)(r)(r)(hh)\
+     c=cc=c(hh)(r)(r)(hh) hydrogen-radical =  olefin-(rh)(hh) alkenyl-(hh)(r) 
+- ID 41408
+- Correspondences
+1 2 3 4 5 6 7 8 9 10  2 4 2 2 2 2 2 2 2
+11                    
+2 1 7 11 5 6          2 2 4 2 2
+4 3 9 10 8            2 2 2 2
+>  <ForwardRxn>
+Standard  1.000e+13  0.00  4.700e+03  4; rev: Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+>  <ReverseRxn>
+Standard 5.000e+11  0.00  7.300e+03 4; Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2=2
+%%%-------------------------------------------------------------------
+ButaDieneDecompThroughHAddition-(rh)(r)(r)(hh)\
+     c=cc=c(rh)(r)(r)(hh) hydrogen-radical =  olefin-(rh)(rh) alkenyl-(hh)(r) 
+- ID 41409
+- Correspondences
+1 2 3 4 5 6 7 8 9 10  2 4 2 2 2 2 2 2 2
+11                    
+1 2 5 6 7 11          2 2 2 2 4
+4 3 9 10 8            2 2 2 2
+>  <ForwardRxn>
+Standard  1.000e+13  0.00  4.700e+03  2; rev: Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+>  <ReverseRxn>
+Standard 5.000e+11  0.00  7.300e+03 2; Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2=4
+%%%-------------------------------------------------------------------
+ButaDieneDecompThroughHAddition-(rr)(r)(r)(hh)\
+     c=cc=c(rr)(r)(r)(hh) hydrogen-radical =  olefin-(rr)(rh) alkenyl-(hh)(r) 
+- ID 41410
+- Correspondences
+1 2 3 4 5 6 7 8 9 10  2 4 2 2 2 2 2 2 2
+11                    
+1 2 5 6 7 11          2 2 2 2 4
+4 3 9 10 8            2 2 2 2
+>  <ForwardRxn>
+Standard  1.000e+13  0.00  4.700e+03  4; rev: Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+>  <ReverseRxn>
+Standard 5.000e+11  0.00  7.300e+03 4; Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1=1
+%%%-------------------------------------------------------------------
+ButaDieneDecompThroughHAddition-(rh)(h)(h)(rh)\
+     c=cc=c(rh)(h)(h)(rh) hydrogen-radical =  olefin-(rh)(hh) alkenyl-(rh)(h) 
+- ID 41411
+- Correspondences
+1 2 3 4 5 6 7 8 9 10  2 4 2 2 2 2 2 2 2
+11                    
+1 2 5 6 7 11          2 2 2 2 4
+4 3 9 10 8            2 2 2 2
+>  <ForwardRxn>
+Standard  1.000e+13  0.00  4.700e+03  1; rev: Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+>  <ReverseRxn>
+Standard 5.000e+11  0.00  7.300e+03 1; Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1=2
+%%%-------------------------------------------------------------------
+ButaDieneDecompThroughHAddition-(rr)(h)(h)(rh)\
+     c=cc=c(rr)(h)(h)(rh) hydrogen-radical =  olefin-(rr)(hh) alkenyl-(rh)(h) 
+- ID 41412
+- Correspondences
+1 2 3 4 5 6 7 8 9 10  2 4 2 2 2 2 2 2 2
+11                    
+1 2 5 6 7 11          2 2 2 2 4
+4 3 9 10 8            2 2 2 2
+>  <ForwardRxn>
+Standard  1.000e+13  0.00  4.700e+03  2; rev: Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+>  <ReverseRxn>
+Standard 5.000e+11  0.00  7.300e+03 2; Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1=1
+%%%-------------------------------------------------------------------
+ButaDieneDecompThroughHAddition-(rh)(h)(r)(rh)\
+     c=cc=c(rh)(h)(r)(rh) hydrogen-radical =  olefin-(rh)(hh) alkenyl-(rh)(r) 
+- ID 41413
+- Correspondences
+1 2 3 4 5 6 7 8 9 10  2 4 2 2 2 2 2 2 2
+11                    
+1 2 5 6 7 11          2 2 2 2 4
+4 3 9 10 8            2 2 2 2
+>  <ForwardRxn>
+Standard  1.000e+13  0.00  4.700e+03  1; rev: Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+>  <ReverseRxn>
+Standard 5.000e+11  0.00  7.300e+03 1; Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1=2
+%%%-------------------------------------------------------------------
+ButaDieneDecompThroughHAddition-(rr)(h)(r)(rh)\
+     c=cc=c(rr)(h)(r)(rh) hydrogen-radical =  olefin-(rr)(hh) alkenyl-(rh)(r) 
+- ID 41414
+- Correspondences
+1 2 3 4 5 6 7 8 9 10  2 4 2 2 2 2 2 2 2
+11                    
+1 2 5 6 7 11          2 2 2 2 4
+4 3 9 10 8            2 2 2 2
+>  <ForwardRxn>
+Standard  1.000e+13  0.00  4.700e+03  2; rev: Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+>  <ReverseRxn>
+Standard 5.000e+11  0.00  7.300e+03 2; Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1=2
+%%%-------------------------------------------------------------------
+ButaDieneDecompThroughHAddition-(rr)(r)(h)(rh)\
+     c=cc=c(rr)(r)(h)(rh) hydrogen-radical =  olefin-(rr)(rh) alkenyl-(rh)(h) 
+- ID 41415
+- Correspondences
+1 2 3 4 5 6 7 8 9 10  2 4 2 2 2 2 2 2 2
+11                    
+1 2 5 6 7 11          2 2 2 2 4
+4 3 9 10 8            2 2 2 2
+>  <ForwardRxn>
+Standard  1.000e+13  0.00  4.700e+03  2; rev: Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+>  <ReverseRxn>
+Standard 5.000e+11  0.00  7.300e+03 2; Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1=1
+%%%-------------------------------------------------------------------
+ButaDieneDecompThroughHAddition-(rh)(r)(r)(rh)\
+     c=cc=c(rh)(r)(r)(rh) hydrogen-radical =  olefin-(rh)(rh) alkenyl-(rh)(r) 
+- ID 41416
+- Correspondences
+1 2 3 4 5 6 7 8 9 10  2 4 2 2 2 2 2 2 2
+11                    
+1 2 5 6 7 11          2 2 2 2 4
+4 3 9 10 8            2 2 2 2
+>  <ForwardRxn>
+Standard  1.000e+13  0.00  4.700e+03  1; rev: Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+>  <ReverseRxn>
+Standard 5.000e+11  0.00  7.300e+03 1; Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1=2
+%%%-------------------------------------------------------------------
+ButaDieneDecompThroughHAddition-(rr)(r)(r)(rh)\
+     c=cc=c(rr)(r)(r)(rh) hydrogen-radical =  olefin-(rr)(rh) alkenyl-(rh)(r) 
+- ID 41417
+- Correspondences
+1 2 3 4 5 6 7 8 9 10  2 4 2 2 2 2 2 2 2
+11                    
+1 2 5 6 7 11          2 2 2 2 4
+4 3 9 10 8            2 2 2 2
+>  <ForwardRxn>
+Standard  1.000e+13  0.00  4.700e+03  2; rev: Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+>  <ReverseRxn>
+Standard 5.000e+11  0.00  7.300e+03 2; Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2=4
+%%%-------------------------------------------------------------------
+ButaDieneDecompThroughHAddition-(rr)(h)(h)(rr)\
+     c=cc=c(rr)(h)(h)(rr) hydrogen-radical =  olefin-(rr)(hh) alkenyl-(rr)(h) 
+- ID 41418
+- Correspondences
+1 2 3 4 5 6 7 8 9 10  2 4 2 2 2 2 2 2 2
+11                    
+1 2 5 6 7 11          2 2 2 2 4
+4 3 9 10 8            2 2 2 2
+>  <ForwardRxn>
+Standard  1.000e+13  0.00  4.700e+03  4; rev: Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+>  <ReverseRxn>
+Standard 5.000e+11  0.00  7.300e+03 4; Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2=4
+%%%-------------------------------------------------------------------
+ButaDieneDecompThroughHAddition-(rr)(h)(r)(rr)\
+     c=cc=c(rr)(h)(r)(rr) hydrogen-radical =  olefin-(rr)(hh) alkenyl-(rr)(r) 
+- ID 41419
+- Correspondences
+1 2 3 4 5 6 7 8 9 10  2 4 2 2 2 2 2 2 2
+11                    
+1 2 5 6 7 11          2 2 2 2 4
+4 3 9 10 8            2 2 2 2
+>  <ForwardRxn>
+Standard  1.000e+13  0.00  4.700e+03  4; rev: Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+>  <ReverseRxn>
+Standard 5.000e+11  0.00  7.300e+03 4; Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2=4
+%%%-------------------------------------------------------------------
+ButaDieneDecompThroughHAddition-(rr)(r)(r)(rr)\
+     c=cc=c(rr)(r)(r)(rr) hydrogen-radical =  olefin-(rr)(rh) alkenyl-(rr)(r) 
+- ID 41420
+- Correspondences
+1 2 3 4 5 6 7 8 9 10  2 4 2 2 2 2 2 2 2
+11                    
+1 2 5 6 7 11          2 2 2 2 4
+4 3 9 10 8            2 2 2 2
+>  <ForwardRxn>
+Standard  1.000e+13  0.00  4.700e+03  4; rev: Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+>  <ReverseRxn>
+Standard 5.000e+11  0.00  7.300e+03 4; Curran, et. al isooctane c2h3+c2h4  =  c4h6+h
+$$$$

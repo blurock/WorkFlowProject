@@ -1,0 +1,248 @@
+CLASSCOEFFICIENTS
+H-Abstraction-Oxygen-Primary             =      4.1700e+12     0.0000     204.92     6.5375e+10     0.3130      -2.52
+H-Abstraction-Oxygen-Secondary           =      1.0000e+13     0.0000     199.06     1.3265e+11     0.2420       8.67
+Primary-Carbon-Radical-(R.+O2-->RO2.)    =      4.5200e+12     0.0000       0.00     2.6570e+20    -1.6700     148.04
+Activated-Primary-Carbon-Radical-(R.+O2-->RO2.) =      4.5200e+12     0.0000       0.00     5.3140e+20    -1.6700     148.04
+Secondary-Carbon-Radical-(R.+O2-->RO2.)  =      7.5400e+12     0.0000       0.00     1.3570e+23    -2.3600     157.54
+Activated-Secondary-Carbon-Radical-(R.+O2-->RO2.) =      7.5400e+12     0.0000       0.00     2.7140e+23    -2.3600     157.54
+RO2-Isomerization-5RingPrimary           =      8.9400e+12     0.0000     124.21     2.7040e+13    -0.5400      70.80
+RO2-Isomerization-5RingSecondary         =      5.9600e+12     0.0000     116.68     5.6790e+11    -0.1400      73.81
+RO2-Isomerization-6RingPrimary           =      7.4200e+11     0.0000      99.95     2.2550e+12    -0.5400      46.55
+RO2-Isomerization-6RingSecondary         =      4.9600e+11     0.0000      92.63     4.7340e+10    -0.1400      49.77
+RO2-Isomerization-7RingPrimary           =      6.1800e+10     0.0000      88.24     1.8780e+11    -0.5400      34.84
+RO2-Isomerization-7RingSecondary         =      4.1200e+10     0.0000      80.92     3.9420e+09    -0.1400      38.06
+RO2-Isomerization-8RingPrimary           =      5.1600e+09     0.0000      99.95     1.5650e+10    -0.5400      46.55
+RO2-Isomerization-8RingSecondary         =      3.4400e+09     0.0000      92.63     1.9420e+08    -0.0700      49.47
+OOQOOH-Isomerization-5Ring-Primary       =      2.9800e+12     0.0000     111.66     9.9310e+02     2.1260     186.19
+OOQOOH-Isomerization-5Ring-Secondary     =      1.4900e+12     0.0000     104.13     2.5674e+02     2.3130     194.04
+OOQOOH-Isomerization-6Ring-Primary       =      2.4800e+11     0.0000      87.40     3.0220e+02     1.9710     180.14
+OOQOOH-Isomerization-6Ring-Secondary     =      1.2400e+11     0.0000      80.09     8.0602e+01     2.1400     187.73
+OOQOOH-Isomerization-7Ring-Primary       =      2.0600e+10     0.0000      75.69     2.5102e+01     1.9710     168.43
+OOQOOH-Isomerization-7Ring-Secondary     =      1.0300e+10     0.0000      68.38     9.6483e+00     2.1430     175.52
+OOQOOH-Isomerization-8Ring-Primary       =      1.7200e+09     0.0000      87.46     2.0959e+00     1.9710     180.14
+OOQOOH-Isomerization-8Ring-Secondary     =      8.6000e+08     0.0000      80.09     8.0559e-01     2.1430     187.23
+KetoHydroPeroxideDecompToAldRadical-HRH  =      1.0000e+16     0.0000     179.83     9.9999e-41     0.0000       0.00
+KetoHydroPeroxideDecompToAldRadical-RHH  =      1.0000e+16     0.0000     179.83     9.9999e-41     0.0000       0.00
+KetoHydroPeroxideDecompToAldRadical-RRH  =      1.0000e+16     0.0000     179.83     9.9999e-41     0.0000       0.00
+KetoHydroPeroxideDecompToAldRadical-CHHHH =      1.0000e+16     0.0000     179.83     9.9999e-41     0.0000       0.00
+KetoHydroPeroxideDecompToAldRadical-CHHRH =      1.0000e+16     0.0000     179.83     9.9999e-41     0.0000       0.00
+KetoHydroPeroxideDecompositionC4         =      1.0000e+16     0.0000     179.83     9.9999e-41     0.0000       0.00
+KetoHydroPeroxideDecompositionC5         =      1.0000e+16     0.0000     179.83     9.9999e-41     0.0000       0.00
+KetoneRadicalDecomp-RHH                  =      1.0000e+11     0.0000      40.15     1.0000e+11     0.0000       0.00
+KeteneFormationRadicalDecomp-(hh)(rhh)   =      1.5700e+13     0.0000     125.46     2.1100e+11     0.0000      30.74
+PropylRadicalToEthene-(hh)(hh)(hhh)      =      9.4680e+13    -0.5500     121.28     1.7000e+11     0.0000      32.62
+PropylRadicalToEthene-(hh)(hh)(rhh)      =      3.1752e+19    -2.0880     130.50     8.5000e+10     0.0000      32.62
+KetoneDecompToAlkene-Alkyl-(hh)(hh)      =      5.3980e+17    -1.4500     108.90     2.5000e+11     0.0000      32.62
+KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(hh)(hh) =      1.4260e+18    -1.5300     102.17     2.5000e+11     0.0000      32.62
+END
+CLASSEQUIVALENT
+END
+REACTIONCLASS  = H-Abstraction-Oxygen-Primary
+    6 {nonane} + {oxygen} = {peroxyl-radical} + {PP16}
+END
+REACTIONCLASS  = H-Abstraction-Oxygen-Secondary
+    4 {nonane} + {oxygen} = {peroxyl-radical} + {PP12}
+    4 {nonane} + {oxygen} = {peroxyl-radical} + {PP14}
+    2 {nonane} + {oxygen} = {peroxyl-radical} + {PP15}
+    4 {nonane} + {oxygen} = {peroxyl-radical} + {PP13}
+END
+REACTIONCLASS  = Primary-Carbon-Radical-(R.+O2-->RO2.)
+    1 {PP16} + {oxygen} = {PP17}
+END
+REACTIONCLASS  = Activated-Primary-Carbon-Radical-(R.+O2-->RO2.)
+    1 {PP22} + {oxygen} = {PP48}
+    1 {PP43} + {oxygen} = {PP51}
+    1 {PP37} + {oxygen} = {PP50}
+    1 {PP30} + {oxygen} = {PP49}
+END
+REACTIONCLASS  = Secondary-Carbon-Radical-(R.+O2-->RO2.)
+    1 {PP12} + {oxygen} = {PP18}
+    1 {PP13} + {oxygen} = {PP19}
+    1 {PP14} + {oxygen} = {PP20}
+    1 {PP15} + {oxygen} = {PP21}
+END
+REACTIONCLASS  = Activated-Secondary-Carbon-Radical-(R.+O2-->RO2.)
+    1 {PP32} + {oxygen} = {PP60}
+    1 {PP23} + {oxygen} = {PP52}
+    1 {PP24} + {oxygen} = {PP53}
+    1 {PP25} + {oxygen} = {PP54}
+    1 {PP26} + {oxygen} = {PP55}
+    1 {PP27} + {oxygen} = {PP56}
+    1 {PP28} + {oxygen} = {PP57}
+    1 {PP29} + {oxygen} = {PP58}
+    1 {PP31} + {oxygen} = {PP59}
+    1 {PP33} + {oxygen} = {PP61}
+    1 {PP34} + {oxygen} = {PP62}
+    1 {PP35} + {oxygen} = {PP63}
+    1 {PP36} + {oxygen} = {PP64}
+    1 {PP38} + {oxygen} = {PP65}
+    1 {PP39} + {oxygen} = {PP66}
+    1 {PP40} + {oxygen} = {PP67}
+    1 {PP41} + {oxygen} = {PP68}
+    1 {PP42} + {oxygen} = {PP69}
+    1 {PP44} + {oxygen} = {PP70}
+    1 {PP45} + {oxygen} = {PP71}
+    1 {PP46} + {oxygen} = {PP72}
+    1 {PP47} + {oxygen} = {PP73}
+END
+REACTIONCLASS  = RO2-Isomerization-5RingPrimary
+    1 {PP18} = {PP22}
+END
+REACTIONCLASS  = RO2-Isomerization-5RingSecondary
+    1 {PP19} = {PP25}
+    1 {PP18} = {PP24}
+    1 {PP17} = {PP23}
+    1 {PP19} = {PP26}
+    1 {PP20} = {PP27}
+    1 {PP20} = {PP28}
+    2 {PP21} = {PP29}
+END
+REACTIONCLASS  = RO2-Isomerization-6RingPrimary
+    1 {PP19} = {PP30}
+END
+REACTIONCLASS  = RO2-Isomerization-6RingSecondary
+    1 {PP20} = {PP34}
+    1 {PP17} = {PP31}
+    1 {PP18} = {PP32}
+    1 {PP19} = {PP33}
+    1 {PP20} = {PP35}
+    2 {PP21} = {PP36}
+END
+REACTIONCLASS  = RO2-Isomerization-7RingPrimary
+    1 {PP20} = {PP37}
+END
+REACTIONCLASS  = RO2-Isomerization-7RingSecondary
+    1 {PP17} = {PP38}
+    1 {PP18} = {PP39}
+    2 {PP21} = {PP42}
+    1 {PP19} = {PP40}
+    1 {PP20} = {PP41}
+END
+REACTIONCLASS  = RO2-Isomerization-8RingPrimary
+    2 {PP21} = {PP43}
+END
+REACTIONCLASS  = RO2-Isomerization-8RingSecondary
+    1 {PP19} = {PP46}
+    1 {PP17} = {PP44}
+    1 {PP18} = {PP45}
+    1 {PP20} = {PP47}
+END
+REACTIONCLASS  = OOQOOH-Isomerization-5Ring-Primary
+    1 {PP52} = {PP74} + {hydroxyl-radical}
+END
+REACTIONCLASS  = OOQOOH-Isomerization-5Ring-Secondary
+    1 {PP58} = {hydroxyl-radical} + {PP81}
+    1 {PP48} = {hydroxyl-radical} + {PP75}
+    1 {PP53} = {hydroxyl-radical} + {PP76}
+    1 {PP54} = {hydroxyl-radical} + {PP77}
+    1 {PP55} = {hydroxyl-radical} + {PP78}
+    1 {PP56} = {hydroxyl-radical} + {PP79}
+    1 {PP57} = {hydroxyl-radical} + {PP80}
+END
+REACTIONCLASS  = OOQOOH-Isomerization-6Ring-Primary
+    1 {PP59} = {hydroxyl-radical} + {PP82}
+END
+REACTIONCLASS  = OOQOOH-Isomerization-6Ring-Secondary
+    1 {PP60} = {hydroxyl-radical} + {PP84}
+    1 {PP61} = {hydroxyl-radical} + {PP85}
+    1 {PP62} = {hydroxyl-radical} + {PP86}
+    1 {PP63} = {hydroxyl-radical} + {PP87}
+    1 {PP64} = {hydroxyl-radical} + {PP88}
+    1 {PP49} = {hydroxyl-radical} + {PP83}
+END
+REACTIONCLASS  = OOQOOH-Isomerization-7Ring-Primary
+    1 {PP65} = {hydroxyl-radical} + {PP89}
+END
+REACTIONCLASS  = OOQOOH-Isomerization-7Ring-Secondary
+    1 {PP66} = {hydroxyl-radical} + {PP91}
+    1 {PP50} = {hydroxyl-radical} + {PP90}
+    1 {PP67} = {hydroxyl-radical} + {PP92}
+    1 {PP68} = {hydroxyl-radical} + {PP93}
+    1 {PP69} = {hydroxyl-radical} + {PP94}
+END
+REACTIONCLASS  = OOQOOH-Isomerization-8Ring-Primary
+    1 {PP70} = {hydroxyl-radical} + {PP95}
+END
+REACTIONCLASS  = OOQOOH-Isomerization-8Ring-Secondary
+    1 {PP51} = {hydroxyl-radical} + {PP96}
+    1 {PP71} = {hydroxyl-radical} + {PP97}
+    1 {PP72} = {hydroxyl-radical} + {PP98}
+    1 {PP73} = {hydroxyl-radical} + {PP99}
+END
+REACTIONCLASS  = KetoHydroPeroxideDecompToAldRadical-HRH
+    1 {PP74} = {hydroxyl-radical} + {formyl-radical} + {PP118}
+END
+REACTIONCLASS  = KetoHydroPeroxideDecompToAldRadical-RHH
+    1 {PP75} = {hydroxyl-radical} + {aldehyde} + {PP119}
+END
+REACTIONCLASS  = KetoHydroPeroxideDecompToAldRadical-RRH
+    1 {PP80} = {hydroxyl-radical} + {PP105} + {1-yl-1-butanal}
+    1 {PP79} = {hydroxyl-radical} + {propanal} + {PP124}
+    1 {PP78} = {hydroxyl-radical} + {PP101} + {propanoyl-radical}
+    1 {PP77} = {hydroxyl-radical} + {ethanal} + {PP122}
+    1 {PP76} = {hydroxyl-radical} + {ethanoyl-radical} + {PP121}
+    1 {PP81} = {hydroxyl-radical} + {1-butanal} + {PP126}
+END
+REACTIONCLASS  = KetoHydroPeroxideDecompToAldRadical-CHHHH
+    1 {PP83} = {hydroxyl-radical} + {aldehyde} + {PP127}
+END
+REACTIONCLASS  = KetoHydroPeroxideDecompToAldRadical-CHHRH
+    1 {PP87} = {hydroxyl-radical} + {1-butanal} + {PP132}
+    1 {PP82} = {hydroxyl-radical} + {PP121} + {ethanal-2-yl-radical}
+    1 {PP84} = {hydroxyl-radical} + {PP101} + {propanon-1-yl-radical}
+    1 {PP85} = {hydroxyl-radical} + {PP105} + {1-yl-2-butanone}
+    1 {PP86} = {hydroxyl-radical} + {ethanal} + {PP131}
+    1 {PP88} = {hydroxyl-radical} + {propanal} + {PP133}
+END
+REACTIONCLASS  = KetoHydroPeroxideDecompositionC4
+    1 {PP89} = {hydroxyl-radical} + {propanal-3-yl-radical} + {PP101}
+    1 {PP93} = {hydroxyl-radical} + {PP108} + {propanal}
+    1 {PP92} = {hydroxyl-radical} + {PP106} + {1-butanal}
+    1 {PP91} = {hydroxyl-radical} + {4-yl-2-butanone} + {PP105}
+    1 {PP90} = {hydroxyl-radical} + {aldehyde} + {PP103}
+    1 {PP94} = {hydroxyl-radical} + {ethanal} + {PP111}
+END
+REACTIONCLASS  = KetoHydroPeroxideDecompositionC5
+    1 {PP95} = {hydroxyl-radical} + {PP105} + {4-butanal-1-yl}
+    1 {PP99} = {hydroxyl-radical} + {ethanal} + {PP116}
+    1 {PP98} = {hydroxyl-radical} + {propanal} + {PP115}
+    1 {PP97} = {hydroxyl-radical} + {1-butanal} + {PP114}
+    1 {PP96} = {hydroxyl-radical} + {aldehyde} + {PP113}
+END
+REACTIONCLASS  = KetoneRadicalDecomp-RHH
+    1 {PP119} = {carbon-monoxide} + {PP135}
+    1 {PP122} = {carbon-monoxide} + {PP136}
+    1 {propanoyl-radical} = {carbon-monoxide} + {ethyl-radical}
+    1 {PP124} = {carbon-monoxide} + {PP137}
+    1 {1-yl-1-butanal} = {carbon-monoxide} + {1-propyl-radical}
+    1 {PP126} = {carbon-monoxide} + {1-butyl-radical}
+END
+REACTIONCLASS  = KeteneFormationRadicalDecomp-(hh)(rhh)
+    1 {1-yl-2-butanone} = {ethyl-radical} + {ethenone}
+    1 {PP127} = {PP136} + {ethenone}
+    1 {PP133} = {1-butyl-radical} + {ethenone}
+    1 {PP132} = {1-propyl-radical} + {ethenone}
+    1 {PP131} = {PP137} + {ethenone}
+END
+REACTIONCLASS  = PropylRadicalToEthene-(hh)(hh)(hhh)
+    1 {1-propyl-radical} = {ethene} + {methyl-radical}
+END
+REACTIONCLASS  = PropylRadicalToEthene-(hh)(hh)(rhh)
+    1 {1-butyl-radical} = {ethyl-radical} + {ethene}
+    1 {PP136} = {1-butyl-radical} + {ethene}
+    1 {PP137} = {1-propyl-radical} + {ethene}
+    1 {PP135} = {PP137} + {ethene}
+END
+REACTIONCLASS  = KetoneDecompToAlkene-Alkyl-(hh)(hh)
+    1 {4-yl-2-butanone} = {ethanoyl-radical} + {ethene}
+    1 {PP103} = {PP124} + {ethene}
+    1 {PP108} = {1-yl-1-butanal} + {ethene}
+    1 {PP111} = {PP126} + {ethene}
+    1 {PP106} = {propanoyl-radical} + {ethene}
+END
+REACTIONCLASS  = KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(hh)(hh)
+    1 {PP113} = {PP133} + {ethene}
+    1 {PP116} = {PP132} + {ethene}
+    1 {PP115} = {1-yl-2-butanone} + {ethene}
+    1 {PP114} = {propanon-1-yl-radical} + {ethene}
+END

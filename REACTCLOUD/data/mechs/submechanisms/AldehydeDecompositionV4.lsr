@@ -1,0 +1,260 @@
+AldehydeDecomposition:
+hydroxyl-radical,oxygen,hydrogen-radical,methyl-radical,oxygen-radical,methoxy-radical,methylperoxy-radical,peroxyl-radical
+%%% ----------------------------------------------------
+%%% Preparation:  H Abstraction of primary site
+%%% ----------------------------------------------------
+H-Abstraction-Oxygen-Primary\
+:oxygen
+%%% ----------------------------------------------------
+%%% Preparation: Form olefin
+%%% ----------------------------------------------------
+HLoss-ethyl-radical(hh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rrh)-to-olefin
+%%% ----------------------------------------------------
+OlefinToAldehydeDecomp-(hh)(hh),\
+OlefinToAldehydeDecomp-(hh)(rh),\
+OlefinToAldehydeDecomp-(hh)(rr)\
+:hydroxyl-radical
+%%% -----------------------------------------------------------
+%%% H-Abstraction:
+%%%         H abstraction away from the ketone
+%%% H-Abstraction-AlphaToKetone:
+%%%         The hydrogen is abstracted from the alpha carbon
+%%% AldehydeHAbstraction
+%%%         H abstraction at the aldehyde.
+%%% -----------------------------------------------------------
+H-Abstraction-AlphaToKetoneOH-(h)(hh),\
+H-Abstraction-AlphaToKetoneOH-(r)(hh),\
+H-Abstraction-AlphaToKetoneOH-(h)(rh),\
+H-Abstraction-AlphaToKetoneOH-(r)(rh),\
+H-Abstraction-AlphaToKetoneOH-(h)(rr),\
+H-Abstraction-AlphaToKetoneOH-(r)(rr),\
+H-Abstraction-AlphaToKetoneO2-(h)(hh),\
+H-Abstraction-AlphaToKetoneO2-(r)(hh),\
+H-Abstraction-AlphaToKetoneO2-(h)(rh),\
+H-Abstraction-AlphaToKetoneO2-(r)(rh),\
+H-Abstraction-AlphaToKetoneO2-(h)(rr),\
+H-Abstraction-AlphaToKetoneO2-(r)(rr),\
+H-Abstraction-AlphaToKetoneO-(h)(hh),\
+H-Abstraction-AlphaToKetoneO-(r)(hh),\
+H-Abstraction-AlphaToKetoneO-(h)(rh),\
+H-Abstraction-AlphaToKetoneO-(r)(rh),\
+H-Abstraction-AlphaToKetoneO-(h)(rr),\
+H-Abstraction-AlphaToKetoneO-(r)(rr),\
+H-Abstraction-AlphaToKetoneH-(h)(hh),\
+H-Abstraction-AlphaToKetoneH-(r)(hh),\
+H-Abstraction-AlphaToKetoneH-(h)(rh),\
+H-Abstraction-AlphaToKetoneH-(r)(rh),\
+H-Abstraction-AlphaToKetoneH-(h)(rr),\
+H-Abstraction-AlphaToKetoneH-(r)(rr),\
+H-Abstraction-AlphaToKetoneHO2-(h)(hh),\
+H-Abstraction-AlphaToKetoneHO2-(r)(hh),\
+H-Abstraction-AlphaToKetoneHO2-(h)(rh),\
+H-Abstraction-AlphaToKetoneHO2-(r)(rh),\
+H-Abstraction-AlphaToKetoneHO2-(h)(rr),\
+H-Abstraction-AlphaToKetoneHO2-(r)(rr),\
+H-Abstraction-AlphaToKetoneCH3-(h)(hh),\
+H-Abstraction-AlphaToKetoneCH3-(r)(hh),\
+H-Abstraction-AlphaToKetoneCH3-(h)(rh),\
+H-Abstraction-AlphaToKetoneCH3-(r)(rh),\
+H-Abstraction-AlphaToKetoneCH3-(h)(rr),\
+H-Abstraction-AlphaToKetoneCH3-(r)(rr),\
+H-Abstraction-AlphaToKetoneCH3O-(h)(hh),\
+H-Abstraction-AlphaToKetoneCH3O-(r)(hh),\
+H-Abstraction-AlphaToKetoneCH3O-(h)(rh),\
+H-Abstraction-AlphaToKetoneCH3O-(r)(rh),\
+H-Abstraction-AlphaToKetoneCH3O-(h)(rr),\
+H-Abstraction-AlphaToKetoneCH3O-(r)(rr),\
+H-Abstraction-AlphaToKetoneCH3O2-(h)(hh),\
+H-Abstraction-AlphaToKetoneCH3O2-(r)(hh),\
+H-Abstraction-AlphaToKetoneCH3O2-(h)(rh),\
+H-Abstraction-AlphaToKetoneCH3O2-(r)(rh),\
+H-Abstraction-AlphaToKetoneCH3O2-(h)(rr),\
+H-Abstraction-AlphaToKetoneCH3O2-(r)(rr),\
+H-Abstraction-Hydroxyl-Radical-Primary,\
+H-Abstraction-Hydroxyl-Radical-Secondary,\
+H-Abstraction-Hydroxyl-Radical-Tertiary,\
+H-Abstraction-PeroxylRadical-Primary,\
+H-Abstraction-PeroxylRadical-Secondary,\
+H-Abstraction-PeroxylRadical-Tertiary,\
+H-Abstraction-MethylPeroxyl-Primary,\
+H-Abstraction-MethylPeroxyl-Secondary,\
+H-Abstraction-MethylPeroxyl-Tertiary,\
+AldehydeHAbstractionOH-(hh),\
+AldehydeHAbstractionOH-(rh),\
+AldehydeHAbstractionH-(hh),\
+AldehydeHAbstractionH-(rh),\
+AldehydeHAbstractionCH3-(hh),\
+AldehydeHAbstractionCH3-(rh),\
+AldehydeHAbstractionO-(hh),\
+AldehydeHAbstractionO-(rh),\
+AldehydeHAbstractionO2-(hh),\
+AldehydeHAbstractionO2-(rh),\
+AldehydeHAbstractionHO2-(hh),\
+AldehydeHAbstractionHO2-(rh),\
+AldehydeHAbstractionCH3O-(hh),\
+AldehydeHAbstractionCH3O-(rh),\
+AldehydeHAbstractionCH3O2-(hh),\
+AldehydeHAbstractionCH3O2-(rh),\
+:hydroxyl-radical,oxygen,hydrogen-radical,methyl-radical,oxygen-radical,\
+methoxy-radical,methylperoxy-radical,peroxyl-radical
+%%% -----------------------------------------------------------
+%%% KetoneRadicalDecomp: 
+%%%                The ketyl radical decomposes to a carbonmonoxide
+%%% AldehydeDecompToAlkene-Alkyl:
+%%%         Decomposition to alkene and ketyl-radical
+%%% AldehydeDecompToAlkeneAndch2co-Alkyl
+%%% PropylRadicalToEthene
+%%%         Through loss of a radical, an alkene is formed.
+%%% -----------------------------------------------------------
+KetoneRadicalDecomp-HHH,\
+KetoneRadicalDecomp-RHH,\
+KetoneRadicalDecomp-RRH,\
+KetoneRadicalDecomp-RRR,\
+AldehydeDecompToAlkene-Alkyl-(hh)(hh),\
+AldehydeDecompToAlkene-Alkyl-(rh)(hh),\
+AldehydeDecompToAlkene-Alkyl-(rr)(hh),\
+AldehydeDecompToAlkene-Alkyl-(hh)(rh),\
+AldehydeDecompToAlkene-Alkyl-(rh)(rh),\
+AldehydeDecompToAlkene-Alkyl-(rr)(rh),\
+AldehydeDecompToAlkene-Alkyl-(hh)(rr),\
+AldehydeDecompToAlkene-Alkyl-(rh)(rr),\
+AldehydeDecompToAlkene-Alkyl-(rr)(rr),\
+AldehydeDecompToAlkeneAndch2co-Alkyl-(hh)(hh)(hh),\
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rh)(hh)(hh),\
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rr)(hh)(hh),\
+AldehydeDecompToAlkeneAndch2co-Alkyl-(hh)(rh)(hh),\
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rh)(rh)(hh),\
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rr)(rh)(hh),\
+AldehydeDecompToAlkeneAndch2co-Alkyl-(hh)(rr)(hh),\
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rh)(rr)(hh),\
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rr)(rr)(hh),\
+AldehydeDecompToAlkeneAndch2co-Alkyl-(hh)(hh)(rh),\
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rh)(hh)(rh),\
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rr)(hh)(rh),\
+AldehydeDecompToAlkeneAndch2co-Alkyl-(hh)(rh)(rh),\
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rh)(rh)(rh),\
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rr)(rh)(rh),\
+AldehydeDecompToAlkeneAndch2co-Alkyl-(hh)(rr)(rh),\
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rh)(rr)(rh),\
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rr)(rr)(rh),\
+AldehydeDecompToAlkeneAndch2co-Alkyl-(hh)(hh)(rr),\
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rh)(hh)(rr),\
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rr)(hh)(rr),\
+AldehydeDecompToAlkeneAndch2co-Alkyl-(hh)(rh)(rr),\
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rh)(rh)(rr),\
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rr)(rh)(rr),\
+AldehydeDecompToAlkeneAndch2co-Alkyl-(hh)(rr)(rr),\
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rh)(rr)(rr),\
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rr)(rr)(rr),\
+AldehydeDecompToKetylAlkene-Alkyl-(h)(hh)(hhh),\
+AldehydeDecompToKetylAlkene-Alkyl-(r)(hh)(hhh),\
+AldehydeDecompToKetylAlkene-Alkyl-(h)(rh)(hhh),\
+AldehydeDecompToKetylAlkene-Alkyl-(r)(rh)(hhh),\
+AldehydeDecompToKetylAlkene-Alkyl-(h)(rr)(hhh),\
+AldehydeDecompToKetylAlkene-Alkyl-(r)(rr)(hhh),\
+AldehydeDecompToKetylAlkene-Alkyl-(h)(hh)(rhh),\
+AldehydeDecompToKetylAlkene-Alkyl-(r)(hh)(rhh),\
+AldehydeDecompToKetylAlkene-Alkyl-(h)(rh)(rhh),\
+AldehydeDecompToKetylAlkene-Alkyl-(r)(rh)(rhh),\
+AldehydeDecompToKetylAlkene-Alkyl-(h)(rr)(rhh),\
+AldehydeDecompToKetylAlkene-Alkyl-(r)(rr)(rhh),\
+AldehydeDecompToKetylAlkene-Alkyl-(h)(hh)(rrh),\
+AldehydeDecompToKetylAlkene-Alkyl-(r)(hh)(rrh),\
+AldehydeDecompToKetylAlkene-Alkyl-(h)(rh)(rrh),\
+AldehydeDecompToKetylAlkene-Alkyl-(r)(rh)(rrh),\
+AldehydeDecompToKetylAlkene-Alkyl-(h)(rr)(rrh),\
+AldehydeDecompToKetylAlkene-Alkyl-(r)(rr)(rrh),\
+AldehydeDecompToKetylAlkene-Alkyl-(h)(hh)(rrr),\
+AldehydeDecompToKetylAlkene-Alkyl-(r)(hh)(rrr),\
+AldehydeDecompToKetylAlkene-Alkyl-(h)(rh)(rrr),\
+AldehydeDecompToKetylAlkene-Alkyl-(r)(rh)(rrr),\
+AldehydeDecompToKetylAlkene-Alkyl-(h)(rr)(rrr),\
+AldehydeDecompToKetylAlkene-Alkyl-(r)(rr)(rrr),\
+PropylRadicalToEthene-(hh)(hh)(hhh),\
+PropylRadicalToEthene-(rh)(hh)(hhh),\
+PropylRadicalToEthene-(rr)(hh)(hhh),\
+PropylRadicalToEthene-(hh)(rh)(hhh),\
+PropylRadicalToEthene-(rh)(rh)(hhh),\
+PropylRadicalToEthene-(rr)(rh)(hhh),\
+PropylRadicalToEthene-(hh)(rr)(hhh),\
+PropylRadicalToEthene-(rh)(rr)(hhh),\
+PropylRadicalToEthene-(rr)(rr)(hhh),\
+PropylRadicalToEthene-(hh)(hh)(rhh),\
+PropylRadicalToEthene-(rh)(hh)(rhh),\
+PropylRadicalToEthene-(rr)(hh)(rhh),\
+PropylRadicalToEthene-(hh)(rh)(rhh),\
+PropylRadicalToEthene-(rh)(rh)(rhh),\
+PropylRadicalToEthene-(rr)(rh)(rhh),\
+PropylRadicalToEthene-(hh)(rr)(rhh),\
+PropylRadicalToEthene-(rh)(rr)(rhh),\
+PropylRadicalToEthene-(rr)(rr)(rhh),\
+PropylRadicalToEthene-(hh)(hh)(rrh),\
+PropylRadicalToEthene-(rh)(hh)(rrh),\
+PropylRadicalToEthene-(rr)(hh)(rrh),\
+PropylRadicalToEthene-(hh)(rh)(rrh),\
+PropylRadicalToEthene-(rh)(rh)(rrh),\
+PropylRadicalToEthene-(rr)(rh)(rrh),\
+PropylRadicalToEthene-(hh)(rr)(rrh),\
+PropylRadicalToEthene-(rh)(rr)(rrh),\
+PropylRadicalToEthene-(rr)(rr)(rrh),\
+PropylRadicalToEthene-(hh)(hh)(rrr),\
+PropylRadicalToEthene-(rh)(hh)(rrr),\
+PropylRadicalToEthene-(rr)(hh)(rrr),\
+PropylRadicalToEthene-(hh)(rh)(rrr),\
+PropylRadicalToEthene-(rh)(rh)(rrr),\
+PropylRadicalToEthene-(rr)(rh)(rrr),\
+PropylRadicalToEthene-(hh)(rr)(rrr),\
+PropylRadicalToEthene-(rh)(rr)(rrr),\
+PropylRadicalToEthene-(rr)(rr)(rrr)
+%%% -----------------------------------------------------------
+%%% AldehydeAlkeneAdditionOH
+%%%      alkene next to aldehyde add to alkene
+%%% PropylRadicalToEthene
+%%%         Through loss of a radical, an alkene is formed.
+%%% -----------------------------------------------------------
+AldehydeAlkeneAdditionOH-Alpha-(h)(hh),\
+AldehydeAlkeneAdditionOH-Alpha-(r)(hh),\
+AldehydeAlkeneAdditionOH-Alpha-(h)(rh),\
+AldehydeAlkeneAdditionOH-Alpha-(r)(rh),\
+AldehydeAlkeneAdditionOH-Alpha-(h)(rr),\
+AldehydeAlkeneAdditionOH-Alpha-(r)(rr),\
+AldehydeHAbstractionOH-(hh),\
+AldehydeHAbstractionOH-(rh),\
+AldehydeHAbstractionH-(hh),\
+AldehydeHAbstractionH-(rh),\
+AldehydeHAbstractionCH3-(hh),\
+AldehydeHAbstractionCH3-(rh),\
+AldehydeHAbstractionO-(hh),\
+AldehydeHAbstractionO-(rh),\
+AldehydeHAbstractionO2-(hh),\
+AldehydeHAbstractionO2-(rh),\
+AldehydeHAbstractionHO2-(hh),\
+AldehydeHAbstractionHO2-(rh),\
+AldehydeHAbstractionCH3O-(hh),\
+AldehydeHAbstractionCH3O-(rh),\
+AldehydeHAbstractionCH3O2-(hh),\
+AldehydeHAbstractionCH3O2-(rh)\
+:hydroxyl-radical,oxygen,hydrogen-radical,methyl-radical,oxygen-radical,\
+methoxy-radical,methylperoxy-radical,peroxyl-radical
+%%% -----------------------------------------------------------
+%%% -----------------------------------------------------------
+KetoneRadicalDecomp-HHH,\
+KetoneRadicalDecomp-RHH,\
+KetoneRadicalDecomp-RRH,\
+KetoneRadicalDecomp-RRR
+%%% -----------------------------------------------------------
+%%% -----------------------------------------------------------
+PropylRadicalToEthene-(hh)(hh)(hhh),\
+PropylRadicalToEthene-(hh)(rh)(hhh),\
+PropylRadicalToEthene-(hh)(rr)(hhh),\
+PropylRadicalToEthene-(hh)(hh)(rhh),\
+PropylRadicalToEthene-(hh)(rh)(rhh),\
+PropylRadicalToEthene-(hh)(rr)(rhh),\
+PropylRadicalToEthene-(hh)(hh)(rrh),\
+PropylRadicalToEthene-(hh)(rh)(rrh),\
+PropylRadicalToEthene-(hh)(rr)(rrh),\
+PropylRadicalToEthene-(hh)(hh)(rrr),\
+PropylRadicalToEthene-(hh)(rh)(rrr),\
+PropylRadicalToEthene-(hh)(rr)(rrr)

@@ -1,0 +1,96 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1 = 1
+%%%-------------------------------------------------------------------
+OOQOOH-IsomerizationCyclohexane-5-Ring-H\
+ 2-peroxy-1-hydroperoxycyclohexane-radical-HH =   2-hydroperoxy-1-ketylcyclohexane-H hydroxyl-radical
+- ID 3160
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13        2 2 2 2 2 2 4 2 4 2 2 2 2
+1 2 3 4 5 6 8 11 12 13 7             2 2 2 2 2 2 2 2 2 2 4
+10 9                                 2
+
+>  <ForwardRxn>
+Standard 6.17e+10 0 2.4495e+04  1; (Nancy Values, Table 17) Prog. Energy Comb. Sci., 34:440-498 (2008)
+>  <ReverseRxn>
+Standard 5.679E+11  -0.14  1.765E+04 1; Type XII (5-Ring, secondary): (rev) c7h15o2-1 = c7h14ooh1-2, the alkyl value
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1 = 1
+%%%-------------------------------------------------------------------
+OOQOOH-IsomerizationCyclohexane-5-Ring-R\
+ 2-peroxy-1-hydroperoxycyclohexane-radical-HR =   2-hydroperoxy-1-ketylcyclohexane-R hydroxyl-radical
+- ID 3161
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13        2 2 2 2 2 2 4 2 4 2 2 2 2
+1 2 3 4 5 6 8 11 12 13 7             2 2 2 2 2 2 2 2 2 2 4
+10 9                                 2
+
+>  <ForwardRxn>
+Standard 6.17e+10 0 2.4495e+04  1; (Nancy Values, Table 17) Prog. Energy Comb. Sci., 34:440-498 (2008)
+>  <ReverseRxn>
+Standard 5.68e+11 -1.40e-01 1.76e+04 1; Type XII (5-Ring, secondary): (rev) c7h15o2-1 = c7h14ooh1-2, the alkyl value
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1 = 1
+%%%-------------------------------------------------------------------
+OOQOOH-IsomerizationCyclohexane-6-Ring-H\
+ 3-peroxy-1-hydroperoxycyclohexane-radical-HH =   3-hydroperoxy-1-ketylcyclohexane-H hydroxyl-radical
+- ID 3162
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13        2 2 2 2 2 2 4 2 4 2 2 2 2
+1 2 3 4 5 6 8 11 12 13 7             2 2 2 2 2 2 2 2 2 2 4
+10 9                                 2
+
+>  <ForwardRxn>
+Standard 4.64e+10 0.0 2.1076e+4 1; (Nancy Values, Table 17) Prog. Energy Comb. Sci., 34:440-498 (2008)
+>  <ReverseRxn>
+Standard 4.734E+10  -0.14  1.190E+04 1; Type XII (6-Ring, secondary): c7h15o2-1 = c7h14ooh1-3, the alkyl value
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1 = 1
+%%%-------------------------------------------------------------------
+OOQOOH-IsomerizationCyclohexane-6-Ring-R\
+ 3-peroxy-1-hydroperoxycyclohexane-radical-HR =   3-hydroperoxy-1-ketylcyclohexane-R hydroxyl-radical
+- ID 3163
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13        2 2 2 2 2 2 4 2 4 2 2 2 2
+1 2 3 4 5 6 8 11 12 13 7             2 2 2 2 2 2 2 2 2 2 4
+10 9                                 2
+
+>  <ForwardRxn>
+Standard 4.64e+10 0.0 2.1076e+4 1; (Nancy Values, Table 17) Prog. Energy Comb. Sci., 34:440-498 (2008)
+>  <ReverseRxn>
+Standard 4.73e+10 -1.40e-01 1.19e+04 1; Type XII (6-Ring, secondary): c7h15o2-1 = c7h14ooh1-3, the alkyl value
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1 = 1
+%%%-------------------------------------------------------------------
+OOQOOH-IsomerizationCyclohexane-7-Ring-H\
+ 4-peroxy-1-hydroperoxycyclohexane-radical-HH =   4-hydroperoxy-1-ketylcyclohexane-H hydroxyl-radical
+- ID 3164
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13        2 2 2 2 2 2 4 2 4 2 2 2 2
+1 2 3 4 5 6 8 11 12 13 7             2 2 2 2 2 2 2 2 2 2 4
+10 9                                 2
+
+>  <ForwardRxn>
+Standard 5.41e+09 0.0 2.1355e+04 1; (Nancy Values, Table 17) Prog. Energy Comb. Sci., 34:440-498 (2008)
+>  <ReverseRxn>
+Standard 3.94e+09 -1.40e-01 9.09e+03  1; Type XII (7-Ring, secondary): (rev) c7h15o2-1 = c7h14ooh1-4, the alkyl value
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1 = 1
+%%%-------------------------------------------------------------------
+OOQOOH-IsomerizationCyclohexane-7-Ring-R\
+ 4-peroxy-1-hydroperoxycyclohexane-radical-HR =   4-hydroperoxy-1-ketylcyclohexane-R hydroxyl-radical
+- ID 3165
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13        2 2 2 2 2 2 4 2 4 2 2 2 2
+1 2 3 4 5 6 8 11 12 13 7             2 2 2 2 2 2 2 2 2 2 4
+10 9                                 2
+
+>  <ForwardRxn>
+Standard 5.41e+09 0.0 2.1355e+04 1; (Nancy Values, Table 17) Prog. Energy Comb. Sci., 34:440-498 (2008)
+>  <ReverseRxn>
+Standard 3.94e+09 -1.40e-01 9.09e+03 1; Type XII (7-Ring, secondary): (rev) c7h15o2-1 = c7h14ooh1-4, the alkyl value
+$$$$

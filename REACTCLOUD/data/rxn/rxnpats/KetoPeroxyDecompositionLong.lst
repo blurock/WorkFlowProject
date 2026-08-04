@@ -1,0 +1,48 @@
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+KetoHydroPeroxideDecompositionC4 \
+  cqq(ooh)ccco = ccco hydroxyl-radical general-aldehydeketone
+- ID 24100
+- Correspondences
+1 2 3 4 5 6 7 8 9 10      4 2 2 2 2 4 2 2 2
+2 3 4 5                   2 2 2
+8 7                       2
+1 6 9 10                  2 2 2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 2;  Type XXIV: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 1
+$$$$
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+KetoHydroPeroxideDecompositionC5 \
+  cqq(ooh)cccco = cccco hydroxyl-radical general-aldehydeketone
+- ID 24101
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11      4 2 2 2 2 2 4 2 2 2
+2 3 4 5 6                    2 2 2 2
+9 8                          2
+1 7 10 11                    2 2 2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 2;  Type XXIV: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 1
+$$$$
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+KetoHydroPeroxideDecompositionC6 \
+  cqq(ooh)ccccco = ccccco hydroxyl-radical general-aldehydeketone
+- ID 24102
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     4 2 2 2 2 2 2 4 2 2 2
+2 3 4 5 6 7                    2 2 2 2 2
+10 9                           2
+1 8 11 12                      2 2 2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 2;  Type XXIV: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 1
+$$$$

@@ -1,0 +1,183 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% Olefin Alpha Peroxy Gamma HydroPeroxy Decomp to Gamma Ketone
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*2/2 = 2
+%%%-------------------------------------------------------------------
+OlefinAlphaPeroxyGammaHydroPeroxyDecomp-(h)(hh)(h) \
+       c=ccooccooh(h)(hh)(hh) = c=ccoohcco(h)(hh)(h) hydroxyl-radical
+- ID 41201
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15         2 2 2 2 2 2 2 4 2 2 2 2 2 4
+1 2 3 4 5 6 7 15 8 11 12 13 14              2 2 2 2 2 2 4 2 2 2 2 2
+10 9                                        2
+>  <ForwardRxn>
+Standard 1.24e+11 0.0 20900 2 ; Westbrook ; Type 23 
+>  <ReverseRxn>
+Standard 1.4166e+03     1.786  43616   2;  From LUND
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*2/2 = 2
+%%%-------------------------------------------------------------------
+OlefinAlphaPeroxyGammaHydroPeroxyDecomp-(r)(hh)(h) \
+       c=ccooccooh(r)(hh)(hh) = c=ccoohcco(r)(hh)(h) hydroxyl-radical
+- ID 41202
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15         2 2 2 2 2 2 2 4 2 2 2 2 2 4
+1 2 3 4 5 6 7 15 8 11 12 13 14              2 2 2 2 2 2 4 2 2 2 2 2
+10 9                                        2
+>  <ForwardRxn>
+Standard 1.24e+11 0.0 20900 2 ; Westbrook ; Type 23 
+>  <ReverseRxn>
+Standard 1.4166e+03     1.786  43616   2;  From LUND
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*2/2 = 1
+%%%-------------------------------------------------------------------
+OlefinAlphaPeroxyGammaHydroPeroxyDecomp-(h)(rh)(h) \
+       c=ccooccooh(h)(rh)(hh) = c=ccoohcco(h)(rh)(h) hydroxyl-radical
+- ID 41203
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15         2 2 2 2 2 2 2 4 2 2 2 2 2 4
+1 2 3 4 5 6 7 15 8 11 12 13 14              2 2 2 2 2 2 4 2 2 2 2 2
+10 9                                        2
+>  <ForwardRxn>
+Standard 1.24e+11 0.0 20900 1 ; Westbrook ; Type 23 
+>  <ReverseRxn>
+Standard 1.4166e+03     1.786  43616   1;  From LUND
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*2/2 = 1
+%%%-------------------------------------------------------------------
+OlefinAlphaPeroxyGammaHydroPeroxyDecomp-(r)(rh)(h) \
+       c=ccooccooh(r)(rh)(hh) = c=ccoohcco(r)(rh)(h) hydroxyl-radical
+- ID 41204
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15         2 2 2 2 2 2 2 4 2 2 2 2 2 4
+1 2 3 4 5 6 7 15 8 11 12 13 14              2 2 2 2 2 2 4 2 2 2 2 2
+10 9                                        2
+>  <ForwardRxn>
+Standard 1.24e+11 0.0 20900 1 ; Westbrook ; Type 23 
+>  <ReverseRxn>
+Standard 1.4166e+03     1.786  43616   1;  From LUND
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*2/2 = 2
+%%%-------------------------------------------------------------------
+OlefinAlphaPeroxyGammaHydroPeroxyDecomp-(h)(rr)(h) \
+       c=ccooccooh(h)(rr)(hh) = c=ccoohcco(h)(rr)(h) hydroxyl-radical
+- ID 41205
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15         2 2 2 2 2 2 2 4 2 2 2 2 2 4
+1 2 3 4 5 6 7 15 8 11 12 13 14              2 2 2 2 2 2 4 2 2 2 2 2
+10 9                                        2
+>  <ForwardRxn>
+Standard 1.24e+11 0.0 20900 2 ; Westbrook ; Type 23 
+>  <ReverseRxn>
+Standard 1.4166e+03     1.786  43616   2;  From LUND
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*2/2 = 2
+%%%-------------------------------------------------------------------
+OlefinAlphaPeroxyGammaHydroPeroxyDecomp-(r)(rr)(h) \
+       c=ccooccooh(r)(rr)(hh) = c=ccoohcco(r)(rr)(h) hydroxyl-radical
+- ID 41206
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15         2 2 2 2 2 2 2 4 2 2 2 2 2 4
+1 2 3 4 5 6 7 15 8 11 12 13 14              2 2 2 2 2 2 4 2 2 2 2 2
+10 9                                        2
+>  <ForwardRxn>
+Standard 1.24e+11 0.0 20900 2 ; Westbrook ; Type 23 
+>  <ReverseRxn>
+Standard 1.4166e+03     1.786  43616   2;  From LUND
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*1/1= 2
+%%%-------------------------------------------------------------------
+OlefinAlphaPeroxyGammaHydroPeroxyDecomp-(h)(hh)(r) \
+       c=ccooccooh(h)(hh)(rh) = c=ccoohcco(h)(hh)(r) hydroxyl-radical
+- ID 41207
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15         2 2 2 2 2 2 2 4 2 2 2 2 2 4
+1 2 3 4 5 6 7 15 8 11 12 13 14              2 2 2 2 2 2 4 2 2 2 2 2
+10 9                                        2
+>  <ForwardRxn>
+Standard 1.24e+11 0.0 19150 2 ; Westbrook ; Type 23 
+>  <ReverseRxn>
+Standard 1.3380e+02     2.125 44812  2; From LUND
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*1/1 = 2
+%%%-------------------------------------------------------------------
+OlefinAlphaPeroxyGammaHydroPeroxyDecomp-(r)(hh)(r) \
+       c=ccooccooh(r)(hh)(rh) = c=ccoohcco(r)(hh)(r) hydroxyl-radical
+- ID 41208
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15         2 2 2 2 2 2 2 4 2 2 2 2 2 4
+1 2 3 4 5 6 7 15 8 11 12 13 14              2 2 2 2 2 2 4 2 2 2 2 2
+10 9                                        2
+>  <ForwardRxn>
+Standard 1.24e+11 0.0 19150 2 ; Westbrook ; Type 23 
+>  <ReverseRxn>
+Standard 1.3380e+02     2.125 44812  2; From LUND
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*1/1 = 1
+%%%-------------------------------------------------------------------
+OlefinAlphaPeroxyGammaHydroPeroxyDecomp-(h)(rh)(r) \
+       c=ccooccooh(h)(rh)(rh) = c=ccoohcco(h)(rh)(r) hydroxyl-radical
+- ID 41209
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15         2 2 2 2 2 2 2 4 2 2 2 2 2 4
+1 2 3 4 5 6 7 15 8 11 12 13 14              2 2 2 2 2 2 4 2 2 2 2 2
+10 9                                        2
+>  <ForwardRxn>
+Standard 1.24e+11 0.0 19150 1 ; Westbrook ; Type 23 
+>  <ReverseRxn>
+Standard 1.3380e+02     2.125 44812  1; From LUND
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*1/1 = 1
+%%%-------------------------------------------------------------------
+OlefinAlphaPeroxyGammaHydroPeroxyDecomp-(r)(rh)(r) \
+       c=ccooccooh(r)(rh)(rh) = c=ccoohcco(r)(rh)(r) hydroxyl-radical
+- ID 41210
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15         2 2 2 2 2 2 2 4 2 2 2 2 2 4
+1 2 3 4 5 6 7 15 8 11 12 13 14              2 2 2 2 2 2 4 2 2 2 2 2
+10 9                                        2
+>  <ForwardRxn>
+Standard 1.24e+11 0.0 19150 1 ; Westbrook ; Type 23 
+>  <ReverseRxn>
+Standard 1.3380e+02     2.125 44812  1; From LUND
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*1/1 = 2
+%%%-------------------------------------------------------------------
+OlefinAlphaPeroxyGammaHydroPeroxyDecomp-(h)(rr)(r) \
+       c=ccooccooh(h)(rr)(rh) = c=ccoohcco(h)(rr)(r) hydroxyl-radical
+- ID 41211
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15         2 2 2 2 2 2 2 4 2 2 2 2 2 4
+1 2 3 4 5 6 7 15 8 11 12 13 14              2 2 2 2 2 2 4 2 2 2 2 2
+10 9                                        2
+>  <ForwardRxn>
+Standard 1.24e+11 0.0 19150 2 ; Westbrook ; Type 23 
+>  <ReverseRxn>
+Standard 1.3380e+02     2.125 44812  2; From LUND
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*1/1 = 2
+%%%-------------------------------------------------------------------
+OlefinAlphaPeroxyGammaHydroPeroxyDecomp-(r)(rr)(r) \
+       c=ccooccooh(r)(rr)(rh) = c=ccoohcco(r)(rr)(r) hydroxyl-radical
+- ID 41212
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15         2 2 2 2 2 2 2 4 2 2 2 2 2 4
+1 2 3 4 5 6 7 15 8 11 12 13 14              2 2 2 2 2 2 4 2 2 2 2 2
+10 9                                        2
+>  <ForwardRxn>
+Standard 1.24e+11 0.0 19150 2 ; Westbrook ; Type 23 
+>  <ReverseRxn>
+Standard 1.3380e+02     2.125 44812  2; From LUND
+$$$$

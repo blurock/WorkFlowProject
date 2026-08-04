@@ -1,0 +1,60 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1 = 1
+%%%-------------------------------------------------------------------
+TrieneToAromatic-(h)(h)\
+  c=cc=cc=c.(hh)(h)  = benzene-(h)(h) hydrogen-radical
+- ID 73101
+- Correspondences
+1 2 3 4 5 6 7 8 9             2 2 2 2 2 4 2 2
+1 2 3 4 5 6 9 8               2 2 2 2 2 4 2 2
+7
+>  <ForwardRxn>
+Standard   5.30000E+25   -4.420   17300.0   2; (72.432 -> 17300.0 ) Frenklach: n-C6H7 = A1 + H (1 bar)
+>  <ForwardRxn>
+Standard   1.39380E+25   -3.227   44600.0  2; (186.842 -> 44600.0) Frenklach: n-C6H7 = A1 + H (1 bar)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1 = 1
+%%%-------------------------------------------------------------------
+TrieneToAromatic-(r)(h)\
+  c=cc=cc=c.(rh)(h)  = benzene-(r)(h) hydrogen-radical
+- ID 73102
+- Correspondences
+1 2 3 4 5 6 7 8 9             2 2 2 2 2 2 4 2
+1 2 3 4 5 6 7 9               2 2 2 2 2 4 2 2
+8
+>  <ForwardRxn>
+Standard   5.30000E+25   -4.420   17300.0   2; (72.432 -> 17300.0 ) Frenklach: n-C6H7 = A1 + H (1 bar)
+>  <ForwardRxn>
+Standard   1.39380E+25   -3.227   44600.0  2; (186.842 -> 44600.0) Frenklach: n-C6H7 = A1 + H (1 bar)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1 = 1
+%%%-------------------------------------------------------------------
+TrieneToAromatic-(h)(r)\
+  c=cc=cc=c.(hh)(r)  = benzene-(h)(r) hydrogen-radical
+- ID 73103
+- Correspondences
+1 2 3 4 5 6 7 8 9             2 2 2 2 2 2 4 2
+1 2 3 4 5 6 7 9               2 2 2 2 2 4 2 2
+8
+>  <ForwardRxn>
+Standard   5.30000E+25   -4.420   17300.0   2; (72.432 -> 17300.0 ) Frenklach: n-C6H7 = A1 + H (1 bar)
+>  <ForwardRxn>
+Standard   1.39380E+25   -3.227   44600.0  2; (186.842 -> 44600.0) Frenklach: n-C6H7 = A1 + H (1 bar)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1 = 1
+%%%-------------------------------------------------------------------
+TrieneToAromatic-(r)(r)\
+  c=cc=cc=c.(rh)(h)  = benzene-(r)(r) hydrogen-radical
+- ID 73104
+- Correspondences
+1 2 3 4 5 6 7 8 9             2 2 2 2 2 2 4 2
+1 2 3 4 5 6 7 9               2 2 2 2 2 4 2 2
+8
+>  <ForwardRxn>
+Standard   5.30000E+25   -4.420   17300.0   2; (72.432 -> 17300.0 ) Frenklach: n-C6H7 = A1 + H (1 bar)
+>  <ForwardRxn>
+Standard   1.39380E+25   -3.227   44600.0  2; (186.842 -> 44600.0) Frenklach: n-C6H7 = A1 + H (1 bar)
+$$$$

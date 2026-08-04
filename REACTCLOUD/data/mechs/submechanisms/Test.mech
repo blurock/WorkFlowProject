@@ -1,0 +1,12 @@
+CLASSCOEFFICIENTS
+H-Abstraction-Oxygen-Primary             =      4.1700e+12     0.0000     204.92     6.5375e+10     0.3130      -2.52
+HLoss-ethyl-radical(hh)(rhh)-to-olefin   =      2.0710e+16    -0.8900     158.71     1.0000e+13     0.0000      12.13
+END
+CLASSEQUIVALENT
+END
+REACTIONCLASS  = H-Abstraction-Oxygen-Primary
+    6 {butane} + {oxygen} = {1-butyl-radical} + {peroxyl-radical}
+END
+REACTIONCLASS  = HLoss-ethyl-radical(hh)(rhh)-to-olefin
+    1 {1-butyl-radical} = {1-butene} + {hydrogen-radical}
+END

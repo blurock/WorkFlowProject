@@ -1,0 +1,194 @@
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*6 = 12
+%%%-------------------------------------------------------------------
+AlphaHAbstractionFromOlefinH-(hh) \
+     alphaolefin-(qq)(q)(hhh) hydrogen-radical = alphaolefin-radical(qq)(q)(hh) hydrogen
+- ID 43401
+- Correspondences
+1 2 3 4 5 6 7 8 9    2 2 2 2 2 2 2 4
+10 
+1 2 3 6 4 5 7 8      2 2 2 2 2 2 2
+9 10                 4
+>  <ForwardRxn>
+Standard 1.0e+12 0.0  3900.0  12; Curran et al., Combustion And Flame, 114: 149-177 (1998)
+>  <ReverseRxn>
+Standard  1.65704E+10    0.532   21641.0 12; Calculated from 1-C7H14+H=C7H13+H2
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+AlphaHAbstractionFromOlefinH-(rh) \
+     alphaolefin-(qq)(q)(rhh) hydrogen-radical = alphaolefin-radical(qq)(q)(rh) hydrogen
+- ID 43402
+- Correspondences
+1 2 3 4 5 6 7 8 9    2 2 2 2 2 2 2 4
+10 
+1 2 3 6 4 5 7 8      2 2 2 2 2 2 2
+9 10                 4
+>  <ForwardRxn>
+Standard 1.0e+12 0.0  3900.0  4; Curran et al., Combustion And Flame, 114: 149-177 (1998)
+>  <ReverseRxn>
+Standard  1.65704E+10    0.532   21641.0 4; Calculated from 1-C7H14+H=C7H13+H2
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+AlphaHAbstractionFromOlefinH-(rr) \
+     alphaolefin-(qq)(q)(rrh) hydrogen-radical = alphaolefin-radical(qq)(q)(rr) hydrogen
+- ID 43403
+- Correspondences
+1 2 3 4 5 6 7 8 9    2 2 2 2 2 2 2 4
+10 
+1 2 3 6 4 5 7 8      2 2 2 2 2 2 2
+9 10                 4
+>  <ForwardRxn>
+Standard 1.0e+12 0.0  3900.0  4; Curran et al., Combustion And Flame, 114: 149-177 (1998)
+>  <ReverseRxn>
+Standard  1.65704E+10    0.532   21641.0 4; Calculated from 1-C7H14+H=C7H13+H2
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*6 = 12
+%%%-------------------------------------------------------------------
+AlphaHAbstractionFromOlefinO-(hh) \
+     alphaolefin-(qq)(q)(hhh) oxygen-atom = alphaolefin-radical(qq)(q)(hh) hydroxyl-radical
+- ID 43404
+- Correspondences
+1 2 3 4 5 6 7 8 9    2 2 2 2 2 2 2 4
+10 
+1 2 3 6 4 5 7 8      2 2 2 2 2 2 2
+9 10                 4
+>  <ForwardRxn>
+Standard 1.0e+12 0.0  4000.0  12; Curran et al., Combustion And Flame, 114: 149-177 (1998)
+>  <ReverseRxn>
+Standard  1.16733E+10    0.476    20000.0 12; Calculated from 1-C7H14+O=C7H13+OH
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+AlphaHAbstractionFromOlefinO-(rh) \
+     alphaolefin-(qq)(q)(rhh) oxygen-atom = alphaolefin-radical(qq)(q)(rh) hydroxyl-radical
+- ID 43405
+- Correspondences
+1 2 3 4 5 6 7 8 9    2 2 2 2 2 2 2 4
+10 
+1 2 3 6 4 5 7 8      2 2 2 2 2 2 2
+9 10                 4
+>  <ForwardRxn>
+Standard 1.0e+12 0.0  4000.0  4; Curran et al., Combustion And Flame, 114: 149-177 (1998)
+>  <ReverseRxn>
+Standard  1.16733E+10    0.476    20000.0 4; Calculated from 1-C7H14+O=C7H13+OH
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+AlphaHAbstractionFromOlefinO-(rr) \
+     alphaolefin-(qq)(q)(rrh) oxygen-atom = alphaolefin-radical(qq)(q)(rr) hydroxyl-radical
+- ID 43406
+- Correspondences
+1 2 3 4 5 6 7 8 9    2 2 2 2 2 2 2 4
+10 
+1 2 3 6 4 5 7 8      2 2 2 2 2 2 2
+9 10                 4
+>  <ForwardRxn>
+Standard 1.0e+12 0.0  4000.0  4; Curran et al., Combustion And Flame, 114: 149-177 (1998)
+>  <ReverseRxn>
+Standard  1.16733E+10    0.476    20000.0 4; Calculated from 1-C7H14+O=C7H13+OH
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*6 = 12
+%%%-------------------------------------------------------------------
+AlphaHAbstractionFromOlefinOH-(hh) \
+     alphaolefin-(qq)(q)(hhh) hydroxyl-radical = alphaolefin-radical(qq)(q)(hh) water
+- ID 43407
+- Correspondences
+1 2 3 4 5 6 7 8 9    2 2 2 2 2 2 2 4
+10 11                2
+1 2 3 6 4 5 7 8      2 2 2 2 2 2 2
+11 10 9              2 4
+>  <ForwardRxn>
+Standard 1.0e+12 0.0  1230.0  12; Curran et al., Combustion And Flame, 114: 149-177 (1998)
+>  <ReverseRxn>
+Standard  1.06083E+12    0.212 34918.0 12; Calculated from 1-C7H14+OH=C7H13+H2O   
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+AlphaHAbstractionFromOlefinOH-(rh) \
+     alphaolefin-(qq)(q)(rhh) hydroxyl-radical = alphaolefin-radical(qq)(q)(rh) water
+- ID 43408
+- Correspondences
+1 2 3 4 5 6 7 8 9    2 2 2 2 2 2 2 4
+10 11                2
+1 2 3 6 4 5 7 8      2 2 2 2 2 2 2
+11 10 9              2 4
+>  <ForwardRxn>
+Standard 1.0e+12 0.0  1230.0  4; Curran et al., Combustion And Flame, 114: 149-177 (1998)
+>  <ReverseRxn>
+Standard  1.06083E+12    0.212 34918.0 4; Calculated from 1-C7H14+OH=C7H13+H2O   
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+AlphaHAbstractionFromOlefinOH-(rr) \
+     alphaolefin-(qq)(q)(rrh) hydroxyl-radical = alphaolefin-radical(qq)(q)(rr) water
+- ID 43409
+- Correspondences
+1 2 3 4 5 6 7 8 9    2 2 2 2 2 2 2 4
+10 11                2
+1 2 3 6 4 5 7 8      2 2 2 2 2 2 2
+11 10 9              2 4
+>  <ForwardRxn>
+Standard 1.0e+12 0.0  1230.0  4; Curran et al., Combustion And Flame, 114: 149-177 (1998)
+>  <ReverseRxn>
+Standard  1.06083E+12    0.212 34918.0 4; Calculated from 1-C7H14+OH=C7H13+H2O   
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*6*6 = 72
+%%%-------------------------------------------------------------------
+AlphaHAbstractionFromOlefinCH3-(hh) \
+     alphaolefin-(qq)(q)(hhh) methane-carbon-radical = alphaolefin-radical(qq)(q)(hh) methane
+- ID 43410
+- Correspondences
+1  2  3  4 5 6 7 8 9    2 2 2 2 2 2 2 4
+10 11 12 13             2 2 2
+1  2  3  6  4 5 7 8     2 2 2 2 2 2 2
+10 11 12 13 9           2 2 2 4
+>  <ForwardRxn>
+Standard 2.0e+11 0.0   7300.0  72; Curran et al., Combustion And Flame, 114: 149-177 (1998)
+>  <ReverseRxn>
+Standard  8.60565E+13   -0.285 28024.0 72; Calculated from 1-C7H14+CH3=C7H13+CH4    
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2*6 = 24
+%%%-------------------------------------------------------------------
+AlphaHAbstractionFromOlefinCH3-(rh) \
+     alphaolefin-(qq)(q)(rhh) methane-carbon-radical = alphaolefin-radical(qq)(q)(rh) methane
+- ID 43411
+- Correspondences
+1  2  3  4 5 6 7 8 9    2 2 2 2 2 2 2 4
+10 11 12 13             2 2 2
+1  2  3  6  4 5 7 8     2 2 2 2 2 2 2
+10 11 12 13 9           2 2 2 4
+>  <ForwardRxn>
+Standard 2.0e+11 0.0   7300.0  24; Curran et al., Combustion And Flame, 114: 149-177 (1998)
+>  <ReverseRxn>
+Standard  8.60565E+13   -0.285 28024.0 24; Calculated from 1-C7H14+CH3=C7H13+CH4    
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2*6 = 24
+%%%-------------------------------------------------------------------
+AlphaHAbstractionFromOlefinCH3-(rr) \
+     alphaolefin-(qq)(q)(rrh) methane-carbon-radical = alphaolefin-radical(qq)(q)(rr) methane
+- ID 43412
+- Correspondences
+1  2  3  4 5 6 7 8 9    2 2 2 2 2 2 2 4
+10 11 12 13             2 2 2
+1  2  3  6  4 5 7 8     2 2 2 2 2 2 2
+10 11 12 13 9           2 2 2 4
+>  <ForwardRxn>
+Standard 2.0e+11 0.0   7300.0  24; Curran et al., Combustion And Flame, 114: 149-177 (1998)
+>  <ReverseRxn>
+Standard  8.60565E+13   -0.285 28024.0 24; Calculated from 1-C7H14+CH3=C7H13+CH4    
+$$$$

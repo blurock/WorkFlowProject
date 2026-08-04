@@ -1,0 +1,60 @@
+OlefinDecompToAkenyl: 
+oxygen
+%%% ----------------------------------------------------
+H-Abstraction-Oxygen-Tertiary,\
+H-Abstraction-Oxygen-Secondary,\
+H-Abstraction-Oxygen-Primary,\
+:oxygen
+%%% ----------------------------------------------------
+HLoss-ethyl-radical(hh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rhh)-to-olefin,\
+HLoss-ethyl-radical(rr)(hhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(rhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rrh)-to-olefin,\
+HLoss-ethyl-radical(rr)(rhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(rrh)-to-olefin,\
+HLoss-ethyl-radical(rr)(rrh)-to-olefin
+%%% ----------------------------------------------------
+%%% Class 9: OlefinDecompToAkenyl
+%%% Class 6: H-Alkenyl-Abs-Hydrogen-Radical (H, O, OH, CH3)
+%%% ----------------------------------------------------
+OlefinDecompToAkenyl(hh)(hhh),\
+OlefinDecompToAkenyl(rh)(hhh),\
+OlefinDecompToAkenyl(rr)(hhh),\
+OlefinDecompToAkenyl(hh)(rhh),\
+OlefinDecompToAkenyl(rh)(rhh),\
+OlefinDecompToAkenyl(rr)(rhh),\
+OlefinDecompToAkenyl(hh)(rrh),\
+OlefinDecompToAkenyl(rh)(rrh),\
+OlefinDecompToAkenyl(rr)(rrh),\
+OlefinDecompToAkenyl(hh)(rrr),\
+OlefinDecompToAkenyl(rh)(rrr),\
+OlefinDecompToAkenyl(rr)(hhh),\
+H-Alkenyl-Abs-Hydrogen-Radical-(hh)(h),\
+H-Alkenyl-Abs-Hydrogen-Radical-(hh)(r),\
+H-Alkenyl-Abs-Hydrogen-Radical-(rh)(h),\
+H-Alkenyl-Abs-Hydrogen-Radical-(rh)(r),\
+H-Alkenyl-Abs-Hydrogen-Radical-(rr)(h),\
+H-Alkenyl-Abs-Hydrogen-Radical-(rr)(r),\
+H-Alkenyl-Abs-Oxygen-Radical-(hh)(h),\
+H-Alkenyl-Abs-Oxygen-Radical-(hh)(r),\
+H-Alkenyl-Abs-Oxygen-Radical-(rh)(h),\
+H-Alkenyl-Abs-Oxygen-Radical-(rh)(r),\
+H-Alkenyl-Abs-Oxygen-Radical-(rr)(h),\
+H-Alkenyl-Abs-Oxygen-Radical-(rr)(r),\
+H-Alkenyl-Abs-Hydroxyl-Radical-(hh)(h),\
+H-Alkenyl-Abs-Hydroxyl-Radical-(hh)(r),\
+H-Alkenyl-Abs-Hydroxyl-Radical-(rh)(h),\
+H-Alkenyl-Abs-Hydroxyl-Radical-(rh)(r),\
+H-Alkenyl-Abs-Hydroxyl-Radical-(rr)(h),\
+H-Alkenyl-Abs-Hydroxyl-Radical-(rr)(r),\
+H-Alkenyl-Abs-Methane-Carbon-Radical-(hh)(h),\
+H-Alkenyl-Abs-Methane-Carbon-Radical-(hh)(r),\
+H-Alkenyl-Abs-Methane-Carbon-Radical-(rh)(h),\
+H-Alkenyl-Abs-Methane-Carbon-Radical-(rh)(r),\
+H-Alkenyl-Abs-Methane-Carbon-Radical-(rr)(h),\
+H-Alkenyl-Abs-Methane-Carbon-Radical-(rr)(r)\
+:hydrogen-radical,hydroxyl-radical,oxygen-radical,methyl-radical
+%%% ----------------------------------------------------
+%%% ----------------------------------------------------

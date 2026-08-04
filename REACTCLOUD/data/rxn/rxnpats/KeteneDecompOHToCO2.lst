@@ -1,0 +1,129 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 3*2 = 6
+%%%-------------------------------------------------------------------
+KeteneDecompHOToCO2-(hhh)(h)\
+   ketene-(hhh)(h) hydroxyl-radical = carbondioxide ethyl-radical-(hh)(hhh)
+- ID 71301
+- Correspondences
+1 2 3 4 5 6 7 8         4 2 2 2 2 2 2
+9 10                    4
+2 3 10                  2 4
+1 5 4 7 6 9 8           2 2 2 2 4 2 
+
+>  <ForwardRxn>
+Standard 1.730e+12   0.00  -1.010E+03 6; From c2h5chco+oh = c2h5+co2
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; No Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+KeteneDecompHOToCO2-(rhh)(h)\
+     ketene-(rhh)(h) hydroxyl-radical = ethyl-radical-(hh)(rhh) carbondioxide
+- ID 71302
+- Correspondences
+1 2 3 4 5 6 7 8         4 2 2 2 2 2 2
+9 10                    4
+1 5 4 7 6 9 8           2 2 2 2 4 2 
+2 3 10                  2 4
+>  <ForwardRxn>
+Standard 1.730e+12   0.00  -1.010E+03 2; From c2h5chco+oh = c2h5+co2
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; No Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+KeteneDecompHOToCO2-(rrh)(h)\
+     ketene-(rrh)(h) hydroxyl-radical = ethyl-radical-(hh)(rrh) carbondioxide
+- ID 71303
+- Correspondences
+1 2 3 4 5 6 7 8         4 2 2 2 2 2 2
+9 10                    4
+1 5 4 7 6 9 8           2 2 2 2 4 2 
+2 3 10                  2 4
+>  <ForwardRxn>
+Standard 1.730e+12   0.00  -1.010E+03 2; From c2h5chco+oh = c2h5+co2
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; No Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+KeteneDecompHOToCO2-(rrr)(h)\
+     ketene-(rrr)(h) hydroxyl-radical = ethyl-radical-(hh)(rrr) carbondioxide
+- ID 71304
+- Correspondences
+1 2 3 4 5 6 7 8         4 2 2 2 2 2 2
+9 10                    4
+1 5 4 7 6 9 8           2 2 2 2 4 2 
+2 3 10                  2 4
+>  <ForwardRxn>
+Standard 1.730e+12   0.00  -1.010E+03 2; From c2h5chco+oh = c2h5+co2
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; No Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+KeteneDecompHOToCO2-(hhh)(r)\
+     ketene-(hhh)(r) hydroxyl-radical = ethyl-radical-(rh)(hhh) carbondioxide
+- ID 71305
+- Correspondences
+1 2 3 4 5 6 7 8         4 2 2 2 2 2 2
+9 10                    4
+1 5 4 7 6 9 8           2 2 2 2 4 2 
+2 3 10                  2 4
+>  <ForwardRxn>
+Standard 1.730e+12   0.00  -1.010E+03 6; From c2h5chco+oh = c2h5+co2
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; No Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+KeteneDecompHOToCO2-(rhh)(r)\
+     ketene-(rhh)(r) hydroxyl-radical = ethyl-radical-(rh)(rhh) carbondioxide
+- ID 71306
+- Correspondences
+1 2 3 4 5 6 7 8         4 2 2 2 2 2 2
+9 10                    4
+1 5 4 7 6 9 8           2 2 2 2 4 2 
+2 3 10                  2 4
+>  <ForwardRxn>
+Standard 1.730e+12   0.00  -1.010E+03 2; From c2h5chco+oh = c2h5+co2
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; No Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+KeteneDecompHOToCO2-(rrh)(r)\
+     ketene-(rrh)(r) hydroxyl-radical = ethyl-radical-(rh)(rrh) carbondioxide
+- ID 71307
+- Correspondences
+1 2 3 4 5 6 7 8         4 2 2 2 2 2 2
+9 10                    4
+1 5 4 7 6 9 8           2 2 2 2 4 2 
+2 3 10                  2 4
+>  <ForwardRxn>
+Standard 1.730e+12   0.00  -1.010E+03 2; From c2h5chco+oh = c2h5+co2
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; No Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 3*2 = 6
+%%%-------------------------------------------------------------------
+KeteneDecompHOToCO2-(rrr)(r)\
+     ketene-(rrr)(r) hydroxyl-radical = ethyl-radical-(rh)(rrr) carbondioxide
+- ID 71308
+- Correspondences
+1 2 3 4 5 6 7 8         4 2 2 2 2 2 2
+9 10                    4
+1 5 4 7 6 9 8           2 2 2 2 4 2 
+2 3 10                  2 4
+>  <ForwardRxn>
+Standard 1.730e+12   0.00  -1.010E+03 6; From c2h5chco+oh = c2h5+co2
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; No Reverse
+$$$$

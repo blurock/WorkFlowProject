@@ -1,0 +1,206 @@
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1*2 = 4
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompHO2-(hh)(h)(hh) \
+     alphaolefin-radical(hh)(h)(hh) peroxyl-radical = olefin-(hh)(hh) (h).c(o) hydroxyl-radical
+- ID 43301
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 4
+9 10 11              2 4
+1 2 4 5 6 8          2 2 2 2 4
+3 11 7               4 2
+9 10                 2
+>  <ForwardRxn>
+Standard 5.0e+12 0.0 0.0 4; aC3H5 + HO2 = OH + CHO + C2H4 ; EXGAS Fournet, et al., Int. J. Chem. Kinet. 31, 361-379, (1999)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   4; irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*2 = 2
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompHO2-(rh)(h)(hh) \
+     alphaolefin-radical(rh)(h)(hh) peroxyl-radical = olefin-(rh)(hh) (h).c(o) hydroxyl-radical
+- ID 43302
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 4
+9 10 11              2 4
+1 2 4 5 6 8          2 2 2 2 4
+3 11 7               4 2
+9 10                 2
+>  <ForwardRxn>
+Standard 5.0e+12 0.0 0.0 2; aC3H5 + HO2 = OH + CHO + C2H4 ; EXGAS Fournet, et al., Int. J. Chem. Kinet. 31, 361-379, (1999)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   2; irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1*2 = 4
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompHO2-(rr)(h)(hh) \
+     alphaolefin-radical(rr)(h)(hh) peroxyl-radical = olefin-(rr)(hh) (h).c(o) hydroxyl-radical
+- ID 43303
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 4
+9 10 11              2 4
+1 2 4 5 6 8          2 2 2 2 4
+3 11 7               4 2
+9 10                 2
+>  <ForwardRxn>
+Standard 5.0e+12 0.0 0.0 4; aC3H5 + HO2 = OH + CHO + C2H4 ; EXGAS Fournet, et al., Int. J. Chem. Kinet. 31, 361-379, (1999)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   4; irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1*2 = 4
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompHO2-(hh)(r)(hh) \
+     alphaolefin-radical(hh)(r)(hh) peroxyl-radical = olefin-(rh)(hh) (h).c(o) hydroxyl-radical
+- ID 43304
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 4
+9 10 11              2 4
+2 1 6 8 4 5          2 2 4 2 2
+3 11 7               4 2
+9 10                 2
+>  <ForwardRxn>
+Standard 5.0e+12 0.0 0.0 4; aC3H5 + HO2 = OH + CHO + C2H4 ; EXGAS Fournet, et al., Int. J. Chem. Kinet. 31, 361-379, (1999)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   4; irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*2 = 2
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompHO2-(rh)(r)(hh) \
+     alphaolefin-radical(rh)(r)(hh) peroxyl-radical = olefin-(rh)(rh) (h).c(o) hydroxyl-radical
+- ID 43305
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 4
+9 10 11              2 4
+1 2 4 5 6 8          2 2 2 2 4
+3 11 7               4 2
+9 10                 2
+>  <ForwardRxn>
+Standard 5.0e+12 0.0 0.0 2; aC3H5 + HO2 = OH + CHO + C2H4 ; EXGAS Fournet, et al., Int. J. Chem. Kinet. 31, 361-379, (1999)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   2; irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1*2 = 4
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompHO2-(rr)(r)(hh) \
+     alphaolefin-radical(rr)(r)(hh) peroxyl-radical = olefin-(rr)(rh) (h).c(o) hydroxyl-radical
+- ID 43306
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 4
+9 10 11              2 4
+1 2 4 5 6 8          2 2 2 2 4
+3 11 7               4 2
+9 10                 2
+>  <ForwardRxn>
+Standard 5.0e+12 0.0 0.0 4; aC3H5 + HO2 = OH + CHO + C2H4 ; EXGAS Fournet, et al., Int. J. Chem. Kinet. 31, 361-379, (1999)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   4; irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1*1 = 2
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompHO2-(hh)(h)(rh) \
+     alphaolefin-radical(hh)(h)(rh) peroxyl-radical = olefin-(hh)(hh) (r).c(o) hydroxyl-radical
+- ID 43307
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 4
+9 10 11              2 4
+1 2 4 5 6 8          2 2 2 2 4
+3 11 7               4 2
+9 10                 2
+>  <ForwardRxn>
+Standard 5.0e+12 0.0 0.0 2; aC3H5 + HO2 = OH + CHO + C2H4 ; EXGAS Fournet, et al., Int. J. Chem. Kinet. 31, 361-379, (1999)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   2; irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*1 = 1
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompHO2-(rh)(h)(rh) \
+     alphaolefin-radical(rh)(h)(rh) peroxyl-radical = olefin-(rh)(hh) (r).c(o) hydroxyl-radical
+- ID 43308
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 4
+9 10 11              2 4
+1 2 4 5 6 8          2 2 2 2 4
+3 11 7               4 2
+9 10                 2
+>  <ForwardRxn>
+Standard 5.0e+12 0.0 0.0 1; aC3H5 + HO2 = OH + CHO + C2H4 ; EXGAS Fournet, et al., Int. J. Chem. Kinet. 31, 361-379, (1999)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1*1 = 2
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompHO2-(rr)(h)(rh) \
+     alphaolefin-radical(rr)(h)(rh) peroxyl-radical = olefin-(rr)(hh) (r).c(o) hydroxyl-radical
+- ID 43309
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 4
+9 10 11              2 4
+1 2 4 5 6 8          2 2 2 2 4
+3 11 7               4 2
+9 10                 2
+>  <ForwardRxn>
+Standard 5.0e+12 0.0 0.0 2; aC3H5 + HO2 = OH + CHO + C2H4 ; EXGAS Fournet, et al., Int. J. Chem. Kinet. 31, 361-379, (1999)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   2; irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1*1 = 2
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompHO2-(hh)(r)(rh) \
+     alphaolefin-radical(hh)(r)(rh) peroxyl-radical = olefin-(rh)(hh) (r).c(o) hydroxyl-radical
+- ID 43310
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 4
+9 10 11              2 4
+2 1 6 8 4 5          2 2 4 2 2
+3 11 7               4 2
+9 10                 2
+>  <ForwardRxn>
+Standard 5.0e+12 0.0 0.0 2; aC3H5 + HO2 = OH + CHO + C2H4 ; EXGAS Fournet, et al., Int. J. Chem. Kinet. 31, 361-379, (1999)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   2; irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*1 = 1
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompHO2-(rh)(r)(rh) \
+     alphaolefin-radical(rh)(r)(rh) peroxyl-radical = olefin-(rh)(rh) (r).c(o) hydroxyl-radical
+- ID 43311
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 4
+9 10 11              2 4
+1 2 4 5 6 8          2 2 2 2 4
+3 11 7               4 2
+9 10                 2
+>  <ForwardRxn>
+Standard 5.0e+12 0.0 0.0 1; aC3H5 + HO2 = OH + CHO + C2H4 ; EXGAS Fournet, et al., Int. J. Chem. Kinet. 31, 361-379, (1999)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1*1 = 2
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompHO2-(rr)(r)(rh) \
+     alphaolefin-radical(rr)(r)(rh) peroxyl-radical = olefin-(rr)(rh) (r).c(o) hydroxyl-radical
+- ID 43312
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 4
+9 10 11              2 4
+1 2 4 5 6 8          2 2 2 2 4
+3 11 7               4 2
+9 10                 2
+>  <ForwardRxn>
+Standard 5.0e+12 0.0 0.0 2; aC3H5 + HO2 = OH + CHO + C2H4 ; EXGAS Fournet, et al., Int. J. Chem. Kinet. 31, 361-379, (1999)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   2; irreversible
+$$$$

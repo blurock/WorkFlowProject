@@ -1,0 +1,206 @@
+hydrogen-radical             h
+hydrogen                     h2
+oxygen-radical               o
+oxygen                       o2
+hydroxyl-radical             oh      
+water                        h2o
+nitrogen                     n2
+carbon-monoxide               co
+formyl-radical               hco
+carbon-dioxide               co2     
+methyl-radical               ch3
+methane                      ch4
+ho2cho      
+o2cho        
+ocho         
+ch2(s) 
+peroxyl-radical             ho2
+hydrogen-peroxide           h2o2
+aldehyde                    ch2o
+hoch2o      
+hocho     
+methoxy-radical             ch3o
+ethane                      c2h6                        c2h
+ethene                      c2h4                        c2h
+ethyl-radical               c2h5                        c2h
+ch2                   
+ch
+ethynyl-radical             c2h                         c2h
+ethyne                      c2h2                        c2h
+ethenyl-radical             c2h3                        c2h
+methanol                    ch3oh       
+hydroxymethyl-radical       ch2oh
+ethenone                    ch2co                       c2ho
+ketenyl-radical             hcco                        c2ho
+ethanol                     c2h5oh                      c2ho
+pc2h4oh                     c2ho
+sc2h4oh                     c2ho
+ethanoyl-radical            ch3co                       c2ho
+ethanal-2-yl-radical        ch2cho                      c2ho
+ethanal                     ch3cho                      c2ho
+allene                      c3h4-a                      c3h
+propyne                     c3h4-p                      c3h
+propene                     c3h6                        c3h
+1,3-butadiene               c4h6                        c4h
+1-propyl-radical            nc3h7                       c3h
+1-propyl-radical            ic3h7                       c3h
+propane                     c3h8                        c3h
+ic4h7                       c4h
+isobutene                   ic4h8                       c4h
+1-butene-3-yl-radical       c4h7
+2-butene                    c4h8-2                      c4h
+1-butene                    c4h8-1                      c4h
+2-butyl-radical             sc4h9                       c4h
+1-butyl-radical             pc4h9                       c4h
+tertbutyl-radical           tc4h9                       c4h
+isobutyl-radical            ic4h9                       c4h    
+isobutane                   ic4h10                      c4h
+butane                      c4h10                       c4h
+propanone                   ch3coch3                    c3ho
+propanon-1-yl-radical       ch3coch2                    c3ho
+propanal                    c2h5cho                     c3ho
+propanoyl-radical           c2h5co                      c3ho
+ethoxy-radical              c2h5o                       c2ho
+methylperoxy-radical        ch3o2
+ethylperoxy-radical         c2h5o2                      c2ho
+methyl-hydroperoxide        ch3o2h
+ethyl-hydroperoxide         c2h5o2h                     c2ho
+c2h3o1-2                    c2ho
+methylcarboxy-radical       ch3co2                      c2ho
+c2h4o1-2                    c2ho
+ethyl-hydroperoxide         c2h4o2h                     c2ho
+o2c2h4oh                    c2ho
+ch3co3                      c2ho
+ch3co3h                     c2ho
+c2h3co                      c3ho
+c2h3cho                     c3ho
+c3h5o                       c3ho
+c3h6ooh1-2                  c3ho
+c3h6ooh1-3                  c3ho
+c3h6ooh2-1                  c3ho
+c3h6ooh1-2o2                c3ho
+c3h6ooh1-3o2                c3ho
+c3h6ooh2-1o2                c3ho
+nc3h7o                      c3ho
+ic3h7o                      c3ho
+nc3h7o2h                    c3ho
+ic3h7o2h                    c3ho
+nc3h7o2                     c3ho
+ic3h7o2                     c3ho
+c3h6o1-3  
+ic4h8o                      c4ho
+ic4h8oh                     c4ho
+io2c4h8oh                   c4ho
+ic4h7o                      c4ho
+c4h7o                       c4ho
+c4h8oh-1                    c4ho
+c4h8oh-2                    c4ho
+c4h8oh-1o2                  c4ho
+c4h8oh-2o2                  c4ho
+c4h8ooh1-2o2                c4ho
+c4h8ooh1-3o2                c4ho
+c4h8ooh1-4o2                c4ho
+c4h8ooh2-1o2                c4ho
+c4h8ooh2-3o2                c4ho
+c4h8ooh2-4o2                c4ho
+tc4h8ooh-io2                c4ho
+ic4h8ooh-io2                c4ho
+ic4h8ooh-to2                c4ho
+c4h8ooh1-2                  c4ho 
+c4h8ooh1-3                  c4ho
+c4h8ooh1-4                  c4ho
+c4h8ooh2-1                  c4ho
+c4h8ooh2-3                  c4ho
+c4h8ooh2-4                  c4ho
+ic4h8o2h-i                  c4ho
+ic4h8o2h-t                  c4ho
+tc4h8o2h-i                  c4ho
+c4h8o1-2                    c4ho
+c4h8o1-3                    c4ho
+c4h8o1-4                    c4ho
+c4h8o2-3                    c4ho
+cc4h8o                      c4ho
+pc4h9o                      c4ho
+sc4h9o                      c4ho
+ic4h9o                      c4ho
+tc4h9o                      c4ho
+pc4h9o2h                    c4ho
+sc4h9o2h                    c4ho
+ic4h9o2h                    c4ho
+tc4h9o2h                    c4ho
+tc4h9o2                     c4ho
+ic4h9o2                     c4ho
+sc4h9o2                     c4ho
+pc4h9o2                     c4ho
+ch3coch2o2                  c3ho
+ch3coch2o2h                 c3ho
+ch3coch2o                   c3ho
+c3h5-a                      c3h
+c3h5-s       
+ac3h5cho
+c3h5-t                      c3h
+c3h3                        c3h
+c3h2                        c3h
+c3h6o1-2                    c3ho
+c3ket12                     c3ho
+c3ket13                     c3ho
+c3ket21                     c3ho
+nc4ket12                    c4ho
+nc4ket13                    c4ho
+nc4ket14                    c4ho
+nc4ket21                    c4ho
+nc4ket23                    c4ho
+nc4ket24                    c4ho
+ic4ketii                    c4ho
+ic4ketit                    c4ho
+ic4h7-i1     
+c3h6oh                      c3ho
+hoc3h6o2                    c3ho
+o2c2h4o2h   
+ch2o2hcho    
+ic4h7ooh                    c4ho
+ic3h5cho                    c4ho
+tc3h6ocho                   c4ho
+tc3h6cho                    c4ho
+ic3h7cho                    c4ho
+ic4h7oh                     c4ho
+ic3h6co                     c4ho
+ic4h6oh                     c4ho
+ic3h5co                     c4ho
+ic3h7co                     c4ho
+tc3h6o2cho                  c4ho
+tc3h6o2hco                  c4ho
+ic3h5o2hcho                 c4ho
+tc3h6ohcho                  c4ho
+tc3h6oh                     c3ho
+ic3h5oh                     c3ho
+c3h5oh                      c3ho
+ch2cch2oh                   c3ho
+nc3h7cho                    c4ho
+nc3h7co                     c4ho
+ch2ch2coch3                 c4ho
+c2h5coch2                   c4ho
+c2h5coch3                   c4ho
+ch2choohcoch3               c4ho
+ch3choohcoch3   
+ch3choococh3                c4ho
+ch3chcoch3                  c4ho
+c2h3coch3                   c4ho
+ch3chco                     c3ho
+ch2ch2cho                   c3ho
+c3h6cho-3                   c4ho
+c3h6cho-2                   c4ho
+c2h5chco                    c4ho
+ch3chocho    
+ch3chcho     
+sc3h5cho                    c4ho
+sc3h5co                     c4ho
+ic3h6cho                    c4ho 
+c3h6cho-1                   c4ho
+ac3h5co      
+c2h3chcho       
+ic4h6q2-ii   
+c4h7ooh1-4   
+c4h7o1-4     
+c4h71-4      
+ar

@@ -1,0 +1,240 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+AldehydeHAbstractionOH-(hh)    (h)(h)c(o) hydroxyl-radical = (h).c(o) water
+- ID 3301
+- Correspondences
+1 2 3 4               2 2 4
+5 6                   2
+1 2 3                 2 2
+6 5 4                 2 4
+>  <ForwardRxn>
+Standard 3.430E+09   1.18 -4.470e+02 2; Curran Heptane; Curran ch2o+oh = hco+h2o
+>  <ReverseRxn>
+Standard 2.350E+08   1.35  2.612E+04 1; Curran Heptane; Curran ch2o+oh = hco+h2o
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1 = 1
+%%%-------------------------------------------------------------------
+AldehydeHAbstractionOH-(rh)    (r)(h)c(o) hydroxyl-radical = (r).c(o) water
+- ID 3302
+- Correspondences
+1 2 3 4               2 2 4
+5 6                   2
+1 2 3                 2 2
+6 5 4                 2 4
+>  <ForwardRxn>
+Standard 1.000E+13   0.00  0.000e+00 1; Curran Heptane; nc5h11cho+oh = nc5h11co+h2o
+>  <ReverseRxn>
+Standard 2.000E+13   0.00  3.700E+04 1; Curran Heptane; nc5h11cho+oh = nc5h11co+h2o
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+AldehydeHAbstractionH-(hh)    (h)(h)c(o) hydrogen-radical = (h).c(o) hydrogen
+- ID 3303
+- Correspondences
+1 2 3 4               2 2 4
+5                     2
+1 2 3                 2 2
+5 4                   4
+>  <ForwardRxn>
+Standard 2.190E+08   1.77  3.001e+03 2; Curran Heptane ; ch2o+h = hco+h2
+>  <ReverseRxn>
+Standard 1.749E+07   1.77  1.767e+04 1; Curran Heptane ; ch2o+h = hco+h2
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+AldehydeHAbstractionH-(rh)    (r)(h)c(o) hydrogen-radical = (r).c(o) hydrogen
+- ID 3304
+- Correspondences
+1 2 3 4               2 2 4
+5                     2
+1 2 3                 2 2
+5 4                   4
+>  <ForwardRxn>
+Standard 4.0e+13  0.0 4200.0 1; Curran Heptane; nc5h11cho+h = nc5h11co+h2
+>  <ReverseRxn>
+Standard 1.800e+13   0.00  2.400e+04 1; Curran Heptane; nc5h11cho+h = nc5h11co+h2
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*6/2 = 12/2 = 6
+%%%-------------------------------------------------------------------
+AldehydeHAbstractionCH3-(hh)    (h)(h)c(o) methane-carbon-radical = (h).c(o) methane
+- ID 3305
+- Correspondences
+1 2 3 4               2 2 4
+5 6 7 8               2 2 2
+1 2 3                 2 2
+5 8 7 6 4             2 2 4 2
+>  <ForwardRxn>
+Standard 5.540e+03   2.81  5.860e+03 6; Curran Heptane ; ch2o+ch3 = hco+ch4
+>  <ReverseRxn>
+Standard 7.290e+03   2.85  2.251e+04 24; Curran Heptane ; ch2o+ch3 = hco+ch4
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*6 = 6
+%%%-------------------------------------------------------------------
+AldehydeHAbstractionCH3-(rh)    (r)(h)c(o) methane-carbon-radical = (r).c(o) methane
+- ID 3306
+- Correspondences
+1 2 3 4               2 2 4
+5 6 7 8               2 2 2
+1 2 3                 2 2
+5 8 7 6 4             2 2 4 2
+>  <ForwardRxn>
+Standard 1.700e+12   0.00  8.440e+03 6; Curran Heptane; nc5h11cho+ch3 = nc5h11co+ch4
+>  <ReverseRxn>
+Standard 1.500e+13   0.00  2.800e+04 24; Curran Heptane; nc5h11cho+ch3 = nc5h11co+ch4
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+AldehydeHAbstractionO-(hh)    (h)(h)c(o) oxygen-atom = (h).c(o) hydroxyl-radical
+- ID 3307
+- Correspondences
+1 2 3 4               2 2 4
+5                     2
+1 2 3                 2 2
+4 5                   4
+>  <ForwardRxn>
+Standard 4.160E+11   0.57  2.762E+03 2; Curran Heptane ; ch2o+h = hco+h2
+>  <ReverseRxn>
+Standard 1.459E+10   0.57  1.534E+04 1; Curran Heptane ; ch2o+h = hco+h2
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1 = 1
+%%%-------------------------------------------------------------------
+AldehydeHAbstractionO-(rh)    (r)(h)c(o) oxygen-atom = (r).c(o) hydroxyl-radical
+- ID 3308
+- Correspondences
+1 2 3 4               2 2 4
+5                     2
+1 2 3                 2 2
+4 5                   4
+>  <ForwardRxn>
+Standard 5.000E+12   0.00  1.790E+03 1; Curran Heptane; nc5h11cho+o = nc5h11co+oh
+>  <ReverseRxn>
+Standard 1.000E+12   0.00  1.900E+04 1; Curran Heptane; nc5h11cho+o = nc5h11co+oh
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+AldehydeHAbstractionO2-(hh)  (h)(h)c(o) oxygen = (h).c(o) peroxyl-radical
+- ID 3309
+- Correspondences
+1 2 3 4               2 2 4
+5 6                   2
+1 2 3                 2 2
+4 5 6                 4 2
+>  <ForwardRxn>
+Standard 3.660E+15   0.00  4.604E+04 2; Curran Heptane; Curran nc5h11cho+o2 = nc5h11co+ho2
+>  <ReverseRxn>
+Standard 1.000E+14   0.00  3.000E+03 1; Curran Heptane; Curran nc5h11cho+o2 = nc5h11co+ho2
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1 = 1
+%%%-------------------------------------------------------------------
+AldehydeHAbstractionO2-(rh)    (r)(h)c(o) oxygen  = (r).c(o) peroxyl-radical
+- ID 3310
+- Correspondences
+1 2 3 4               2 2 4
+5 6                   2
+1 2 3                 2 2
+4 5 6                 4 2
+>  <ForwardRxn>
+Standard 2.000E+13   0.50  4.220E+04 2; Curran Heptane; nc5h11cho+o2 = nc5h11co+ho2
+>  <ReverseRxn>
+Standard 1.000E+07   0.00  4.000E+04 1; Curran Heptane; nc5h11cho+o2 = nc5h11co+ho2
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+AldehydeHAbstractionHO2-(hh)  (h)(h)c(o) peroxyl-radical = (h).c(o) hydrogen-peroxide
+- ID 3311
+- Correspondences
+1 2 3 4               2 2 4
+5 6 7                 2 2
+1 2 3                 2 2
+5 6 7 4               2 2 4
+>  <ForwardRxn>
+Standard 5.600E+12   0.00  1.360E+04 2; Curran Heptane; Curran ch2o+ho2 = hco+h2o2
+>  <ReverseRxn>
+Standard 7.791E+11   0.00  1.023E+04 1; Curran Heptane; Curran ch2o+ho2 = hco+h2o2
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1 = 1
+%%%-------------------------------------------------------------------
+AldehydeHAbstractionHO2-(rh) (r)(h)c(o) peroxyl-radical  = (r).c(o) hydrogen-peroxide
+- ID 3312
+- Correspondences
+1 2 3 4               2 2 4
+5 6 7                 2 2
+1 2 3                 2 2
+5 6 7 4               2 2 4
+>  <ForwardRxn>
+Standard 2.800E+12   0.00  1.360E+04 1; Curran Heptane; nc5h11cho+ho2 = nc5h11co+h2o2
+>  <ReverseRxn>
+Standard 1.000E+12   0.00  1.000E+04 1; Curran Heptane; nc5h11cho+ho2 = nc5h11co+h2o2
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*6 = 12
+%%%-------------------------------------------------------------------
+AldehydeHAbstractionCH3O-(hh) (h)(h)c(o) c(h)(h)(h)(o.)  = (h).c(o) c(h)(h)(h)(oh)
+- ID 3313
+- Correspondences
+1 2 3 4               2 2 4
+5 6 7 8 9             2 2 2 2
+1 2 3                 2 2
+5 6 4 7 8 9           2 4 2 2 2                 
+>  <ForwardRxn>
+Standard 1.150E+11   0.00  1.280E+03 12; Curran Heptane; Curran ch2o+ch3o = ch3oh+hco
+>  <ReverseRxn>
+Standard 3.020E+11   0.00  1.816E+04 6; Curran Heptane; Curran ch2o+ch3o = ch3oh+hco
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6 = 6
+%%%-------------------------------------------------------------------
+AldehydeHAbstractionCH3O-(rh)    (r)(h)c(o) c(h)(h)(h)(o.)  = (r).c(o) c(h)(h)(h)(oh)
+- ID 3314
+- Correspondences
+1 2 3 4               2 2 4
+5 6 7 8 9             2 2 2 2
+1 2 3                 2 2
+5 6 4 7 8 9           2 4 2 2 2
+>  <ForwardRxn>
+Standard 1.150E+11   0.00  1.280E+03 6; Curran Heptane; nc5h11cho+ch3o = nc5h11co+ch3oh
+>  <ReverseRxn>
+Standard 3.000E+11   0.00  1.800E+04 6; Curran Heptane; nc5h11cho+ch3o = nc5h11co+ch3oh
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*6 = 12
+%%%-------------------------------------------------------------------
+AldehydeHAbstractionCH3O2-(hh)    (h)(h)c(o) (h)(h)(h)coo. = (h).c(o) (h)(h)(h)cooh
+- ID 3315
+- Correspondences
+1 2 3 4               2 2 4
+5 6 7 8 9 10          2 2 2 2 2
+1 2 3                 2 2
+5 6 7 4 8 9 10        2 2 4 2 2 2
+>  <ForwardRxn>
+Standard 5.600E+12   0.00  1.360E+04 12; Curran Heptane; Curran ch3o2+ch2o = ch3o2h+hco 
+>  <ReverseRxn>
+Standard 8.000E+11   0.00  1.000E+04 6; Curran Heptane; Curran ch3o2+ch2o = ch3o2h+hco 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6 = 6
+%%%-------------------------------------------------------------------
+AldehydeHAbstractionCH3O2-(rh)    (r)(h)c(o) (h)(h)(h)coo. = (r).c(o) (h)(h)(h)cooh
+- ID 3316
+- Correspondences
+1 2 3 4               2 2 4
+5 6 7 8 9 10          2 2 2 2 2
+1 2 3                 2 2
+5 6 7 4 8 9 10        2 2 4 2 2 2
+>  <ForwardRxn>
+Standard 1.000E+12   0.00  9.500E+03 6; Curran Heptane; nc5h11cho+ch3o2 = nc5h11co+ch3o2h
+>  <ReverseRxn>
+Standard 2.500E+10   0.00  1.000E+04 6; Curran Heptane; nc5h11cho+ch3o2 = nc5h11co+ch3o2h
+$$$$

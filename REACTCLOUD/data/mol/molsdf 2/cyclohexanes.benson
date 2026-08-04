@@ -1,0 +1,1163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ThermoData  xmlns="http://blurock.forbrf.lth.se/thermo">
+<Benson MoleculeName='cyclohexane'>
+<BensonAtom valence='6003004' index='0'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='1'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='2'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='3'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='4'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='5'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonTotal>
+<HeatOfFormation>-29580.0000 </HeatOfFormation>
+<Entropy>   56.5200</Entropy>
+<Cp>
+   33.00    41.70    49.50    56.10    66.42    74.04    85.20 
+</Cp>
+</BensonTotal> 
+</Benson>
+<Benson MoleculeName='methylcyclohexane'>
+<BensonAtom valence='6003004' index='0'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='1'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='2'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='3'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='4'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='5'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='6'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonTotal>
+<HeatOfFormation>-34510.0000 </HeatOfFormation>
+<Entropy>   65.9400</Entropy>
+<Cp>
+   38.50    48.65    57.75    65.45    77.49    86.38    99.40 
+</Cp>
+</BensonTotal> 
+</Benson>
+<Benson MoleculeName='ethylcyclohexane'>
+<BensonAtom valence='6003004' index='0'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='1'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='2'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='3'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='4'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='5'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='6'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='7'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonTotal>
+<HeatOfFormation>-39440.0000 </HeatOfFormation>
+<Entropy>   75.3600</Entropy>
+<Cp>
+   44.00    55.60    66.00    74.80    88.56    98.72   113.60 
+</Cp>
+</BensonTotal> 
+</Benson>
+<Benson MoleculeName='propylcyclohexane'>
+<BensonAtom valence='6003004' index='0'>
+<BensonAtomValues>
+<HeatOfFormation>-1900.0000 </HeatOfFormation>
+<Entropy>  -12.0700</Entropy>
+<Cp>
+    4.54     6.00     7.17     8.05     9.31    10.05    11.18 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='1'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='2'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='3'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='4'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='5'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='6'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='7'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='8'>
+<BensonAtomValues>
+<HeatOfFormation>-10200.0000 </HeatOfFormation>
+<Entropy>   30.4100</Entropy>
+<Cp>
+    6.19     7.84     9.40    10.79    13.02    14.77    17.58 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonTotal>
+<HeatOfFormation>-46610.0000 </HeatOfFormation>
+<Entropy>   84.2800</Entropy>
+<Cp>
+   49.23    62.49    74.32    84.29    99.82   111.20   128.16 
+</Cp>
+</BensonTotal> 
+</Benson>
+<Benson MoleculeName='butylcyclohexane'>
+<BensonAtom valence='6003004' index='0'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='1'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='2'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='3'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='4'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='5'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='6'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='7'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='8'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='9'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonTotal>
+<HeatOfFormation>-49300.0000 </HeatOfFormation>
+<Entropy>   94.2000</Entropy>
+<Cp>
+   55.00    69.50    82.50    93.50   110.70   123.40   142.00 
+</Cp>
+</BensonTotal> 
+</Benson>
+<Benson MoleculeName='pentylcyclohexane'>
+<BensonAtom valence='6003004' index='0'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='1'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='2'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='3'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='4'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='5'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='6'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='7'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='8'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='9'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='10'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonTotal>
+<HeatOfFormation>-54230.0000 </HeatOfFormation>
+<Entropy>  103.6200</Entropy>
+<Cp>
+   60.50    76.45    90.75   102.85   121.77   135.74   156.20 
+</Cp>
+</BensonTotal> 
+</Benson>
+<Benson MoleculeName='hexylcyclohexane'>
+<BensonAtom valence='6003003' index='0'>
+</BensonAtom>
+<BensonAtom valence='6003004' index='1'>
+</BensonAtom>
+<BensonAtom valence='6003004' index='2'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='3'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='4'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='5'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='6'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='7'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='8'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='9'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='10'>
+</BensonAtom>
+<BensonAtom valence='6003003' index='11'>
+</BensonAtom>
+<BensonTotal>
+<HeatOfFormation>-39440.0000 </HeatOfFormation>
+<Entropy>   75.3600</Entropy>
+<Cp>
+   44.00    55.60    66.00    74.80    88.56    98.72   113.60 
+</Cp>
+</BensonTotal> 
+</Benson>
+<Benson MoleculeName='heptylcyclohexane'>
+<BensonAtom valence='6003004' index='0'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='1'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='2'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='3'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='4'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='5'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='6'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='7'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='8'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='9'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='10'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='11'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='12'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonTotal>
+<HeatOfFormation>-64090.0000 </HeatOfFormation>
+<Entropy>  122.4600</Entropy>
+<Cp>
+   71.50    90.35   107.25   121.55   143.91   160.42   184.60 
+</Cp>
+</BensonTotal> 
+</Benson>
+<Benson MoleculeName='octylcyclohexane'>
+<BensonAtom valence='6003004' index='0'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='1'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='2'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='3'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='4'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='5'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='6'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='7'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='8'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='9'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='10'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='11'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='12'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='13'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonTotal>
+<HeatOfFormation>-69020.0000 </HeatOfFormation>
+<Entropy>  131.8800</Entropy>
+<Cp>
+   77.00    97.30   115.50   130.90   154.98   172.76   198.80 
+</Cp>
+</BensonTotal> 
+</Benson>
+<Benson MoleculeName='nonylcyclohexane'>
+<BensonAtom valence='6003004' index='0'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='1'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='2'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='3'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='4'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='5'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='6'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='7'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='8'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='9'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='10'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='11'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='12'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='13'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='14'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonTotal>
+<HeatOfFormation>-73950.0000 </HeatOfFormation>
+<Entropy>  141.3000</Entropy>
+<Cp>
+   82.50   104.25   123.75   140.25   166.05   185.10   213.00 
+</Cp>
+</BensonTotal> 
+</Benson>
+<Benson MoleculeName='decylcyclohexane'>
+<BensonAtom valence='6003004' index='0'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='1'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='2'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='3'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='4'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='5'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='6'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='7'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='8'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='9'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='10'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='11'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='12'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='13'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='14'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='6003004' index='15'>
+<BensonAtomValues>
+<HeatOfFormation>-4930.0000 </HeatOfFormation>
+<Entropy>    9.4200</Entropy>
+<Cp>
+    5.50     6.95     8.25     9.35    11.07    12.34    14.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonTotal>
+<HeatOfFormation>-78880.0000 </HeatOfFormation>
+<Entropy>  150.7200</Entropy>
+<Cp>
+   88.00   111.20   132.00   149.60   177.12   197.44   227.20 
+</Cp>
+</BensonTotal> 
+</Benson>
+</ThermoData>

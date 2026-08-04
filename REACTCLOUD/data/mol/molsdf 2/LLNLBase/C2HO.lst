@@ -1,0 +1,54 @@
+-----
+ - AlternativeNames CHEMKIN c2h3o1-2
+ - AlternativeNames Short c2h3o1-2
+ethenol
+ - AlternativeNames CHEMKIN c2h4o1-2
+ - AlternativeNames Short c2h4o1-2
+-----
+ - AlternativeNames CHEMKIN c2h4o2h
+ - AlternativeNames Short c2h4o2h
+ethanolate
+ - AlternativeNames CHEMKIN c2h5o
+ - AlternativeNames Short c2h5o
+ethyldioxidanyl
+ - AlternativeNames CHEMKIN c2h5o2
+ - AlternativeNames Short c2h5o2
+ethyl hydroperoxide  
+ - AlternativeNames CHEMKIN c2h5o2h
+ - AlternativeNames Short c2h5o2h
+ethanol 
+ - AlternativeNames CHEMKIN c2h5oh
+ - AlternativeNames Short c2h5oh
+ch2cho
+ - AlternativeNames CHEMKIN ch2cho
+ - AlternativeNames Short ch2cho
+ketene 
+ - AlternativeNames CHEMKIN ch2co
+ - AlternativeNames Short ch2co
+acetaldehyde
+ - AlternativeNames CHEMKIN ch3cho
+ - AlternativeNames Short ch3cho
+oxoethanide
+ - AlternativeNames CHEMKIN ch3co
+ - AlternativeNames Short ch3co
+acetate
+ - AlternativeNames CHEMKIN ch3co2
+ - AlternativeNames Short ch3co2
+CH3C(O)OO 
+ - AlternativeNames CHEMKIN ch3co3
+ - AlternativeNames Short ch3co3
+-----
+ - AlternativeNames CHEMKIN ch3co3h
+ - AlternativeNames Short ch3co3h
+ethynyloxy radical
+ - AlternativeNames CHEMKIN hcco
+ - AlternativeNames Short hcco
+HOCH2CH2O2 
+ - AlternativeNames CHEMKIN o2c2h4oh
+ - AlternativeNames Short o2c2h4oh
+ethyl radical, 1-hydroxy 
+ - AlternativeNames CHEMKIN pc2h4oh
+ - AlternativeNames Short pc2h4oh
+CH2CH2OH 
+ - AlternativeNames CHEMKIN sc2h4oh
+ - AlternativeNames Short sc2h4oh

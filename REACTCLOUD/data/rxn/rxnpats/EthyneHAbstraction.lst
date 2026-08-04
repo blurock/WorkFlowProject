@@ -1,0 +1,106 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% H Abstraction From Ethyne
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+HAbstractionToEthynyl-oxygen-(h)\
+     ethyne-(h)(h) oxygen = ethyne-radical-(h) peroxyl-radical
+- ID 42201
+- Correspondences
+1 2 3 4         2 2 4
+5 6             2      
+2 1 3           2 2
+4 5 6           4 2
+
+>  <ForwardRxn>
+Standard 12.10e+12 0.0 74520 4; 2.01x10-11 (cm3/molecule s) e-74.52 (kcal/mole)/RT Tsang, W.; Hampson, R.F. J. Phys. Chem. Ref. Data 15 (1986)
+>  <ReverseRxn>
+Standard 18.12e+12 0.0 0.0 1;3.01x10-11 (cm3/molecule s)  Tsang, W.; Hampson, R.F. J. Phys. Chem. Ref. Data, 15 (1986)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2 = 2
+%%%-------------------------------------------------------------------
+HAbstractionToEthynyl-oxygen-(r)\
+     ethyne-(r)(h) oxygen = ethyne-radical-(r)  peroxyl-radical
+- ID 42202
+- Correspondences
+1 2 3 4         2 2 4
+5 6             2      
+2 1 3           2 2
+4 5 6           4 2
+
+>  <ForwardRxn>
+Standard 5.0e+12 0.0 51000 2; (Propene mechanism, Heyberger et al. Comb. Flame, 126:1780-1802) pC3H4+O2 = C3H3+R3OOH %<DAGAUT90>%
+>  <ReverseRxn>
+Standard 9.92621E+10    0.012    10250 1; (Calculated from Propene thermo) 9.92621E+10    0.012    42.905
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2 = 2
+%%%-------------------------------------------------------------------
+HAbstractionToEthynyl-hydroxyl-radical-(h)\
+     ethyne-(h)(h) hydroxyl-radical = ethyne-radical-(h)  water
+- ID 42203
+- Correspondences
+1 2 3 4         2 2 4
+5 6             2
+2 1 3           2 2
+6 5 4           2 4
+
+>  <ForwardRxn>
+Standard 6.20e+10 2.68 12040 2;  1.03x10-13 (cm3/molecule s) (T/298 K)2.68 e-12.04 Tsang, W.; et al J. Phys. Chem. Ref. Data, 15 (1986) 
+>  <ReverseRxn>
+Standard 12.64e+11 0.0 4360 1;  2.1x10-12 (cm3/molecule s) e4.36 (295 - 451 K) , Ding, Y. et al J. Phys. Chem. A: 105 (2001) 
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1 = 1
+%%%-------------------------------------------------------------------
+HAbstractionToEthynyl-hydroxyl-radical-(r)\
+     ethyne-(r)(h) hydroxyl-radical = ethyne-radical-(r)  water
+- ID 42204
+- Correspondences
+1 2 3 4         2 2 4
+5 6             2      
+2 1 3           2 2
+6 5 4           2 4
+>  <ForwardRxn>
+Standard 3.1e+6 2.0 -300.0 1; pC3H4+R2OH = C3H3+H2O  3.1E6 2.0 -0.3E3 %<asTSANG91>%
+>  <ReverseRxn>
+Standard 1.77558E+04    2.475  28700 1; (calculated propene mechanism) 1.77558E+04    2.475   120.348
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2 = 2
+%%%-------------------------------------------------------------------
+HAbstractionToEthynyl-peroxyl-radical-(h)\
+     ethyne-(h)(h) peroxyl-radical = ethyne-radical-(h) hydrogen-peroxide
+- ID 42205
+- Correspondences
+1 2 3 4         2 2 4
+5 6 7           2 2
+2 1 3           2 2
+5 6 7 4         2 2 4
+
+>  <ForwardRxn>
+Standard 9.60e+3 2.6 13900 2;  Heyberger et al. Comb. Flame, 126:1780-1802) pC3H4+R3OOH = C3H3+H2O2 9.6E3  2.6  13.9E3 %<asTSANG91>%
+>  <ReverseRxn>
+Standard 4.75e+01    2.952  10490 1;  (calculated propene mechanism) 4.74767E+01    2.952    43.919
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2 = 2
+%%%-------------------------------------------------------------------
+HAbstractionToEthynyl-peroxyl-radical-(r)\
+     ethyne-(r)(h) peroxyl-radical = ethyne-radical-(r) hydrogen-peroxide
+- ID 42206
+- Correspondences
+1 2 3 4         2 2 4
+5 6 7           2 2
+2 1 3           2 2
+5 6 7 4         2 2 4
+
+>  <ForwardRxn>
+Standard 9.60e+3 2.6 13900 1;Heyberger et al. Comb. Flame, 126:1780-1802) pC3H4+R3OOH = C3H3+H2O2 9.6E3  2.6  13.9E3
+>  <ReverseRxn>
+Standard 4.75e+01    2.952  10490 1;  (calculated propene mechanism) 4.74767E+01    2.952    43.919
+$$$$

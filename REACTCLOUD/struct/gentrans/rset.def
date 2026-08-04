@@ -1,0 +1,69 @@
+Reaction Tree Structures
+3 reactiontree
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  These are the stuctures having the essential information 
+%%%  concerning performing a system of reactions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+   PerformedRxnInfoConstants 100 performedrxninfoconstants
+      0 The Symmetry Factor
+        INT SymmetryFactor Create
+      1 The Weighting (corresponds to the reaction constant
+        FLOAT Weight Create
+      2 The Arrhenius Constant
+        FLOAT Aconstant Create
+      3 The Activation Energy
+        FLOAT Energy Create
+      5 The Temperature Exponent
+        FLOAT TempExp Create
+      DONE
+   PerformedRxnInfo 101 performedrxninfo
+      0 The forward set of constants
+        PerformedRxnInfoConstants Forward Pointer Create
+      1 The reverse set of constants
+        PerformedRxnInfoConstants Reverse Pointer Create
+      DONE
+   SetOfPerformedRxnInfo 101 setofperformedrxninfo
+      0 The number of reactions
+        INT NumberOfReactions     Create
+      1 The Set of Performed Reaction Information
+        PerformedRxnInfo Set Pointer Create Array=NumberOfReactions
+      DONE
+   PerformedRxn 101 performedrxn
+      0 The number of reactants
+         INT NumberOfReactants      Create
+      1 The number of products
+         INT NumberOfProducts  Create
+      2 The set of Reactant ID's
+         INT ReactantIDs Pointer Create Array=NumberOfReactants
+      3 The set of Product ID's
+         INT ProductIDs Pointer Create Array=NumberOfProducts
+      4 The Information about the reaction
+         PerformedRxnInfo Info Pointer Create
+      DONE
+
+   SetOfPerformedRxns 102 setofperformedrxns
+      0 The Number Of Individual Reactions
+        INT NumberOfReactions Create
+      1 The Set of Individual Reactions
+        PerformedRxn Reactions Pointer Create Array=NumberOfReactions
+      DONE
+
+   PerformedRxnMaster 103 performedrxnmaster
+      0 The direction of the reaction (REACTANT or PRODUCT)
+        INT Direction Create
+      0 The Set of Molecules Created by set of reactions
+        SetOfGraphs Molecules Pointer Create
+      0 The Set of Reactions as Graphs
+        TransformSet Reactions Pointer Create
+      2 The Set of Atom Sets
+        DataSubSetVector MoleculeAtomSets Pointer Create
+      1 The set of reactions
+        SetOfPerformedRxns Performed Pointer Create
+      5 The Set of Adjustments to reaction factors
+        SetOfPerformedRxnInfo Adjustments Pointer Create
+      DONE
+DONE
+
+

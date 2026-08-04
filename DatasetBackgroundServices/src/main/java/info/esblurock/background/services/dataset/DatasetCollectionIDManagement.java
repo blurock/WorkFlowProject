@@ -53,10 +53,12 @@ public class DatasetCollectionIDManagement {
 	 * @return An empty collection set (with no sets added).
 	 * 
 	 */
-	public static JsonObject createEmptyChemConnectCurrentDatasetIDSet(String collectionname, String owner,
+	public static JsonObject createEmptyChemConnectCurrentDatasetIDSet(String collectiontype, String collectionname,
+			String owner,
 			String transactionID, String descr) {
+		String collectioncatalogobject = DatasetOntologyParseBase.getTypeFromAnnotation(collectiontype);
 		JsonObject idcollection = BaseCatalogData.createStandardDatabaseObject(
-				"dataset:ChemConnectDatasetCollectionIDsSet", owner, transactionID, "false");
+				collectioncatalogobject, owner, transactionID, "false");
 		idcollection.addProperty(ClassLabelConstants.DescriptionAbstract, descr);
 		idcollection.addProperty(ClassLabelConstants.DatasetCollectionsSetLabel, collectionname);
 		BaseCatalogData.insertFirestoreAddress(idcollection);

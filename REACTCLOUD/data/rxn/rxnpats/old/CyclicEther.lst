@@ -1,0 +1,204 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*6 = 12
+%%%-------------------------------------------------------------------
+CyclicEther-3Ring-(hh)(hhh)\
+  (hh)(h)(-cco-)c(hhh) hydroxyl-radical = water ketene-(hh) methane-carbon-radical
+- ID 25031
+- Correspondences
+1 2 3 4 5 6 7 8 9 10               2 2 4 2 2 4 4 2 2 2
+11 12                              2
+12 11 7                            2 4
+1 2 3 4 5                          2 2 2 2
+6 8 9 10                           2 2 2
+>  <ForwardRxn>
+Standard 9.50e+7   1.61  -3.5E+02  12; 
+>  <ReverseRxn>
+Standard 1.00e-30   0.00   0.000E+00  12; 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+CyclicEther-3Ring-(hh)(rhh)\
+  (hh)(h)(-cco-)c(rhh) hydroxyl-radical = water ketene-(hh) primary-carbon-radical
+- ID 25032
+- Correspondences
+1 2 3 4 5 6 7 8 9 10               2 2 4 2 2 4 4 2 2 2
+11 12                              2
+12 11 7                            2 4
+1 2 3 4 5                          2 2 2 2
+6 8 9 10                           2 2 2
+>  <ForwardRxn>
+Standard 9.50e+7   1.61  -3.5E+02  4; 
+>  <ReverseRxn>
+Standard 1.00e-30   0.00   0.000E+00  4; 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+CyclicEther-3Ring-(hh)(rrh)\
+  (hh)(h)(-cco-)c(rrh) hydroxyl-radical = water ketene-(hh) secondary-carbon-radical
+- ID 25033
+- Correspondences
+1 2 3 4 5 6 7 8 9 10               2 2 4 2 2 4 4 2 2 2
+11 12                              2
+12 11 7                            2 4
+1 2 3 4 5                          2 2 2 2
+6 8 9 10                           2 2 2
+>  <ForwardRxn>
+Standard 9.50e+7   1.61  -3.5E+02  4; 
+>  <ReverseRxn>
+Standard 1.00e-30   0.00   0.000E+00  4; 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*6 = 12
+%%%-------------------------------------------------------------------
+CyclicEther-3Ring-(hh)(rrr)\
+  (hh)(h)(-cco-)c(rrr) hydroxyl-radical = water ketene-(hh) tertiary-carbon-radical
+- ID 25034
+- Correspondences
+1 2 3 4 5 6 7 8 9 10               2 2 4 2 2 4 4 2 2 2
+11 12                              2
+12 11 7                            2 4
+1 2 3 4 5                          2 2 2 2
+6 8 9 10                           2 2 2
+>  <ForwardRxn>
+Standard 9.50e+7   1.61  -3.5E+02  12; 
+>  <ReverseRxn>
+Standard 1.00e-30   0.00   0.000E+00  12; 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6 = 6
+%%%-------------------------------------------------------------------
+CyclicEther-3Ring-(rh)(hhh)\
+  (rh)(h)(-cco-)c(hhh) hydroxyl-radical = water ketene-(rh) methane-carbon-radical
+- ID 25035
+- Correspondences
+1 2 3 4 5 6 7 8 9 10               2 2 4 2 2 4 4 2 2 2
+11 12                              2
+12 11 7                            2 4
+1 2 3 4 5                          2 2 2 2
+6 8 9 10                           2 2 2
+>  <ForwardRxn>
+Standard 9.50e+7   1.61  -3.5E+02  6; 
+>  <ReverseRxn>
+Standard 1.00e-30   0.00   0.000E+00  6; 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+CyclicEther-3Ring-(rh)(rhh)\
+  (rh)(h)(-cco-)c(rhh) hydroxyl-radical = water ketene-(rh) primary-carbon-radical
+- ID 25036
+- Correspondences
+1 2 3 4 5 6 7 8 9 10               2 2 4 2 2 4 4 2 2 2
+11 12                              2
+12 11 7                            2 4
+1 2 3 4 5                          2 2 2 2
+6 8 9 10                           2 2 2
+>  <ForwardRxn>
+Standard 9.50e+7   1.61  -3.5E+02  2; 
+>  <ReverseRxn>
+Standard 1.00e-30   0.00   0.000E+00  2; 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+CyclicEther-3Ring-(rh)(rrh)\
+  (rh)(h)(-cco-)c(rrh) hydroxyl-radical = water ketene-(rh) secondary-carbon-radical
+- ID 25037
+- Correspondences
+1 2 3 4 5 6 7 8 9 10               2 2 4 2 2 4 4 2 2 2
+11 12                              2
+12 11 7                            2 4
+1 2 3 4 5                          2 2 2 2
+6 8 9 10                           2 2 2
+>  <ForwardRxn>
+Standard 9.50e+7   1.61  -3.5E+02  2; 
+>  <ReverseRxn>
+Standard 1.00e-30   0.00   0.000E+00  2; 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6 = 6
+%%%-------------------------------------------------------------------
+CyclicEther-3Ring-(rh)(rrr)\
+  (rh)(h)(-cco-)c(rrr) hydroxyl-radical = water ketene-(rh) tertiary-carbon-radical
+- ID 25038
+- Correspondences
+1 2 3 4 5 6 7 8 9 10               2 2 4 2 2 4 4 2 2 2
+11 12                              2
+12 11 7                            2 4
+1 2 3 4 5                          2 2 2 2
+6 8 9 10                           2 2 2
+>  <ForwardRxn>
+Standard 9.50e+7   1.61  -3.5E+02  6; 
+>  <ReverseRxn>
+Standard 1.00e-30   0.00   0.000E+00  6; 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 12 = 12
+%%%-------------------------------------------------------------------
+CyclicEther-3Ring-(rr)(hhh)\
+  (rr)(h)(-cco-)c(hhh) hydroxyl-radical = water ketene-(rr) methane-carbon-radical
+- ID 25039
+- Correspondences
+1 2 3 4 5 6 7 8 9 10               2 2 4 2 2 4 4 2 2 2
+11 12                              2
+12 11 7                            2 4
+1 2 3 4 5                          2 2 2 2
+6 8 9 10                           2 2 2
+>  <ForwardRxn>
+Standard 9.50e+7   1.61  -3.5E+02  12; 
+>  <ReverseRxn>
+Standard 1.00e-30   0.00   0.000E+00  12; 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+CyclicEther-3Ring-(rr)(rhh)\
+  (rr)(h)(-cco-)c(rhh) hydroxyl-radical = water ketene-(rr) primary-carbon-radical
+- ID 25070
+- Correspondences
+1 2 3 4 5 6 7 8 9 10               2 2 4 2 2 4 4 2 2 2
+11 12                              2
+12 11 7                            2 4
+1 2 3 4 5                          2 2 2 2
+6 8 9 10                           2 2 2
+>  <ForwardRxn>
+Standard 9.50e+7   1.61  -3.5E+02  4; 
+>  <ReverseRxn>
+Standard 1.00e-30   0.00   0.000E+00  4; 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+CyclicEther-3Ring-(rr)(rrh)\
+  (rr)(h)(-cco-)c(rrh) hydroxyl-radical = water ketene-(rr) secondary-carbon-radical
+- ID 25071
+- Correspondences
+1 2 3 4 5 6 7 8 9 10               2 2 4 2 2 4 4 2 2 2
+11 12                              2
+12 11 7                            2 4
+1 2 3 4 5                          2 2 2 2
+6 8 9 10                           2 2 2
+>  <ForwardRxn>
+Standard 9.50e+7   1.61  -3.5E+02  4; 
+>  <ReverseRxn>
+Standard 1.00e-30   0.00   0.000E+00  4; 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*6 = 12
+%%%-------------------------------------------------------------------
+CyclicEther-3Ring-(rr)(rrr)\
+  (rr)(h)(-cco-)c(rrr) hydroxyl-radical = water ketene-(rr) tertiary-carbon-radical
+- ID 25072
+- Correspondences
+1 2 3 4 5 6 7 8 9 10               2 2 4 2 2 4 4 2 2 2
+11 12                              2
+12 11 7                            2 4
+1 2 3 4 5                          2 2 2 2
+6 8 9 10                           2 2 2
+>  <ForwardRxn>
+Standard 9.50e+7   1.61  -3.5E+02  12; 
+>  <ReverseRxn>
+Standard 1.00e-30   0.00   0.000E+00  12; 
+$$$$

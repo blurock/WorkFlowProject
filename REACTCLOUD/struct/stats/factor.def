@@ -1,0 +1,15 @@
+Structures for   Factor Analysis
+6 structures
+   FactorAnalysis 53 factoranal SystemList
+      0 The Number of Factors
+         INT NumberOfFactors Create
+      1 The Cutoff used
+         FLOAT Cutoff Create
+      2 The Eigenvalues
+         FLOAT Eigenvalues Pointer Create Array=NumberOfFactors
+      3 The Transformation Vector (The eigenvector)
+         FullMatrixFLT Vector Pointer Create
+      4 The Transformed Coordinates
+         FullMatrixFLT Coordinates Pointer Create
+      DONE
+DONE

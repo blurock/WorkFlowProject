@@ -28,6 +28,7 @@ import { JThermodynamicsSymmetryStructureDefinitionDatabaseComponent } from './j
 import { JThermodynamicsSymmetryStructureDefinitionDataSetComponent } from './j-thermodynamics-symmetry-structure-definition-data-set/j-thermodynamics-symmetry-structure-definition-data-set';
 import { JThermodynamicsMetaAtomDefinitionDatabaseComponent } from './j-thermodynamics-meta-atom-definition-database/j-thermodynamics-meta-atom-definition-database';
 import { JThermodynamicsMetaAtomDefinitionDataSetComponent } from './j-thermodynamics-meta-atom-definition-data-set/j-thermodynamics-meta-atom-definition-data-set';
+import { JThermodynamicsSymmetryDefinitionComponent } from './j-thermodynamics-symmetry-definition/j-thermodynamics-symmetry-definition';
 import { JThermodynamicsDisassociationEnergyOfStructureDatabaseComponent } from './j-thermodynamics-disassociation-energy-of-structure-database/j-thermodynamics-disassociation-energy-of-structure-database';
 import { JThermodynamicsDisassociationEnergyOfStructureDataSetComponent } from './j-thermodynamics-disassociation-energy-of-structure-data-set/j-thermodynamics-disassociation-energy-of-structure-data-set';
 import { ThermodynamicBensonRuleDefinitionDatabaseComponent } from './thermodynamic-benson-rule-definition-database/thermodynamic-benson-rule-definition-database';
@@ -98,6 +99,7 @@ export const INTERFACE_REGISTRY: Record<string, Type<any>> = {
   'dataset:JThermodynamicsSymmetryStructureDefinitionDataSet': JThermodynamicsSymmetryStructureDefinitionDataSetComponent,
   'dataset:JThermodynamicsMetaAtomDefinitionDatabase': JThermodynamicsMetaAtomDefinitionDatabaseComponent,
   'dataset:JThermodynamicsMetaAtomDefinitionDataSet': JThermodynamicsMetaAtomDefinitionDataSetComponent,
+  'dataset:JThermodynamicsSymmetryDefinition': JThermodynamicsSymmetryDefinitionComponent,
   'dataset:JThermodynamicsDisassociationEnergyOfStructureDatabase': JThermodynamicsDisassociationEnergyOfStructureDatabaseComponent,
   'dataset:JThermodynamicsDisassociationEnergyOfStructureDataSet': JThermodynamicsDisassociationEnergyOfStructureDataSetComponent,
   'dataset:ThermodynamicBensonRuleDefinitionDatabase': ThermodynamicBensonRuleDefinitionDatabaseComponent,
@@ -176,7 +178,8 @@ const IDENTIFIER_TO_CLASSNAME: Record<string, string> = {
   'dataset:transactiondescriptionshort': 'dataset:TransactionDescriptionShort',
   'dataset:requiredtransactioninfo': 'dataset:RequiredTransactionInformation',
   'dataset:2dspeciesstructure': 'dataset:JThermodynamics2DSpeciesStructure',
-  'dataset:disassociationenergyparameter': 'dataset:JThermodynamicDisassociationEnergy'
+  'dataset:disassociationenergyparameter': 'dataset:JThermodynamicDisassociationEnergy',
+  'dataset:symmetrydefinition': 'dataset:JThermodynamicsSymmetryDefinition'
 
 
 

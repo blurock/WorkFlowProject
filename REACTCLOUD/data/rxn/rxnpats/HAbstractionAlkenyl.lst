@@ -1,0 +1,394 @@
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 2*2 = 4 (per group)
+%%%-------------------------------------------------------------------
+H-Alkenyl-Abs-Hydrogen-Radical-(hh)(h)\
+     olefin-(hh)(hh) hydrogen-radical = alkenyl-(hh)(h) hydrogen
+- ID 8001
+- Correspondences
+1 2 3 4 5 6       2 2 2 2 4
+7
+1 2 3 4 5         2 2 2 2
+7 6               4
+>  <ForwardRxn>
+Standard 8.420E-03  4.62  2.583E+03 4; c2h4+h  =  c2h3+h2
+>  <ReverseRxn>
+Standard 5.723E-01  3.79  3.233E+03  2; (rev) c2h4+h  =  c2h3+h2
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 1*2 = 2 (per group)
+%%%-------------------------------------------------------------------
+H-Alkenyl-Abs-Hydrogen-Radical-(hh)(r)\
+     olefin-(rh)(hh) hydrogen-radical = alkenyl-(hh)(r) hydrogen
+- ID 8002
+- Correspondences
+1 2 3 4 5 6       2 2 4 2 2
+7
+2 1 5 6 3         2 2 2 2
+7 4               4
+>  <ForwardRxn>
+Standard 1.00e+12 0.0 3.900e+3 2; Type VI 1-C7H14+H=C7H13+H2   Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  1.65704E+10    0.532   21640   2; Type VI (rev) 1-C7H14+H=C7H13+H2 
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 1*2 = 2 (per group)
+%%%-------------------------------------------------------------------
+H-Alkenyl-Abs-Hydrogen-Radical-(rh)(h)\
+     olefin-(rh)(hh) hydrogen-radical = alkenyl-(rh)(h) hydrogen
+- ID 8003
+- Correspondences
+1 2 3 4 5 6       2 2 2 2 4
+7
+1 2 3 4 5         2 2 2 2
+7 6               4
+>  <ForwardRxn>
+Standard 1.00e+12 0.0 3.900e+3 2; Type VI Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  1.65704E+10    0.532   21640   1; Type VI (rev) 1-C7H14+H=C7H13+H2 
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 1*1 = 1 (symmetric molecules give factor 2)
+%%%-------------------------------------------------------------------
+H-Alkenyl-Abs-Hydrogen-Radical-(rh)(r)\
+     olefin-(rh)(rh) hydrogen-radical = alkenyl-(rh)(r) hydrogen
+- ID 8004
+- Correspondences
+1 2 3 4 5 6       2 2 2 2 4
+7
+1 2 3 4 5         2 2 2 2
+7 6               4
+>  <ForwardRxn>
+Standard 1.00e+12 0.0 3.900e+3 1; Type VI Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.14587E+10    0.513  18587    1; Type VI (rev)  3-C7H14+H=C7H13+H2 
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 2*2 = 4 (per group)
+%%%-------------------------------------------------------------------
+H-Alkenyl-Abs-Hydrogen-Radical-(rr)(h)\
+     olefin-(rr)(hh) hydrogen-radical = alkenyl-(rr)(h) hydrogen
+- ID 8005
+- Correspondences
+1 2 3 4 5 6       2 2 2 2 4
+7
+1 2 3 4 5         2 2 2 2
+7 6               4
+>  <ForwardRxn>
+Standard 1.00e+12 0.0 3.900e+3 4; Type VI Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  1.14587E+10    0.513   18587   2; Type VI (rev) 3-C7H14+H=C7H13+H2
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 2*1 = 2 (per group)
+%%%-------------------------------------------------------------------
+H-Alkenyl-Abs-Hydrogen-Radical-(rr)(r)\
+     olefin-(rr)(rh) hydrogen-radical = alkenyl-(rr)(r) hydrogen
+- ID 8006
+- Correspondences
+1 2 3 4 5 6       2 2 2 2 4
+7
+1 2 3 4 5         2 2 2 2
+7 6               4
+>  <ForwardRxn>
+Standard 1.00e+12 0.0 3.900e+3 2; Type VI Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  1.14587E+10    0.513   18587   2; Type VI (rev) 3-C7H14+H=C7H13+H2
+$$$$
+%%%-------------------------------------------------------------------
+%%% Oxygen Radical Abstraction
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 2*2 = 4 (per group)
+%%%-------------------------------------------------------------------
+H-Alkenyl-Abs-Oxygen-Radical-(hh)(h)\
+     olefin-(hh)(hh) oxygen-atom = alkenyl-(hh)(h) hydroxyl-radical
+- ID 8011
+- Correspondences
+1 2 3 4 5 6       2 2 2 2 4
+7
+1 2 3 4 5         2 2 2 2
+6 7               4
+>  <ForwardRxn>
+Standard 1.00e+12   0.00  4.00e+03 4; Type 6: Combustion and Flame, 114:149-177 (1998)5
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   2; Type 2 Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 1*2 = 2 (per group)
+%%%-------------------------------------------------------------------
+H-Alkenyl-Abs-Oxygen-Radical-(hh)(r)\
+     olefin-(rh)(hh) oxygen-atom = alkenyl-(hh)(r) hydroxyl-radical
+- ID 8012
+- Correspondences
+1 2 3 4 5 6       2 2 4 2 2
+7
+2 1 5 6 3         2 2 2 2
+7 4               4
+>  <ForwardRxn>
+Standard 1.00000E+12    0.000     4000  2; Type VI: Combustion and Flame, 114:149-177 (1998)5
+>  <ReverseRxn>
+Standard 1.16733E+10    0.476   20000  2; Type VI (rev) 1-C7H14+O=C7H13+OH    
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 1*2 = 2 (per group)
+%%%-------------------------------------------------------------------
+H-Alkenyl-Abs-Oxygen-Radical-(rh)(h)\
+     olefin-(rh)(hh) oxygen-atom = alkenyl-(rh)(h) hydroxyl-radical
+- ID 8013
+- Correspondences
+1 2 3 4 5 6       2 2 2 2 4
+7
+1 2 3 4 5         2 2 2 2
+6 7               4
+>  <ForwardRxn>
+Standard 1.00e+12   0.00  4.00e+03 2; Type VI: Combustion and Flame, 114:149-177 (1998)5
+>  <ReverseRxn>
+Standard 1.16733E+10    0.476   20000  1; Type VI (rev) 1-C7H14+O=C7H13+OH    
+$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 1*1 = 1 (per group)
+%%%-------------------------------------------------------------------
+H-Alkenyl-Abs-Oxygen-Radical-(rh)(r)\
+     olefin-(rh)(rh) oxygen-atom = alkenyl-(rh)(r) hydroxyl-radical
+- ID 8014
+- Correspondences
+1 2 3 4 5 6       2 2 2 2 4
+7
+1 2 3 4 5         2 2 2 2
+6 7               4
+>  <ForwardRxn>
+Standard 1.00e+12   0.00  4.00e+03 1; Type VI: Combustion and Flame, 114:149-177 (1998)5
+>  <ReverseRxn>
+Standard  8.07222E+09    0.456   16945 1; Type VI 3-C7H14+O=C7H13+OH 
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 2*2 = 4 (per group)
+%%%-------------------------------------------------------------------
+H-Alkenyl-Abs-Oxygen-Radical-(rr)(h)\
+     olefin-(rr)(hh) oxygen-atom = alkenyl-(rr)(h) hydroxyl-radical
+- ID 8015
+- Correspondences
+1 2 3 4 5 6       2 2 2 2 4
+7
+1 2 3 4 5         2 2 2 2
+6 7               4
+>  <ForwardRxn>
+Standard 1.00e+12   0.00  4.00e+03 4; Type VI: Combustion and Flame, 114:149-177 (1998)5
+>  <ReverseRxn>
+Standard  8.07222E+09    0.456   16945 2; Type VI 3-C7H14+O=C7H13+OH 
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 2*1 = 2 (per group)
+%%%-------------------------------------------------------------------
+H-Alkenyl-Abs-Oxygen-Radical-(rr)(r)\
+     olefin-(rr)(rh) oxygen-atom = alkenyl-(rr)(r) hydroxyl-radical
+- ID 8016
+- Correspondences
+1 2 3 4 5 6       2 2 2 2 4
+7
+1 2 3 4 5         2 2 2 2
+6 7               4
+>  <ForwardRxn>
+Standard 1.00e+12   0.00  4.00e+03 2; Type VI: Combustion and Flame, 114:149-177 (1998)5
+>  <ReverseRxn>
+Standard  8.07222E+09    0.456   16945 2; Type VI 3-C7H14+O=C7H13+OH 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Hydroxyl-Radical
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 2*2 = 4 (per group)
+%%%-------------------------------------------------------------------
+H-Alkenyl-Abs-Hydroxyl-Radical-(hh)(h)\
+     olefin-(hh)(hh) hydroxyl-radical = alkenyl-(hh)(h) water
+- ID 8021
+- Correspondences
+1 2 3 4 5 6       2 2 2 2 4
+7 8               2
+1 2 3 4 5         2 2 2 2
+8 7 6             2 4
+>  <ForwardRxn>
+Standard 1.00e+12   0.00  1.23e+03 4; Type 6: Combustion and Flame, 114:149-177 (1998)5
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   4; Type 2 Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 1*2 = 2 (per group)
+%%%-------------------------------------------------------------------
+H-Alkenyl-Abs-Hydroxyl-Radical-(hh)(r)\
+     olefin-(rh)(hh) hydroxyl-radical = alkenyl-(hh)(r) water
+- ID 8022
+- Correspondences
+1 2 3 4 5 6       2 2 4 2 2
+7 8               2
+2 1 5 6 3         2 2 2 2
+8 7 4             2 4
+>  <ForwardRxn>
+Standard 1.00e+12   0.00  1.23e+03 2; Type VI: Combustion and Flame, 114:149-177 (1998)5
+>  <ReverseRxn>
+Standard   1.06083E+12    0.212   34918 2; Type VI (rev) 1-C7H14+OH=C7H13+H2O 
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 1*2 = 2 (per group)
+%%%-------------------------------------------------------------------
+H-Alkenyl-Abs-Hydroxyl-Radical-(rh)(h)\
+     olefin-(rh)(hh) hydroxyl-radical = alkenyl-(rh)(h) water
+- ID 8023
+- Correspondences
+1 2 3 4 5 6       2 2 2 2 4
+7 8               2
+1 2 3 4 5         2 2 2 2
+8 7 6             2 4
+>  <ForwardRxn>
+Standard 1.00e+12   0.00  1.23e+03 2; Type VI: Combustion and Flame, 114:149-177 (1998)5
+>  <ReverseRxn>
+Standard   1.06083E+12    0.212   34918 1; Type VI (rev) 1-C7H14+OH=C7H13+H2O 
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 1*1 = 1 (per group)
+%%%-------------------------------------------------------------------
+H-Alkenyl-Abs-Hydroxyl-Radical-(rh)(r)\
+     olefin-(rh)(rh) hydroxyl-radical = alkenyl-(rh)(r) water
+- ID 8024
+- Correspondences
+1 2 3 4 5 6       2 2 2 2 4
+7 8               2
+1 2 3 4 5         2 2 2 2
+8 7 6             2 4
+>  <ForwardRxn>
+Standard 1.00e+12   0.00  1.23e+03 1; Type VI: Combustion and Flame, 114:149-177 (1998)5
+>  <ReverseRxn>
+Standard  7.33582E+11    0.193  31864 1; Type VI (rev) 3-C7H14+OH=C7H13+H2O   
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 2*2 = 4 (per group)
+%%%-------------------------------------------------------------------
+H-Alkenyl-Abs-Hydroxyl-Radical-(rr)(h)\
+     olefin-(rr)(hh) hydroxyl-radical = alkenyl-(rr)(h) water
+- ID 8025
+- Correspondences
+1 2 3 4 5 6       2 2 2 2 4
+7 8               2
+1 2 3 4 5         2 2 2 2
+8 7 6             2 4
+>  <ForwardRxn>
+Standard 1.00e+12   0.00  1.23e+03 4; Type VI: Combustion and Flame, 114:149-177 (1998)5
+>  <ReverseRxn>
+Standard  7.33582E+11    0.193  31864 2; Type VI (rev) 3-C7H14+OH=C7H13+H2O   
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 2*1 = 2 (per group)
+%%%-------------------------------------------------------------------
+H-Alkenyl-Abs-Hydroxyl-Radical-(rr)(r)\
+     olefin-(rr)(rh) hydroxyl-radical = alkenyl-(rr)(r) water
+- ID 8026
+- Correspondences
+1 2 3 4 5 6       2 2 2 2 4
+7 8               2
+1 2 3 4 5         2 2 2 2
+8 7 6             2 4
+>  <ForwardRxn>
+Standard 1.00e+12   0.00  1.23e+03 2; Type VI: Combustion and Flame, 114:149-177 (1998)5
+>  <ReverseRxn>
+Standard  7.33582E+11    0.193  31864 2; Type VI (rev) 3-C7H14+OH=C7H13+H2O   
+$$$$
+%%%-------------------------------------------------------------------
+%%% Methyl-Radical
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(3*2) = 
+%%%-------------------------------------------------------------------
+H-Alkenyl-Abs-Methane-Carbon-Radical-(hh)(h)\
+     olefin-(hh)(hh) methane-carbon-radical = alkenyl-(hh)(h) methane
+- ID 8031
+- Correspondences
+1 2 3 4 5 6       2 2 2 2 4
+7 8 9 10          2 2 2
+1 2 3 4 5         2 2 2 2
+7 8 9 10 6        2 2 4 2
+>  <ForwardRxn>
+Standard 2.00e+11   0.00  7.30e+03 12; Type VI: Combustion and Flame, 114:149-177 (1998)5
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   24; Type VI Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*(3*2) = 12
+%%%-------------------------------------------------------------------
+H-Alkenyl-Abs-Methane-Carbon-Radical-(hh)(r)\
+     olefin-(rh)(hh) methane-carbon-radical = alkenyl-(hh)(r) methane
+- ID 8032
+- Correspondences
+1 2 3 4 5 6       2 2 4 2 2
+7 8 9 10          2 2 2
+2 1 5 6 3         2 2 2 2
+7 8 9 10 4        2 2 4 2
+>  <ForwardRxn>
+Standard 2.00000E+11    0.000  7300  12; Type VI: Combustion and Flame, 114:149-177 (1998)5
+>  <ReverseRxn>
+Standard 8.60565E+13   -0.285   28023 48; Type VI (rev) 1-C7H14+CH3=C7H13+CH4  
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*(3*2) = 12 (defined per group no per hydrogen)
+%%%-------------------------------------------------------------------
+H-Alkenyl-Abs-Methane-Carbon-Radical-(rh)(h)\
+     olefin-(rh)(hh) methane-carbon-radical = alkenyl-(rh)(h) methane
+- ID 8033
+- Correspondences
+1 2 3 4 5 6       2 2 2 2 4
+7 8 9 10          2 2 2
+1 2 3 4 5         2 2 2 2
+7 8 9 10 6        2 2 4 2
+>  <ForwardRxn>
+Standard 2.00e+11   0.00  7.30e+03 12; Type VI: Combustion and Flame, 114:149-177 (1998)5
+>  <ReverseRxn>
+Standard 8.60565E+13   -0.285   28023 24; Type VI: (rev) 1-C7H14+CH3=C7H13+CH4  
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1*(3*2) = 6
+%%%-------------------------------------------------------------------
+H-Alkenyl-Abs-Methane-Carbon-Radical-(rh)(r)\
+     olefin-(rh)(rh) methane-carbon-radical = alkenyl-(rh)(r) methane
+- ID 8034
+- Correspondences
+1 2 3 4 5 6       2 2 2 2 4
+7 8 9 10          2 2 2
+1 2 3 4 5         2 2 2 2
+7 8 9 10 6        2 2 4 2
+>  <ForwardRxn>
+Standard 2.00e+11   0.00  7.30e+03 6; Type VI: Combustion and Flame, 114:149-177 (1998)5
+>  <ReverseRxn>
+Standard  5.95093E+13   -0.304    24970 24; Type VI (rev) 3-C7H14+CH3=C7H13+CH4 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*(3*2) = 24  (per group, not per hydrogen)
+%%%-------------------------------------------------------------------
+H-Alkenyl-Abs-Methane-Carbon-Radical-(rr)(h)\
+     olefin-(rr)(hh) methane-carbon-radical = alkenyl-(rr)(h) methane
+- ID 8035
+- Correspondences
+1 2 3 4 5 6       2 2 2 2 4
+7 8 9 10          2 2 2
+1 2 3 4 5         2 2 2 2
+7 8 9 10 6        2 2 4 2
+>  <ForwardRxn>
+Standard 2.00e+11   0.00  7.30e+03 24; Type VI: Combustion and Flame, 114:149-177 (1998)5
+>  <ReverseRxn>
+Standard  5.95093E+13   -0.304    24970 48; Type VI (rev) 3-C7H14+CH3=C7H13+CH4 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*(3*2) = 12
+%%%-------------------------------------------------------------------
+H-Alkenyl-Abs-Methane-Carbon-Radical-(rr)(r)\
+     olefin-(rr)(rh) methane-carbon-radical = alkenyl-(rr)(r) methane
+- ID 8036
+- Correspondences
+1 2 3 4 5 6       2 2 2 2 4
+7 8 9 10          2 2 2
+1 2 3 4 5         2 2 2 2
+7 8 9 10 6        2 2 4 2
+>  <ForwardRxn>
+Standard 2.00e+11   0.00  7.30e+03 12; Type VI: Combustion and Flame, 114:149-177 (1998)5
+>  <ReverseRxn>
+Standard  5.95093E+13   -0.304    24970 48; Type VI (rev) 3-C7H14+CH3=C7H13+CH4 
+$$$$

@@ -1,0 +1,14 @@
+%%% data/heptane-curranAltNamesClass.inp ======================= Alternative Names ======================= 
+ObjectClasses:
+END
+ClassNamePairs:
+%% -----------------------------------------------------
+END
+%% ----------------------------------------------------
+ObjectClasses:
+END
+%% ----------------------------------------------------
+ClassNamePairs:
+ChemkinName   String
+END
+%% ----------------------------------------------------

@@ -1,0 +1,180 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*2*6 = 24
+%%%-------------------------------------------------------------------
+BetaOlefinDecomp(qq)(q)(hh)(hhh)\
+    betaolefin(qq)(q)(hh)(hhh) = alphaolefin-radical(qq)(q)(hh) methane-carbon-radical
+- ID 3101
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12           2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                      2 2 2 2 2 2 2
+4 10 11 12                           2 2 2
+>  <ForwardRxn>
+Standard 1.0e+16   0.00  7.1e+4 24; Westbrook, et. al Generic Type 9
+>  <ReverseRxn>
+Standard 1.0e+13   0.00  0.0 24; Westbrook, et. al. (Heptane Mechanism)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*1*6 = 12
+%%%-------------------------------------------------------------------
+BetaOlefinDecomp(qq)(q)(rh)(hhh)\
+    betaolefin(qq)(q)(rh)(hhh) = alphaolefin-radical(qq)(q)(rh) methane-carbon-radical
+- ID 3102
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12           2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                      2 2 2 2 2 2 2
+4 10 11 12                           2 2 2
+>  <ForwardRxn>
+Standard 1.0e+16   0.00  7.1e+4 12; Westbrook, et. al Generic Type 9
+>  <ReverseRxn>
+Standard 1.0e+13   0.00  0.0 12; Westbrook, et. al. (Heptane Mechanism)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*2*6 = 24
+%%%-------------------------------------------------------------------
+BetaOlefinDecomp(qq)(q)(rr)(hhh)\
+    betaolefin(qq)(q)(rr)(hhh) = alphaolefin-radical(qq)(q)(rr) methane-carbon-radical
+- ID 3103
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12           2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                      2 2 2 2 2 2 2
+4 10 11 12                           2 2 2
+>  <ForwardRxn>
+Standard 1.0e+16   0.00  7.1e+4 24; Westbrook, et. al Generic Type 9
+>  <ReverseRxn>
+Standard 1.0e+13   0.00  0.0 24; Westbrook, et. al. (Heptane Mechanism)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*2*2 = 8
+%%%-------------------------------------------------------------------
+BetaOlefinDecomp(qq)(q)(hh)(rhh)\
+    betaolefin(qq)(q)(hh)(rhh) = alphaolefin-radical(qq)(q)(hh) primary-carbon-radical
+- ID 3104
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12           2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                      2 2 2 2 2 2 2
+4 10 11 12                           2 2 2
+>  <ForwardRxn>
+Standard 1.0e+16   0.00  7.1e+4 8; Westbrook, et. al Generic Type 9
+>  <ReverseRxn>
+Standard 1.0e+13   0.00  0.0 8; Westbrook, et. al. (Heptane Mechanism)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*1*2 = 4
+%%%-------------------------------------------------------------------
+BetaOlefinDecomp(qq)(q)(rh)(rhh)\
+    betaolefin(qq)(q)(rh)(rhh) = alphaolefin-radical(qq)(q)(rh) primary-carbon-radical
+- ID 3105
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12           2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                      2 2 2 2 2 2 2
+4 10 11 12                           2 2 2
+>  <ForwardRxn>
+Standard 1.0e+16   0.00  7.1e+4 4; Westbrook, et. al Generic Type 9
+>  <ReverseRxn>
+Standard 1.0e+13   0.00  0.0 4; Westbrook, et. al. (Heptane Mechanism)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*2*2 = 8
+%%%-------------------------------------------------------------------
+BetaOlefinDecomp(qq)(q)(rr)(rhh)\
+    betaolefin(qq)(q)(rr)(rhh) = alphaolefin-radical(qq)(q)(rr) primary-carbon-radical
+- ID 3106
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12           2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                      2 2 2 2 2 2 2
+4 10 11 12                           2 2 2
+>  <ForwardRxn>
+Standard 1.0e+16   0.00  7.1e+4 8; Westbrook, et. al Generic Type 9
+>  <ReverseRxn>
+Standard 1.0e+13   0.00  0.0 8; Westbrook, et. al. (Heptane Mechanism)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*2*2 = 8
+%%%-------------------------------------------------------------------
+BetaOlefinDecomp(qq)(q)(hh)(rrh)\
+    betaolefin(qq)(q)(hh)(rrh) = alphaolefin-radical(qq)(q)(hh) secondary-carbon-radical
+- ID 3107
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12           2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                      2 2 2 2 2 2 2
+4 10 11 12                           2 2 2
+>  <ForwardRxn>
+Standard 1.0e+16   0.00  7.1e+4 8; Westbrook, et. al Generic Type 9
+>  <ReverseRxn>
+Standard 1.0e+13   0.00  0.0 8; Westbrook, et. al. (Heptane Mechanism)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*1*2 = 4
+%%%-------------------------------------------------------------------
+BetaOlefinDecomp(qq)(q)(rh)(rrh)\
+    betaolefin(qq)(q)(rh)(rrh) = alphaolefin-radical(qq)(q)(rh) secondary-carbon-radical
+- ID 3108
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12           2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                      2 2 2 2 2 2 2
+4 10 11 12                           2 2 2
+>  <ForwardRxn>
+Standard 1.0e+16   0.00  7.1e+4 4; Westbrook, et. al Generic Type 9
+>  <ReverseRxn>
+Standard 1.0e+13   0.00  0.0 4; Westbrook, et. al. (Heptane Mechanism)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*2*2 = 8
+%%%-------------------------------------------------------------------
+BetaOlefinDecomp(qq)(q)(rr)(rrh)\
+    betaolefin(qq)(q)(rr)(rrh) = alphaolefin-radical(qq)(q)(rr) secondary-carbon-radical
+- ID 3109
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12           2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                      2 2 2 2 2 2 2
+4 10 11 12                           2 2 2
+>  <ForwardRxn>
+Standard 1.0e+16   0.00  7.1e+4 8; Westbrook, et. al Generic Type 9
+>  <ReverseRxn>
+Standard 1.0e+13   0.00  0.0 8; Westbrook, et. al. (Heptane Mechanism)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*2*6 = 24
+%%%-------------------------------------------------------------------
+BetaOlefinDecomp(qq)(q)(hh)(rrr)\
+    betaolefin(qq)(q)(hh)(rrr) = alphaolefin-radical(qq)(q)(hh) tertiary-carbon-radical
+- ID 3110
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12           2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                      2 2 2 2 2 2 2
+4 10 11 12                           2 2 2
+>  <ForwardRxn>
+Standard 1.0e+16   0.00  7.1e+4 24; Westbrook, et. al Generic Type 9
+>  <ReverseRxn>
+Standard 1.0e+13   0.00  0.0 24; Westbrook, et. al. (Heptane Mechanism)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*1*6 = 12
+%%%-------------------------------------------------------------------
+BetaOlefinDecomp(qq)(q)(rh)(rrr)\
+    betaolefin(qq)(q)(rh)(rrr) = alphaolefin-radical(qq)(q)(rh) tertiary-carbon-radical
+- ID 3111
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12           2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                      2 2 2 2 2 2 2
+4 10 11 12                           2 2 2
+>  <ForwardRxn>
+Standard 1.0e+16   0.00  7.1e+4 12; Westbrook, et. al Generic Type 9
+>  <ReverseRxn>
+Standard 1.0e+13   0.00  0.0 12; Westbrook, et. al. (Heptane Mechanism)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*2*6 = 24
+%%%-------------------------------------------------------------------
+BetaOlefinDecomp(qq)(q)(rr)(rrr)\
+    betaolefin(qq)(q)(rr)(rrr) = alphaolefin-radical(qq)(q)(rr) tertiary-carbon-radical
+- ID 3112
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12           2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                      2 2 2 2 2 2 2
+4 10 11 12                           2 2 2
+>  <ForwardRxn>
+Standard 1.0e+16   0.00  7.1e+4 24; Westbrook, et. al Generic Type 9
+>  <ReverseRxn>
+Standard 1.0e+13   0.00  0.0 24; Westbrook, et. al. (Heptane Mechanism)
+$$$$

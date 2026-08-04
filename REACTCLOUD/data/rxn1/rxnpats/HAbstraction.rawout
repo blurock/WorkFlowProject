@@ -1,0 +1,2429 @@
+/mnt/data/local/Software/react/data/rxn/rxnpats
+~/react/tmp ~/react/data/rxn/rxnpats 
+-----------------Chemistry Database ------------------
+-----------------Version 0    --------------------
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+main>> Mol
+Command:Mol
+Mol>> Parameters
+Command:Parameters
+Parameters>> RootMolName
+Command:RootMolName
+RootMolName>> Input:RootMolName
+Command:Input:RootMolName
+Input:RootMolName>> Set Value: RootMolName to StandardMeta
+StandardMeta
+RootMolName>> Quit
+Parameters>> Quit
+Mol>> MetaAtoms
+Command:MetaAtoms
+MetaAtoms>> Read
+Command:Read
+Set Of     3 MolFile Meta Atoms (    0:MasterMetaAtom)
+MetaAtoms:    0::(         R,  320 -> [ (    6,    1) (    6,    2)  ]
+MetaAtoms:    1::(         Q,  221 -> [ (    1,    1) (    6,    1)  ]
+MetaAtoms:    2::(         X,  382 -> [ (    9,    1) (   35,    1) (   17,    1)  ]
+MetaAtoms>> Quit
+Mol>> Quit
+main>> CreateOpenClose
+Command:CreateOpenClose
+CreateOpenClose>> Start
+Command:Start
+
+0:No Keys for Reactions
+
+CreateOpenClose>> Quit
+main>> DbaseOps
+Command:DbaseOps
+DbaseOps>> RxnPatterns
+Command:RxnPatterns
+RxnPatterns>> Keys
+Command:Keys
+Keys>> Define
+Command:Define
+Keys>> Write
+Command:Write
+Keys>> Quit
+RxnPatterns>> Quit
+DbaseOps>> Quit
+main>> DbaseOps
+Command:DbaseOps
+DbaseOps>> Parameters
+Command:Parameters
+Parameters>> RootRxnName
+Command:RootRxnName
+RootRxnName>> Input:RootRxnName
+Command:Input:RootRxnName
+Input:RootRxnName>> Set Value: RootRxnName to rxnpats/read
+rxnpats/read
+RootRxnName>> Quit
+Parameters>> Quit
+DbaseOps>> RxnPatterns
+Command:RxnPatterns
+RxnPatterns>> Read
+Command:Read
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405103 (  5 Atoms and   4 Bonds) primary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000 1   0.0              4
+                  :Atom     4:     0.161     0.438     0.000 1   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Reactant Molfile: :MolFile 20001000 (  1 Atoms and   0 Bonds) hydrogen-radical
+                  :Atom     0:     0.161     0.438     0.000 1   0.0              6
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304102 (  4 Atoms and   3 Bonds) primary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000 1   0.0              4
+                 :Atom     3:     0.161     0.438     0.000 1   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          4
+Product Molfile: :MolFile 10102001 (  2 Atoms and   1 Bonds) hydrogen
+                 :Atom     0:     0.161     0.438     0.000 1   0.0              2
+                 :Atom     1:    -1.545    -0.288     0.000 1   0.0              6
+                 :  Single Bond (  0   1     4)
+Add Changed Bonds: primary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: primary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: primary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: primary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds: primary-carbon-radical          0          1        102
+Add Changed Bonds: primary-carbon-radical          1          1        102
+Add Changed Bonds: primary-carbon-radical          2          1        102
+Add Changed Bonds:             hydrogen          0          1        104
+RxnCorrSet: :Reaction Correspondences 1011 
+            : 6 Matched Atoms
+            :    0 [10405103     0]  [20304102     0] 
+            :    1 [10405103     1]  [10102001     0] 
+            :    2 [10405103     2]  [20304102     1] 
+            :    3 [10405103     3]  [20304102     2] 
+            :    4 [10405103     4]  [20304102     3] 
+            :    5 [20001000     0]  [10102001     1] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405103     0]  [20304102     0])---([10405103     1]  [10102001     0])
+            :    1 ([10405103     1]  [10102001     0])---([20001000     0]  [10102001     1])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405104 (  5 Atoms and   4 Bonds) secondary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000320   0.0              4
+                  :Atom     4:     0.161     0.438     0.000 1   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Reactant Molfile: :MolFile 20001000 (  1 Atoms and   0 Bonds) hydrogen-radical
+                  :Atom     0:     0.161     0.438     0.000 1   0.0              6
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304103 (  4 Atoms and   3 Bonds) secondary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000320   0.0              4
+                 :Atom     3:     0.161     0.438     0.000 1   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          4
+Product Molfile: :MolFile 10102001 (  2 Atoms and   1 Bonds) hydrogen
+                 :Atom     0:     0.161     0.438     0.000 1   0.0              6
+                 :Atom     1:    -1.545    -0.288     0.000 1   0.0              2
+                 :  Single Bond (  0   1     4)
+Add Changed Bonds: secondary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: secondary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: secondary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: secondary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds: secondary-carbon-radical          0          1        102
+Add Changed Bonds: secondary-carbon-radical          1          1        102
+Add Changed Bonds: secondary-carbon-radical          2          1        102
+Add Changed Bonds:             hydrogen          0          1        104
+RxnCorrSet: :Reaction Correspondences 1012 
+            : 6 Matched Atoms
+            :    0 [10405104     0]  [20304103     0] 
+            :    1 [10405104     1]  [10102001     1] 
+            :    2 [10405104     2]  [20304103     1] 
+            :    3 [10405104     3]  [20304103     2] 
+            :    4 [10405104     4]  [20304103     3] 
+            :    5 [20001000     0]  [10102001     0] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405104     0]  [20304103     0])---([10405104     1]  [10102001     1])
+            :    1 ([20001000     0]  [10102001     0])---([10405104     1]  [10102001     1])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405105 (  5 Atoms and   4 Bonds) tertiary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000320   0.0              4
+                  :Atom     4:     0.161     0.438     0.000320   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Reactant Molfile: :MolFile 20001000 (  1 Atoms and   0 Bonds) hydrogen-radical
+                  :Atom     0:     0.161     0.438     0.000 1   0.0              6
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304104 (  4 Atoms and   3 Bonds) tertiary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000320   0.0              4
+                 :Atom     3:     0.161     0.438     0.000320   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          4
+Product Molfile: :MolFile 10102001 (  2 Atoms and   1 Bonds) hydrogen
+                 :Atom     0:     0.161     0.438     0.000 1   0.0              6
+                 :Atom     1:    -1.545    -0.288     0.000 1   0.0              2
+                 :  Single Bond (  0   1     4)
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds: tertiary-carbon-radical          0          1        102
+Add Changed Bonds: tertiary-carbon-radical          1          1        102
+Add Changed Bonds: tertiary-carbon-radical          2          1        102
+Add Changed Bonds:             hydrogen          0          1        104
+RxnCorrSet: :Reaction Correspondences 1013 
+            : 6 Matched Atoms
+            :    0 [10405105     0]  [20304104     0] 
+            :    1 [10405105     1]  [10102001     1] 
+            :    2 [10405105     2]  [20304104     1] 
+            :    3 [10405105     3]  [20304104     2] 
+            :    4 [10405105     4]  [20304104     3] 
+            :    5 [20001000     0]  [10102001     0] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405105     0]  [20304104     0])---([10405105     1]  [10102001     1])
+            :    1 ([20001000     0]  [10102001     0])---([10405105     1]  [10102001     1])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405103 (  5 Atoms and   4 Bonds) primary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000 1   0.0              4
+                  :Atom     4:     0.161     0.438     0.000 1   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Bond Parameter:          2
+Reactant Molfile: :MolFile 20102000 (  2 Atoms and   1 Bonds) hydroxyl-radical
+                  :Atom     0:    -0.323     0.705     0.000 1   0.0              6
+                  :Atom     1:     0.161     0.438     0.000 8   0.0              7
+                  :  Single Bond (  0   1     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304102 (  4 Atoms and   3 Bonds) primary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000 1   0.0              4
+                 :Atom     3:     0.161     0.438     0.000 1   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          2
+Bond Parameter:          4
+Product Molfile: :MolFile 10203000 (  3 Atoms and   2 Bonds) water
+                 :Atom     0:    -0.323     0.705     0.000 8   0.0              6
+                 :Atom     1:     0.161     0.438     0.000 1   0.0              7
+                 :Atom     2:    -1.545    -0.288     0.000 1   0.0              2
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     4)
+Add Changed Bonds: primary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: primary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: primary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: primary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds:     hydroxyl-radical          0          0          2
+Add Changed Bonds: primary-carbon-radical          0          1        102
+Add Changed Bonds: primary-carbon-radical          1          1        102
+Add Changed Bonds: primary-carbon-radical          2          1        102
+Add Changed Bonds:                water          0          1        102
+Add Changed Bonds:                water          1          1        104
+RxnCorrSet: :Reaction Correspondences 1021 
+            : 7 Matched Atoms
+            :    0 [10405103     0]  [20304102     0] 
+            :    1 [10405103     1]  [10203000     2] 
+            :    2 [10405103     2]  [20304102     1] 
+            :    3 [10405103     3]  [20304102     2] 
+            :    4 [10405103     4]  [20304102     3] 
+            :    5 [20102000     0]  [10203000     0] 
+            :    6 [20102000     1]  [10203000     1] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405103     0]  [20304102     0])---([10405103     1]  [10203000     2])
+            :    1 ([20102000     0]  [10203000     0])---([10405103     1]  [10203000     2])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405104 (  5 Atoms and   4 Bonds) secondary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000320   0.0              4
+                  :Atom     4:     0.161     0.438     0.000 1   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Reactant Molfile: :MolFile 20001000 (  1 Atoms and   0 Bonds) hydrogen-radical
+                  :Atom     0:     0.161     0.438     0.000 1   0.0              6
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304103 (  4 Atoms and   3 Bonds) secondary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000320   0.0              4
+                 :Atom     3:     0.161     0.438     0.000 1   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          2
+Bond Parameter:          4
+Product Molfile: :MolFile 10203000 (  3 Atoms and   2 Bonds) water
+                 :Atom     0:    -0.323     0.705     0.000 8   0.0              6
+                 :Atom     1:     0.161     0.438     0.000 1   0.0              7
+                 :Atom     2:    -1.545    -0.288     0.000 1   0.0              2
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     4)
+Add Changed Bonds: secondary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: secondary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: secondary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: secondary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds: secondary-carbon-radical          0          1        102
+Add Changed Bonds: secondary-carbon-radical          1          1        102
+Add Changed Bonds: secondary-carbon-radical          2          1        102
+Add Changed Bonds:                water          0          1        102
+Add Changed Bonds:                water          1          1        104
+RxnCorrSet: :Reaction Correspondences 1022 
+            : 6 Matched Atoms
+            :    0 [10405104     0]  [20304103     0] 
+            :    1 [10405104     1]  [10203000     2] 
+            :    2 [10405104     2]  [20304103     1] 
+            :    3 [10405104     3]  [20304103     2] 
+            :    4 [10405104     4]  [20304103     3] 
+            :    5 [20001000     0]  [10203000     0] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405104     0]  [20304103     0])---([10405104     1]  [10203000     2])
+            :    1 ([20001000     0]  [10203000     0])---([10405104     1]  [10203000     2])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405105 (  5 Atoms and   4 Bonds) tertiary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000320   0.0              4
+                  :Atom     4:     0.161     0.438     0.000320   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Bond Parameter:          2
+Reactant Molfile: :MolFile 20102000 (  2 Atoms and   1 Bonds) hydroxyl-radical
+                  :Atom     0:    -0.323     0.705     0.000 1   0.0              6
+                  :Atom     1:     0.161     0.438     0.000 8   0.0              7
+                  :  Single Bond (  0   1     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304104 (  4 Atoms and   3 Bonds) tertiary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000320   0.0              4
+                 :Atom     3:     0.161     0.438     0.000320   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          2
+Bond Parameter:          4
+Product Molfile: :MolFile 10203000 (  3 Atoms and   2 Bonds) water
+                 :Atom     0:    -0.323     0.705     0.000 8   0.0              6
+                 :Atom     1:     0.161     0.438     0.000 1   0.0              7
+                 :Atom     2:    -1.545    -0.288     0.000 1   0.0              2
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     4)
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds:     hydroxyl-radical          0          0          2
+Add Changed Bonds: tertiary-carbon-radical          0          1        102
+Add Changed Bonds: tertiary-carbon-radical          1          1        102
+Add Changed Bonds: tertiary-carbon-radical          2          1        102
+Add Changed Bonds:                water          0          1        102
+Add Changed Bonds:                water          1          1        104
+RxnCorrSet: :Reaction Correspondences 1023 
+            : 7 Matched Atoms
+            :    0 [10405105     0]  [20304104     0] 
+            :    1 [10405105     1]  [10203000     2] 
+            :    2 [10405105     2]  [20304104     1] 
+            :    3 [10405105     3]  [20304104     2] 
+            :    4 [10405105     4]  [20304104     3] 
+            :    5 [20102000     0]  [10203000     0] 
+            :    6 [20102000     1]  [10203000     1] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405105     0]  [20304104     0])---([10405105     1]  [10203000     2])
+            :    1 ([20102000     0]  [10203000     0])---([10405105     1]  [10203000     2])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405103 (  5 Atoms and   4 Bonds) primary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000 1   0.0              4
+                  :Atom     4:     0.161     0.438     0.000 1   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Reactant Molfile: :MolFile 10001000 (  1 Atoms and   0 Bonds) oxygen-atom
+                  :Atom     0:    -3.320    -0.180     0.000 8   0.0              6
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304102 (  4 Atoms and   3 Bonds) primary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000 1   0.0              4
+                 :Atom     3:     0.161     0.438     0.000 1   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          4
+Product Molfile: :MolFile 10102000 (  2 Atoms and   1 Bonds) oxygen
+                 :Atom     0:     0.161     0.438     0.000 8   0.0              6
+                 :Atom     1:    -1.545    -0.288     0.000 8   0.0              2
+                 :  Double Bond (  0   1     4)
+Add Changed Bonds: primary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: primary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: primary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: primary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds: primary-carbon-radical          0          1        102
+Add Changed Bonds: primary-carbon-radical          1          1        102
+Add Changed Bonds: primary-carbon-radical          2          1        102
+Add Changed Bonds:               oxygen          0          1        104
+RxnCorrSet: :Reaction Correspondences 1031 
+            : 6 Matched Atoms
+            :    0 [10405103     0]  [20304102     0] 
+            :    1 [10405103     1]  [10102000     1] 
+            :    2 [10405103     2]  [20304102     1] 
+            :    3 [10405103     3]  [20304102     2] 
+            :    4 [10405103     4]  [20304102     3] 
+            :    5 [10001000     0]  [10102000     0] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405103     0]  [20304102     0])---([10405103     1]  [10102000     1])
+            :    1 ([10001000     0]  [10102000     0])---([10405103     1]  [10102000     1])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405104 (  5 Atoms and   4 Bonds) secondary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000320   0.0              4
+                  :Atom     4:     0.161     0.438     0.000 1   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Reactant Molfile: :MolFile 10001000 (  1 Atoms and   0 Bonds) oxygen-atom
+                  :Atom     0:    -3.320    -0.180     0.000 8   0.0              6
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304103 (  4 Atoms and   3 Bonds) secondary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000320   0.0              4
+                 :Atom     3:     0.161     0.438     0.000 1   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          4
+Product Molfile: :MolFile 10102000 (  2 Atoms and   1 Bonds) oxygen
+                 :Atom     0:     0.161     0.438     0.000 8   0.0              6
+                 :Atom     1:    -1.545    -0.288     0.000 8   0.0              2
+                 :  Double Bond (  0   1     4)
+Add Changed Bonds: secondary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: secondary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: secondary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: secondary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds: secondary-carbon-radical          0          1        102
+Add Changed Bonds: secondary-carbon-radical          1          1        102
+Add Changed Bonds: secondary-carbon-radical          2          1        102
+Add Changed Bonds:               oxygen          0          1        104
+RxnCorrSet: :Reaction Correspondences 1032 
+            : 6 Matched Atoms
+            :    0 [10405104     0]  [20304103     0] 
+            :    1 [10405104     1]  [10102000     1] 
+            :    2 [10405104     2]  [20304103     1] 
+            :    3 [10405104     3]  [20304103     2] 
+            :    4 [10405104     4]  [20304103     3] 
+            :    5 [10001000     0]  [10102000     0] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405104     0]  [20304103     0])---([10405104     1]  [10102000     1])
+            :    1 ([10001000     0]  [10102000     0])---([10405104     1]  [10102000     1])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405105 (  5 Atoms and   4 Bonds) tertiary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000320   0.0              4
+                  :Atom     4:     0.161     0.438     0.000320   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Reactant Molfile: :MolFile 10001000 (  1 Atoms and   0 Bonds) oxygen-atom
+                  :Atom     0:    -3.320    -0.180     0.000 8   0.0              6
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304104 (  4 Atoms and   3 Bonds) tertiary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000320   0.0              4
+                 :Atom     3:     0.161     0.438     0.000320   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          4
+Product Molfile: :MolFile 10102000 (  2 Atoms and   1 Bonds) oxygen
+                 :Atom     0:     0.161     0.438     0.000 8   0.0              6
+                 :Atom     1:    -1.545    -0.288     0.000 8   0.0              2
+                 :  Double Bond (  0   1     4)
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds: tertiary-carbon-radical          0          1        102
+Add Changed Bonds: tertiary-carbon-radical          1          1        102
+Add Changed Bonds: tertiary-carbon-radical          2          1        102
+Add Changed Bonds:               oxygen          0          1        104
+RxnCorrSet: :Reaction Correspondences 1033 
+            : 6 Matched Atoms
+            :    0 [10405105     0]  [20304104     0] 
+            :    1 [10405105     1]  [10102000     1] 
+            :    2 [10405105     2]  [20304104     1] 
+            :    3 [10405105     3]  [20304104     2] 
+            :    4 [10405105     4]  [20304104     3] 
+            :    5 [10001000     0]  [10102000     0] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405105     0]  [20304104     0])---([10405105     1]  [10102000     1])
+            :    1 ([10001000     0]  [10102000     0])---([10405105     1]  [10102000     1])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405103 (  5 Atoms and   4 Bonds) primary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000 1   0.0              4
+                  :Atom     4:     0.161     0.438     0.000 1   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10102000 (  2 Atoms and   1 Bonds) oxygen
+                  :Atom     0:     0.161     0.438     0.000 8   0.0              6
+                  :Atom     1:    -1.545    -0.288     0.000 8   0.0              7
+                  :  Double Bond (  0   1     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304102 (  4 Atoms and   3 Bonds) primary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000 1   0.0              4
+                 :Atom     3:     0.161     0.438     0.000 1   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          2
+Bond Parameter:          4
+Product Molfile: :MolFile 20203000 (  3 Atoms and   2 Bonds) peroxyl-radical
+                 :Atom     0:    -0.323     0.705     0.000 1   0.0              6
+                 :Atom     1:     0.161     0.438     0.000 8   0.0              7
+                 :Atom     2:    -1.545    -0.288     0.000 8   0.0              2
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  1   2     4)
+Add Changed Bonds: primary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: primary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: primary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: primary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds:               oxygen          0          0          2
+Add Changed Bonds: primary-carbon-radical          0          1        102
+Add Changed Bonds: primary-carbon-radical          1          1        102
+Add Changed Bonds: primary-carbon-radical          2          1        102
+Add Changed Bonds:      peroxyl-radical          0          1        102
+Add Changed Bonds:      peroxyl-radical          1          1        104
+RxnCorrSet: :Reaction Correspondences 1041 
+            : 7 Matched Atoms
+            :    0 [10405103     0]  [20304102     0] 
+            :    1 [10405103     1]  [20203000     2] 
+            :    2 [10405103     2]  [20304102     1] 
+            :    3 [10405103     3]  [20304102     2] 
+            :    4 [10405103     4]  [20304102     3] 
+            :    5 [10102000     0]  [20203000     0] 
+            :    6 [10102000     1]  [20203000     1] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405103     0]  [20304102     0])---([10405103     1]  [20203000     2])
+            :    1 ([10102000     1]  [20203000     1])---([10405103     1]  [20203000     2])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405104 (  5 Atoms and   4 Bonds) secondary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000320   0.0              4
+                  :Atom     4:     0.161     0.438     0.000 1   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10102000 (  2 Atoms and   1 Bonds) oxygen
+                  :Atom     0:     0.161     0.438     0.000 8   0.0              6
+                  :Atom     1:    -1.545    -0.288     0.000 8   0.0              7
+                  :  Double Bond (  0   1     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304103 (  4 Atoms and   3 Bonds) secondary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000320   0.0              4
+                 :Atom     3:     0.161     0.438     0.000 1   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          2
+Bond Parameter:          4
+Product Molfile: :MolFile 20203000 (  3 Atoms and   2 Bonds) peroxyl-radical
+                 :Atom     0:    -0.323     0.705     0.000 1   0.0              6
+                 :Atom     1:     0.161     0.438     0.000 8   0.0              7
+                 :Atom     2:    -1.545    -0.288     0.000 8   0.0              2
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  1   2     4)
+Add Changed Bonds: secondary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: secondary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: secondary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: secondary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds:               oxygen          0          0          2
+Add Changed Bonds: secondary-carbon-radical          0          1        102
+Add Changed Bonds: secondary-carbon-radical          1          1        102
+Add Changed Bonds: secondary-carbon-radical          2          1        102
+Add Changed Bonds:      peroxyl-radical          0          1        102
+Add Changed Bonds:      peroxyl-radical          1          1        104
+RxnCorrSet: :Reaction Correspondences 1042 
+            : 7 Matched Atoms
+            :    0 [10405104     0]  [20304103     0] 
+            :    1 [10405104     1]  [20203000     2] 
+            :    2 [10405104     2]  [20304103     1] 
+            :    3 [10405104     3]  [20304103     2] 
+            :    4 [10405104     4]  [20304103     3] 
+            :    5 [10102000     0]  [20203000     0] 
+            :    6 [10102000     1]  [20203000     1] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405104     0]  [20304103     0])---([10405104     1]  [20203000     2])
+            :    1 ([10102000     1]  [20203000     1])---([10405104     1]  [20203000     2])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405105 (  5 Atoms and   4 Bonds) tertiary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000320   0.0              4
+                  :Atom     4:     0.161     0.438     0.000320   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10102000 (  2 Atoms and   1 Bonds) oxygen
+                  :Atom     0:     0.161     0.438     0.000 8   0.0              6
+                  :Atom     1:    -1.545    -0.288     0.000 8   0.0              7
+                  :  Double Bond (  0   1     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304104 (  4 Atoms and   3 Bonds) tertiary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000320   0.0              4
+                 :Atom     3:     0.161     0.438     0.000320   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          2
+Bond Parameter:          4
+Product Molfile: :MolFile 20203000 (  3 Atoms and   2 Bonds) peroxyl-radical
+                 :Atom     0:    -0.323     0.705     0.000 1   0.0              6
+                 :Atom     1:     0.161     0.438     0.000 8   0.0              7
+                 :Atom     2:    -1.545    -0.288     0.000 8   0.0              2
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  1   2     4)
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds:               oxygen          0          0          2
+Add Changed Bonds: tertiary-carbon-radical          0          1        102
+Add Changed Bonds: tertiary-carbon-radical          1          1        102
+Add Changed Bonds: tertiary-carbon-radical          2          1        102
+Add Changed Bonds:      peroxyl-radical          0          1        102
+Add Changed Bonds:      peroxyl-radical          1          1        104
+RxnCorrSet: :Reaction Correspondences 1043 
+            : 7 Matched Atoms
+            :    0 [10405105     0]  [20304104     0] 
+            :    1 [10405105     1]  [20203000     2] 
+            :    2 [10405105     2]  [20304104     1] 
+            :    3 [10405105     3]  [20304104     2] 
+            :    4 [10405105     4]  [20304104     3] 
+            :    5 [10102000     0]  [20203000     0] 
+            :    6 [10102000     1]  [20203000     1] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405105     0]  [20304104     0])---([10405105     1]  [20203000     2])
+            :    1 ([10102000     1]  [20203000     1])---([10405105     1]  [20203000     2])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405103 (  5 Atoms and   4 Bonds) primary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000 1   0.0              4
+                  :Atom     4:     0.161     0.438     0.000 1   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 20304101 (  4 Atoms and   3 Bonds) methane-carbon-radical
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              6
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              7
+                  :Atom     2:     0.161     0.438     0.000 1   0.0              8
+                  :Atom     3:     0.161     0.438     0.000 1   0.0              9
+                  :  Single Bond (  0   1     2)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304102 (  4 Atoms and   3 Bonds) primary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000 1   0.0              4
+                 :Atom     3:     0.161     0.438     0.000 1   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          4
+Product Molfile: :MolFile 10405102 (  5 Atoms and   4 Bonds) methane
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              6
+                 :Atom     1:     0.161     0.438     0.000 1   0.0              7
+                 :Atom     2:     0.161     0.438     0.000 1   0.0              8
+                 :Atom     3:     0.161     0.438     0.000 1   0.0              9
+                 :Atom     4:     0.161     0.438     0.000 1   0.0              2
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+                 :  Single Bond (  0   4     2)
+                 :  Single Bond (  0   1     4)
+Add Changed Bonds: primary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: primary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: primary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: primary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds: methane-carbon-radical          0          0          2
+Add Changed Bonds: methane-carbon-radical          1          0          2
+Add Changed Bonds: methane-carbon-radical          2          0          2
+Add Changed Bonds: primary-carbon-radical          0          1        102
+Add Changed Bonds: primary-carbon-radical          1          1        102
+Add Changed Bonds: primary-carbon-radical          2          1        102
+Add Changed Bonds:              methane          0          1        102
+Add Changed Bonds:              methane          1          1        102
+Add Changed Bonds:              methane          2          1        102
+Add Changed Bonds:              methane          3          1        104
+RxnCorrSet: :Reaction Correspondences 1051 
+            : 9 Matched Atoms
+            :    0 [10405103     0]  [20304102     0] 
+            :    1 [10405103     1]  [10405102     4] 
+            :    2 [10405103     2]  [20304102     1] 
+            :    3 [10405103     3]  [20304102     2] 
+            :    4 [10405103     4]  [20304102     3] 
+            :    5 [20304101     0]  [10405102     0] 
+            :    6 [20304101     1]  [10405102     1] 
+            :    7 [20304101     2]  [10405102     2] 
+            :    8 [20304101     3]  [10405102     3] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405103     0]  [20304102     0])---([10405103     1]  [10405102     4])
+            :    1 ([20304101     0]  [10405102     0])---([20304101     1]  [10405102     1])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405104 (  5 Atoms and   4 Bonds) secondary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000320   0.0              4
+                  :Atom     4:     0.161     0.438     0.000 1   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 20304101 (  4 Atoms and   3 Bonds) methane-carbon-radical
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              6
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              7
+                  :Atom     2:     0.161     0.438     0.000 1   0.0              8
+                  :Atom     3:     0.161     0.438     0.000 1   0.0              9
+                  :  Single Bond (  0   1     2)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304103 (  4 Atoms and   3 Bonds) secondary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000320   0.0              4
+                 :Atom     3:     0.161     0.438     0.000 1   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          4
+Product Molfile: :MolFile 10405102 (  5 Atoms and   4 Bonds) methane
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              6
+                 :Atom     1:     0.161     0.438     0.000 1   0.0              7
+                 :Atom     2:     0.161     0.438     0.000 1   0.0              8
+                 :Atom     3:     0.161     0.438     0.000 1   0.0              9
+                 :Atom     4:     0.161     0.438     0.000 1   0.0              2
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+                 :  Single Bond (  0   4     2)
+                 :  Single Bond (  0   1     4)
+Add Changed Bonds: secondary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: secondary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: secondary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: secondary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds: methane-carbon-radical          0          0          2
+Add Changed Bonds: methane-carbon-radical          1          0          2
+Add Changed Bonds: methane-carbon-radical          2          0          2
+Add Changed Bonds: secondary-carbon-radical          0          1        102
+Add Changed Bonds: secondary-carbon-radical          1          1        102
+Add Changed Bonds: secondary-carbon-radical          2          1        102
+Add Changed Bonds:              methane          0          1        102
+Add Changed Bonds:              methane          1          1        102
+Add Changed Bonds:              methane          2          1        102
+Add Changed Bonds:              methane          3          1        104
+RxnCorrSet: :Reaction Correspondences 1052 
+            : 9 Matched Atoms
+            :    0 [10405104     0]  [20304103     0] 
+            :    1 [10405104     1]  [10405102     4] 
+            :    2 [10405104     2]  [20304103     1] 
+            :    3 [10405104     3]  [20304103     2] 
+            :    4 [10405104     4]  [20304103     3] 
+            :    5 [20304101     0]  [10405102     0] 
+            :    6 [20304101     1]  [10405102     1] 
+            :    7 [20304101     2]  [10405102     2] 
+            :    8 [20304101     3]  [10405102     3] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405104     0]  [20304103     0])---([10405104     1]  [10405102     4])
+            :    1 ([20304101     0]  [10405102     0])---([20304101     1]  [10405102     1])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405105 (  5 Atoms and   4 Bonds) tertiary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000320   0.0              4
+                  :Atom     4:     0.161     0.438     0.000320   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 20304101 (  4 Atoms and   3 Bonds) methane-carbon-radical
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              6
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              7
+                  :Atom     2:     0.161     0.438     0.000 1   0.0              8
+                  :Atom     3:     0.161     0.438     0.000 1   0.0              9
+                  :  Single Bond (  0   1     2)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304104 (  4 Atoms and   3 Bonds) tertiary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000320   0.0              4
+                 :Atom     3:     0.161     0.438     0.000320   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          4
+Product Molfile: :MolFile 10405102 (  5 Atoms and   4 Bonds) methane
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              6
+                 :Atom     1:     0.161     0.438     0.000 1   0.0              7
+                 :Atom     2:     0.161     0.438     0.000 1   0.0              8
+                 :Atom     3:     0.161     0.438     0.000 1   0.0              9
+                 :Atom     4:     0.161     0.438     0.000 1   0.0              2
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+                 :  Single Bond (  0   4     2)
+                 :  Single Bond (  0   1     4)
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds: methane-carbon-radical          0          0          2
+Add Changed Bonds: methane-carbon-radical          1          0          2
+Add Changed Bonds: methane-carbon-radical          2          0          2
+Add Changed Bonds: tertiary-carbon-radical          0          1        102
+Add Changed Bonds: tertiary-carbon-radical          1          1        102
+Add Changed Bonds: tertiary-carbon-radical          2          1        102
+Add Changed Bonds:              methane          0          1        102
+Add Changed Bonds:              methane          1          1        102
+Add Changed Bonds:              methane          2          1        102
+Add Changed Bonds:              methane          3          1        104
+RxnCorrSet: :Reaction Correspondences 1053 
+            : 9 Matched Atoms
+            :    0 [10405105     0]  [20304104     0] 
+            :    1 [10405105     1]  [10405102     4] 
+            :    2 [10405105     2]  [20304104     1] 
+            :    3 [10405105     3]  [20304104     2] 
+            :    4 [10405105     4]  [20304104     3] 
+            :    5 [20304101     0]  [10405102     0] 
+            :    6 [20304101     1]  [10405102     1] 
+            :    7 [20304101     2]  [10405102     2] 
+            :    8 [20304101     3]  [10405102     3] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405105     0]  [20304104     0])---([10405105     1]  [10405102     4])
+            :    1 ([20304101     0]  [10405102     0])---([20304101     1]  [10405102     1])
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          4
+Reactant Molfile: :MolFile 10405101 (  5 Atoms and   4 Bonds) general-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000221   0.0              3
+                  :Atom     3:     0.161     0.438     0.000221   0.0              4
+                  :Atom     4:     0.161     0.438     0.000221   0.0              5
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+                  :  Single Bond (  0   1     4)
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10102000 (  2 Atoms and   1 Bonds) oxygen
+                  :Atom     0:     0.161     0.438     0.000 8   0.0              6
+                  :Atom     1:    -1.545    -0.288     0.000 8   0.0              7
+                  :  Double Bond (  0   1     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304100 (  4 Atoms and   3 Bonds) general-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000221   0.0              3
+                 :Atom     2:     0.161     0.438     0.000221   0.0              4
+                 :Atom     3:     0.161     0.438     0.000221   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          4
+Bond Parameter:          2
+Product Molfile: :MolFile 20203000 (  3 Atoms and   2 Bonds) peroxyl-radical
+                 :Atom     0:    -0.323     0.705     0.000 1   0.0              2
+                 :Atom     1:     0.161     0.438     0.000 8   0.0              6
+                 :Atom     2:    -1.545    -0.288     0.000 8   0.0              7
+                 :  Single Bond (  0   1     4)
+                 :  Single Bond (  1   2     2)
+Add Changed Bonds: general-carbon-hydrogen-bond          0          0          2
+Add Changed Bonds: general-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: general-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: general-carbon-hydrogen-bond          3          0          4
+Add Changed Bonds:               oxygen          0          0          2
+Add Changed Bonds: general-carbon-radical          0          1        102
+Add Changed Bonds: general-carbon-radical          1          1        102
+Add Changed Bonds: general-carbon-radical          2          1        102
+Add Changed Bonds:      peroxyl-radical          0          1        104
+Add Changed Bonds:      peroxyl-radical          1          1        102
+RxnCorrSet: :Reaction Correspondences 1000 
+            : 7 Matched Atoms
+            :    0 [10405101     0]  [20304100     0] 
+            :    1 [10405101     1]  [20203000     0] 
+            :    2 [10405101     2]  [20304100     1] 
+            :    3 [10405101     3]  [20304100     2] 
+            :    4 [10405101     4]  [20304100     3] 
+            :    5 [10102000     0]  [20203000     1] 
+            :    6 [10102000     1]  [20203000     2] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405101     0]  [20304100     0])---([10405101     1]  [20203000     0])
+            :    1 ([10405101     1]  [20203000     0])---([10102000     0]  [20203000     1])
+Search Key Element Not Found
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405103 (  5 Atoms and   4 Bonds) primary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000 1   0.0              4
+                  :Atom     4:     0.161     0.438     0.000 1   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 20203000 (  3 Atoms and   2 Bonds) peroxyl-radical
+                  :Atom     0:    -0.323     0.705     0.000 1   0.0              6
+                  :Atom     1:     0.161     0.438     0.000 8   0.0              7
+                  :Atom     2:    -1.545    -0.288     0.000 8   0.0              8
+                  :  Single Bond (  0   1     2)
+                  :  Single Bond (  1   2     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304102 (  4 Atoms and   3 Bonds) primary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000 1   0.0              4
+                 :Atom     3:     0.161     0.438     0.000 1   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          4
+Product Molfile: :MolFile 10304000 (  4 Atoms and   3 Bonds) hydrogen-peroxide
+                 :Atom     0:    -0.323     0.705     0.000 1   0.0              6
+                 :Atom     1:     0.161     0.438     0.000 8   0.0              7
+                 :Atom     2:    -1.545    -0.288     0.000 8   0.0              8
+                 :Atom     3:    -0.323     0.705     0.000 1   0.0              2
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  1   2     2)
+                 :  Single Bond (  2   3     4)
+Add Changed Bonds: primary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: primary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: primary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: primary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds:      peroxyl-radical          0          0          2
+Add Changed Bonds:      peroxyl-radical          1          0          2
+Add Changed Bonds: primary-carbon-radical          0          1        102
+Add Changed Bonds: primary-carbon-radical          1          1        102
+Add Changed Bonds: primary-carbon-radical          2          1        102
+Add Changed Bonds:    hydrogen-peroxide          0          1        102
+Add Changed Bonds:    hydrogen-peroxide          1          1        102
+Add Changed Bonds:    hydrogen-peroxide          2          1        104
+RxnCorrSet: :Reaction Correspondences 1061 
+            : 8 Matched Atoms
+            :    0 [10405103     0]  [20304102     0] 
+            :    1 [10405103     1]  [10304000     3] 
+            :    2 [10405103     2]  [20304102     1] 
+            :    3 [10405103     3]  [20304102     2] 
+            :    4 [10405103     4]  [20304102     3] 
+            :    5 [20203000     0]  [10304000     0] 
+            :    6 [20203000     1]  [10304000     1] 
+            :    7 [20203000     2]  [10304000     2] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405103     0]  [20304102     0])---([10405103     1]  [10304000     3])
+            :    1 ([20203000     2]  [10304000     2])---([10405103     1]  [10304000     3])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405104 (  5 Atoms and   4 Bonds) secondary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000320   0.0              4
+                  :Atom     4:     0.161     0.438     0.000 1   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 20203000 (  3 Atoms and   2 Bonds) peroxyl-radical
+                  :Atom     0:    -0.323     0.705     0.000 1   0.0              6
+                  :Atom     1:     0.161     0.438     0.000 8   0.0              7
+                  :Atom     2:    -1.545    -0.288     0.000 8   0.0              8
+                  :  Single Bond (  0   1     2)
+                  :  Single Bond (  1   2     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304103 (  4 Atoms and   3 Bonds) secondary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000320   0.0              4
+                 :Atom     3:     0.161     0.438     0.000 1   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          4
+Product Molfile: :MolFile 10304000 (  4 Atoms and   3 Bonds) hydrogen-peroxide
+                 :Atom     0:    -0.323     0.705     0.000 1   0.0              6
+                 :Atom     1:     0.161     0.438     0.000 8   0.0              7
+                 :Atom     2:    -1.545    -0.288     0.000 8   0.0              8
+                 :Atom     3:    -0.323     0.705     0.000 1   0.0              2
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  1   2     2)
+                 :  Single Bond (  2   3     4)
+Add Changed Bonds: secondary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: secondary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: secondary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: secondary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds:      peroxyl-radical          0          0          2
+Add Changed Bonds:      peroxyl-radical          1          0          2
+Add Changed Bonds: secondary-carbon-radical          0          1        102
+Add Changed Bonds: secondary-carbon-radical          1          1        102
+Add Changed Bonds: secondary-carbon-radical          2          1        102
+Add Changed Bonds:    hydrogen-peroxide          0          1        102
+Add Changed Bonds:    hydrogen-peroxide          1          1        102
+Add Changed Bonds:    hydrogen-peroxide          2          1        104
+RxnCorrSet: :Reaction Correspondences 1062 
+            : 8 Matched Atoms
+            :    0 [10405104     0]  [20304103     0] 
+            :    1 [10405104     1]  [10304000     3] 
+            :    2 [10405104     2]  [20304103     1] 
+            :    3 [10405104     3]  [20304103     2] 
+            :    4 [10405104     4]  [20304103     3] 
+            :    5 [20203000     0]  [10304000     0] 
+            :    6 [20203000     1]  [10304000     1] 
+            :    7 [20203000     2]  [10304000     2] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405104     0]  [20304103     0])---([10405104     1]  [10304000     3])
+            :    1 ([20203000     2]  [10304000     2])---([10405104     1]  [10304000     3])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405105 (  5 Atoms and   4 Bonds) tertiary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000320   0.0              4
+                  :Atom     4:     0.161     0.438     0.000320   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 20203000 (  3 Atoms and   2 Bonds) peroxyl-radical
+                  :Atom     0:    -0.323     0.705     0.000 1   0.0              6
+                  :Atom     1:     0.161     0.438     0.000 8   0.0              7
+                  :Atom     2:    -1.545    -0.288     0.000 8   0.0              8
+                  :  Single Bond (  0   1     2)
+                  :  Single Bond (  1   2     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304104 (  4 Atoms and   3 Bonds) tertiary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000320   0.0              4
+                 :Atom     3:     0.161     0.438     0.000320   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          4
+Product Molfile: :MolFile 10304000 (  4 Atoms and   3 Bonds) hydrogen-peroxide
+                 :Atom     0:    -0.323     0.705     0.000 1   0.0              6
+                 :Atom     1:     0.161     0.438     0.000 8   0.0              7
+                 :Atom     2:    -1.545    -0.288     0.000 8   0.0              8
+                 :Atom     3:    -0.323     0.705     0.000 1   0.0              2
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  1   2     2)
+                 :  Single Bond (  2   3     4)
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds:      peroxyl-radical          0          0          2
+Add Changed Bonds:      peroxyl-radical          1          0          2
+Add Changed Bonds: tertiary-carbon-radical          0          1        102
+Add Changed Bonds: tertiary-carbon-radical          1          1        102
+Add Changed Bonds: tertiary-carbon-radical          2          1        102
+Add Changed Bonds:    hydrogen-peroxide          0          1        102
+Add Changed Bonds:    hydrogen-peroxide          1          1        102
+Add Changed Bonds:    hydrogen-peroxide          2          1        104
+RxnCorrSet: :Reaction Correspondences 1063 
+            : 8 Matched Atoms
+            :    0 [10405105     0]  [20304104     0] 
+            :    1 [10405105     1]  [10304000     3] 
+            :    2 [10405105     2]  [20304104     1] 
+            :    3 [10405105     3]  [20304104     2] 
+            :    4 [10405105     4]  [20304104     3] 
+            :    5 [20203000     0]  [10304000     0] 
+            :    6 [20203000     1]  [10304000     1] 
+            :    7 [20203000     2]  [10304000     2] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405105     0]  [20304104     0])---([10405105     1]  [10304000     3])
+            :    1 ([20203000     2]  [10304000     2])---([10405105     1]  [10304000     3])
+Search Key Element Not Found
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405103 (  5 Atoms and   4 Bonds) primary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000 1   0.0              4
+                  :Atom     4:     0.161     0.438     0.000 1   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405100 (  5 Atoms and   4 Bonds) c(h)(h)(h)(o.)
+                  :Atom     0:    -1.545    -0.288     0.000 8   0.0              6
+                  :Atom     1:    -1.545    -0.288     0.000 6   0.0              7
+                  :Atom     2:    -1.545    -0.288     0.000 1   0.0              8
+                  :Atom     3:    -1.545    -0.288     0.000 1   0.0              9
+                  :Atom     4:    -1.545    -0.288     0.000 1   0.0             10
+                  :  Single Bond (  0   1     2)
+                  :  Single Bond (  1   2     2)
+                  :  Single Bond (  1   3     2)
+                  :  Single Bond (  1   4     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304102 (  4 Atoms and   3 Bonds) primary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000 1   0.0              4
+                 :Atom     3:     0.161     0.438     0.000 1   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          2
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 10506100 (  6 Atoms and   5 Bonds) c(h)(h)(h)(oh)
+                 :Atom     0:     1.000     0.000     0.000 8   0.0              6
+                 :Atom     1:     0.000     0.000     0.000 6   0.0              7
+                 :Atom     2:     2.000     0.000     0.000 1   0.0              2
+                 :Atom     3:    -1.000     0.000     0.000 1   0.0              8
+                 :Atom     4:     0.000     1.000     0.000 1   0.0              9
+                 :Atom     5:     0.000    -1.000     0.000 1   0.0             10
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     4)
+                 :  Single Bond (  1   3     2)
+                 :  Single Bond (  1   4     2)
+                 :  Single Bond (  1   5     2)
+Add Changed Bonds: primary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: primary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: primary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: primary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds:       c(h)(h)(h)(o.)          0          0          2
+Add Changed Bonds:       c(h)(h)(h)(o.)          1          0          2
+Add Changed Bonds:       c(h)(h)(h)(o.)          2          0          2
+Add Changed Bonds:       c(h)(h)(h)(o.)          3          0          2
+Add Changed Bonds: primary-carbon-radical          0          1        102
+Add Changed Bonds: primary-carbon-radical          1          1        102
+Add Changed Bonds: primary-carbon-radical          2          1        102
+Add Changed Bonds:       c(h)(h)(h)(oh)          0          1        102
+Add Changed Bonds:       c(h)(h)(h)(oh)          1          1        104
+Add Changed Bonds:       c(h)(h)(h)(oh)          2          1        102
+Add Changed Bonds:       c(h)(h)(h)(oh)          3          1        102
+Add Changed Bonds:       c(h)(h)(h)(oh)          4          1        102
+RxnCorrSet: :Reaction Correspondences 1071 
+            : 10 Matched Atoms
+            :    0 [10405103     0]  [20304102     0] 
+            :    1 [10405103     1]  [10506100     2] 
+            :    2 [10405103     2]  [20304102     1] 
+            :    3 [10405103     3]  [20304102     2] 
+            :    4 [10405103     4]  [20304102     3] 
+            :    5 [10405100     0]  [10506100     0] 
+            :    6 [10405100     1]  [10506100     1] 
+            :    7 [10405100     2]  [10506100     3] 
+            :    8 [10405100     3]  [10506100     4] 
+            :    9 [10405100     4]  [10506100     5] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405103     0]  [20304102     0])---([10405103     1]  [10506100     2])
+            :    1 ([10405100     0]  [10506100     0])---([10405103     1]  [10506100     2])
+Search Key Element Not Found
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405104 (  5 Atoms and   4 Bonds) secondary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000320   0.0              4
+                  :Atom     4:     0.161     0.438     0.000 1   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405100 (  5 Atoms and   4 Bonds) c(h)(h)(h)(o.)
+                  :Atom     0:    -1.545    -0.288     0.000 8   0.0              6
+                  :Atom     1:    -1.545    -0.288     0.000 6   0.0              7
+                  :Atom     2:    -1.545    -0.288     0.000 1   0.0              8
+                  :Atom     3:    -1.545    -0.288     0.000 1   0.0              9
+                  :Atom     4:    -1.545    -0.288     0.000 1   0.0             10
+                  :  Single Bond (  0   1     2)
+                  :  Single Bond (  1   2     2)
+                  :  Single Bond (  1   3     2)
+                  :  Single Bond (  1   4     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304103 (  4 Atoms and   3 Bonds) secondary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000320   0.0              4
+                 :Atom     3:     0.161     0.438     0.000 1   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          2
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 10506100 (  6 Atoms and   5 Bonds) c(h)(h)(h)(oh)
+                 :Atom     0:     1.000     0.000     0.000 8   0.0              6
+                 :Atom     1:     0.000     0.000     0.000 6   0.0              7
+                 :Atom     2:     2.000     0.000     0.000 1   0.0              2
+                 :Atom     3:    -1.000     0.000     0.000 1   0.0              8
+                 :Atom     4:     0.000     1.000     0.000 1   0.0              9
+                 :Atom     5:     0.000    -1.000     0.000 1   0.0             10
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     4)
+                 :  Single Bond (  1   3     2)
+                 :  Single Bond (  1   4     2)
+                 :  Single Bond (  1   5     2)
+Add Changed Bonds: secondary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: secondary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: secondary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: secondary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds:       c(h)(h)(h)(o.)          0          0          2
+Add Changed Bonds:       c(h)(h)(h)(o.)          1          0          2
+Add Changed Bonds:       c(h)(h)(h)(o.)          2          0          2
+Add Changed Bonds:       c(h)(h)(h)(o.)          3          0          2
+Add Changed Bonds: secondary-carbon-radical          0          1        102
+Add Changed Bonds: secondary-carbon-radical          1          1        102
+Add Changed Bonds: secondary-carbon-radical          2          1        102
+Add Changed Bonds:       c(h)(h)(h)(oh)          0          1        102
+Add Changed Bonds:       c(h)(h)(h)(oh)          1          1        104
+Add Changed Bonds:       c(h)(h)(h)(oh)          2          1        102
+Add Changed Bonds:       c(h)(h)(h)(oh)          3          1        102
+Add Changed Bonds:       c(h)(h)(h)(oh)          4          1        102
+RxnCorrSet: :Reaction Correspondences 1072 
+            : 10 Matched Atoms
+            :    0 [10405104     0]  [20304103     0] 
+            :    1 [10405104     1]  [10506100     2] 
+            :    2 [10405104     2]  [20304103     1] 
+            :    3 [10405104     3]  [20304103     2] 
+            :    4 [10405104     4]  [20304103     3] 
+            :    5 [10405100     0]  [10506100     0] 
+            :    6 [10405100     1]  [10506100     1] 
+            :    7 [10405100     2]  [10506100     3] 
+            :    8 [10405100     3]  [10506100     4] 
+            :    9 [10405100     4]  [10506100     5] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405104     0]  [20304103     0])---([10405104     1]  [10506100     2])
+            :    1 ([10405100     0]  [10506100     0])---([10405104     1]  [10506100     2])
+Search Key Element Not Found
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405105 (  5 Atoms and   4 Bonds) tertiary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000320   0.0              4
+                  :Atom     4:     0.161     0.438     0.000320   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405100 (  5 Atoms and   4 Bonds) c(h)(h)(h)(o.)
+                  :Atom     0:    -1.545    -0.288     0.000 8   0.0              6
+                  :Atom     1:    -1.545    -0.288     0.000 6   0.0              7
+                  :Atom     2:    -1.545    -0.288     0.000 1   0.0              8
+                  :Atom     3:    -1.545    -0.288     0.000 1   0.0              9
+                  :Atom     4:    -1.545    -0.288     0.000 1   0.0             10
+                  :  Single Bond (  0   1     2)
+                  :  Single Bond (  1   2     2)
+                  :  Single Bond (  1   3     2)
+                  :  Single Bond (  1   4     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304104 (  4 Atoms and   3 Bonds) tertiary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000320   0.0              4
+                 :Atom     3:     0.161     0.438     0.000320   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          2
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 10506100 (  6 Atoms and   5 Bonds) c(h)(h)(h)(oh)
+                 :Atom     0:     1.000     0.000     0.000 8   0.0              6
+                 :Atom     1:     0.000     0.000     0.000 6   0.0              7
+                 :Atom     2:     2.000     0.000     0.000 1   0.0              2
+                 :Atom     3:    -1.000     0.000     0.000 1   0.0              8
+                 :Atom     4:     0.000     1.000     0.000 1   0.0              9
+                 :Atom     5:     0.000    -1.000     0.000 1   0.0             10
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     4)
+                 :  Single Bond (  1   3     2)
+                 :  Single Bond (  1   4     2)
+                 :  Single Bond (  1   5     2)
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds:       c(h)(h)(h)(o.)          0          0          2
+Add Changed Bonds:       c(h)(h)(h)(o.)          1          0          2
+Add Changed Bonds:       c(h)(h)(h)(o.)          2          0          2
+Add Changed Bonds:       c(h)(h)(h)(o.)          3          0          2
+Add Changed Bonds: tertiary-carbon-radical          0          1        102
+Add Changed Bonds: tertiary-carbon-radical          1          1        102
+Add Changed Bonds: tertiary-carbon-radical          2          1        102
+Add Changed Bonds:       c(h)(h)(h)(oh)          0          1        102
+Add Changed Bonds:       c(h)(h)(h)(oh)          1          1        104
+Add Changed Bonds:       c(h)(h)(h)(oh)          2          1        102
+Add Changed Bonds:       c(h)(h)(h)(oh)          3          1        102
+Add Changed Bonds:       c(h)(h)(h)(oh)          4          1        102
+RxnCorrSet: :Reaction Correspondences 1073 
+            : 10 Matched Atoms
+            :    0 [10405105     0]  [20304104     0] 
+            :    1 [10405105     1]  [10506100     2] 
+            :    2 [10405105     2]  [20304104     1] 
+            :    3 [10405105     3]  [20304104     2] 
+            :    4 [10405105     4]  [20304104     3] 
+            :    5 [10405100     0]  [10506100     0] 
+            :    6 [10405100     1]  [10506100     1] 
+            :    7 [10405100     2]  [10506100     3] 
+            :    8 [10405100     3]  [10506100     4] 
+            :    9 [10405100     4]  [10506100     5] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405105     0]  [20304104     0])---([10405105     1]  [10506100     2])
+            :    1 ([10405100     0]  [10506100     0])---([10405105     1]  [10506100     2])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405103 (  5 Atoms and   4 Bonds) primary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000 1   0.0              4
+                  :Atom     4:     0.161     0.438     0.000 1   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 20607202 (  7 Atoms and   6 Bonds) ethyl-radical-(hh)(hhh)
+                  :Atom     0:     2.537     0.345     0.000 6   0.0              6
+                  :Atom     1:     2.537    -0.655     0.000 6   0.0              7
+                  :Atom     2:     3.074     0.655     0.000 1   0.0              8
+                  :Atom     3:     1.917    -0.655     0.000 1   0.0              9
+                  :Atom     4:     2.537    -1.275     0.000 1   0.0             10
+                  :Atom     5:     2.000     0.655     0.000 1   0.0             11
+                  :Atom     6:     3.157    -0.655     0.000 1   0.0             12
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  1   3     2)
+                  :  Single Bond (  1   4     2)
+                  :  Single Bond (  0   1     2)
+                  :  Single Bond (  0   5     2)
+                  :  Single Bond (  1   6     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304102 (  4 Atoms and   3 Bonds) primary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000 1   0.0              4
+                 :Atom     3:     0.161     0.438     0.000 1   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 10708200 (  8 Atoms and   7 Bonds) ethane-(hhh)(hhh)
+                 :Atom     0:     2.537     0.345     0.000 6   0.0              6
+                 :Atom     1:     2.537    -0.655     0.000 6   0.0              7
+                 :Atom     2:     3.074     0.655     0.000 1   0.0              8
+                 :Atom     3:     1.917    -0.655     0.000 1   0.0              2
+                 :Atom     4:     2.537    -1.275     0.000 1   0.0             11
+                 :Atom     5:     2.000     0.655     0.000 1   0.0              9
+                 :Atom     6:     3.157    -0.655     0.000 1   0.0             10
+                 :Atom     7:     2.000    -0.655     0.000 1   0.0             12
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     4)
+                 :  Single Bond (  0   4     2)
+                 :  Single Bond (  1   5     2)
+                 :  Single Bond (  1   6     2)
+                 :  Single Bond (  1   7     2)
+Add Changed Bonds: primary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: primary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: primary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: primary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds: ethyl-radical-(hh)(hhh)          0          0          2
+Add Changed Bonds: ethyl-radical-(hh)(hhh)          1          0          2
+Add Changed Bonds: ethyl-radical-(hh)(hhh)          2          0          2
+Add Changed Bonds: ethyl-radical-(hh)(hhh)          3          0          2
+Add Changed Bonds: ethyl-radical-(hh)(hhh)          4          0          2
+Add Changed Bonds: ethyl-radical-(hh)(hhh)          5          0          2
+Add Changed Bonds: primary-carbon-radical          0          1        102
+Add Changed Bonds: primary-carbon-radical          1          1        102
+Add Changed Bonds: primary-carbon-radical          2          1        102
+Add Changed Bonds:    ethane-(hhh)(hhh)          0          1        102
+Add Changed Bonds:    ethane-(hhh)(hhh)          1          1        102
+Add Changed Bonds:    ethane-(hhh)(hhh)          2          1        104
+Add Changed Bonds:    ethane-(hhh)(hhh)          3          1        102
+Add Changed Bonds:    ethane-(hhh)(hhh)          4          1        102
+Add Changed Bonds:    ethane-(hhh)(hhh)          5          1        102
+Add Changed Bonds:    ethane-(hhh)(hhh)          6          1        102
+RxnCorrSet: :Reaction Correspondences 1081 
+            : 12 Matched Atoms
+            :    0 [10405103     0]  [20304102     0] 
+            :    1 [10405103     1]  [10708200     3] 
+            :    2 [10405103     2]  [20304102     1] 
+            :    3 [10405103     3]  [20304102     2] 
+            :    4 [10405103     4]  [20304102     3] 
+            :    5 [20607202     0]  [10708200     0] 
+            :    6 [20607202     1]  [10708200     1] 
+            :    7 [20607202     2]  [10708200     2] 
+            :    8 [20607202     3]  [10708200     5] 
+            :    9 [20607202     4]  [10708200     6] 
+            :   10 [20607202     5]  [10708200     4] 
+            :   11 [20607202     6]  [10708200     7] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405103     0]  [20304102     0])---([10405103     1]  [10708200     3])
+            :    1 ([20607202     0]  [10708200     0])---([10405103     1]  [10708200     3])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405104 (  5 Atoms and   4 Bonds) secondary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000320   0.0              4
+                  :Atom     4:     0.161     0.438     0.000 1   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 20607202 (  7 Atoms and   6 Bonds) ethyl-radical-(hh)(hhh)
+                  :Atom     0:     2.537     0.345     0.000 6   0.0              6
+                  :Atom     1:     2.537    -0.655     0.000 6   0.0              7
+                  :Atom     2:     3.074     0.655     0.000 1   0.0              8
+                  :Atom     3:     1.917    -0.655     0.000 1   0.0              9
+                  :Atom     4:     2.537    -1.275     0.000 1   0.0             10
+                  :Atom     5:     2.000     0.655     0.000 1   0.0             11
+                  :Atom     6:     3.157    -0.655     0.000 1   0.0             12
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  1   3     2)
+                  :  Single Bond (  1   4     2)
+                  :  Single Bond (  0   1     2)
+                  :  Single Bond (  0   5     2)
+                  :  Single Bond (  1   6     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304103 (  4 Atoms and   3 Bonds) secondary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000320   0.0              4
+                 :Atom     3:     0.161     0.438     0.000 1   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 10708200 (  8 Atoms and   7 Bonds) ethane-(hhh)(hhh)
+                 :Atom     0:     2.537     0.345     0.000 6   0.0              6
+                 :Atom     1:     2.537    -0.655     0.000 6   0.0              7
+                 :Atom     2:     3.074     0.655     0.000 1   0.0              8
+                 :Atom     3:     1.917    -0.655     0.000 1   0.0              2
+                 :Atom     4:     2.537    -1.275     0.000 1   0.0             11
+                 :Atom     5:     2.000     0.655     0.000 1   0.0              9
+                 :Atom     6:     3.157    -0.655     0.000 1   0.0             10
+                 :Atom     7:     2.000    -0.655     0.000 1   0.0             12
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     4)
+                 :  Single Bond (  0   4     2)
+                 :  Single Bond (  1   5     2)
+                 :  Single Bond (  1   6     2)
+                 :  Single Bond (  1   7     2)
+Add Changed Bonds: secondary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: secondary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: secondary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: secondary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds: ethyl-radical-(hh)(hhh)          0          0          2
+Add Changed Bonds: ethyl-radical-(hh)(hhh)          1          0          2
+Add Changed Bonds: ethyl-radical-(hh)(hhh)          2          0          2
+Add Changed Bonds: ethyl-radical-(hh)(hhh)          3          0          2
+Add Changed Bonds: ethyl-radical-(hh)(hhh)          4          0          2
+Add Changed Bonds: ethyl-radical-(hh)(hhh)          5          0          2
+Add Changed Bonds: secondary-carbon-radical          0          1        102
+Add Changed Bonds: secondary-carbon-radical          1          1        102
+Add Changed Bonds: secondary-carbon-radical          2          1        102
+Add Changed Bonds:    ethane-(hhh)(hhh)          0          1        102
+Add Changed Bonds:    ethane-(hhh)(hhh)          1          1        102
+Add Changed Bonds:    ethane-(hhh)(hhh)          2          1        104
+Add Changed Bonds:    ethane-(hhh)(hhh)          3          1        102
+Add Changed Bonds:    ethane-(hhh)(hhh)          4          1        102
+Add Changed Bonds:    ethane-(hhh)(hhh)          5          1        102
+Add Changed Bonds:    ethane-(hhh)(hhh)          6          1        102
+RxnCorrSet: :Reaction Correspondences 1082 
+            : 12 Matched Atoms
+            :    0 [10405104     0]  [20304103     0] 
+            :    1 [10405104     1]  [10708200     3] 
+            :    2 [10405104     2]  [20304103     1] 
+            :    3 [10405104     3]  [20304103     2] 
+            :    4 [10405104     4]  [20304103     3] 
+            :    5 [20607202     0]  [10708200     0] 
+            :    6 [20607202     1]  [10708200     1] 
+            :    7 [20607202     2]  [10708200     2] 
+            :    8 [20607202     3]  [10708200     5] 
+            :    9 [20607202     4]  [10708200     6] 
+            :   10 [20607202     5]  [10708200     4] 
+            :   11 [20607202     6]  [10708200     7] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405104     0]  [20304103     0])---([10405104     1]  [10708200     3])
+            :    1 ([20607202     0]  [10708200     0])---([10405104     1]  [10708200     3])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405105 (  5 Atoms and   4 Bonds) tertiary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000320   0.0              4
+                  :Atom     4:     0.161     0.438     0.000320   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 20607202 (  7 Atoms and   6 Bonds) ethyl-radical-(hh)(hhh)
+                  :Atom     0:     2.537     0.345     0.000 6   0.0              6
+                  :Atom     1:     2.537    -0.655     0.000 6   0.0              7
+                  :Atom     2:     3.074     0.655     0.000 1   0.0              8
+                  :Atom     3:     1.917    -0.655     0.000 1   0.0              9
+                  :Atom     4:     2.537    -1.275     0.000 1   0.0             10
+                  :Atom     5:     2.000     0.655     0.000 1   0.0             11
+                  :Atom     6:     3.157    -0.655     0.000 1   0.0             12
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  1   3     2)
+                  :  Single Bond (  1   4     2)
+                  :  Single Bond (  0   1     2)
+                  :  Single Bond (  0   5     2)
+                  :  Single Bond (  1   6     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304104 (  4 Atoms and   3 Bonds) tertiary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000320   0.0              4
+                 :Atom     3:     0.161     0.438     0.000320   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 10708200 (  8 Atoms and   7 Bonds) ethane-(hhh)(hhh)
+                 :Atom     0:     2.537     0.345     0.000 6   0.0              6
+                 :Atom     1:     2.537    -0.655     0.000 6   0.0              7
+                 :Atom     2:     3.074     0.655     0.000 1   0.0              8
+                 :Atom     3:     1.917    -0.655     0.000 1   0.0              2
+                 :Atom     4:     2.537    -1.275     0.000 1   0.0             11
+                 :Atom     5:     2.000     0.655     0.000 1   0.0              9
+                 :Atom     6:     3.157    -0.655     0.000 1   0.0             10
+                 :Atom     7:     2.000    -0.655     0.000 1   0.0             12
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     4)
+                 :  Single Bond (  0   4     2)
+                 :  Single Bond (  1   5     2)
+                 :  Single Bond (  1   6     2)
+                 :  Single Bond (  1   7     2)
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds: ethyl-radical-(hh)(hhh)          0          0          2
+Add Changed Bonds: ethyl-radical-(hh)(hhh)          1          0          2
+Add Changed Bonds: ethyl-radical-(hh)(hhh)          2          0          2
+Add Changed Bonds: ethyl-radical-(hh)(hhh)          3          0          2
+Add Changed Bonds: ethyl-radical-(hh)(hhh)          4          0          2
+Add Changed Bonds: ethyl-radical-(hh)(hhh)          5          0          2
+Add Changed Bonds: tertiary-carbon-radical          0          1        102
+Add Changed Bonds: tertiary-carbon-radical          1          1        102
+Add Changed Bonds: tertiary-carbon-radical          2          1        102
+Add Changed Bonds:    ethane-(hhh)(hhh)          0          1        102
+Add Changed Bonds:    ethane-(hhh)(hhh)          1          1        102
+Add Changed Bonds:    ethane-(hhh)(hhh)          2          1        104
+Add Changed Bonds:    ethane-(hhh)(hhh)          3          1        102
+Add Changed Bonds:    ethane-(hhh)(hhh)          4          1        102
+Add Changed Bonds:    ethane-(hhh)(hhh)          5          1        102
+Add Changed Bonds:    ethane-(hhh)(hhh)          6          1        102
+RxnCorrSet: :Reaction Correspondences 1083 
+            : 12 Matched Atoms
+            :    0 [10405105     0]  [20304104     0] 
+            :    1 [10405105     1]  [10708200     3] 
+            :    2 [10405105     2]  [20304104     1] 
+            :    3 [10405105     3]  [20304104     2] 
+            :    4 [10405105     4]  [20304104     3] 
+            :    5 [20607202     0]  [10708200     0] 
+            :    6 [20607202     1]  [10708200     1] 
+            :    7 [20607202     2]  [10708200     2] 
+            :    8 [20607202     3]  [10708200     5] 
+            :    9 [20607202     4]  [10708200     6] 
+            :   10 [20607202     5]  [10708200     4] 
+            :   11 [20607202     6]  [10708200     7] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405105     0]  [20304104     0])---([10405105     1]  [10708200     3])
+            :    1 ([20607202     0]  [10708200     0])---([10405105     1]  [10708200     3])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405103 (  5 Atoms and   4 Bonds) primary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000 1   0.0              4
+                  :Atom     4:     0.161     0.438     0.000 1   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405200 (  5 Atoms and   4 Bonds) ethenyl-(hh)(h)
+                  :Atom     0:     2.000     0.000     0.000 6   0.0              6
+                  :Atom     1:     3.000     0.000     0.000 6   0.0              7
+                  :Atom     2:     1.690     0.537     0.000 1   0.0              8
+                  :Atom     3:     1.690    -0.537     0.000 1   0.0              9
+                  :Atom     4:     3.310    -0.537     0.000 1   0.0             10
+                  :  Double Bond (  0   1     2)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  1   4     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304102 (  4 Atoms and   3 Bonds) primary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000 1   0.0              4
+                 :Atom     3:     0.161     0.438     0.000 1   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          4
+Product Molfile: :MolFile 10506209 (  6 Atoms and   5 Bonds) olefin-(hh)(hh)
+                 :Atom     0:     2.000     0.000     0.000 6   0.0              6
+                 :Atom     1:     3.000     0.000     0.000 6   0.0              7
+                 :Atom     2:     1.690     0.537     0.000 1   0.0              8
+                 :Atom     3:     1.690    -0.537     0.000 1   0.0              9
+                 :Atom     4:     3.310    -0.537     0.000 1   0.0             10
+                 :Atom     5:     3.310     0.537     0.000 1   0.0              2
+                 :  Double Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+                 :  Single Bond (  1   4     2)
+                 :  Single Bond (  1   5     4)
+Add Changed Bonds: primary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: primary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: primary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: primary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds:      ethenyl-(hh)(h)          0          0          2
+Add Changed Bonds:      ethenyl-(hh)(h)          1          0          2
+Add Changed Bonds:      ethenyl-(hh)(h)          2          0          2
+Add Changed Bonds:      ethenyl-(hh)(h)          3          0          2
+Add Changed Bonds: primary-carbon-radical          0          1        102
+Add Changed Bonds: primary-carbon-radical          1          1        102
+Add Changed Bonds: primary-carbon-radical          2          1        102
+Add Changed Bonds:      olefin-(hh)(hh)          0          1        102
+Add Changed Bonds:      olefin-(hh)(hh)          1          1        102
+Add Changed Bonds:      olefin-(hh)(hh)          2          1        102
+Add Changed Bonds:      olefin-(hh)(hh)          3          1        102
+Add Changed Bonds:      olefin-(hh)(hh)          4          1        104
+RxnCorrSet: :Reaction Correspondences 1091 
+            : 10 Matched Atoms
+            :    0 [10405103     0]  [20304102     0] 
+            :    1 [10405103     1]  [10506209     5] 
+            :    2 [10405103     2]  [20304102     1] 
+            :    3 [10405103     3]  [20304102     2] 
+            :    4 [10405103     4]  [20304102     3] 
+            :    5 [10405200     0]  [10506209     0] 
+            :    6 [10405200     1]  [10506209     1] 
+            :    7 [10405200     2]  [10506209     2] 
+            :    8 [10405200     3]  [10506209     3] 
+            :    9 [10405200     4]  [10506209     4] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405103     0]  [20304102     0])---([10405103     1]  [10506209     5])
+            :    1 ([10405200     1]  [10506209     1])---([10405103     1]  [10506209     5])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405104 (  5 Atoms and   4 Bonds) secondary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000320   0.0              4
+                  :Atom     4:     0.161     0.438     0.000 1   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405200 (  5 Atoms and   4 Bonds) ethenyl-(hh)(h)
+                  :Atom     0:     2.000     0.000     0.000 6   0.0              6
+                  :Atom     1:     3.000     0.000     0.000 6   0.0              7
+                  :Atom     2:     1.690     0.537     0.000 1   0.0              8
+                  :Atom     3:     1.690    -0.537     0.000 1   0.0              9
+                  :Atom     4:     3.310    -0.537     0.000 1   0.0             10
+                  :  Double Bond (  0   1     2)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  1   4     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304103 (  4 Atoms and   3 Bonds) secondary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000320   0.0              4
+                 :Atom     3:     0.161     0.438     0.000 1   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          4
+Product Molfile: :MolFile 10506209 (  6 Atoms and   5 Bonds) olefin-(hh)(hh)
+                 :Atom     0:     2.000     0.000     0.000 6   0.0              6
+                 :Atom     1:     3.000     0.000     0.000 6   0.0              7
+                 :Atom     2:     1.690     0.537     0.000 1   0.0              8
+                 :Atom     3:     1.690    -0.537     0.000 1   0.0              9
+                 :Atom     4:     3.310    -0.537     0.000 1   0.0             10
+                 :Atom     5:     3.310     0.537     0.000 1   0.0              2
+                 :  Double Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+                 :  Single Bond (  1   4     2)
+                 :  Single Bond (  1   5     4)
+Add Changed Bonds: secondary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: secondary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: secondary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: secondary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds:      ethenyl-(hh)(h)          0          0          2
+Add Changed Bonds:      ethenyl-(hh)(h)          1          0          2
+Add Changed Bonds:      ethenyl-(hh)(h)          2          0          2
+Add Changed Bonds:      ethenyl-(hh)(h)          3          0          2
+Add Changed Bonds: secondary-carbon-radical          0          1        102
+Add Changed Bonds: secondary-carbon-radical          1          1        102
+Add Changed Bonds: secondary-carbon-radical          2          1        102
+Add Changed Bonds:      olefin-(hh)(hh)          0          1        102
+Add Changed Bonds:      olefin-(hh)(hh)          1          1        102
+Add Changed Bonds:      olefin-(hh)(hh)          2          1        102
+Add Changed Bonds:      olefin-(hh)(hh)          3          1        102
+Add Changed Bonds:      olefin-(hh)(hh)          4          1        104
+RxnCorrSet: :Reaction Correspondences 1092 
+            : 10 Matched Atoms
+            :    0 [10405104     0]  [20304103     0] 
+            :    1 [10405104     1]  [10506209     5] 
+            :    2 [10405104     2]  [20304103     1] 
+            :    3 [10405104     3]  [20304103     2] 
+            :    4 [10405104     4]  [20304103     3] 
+            :    5 [10405200     0]  [10506209     0] 
+            :    6 [10405200     1]  [10506209     1] 
+            :    7 [10405200     2]  [10506209     2] 
+            :    8 [10405200     3]  [10506209     3] 
+            :    9 [10405200     4]  [10506209     4] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405104     0]  [20304103     0])---([10405104     1]  [10506209     5])
+            :    1 ([10405200     1]  [10506209     1])---([10405104     1]  [10506209     5])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405105 (  5 Atoms and   4 Bonds) tertiary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000320   0.0              4
+                  :Atom     4:     0.161     0.438     0.000320   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405200 (  5 Atoms and   4 Bonds) ethenyl-(hh)(h)
+                  :Atom     0:     2.000     0.000     0.000 6   0.0              6
+                  :Atom     1:     3.000     0.000     0.000 6   0.0              7
+                  :Atom     2:     1.690     0.537     0.000 1   0.0              8
+                  :Atom     3:     1.690    -0.537     0.000 1   0.0              9
+                  :Atom     4:     3.310    -0.537     0.000 1   0.0             10
+                  :  Double Bond (  0   1     2)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  1   4     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304104 (  4 Atoms and   3 Bonds) tertiary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000320   0.0              4
+                 :Atom     3:     0.161     0.438     0.000320   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          4
+Product Molfile: :MolFile 10506209 (  6 Atoms and   5 Bonds) olefin-(hh)(hh)
+                 :Atom     0:     2.000     0.000     0.000 6   0.0              6
+                 :Atom     1:     3.000     0.000     0.000 6   0.0              7
+                 :Atom     2:     1.690     0.537     0.000 1   0.0              8
+                 :Atom     3:     1.690    -0.537     0.000 1   0.0              9
+                 :Atom     4:     3.310    -0.537     0.000 1   0.0             10
+                 :Atom     5:     3.310     0.537     0.000 1   0.0              2
+                 :  Double Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+                 :  Single Bond (  1   4     2)
+                 :  Single Bond (  1   5     4)
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds:      ethenyl-(hh)(h)          0          0          2
+Add Changed Bonds:      ethenyl-(hh)(h)          1          0          2
+Add Changed Bonds:      ethenyl-(hh)(h)          2          0          2
+Add Changed Bonds:      ethenyl-(hh)(h)          3          0          2
+Add Changed Bonds: tertiary-carbon-radical          0          1        102
+Add Changed Bonds: tertiary-carbon-radical          1          1        102
+Add Changed Bonds: tertiary-carbon-radical          2          1        102
+Add Changed Bonds:      olefin-(hh)(hh)          0          1        102
+Add Changed Bonds:      olefin-(hh)(hh)          1          1        102
+Add Changed Bonds:      olefin-(hh)(hh)          2          1        102
+Add Changed Bonds:      olefin-(hh)(hh)          3          1        102
+Add Changed Bonds:      olefin-(hh)(hh)          4          1        104
+RxnCorrSet: :Reaction Correspondences 1093 
+            : 10 Matched Atoms
+            :    0 [10405105     0]  [20304104     0] 
+            :    1 [10405105     1]  [10506209     5] 
+            :    2 [10405105     2]  [20304104     1] 
+            :    3 [10405105     3]  [20304104     2] 
+            :    4 [10405105     4]  [20304104     3] 
+            :    5 [10405200     0]  [10506209     0] 
+            :    6 [10405200     1]  [10506209     1] 
+            :    7 [10405200     2]  [10506209     2] 
+            :    8 [10405200     3]  [10506209     3] 
+            :    9 [10405200     4]  [10506209     4] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405105     0]  [20304104     0])---([10405105     1]  [10506209     5])
+            :    1 ([10405200     1]  [10506209     1])---([10405105     1]  [10506209     5])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405103 (  5 Atoms and   4 Bonds) primary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000 1   0.0              4
+                  :Atom     4:     0.161     0.438     0.000 1   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 20506104 (  6 Atoms and   5 Bonds) (h)(h)(h)coo.
+                  :Atom     0:    -0.323     0.705     0.000 6   0.0              6
+                  :Atom     1:     0.161     0.438     0.000 8   0.0              7
+                  :Atom     2:    -1.545    -0.288     0.000 8   0.0              8
+                  :Atom     3:     0.161     0.438     0.000 1   0.0              9
+                  :Atom     4:     0.161     0.438     0.000 1   0.0             10
+                  :Atom     5:     0.161     0.438     0.000 1   0.0             11
+                  :  Single Bond (  0   1     2)
+                  :  Single Bond (  1   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+                  :  Single Bond (  0   5     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304102 (  4 Atoms and   3 Bonds) primary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000 1   0.0              4
+                 :Atom     3:     0.161     0.438     0.000 1   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          4
+Product Molfile: :MolFile 10607100 (  7 Atoms and   6 Bonds) (h)(h)(h)cooh
+                 :Atom     0:    -0.323     0.705     0.000 6   0.0              6
+                 :Atom     1:     0.161     0.438     0.000 8   0.0              7
+                 :Atom     2:    -1.545    -0.288     0.000 8   0.0              8
+                 :Atom     3:     0.161     0.438     0.000 1   0.0              9
+                 :Atom     4:     0.161     0.438     0.000 1   0.0             10
+                 :Atom     5:     0.161     0.438     0.000 1   0.0             11
+                 :Atom     6:     0.161     0.438     0.000 1   0.0              2
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  1   2     2)
+                 :  Single Bond (  2   3     2)
+                 :  Single Bond (  0   4     2)
+                 :  Single Bond (  0   5     2)
+                 :  Single Bond (  0   6     4)
+Add Changed Bonds: primary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: primary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: primary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: primary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds:        (h)(h)(h)coo.          0          0          2
+Add Changed Bonds:        (h)(h)(h)coo.          1          0          2
+Add Changed Bonds:        (h)(h)(h)coo.          2          0          2
+Add Changed Bonds:        (h)(h)(h)coo.          3          0          2
+Add Changed Bonds:        (h)(h)(h)coo.          4          0          2
+Add Changed Bonds: primary-carbon-radical          0          1        102
+Add Changed Bonds: primary-carbon-radical          1          1        102
+Add Changed Bonds: primary-carbon-radical          2          1        102
+Add Changed Bonds:        (h)(h)(h)cooh          0          1        102
+Add Changed Bonds:        (h)(h)(h)cooh          1          1        102
+Add Changed Bonds:        (h)(h)(h)cooh          2          1        102
+Add Changed Bonds:        (h)(h)(h)cooh          3          1        102
+Add Changed Bonds:        (h)(h)(h)cooh          4          1        102
+Add Changed Bonds:        (h)(h)(h)cooh          5          1        104
+RxnCorrSet: :Reaction Correspondences 1101 
+            : 11 Matched Atoms
+            :    0 [10405103     0]  [20304102     0] 
+            :    1 [10405103     1]  [10607100     6] 
+            :    2 [10405103     2]  [20304102     1] 
+            :    3 [10405103     3]  [20304102     2] 
+            :    4 [10405103     4]  [20304102     3] 
+            :    5 [20506104     0]  [10607100     0] 
+            :    6 [20506104     1]  [10607100     1] 
+            :    7 [20506104     2]  [10607100     2] 
+            :    8 [20506104     3]  [10607100     3] 
+            :    9 [20506104     4]  [10607100     4] 
+            :   10 [20506104     5]  [10607100     5] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405103     0]  [20304102     0])---([10405103     1]  [10607100     6])
+            :    1 ([20506104     0]  [10607100     0])---([10405103     1]  [10607100     6])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405104 (  5 Atoms and   4 Bonds) secondary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000320   0.0              4
+                  :Atom     4:     0.161     0.438     0.000 1   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 20506104 (  6 Atoms and   5 Bonds) (h)(h)(h)coo.
+                  :Atom     0:    -0.323     0.705     0.000 6   0.0              6
+                  :Atom     1:     0.161     0.438     0.000 8   0.0              7
+                  :Atom     2:    -1.545    -0.288     0.000 8   0.0              8
+                  :Atom     3:     0.161     0.438     0.000 1   0.0              9
+                  :Atom     4:     0.161     0.438     0.000 1   0.0             10
+                  :Atom     5:     0.161     0.438     0.000 1   0.0             11
+                  :  Single Bond (  0   1     2)
+                  :  Single Bond (  1   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+                  :  Single Bond (  0   5     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304103 (  4 Atoms and   3 Bonds) secondary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000320   0.0              4
+                 :Atom     3:     0.161     0.438     0.000 1   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          4
+Product Molfile: :MolFile 10607100 (  7 Atoms and   6 Bonds) (h)(h)(h)cooh
+                 :Atom     0:    -0.323     0.705     0.000 6   0.0              6
+                 :Atom     1:     0.161     0.438     0.000 8   0.0              7
+                 :Atom     2:    -1.545    -0.288     0.000 8   0.0              8
+                 :Atom     3:     0.161     0.438     0.000 1   0.0              9
+                 :Atom     4:     0.161     0.438     0.000 1   0.0             10
+                 :Atom     5:     0.161     0.438     0.000 1   0.0             11
+                 :Atom     6:     0.161     0.438     0.000 1   0.0              2
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  1   2     2)
+                 :  Single Bond (  2   3     2)
+                 :  Single Bond (  0   4     2)
+                 :  Single Bond (  0   5     2)
+                 :  Single Bond (  0   6     4)
+Add Changed Bonds: secondary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: secondary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: secondary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: secondary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds:        (h)(h)(h)coo.          0          0          2
+Add Changed Bonds:        (h)(h)(h)coo.          1          0          2
+Add Changed Bonds:        (h)(h)(h)coo.          2          0          2
+Add Changed Bonds:        (h)(h)(h)coo.          3          0          2
+Add Changed Bonds:        (h)(h)(h)coo.          4          0          2
+Add Changed Bonds: secondary-carbon-radical          0          1        102
+Add Changed Bonds: secondary-carbon-radical          1          1        102
+Add Changed Bonds: secondary-carbon-radical          2          1        102
+Add Changed Bonds:        (h)(h)(h)cooh          0          1        102
+Add Changed Bonds:        (h)(h)(h)cooh          1          1        102
+Add Changed Bonds:        (h)(h)(h)cooh          2          1        102
+Add Changed Bonds:        (h)(h)(h)cooh          3          1        102
+Add Changed Bonds:        (h)(h)(h)cooh          4          1        102
+Add Changed Bonds:        (h)(h)(h)cooh          5          1        104
+RxnCorrSet: :Reaction Correspondences 1102 
+            : 11 Matched Atoms
+            :    0 [10405104     0]  [20304103     0] 
+            :    1 [10405104     1]  [10607100     6] 
+            :    2 [10405104     2]  [20304103     1] 
+            :    3 [10405104     3]  [20304103     2] 
+            :    4 [10405104     4]  [20304103     3] 
+            :    5 [20506104     0]  [10607100     0] 
+            :    6 [20506104     1]  [10607100     1] 
+            :    7 [20506104     2]  [10607100     2] 
+            :    8 [20506104     3]  [10607100     3] 
+            :    9 [20506104     4]  [10607100     4] 
+            :   10 [20506104     5]  [10607100     5] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405104     0]  [20304103     0])---([10405104     1]  [10607100     6])
+            :    1 ([20506104     0]  [10607100     0])---([10405104     1]  [10607100     6])
+Search Key Element Not Found
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 10405105 (  5 Atoms and   4 Bonds) tertiary-carbon-hydrogen-bond
+                  :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                  :Atom     1:     0.161     0.438     0.000 1   0.0              2
+                  :Atom     2:     0.161     0.438     0.000320   0.0              3
+                  :Atom     3:     0.161     0.438     0.000320   0.0              4
+                  :Atom     4:     0.161     0.438     0.000320   0.0              5
+                  :  Single Bond (  0   1     4)
+                  :  Single Bond (  0   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Reactant Molfile: :MolFile 20506104 (  6 Atoms and   5 Bonds) (h)(h)(h)coo.
+                  :Atom     0:    -0.323     0.705     0.000 6   0.0              6
+                  :Atom     1:     0.161     0.438     0.000 8   0.0              7
+                  :Atom     2:    -1.545    -0.288     0.000 8   0.0              8
+                  :Atom     3:     0.161     0.438     0.000 1   0.0              9
+                  :Atom     4:     0.161     0.438     0.000 1   0.0             10
+                  :Atom     5:     0.161     0.438     0.000 1   0.0             11
+                  :  Single Bond (  0   1     2)
+                  :  Single Bond (  1   2     2)
+                  :  Single Bond (  0   3     2)
+                  :  Single Bond (  0   4     2)
+                  :  Single Bond (  0   5     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Product Molfile: :MolFile 20304104 (  4 Atoms and   3 Bonds) tertiary-carbon-radical
+                 :Atom     0:     0.161     0.438     0.000 6   0.0              1
+                 :Atom     1:     0.161     0.438     0.000320   0.0              3
+                 :Atom     2:     0.161     0.438     0.000320   0.0              4
+                 :Atom     3:     0.161     0.438     0.000320   0.0              5
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  0   2     2)
+                 :  Single Bond (  0   3     2)
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          4
+Product Molfile: :MolFile 10607100 (  7 Atoms and   6 Bonds) (h)(h)(h)cooh
+                 :Atom     0:    -0.323     0.705     0.000 6   0.0              6
+                 :Atom     1:     0.161     0.438     0.000 8   0.0              7
+                 :Atom     2:    -1.545    -0.288     0.000 8   0.0              8
+                 :Atom     3:     0.161     0.438     0.000 1   0.0              9
+                 :Atom     4:     0.161     0.438     0.000 1   0.0             10
+                 :Atom     5:     0.161     0.438     0.000 1   0.0             11
+                 :Atom     6:     0.161     0.438     0.000 1   0.0              2
+                 :  Single Bond (  0   1     2)
+                 :  Single Bond (  1   2     2)
+                 :  Single Bond (  2   3     2)
+                 :  Single Bond (  0   4     2)
+                 :  Single Bond (  0   5     2)
+                 :  Single Bond (  0   6     4)
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          0          0          4
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          1          0          2
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          2          0          2
+Add Changed Bonds: tertiary-carbon-hydrogen-bond          3          0          2
+Add Changed Bonds:        (h)(h)(h)coo.          0          0          2
+Add Changed Bonds:        (h)(h)(h)coo.          1          0          2
+Add Changed Bonds:        (h)(h)(h)coo.          2          0          2
+Add Changed Bonds:        (h)(h)(h)coo.          3          0          2
+Add Changed Bonds:        (h)(h)(h)coo.          4          0          2
+Add Changed Bonds: tertiary-carbon-radical          0          1        102
+Add Changed Bonds: tertiary-carbon-radical          1          1        102
+Add Changed Bonds: tertiary-carbon-radical          2          1        102
+Add Changed Bonds:        (h)(h)(h)cooh          0          1        102
+Add Changed Bonds:        (h)(h)(h)cooh          1          1        102
+Add Changed Bonds:        (h)(h)(h)cooh          2          1        102
+Add Changed Bonds:        (h)(h)(h)cooh          3          1        102
+Add Changed Bonds:        (h)(h)(h)cooh          4          1        102
+Add Changed Bonds:        (h)(h)(h)cooh          5          1        104
+RxnCorrSet: :Reaction Correspondences 1103 
+            : 11 Matched Atoms
+            :    0 [10405105     0]  [20304104     0] 
+            :    1 [10405105     1]  [10607100     6] 
+            :    2 [10405105     2]  [20304104     1] 
+            :    3 [10405105     3]  [20304104     2] 
+            :    4 [10405105     4]  [20304104     3] 
+            :    5 [20506104     0]  [10607100     0] 
+            :    6 [20506104     1]  [10607100     1] 
+            :    7 [20506104     2]  [10607100     2] 
+            :    8 [20506104     3]  [10607100     3] 
+            :    9 [20506104     4]  [10607100     4] 
+            :   10 [20506104     5]  [10607100     5] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10405105     0]  [20304104     0])---([10405105     1]  [10607100     6])
+            :    1 ([20506104     0]  [10607100     0])---([10405105     1]  [10607100     6])
+RxnPatterns>> Quit
+DbaseOps>> Quit
+main>> Rxn
+Command:Rxn
+Rxn>> Output
+Command:Output
+Output>> RxnPatterns
+Command:RxnPatterns
+RxnPatterns>> Print
+Command:Print
+RxnPatterns>> Quit
+Output>> Quit
+Rxn>> Quit
+main>> DbaseOps
+Command:DbaseOps
+DbaseOps>> RxnPatterns
+Command:RxnPatterns
+RxnPatterns>> Current
+Command:Current
+Current>> Store
+Command:Store
+Current>> Quit
+RxnPatterns>> Keys
+Command:Keys
+Keys>> Define
+Command:Define
+Keys>> Fill
+Command:Fill
+Keys>> Write
+Command:Write
+Keys>> Quit
+RxnPatterns>> Quit
+DbaseOps>> Quit
+main>> Quit
+~/react/data/rxn/rxnpats 

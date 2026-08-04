@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Backup to GitHub | REACT ChemDB Docs</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <h1>How to Backup Changes to GitHub</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/deployment-phases">Deployment Phases</a>
+      <a href="/update-and-deploy-image">Update & Deploy Docker Image</a>
+      <a href="/backup-to-github">Backup to GitHub</a>
+      <a href="/archive">Full Implementation Archive</a>
+    </nav>
+  </header>
+  <main>
+    <h2>Branch Strategy</h2>
+    <p>
+      Keep deployment work on the dedicated branch
+      <code>blurock-reactcloudrun-setup</code> and push frequently.
+    </p>
+
+    <h2>Backup Commands</h2>
+    <pre><code>git checkout blurock-reactcloudrun-setup
+git status
+git add .
+git commit -m "Describe the deployment/documentation changes"
+git push -u origin blurock-reactcloudrun-setup</code></pre>
+
+    <h2>Create a Pull Request</h2>
+    <pre><code>gh pr create \
+  --base master \
+  --head blurock-reactcloudrun-setup \
+  --title "REACT Cloud Run and hosting docs updates" \
+  --body "Includes Cloud Run deployment updates and Firebase Hosting documentation site."</code></pre>
+
+    <h2>Recommended Checks Before Push</h2>
+    <ul>
+      <li>Ensure no secrets are committed (<code>.env</code>, keys, tokens).</li>
+      <li>Verify Cloud Run deployment commands in docs still match current project settings.</li>
+      <li>Use clear commit messages tied to deployment phases.</li>
+    </ul>
+  </main>
+  <footer>
+    GitHub backup workflow for REACT ChemDB
+  </footer>
+</body>
+</html>

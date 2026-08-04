@@ -1,0 +1,234 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyAllylDecomposition(hh)(h)(hh)\
+    peroxypropene-radical-(hh)(h)(hh) = .c(h)(h)co(h) (h)(h)c(o)
+- ID 71001
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 2 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 1.7D+09  1.000  26400.0 4;R33C3H5OOZ=>R13CH2CHO+HCHO ; Heyberger et. al., Comb. and Flame., 126:1780-1802
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+PeroxyAllylDecomposition(rh)(h)(hh)\
+    peroxypropene-radical-(rh)(h)(hh) = .c(r)(h)co(h) (h)(h)c(o)
+- ID 71002
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 2 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 1.7D+09  1.000  26400.0 2;R33C3H5OOZ=>R13CH2CHO+HCHO ; Heyberger et. al., Comb. and Flame., 126:1780-1802
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyAllylDecomposition(rr)(h)(hh)\
+    peroxypropene-radical-(rr)(h)(hh) = .c(r)(r)co(h) (h)(h)c(o)
+- ID 71003
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 2 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 1.7D+09  1.000  26400.0 4;R33C3H5OOZ=>R13CH2CHO+HCHO ; Heyberger et. al., Comb. and Flame., 126:1780-1802
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyAllylDecomposition(hh)(r)(hh)\
+    peroxypropene-radical-(hh)(r)(hh) = .c(h)(h)co(r) (h)(h)c(o)
+- ID 71004
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 2 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 1.7D+09  1.000  26400.0 4;R33C3H5OOZ=>R13CH2CHO+HCHO ; Heyberger et. al., Comb. and Flame., 126:1780-1802
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+PeroxyAllylDecomposition(rh)(r)(hh)\
+    peroxypropene-radical-(rh)(r)(hh) = .c(r)(h)co(r) (h)(h)c(o)
+- ID 71005
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 2 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 1.7D+09  1.000  26400.0 2;R33C3H5OOZ=>R13CH2CHO+HCHO ; Heyberger et. al., Comb. and Flame., 126:1780-1802
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyAllylDecomposition(rr)(r)(hh)\
+    peroxypropene-radical-(rr)(r)(hh) = .c(r)(r)co(r) (h)(h)c(o)
+- ID 71006
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 2 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 1.7D+09  1.000  26400.0 4;R33C3H5OOZ=>R13CH2CHO+HCHO ; Heyberger et. al., Comb. and Flame., 126:1780-1802
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+PeroxyAllylDecomposition(hh)(h)(rh)\
+    peroxypropene-radical-(hh)(h)(rh) = .c(h)(h)co(h) (r)(h)c(o)
+- ID 71007
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 2 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 1.7D+09  1.000  26400.0 2;R33C3H5OOZ=>R13CH2CHO+HCHO ; Heyberger et. al., Comb. and Flame., 126:1780-1802
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1 = 1
+%%%-------------------------------------------------------------------
+PeroxyAllylDecomposition(rh)(h)(rh)\
+    peroxypropene-radical-(rh)(h)(rh) = .c(r)(h)co(h) (r)(h)c(o)
+- ID 71008
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 2 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 1.7D+09  1.000  26400.0 1;R33C3H5OOZ=>R13CH2CHO+HCHO ; Heyberger et. al., Comb. and Flame., 126:1780-1802
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+PeroxyAllylDecomposition(rr)(h)(rh)\
+    peroxypropene-radical-(rr)(h)(rh) = .c(r)(r)co(h) (r)(h)c(o)
+- ID 71009
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 2 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 1.7D+09  1.000  26400.0 2;R33C3H5OOZ=>R13CH2CHO+HCHO ; Heyberger et. al., Comb. and Flame., 126:1780-1802
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+PeroxyAllylDecomposition(hh)(r)(rh)\
+    peroxypropene-radical-(hh)(r)(rh) = .c(h)(h)co(r) (r)(h)c(o)
+- ID 71010
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 2 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 1.7D+09  1.000  26400.0 2;R33C3H5OOZ=>R13CH2CHO+HCHO ; Heyberger et. al., Comb. and Flame., 126:1780-1802
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1 = 1
+%%%-------------------------------------------------------------------
+PeroxyAllylDecomposition(rh)(r)(rh)\
+    peroxypropene-radical-(rh)(r)(rh) = .c(r)(h)co(r) (r)(h)c(o)
+- ID 71011
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 2 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 1.7D+09  1.000  26400.0 1;R33C3H5OOZ=>R13CH2CHO+HCHO ; Heyberger et. al., Comb. and Flame., 126:1780-1802
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+PeroxyAllylDecomposition(rr)(r)(rh)\
+    peroxypropene-radical-(rr)(r)(rh) = .c(r)(r)co(r) (r)(h)c(o)
+- ID 71012
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 2 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 1.7D+09  1.000  26400.0 2;R33C3H5OOZ=>R13CH2CHO+HCHO ; Heyberger et. al., Comb. and Flame., 126:1780-1802
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyAllylDecomposition(hh)(h)(rr)\
+    peroxypropene-radical-(hh)(h)(rr) = .c(h)(h)co(h) (r)(r)c(o)
+- ID 71013
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 2 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 1.7D+09  1.000  26400.0 4;R33C3H5OOZ=>R13CH2CHO+HCHO ; Heyberger et. al., Comb. and Flame., 126:1780-1802
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+PeroxyAllylDecomposition(rh)(h)(rr)\
+    peroxypropene-radical-(rh)(h)(rr) = .c(r)(h)co(h) (r)(r)c(o)
+- ID 71014
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 2 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 1.7D+09  1.000  26400.0 2;R33C3H5OOZ=>R13CH2CHO+HCHO ; Heyberger et. al., Comb. and Flame., 126:1780-1802
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyAllylDecomposition(rr)(h)(rr)\
+    peroxypropene-radical-(rr)(h)(rr) = .c(r)(r)co(h) (r)(r)c(o)
+- ID 71015
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 2 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 1.7D+09  1.000  26400.0 4;R33C3H5OOZ=>R13CH2CHO+HCHO ; Heyberger et. al., Comb. and Flame., 126:1780-1802
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyAllylDecomposition(hh)(r)(rr)\
+    peroxypropene-radical-(hh)(r)(rr) = .c(h)(h)co(r) (r)(r)c(o)
+- ID 71016
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 2 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 1.7D+09  1.000  26400.0 4;R33C3H5OOZ=>R13CH2CHO+HCHO ; Heyberger et. al., Comb. and Flame., 126:1780-1802
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+PeroxyAllylDecomposition(rh)(r)(rr)\
+    peroxypropene-radical-(rh)(r)(rr) = .c(r)(h)co(r) (r)(r)c(o)
+- ID 71017
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 2 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 1.7D+09  1.000  26400.0 2;R33C3H5OOZ=>R13CH2CHO+HCHO ; Heyberger et. al., Comb. and Flame., 126:1780-1802
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyAllylDecomposition(rr)(r)(rr)\
+    peroxypropene-radical-(rr)(r)(rr) = .c(r)(r)co(r) (r)(r)c(o)
+- ID 71018
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 2 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 1.7D+09  1.000  26400.0 4;R33C3H5OOZ=>R13CH2CHO+HCHO ; Heyberger et. al., Comb. and Flame., 126:1780-1802
+$$$$

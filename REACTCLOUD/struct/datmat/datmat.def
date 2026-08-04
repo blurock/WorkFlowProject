@@ -1,0 +1,70 @@
+The Master Data Structure for the Data Matrix Points
+0 Structures For Data Points
+%%-------------------------------------------------------
+%%  This is the master structure for the datmat set of 
+%%  library routines
+%%
+DatMatConstants 00 syssamconstants
+     0 The Debug Flag
+       INT ReadDebug       Create
+     1 The Maximum number of variable names
+       INT MaxNames        Create
+     2 Flag to eliminate Missing Descriptor points
+       INT DescriptorMissing
+     3 Flag to eliminate missing Goal points
+       INT GoalMissing   Create
+     4 The set of Ranges to use (as a string)
+       STRING SubSetRanges Pointer Create
+     5 The maximum number of ranges allowed
+       INT SubSetNumRanges Create
+     6 The Percent of points to be used for training
+       INT TrainPercent   Create
+     7 The Percent of random points
+       INT RandomPercent Create
+     8 The Default Data Directory
+       STRING DataDirectory Pointer Create
+     9 The Default Variable Directory
+       STRING VarDirectory Pointer Create
+    10 Print as latex document
+       INT LatexPrint Create
+    11 The ControlFile Name
+       STRING ControlFile Pointer Create
+    12 The Name of the Descriptor List
+       STRING DescrList Pointer Create
+    13 The Name of the GoalList
+       STRING GoalList Pointer Create
+     DONE
+
+DatMatMaster 01 datmatmaster SystemList
+     0 The Data Points
+       SysSamVectorSet SysSamVectorSetElement Pointer   Create
+     1 The Raw Data Set
+       DataSubSet DataSubSetStandard Pointer Create
+     2 The Current DataSubSet
+       DataSubSet DataSubSetElement Pointer Create
+%%     3 The List of Variables (The Descriptors)
+%%       SystemVariableList SystemVariableListElement Pointer Create
+%%     4 The List of Variables (The Goal)
+%%       SystemVariableList GoalSystemVariableListElement Pointer Create
+     3 The Set of Variables to use
+       SystemVariablePair SystemVariablePairElement Pointer Create
+     4 The Test and Training SubSets
+       DataTestBlock DataTestBlockElement Pointer Create
+     5 The set of constants to be used
+       DatMatConstants Constants Pointer Create
+     DONE
+GoalValueElements 02 goalvalueelements
+     0 The number of values
+       INT NumberOfValues Create
+     1 The Set of Values (as base types .. for printing)
+       BaseType Values Pointer Create Array=NumberOfValues
+     2 The set of Values  (as floats .. for ordering)
+       FLOAT FValues Pointer Create Array=NumberOfValues
+     DONE
+DatMatGoalValues 03 datmatgoalvalues
+     0 The number of elements
+       INT NumberOfElements Create
+     1 The set of elements
+       GoalValueElements Elements Pointer Create Array=NumberOfElements
+     DONE
+DONE

@@ -58,6 +58,11 @@ interface FetchedObject {
         <p class="page-subtitle">
           Query and render live Firestore objects using custom ontology template visualization
         </p>
+        <div style="margin-top: 12px; display: flex; justify-content: center; gap: 8px;">
+          <button mat-flat-button color="primary" (click)="router.navigate(['/test-ontology-class'])">
+            <mat-icon>auto_stories</mat-icon> Open Ontology Tester
+          </button>
+        </div>
       </header>
 
       <!-- Auth Status Panel -->
@@ -507,7 +512,7 @@ export class TestLiveCatalogObjectComponent implements OnInit, OnDestroy {
   private ontologyService = inject(OntologyService);
   private snackBar = inject(MatSnackBar);
   public cdr = inject(ChangeDetectorRef);
-  private router = inject(Router);
+  public router = inject(Router);
   public auth = inject(AuthService);
   private visibilityService = inject(WorkflowVisibilityService);
   private navService = inject(CatalogObjectNavigationService);
@@ -515,7 +520,7 @@ export class TestLiveCatalogObjectComponent implements OnInit, OnDestroy {
   private navSubscription?: any;
 
   // Pre-populated default path requested by user
-  firestorePath = '/hierthermodynamicdataset/UOqk0KtFtaXma5TGsi8Seh9RMbx1/datainformationhierarchy/hierdatasetseriesdataobjects/JThermodynamicsVibrationalStructureDataSet/JThermodynamicsVibrationalStructureDataSet/VibrationalModesStandard/C.C-ResonantSecondaryStretch';
+  firestorePath = '/hierthermodynamicdataset/UOqk0KtFtaXma5TGsi8Seh9RMbx1/datainformationhierarchy/hierdatasetseriesdataobjects/JThermodynamicsSymmetryStructureDefinitionDataSet/JThermodynamicsSymmetryStructureDefinitionDataSet/Carbon+Atom+External+Symmetry/ExternalSymmetry-CyB1zyB1zyB1zyB1z-3';
 
 
   loading = false;

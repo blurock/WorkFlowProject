@@ -1,0 +1,92 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% H Decomposition From Ethyne
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*12 = 24
+%%%-------------------------------------------------------------------
+HDecompositionToPropenyl-oxygen-(hh)\
+    alphaolefin-(qq)(q)(hhh) oxygen = alphaolefin-radical(qq)(q)(hh) peroxyl-radical
+- ID 41101
+- Correspondences
+1 2 3 4 5 6 7 8 9        2 2 2 2 2 2 2 4
+10 11                    2      
+1 2 3 4 5 6 7 8          2 2 2 2 2 2 2
+9 10 11                  4 2
+
+>  <ForwardRxn>
+Standard 1.905e+12 0.0 163.6 24; Come Propene Value
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*6 = 12
+%%%-------------------------------------------------------------------
+HDecompositionToPropenyl-oxygen-(rh)\
+    alphaolefin-(qq)(q)(rhh) oxygen = alphaolefin-radical(qq)(q)(rh) peroxyl-radical
+- ID 41101
+- Correspondences
+1 2 3 4 5 6 7 8 9        2 2 2 2 2 2 2 4
+10 11                    2      
+1 2 3 4 5 6 7 8          2 2 2 2 2 2 2
+9 10 11                  4 2
+
+>  <ForwardRxn>
+Standard 1.905e+12 0.0 163.6 12; Come Propene Value
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*6 = 12
+%%%-------------------------------------------------------------------
+HDecompositionToPropenyl-oxygen-(rr)\
+    alphaolefin-(qq)(q)(rrh) oxygen = alphaolefin-radical(qq)(q)(rr) peroxyl-radical
+- ID 41101
+- Correspondences
+1 2 3 4 5 6 7 8 9        2 2 2 2 2 2 2 4
+10 11                    2      
+1 2 3 4 5 6 7 8          2 2 2 2 2 2 2
+9 10 11                  4 2
+
+>  <ForwardRxn>
+Standard 1.905e+12 0.0 163.6 12; Come Propene Value
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 12 = 12
+%%%-------------------------------------------------------------------
+HLossPropenyl-(hh)\
+    alphaolefin-(qq)(q)(hhh) = alphaolefin-radical(qq)(q)(hh) hydrogen-radical
+- ID 41101
+- Correspondences
+1 2 3 4 5 6 7 8 9        2 2 2 2 2 2 2 4
+1 2 3 4 5 6 7 8          2 2 2 2 2 2 2
+9                        
+
+>  <ForwardRxn>
+Standard 1.58e+14 0.0 361.4 12; Come Propene Value
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 6 = 6
+%%%-------------------------------------------------------------------
+HLossToPropenyl-oxygen-(rh)\
+    alphaolefin-(qq)(q)(rhh) = alphaolefin-radical(qq)(q)(rh) hydrogen-radical
+- ID 41101
+- Correspondences
+1 2 3 4 5 6 7 8 9        2 2 2 2 2 2 2 4
+1 2 3 4 5 6 7 8          2 2 2 2 2 2 2
+9                        
+
+>  <ForwardRxn>
+Standard 1.58e+14 0.0 361.4 6; Come Propene Value
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 6 = 6
+%%%-------------------------------------------------------------------
+HLossToPropenyl-oxygen-(rr)\
+    alphaolefin-(qq)(q)(rrh) = alphaolefin-radical(qq)(q)(rr) hydrogen-radical
+- ID 41101
+- Correspondences
+1 2 3 4 5 6 7 8 9        2 2 2 2 2 2 2 4
+1 2 3 4 5 6 7 8          2 2 2 2 2 2 2
+9                        
+
+>  <ForwardRxn>
+Standard 1.58e+14 0.0 361.4 6; Come Propene Value
+$$$$

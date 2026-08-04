@@ -1,0 +1,128 @@
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%% Symmetry:  2*6 = 12
+%%%-------------------------------------------------------------------
+HLoss-ethyl-radical(hh)(hhh)-to-olefin ethyl-radical-(hh)(hhh) = olefin-(hh)(hh) hydrogen-radical
+- ID 10101
+- Correspondences
+1 2 3 4 5 6 7     2 2 2 2 2 4
+1 2 3 6 4 5       2 2 2 2 2
+7
+>  <ForwardRxn>
+Standard 3.9730e+19    -0.9500     103000    12; Type I: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.000e+13   0.00  1.200e+03 4; Type III: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry:  1*6 = 6
+%%%-------------------------------------------------------------------
+HLoss-ethyl-radical(rh)(hhh)-to-olefin ethyl-radical-(rh)(hhh) = olefin-(rh)(hh)  hydrogen-radical
+- ID 10102
+- Correspondences
+1 2 3 4 5 6 7     2 2 2 2 2 4
+1 2 3 6 4 5       2 2 2 2 2
+7
+>  <ForwardRxn>
+Standard 1.338E+15  -0.55  3.876E+04 6; (rev)  c7h15-2  =  c7h14-1+h
+>  <ReverseRxn>
+Standard 1.000e+13   0.00  1.200e+03 2; Type III: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry:  2*2 = 4
+%%%-------------------------------------------------------------------
+HLoss-ethyl-radical(hh)(rhh)-to-olefin ethyl-radical-(hh)(rhh) = olefin-(rh)(hh) hydrogen-radical
+- ID 10103
+- Correspondences
+1 2 3 4 5 6 7     2 2 2 2 2 4
+2 1 5 4 3 6       2 2 2 2 2
+7
+>  <ForwardRxn>
+Standard  2.071E+16  -0.89  3.795E+04  4; (rev) ec6h13  =  dc6h12+h
+>  <ReverseRxn>
+Standard 1.000e+13 0.00 2.900e+03 2; Type III: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry:   2*6 = 12
+%%%-------------------------------------------------------------------
+HLoss-ethyl-radical(rr)(hhh)-to-olefin ethyl-radical-(rr)(hhh) = olefin-(rr)(hh)  hydrogen-radical
+- ID 10104
+- Correspondences
+1 2 3 4 5 6 7     2 2 2 2 2 4
+1 2 3 6 4 5       2 2 2 2 2
+7
+>  <ForwardRxn>
+Standard 8.513E+14  -0.36  3.960E+04 12; (rev) bc6h13  =  ac6h12+h
+>  <ReverseRxn>
+Standard 1.000+13 0.0 1.200e+3 4; Type III: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry:  1*2 = 2
+%%%-------------------------------------------------------------------
+HLoss-ethyl-radical(rh)(rhh)-to-olefin ethyl-radical-(rh)(rhh) = olefin-(rh)(rh)  hydrogen-radical
+- ID 10105
+- Correspondences
+1 2 3 4 5 6 7     2 2 2 2 2 4
+1 2 3 6 5 4       2 2 2 2 2
+7
+>  <ForwardRxn>
+Standard 1.63928e+14 -0.362 36732.  2; Calculated (Ea=153.788) 3-c7h15 = 3-c7h14+h
+>  <ReverseRxn>
+Standard 1.00e+13 0.0 2.900e+3 1; Type III: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry:  2*2 = 4
+%%%-------------------------------------------------------------------
+HLoss-ethyl-radical(hh)(rrh)-to-olefin ethyl-radical-(hh)(rrh) = olefin-(rr)(hh)  hydrogen-radical
+- ID 10106
+- Correspondences
+1 2 3 4 5 6 7     2 2 2 2 2 4
+2 1 4 5 3 6       2 2 2 2 2
+7
+>  <ForwardRxn>
+Standard  5.159E+16  -0.94  3.491E+04  4; (rev) dc8h17  =  jc8h16+h
+>  <ReverseRxn>
+Standard  1.000E+13  0.00  2.500E+03 4; Type III: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry:  2*2 = 4
+%%%-------------------------------------------------------------------
+HLoss-ethyl-radical(rr)(rhh)-to-olefin ethyl-radical-(rr)(rhh) = olefin-(rr)(rh)  hydrogen-radical
+- ID 10107
+- Correspondences
+1 2 3 4 5 6 7     2 2 2 2 2 4
+1 2 3 6 5 4       2 2 2 2 2
+7
+>  <ForwardRxn>
+Standard  1.743E+15  -0.53  3.843E+04 4; (rev) bc6h13  =  bc6h12+h 
+>  <ReverseRxn>
+Standard 1.00e+13 0.0 2.900e+3 2; Type III: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry:  1*2 = 2
+%%%-------------------------------------------------------------------
+HLoss-ethyl-radical(rh)(rrh)-to-olefin ethyl-radical-(rh)(rrh) = olefin-(rr)(rh) hydrogen-radical
+- ID 10108
+- Correspondences
+1 2 3 4 5 6 7     2 2 2 2 2 4
+2 1 5 4 3 6       2 2 2 2 2
+7
+>  <ForwardRxn>
+Standard  7.338E+19  -1.88  4.240E+04  2;  (rev) cc5h11 = cc5h10+h
+>  <ReverseRxn>
+Standard 1.60e+13 0.0 2.900e+3 2; Type III: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry:  2*2 = 4
+%%%-------------------------------------------------------------------
+HLoss-ethyl-radical(rr)(rrh)-to-olefin ethyl-radical-(rr)(rrh) = olefin-(rr)(rr)  hydrogen-radical
+- ID 10109
+- Correspondences
+1 2 3 4 5 6 7     2 2 2 2 2 4
+1 2 3 6 4 5       2 2 2 2 2
+7
+>  <ForwardRxn>
+Standard   1.743E+15  -0.53  3.843E+04 4;  (rev) bc6h13  =  bc6h12+h
+>  <ReverseRxn>
+Standard 1.00e+13 0.0 2.900e+3 4; Type III: Combustion and Flame, 114:149-177 (1998)
+$$$$

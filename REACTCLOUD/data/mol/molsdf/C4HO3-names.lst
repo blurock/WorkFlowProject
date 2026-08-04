@@ -1,0 +1,84 @@
+100 C4HO3
+1-hydroperoxy-1-butanal
+- AlternativeNames CHEMKIN c3h7coo2h
+- AlternativeNames Short c3h7coo2h
+- AlternativeNames Mech
+- AlternativeNames Formula C4H8O3
+2-hydroperoxy-1-butanal
+- AlternativeNames CHEMKIN c2h5cho2hcho
+- AlternativeNames Short c2h5cho2hcho
+- AlternativeNames Mech nc4ket12
+- AlternativeNames Formula C4H8O3
+3-hydroperoxy-1-butanal
+- AlternativeNames CHEMKIN ch3cho2hch2cho
+- AlternativeNames Short ch3cho2hch2cho
+- AlternativeNames Mech nc4ket13
+- AlternativeNames Formula C4H8O3
+4-hydroperoxy-1-butanal
+- AlternativeNames CHEMKIN ch2o2hch2ch2cho
+- AlternativeNames Short ch2o2hch2ch2cho
+- AlternativeNames Mech nc4ket14
+- AlternativeNames Formula C4H8O3
+1-hydroperoxy-2-butanone
+- AlternativeNames CHEMKIN c2h5coch2o2h
+- AlternativeNames Short c2h5coch2o2h
+- AlternativeNames Mech nc4ket21
+- AlternativeNames Formula C4H8O3
+3-hydroperoxy-2-butanone
+- AlternativeNames CHEMKIN ch3cho2hcoch3
+- AlternativeNames Short ch3cho2hcoch3
+- AlternativeNames Mech nc4ket23
+- AlternativeNames Formula C4H8O3
+4-hydroperoxy-2-butanone
+- AlternativeNames CHEMKIN ch2o2hch2coch3
+- AlternativeNames Short ch2o2hch2coch3
+- AlternativeNames Mech nc4ket24
+- AlternativeNames Formula C4H8O3
+propan-1-hydroxy-2-methyl-2-peroxy-radical
+- AlternativeNames CHEMKIN io2c4h8oh
+- AlternativeNames Short   io2c4h8oh
+- AlternativeNames Formula C4H9O3
+propan-2-hydroxy-2-methyl-1-peroxy-radical
+- AlternativeNames CHEMKIN to2c4h8oh
+- AlternativeNames Short   to2c4h8oh
+- AlternativeNames Formula C4H9O3
+butan-2-hydroxy-1-peroxy-radical
+- AlternativeNames CHEMKIN c4h8oh-1o2
+- AlternativeNames Short   c4h8oh-1o2
+- AlternativeNames Formula C4H9O3
+butan-1-hydroxy-2-peroxy-radical
+- AlternativeNames CHEMKIN c4h8oh-2o2
+- AlternativeNames Short   c4h8oh-2o2
+- AlternativeNames Formula C4H9O3
+butan-3-hydroxy-2-peroxy-radical
+- AlternativeNames CHEMKIN c4h8oh-3o2
+- AlternativeNames Short   c4h8oh-3o2
+- AlternativeNames Formula C4H9O3
+2-methyl-2-peroxy-propanal
+- AlternativeNames CHEMKIN tc3h6o2cho
+- AlternativeNames Short tc3h6o2cho
+- AlternativeNames Formula C4H7O3
+2-hydroperoxy-propanoyl
+- AlternativeNames CHEMKIN tc3h6o2hco
+- AlternativeNames Short tc3h6o2hco
+- AlternativeNames Formula C4H7O3
+2-methyl-2-hydroperoxide-propanal-1-yl-radical
+- AlternativeNames CHEMKIN ic3h5o2hcho
+- AlternativeNames Short ic3h5o2hcho
+- AlternativeNames Formula C4H7O3
+3-hydroperoxy-2-butanon-1-yl-radical
+- AlternativeNames CHEMKIN ch2choohcoch3
+- AlternativeNames Short ch2choohcoch3
+- AlternativeNames Formula C4H7O3
+2-methylhydroperoxy-1-propanal
+- AlternativeNames CHEMKIN ic4ketii
+- AlternativeNames Short ic4ketii
+- AlternativeNames Formula C4H7O3
+2-methyl-2-hydroperoxy-1-propanal
+- AlternativeNames CHEMKIN ic4ketit
+- AlternativeNames Short ic4ketit
+- AlternativeNames Formula C4H7O3
+3-peroxy-2-butanal
+- AlternativeNames CHEMKIN ch3choococh3
+- AlternativeNames Short ch3choococh3
+- AlternativeNames Formula C4H7O3

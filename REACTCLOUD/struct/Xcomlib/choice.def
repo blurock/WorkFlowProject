@@ -1,0 +1,134 @@
+Structures for Basic Graphic Lines
+5 xwinbasic
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Input Information
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+   ChoicePageStyle 100 choicepagestyle
+      0 How the objects are to be arranged
+        INT Formation Create
+      1 Distance between objects
+        FLOAT Space Create
+      2 The number of rows of buttons
+        INT Rows Create
+      2 The Style of the Object
+        VOID Style Pointer Create
+      DONE
+%%%
+   CategoryID 103 categoryid
+      DONE
+%%% The form of the Graphit function is the standard:
+%%%       INT Graphit(DrawObject *draw,
+%%%                   VOID ObjectToDraw,
+%%%                   VOID ObjectStyle
+%%%                   INT (*Activation)(),
+%%%                   VOID ObjectData)
+%%% The form of the CopyPosition function is:
+%%%       INT CopyPosition(VOID object, 
+%%%                        ObjectPosition *position)
+%%%              This function copies the position into the object
+%%% The form of the Finished function is:
+%%%       INT Finished(ChoicePageObject *object) 
+%%%
+   ChoicePageObject 102 choicepageobject
+      0 The Number of Data Objects
+        INT NumberOfObjects Create
+      1 The Number of Categories
+        INT NumberOfCategories Create
+      2 The set of categories
+        CategoryID Categories Pointer Create Array=NumberOfCategories
+      4 Initial Categories
+        INT InitialCategories Pointer Create Array=NumberOfObjects
+      3 The Function to graph object on page
+        FUNCTION Graphit Create Return=INT
+      4 The function to insert postion of object
+        FUNCTION CopyPosition Create Return=INT
+      5 The function to call when done
+        FUNCTION Finished Create Return=INT
+      6 The list of objects to be sorted
+        VOID OriginalList Create Pointer
+      7 The size of the object
+        INT MemSize Create
+      8 The size of the drawobject object
+        ObjectSize Size Pointer Create
+      DONE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Intermediate Information
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   ChoiceObject 101 choiceobject
+      1 The current category indicator
+        INT Current Create
+      DONE
+   ChoiceList 102 choicelist
+      1 The number of data objects in the list
+        INT NumberOfObjects Create
+      2 The list of data objects
+        ChoiceObject List Pointer Create Array=NumberOfObjects
+      3 The Category to Put Back in Original List
+        CategoryID Remove Pointer Create
+      4 The current category
+        INT Category Create
+      DONE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Final Information
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   ListOfCategories 103 categorylist
+      0 The number of objects in this category
+        INT NumberOfObjects Create
+      1 The ID's of the objects in this list
+        INT ObjectID Pointer Create Array=NumberOfObjects
+      DONE
+   ChoiceOfCategories 102 choiceofcategories
+      1 The number of categories
+        INT NumberOfCategories Create
+      2 The list of objects in each category
+        ListOfCategories Categories Create Pointer Array=NumberOfCategories
+      DONE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Master Structure
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% MasterChoiceObject
+%%%
+    MasterChoiceObject 105 masterchoiceobject
+       0 The Original Information
+         ChoicePageObject Info Pointer Create
+       1 This intermediate choice information
+         ChoiceList Intermediate Pointer Create
+       2 Final Data
+         ChoiceOfCategories Categories Pointer Create
+       3 The style of the choice
+         ChoicePageStyle Style Pointer Create
+       5 The Start position of the set
+          ObjectPosition Start Pointer Create
+       DONE       
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Choose String Structure
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%%
+    StringToChoose 110 stringtochoose
+       0 The string to be used as label
+          STRING TheString Pointer Create
+       1 The Position
+          ObjectPosition Corner Pointer
+       2 The Width
+          ObjectSize Size Pointer
+       DONE
+    ListOfStringsToChoose 111 listofstringstochoose
+       0 The number of strings
+         INT NumberOfStrings Create
+       1 The Strings
+         StringToChoose Strings Pointer Create Array=NumberOfStrings
+       2 The number of Categories
+         INT NumberOfCategories Create
+       3 The Categories
+         CategoryID Categories Pointer Create Array=NumberOfCategories
+       4 Initial Categories
+         INT InitialCategories Pointer Create Array=NumberOfStrings
+       5 The Size of the box around string
+         ObjectSize Box Pointer Create
+       6 The number of rows the strings should be
+         INT Rows Create
+       DONE
+DONE
+

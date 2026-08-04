@@ -1,0 +1,55 @@
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+CyclicEtherFromQOOH-3Ring  .c(q)(q)(cooh) =   (q)(q)(-cco-) hydroxyl-radical
+- ID 19003
+- Correspondences
+1 2 3 4 5 6 7       2 2 4 2 2 2
+2 3 4 6 7           2 2 4 2 2
+1 5
+>  <ForwardRxn>
+Standard 2.0e+11 0.0 17700 2
+
+>  <ReverseRxn>
+Standard 8.63e+10 0.0 12000 2
+$$$$
+%%%-------------------------------------------------------------------
+CyclicEtherFromQOOH-4Ring  .c(q)(q)(ccooh) =   (q)(q)(-ccco-) hydroxyl-radical
+- ID 19004
+- Correspondences
+1 2 3 4 5 6 7 8     2 2 2 4 2 2 2
+2 3 4 5 7 8         2 2 2 4 2 2
+1 6
+>  <ForwardRxn>
+Standard 2.00e+11 0.0 16700 2
+
+>  <ReverseRxn>
+Standard 8.63e+10 0.0 12000 2
+$$$$
+%%%-------------------------------------------------------------------
+CyclicEtherFromQOOH-5Ring  .c(q)(q)(cccooh) =  (q)(q)(-cccco-) hydroxyl-radical
+- ID 19005
+- Correspondences
+1 2 3 4 5 6 7 8 9    2 2 2 2 4 2 2 2
+2 3 4 5 6 8 9        2 2 2 2 4 2 2
+1 7
+>  <ForwardRxn>
+Standard 1.42e+12 0.0 24900 2
+
+>  <ReverseRxn>
+Standard 8.63e+10 0.0 12000 2
+$$$$
+%%%-------------------------------------------------------------------
+CyclicEtherFromQOOH-6Ring  .c(q)(q)(ccccooh) = (q)(q)(-ccccco-) hydroxyl-radical
+- ID 19006
+- Correspondences
+1 2 3 4 5 6 7 8 9 10   2 2 2 2 2 4 2 2 2
+2 3 4 5 6 7 9 10       2 2 2 2 2 4 2 2
+1 8                    2
+>  <ForwardRxn>
+Standard 1.24e+11 0.0 19150 2
+
+>  <ReverseRxn>
+Standard 8.63e+10 0.0 12000 2
+$$$$

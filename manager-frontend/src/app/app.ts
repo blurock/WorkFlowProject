@@ -10,7 +10,6 @@ import { environment } from '../environments/environment';
 })
 export class App {
   constructor() {
-    console.log('App component initialized with environment:', environment);
   }
   protected readonly title = signal('manager-frontend');
 }

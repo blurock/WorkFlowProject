@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://blurock.forbrf.lth.se/thermo"
+  xmlns="http://blurock.forbrf.lth.se/thermo"
+>
+<!-- ============================================================= -->
+<xsd:element name="ThermoData" type="ThermoDataType">
+</xsd:element>
+<xsd:element name="Benson" type="BensonType">
+</xsd:element>
+<xsd:element name="BensonTotal" type="BensonTotalType">
+</xsd:element>
+<xsd:element name="BensonAtom" type="BensonAtomType">
+</xsd:element>
+<xsd:element name="BensonAtomValues" type="BensonAtomValuesType">
+</xsd:element>
+<xsd:element name="HeatOfFormation" type="xsd:float">
+</xsd:element>
+<xsd:element name="Entropy" type="xsd:float">
+</xsd:element>
+<xsd:element name="Cp">
+<xsd:simpleType>
+<xsd:list itemType="xsd:float"/>
+</xsd:simpleType>
+</xsd:element>
+<!-- ============================================================= -->
+<xsd:complexType name="ThermoDataType">
+<xsd:sequence>
+<xsd:element ref="Benson" minOccurs="1" maxOccurs="unbounded" />
+</xsd:sequence>
+</xsd:complexType>
+<!-- ============================================================= -->
+<xsd:complexType name="BensonType">
+<xsd:sequence>
+<xsd:element ref="BensonAtom" minOccurs="1" maxOccurs="unbounded"/>
+<xsd:element ref="BensonTotal" minOccurs="0" maxOccurs="1"/>
+</xsd:sequence>
+<xsd:attribute name="MoleculeName" type="xsd:string"/>
+</xsd:complexType>
+<!-- ============================================================= -->
+<xsd:complexType name="BensonAtomType">
+<xsd:choice>
+<xsd:element ref="BensonAtomValues" minOccurs="0" maxOccurs="1"/>
+</xsd:choice>
+<xsd:attribute name="valence" type="xsd:integer" use="required"/>
+<xsd:attribute name="index" type="xsd:integer" use="required"/>
+</xsd:complexType>
+<!-- ============================================================= -->
+<xsd:complexType name="BensonAtomValuesType">
+<xsd:sequence>
+<xsd:element ref="HeatOfFormation" minOccurs="0" maxOccurs="1"/>
+<xsd:element ref="Entropy" minOccurs="0" maxOccurs="1"/>
+<xsd:element ref="Cp" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+<!-- ============================================================= -->
+<xsd:complexType name="BensonTotalType">
+<xsd:sequence>
+<xsd:element ref="HeatOfFormation" minOccurs="0" maxOccurs="1"/>
+<xsd:element ref="Entropy" minOccurs="0" maxOccurs="1"/>
+<xsd:element ref="Cp" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+
+</xsd:schema>

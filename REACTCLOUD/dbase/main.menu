@@ -1,0 +1,61 @@
+#include "basic.h"
+#include "database.h"
+
+DbaseMaster *InitializeDbaseMaster(bind->Name);
+
+#define NUMBER_DBASE_FUNCTIONS  1
+
+static FunctionInfo DBASE_FUNCTION_LIST[NUMBER_DBASE_FUNCTIONS] = {
+     {1,"ReadInMoleculesFromList",(INT (*)(void)) ReadInMoleculesFromList},  
+     };
+
+static FunctionList DBASE_FUNCTIONS = {
+        0,"DBASE",
+    	NUMBER_DBASE_FUNCTIONS,
+	DBASE_FUNCTION_LIST
+	};
+
+CommandInfo *Current_Command;
+INT CommandDebug;
+INT DEBUGPRINT;
+
+int main(int argc, char *argv[])
+     {
+     CommandSource *source;
+     BindStructure *bind;
+     FunctionList *commandfunctions;
+     CHAR *commandinputfile;
+     DbaseMaster *dbasemaster;
+     
+     bind = StandardCommandBegin(argc,argv,
+			  "Database",0,
+			  2);
+			  
+     CommandDebug = 0;
+     DEBUGPRINT = 0;
+
+     dbasemaster = InitializeDbaseMaster(bind->Name);
+
+     BindStructureIntoMaster(dbasemaster,BIND_DBASE,bind);
+
+     source = SetUpStandardSource(bind->Name,bind->ID);
+     
+     StartStandardXCommands(argc,argv,
+			    "Dbase","/home/blurock/cc/dbase/command",
+			    &DBASE_FUNCTIONS,source,bind);
+     
+     return(0);
+     }
+
+/***********************************************************************
+                       InitializeDbaseMaster
+************************************************************************/
+DbaseMaster *InitializeDbaseMaster(bind->Name)
+     {
+     DbaseMaster *dbasemaster;
+     
+     dbasemaster = AllocateDbaseMaster;
+     CreateDbaseMaster(dbasemaster,0,name,
+		       0);
+     return(dbasemaster);
+     }

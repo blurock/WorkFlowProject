@@ -1,0 +1,60 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: (4*3*2) = 24
+%%%-------------------------------------------------------------------
+HLossDecomposition-(hhh)\
+     methane = methane-carbon-radical hydrogen-radical
+- ID 70501
+- Correspondences
+1 2 3 4 5     2 2 2 4
+1 3 4 5      2 2 2
+2            
+>  <ForwardRxn>
+Standard 1.2480e+21    -1.3400  100000    24; Type I: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.000e+14   0.00  0.000     6; Type I: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: (3*2) = 6 (rhhh)
+%%%-------------------------------------------------------------------
+HLossDecomposition-(rhh)\
+     primary-carbon-hydrogen-bond = primary-carbon-radical hydrogen-radical
+- ID 70502
+- Correspondences
+1 2 3 4 5     4 2 2 2
+1 3 4 5      2 2 2
+2            
+>  <ForwardRxn>
+Standard  1.67434e+19  -0.892  102755. 6; (Ea=430.216); n-c7h16=h+1-c7h15 (3.34868e+19 divided by 2 for symmetry)
+>  <ReverseRxn>
+Standard  1.00e+14  0.00  0.000E+00 4; Type I (Curran paper) : Allara et al., J. Phys. Chem. Ref. Data, 9, 523-559 (1980)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: (2*2) = 4 (rrhh)
+%%%-------------------------------------------------------------------
+HLossDecomposition-(rrh)\
+     secondary-carbon-hydrogen-bond = secondary-carbon-radical hydrogen-radical
+- ID 70503
+- Correspondences
+1 2 3 4 5     4 2 2 2
+1 3 4 5      2 2 2
+2            
+>  <ForwardRxn>
+Standard  2.269E+20  -1.34  1.007E+05 4;  (isooctane, Curran mechanism  4.538E+20)   nc6h14  =  c6h13-3+h (divided by two)
+>  <ReverseRxn>
+Standard  3.610E+13   0.00  0.000E+00 2;  (isooctane, Curran mechanism 3.610E+13)  (rev)  nc6h14  =  c6h13-3+h
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: (3*2) = 6 (rrrh)
+%%%-------------------------------------------------------------------
+HLossDecomposition-(rrr)\
+     tertiary-carbon-hydrogen-bond = tertiary-carbon-radical hydrogen-radical
+- ID 70504
+- Correspondences
+1 2 3 4 5     4 2 2 2
+1 3 4 5      2 2 2
+2            
+>  <ForwardRxn>
+Standard 2.184E+20  -1.34  1.006E+05 6;  (isooctane, Curran mechanism) ic6h14  =  cc6h13+h 
+>  <ReverseRxn>
+Standard 3.610E+13  0.00  0.000E+00 6;  (isooctane, Curran mechanism) ic6h14  =  cc6h13+h 
+$$$$

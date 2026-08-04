@@ -1,0 +1,177 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*1 = 2
+%%%-------------------------------------------------------------------
+DiKetoAldDecomp-HHHH       co(h)c(hh)co(h) = .c(h)(h)co(h) (h).c(o)
+- ID 63001
+- Correspondences
+1 2 3 4 5 6 7 8 9           2 2 2 2 2 4 2 2
+4 1 2 3 5 6                 2 2 2 2 2
+7 8 9                       2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 2; Guess/Come beta-scission; From olefin formation from CH3
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Set to zero
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*1 = 2
+%%%-------------------------------------------------------------------
+DiKetoAldDecomp-RHHH       co(r)c(hh)co(h) = .c(h)(h)co(r) (h).c(o)
+- ID 63002
+- Correspondences
+1 2 3 4 5 6 7 8 9           2 2 2 2 2 4 2 2
+4 1 2 3 5 6                 2 2 2 2 2
+7 8 9                       2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 2; Guess/Come beta-scission; From olefin formation from CH3
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Set to zero
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1*1 = 2
+%%%-------------------------------------------------------------------
+DiKetoAldDecomp-HRHH       co(h)c(rh)co(h) = .c(r)(h)co(h) (h).c(o)
+- ID 63003
+- Correspondences
+1 2 3 4 5 6 7 8 9           2 2 2 2 2 4 2 2
+4 1 2 3 5 6                 2 2 2 2 2
+7 8 9                       2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 1; Guess/Come beta-scission; From olefin formation from CH3
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Set to zero
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1*1 = 2
+%%%-------------------------------------------------------------------
+DiKetoAldDecomp-RRHH       co(r)c(rh)co(h) = .c(r)(h)co(r) (h).c(o)
+- ID 63004
+- Correspondences
+1 2 3 4 5 6 7 8 9           2 2 2 2 2 4 2 2
+4 1 2 3 5 6                 2 2 2 2 2
+7 8 9                       2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 1; Guess/Come beta-scission; From olefin formation from CH3
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Set to zero
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*1 = 2
+%%%-------------------------------------------------------------------
+DiKetoAldDecomp-HRRH       co(h)c(rr)co(h) = .c(r)(r)co(h) (h).c(o)
+- ID 63005
+- Correspondences
+1 2 3 4 5 6 7 8 9           2 2 2 2 2 4 2 2
+4 1 2 3 5 6                 2 2 2 2 2
+7 8 9                       2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 2; Guess/Come beta-scission; From olefin formation from CH3
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Set to zero
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*1 = 2
+%%%-------------------------------------------------------------------
+DiKetoAldDecomp-RRRH       co(r)c(rr)co(h) = .c(r)(r)co(r) (h).c(o)
+- ID 63006
+- Correspondences
+1 2 3 4 5 6 7 8 9           2 2 2 2 2 4 2 2
+4 1 2 3 5 6                 2 2 2 2 2
+7 8 9                       2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 2; Guess/Come beta-scission; From olefin formation from CH3
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Set to zero
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*1 = 2
+%%% co(h)c(hh)co(r)  ---> co(r)c(hh)co(h)
+%%% 4 7 8 9 5 6                 2 2 2 2 2
+%%% 1 2 3                       2 2
+%%%-------------------------------------------------------------------
+DiKetoAldDecomp-HHHR       co(r)c(hh)co(h) = .c(h)(h)co(h) (r).c(o)
+- ID 63007
+- Correspondences
+1 2 3 4 5 6 7 8 9           2 2 4 2 2 2 2 2
+4 7 8 9 5 6                 2 2 2 2 2
+1 2 3                       2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 2; Guess/Come beta-scission; From olefin formation from CH3
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Set to zero
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*1 = 2
+%%%-------------------------------------------------------------------
+DiKetoAldDecomp-RHHR       co(r)c(hh)co(r) = .c(h)(h)co(r) (r).c(o)
+- ID 63008
+- Correspondences
+1 2 3 4 5 6 7 8 9           2 2 2 2 2 4 2 2
+4 1 2 3 5 6                 2 2 2 2 2
+7 8 9                       2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 2; Guess/Come beta-scission; From olefin formation from CH3
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Set to zero
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*1 = 2
+%%% co(h)c(hh)co(r)  ---> co(r)c(hh)co(h)
+%%% 4 7 8 9 5 6                 2 2 2 2 2
+%%% 1 2 3                       2 2
+%%%-------------------------------------------------------------------
+DiKetoAldDecomp-HRHR       co(r)c(rh)co(h) = .c(r)(h)co(h) (r).c(o)
+- ID 63009
+- Correspondences
+1 2 3 4 5 6 7 8 9           2 2 4 2 2 2 2 2
+4 7 8 9 5 6                 2 2 2 2 2
+1 2 3                       2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 2; Guess/Come beta-scission; From olefin formation from CH3
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Set to zero
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1*1 = 1
+%%%-------------------------------------------------------------------
+DiKetoAldDecomp-RRHR       co(r)c(rh)co(r) = .c(r)(h)co(r) (r).c(o)
+- ID 63010
+- Correspondences
+1 2 3 4 5 6 7 8 9           2 2 2 2 2 4 2 2
+4 1 2 3 5 6                 2 2 2 2 2
+7 8 9                       2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 1; Guess/Come beta-scission; From olefin formation from CH3
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Set to zero
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*1 = 2
+%%% co(h)c(hh)co(r)  ---> co(r)c(hh)co(h)
+%%% 4 7 8 9 5 6                 2 2 2 2 2
+%%% 1 2 3                       2 2
+%%%-------------------------------------------------------------------
+DiKetoAldDecomp-HRRR       co(r)c(rr)co(h) = .c(r)(r)co(h) (r).c(o)
+- ID 63011
+- Correspondences
+1 2 3 4 5 6 7 8 9           2 2 2 2 2 4 2 2
+4 7 8 9 5 6                 2 2 2 2 2
+1 2 3                       2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 2; Guess/Come beta-scission; From olefin formation from CH3
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Set to zero
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*1 = 2
+%%%-------------------------------------------------------------------
+DiKetoAldDecomp-RRRR       co(r)c(rr)co(r) = .c(r)(r)co(r) (r).c(o)
+- ID 63012
+- Correspondences
+1 2 3 4 5 6 7 8 9           2 2 2 2 2 4 2 2
+4 1 2 3 5 6                 2 2 2 2 2
+7 8 9                       2 2
+>  <ForwardRxn>
+Standard 2.0e+13 0.0 31000 2; Guess/Come beta-scission; From olefin formation from CH3
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Set to zero
+$$$$

@@ -1,0 +1,146 @@
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PropenylIsomerization-(hh)(h)(hh) \
+   propenyl-radical-(hh)(h)(hh) = propenyl-radical-(h)(h)(hhh)
+- ID 42701
+- Correspondences
+1 2 3 4 5 6 7 8          2 2 2 4 2 2 2
+1 2 3 4 6 7 8 5          2 2 2 2 2 2 4
+>  <ReverseRxn>
+Standard 5.01e+13 0.0 37000 4; Come Value ; Estimate  Come Propene chchch3 = ch2chch2
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PropenylIsomerization-(rh)(h)(hh) \
+   propenyl-radical-(rh)(h)(hh) = propenyl-radical-(r)(h)(hhh)
+- ID 42702
+- Correspondences
+1 2 3 4 5 6 7 8          2 2 2 4 2 2 2
+1 2 3 4 6 7 8 5          2 2 2 2 2 2 4
+>  <ReverseRxn>
+Standard 5.01e+13 0.0 37000 4; Come Value ; Estimate  Come Propene chchch3 = ch2chch2
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PropenylIsomerization-(hh)(r)(hh) \
+   propenyl-radical-(hh)(r)(hh) = propenyl-radical-(h)(r)(hhh)
+- ID 42703
+- Correspondences
+1 2 3 4 5 6 7 8          2 2 2 4 2 2 2
+1 2 3 4 6 7 8 5          2 2 2 2 2 2 4
+>  <ReverseRxn>
+Standard 5.01e+13 0.0 37000 4; Come Value ; Estimate  Come Propene chchch3 = ch2chch2
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PropenylIsomerization-(rh)(r)(hh) \
+   propenyl-radical-(rh)(r)(hh) = propenyl-radical-(r)(r)(hhh)
+- ID 42704
+- Correspondences
+1 2 3 4 5 6 7 8          2 2 2 4 2 2 2
+1 2 3 4 6 7 8 5          2 2 2 2 2 2 4
+>  <ReverseRxn>
+Standard 5.01e+13 0.0 37000 4; Come Value ; Estimate  Come Propene chchch3 = ch2chch2
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PropenylIsomerization-(hh)(h)(rh) \
+   propenyl-radical-(hh)(h)(rh) = propenyl-radical-(h)(h)(rhh)
+- ID 42705
+- Correspondences
+1 2 3 4 5 6 7 8          2 2 2 4 2 2 2
+1 2 3 4 6 7 8 5          2 2 2 2 2 2 4
+>  <ReverseRxn>
+Standard 5.01e+13 0.0 37000 4; Come Value ; Estimate  Come Propene chchch3 = ch2chch2
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PropenylIsomerization-(rh)(h)(rh) \
+   propenyl-radical-(rh)(h)(rh) = propenyl-radical-(r)(h)(rhh)
+- ID 42706
+- Correspondences
+1 2 3 4 5 6 7 8          2 2 2 4 2 2 2
+1 2 3 4 6 7 8 5          2 2 2 2 2 2 4
+>  <ReverseRxn>
+Standard 5.01e+13 0.0 37000 4; Come Value ; Estimate  Come Propene chchch3 = ch2chch2
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PropenylIsomerization-(hh)(r)(rh) \
+   propenyl-radical-(hh)(r)(rh) = propenyl-radical-(h)(r)(rhh)
+- ID 42707
+- Correspondences
+1 2 3 4 5 6 7 8          2 2 2 4 2 2 2
+1 2 3 4 6 7 8 5          2 2 2 2 2 2 4
+>  <ReverseRxn>
+Standard 5.01e+13 0.0 37000 4; Come Value ; Estimate  Come Propene chchch3 = ch2chch2
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PropenylIsomerization-(rh)(r)(rh) \
+   propenyl-radical-(rh)(r)(rh) = propenyl-radical-(r)(r)(rhh)
+- ID 42708
+- Correspondences
+1 2 3 4 5 6 7 8          2 2 2 4 2 2 2
+1 2 3 4 6 7 8 5          2 2 2 2 2 2 4
+>  <ReverseRxn>
+Standard 5.01e+13 0.0 37000 4; Come Value ; Estimate  Come Propene chchch3 = ch2chch2
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PropenylIsomerization-(hh)(h)(rr) \
+   propenyl-radical-(hh)(h)(rr) = propenyl-radical-(h)(h)(rrh)
+- ID 42709
+- Correspondences
+1 2 3 4 5 6 7 8          2 2 2 4 2 2 2
+1 2 3 4 6 7 8 5          2 2 2 2 2 2 4
+>  <ReverseRxn>
+Standard 5.01e+13 0.0 37000 4; Come Value ; Estimate  Come Propene chchch3 = ch2chch2
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PropenylIsomerization-(rh)(h)(rr) \
+   propenyl-radical-(rh)(h)(rr) = propenyl-radical-(r)(h)(rrh)
+- ID 42710
+- Correspondences
+1 2 3 4 5 6 7 8          2 2 2 4 2 2 2
+1 2 3 4 6 7 8 5          2 2 2 2 2 2 4
+>  <ReverseRxn>
+Standard 5.01e+13 0.0 37000 4; Come Value ; Estimate  Come Propene chchch3 = ch2chch2
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PropenylIsomerization-(hh)(r)(rr) \
+   propenyl-radical-(hh)(r)(rr) = propenyl-radical-(h)(r)(rrh)
+- ID 42711
+- Correspondences
+1 2 3 4 5 6 7 8          2 2 2 4 2 2 2
+1 2 3 4 6 7 8 5          2 2 2 2 2 2 4
+>  <ReverseRxn>
+Standard 5.01e+13 0.0 37000 4; Come Value ; Estimate  Come Propene chchch3 = ch2chch2
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PropenylIsomerization-(rh)(r)(rr) \
+   propenyl-radical-(rh)(r)(rr) = propenyl-radical-(r)(r)(rrh)
+- ID 42712
+- Correspondences
+1 2 3 4 5 6 7 8          2 2 2 4 2 2 2
+1 2 3 4 6 7 8 5          2 2 2 2 2 2 4
+>  <ReverseRxn>
+Standard 5.01e+13 0.0 37000 4; Come Value ; Estimate  Come Propene chchch3 = ch2chch2
+$$$$

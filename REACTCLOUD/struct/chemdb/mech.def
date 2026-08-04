@@ -1,0 +1,77 @@
+Structures Defining a Mechanism
+0 Mechanism
+
+RxnReacProdSet 00 rxnreacprodset
+   0 The Number of Molecules
+     INT NumberOfMolecules Create
+   1 The set of Molecule ID's
+     INT Molecules Pointer Create Array=NumberOfMolecules
+   DONE
+MechanismReaction 01 mechanismreaction
+   0 The set of Reactant Molecules
+     RxnReacProdSet Reactants Pointer Create
+   1 The set of Product Molecules
+     RxnReacProdSet Products Pointer Create
+   2 The Forward Rate Constant
+     ArrheniusFormValue Forward Pointer Create
+   3 Forward Rate Reference
+     STRING ForwardReference Pointer Create
+   4 The Reverse Rate Constant
+     ArrheniusFormValue Reverse Pointer Create
+   5 Reverse Rate Reference
+     STRING ReverseReference Pointer Create
+   6 Additional Information Needed by a reaction
+     SetOfPropertyValues Values Pointer Create
+   DONE
+MechanismMolecule 02 mechanismmolecule
+   0 The Smaller (though unique) name - to fit more on a line
+     STRING AbbreviatedName Pointer Create
+   1 The Thermodynamic Constants (In Chemkin JANAF form)
+     ChemkinThermoRead ThermoConstants Pointer Create
+   2 The Reference for the Constants
+     STRING ThermoReference Pointer Create
+   3 The Equilibrium Constant (If used to compute reverse reaction)
+     ArrheniusFormValue Equilibrium Pointer Create
+   4 The summary of Atom Counts
+     MoleculeAtomCounts AtomCounts Pointer Create
+   5 Additional Information Needed by a molecule
+     SetOfPropertyValues Values Pointer Create
+   DONE
+MechanismMoleculeSet 03 mechanismmolset
+   0 The Number of molecules
+     INT NumberOfMolecules Create
+   1 The set of Molecules
+     MechanismMolecule Molecules Pointer Create Array=NumberOfMolecules
+   2 The property types of the molecules
+     SetOfPropertyTypes PropTypes Pointer Create
+   DONE
+MechanismReactionSet 04 mechanismreactionset
+   0 The Number of reactions
+     INT NumberOfReactions Create
+   1 The set of Reactions
+     MechanismReaction Reactions Pointer Create Array=NumberOfReactions
+   2 The property types of the reactions
+     SetOfPropertyTypes PropTypes Pointer Create
+   DONE 
+DetailedMechanism 02 detailedmechanism
+   0 The set of reactions
+     MechanismReactionSet RxnSet Pointer Create
+   1 The set of molecules
+     MechanismMoleculeSet MolSet Pointer Create
+   2 Additional Molecules (not in database)
+     MoleculeSet Molecules Pointer Create
+   3 Additional Reactions (not in database)
+     ReactionSet Reactions Pointer Create
+   4 Additional Information Needed by a mechanism
+     SetOfPropertyValues Values Pointer Create
+   DONE
+SetOfDetailedMechanisms 06 setofdetailedmechanisms
+   0 The number of current mechanisms
+     INT NumberOfMechanisms Create
+   1 The set of Mechanisms
+     DetailedMechanism Mechanisms Pointer Create Array=NumberOfMechanisms
+   2 The property types of the mechansim
+     SetOfPropertyTypes PropTypes Pointer Create
+   DONE
+DONE
+

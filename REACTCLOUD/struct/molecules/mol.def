@@ -1,0 +1,52 @@
+Molecule Structures
+3 molecule
+     AtomicNumberCount 00 atomicnumbercount
+        0 The number of this atomic number
+          INT ACount Create
+        1 The number of different valences
+          INT NumberOfValences Create
+        2 The Set of Valences
+          INT Valences Pointer Create Array=NumberOfValences
+        3 The number of each valence
+          INT VCounts Pointer Create Array=NumberOfValences
+        DONE
+     MoleculeAtomCounts 00 moleculeatomcounts
+        0 The number of Difference Atoms
+          INT NumberOfAtomCounts Create
+        1 The total counts of atoms and valence
+          AtomicNumberCount AtomCounts Pointer Create Array=NumberOfAtomCounts
+	2 The number of atoms in the molecule
+          INT NumberOfAtoms Create
+        3 The set of Valences
+          INT Valences Pointer Create Array=NumberOfAtoms
+        DONE
+     MoleculeSubGraph 81 moleculesubgraph
+       0 The SubGraph
+         Graph SubGraph Pointer Create
+       1 The Atomset with all the hydrogens
+         DataSubSet WithHydrogens Pointer Create
+       2 The Atomset with only Heavy Atoms
+         DataSubSet HeavyAtoms Pointer Create
+       3 The subgraph matchings with itself (representing symmetry)
+         SetOfPairSets Symmetry Pointer Create
+       DONE
+     MoleculeInfo 80 moleculeinfo
+        0 The Molecule Molfile
+          MolFileMolecule Molfile Pointer Create
+        1 The Electronic Molecular Info
+          MoleculeElectronic Electronic Pointer Create
+        2 The set of extra property values for the molecule
+          SetOfPropertyValues Properties Pointer Create
+       DONE
+     MoleculeSet 81 moleculeset
+        0 The number of molecules in the set
+          INT NumberOfMolecules Create
+        1 The set of molecules
+          MoleculeInfo Molecules Pointer Create Array=NumberOfMolecules
+        2 The property types for a set of molecules
+          SetOfPropertyTypes PropertyTypes Pointer Create
+        3 Meta Atom Information
+           SetOfMolFileMetaAtoms MetaAtoms Pointer Create
+        DONE
+DONE
+          

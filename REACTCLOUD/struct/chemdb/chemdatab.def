@@ -1,0 +1,29 @@
+Chemisty Database Structures
+0 chemdb
+
+     ChemDBConstants 100 chemdbconstants
+        0 The database directory
+          STRING DBDirectory Pointer Create
+        1 The Molecule Database Root
+          STRING DBMolRoot Pointer Create
+        2 The Substructure Database Root
+          STRING DBSubstructureRoot Pointer Create
+        3 The Reaction Database Root
+          STRING DBRxnRoot Pointer Create
+        4 The data directory (ex. MolFiles)
+          STRING DBDataDirectory Pointer Create
+        5 The Molecule Database Root
+          STRING DBDataMolRoot Pointer Create
+        6 The Reaction Database Root
+          STRING DBDataRxnRoot Pointer Create
+        DONE
+
+%%% ChemDBMaster
+
+     ChemDBMaster 100 chemdbmaster
+        0 The set of databases
+           DbaseMaster DatabaseInfo Pointer Create
+        2 Database Constants
+           ChemDBConstants Constants Pointer Create
+        DONE
+DONE

@@ -1,0 +1,42 @@
+%%%-------------------------------------------------------------------
+%%%  Abstraction of hydrogen from aldehyde group with alpha peroxy
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2
+%%%-------------------------------------------------------------------
+Intramolecular-H-Abs-PeroxyAldehyde-HH  oc(h)c(h)(h)(oo) = oc.c(h)(h)(ooh)
+- ID 3151
+- Correspondences
+1 2 3 4 5 6 7 8     2 4 2 2 2 2 2
+1 2 4 5 6 7 8 3     2 2 2 2 2 2 4
+>  <ForwardRxn>
+Standard 1.000E+11 0.00 25750   2; Neopentane (tc3h6o2cho = tc3h6o2hco); Combustion and Flame, 118:415-430 (1999)
+>  <ReverseRxn>
+Standard 8.258e+11 -0.52 22800  2; Neopentane (tc3h6o2cho = tc3h6o2hco); Combustion and Flame, 118:415-430 (1999)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1
+%%%-------------------------------------------------------------------
+Intramolecular-H-Abs-PeroxyAldehyde-RH  oc(h)c(r)(h)(oo) = oc.c(r)(h)(ooh)
+- ID 3152
+- Correspondences
+1 2 3 4 5 6 7 8     2 4 2 2 2 2 2
+1 2 4 5 6 7 8 3     2 2 2 2 2 2 4
+>  <ForwardRxn>
+Standard 1.000E+11 0.00 25750   2; Neopentane (tc3h6o2cho = tc3h6o2hco); Combustion and Flame, 118:415-430 (1999)
+>  <ReverseRxn>
+Standard 8.258e+11 -0.52 22800  2; Neopentane (tc3h6o2cho = tc3h6o2hco); Combustion and Flame, 118:415-430 (1999)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2
+%%%-------------------------------------------------------------------
+Intramolecular-H-Abs-PeroxyAldehyde-RR  oc(h)c(r)(r)(oo) = oc.c(r)(r)(ooh)
+- ID 3153
+- Correspondences
+1 2 3 4 5 6 7 8     2 4 2 2 2 2 2
+1 2 4 5 6 7 8 3     2 2 2 2 2 2 4
+>  <ForwardRxn>
+Standard 1.000E+11 0.00 25750   2; Neopentane (tc3h6o2cho = tc3h6o2hco); Combustion and Flame, 118:415-430 (1999)
+>  <ReverseRxn>
+Standard 8.258e+11 -0.52 22800  2; Neopentane (tc3h6o2cho = tc3h6o2hco); Combustion and Flame, 118:415-430 (1999)
+$$$$

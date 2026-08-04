@@ -1,0 +1,68 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% OlefinAlphaHydroPeroxyBetaKetoneDecomp
+%%%%%%%%    Propenal and Aldehyde Radical Formation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1
+%%%-------------------------------------------------------------------
+OlefinAlphaHydroPeroxyBetaKetoneDecomp-(h)(h)\
+  c=ccoohco(h)(h) = c=cco(h) (h).c(o) hydroxyl-radical
+- ID 40800
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 2 4 2 4 2 2 2 2
+1 2 3 5 9                2 2 2 2
+4 8 10                   2 2
+7 6                      2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 1;  Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 1
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1
+%%%-------------------------------------------------------------------
+OlefinAlphaHydroPeroxyBetaKetoneDecomp-(r)(h)\
+  c=ccoohco(r)(h) = c=cco(r) (h).c(o) hydroxyl-radical
+- ID 40801
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 2 4 2 4 2 2 2 2
+1 2 3 5 9                2 2 2 2
+4 8 10                   2 2
+7 6                      2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 1;  Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 1
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1
+%%%-------------------------------------------------------------------
+OlefinAlphaHydroPeroxyBetaKetoneDecomp-(h)(r)\
+  c=ccoohco(h)(r) = c=cco(h) (r).c(o) hydroxyl-radical
+- ID 40802
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 2 4 2 4 2 2 2 2
+1 2 3 5 9                2 2 2 2
+4 8 10                   2 2
+7 6                      2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 1;  Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 1
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1
+%%%-------------------------------------------------------------------
+OlefinAlphaHydroPeroxyBetaKetoneDecomp-(r)(r)\
+  c=ccoohco(r)(r) = c=cco(r) (r).c(o) hydroxyl-radical
+- ID 40803
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 2 4 2 4 2 2 2 2
+1 2 3 5 9                2 2 2 2
+4 8 10                   2 2
+7 6                      2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 1;  Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 1
+$$$$

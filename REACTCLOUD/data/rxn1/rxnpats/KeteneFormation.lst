@@ -1,0 +1,273 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+KeteneFormationO2Abstraction-(hh)\
+     .c(h)(h)co(h) oxygen = ketene-(hh) hydrogen-peroxide
+- ID 70001
+- Correspondences
+1 2 3 4 5 6        2 2 4 2 2
+7 8                2
+1 2 3 5 6          2 2 2 2
+7 8 4              2 4
+>  <ForwardRxn>
+Standard 1.81e+11   0.00  1.840E+03 4; From ch2cho+o2 = ch2co+ho2 and ch3chcho+o2 = ch3chco+ho2
+>  <ReverseRxn>
+Standard 2.306e+13   -0.51 1.954E+04 2; From ch3chcho+o2 = ch3chco+ho2
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+KeteneFormationO2Abstraction-(rh)\
+     .c(r)(h)co(h) oxygen = ketene-(rh) hydrogen-peroxide
+- ID 70002
+- Correspondences
+1 2 3 4 5 6        2 2 4 2 2
+7 8                2
+1 2 3 5 6          2 2 2 2
+7 8 4              2 4
+>  <ForwardRxn>
+Standard 1.81e+11   0.00  1.840E+03 2; From ch2cho+o2 = ch2co+ho2 and ch3chcho+o2 = ch3chco+ho2
+>  <ReverseRxn>
+Standard 2.306e+13   -0.51 1.954E+04 2; From ch3chcho+o2 = ch3chco+ho2
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+KeteneFormationO2Abstraction-(rr)\
+     .c(r)(r)co(h) oxygen = ketene-(rr) hydrogen-peroxide
+- ID 70003
+- Correspondences
+1 2 3 4 5 6        2 2 4 2 2
+7 8                2
+1 2 3 5 6          2 2 2 2
+7 8 4              2 4
+>  <ForwardRxn>
+Standard 1.81e+11   0.00  1.840E+03 4; From ch2cho+o2 = ch2co+ho2 and ch3chcho+o2 = ch3chco+ho2
+>  <ReverseRxn>
+Standard 2.306e+13   -0.51 1.954E+04 2; From ch3chcho+o2 = ch3chco+ho2
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+KeteneFormation-(hh)\
+     .c(h)(h)co(h) = ketene-(hh) hydrogen-radical
+- ID 70004
+- Correspondences
+1 2 3 4 5 6        2 2 4 2 2
+1 2 3 5 6          2 2 2 2
+4                  
+>  <ForwardRxn>
+Standard 1.345e+13   -0.17  3.346E+04 2; From ch2cho = ch2co+h and ch3chcho = ch3chco+h
+>  <ReverseRxn>
+Standard 5.000e+12    0.00   1.200E+03 2; From ch3chcho = ch3chco+h
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+KeteneFormation-(rh)\
+     .c(r)(h)co(h) = ketene-(rh) hydrogen-radical
+- ID 70005
+- Correspondences
+1 2 3 4 5 6        2 2 4 2 2
+1 2 3 5 6          2 2 2 2
+4                  
+>  <ForwardRxn>
+Standard 1.345e+13   -0.17  3.346E+04 1; From ch2cho = ch2co+h and ch3chcho = ch3chco+h
+>  <ReverseRxn>
+Standard 5.000e+12    0.00   1.200E+03 1; From ch3chcho = ch3chco+h
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+KeteneFormation-(rr)\
+     .c(r)(r)co(h) = ketene-(rr) hydrogen-radical
+- ID 70006
+- Correspondences
+1 2 3 4 5 6        2 2 4 2 2
+1 2 3 5 6          2 2 2 2
+4                  
+>  <ForwardRxn>
+Standard 1.345e+13   -0.17  3.346E+04 4; From ch2cho = ch2co+h and ch3chcho = ch3chco+h
+>  <ReverseRxn>
+Standard 5.000e+12    0.00   1.200E+03 2; From ch3chcho = ch3chco+h
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 3*2 = 6
+%%%-------------------------------------------------------------------
+KeteneFormationRadicalDecomp-(hh)(hhh)\
+ .c(hh)coc(hhh) = ketene-(hh) methane-carbon-radical
+- ID 70101
+- Correspondences
+1 2 3 4 5 6 7 8 9       4 2 2 2 2 2 2 2
+3 2 4 5 6               2 2 2 2
+1 7 8 9                 2 2 2                  
+>  <ForwardRxn>
+Standard 1.000e+14    0.00 3.100E+04 6; From ch3coch2 = ch2co+ch3
+>  <ReverseRxn>
+Standard 1.000e+11    0.00  6.000E+03 6; From ch3coch2 = ch2co+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+KeteneFormationRadicalDecomp-(hh)(rhh)\
+ .c(hh)coc(rhh) = ketene-(hh) primary-carbon-radical
+- ID 70102
+- Correspondences
+1 2 3 4 5 6 7 8 9       4 2 2 2 2 2 2 2
+3 2 4 5 6               2 2 2 2
+1 7 8 9                 2 2 2                  
+>  <ForwardRxn>
+Standard 1.000e+14    0.00 3.100E+04 4; From ch3coch2 = ch2co+ch3
+>  <ReverseRxn>
+Standard 1.000e+11    0.00  6.000E+03 4; From ch3coch2 = ch2co+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+KeteneFormationRadicalDecomp-(hh)(rrh)\
+ .c(hh)coc(rrh) = ketene-(hh) secondary-carbon-radical
+- ID 70103
+- Correspondences
+1 2 3 4 5 6 7 8 9       4 2 2 2 2 2 2 2
+3 2 4 5 6               2 2 2 2
+1 7 8 9                 2 2 2                  
+>  <ForwardRxn>
+Standard 1.000e+14    0.00 3.100E+04 4; From ch3coch2 = ch2co+ch3
+>  <ReverseRxn>
+Standard 1.000e+11    0.00  6.000E+03 4; From ch3coch2 = ch2co+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*6 = 12
+%%%-------------------------------------------------------------------
+KeteneFormationRadicalDecomp-(hh)(rrr)\
+ .c(hh)coc(rrr) = ketene-(hh) tertiary-carbon-radical
+- ID 70104
+- Correspondences
+1 2 3 4 5 6 7 8 9       4 2 2 2 2 2 2 2
+3 2 4 5 6               2 2 2 2
+1 7 8 9                 2 2 2                  
+>  <ForwardRxn>
+Standard 1.000e+14    0.00 3.100E+04 12; From ch3coch2 = ch2co+ch3
+>  <ReverseRxn>
+Standard 1.000e+11    0.00  6.000E+03 12; From ch3coch2 = ch2co+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*6 = 6
+%%%-------------------------------------------------------------------
+KeteneFormationRadicalDecomp-(rh)(hhh)\
+ .c(rh)coc(hhh) = ketene-(rh) methane-carbon-radical
+- ID 70105
+- Correspondences
+1 2 3 4 5 6 7 8 9       4 2 2 2 2 2 2 2
+3 2 4 5 6               2 2 2 2
+1 7 8 9                 2 2 2                  
+>  <ForwardRxn>
+Standard 9.931e+11    0.12  4.063E+04 6; From ch3coch2 = ch2co+ch3
+>  <ReverseRxn>
+Standard 1.230e+11    0.00  7.800E+03  6; From ch3coch2 = ch2co+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+KeteneFormationRadicalDecomp-(rh)(rhh)\
+ .c(rh)coc(rhh) = ketene-(rh) primary-carbon-radical
+- ID 70106
+- Correspondences
+1 2 3 4 5 6 7 8 9       4 2 2 2 2 2 2 2
+3 2 4 5 6               2 2 2 2
+1 7 8 9                 2 2 2                  
+>  <ForwardRxn>
+Standard 1.973e+19   -1.49  4.286E+04 4; From nc3h7coc2h4s = ch3chco+nc3h7
+>  <ReverseRxn>
+Standard 1.000e+11    0.00  1.060E+04  4; From nc3h7coc2h4s = ch3chco+nc3h7
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2 = 2
+%%%-------------------------------------------------------------------
+KeteneFormationRadicalDecomp-(rh)(rrh)\
+ .c(rh)coc(rrh) = ketene-(rh) secondary-carbon-radical
+- ID 70107
+- Correspondences
+1 2 3 4 5 6 7 8 9       4 2 2 2 2 2 2 2
+3 2 4 5 6               2 2 2 2
+1 7 8 9                 2 2 2                  
+>  <ForwardRxn>
+Standard 1.973e+19   -0.68  4.041E+04 2; From ic3h7coc2h4s = ch3chco+ic3h7
+>  <ReverseRxn>
+Standard 1.000e+11    0.00  1.060E+04 2; From ic3h7coc2h4s = ch3chco+ic3h7
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*6 = 6
+%%%-------------------------------------------------------------------
+KeteneFormationRadicalDecomp-(rh)(rrr)\
+ .c(rh)coc(rrr) = ketene-(rh) tertiary-carbon-radical
+- ID 70108
+- Correspondences
+1 2 3 4 5 6 7 8 9       4 2 2 2 2 2 2 2
+3 2 4 5 6               2 2 2 2
+1 7 8 9                 2 2 2                  
+>  <ForwardRxn>
+Standard 1.973e+19   -0.68  4.041E+04 6; From ic3h7coc2h4s = ch3chco+ic3h7
+>  <ReverseRxn>
+Standard 1.000e+11    0.00  1.060E+04 6; From ic3h7coc2h4s = ch3chco+ic3h7
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*6 = 12
+%%%-------------------------------------------------------------------
+KeteneFormationRadicalDecomp-(rr)(hhh)\
+ .c(rr)coc(hhh) = ketene-(rr) methane-carbon-radical
+- ID 70109
+- Correspondences
+1 2 3 4 5 6 7 8 9       4 2 2 2 2 2 2 2
+3 2 4 5 6               2 2 2 2
+1 7 8 9                 2 2 2                  
+>  <ForwardRxn>
+Standard 9.931e+11    0.12  4.063E+04 12; From ch3chcoch3 = ch3chco+ch3
+>  <ReverseRxn>
+Standard 1.230e+11    0.00  7.800E+03 12; From ch3coch2 = ch3chcoch3 = ch3chco+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+KeteneFormationRadicalDecomp-(rr)(rhh)\
+ .c(rr)coc(rhh) = ketene-(rr) primary-carbon-radical
+- ID 70110
+- Correspondences
+1 2 3 4 5 6 7 8 9       4 2 2 2 2 2 2 2
+3 2 4 5 6               2 2 2 2
+1 7 8 9                 2 2 2                  
+>  <ForwardRxn>
+Standard 1.973e+19   -1.49  4.286E+04 4; From nc3h7coc2h4s = ch3chco+nc3h7
+>  <ReverseRxn>
+Standard 1.000e+11    0.00  1.060E+04 4; From nc3h7coc2h4s = ch3chco+nc3h7
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+KeteneFormationRadicalDecomp-(rr)(rrh)\
+ .c(rr)coc(rrh) = ketene-(rr) secondary-carbon-radical
+- ID 70111
+- Correspondences
+1 2 3 4 5 6 7 8 9       4 2 2 2 2 2 2 2
+3 2 4 5 6               2 2 2 2
+1 7 8 9                 2 2 2                  
+>  <ForwardRxn>
+Standard 8.306e+16  -0.68  4.041e+04 4; From ic3h7coc2h4s = ch3chco+ic3h7
+>  <ReverseRxn>
+Standard 1.000e+11    0.00  1.060E+04 4; From ic3h7coc2h4s = ch3chco+ic3h7
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*6 = 12
+%%%-------------------------------------------------------------------
+KeteneFormationRadicalDecomp-(rr)(rrr)\
+ .c(rr)coc(rrr) = ketene-(rr) tertiary-carbon-radical
+- ID 70112
+- Correspondences
+1 2 3 4 5 6 7 8 9       4 2 2 2 2 2 2 2
+3 2 4 5 6               2 2 2 2
+1 7 8 9                 2 2 2                  
+>  <ForwardRxn>
+Standard 1.973e+19   -0.68  4.041e+04 12; From ic3h7coc2h4s = ch3chco+ic3h7
+>  <ReverseRxn>
+Standard 1.000e+11    0.00  1.060E+04 12; From ic3h7coc2h4s = ch3chco+ic3h7
+$$$$

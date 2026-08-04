@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Full Implementation Archive | REACT ChemDB Docs</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <h1>Full Implementation Archive</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/deployment-phases">Deployment Phases</a>
+      <a href="/update-and-deploy-image">Update & Deploy Docker Image</a>
+      <a href="/backup-to-github">Backup to GitHub</a>
+      <a href="/archive">Full Implementation Archive</a>
+    </nav>
+  </header>
+  <main>
+    <section class="toc-hero">
+      <h2>Implementation Archive Table of Contents</h2>
+      <p>
+        Complete phase-by-phase documentation for the REACT Cloud Run delivery. Each phase page combines
+        strategy notes, issue/fix narrative, and rendered source artifacts from session checkpoints and plans.
+      </p>
+    </section>
+
+    <div class="section-heading">
+      <h2>Phases 1–6</h2>
+      <span class="badge">PRIMARY PATH</span>
+    </div>
+    <section class="phase-grid">
+      <a class="phase-card" href="/archive/phase-1">
+        <h3>Phase 1 — Project Setup</h3>
+        <p>Initial containerization scope, repo setup, and migration strategy.</p>
+        <div class="meta">Sources: phase1_complete + implementation_plan</div>
+      </a>
+      <a class="phase-card" href="/archive/phase-2">
+        <h3>Phase 2 — Build Pipeline & C Fixes</h3>
+        <p>Compiler modernization, dependency adjustments, and build stabilization.</p>
+        <div class="meta">Sources: phase2_complete + dependency_analysis</div>
+      </a>
+      <a class="phase-card" href="/archive/phase-3">
+        <h3>Phase 3 — HTTP Wrapper Foundation</h3>
+        <p>Design and integration path for API execution flow around chemdb.</p>
+        <div class="meta">Sources: implementation_plan + checkpoint_001</div>
+      </a>
+      <a class="phase-card" href="/archive/phase-4">
+        <h3>Phase 4 — Dual-Mode Entrypoint</h3>
+        <p>Container startup behavior for CLI mode and HTTP mode on Cloud Run.</p>
+        <div class="meta">Sources: phase2_complete + checkpoint_001</div>
+      </a>
+      <a class="phase-card" href="/archive/phase-5">
+        <h3>Phase 5 — Validation & Runtime Testing</h3>
+        <p>Docker runtime verification, endpoint checks, and Linux compatibility closure.</p>
+        <div class="meta">Sources: phase2_complete + checkpoint_001</div>
+      </a>
+      <a class="phase-card" href="/archive/phase-6">
+        <h3>Phase 6 — Production Optimization</h3>
+        <p>Cloud Run deployment hardening, rollout process, and operational guidance.</p>
+        <div class="meta">Sources: checkpoint_001 + current_plan</div>
+      </a>
+    </section>
+
+    <div class="section-heading">
+      <h2>Source Artifacts</h2>
+      <span class="badge">VERBATIM</span>
+    </div>
+    <section class="source-grid">
+      <a class="source-item" href="/archive/dependency-analysis">
+        <h4>Dependency Analysis (962)</h4>
+        <p>Raw dependency research and risk analysis.</p>
+      </a>
+      <a class="source-item" href="/archive/implementation-plan">
+        <h4>Implementation Plan (962)</h4>
+        <p>Original phase roadmap and checkpoints.</p>
+      </a>
+      <a class="source-item" href="/archive/checkpoint-001">
+        <h4>Checkpoint 001 (97)</h4>
+        <p>Consolidated implementation summary.</p>
+      </a>
+      <a class="source-item" href="/archive/checkpoints-index-962">
+        <h4>Checkpoints Index (962)</h4>
+        <p>Early-session checkpoint timeline.</p>
+      </a>
+      <a class="source-item" href="/archive/checkpoints-index-97">
+        <h4>Checkpoints Index (97)</h4>
+        <p>Current session checkpoint timeline.</p>
+      </a>
+      <a class="source-item" href="/archive/current-plan-97">
+        <h4>Current Plan (97)</h4>
+        <p>Latest plan and operational task state.</p>
+      </a>
+    </section>
+  </main>
+  <footer>
+    Source artifacts copied from ~/.copilot/session-state/*
+  </footer>
+</body>
+</html>

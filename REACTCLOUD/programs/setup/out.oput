@@ -1,0 +1,1898 @@
+
+if ( $#argv != 1 ) then
+
+
+set ROOTNAME = $1
+
+
+
+set DATADIR = $REACTROOT/data/DB
+set PROGRAMDIR = $REACTROOT/programs
+set CHEMPROG = $REACTROOT/programs/scripts/readmol.sh
+set CHEMPROPS = $REACTROOT/programs/scripts/readmolprops.sh
+set THERMO = $REACTROOT/programs/scripts/readchemkin.sh
+
+pushd $DATADIR
+~/Reaction/REACT/data/DB ~/Reaction/REACT/programs/setup 
+rm Molecules.dbf
+popd
+~/Reaction/REACT/programs/setup 
+
+pushd $PROGRAMDIR
+~/Reaction/REACT/programs ~/Reaction/REACT/programs/setup 
+echo ---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+echo Run: $CHEMPROG
+Run: /Users/edwardblurock/Reaction/REACT/programs/scripts/readmol.sh
+$CHEMPROG $ROOTNAME
+~/Reaction/REACT/tmp ~/Reaction/REACT/programs 
+-----------------Chemistry Database ------------------
+-----------------Version 0    --------------------
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+main>> Mol
+Command:Mol
+Mol>> Parameters
+Command:Parameters
+Parameters>> RootMolName
+Command:RootMolName
+RootMolName>> Input:RootMolName
+Command:Input:RootMolName
+Input:RootMolName>> Set Value: RootMolName to StandardMeta
+StandardMeta
+RootMolName>> Quit
+Parameters>> Quit
+Mol>> MetaAtoms
+Command:MetaAtoms
+MetaAtoms>> Read
+Command:Read
+Set Of     3 MolFile Meta Atoms (    0:MasterMetaAtom)
+MetaAtoms:    0::(         R,  320 -> [ (    6,    1)  ]
+MetaAtoms:    1::(         Q,  221 -> [ (    1,    1) (    6,    1) (    6,    2)  ]
+MetaAtoms:    2::(         X,  382 -> [ (    9,    1) (   35,    1) (   17,    1)  ]
+MetaAtoms>> Quit
+Mol>> Quit
+main>> CreateOpenClose
+Command:CreateOpenClose
+CreateOpenClose>> Start
+Command:Start
+
+0:No Keys for Molecules
+
+
+0:No Keys for Reactions
+
+CreateOpenClose>> Quit
+main>> DbaseOps
+Command:DbaseOps
+DbaseOps>> Molecules
+Command:Molecules
+Molecules>> Current
+Command:Current
+Current>> Store
+Command:Store
+Current>> Quit
+Molecules>> Keys
+Command:Keys
+Keys>> Define
+Command:Define
+Keys>> Write
+Command:Write
+Keys>> Quit
+Molecules>> Quit
+DbaseOps>> Quit
+main>> Mol
+Command:Mol
+Mol>> Parameters
+Command:Parameters
+Parameters>> MolOutName
+Command:MolOutName
+MolOutName>> Input:MolOutName
+Command:Input:MolOutName
+Input:MolOutName>> Set Value: MolOutName to C3HO
+C3HO
+MolOutName>> Quit
+Parameters>> RootMolName
+Command:RootMolName
+RootMolName>> Input:RootMolName
+Command:Input:RootMolName
+Input:RootMolName>> Set Value: RootMolName to molsdf/C3HO
+molsdf/C3HO
+RootMolName>> Quit
+Parameters>> Quit
+Mol>> Read
+Command:Read
+Read>> Molecules
+Command:Molecules
+Molecules>> SDF
+Command:SDF
+Read SDF Molecule: propane
+END: '$$$$' 0 41
+Read SDF Molecule: 1-propyl-radical
+END: '$$$$' 0 41
+Read SDF Molecule: 2-propyl-radical
+END: '$$$$' 0 41
+Read SDF Molecule: propene
+END: '$$$$' 0 41
+Read SDF Molecule: cyclopropane
+END: '$$$$' 0 41
+Read SDF Molecule: prop-1-en-1-yl-radical
+END: '$$$$' 0 41
+Read SDF Molecule: prop-1-en-2-yl-radical
+END: '$$$$' 0 41
+Read SDF Molecule: prop-1-en-3-yl-radical
+END: '$$$$' 0 41
+Read SDF Molecule: allene
+END: '$$$$' 0 41
+Read SDF Molecule: propyne
+END: '$$$$' 0 41
+Read SDF Molecule: prop-2-yn-1-yl-radical
+END: '$$$$' 0 41
+Read SDF Molecule: propyn-1-yl-radical
+END: '$$$$' 0 41
+Read SDF Molecule: propanal
+END: '$$$$' 0 41
+Read SDF Molecule: propanone
+END: '$$$$' 0 41
+Read SDF Molecule: propanoyl-radical
+END: '$$$$' 0 41
+Read SDF Molecule: propanon-1-yl-radical
+END: '$$$$' 0 41
+Read SDF Molecule: propanal-2-yl-radical
+END: '$$$$' 0 41
+Read SDF Molecule: propanal-3-yl-radical
+END: '$$$$' 0 41
+Read SDF Molecule: propanal-2-one
+END: '$$$$' 0 41
+Read SDF Molecule: 1,3-dipropanal
+END: '$$$$' 0 41
+Read SDF Molecule: propanoyl-3-al-radical
+END: '$$$$' 0 41
+Read SDF Molecule: dipropanal-2-yl-radical
+END: '$$$$' 0 41
+Read SDF Molecule: propanoyl-2-one-radical
+END: '$$$$' 0 41
+Read SDF Molecule: propanal-2-one-3-yl-radical
+END: '$$$$' 0 41
+Read SDF Molecule: propen-3-al
+END: '$$$$' 0 41
+Read SDF Molecule: methyl-ketene
+END: '$$$$' 0 41
+Read SDF Molecule: prop-3-en-1-peroxy-radical
+END: '$$$$' 0 41
+Read SDF Molecule: propenylal-radical
+END: '$$$$' 0 41
+Read SDF Molecule: propen-3-ol
+END: '$$$$' 0 41
+Read SDF Molecule: propen-2-yl-3-ol
+END: '$$$$' 0 41
+Read SDF Molecule: propen-3-oxy-radical
+END: '$$$$' 0 41
+Read SDF Molecule: oxetane
+END: '$$$$' 0 41
+Read SDF Molecule: methyl-oxirane
+END: '$$$$' 0 41
+Read SDF Molecule: propen-2-ol
+END: '$$$$' 0 41
+Read SDF Molecule: propanol-3-yl-radical
+END: '$$$$' 0 41
+Read SDF Molecule: 2-propanol-2-yl-radical
+END: '$$$$' 0 41
+Read SDF Molecule: 1-oxypropane-radical
+END: '$$$$' 0 41
+Read SDF Molecule: isopropyloxidanyl
+END: '$$$$' 0 41
+Read SDF Molecule: propanal-2-oxy-radical
+END: '$$$$' 0 41
+Read SDF Molecule: 2-oxo-1-propanolate
+END: '$$$$' 0 41
+Read SDF Molecule: 1-hydroperoxy-2-propyl-radical
+END: '$$$$' 0 41
+Read SDF Molecule: 1-hydroperoxy-3-propyl-radical
+END: '$$$$' 0 41
+Read SDF Molecule: 2-hydroperoxy-1-propyl-radical
+END: '$$$$' 0 41
+Read SDF Molecule: 1-peroxy-propane
+END: '$$$$' 0 41
+Read SDF Molecule: 2-peroxy-propane
+END: '$$$$' 0 41
+Read SDF Molecule: 1-hydroperoxy-propane
+END: '$$$$' 0 41
+Read SDF Molecule: 2-hydroperoxy-propane
+END: '$$$$' 0 41
+Read SDF Molecule: 1-peroxy-2-propanone
+END: '$$$$' 0 41
+Read SDF Molecule: 2-hydroperoxy-1-propanone
+END: '$$$$' 0 41
+Read SDF Molecule: 3-hydroperoxy-1-propanone
+END: '$$$$' 0 41
+Read SDF Molecule: 1-hydroperoxy-2-propanone
+END: '$$$$' 0 41
+Read SDF Molecule: 2-peroxy-1-propanol
+END: '$$$$' 0 41
+Read SDF Molecule: 1-hydroperoxy-2-peroxy-propane
+END: '$$$$' 0 41
+Read SDF Molecule: 1-hydroperoxy-3-peroxy-propane
+END: '$$$$' 0 41
+Read SDF Molecule: 2-hydroperoxy-1-peroxy-propane
+END: '$$$$' 0 41
+Molecules>> Quit
+Read>> Quit
+Mol>> Calculations
+Command:Calculations
+Calculations>> Molecules
+Command:Molecules
+Molecules>> SemiEmpirical
+Command:SemiEmpirical
+Found Resonances:
+NONE
+Found Resonances:
+NONE
+Found Resonances:
+NONE
+Found Resonances:
+NONE
+Found Resonances:
+NONE
+Found Resonances:
+NONE
+Molecules>> Quit
+Calculations>> Quit
+Mol>> Output
+Command:Output
+Output>> Molecules
+Command:Molecules
+Molecules>> Print
+Command:Print
+Molecules>> Quit
+Output>> Quit
+Mol>> Quit
+main>> DbaseOps
+Command:DbaseOps
+DbaseOps>> Molecules
+Command:Molecules
+Molecules>> Current
+Command:Current
+Current>> Possible Commands
+  ReadInCurrent: Read in the current set of molecules
+          Store: Store the Current Molecules in database
+          ASCII: Insert ASCII data from a file
+Current>> Store
+Command:Store
+Store:          1:propane
+New ID:   11011300
+Store:          2:1-propyl-radical
+New ID:   20910300
+Store:          3:2-propyl-radical
+New ID:   20910301
+Store:          4:propene
+New ID:   10809300
+Store:          5:cyclopropane
+New ID:   10909300
+Store:      10006:prop-1-en-1-yl-radical
+New ID:   20708300
+Store:      10007:prop-1-en-2-yl-radical
+New ID:   20708301
+Store:      10008:prop-1-en-3-yl-radical
+New ID:   20708302
+Store:          9:allene
+New ID:   10607300
+Store:         10:propyne
+New ID:   10607301
+Store:         11:prop-2-yn-1-yl-radical
+New ID:   20506300
+Store:         12:propyn-1-yl-radical
+New ID:   20506301
+Store:         13:propanal
+New ID:   10910300
+Store:         14:propanone
+New ID:   10910301
+Store:         15:propanoyl-radical
+New ID:   20809300
+Store:         16:propanon-1-yl-radical
+New ID:   20809301
+Store:         17:propanal-2-yl-radical
+New ID:   20809302
+Store:         18:propanal-3-yl-radical
+New ID:   20809303
+Store:         24:propanal-2-one
+New ID:   10809301
+Store:         25:1,3-dipropanal
+New ID:   10809302
+Store:         26:propanoyl-3-al-radical
+New ID:   20708303
+Store:         27:dipropanal-2-yl-radical
+New ID:   20708304
+Store:         28:propanoyl-2-one-radical
+New ID:   20708305
+Store:         29:propanal-2-one-3-yl-radical
+New ID:   20708306
+Store:         30:propen-3-al
+New ID:   10708300
+Store:         31:methyl-ketene
+New ID:   10708301
+Store:         32:prop-3-en-1-peroxy-radical
+New ID:   20910302
+Store:         33:propenylal-radical
+New ID:   20607300
+Store:         34:propen-3-ol
+New ID:   10910302
+Store:         35:propen-2-yl-3-ol
+New ID:   20809304
+Store:         36:propen-3-oxy-radical
+New ID:   20809305
+Store:         37:oxetane
+New ID:   11010300
+Store:         38:methyl-oxirane
+New ID:   11010301
+Store:         39:propen-2-ol
+New ID:   10910303
+Store:         40:propanol-3-yl-radical
+New ID:   21011300
+Store:         41:2-propanol-2-yl-radical
+New ID:   21011301
+Store:         42:1-oxypropane-radical
+New ID:   21011302
+Store:         43:isopropyloxidanyl
+New ID:   21011303
+Store:         44:propanal-2-oxy-radical
+New ID:   21012300
+Store:         45:2-oxo-1-propanolate
+New ID:   20910303
+Store:         46:1-hydroperoxy-2-propyl-radical
+New ID:   21112300
+Store:         47:1-hydroperoxy-3-propyl-radical
+New ID:   21112301
+Store:         48:2-hydroperoxy-1-propyl-radical
+New ID:   21112302
+Store:         49:1-peroxy-propane
+New ID:   21112303
+Store:         50:2-peroxy-propane
+New ID:   21112304
+Store:         51:1-hydroperoxy-propane
+New ID:   11213300
+Store:         52:2-hydroperoxy-propane
+New ID:   11213301
+Store:         53:1-peroxy-2-propanone
+New ID:   21011304
+Store:         55:2-hydroperoxy-1-propanone
+New ID:   11112300
+Store:         56:3-hydroperoxy-1-propanone
+New ID:   11112301
+Store:         57:1-hydroperoxy-2-propanone
+New ID:   11112302
+Store:         58:2-peroxy-1-propanol
+New ID:   21213300
+Store:         59:1-hydroperoxy-2-peroxy-propane
+New ID:   21314300
+Store:         60:1-hydroperoxy-3-peroxy-propane
+New ID:   21314301
+Store:         61:2-hydroperoxy-1-peroxy-propane
+New ID:   21314302
+Current>> Quit
+Molecules>> Keys
+Command:Keys
+Keys>> Read
+Command:Read
+Keys>> Fill
+Command:Fill
+Keys>> Write
+Command:Write
+Keys>> Quit
+Molecules>> Misc
+Command:Misc
+Misc>> PrintList
+Command:PrintList
+  11112300: -->2-hydroperoxy-1-propanone<--
+  10910301: -->propanone<--
+  11011300: -->propane<--
+  20809304: -->propen-2-yl-3-ol<--
+  20708305: -->propanoyl-2-one-radical<--
+  21112303: -->1-peroxy-propane<--
+  21314300: -->1-hydroperoxy-2-peroxy-propane<--
+  20910301: -->2-propyl-radical<--
+  10809302: -->1,3-dipropanal<--
+  10607300: -->allene<--
+  21011304: -->1-peroxy-2-propanone<--
+  20809302: -->propanal-2-yl-radical<--
+  20708303: -->propanoyl-3-al-radical<--
+  11010300: -->oxetane<--
+  21112301: -->1-hydroperoxy-3-propyl-radical<--
+  20506301: -->propyn-1-yl-radical<--
+  11112301: -->3-hydroperoxy-1-propanone<--
+  10910302: -->propen-3-ol<--
+  10809300: -->propene<--
+  10708300: -->propen-3-al<--
+  20809305: -->propen-3-oxy-radical<--
+  20708306: -->propanal-2-one-3-yl-radical<--
+  21011302: -->1-oxypropane-radical<--
+  21012300: -->propanal-2-oxy-radical<--
+  20809300: -->propanoyl-radical<--
+  20708301: -->prop-1-en-2-yl-radical<--
+  10910300: -->propanal<--
+  20809303: -->propanal-3-yl-radical<--
+  20708304: -->dipropanal-2-yl-radical<--
+  21011300: -->propanol-3-yl-radical<--
+  10708301: -->methyl-ketene<--
+  21011303: -->isopropyloxidanyl<--
+  10909300: -->cyclopropane<--
+  21213300: -->2-peroxy-1-propanol<--
+  20708302: -->prop-1-en-3-yl-radical<--
+  20809301: -->propanon-1-yl-radical<--
+  20506300: -->prop-2-yn-1-yl-radical<--
+  21011301: -->2-propanol-2-yl-radical<--
+  20708300: -->prop-1-en-1-yl-radical<--
+  20607300: -->propenylal-radical<--
+  11213300: -->1-hydroperoxy-propane<--
+  21112304: -->2-peroxy-propane<--
+  21314301: -->1-hydroperoxy-3-peroxy-propane<--
+  20910302: -->prop-3-en-1-peroxy-radical<--
+  11213301: -->2-hydroperoxy-propane<--
+  10607301: -->propyne<--
+  11010301: -->methyl-oxirane<--
+  21112302: -->2-hydroperoxy-1-propyl-radical<--
+  11112302: -->1-hydroperoxy-2-propanone<--
+  20910300: -->1-propyl-radical<--
+  10910303: -->propen-2-ol<--
+  10809301: -->propanal-2-one<--
+  21314302: -->2-hydroperoxy-1-peroxy-propane<--
+  20910303: -->2-oxo-1-propanolate<--
+  21112300: -->1-hydroperoxy-2-propyl-radical<--
+Misc>> Quit
+Molecules>> Quit
+DbaseOps>> Quit
+main>> Mol
+Command:Mol
+Mol>> Output
+Command:Output
+Output>> Molecules
+Command:Molecules
+Molecules>> Print
+Command:Print
+Molecules>> Quit
+Output>> Quit
+Mol>> Graph
+Command:Graph
+Graph>> PrintGraph
+Command:PrintGraph
+:11011300:propane
+:     0,6003004 ->> (    1    3    4    5)
+:     1,6003004 ->> (    0    2    6    7)
+:     2,6003004 ->> (    1    8    9   10)
+:     3,1003001 ->> (    0)
+:     4,1003001 ->> (    0)
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    1)
+:     7,1003001 ->> (    1)
+:     8,1003001 ->> (    2)
+:     9,1003001 ->> (    2)
+:    10,1003001 ->> (    2)
+
+:20910300:1-propyl-radical
+:     0,6009003 ->> (    1    3    4)
+:     1,6003004 ->> (    0    2    5    6)
+:     2,6003004 ->> (    1    7    8    9)
+:     3,1003001 ->> (    0)
+:     4,1003001 ->> (    0)
+:     5,1003001 ->> (    1)
+:     6,1003001 ->> (    1)
+:     7,1003001 ->> (    2)
+:     8,1003001 ->> (    2)
+:     9,1003001 ->> (    2)
+
+:20910301:2-propyl-radical
+:     0,6003004 ->> (    1    3    4    5)
+:     1,6009003 ->> (    0    2    6)
+:     2,6003004 ->> (    1    7    8    9)
+:     3,1003001 ->> (    0)
+:     4,1003001 ->> (    0)
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    1)
+:     7,1003001 ->> (    2)
+:     8,1003001 ->> (    2)
+:     9,1003001 ->> (    2)
+
+:10809300:propene
+:     0,6003012 ->> (    1    3    4)
+:     1,6003012 ->> (    0    2    5)
+:     2,6003004 ->> (    1    6    7    8)
+:     3,1003001 ->> (    0)
+:     4,1003001 ->> (    0)
+:     5,1003001 ->> (    1)
+:     6,1003001 ->> (    2)
+:     7,1003001 ->> (    2)
+:     8,1003001 ->> (    2)
+
+:10909300:cyclopropane
+:     0,6003004 ->> (    1    2    3    4)
+:     1,6003004 ->> (    0    2    5    6)
+:     2,6003004 ->> (    1    0    7    8)
+:     3,1003001 ->> (    0)
+:     4,1003001 ->> (    0)
+:     5,1003001 ->> (    1)
+:     6,1003001 ->> (    1)
+:     7,1003001 ->> (    2)
+:     8,1003001 ->> (    2)
+
+:20708300:prop-1-en-1-yl-radical
+:     0,6009011 ->> (    1    3)
+:     1,6003012 ->> (    0    2    4)
+:     2,6003004 ->> (    1    5    6    7)
+:     3,1003001 ->> (    0)
+:     4,1003001 ->> (    1)
+:     5,1003001 ->> (    2)
+:     6,1003001 ->> (    2)
+:     7,1003001 ->> (    2)
+
+:20708301:prop-1-en-2-yl-radical
+:     0,6003012 ->> (    1    3    4)
+:     1,6009011 ->> (    0    2)
+:     2,6003004 ->> (    1    5    6    7)
+:     3,1003001 ->> (    0)
+:     4,1003001 ->> (    0)
+:     5,1003001 ->> (    2)
+:     6,1003001 ->> (    2)
+:     7,1003001 ->> (    2)
+
+:20708302:prop-1-en-3-yl-radical
+:     0,6003012 ->> (    1    3    4)
+:     1,6003012 ->> (    0    2    5)
+:     2,6009003 ->> (    1    6    7)
+:     3,1003001 ->> (    0)
+:     4,1003001 ->> (    0)
+:     5,1003001 ->> (    1)
+:     6,1003001 ->> (    2)
+:     7,1003001 ->> (    2)
+
+:10607300:allene
+:     0,6003012 ->> (    1    3    4)
+:     1,6003020 ->> (    0    2)
+:     2,6003012 ->> (    1    5    6)
+:     3,1003001 ->> (    0)
+:     4,1003001 ->> (    0)
+:     5,1003001 ->> (    2)
+:     6,1003001 ->> (    2)
+
+:10607301:propyne
+:     0,6003101 ->> (    1    3)
+:     1,6003101 ->> (    0    2)
+:     2,6003004 ->> (    1    4    5    6)
+:     3,1003001 ->> (    0)
+:     4,1003001 ->> (    2)
+:     5,1003001 ->> (    2)
+:     6,1003001 ->> (    2)
+
+:20506300:prop-2-yn-1-yl-radical
+:     0,6009003 ->> (    1    3    4)
+:     1,6003101 ->> (    0    2)
+:     2,6003101 ->> (    1    5)
+:     3,1003001 ->> (    0)
+:     4,1003001 ->> (    0)
+:     5,1003001 ->> (    2)
+
+:20506301:propyn-1-yl-radical
+:     0,6009100 ->> (    1)
+:     1,6003101 ->> (    0    2)
+:     2,6003004 ->> (    1    3    4    5)
+:     3,1003001 ->> (    2)
+:     4,1003001 ->> (    2)
+:     5,1003001 ->> (    2)
+
+:10910300:propanal
+:     0,6003012 ->> (    1    3    4)
+:     1,6003004 ->> (    0    2    5    6)
+:     2,6003004 ->> (    1    7    8    9)
+:     3,8043010 ->> (    0)
+:     4,1003001 ->> (    0)
+:     5,1003001 ->> (    1)
+:     6,1003001 ->> (    1)
+:     7,1003001 ->> (    2)
+:     8,1003001 ->> (    2)
+:     9,1003001 ->> (    2)
+
+:10910301:propanone
+:     0,6003004 ->> (    1    4    5    6)
+:     1,6003012 ->> (    0    2    3)
+:     2,6003004 ->> (    1    7    8    9)
+:     3,8043010 ->> (    1)
+:     4,1003001 ->> (    0)
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    0)
+:     7,1003001 ->> (    2)
+:     8,1003001 ->> (    2)
+:     9,1003001 ->> (    2)
+
+:20809300:propanoyl-radical
+:     0,6009011 ->> (    1    3)
+:     1,6003004 ->> (    0    2    4    5)
+:     2,6003004 ->> (    1    6    7    8)
+:     3,8043010 ->> (    0)
+:     4,1003001 ->> (    1)
+:     5,1003001 ->> (    1)
+:     6,1003001 ->> (    2)
+:     7,1003001 ->> (    2)
+:     8,1003001 ->> (    2)
+
+:20809301:propanon-1-yl-radical
+:     0,6009003 ->> (    1    4    5)
+:     1,6003012 ->> (    0    2    3)
+:     2,6003004 ->> (    1    6    7    8)
+:     3,8043010 ->> (    1)
+:     4,1003001 ->> (    0)
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    2)
+:     7,1003001 ->> (    2)
+:     8,1003001 ->> (    2)
+
+:20809302:propanal-2-yl-radical
+:     0,6003012 ->> (    1    3    4)
+:     1,6009003 ->> (    0    2    5)
+:     2,6003004 ->> (    1    6    7    8)
+:     3,8043010 ->> (    0)
+:     4,1003001 ->> (    0)
+:     5,1003001 ->> (    1)
+:     6,1003001 ->> (    2)
+:     7,1003001 ->> (    2)
+:     8,1003001 ->> (    2)
+
+:20809303:propanal-3-yl-radical
+:     0,6003012 ->> (    1    3    4)
+:     1,6003004 ->> (    0    2    5    6)
+:     2,6009003 ->> (    1    7    8)
+:     3,8043010 ->> (    0)
+:     4,1003001 ->> (    0)
+:     5,1003001 ->> (    1)
+:     6,1003001 ->> (    1)
+:     7,1003001 ->> (    2)
+:     8,1003001 ->> (    2)
+
+:10809301:propanal-2-one
+:     0,6003012 ->> (    1    3    5)
+:     1,6003012 ->> (    0    2    4)
+:     2,6003004 ->> (    1    6    7    8)
+:     3,8043010 ->> (    0)
+:     4,8043010 ->> (    1)
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    2)
+:     7,1003001 ->> (    2)
+:     8,1003001 ->> (    2)
+
+:10809302:1,3-dipropanal
+:     0,6003012 ->> (    1    3    5)
+:     1,6003004 ->> (    0    2    6    7)
+:     2,6003012 ->> (    1    4    8)
+:     3,8043010 ->> (    0)
+:     4,8043010 ->> (    2)
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    1)
+:     7,1003001 ->> (    1)
+:     8,1003001 ->> (    2)
+
+:20708303:propanoyl-3-al-radical
+:     0,6009011 ->> (    1    3)
+:     1,6003004 ->> (    0    2    5    6)
+:     2,6003012 ->> (    1    4    7)
+:     3,8043010 ->> (    0)
+:     4,8043010 ->> (    2)
+:     5,1003001 ->> (    1)
+:     6,1003001 ->> (    1)
+:     7,1003001 ->> (    2)
+
+:20708304:dipropanal-2-yl-radical
+:     0,6003012 ->> (    1    3    5)
+:     1,6009003 ->> (    0    2    6)
+:     2,6003012 ->> (    1    4    7)
+:     3,8043010 ->> (    0)
+:     4,8043010 ->> (    2)
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    1)
+:     7,1003001 ->> (    2)
+
+:20708305:propanoyl-2-one-radical
+:     0,6009011 ->> (    1    3)
+:     1,6003012 ->> (    0    2    4)
+:     2,6003004 ->> (    1    5    6    7)
+:     3,8043010 ->> (    0)
+:     4,8043010 ->> (    1)
+:     5,1003001 ->> (    2)
+:     6,1003001 ->> (    2)
+:     7,1003001 ->> (    2)
+
+:20708306:propanal-2-one-3-yl-radical
+:     0,6003012 ->> (    1    3    5)
+:     1,6003012 ->> (    0    2    4)
+:     2,6009003 ->> (    1    6    7)
+:     3,8043010 ->> (    0)
+:     4,8043010 ->> (    1)
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    2)
+:     7,1003001 ->> (    2)
+
+:10708300:propen-3-al
+:     0,6003012 ->> (    1    4    5)
+:     1,6003012 ->> (    0    2    6)
+:     2,6003012 ->> (    1    3    7)
+:     3,8043010 ->> (    2)
+:     4,1003001 ->> (    0)
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    1)
+:     7,1003001 ->> (    2)
+
+:10708301:methyl-ketene
+:     0,6003004 ->> (    1    4    5    6)
+:     1,6003012 ->> (    0    2    7)
+:     2,6003020 ->> (    1    3)
+:     3,8043010 ->> (    2)
+:     4,1003001 ->> (    0)
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    0)
+:     7,1003001 ->> (    1)
+
+:20910302:prop-3-en-1-peroxy-radical
+:     0,6003012 ->> (    1    5    6)
+:     1,6003012 ->> (    0    2    7)
+:     2,6003004 ->> (    1    3    8    9)
+:     3,8043002 ->> (    2    4)
+:     4,8049001 ->> (    3)
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    0)
+:     7,1003001 ->> (    1)
+:     8,1003001 ->> (    2)
+:     9,1003001 ->> (    2)
+
+:20607300:propenylal-radical
+:     0,6003012 ->> (    1    4    5)
+:     1,6003012 ->> (    0    2    6)
+:     2,6009011 ->> (    1    3)
+:     3,8043010 ->> (    2)
+:     4,1003001 ->> (    0)
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    1)
+
+:10910302:propen-3-ol
+:     0,6003012 ->> (    1    4    5)
+:     1,6003012 ->> (    0    2    6)
+:     2,6003004 ->> (    1    3    7    8)
+:     3,8043002 ->> (    2    9)
+:     4,1003001 ->> (    0)
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    1)
+:     7,1003001 ->> (    2)
+:     8,1003001 ->> (    2)
+:     9,1003001 ->> (    3)
+
+:20809304:propen-2-yl-3-ol
+:     0,6003012 ->> (    1    4    5)
+:     1,6009011 ->> (    0    2)
+:     2,6003004 ->> (    1    3    6    7)
+:     3,8043002 ->> (    2    8)
+:     4,1003001 ->> (    0)
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    2)
+:     7,1003001 ->> (    2)
+:     8,1003001 ->> (    3)
+
+:20809305:propen-3-oxy-radical
+:     0,6003012 ->> (    1    4    5)
+:     1,6003012 ->> (    0    2    6)
+:     2,6003004 ->> (    1    3    7    8)
+:     3,8049001 ->> (    2)
+:     4,1003001 ->> (    0)
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    1)
+:     7,1003001 ->> (    2)
+:     8,1003001 ->> (    2)
+
+:11010300:oxetane
+:     0,6003004 ->> (    1    3    4    5)
+:     1,6003004 ->> (    0    2    6    7)
+:     2,6003004 ->> (    1    3    8    9)
+:     3,8043002 ->> (    0    2)
+:     4,1003001 ->> (    0)
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    1)
+:     7,1003001 ->> (    1)
+:     8,1003001 ->> (    2)
+:     9,1003001 ->> (    2)
+
+:11010301:methyl-oxirane
+:     0,6003004 ->> (    1    2    3    4)
+:     1,6003004 ->> (    0    2    5    6)
+:     2,8043002 ->> (    0    1)
+:     3,6003004 ->> (    0    7    8    9)
+:     4,1003001 ->> (    0)
+:     5,1003001 ->> (    1)
+:     6,1003001 ->> (    1)
+:     7,1003001 ->> (    3)
+:     8,1003001 ->> (    3)
+:     9,1003001 ->> (    3)
+
+:10910303:propen-2-ol
+:     0,6003012 ->> (    1    4    5)
+:     1,6003012 ->> (    0    2    3)
+:     2,8043002 ->> (    1    6)
+:     3,6003004 ->> (    1    7    8    9)
+:     4,1003001 ->> (    0)
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    2)
+:     7,1003001 ->> (    3)
+:     8,1003001 ->> (    3)
+:     9,1003001 ->> (    3)
+
+:21011300:propanol-3-yl-radical
+:     0,6009003 ->> (    1    4    5)
+:     1,6003004 ->> (    0    2    6    7)
+:     2,6003004 ->> (    1    3    8    9)
+:     3,8043002 ->> (    2   10)
+:     4,1003001 ->> (    0)
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    1)
+:     7,1003001 ->> (    1)
+:     8,1003001 ->> (    2)
+:     9,1003001 ->> (    2)
+:    10,1003001 ->> (    3)
+
+:21011301:2-propanol-2-yl-radical
+:     0,6003004 ->> (    1    4    5    6)
+:     1,6009003 ->> (    0    2    3)
+:     2,6003004 ->> (    1    7    8    9)
+:     3,8043002 ->> (    1   10)
+:     4,1003001 ->> (    0)
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    0)
+:     7,1003001 ->> (    2)
+:     8,1003001 ->> (    2)
+:     9,1003001 ->> (    2)
+:    10,1003001 ->> (    3)
+
+:21011302:1-oxypropane-radical
+:     0,6003004 ->> (    1    4    5    6)
+:     1,6003004 ->> (    0    2    7    8)
+:     2,6003004 ->> (    1    3    9   10)
+:     3,8049001 ->> (    2)
+:     4,1003001 ->> (    0)
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    0)
+:     7,1003001 ->> (    1)
+:     8,1003001 ->> (    1)
+:     9,1003001 ->> (    2)
+:    10,1003001 ->> (    2)
+
+:21011303:isopropyloxidanyl
+:     0,6003004 ->> (    2    4    5    6)
+:     1,6003004 ->> (    2    7    8    9)
+:     2,6003004 ->> (    0    1    3   10)
+:     3,8049001 ->> (    2)
+:     4,1003001 ->> (    0)
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    0)
+:     7,1003001 ->> (    1)
+:     8,1003001 ->> (    1)
+:     9,1003001 ->> (    1)
+:    10,1003001 ->> (    2)
+
+:21012300:propanal-2-oxy-radical
+:     0,6003004 ->> (    1    5    6    7)
+:     1,6003004 ->> (    0    2    8    9)
+:     2,6003012 ->> (    1    3   10)
+:     3,8029011 ->> (    2   11)
+:     4,8063000 ->> ()
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    0)
+:     7,1003001 ->> (    0)
+:     8,1003001 ->> (    1)
+:     9,1003001 ->> (    1)
+:    10,1003001 ->> (    2)
+:    11,1003001 ->> (    3)
+
+:20910303:2-oxo-1-propanolate
+:     0,6003004 ->> (    2    5    6    7)
+:     1,6003004 ->> (    2    3    8    9)
+:     2,6003012 ->> (    0    1    4)
+:     3,8049001 ->> (    1)
+:     4,8043010 ->> (    2)
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    0)
+:     7,1003001 ->> (    0)
+:     8,1003001 ->> (    1)
+:     9,1003001 ->> (    1)
+
+:21112300:1-hydroperoxy-2-propyl-radical
+:     0,6003004 ->> (    1    5    6    7)
+:     1,6009003 ->> (    0    2    8)
+:     2,6003004 ->> (    1    4    9   10)
+:     3,8043002 ->> (    4   11)
+:     4,8043002 ->> (    2    3)
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    0)
+:     7,1003001 ->> (    0)
+:     8,1003001 ->> (    1)
+:     9,1003001 ->> (    2)
+:    10,1003001 ->> (    2)
+:    11,1003001 ->> (    3)
+
+:21112301:1-hydroperoxy-3-propyl-radical
+:     0,6009003 ->> (    1    5    6)
+:     1,6003004 ->> (    0    2    7    8)
+:     2,6003004 ->> (    1    4    9   10)
+:     3,8043002 ->> (    4   11)
+:     4,8043002 ->> (    2    3)
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    0)
+:     7,1003001 ->> (    1)
+:     8,1003001 ->> (    1)
+:     9,1003001 ->> (    2)
+:    10,1003001 ->> (    2)
+:    11,1003001 ->> (    3)
+
+:21112302:2-hydroperoxy-1-propyl-radical
+:     0,6009003 ->> (    2    5    6)
+:     1,6003004 ->> (    2    7    8    9)
+:     2,6003004 ->> (    0    1    4   10)
+:     3,8043002 ->> (    4   11)
+:     4,8043002 ->> (    2    3)
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    0)
+:     7,1003001 ->> (    1)
+:     8,1003001 ->> (    1)
+:     9,1003001 ->> (    1)
+:    10,1003001 ->> (    2)
+:    11,1003001 ->> (    3)
+
+:21112303:1-peroxy-propane
+:     0,6003004 ->> (    1    5    6    7)
+:     1,6003004 ->> (    0    2    8    9)
+:     2,6003004 ->> (    1    4   10   11)
+:     3,8049001 ->> (    4)
+:     4,8043002 ->> (    2    3)
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    0)
+:     7,1003001 ->> (    0)
+:     8,1003001 ->> (    1)
+:     9,1003001 ->> (    1)
+:    10,1003001 ->> (    2)
+:    11,1003001 ->> (    2)
+
+:21112304:2-peroxy-propane
+:     0,6003004 ->> (    1    5    6    7)
+:     1,6003004 ->> (    0    2    4    8)
+:     2,6003004 ->> (    1    9   10   11)
+:     3,8049001 ->> (    4)
+:     4,8043002 ->> (    1    3)
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    0)
+:     7,1003001 ->> (    0)
+:     8,1003001 ->> (    1)
+:     9,1003001 ->> (    2)
+:    10,1003001 ->> (    2)
+:    11,1003001 ->> (    2)
+
+:11213300:1-hydroperoxy-propane
+:     0,6003004 ->> (    1    5    6    7)
+:     1,6003004 ->> (    0    2    8    9)
+:     2,6003004 ->> (    1    4   10   11)
+:     3,8043002 ->> (    4   12)
+:     4,8043002 ->> (    2    3)
+:     5,1003001 ->> (    0)
+:     6,1003001 ->> (    0)
+:     7,1003001 ->> (    0)
+:     8,1003001 ->> (    1)
+:     9,1003001 ->> (    1)
+:    10,1003001 ->> (    2)
+:    11,1003001 ->> (    2)
+:    12,1003001 ->> (    3)
+
+:11213301:2-hydroperoxy-propane
+:     0,8043002 ->> (    1    4)
+:     1,6003004 ->> (    0    2    3    5)
+:     2,6003004 ->> (    1    6    7    8)
+:     3,6003004 ->> (    1    9   10   11)
+:     4,8043002 ->> (    0   12)
+:     5,1003001 ->> (    1)
+:     6,1003001 ->> (    2)
+:     7,1003001 ->> (    2)
+:     8,1003001 ->> (    2)
+:     9,1003001 ->> (    3)
+:    10,1003001 ->> (    3)
+:    11,1003001 ->> (    3)
+:    12,1003001 ->> (    4)
+
+:21011304:1-peroxy-2-propanone
+:     0,6003004 ->> (    2    6    7    8)
+:     1,6003004 ->> (    2    5    9   10)
+:     2,6003012 ->> (    0    1    3)
+:     3,8043010 ->> (    2)
+:     4,8049001 ->> (    5)
+:     5,8043002 ->> (    1    4)
+:     6,1003001 ->> (    0)
+:     7,1003001 ->> (    0)
+:     8,1003001 ->> (    0)
+:     9,1003001 ->> (    1)
+:    10,1003001 ->> (    1)
+
+:11112300:2-hydroperoxy-1-propanone
+:     0,6003004 ->> (    2    6    7    8)
+:     1,6003012 ->> (    2    3    9)
+:     2,6003004 ->> (    0    1    5   10)
+:     3,8043010 ->> (    1)
+:     4,8043002 ->> (    5   11)
+:     5,8043002 ->> (    2    4)
+:     6,1003001 ->> (    0)
+:     7,1003001 ->> (    0)
+:     8,1003001 ->> (    0)
+:     9,1003001 ->> (    1)
+:    10,1003001 ->> (    2)
+:    11,1003001 ->> (    4)
+
+:11112301:3-hydroperoxy-1-propanone
+:     0,6003004 ->> (    1    2    6    7)
+:     1,6003012 ->> (    0    3    8)
+:     2,6003004 ->> (    0    5    9   10)
+:     3,8043010 ->> (    1)
+:     4,8043002 ->> (    5   11)
+:     5,8043002 ->> (    2    4)
+:     6,1003001 ->> (    0)
+:     7,1003001 ->> (    0)
+:     8,1003001 ->> (    1)
+:     9,1003001 ->> (    2)
+:    10,1003001 ->> (    2)
+:    11,1003001 ->> (    4)
+
+:11112302:1-hydroperoxy-2-propanone
+:     0,6003004 ->> (    2    6    7    8)
+:     1,6003004 ->> (    2    5    9   10)
+:     2,6003012 ->> (    0    1    3)
+:     3,8043010 ->> (    2)
+:     4,8043002 ->> (    5   11)
+:     5,8043002 ->> (    1    4)
+:     6,1003001 ->> (    0)
+:     7,1003001 ->> (    0)
+:     8,1003001 ->> (    0)
+:     9,1003001 ->> (    1)
+:    10,1003001 ->> (    1)
+:    11,1003001 ->> (    4)
+
+:21213300:2-peroxy-1-propanol
+:     0,6003004 ->> (    2    6    7    8)
+:     1,6003004 ->> (    2    3    9   10)
+:     2,6003004 ->> (    0    1    5   11)
+:     3,8043002 ->> (    1   12)
+:     4,8049001 ->> (    5)
+:     5,8043002 ->> (    2    4)
+:     6,1003001 ->> (    0)
+:     7,1003001 ->> (    0)
+:     8,1003001 ->> (    0)
+:     9,1003001 ->> (    1)
+:    10,1003001 ->> (    1)
+:    11,1003001 ->> (    2)
+:    12,1003001 ->> (    3)
+
+:21314300:1-hydroperoxy-2-peroxy-propane
+:     0,6003004 ->> (    2    7    8    9)
+:     1,6003004 ->> (    2    5   10   11)
+:     2,6003004 ->> (    0    1    6   12)
+:     3,8043002 ->> (    5   13)
+:     4,8049001 ->> (    6)
+:     5,8043002 ->> (    1    3)
+:     6,8043002 ->> (    2    4)
+:     7,1003001 ->> (    0)
+:     8,1003001 ->> (    0)
+:     9,1003001 ->> (    0)
+:    10,1003001 ->> (    1)
+:    11,1003001 ->> (    1)
+:    12,1003001 ->> (    2)
+:    13,1003001 ->> (    3)
+
+:21314301:1-hydroperoxy-3-peroxy-propane
+:     0,6003004 ->> (    1    4    7    8)
+:     1,6003004 ->> (    0    2    9   10)
+:     2,6003004 ->> (    1    5   11   12)
+:     3,8049001 ->> (    5)
+:     4,8043002 ->> (    0    6)
+:     5,8043002 ->> (    2    3)
+:     6,8043002 ->> (    4   13)
+:     7,1003001 ->> (    0)
+:     8,1003001 ->> (    0)
+:     9,1003001 ->> (    1)
+:    10,1003001 ->> (    1)
+:    11,1003001 ->> (    2)
+:    12,1003001 ->> (    2)
+:    13,1003001 ->> (    6)
+
+:21314302:2-hydroperoxy-1-peroxy-propane
+:     0,6003004 ->> (    2    7    8    9)
+:     1,6003004 ->> (    2    5   10   11)
+:     2,6003004 ->> (    0    1    6   12)
+:     3,8049001 ->> (    5)
+:     4,8043002 ->> (    6   13)
+:     5,8043002 ->> (    1    3)
+:     6,8043002 ->> (    2    4)
+:     7,1003001 ->> (    0)
+:     8,1003001 ->> (    0)
+:     9,1003001 ->> (    0)
+:    10,1003001 ->> (    1)
+:    11,1003001 ->> (    1)
+:    12,1003001 ->> (    2)
+:    13,1003001 ->> (    4)
+
+Graph>> Quit
+Mol>> Quit
+main>> Quit
+~/Reaction/REACT/programs 
+echo ---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+echo Run: $CHEMPROPS
+Run: /Users/edwardblurock/Reaction/REACT/programs/scripts/readmolprops.sh
+$CHEMPROPS $ROOTNAME-names
+~/Reaction/REACT/tmp ~/Reaction/REACT/programs 
+-----------------Chemistry Database ------------------
+-----------------Version 0    --------------------
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+main>> CreateOpenClose
+Command:CreateOpenClose
+CreateOpenClose>> Start
+Command:Start
+
+0:No Keys for Reactions
+
+CreateOpenClose>> Quit
+main>> DbaseOps
+Command:DbaseOps
+DbaseOps>> Molecules
+Command:Molecules
+Molecules>> Parameters
+Command:Parameters
+Parameters>> DBDataMolRoot
+Command:DBDataMolRoot
+DBDataMolRoot>> Input:DBDataMolRoot
+Command:Input:DBDataMolRoot
+Input:DBDataMolRoot>> Set Value: DBDataMolRoot to mol/molsdf/C3HO-names
+mol/molsdf/C3HO-names
+DBDataMolRoot>> Quit
+Parameters>> Quit
+Molecules>> Current
+Command:Current
+Current>> ASCII
+Command:ASCII
+Current>> Store
+Command:Store
+Store:   11011300:propane
+Found in database: 11011300
+New ID:   11011300
+Store:   20910300:1-propyl-radical
+Found in database: 20910300
+New ID:   20910300
+Store:   20910301:2-propyl-radical
+Found in database: 20910301
+New ID:   20910301
+Store:   10809300:propene
+Found in database: 10809300
+New ID:   10809300
+Store:   10909300:cyclopropane
+Found in database: 10909300
+New ID:   10909300
+Store:   20708300:prop-1-en-1-yl-radical
+Found in database: 20708300
+New ID:   20708300
+Store:   20708301:prop-1-en-2-yl-radical
+Found in database: 20708301
+New ID:   20708301
+Store:   20708302:prop-1-en-3-yl-radical
+Found in database: 20708302
+New ID:   20708302
+Store:   10607300:allene
+Found in database: 10607300
+New ID:   10607300
+Store:   10607301:propyne
+Found in database: 10607301
+New ID:   10607301
+Store:   20506300:prop-2-yn-1-yl-radical
+Found in database: 20506300
+New ID:   20506300
+Store:   20506301:propyn-1-yl-radical
+Found in database: 20506301
+New ID:   20506301
+Store:   10910300:propanal
+Found in database: 10910300
+New ID:   10910300
+Store:   10910301:propanone
+Found in database: 10910301
+New ID:   10910301
+Store:   20809300:propanoyl-radical
+Found in database: 20809300
+New ID:   20809300
+Store:   20809301:propanon-1-yl-radical
+Found in database: 20809301
+New ID:   20809301
+Store:   20809302:propanal-2-yl-radical
+Found in database: 20809302
+New ID:   20809302
+Store:   20809303:propanal-3-yl-radical
+Found in database: 20809303
+New ID:   20809303
+Store:   10809301:propanal-2-one
+Found in database: 10809301
+New ID:   10809301
+Store:   10809302:1,3-dipropanal
+Found in database: 10809302
+New ID:   10809302
+Store:   20708303:propanoyl-3-al-radical
+Found in database: 20708303
+New ID:   20708303
+Store:   20708304:dipropanal-2-yl-radical
+Found in database: 20708304
+New ID:   20708304
+Store:   20708305:propanoyl-2-one-radical
+Found in database: 20708305
+New ID:   20708305
+Store:   20708306:propanal-2-one-3-yl-radical
+Found in database: 20708306
+New ID:   20708306
+Store:   10708300:propen-3-al
+Found in database: 10708300
+New ID:   10708300
+Store:   10708301:methyl-ketene
+Found in database: 10708301
+New ID:   10708301
+Store:   20910302:prop-3-en-1-peroxy-radical
+Found in database: 20910302
+New ID:   20910302
+Store:   20607300:propenylal-radical
+Found in database: 20607300
+New ID:   20607300
+Store:   10910302:propen-3-ol
+Found in database: 10910302
+New ID:   10910302
+Store:   20809304:propen-2-yl-3-ol
+Found in database: 20809304
+New ID:   20809304
+Store:   20809305:propen-3-oxy-radical
+Found in database: 20809305
+New ID:   20809305
+Store:   11010300:oxetane
+Found in database: 11010300
+New ID:   11010300
+Store:   11010301:methyl-oxirane
+Found in database: 11010301
+New ID:   11010301
+Store:   10910303:propen-2-ol
+Found in database: 10910303
+New ID:   10910303
+Store:   21011300:propanol-3-yl-radical
+Found in database: 21011300
+New ID:   21011300
+Store:   21011301:2-propanol-2-yl-radical
+Found in database: 21011301
+New ID:   21011301
+Store:   21011302:1-oxypropane-radical
+Found in database: 21011302
+New ID:   21011302
+Store:   21011303:isopropyloxidanyl
+Found in database: 21011303
+New ID:   21011303
+Store:   21012300:propanal-2-oxy-radical
+New ID:   21012301
+Store:   20910303:2-oxo-1-propanolate
+Found in database: 20910303
+New ID:   20910303
+Store:   21112300:1-hydroperoxy-2-propyl-radical
+Found in database: 21112300
+New ID:   21112300
+Store:   21112301:1-hydroperoxy-3-propyl-radical
+Found in database: 21112301
+New ID:   21112301
+Store:   21112302:2-hydroperoxy-1-propyl-radical
+Found in database: 21112302
+New ID:   21112302
+Store:   21112303:1-peroxy-propane
+Found in database: 21112303
+New ID:   21112303
+Store:   21112304:2-peroxy-propane
+Found in database: 21112304
+New ID:   21112304
+Store:   11213300:1-hydroperoxy-propane
+Found in database: 11213300
+New ID:   11213300
+Store:   11213301:2-hydroperoxy-propane
+Found in database: 11213301
+New ID:   11213301
+Store:   21011304:1-peroxy-2-propanone
+Found in database: 21011304
+New ID:   21011304
+Store:   11112300:2-hydroperoxy-1-propanone
+Found in database: 11112300
+New ID:   11112300
+Store:   11112301:3-hydroperoxy-1-propanone
+Found in database: 11112301
+New ID:   11112301
+Store:   11112302:1-hydroperoxy-2-propanone
+Found in database: 11112302
+New ID:   11112302
+Store:   21213300:2-peroxy-1-propanol
+Found in database: 21213300
+New ID:   21213300
+Store:   21314300:1-hydroperoxy-2-peroxy-propane
+Found in database: 21314300
+New ID:   21314300
+Store:   21314301:1-hydroperoxy-3-peroxy-propane
+Found in database: 21314301
+New ID:   21314301
+Store:   21314302:2-hydroperoxy-1-peroxy-propane
+Found in database: 21314302
+New ID:   21314302
+Current>> Quit
+Molecules>> Keys
+Command:Keys
+Keys>> Read
+Command:Read
+Keys>> Fill
+Command:Fill
+Keys>> Write
+Command:Write
+Keys>> Quit
+Molecules>> Misc
+Command:Misc
+Misc>> PrintList
+Command:PrintList
+  11112300: -->2-hydroperoxy-1-propanone<--
+  10910301: -->propanone<--
+  11011300: -->propane<--
+  20809304: -->propen-2-yl-3-ol<--
+  20708305: -->propanoyl-2-one-radical<--
+  21112303: -->1-peroxy-propane<--
+  21314300: -->1-hydroperoxy-2-peroxy-propane<--
+  20910301: -->2-propyl-radical<--
+  10809302: -->1,3-dipropanal<--
+  10607300: -->allene<--
+  21011304: -->1-peroxy-2-propanone<--
+  20809302: -->propanal-2-yl-radical<--
+  20708303: -->propanoyl-3-al-radical<--
+  11010300: -->oxetane<--
+  21112301: -->1-hydroperoxy-3-propyl-radical<--
+  20506301: -->propyn-1-yl-radical<--
+  11112301: -->3-hydroperoxy-1-propanone<--
+  10910302: -->propen-3-ol<--
+  10809300: -->propene<--
+  10708300: -->propen-3-al<--
+  20809305: -->propen-3-oxy-radical<--
+  20708306: -->propanal-2-one-3-yl-radical<--
+  21011302: -->1-oxypropane-radical<--
+  21012300: -->propanal-2-oxy-radical<--
+  20809300: -->propanoyl-radical<--
+  20708301: -->prop-1-en-2-yl-radical<--
+  10910300: -->propanal<--
+  20809303: -->propanal-3-yl-radical<--
+  20708304: -->dipropanal-2-yl-radical<--
+  21011300: -->propanol-3-yl-radical<--
+  10708301: -->methyl-ketene<--
+  21011303: -->isopropyloxidanyl<--
+  10909300: -->cyclopropane<--
+  21213300: -->2-peroxy-1-propanol<--
+  20708302: -->prop-1-en-3-yl-radical<--
+  20809301: -->propanon-1-yl-radical<--
+  20506300: -->prop-2-yn-1-yl-radical<--
+  21011301: -->2-propanol-2-yl-radical<--
+  20708300: -->prop-1-en-1-yl-radical<--
+  20607300: -->propenylal-radical<--
+  11213300: -->1-hydroperoxy-propane<--
+  21112304: -->2-peroxy-propane<--
+  21314301: -->1-hydroperoxy-3-peroxy-propane<--
+  20910302: -->prop-3-en-1-peroxy-radical<--
+  11213301: -->2-hydroperoxy-propane<--
+  10607301: -->propyne<--
+  11010301: -->methyl-oxirane<--
+  21112302: -->2-hydroperoxy-1-propyl-radical<--
+  11112302: -->1-hydroperoxy-2-propanone<--
+  20910300: -->1-propyl-radical<--
+  10910303: -->propen-2-ol<--
+  10809301: -->propanal-2-one<--
+  21012301: -->propanal-2-oxy-radical<--
+  21314302: -->2-hydroperoxy-1-peroxy-propane<--
+  20910303: -->2-oxo-1-propanolate<--
+  21112300: -->1-hydroperoxy-2-propyl-radical<--
+Misc>> Quit
+Molecules>> Quit
+DbaseOps>> Quit
+main>> DbaseOps
+Command:DbaseOps
+DbaseOps>> Molecules
+Command:Molecules
+Molecules>> Current
+Command:Current
+Current>> ReadInCurrent
+Command:ReadInCurrent
+Molecule: propane
+ID = 11011300 Name = propane
+Molecule: 1-propyl-radical
+ID = 20910300 Name = 1-propyl-radical
+Molecule: 2-propyl-radical
+ID = 20910301 Name = 2-propyl-radical
+Molecule: propene 
+Search Key Element Not Found
+Molecule: cyclopropane
+ID = 10909300 Name = cyclopropane
+Molecule: prop-1-en-1-yl-radical 
+Search Key Element Not Found
+Molecule: prop-1-en-2-yl-radical
+ID = 20708301 Name = prop-1-en-2-yl-radical
+Molecule: prop-1-en-3-yl-radical 
+Search Key Element Not Found
+Molecule: allene 
+Search Key Element Not Found
+Molecule: propyne 
+Search Key Element Not Found
+Molecule: prop-2-yn-1-yl-radical
+ID = 20506300 Name = prop-2-yn-1-yl-radical
+Molecule: propyn-1-yl-radical
+ID = 20506301 Name = propyn-1-yl-radical
+Molecule: propanal
+ID = 10910300 Name = propanal
+Molecule: propanone
+ID = 10910301 Name = propanone
+Molecule: propanoyl-radical
+ID = 20809300 Name = propanoyl-radical
+Molecule: propanon-1-yl-radical
+ID = 20809301 Name = propanon-1-yl-radical
+Molecule: propanal-2-yl-radical
+ID = 20809302 Name = propanal-2-yl-radical
+Molecule: propanal-3-yl-radical
+ID = 20809303 Name = propanal-3-yl-radical
+Molecule: prop-2-ene-1-ol 
+Search Key Element Not Found
+Molecule: prop-2-en-1-oxy-radical
+Search Key Element Not Found
+Molecule: propyl-2-peroxy-radical
+Search Key Element Not Found
+Molecule: propylperoxy-radical
+Search Key Element Not Found
+Molecule: propanal-2-one
+ID = 10809301 Name = propanal-2-one
+Molecule: 1,3-dipropanal
+ID = 10809302 Name = 1,3-dipropanal
+Molecule: propanoyl-3-al-radical
+ID = 20708303 Name = propanoyl-3-al-radical
+Molecule: dipropanal-2-yl-radical
+ID = 20708304 Name = dipropanal-2-yl-radical
+Molecule: propanoyl-2-one-radical
+ID = 20708305 Name = propanoyl-2-one-radical
+Molecule: propanal-2-one-3-yl-radical
+ID = 20708306 Name = propanal-2-one-3-yl-radical
+Molecule: propen-3-al
+ID = 10708300 Name = propen-3-al
+Molecule: methyl-ketene
+ID = 10708301 Name = methyl-ketene
+Molecule: prop-3-en-1-peroxy-radical
+ID = 20910302 Name = prop-3-en-1-peroxy-radical
+Molecule: propenylal-radical
+ID = 20607300 Name = propenylal-radical
+Molecule: propen-3-ol
+ID = 10910302 Name = propen-3-ol
+Molecule: propen-2-yl-3-ol
+ID = 20809304 Name = propen-2-yl-3-ol
+Molecule: propen-3-oxy-radical
+ID = 20809305 Name = propen-3-oxy-radical
+Molecule: oxetane
+ID = 11010300 Name = oxetane
+Molecule: methyl-oxirane
+ID = 11010301 Name = methyl-oxirane
+Molecule: propen-2-ol
+ID = 10910303 Name = propen-2-ol
+Molecule: propanol-3-yl-radical
+ID = 21011300 Name = propanol-3-yl-radical
+Molecule: 2-propanol-2-yl-radical
+ID = 21011301 Name = 2-propanol-2-yl-radical
+Molecule: 1-oxypropane-radical
+ID = 21011302 Name = 1-oxypropane-radical
+Molecule: isopropyloxidanyl
+ID = 21011303 Name = isopropyloxidanyl
+Molecule: propanal-2-oxy-radical
+ID = 21012300 Name = propanal-2-oxy-radical
+Molecule: 2-oxo-1-propanolate
+ID = 20910303 Name = 2-oxo-1-propanolate
+Molecule: 1-hydroperoxy-2-propyl-radical
+ID = 21112300 Name = 1-hydroperoxy-2-propyl-radical
+Molecule: 1-hydroperoxy-3-propyl-radical
+ID = 21112301 Name = 1-hydroperoxy-3-propyl-radical
+Molecule: 2-hydroperoxy-1-propyl-radical
+ID = 21112302 Name = 2-hydroperoxy-1-propyl-radical
+Molecule: 1-peroxy-propane
+ID = 21112303 Name = 1-peroxy-propane
+Molecule: 2-peroxy-propane
+ID = 21112304 Name = 2-peroxy-propane
+Molecule: 1-hydroperoxy-propane
+ID = 11213300 Name = 1-hydroperoxy-propane
+Molecule: 2-hydroperoxy-propane
+ID = 11213301 Name = 2-hydroperoxy-propane
+Molecule: 1-peroxy-2-propanone
+ID = 21011304 Name = 1-peroxy-2-propanone
+Molecule: 1-hydroperoxy-2-propanone
+ID = 11112302 Name = 1-hydroperoxy-2-propanone
+Molecule: 2-hydroperoxy-1-propanone
+ID = 11112300 Name = 2-hydroperoxy-1-propanone
+Molecule: 3-hydroperoxy-1-propanone
+ID = 11112301 Name = 3-hydroperoxy-1-propanone
+Molecule: 1-hydroperoxy-2-propanone
+ID = 11112302 Name = 1-hydroperoxy-2-propanone
+Molecule: 2-peroxy-1-propanol
+ID = 21213300 Name = 2-peroxy-1-propanol
+Molecule: 1-hydroperoxy-2-peroxy-propane
+ID = 21314300 Name = 1-hydroperoxy-2-peroxy-propane
+Molecule: 1-hydroperoxy-3-peroxy-propane
+ID = 21314301 Name = 1-hydroperoxy-3-peroxy-propane
+Molecule: 2-hydroperoxy-1-peroxy-propane
+ID = 21314302 Name = 2-hydroperoxy-1-peroxy-propane
+Current>> Quit
+Molecules>> Quit
+DbaseOps>> Quit
+main>> Mol
+Command:Mol
+Mol>> Output
+Command:Output
+Output>> Molecules
+Command:Molecules
+Molecules>> Print
+Command:Print
+Molecules>> Quit
+Output>> Quit
+Mol>> Quit
+main>> Quit
+~/Reaction/REACT/programs 
+echo ---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+echo Run: $THERMO
+Run: /Users/edwardblurock/Reaction/REACT/programs/scripts/readchemkin.sh
+$THERMO $ROOTNAME
+~/Reaction/REACT/tmp ~/Reaction/REACT/programs 
+-----------------Chemistry Database ------------------
+-----------------Version 0    --------------------
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+main>> Mol
+Command:Mol
+Mol>> Parameters
+Command:Parameters
+Parameters>> RootMolName
+Command:RootMolName
+RootMolName>> Input:RootMolName
+Command:Input:RootMolName
+Input:RootMolName>> Set Value: RootMolName to StandardMeta
+StandardMeta
+RootMolName>> Quit
+Parameters>> Quit
+Mol>> MetaAtoms
+Command:MetaAtoms
+MetaAtoms>> Read
+Command:Read
+Set Of     3 MolFile Meta Atoms (    0:MasterMetaAtom)
+MetaAtoms:    0::(         R,  320 -> [ (    6,    1)  ]
+MetaAtoms:    1::(         Q,  221 -> [ (    1,    1) (    6,    1) (    6,    2)  ]
+MetaAtoms:    2::(         X,  382 -> [ (    9,    1) (   35,    1) (   17,    1)  ]
+MetaAtoms>> Quit
+Mol>> Quit
+main>> CreateOpenClose
+Command:CreateOpenClose
+CreateOpenClose>> Start
+Command:Start
+
+0:No Keys for Reactions
+
+CreateOpenClose>> Quit
+main>> DbaseOps
+Command:DbaseOps
+DbaseOps>> Parameters
+Command:Parameters
+Parameters>> DBDataDirectory
+Command:DBDataDirectory
+DBDataDirectory>> Input:DBDataDirectory
+Command:Input:DBDataDirectory
+Input:DBDataDirectory>> Set Value: DBDataDirectory to .
+.
+DBDataDirectory>> Quit
+Parameters>> Quit
+DbaseOps>> Molecules
+Command:Molecules
+Molecules>> Parameters
+Command:Parameters
+Parameters>> DBDataMolRoot
+Command:DBDataMolRoot
+DBDataMolRoot>> Input:DBDataMolRoot
+Command:Input:DBDataMolRoot
+Input:DBDataMolRoot>> Set Value: DBDataMolRoot to C3HO
+C3HO
+DBDataMolRoot>> Quit
+Parameters>> Quit
+Molecules>> Keys
+Command:Keys
+Keys>> Define
+Command:Define
+Keys>> Read
+Command:Read
+Keys>> Quit
+Molecules>> Current
+Command:Current
+Current>> ReadInCurrent
+Command:ReadInCurrent
+Molecule: propane
+ID = 11011300 Name = propane
+Molecule: 1-propyl-radical
+ID = 20910300 Name = 1-propyl-radical
+Molecule: 2-propyl-radical
+ID = 20910301 Name = 2-propyl-radical
+Molecule: propene
+ID = 10809300 Name = propene
+Molecule: cyclopropane
+ID = 10909300 Name = cyclopropane
+Molecule: prop-1-en-1-yl-radical 
+Search Key Element Not Found
+Molecule: prop-1-en-2-yl-radical 
+Search Key Element Not Found
+Molecule: prop-1-en-3-yl-radical 
+Search Key Element Not Found
+Molecule: allene
+ID = 10607300 Name = allene
+Molecule: propyne
+ID = 10607301 Name = propyne
+Molecule: prop-2-yn-1-yl-radical
+ID = 20506300 Name = prop-2-yn-1-yl-radical
+Molecule: propyn-1-yl-radical
+ID = 20506301 Name = propyn-1-yl-radical
+Molecule: propanal
+ID = 10910300 Name = propanal
+Molecule: propanone
+ID = 10910301 Name = propanone
+Molecule: propanoyl-radical
+ID = 20809300 Name = propanoyl-radical
+Molecule: propanon-1-yl-radical
+ID = 20809301 Name = propanon-1-yl-radical
+Molecule: propanal-2-yl-radical
+ID = 20809302 Name = propanal-2-yl-radical
+Molecule: propanal-3-yl-radical
+ID = 20809303 Name = propanal-3-yl-radical
+Molecule: propanal-2-one
+ID = 10809301 Name = propanal-2-one
+Molecule: 1,3-dipropanal
+ID = 10809302 Name = 1,3-dipropanal
+Molecule: propanoyl-3-al-radical
+ID = 20708303 Name = propanoyl-3-al-radical
+Molecule: dipropanal-2-yl-radical
+ID = 20708304 Name = dipropanal-2-yl-radical
+Molecule: propanoyl-2-one-radical
+ID = 20708305 Name = propanoyl-2-one-radical
+Molecule: propanal-2-one-3-yl-radical
+ID = 20708306 Name = propanal-2-one-3-yl-radical
+Molecule: propen-3-al
+ID = 10708300 Name = propen-3-al
+Molecule: methyl-ketene
+ID = 10708301 Name = methyl-ketene
+Molecule: prop-3-en-1-peroxy-radical
+ID = 20910302 Name = prop-3-en-1-peroxy-radical
+Molecule: propenylal-radical
+ID = 20607300 Name = propenylal-radical
+Molecule: propen-3-ol
+ID = 10910302 Name = propen-3-ol
+Molecule: propen-2-yl-3-ol
+ID = 20809304 Name = propen-2-yl-3-ol
+Molecule: propen-3-oxy-radical
+ID = 20809305 Name = propen-3-oxy-radical
+Molecule: oxetane
+ID = 11010300 Name = oxetane
+Molecule: methyl-oxirane
+ID = 11010301 Name = methyl-oxirane
+Molecule: propen-2-ol
+ID = 10910303 Name = propen-2-ol
+Molecule: propanol-3-yl-radical
+ID = 21011300 Name = propanol-3-yl-radical
+Molecule: 2-propanol-2-yl-radical
+ID = 21011301 Name = 2-propanol-2-yl-radical
+Molecule: 1-oxypropane-radical
+ID = 21011302 Name = 1-oxypropane-radical
+Molecule: isopropyloxidanyl
+ID = 21011303 Name = isopropyloxidanyl
+Molecule: propanal-2-oxy-radical
+ID = 21012300 Name = propanal-2-oxy-radical
+Molecule: 2-oxo-1-propanolate
+ID = 20910303 Name = 2-oxo-1-propanolate
+Molecule: 1-hydroperoxy-2-propyl-radical
+ID = 21112300 Name = 1-hydroperoxy-2-propyl-radical
+Molecule: 1-hydroperoxy-3-propyl-radical
+ID = 21112301 Name = 1-hydroperoxy-3-propyl-radical
+Molecule: 2-hydroperoxy-1-propyl-radical
+ID = 21112302 Name = 2-hydroperoxy-1-propyl-radical
+Molecule: 1-peroxy-propane
+ID = 21112303 Name = 1-peroxy-propane
+Molecule: 2-peroxy-propane
+ID = 21112304 Name = 2-peroxy-propane
+Molecule: 1-hydroperoxy-propane
+ID = 11213300 Name = 1-hydroperoxy-propane
+Molecule: 2-hydroperoxy-propane
+ID = 11213301 Name = 2-hydroperoxy-propane
+Molecule: 1-peroxy-2-propanone
+ID = 21011304 Name = 1-peroxy-2-propanone
+Molecule: 2-hydroperoxy-1-propanone
+ID = 11112300 Name = 2-hydroperoxy-1-propanone
+Molecule: 3-hydroperoxy-1-propanone
+ID = 11112301 Name = 3-hydroperoxy-1-propanone
+Molecule: 1-hydroperoxy-2-propanone
+ID = 11112302 Name = 1-hydroperoxy-2-propanone
+Molecule: 2-peroxy-1-propanol
+ID = 21213300 Name = 2-peroxy-1-propanol
+Molecule: 1-hydroperoxy-2-peroxy-propane
+ID = 21314300 Name = 1-hydroperoxy-2-peroxy-propane
+Molecule: 1-hydroperoxy-3-peroxy-propane
+ID = 21314301 Name = 1-hydroperoxy-3-peroxy-propane
+Molecule: 2-hydroperoxy-1-peroxy-propane
+ID = 21314302 Name = 2-hydroperoxy-1-peroxy-propane
+Current>> Quit
+Molecules>> Quit
+DbaseOps>> Quit
+main>> Tables
+Command:Tables
+Tables>> Parameters
+Command:Parameters
+Parameters>> TablesDataDirectory
+Command:TablesDataDirectory
+TablesDataDirectory>> Input:TablesDataDirectory
+Command:Input:TablesDataDirectory
+Input:TablesDataDirectory>> Set Value: TablesDataDirectory to .
+.
+TablesDataDirectory>> Quit
+Parameters>> TablesOutputDirectory
+Command:TablesOutputDirectory
+TablesOutputDirectory>> Input:TablesOutputDirectory
+Command:Input:TablesOutputDirectory
+Input:TablesOutputDirectory>> Set Value: TablesOutputDirectory to .
+.
+TablesOutputDirectory>> Quit
+Parameters>> Quit
+Tables>> Chemkin
+Command:Chemkin
+Chemkin>> Parameters
+Command:Parameters
+Parameters>> TablesDataChemkinRoot
+Command:TablesDataChemkinRoot
+TablesDataChemkinRoot>> Input:TablesDataChemkinRoot
+Command:Input:TablesDataChemkinRoot
+Input:TablesDataChemkinRoot>> Set Value: TablesDataChemkinRoot to C3HO
+C3HO
+TablesDataChemkinRoot>> Quit
+Parameters>> Quit
+Chemkin>> Read
+Command:Read
+Read in 0:C3H8
+Read in 1:N-C3H7
+Read in 2:I-C3H7
+Read in 3:C3H6
+Read in 4:cy-C3H6
+Read in 5:c3h5a
+Read in 6:c3h5t
+Read in 7:c3h5s
+Read in 8:C3H4
+Read in 9:C3H4p
+Read in 10:CHCCH2
+Read in 11:CH3CC
+Read in 12:C2H5CHO
+Read in 13:CH3COCH3
+Read in 14:c2h5co
+Read in 15:CH3COCH2
+Read in 16:ch3chcho
+Read in 17:c2h4cho
+Read in 18:ch3cocho
+Read in 19:CHOCH2CHO
+Read in 20:COCH2CHO
+Read in 21:HCOCHCHO
+Read in 22:COCOCH3
+Read in 23:HCOCOCH2
+Read in 24:ch2chcho
+Read in 25:ch3chco
+Read in 26:CH2CHCH2OO
+Read in 27:c2h3co
+Read in 28:ch2chch2oh
+Read in 29:ch2cch2oh
+Read in 30:ch2chch2o
+Read in 31:c3h6o1-3
+Read in 32:c3h6o1-2
+Read in 33:ch2c(oh)ch3
+Read in 34:c2hch2ch2oh
+Read in 35:ch3c(oh)ch3
+Read in 36:ch3ch2ch2o
+Read in 37:ch3ch(o)ch3
+Read in 38:ch3ch(o)cho
+Read in 39:ch3coch2o
+Read in 40:c3h6ooh1-2
+Read in 41:c3h6ooh1-3
+Read in 42:c3h6ooh2-1
+Read in 43:nc3h7o2
+Read in 44:ic3h7o2
+Read in 45:nc3h7o2h
+Read in 46:ic3h7o2h
+Read in 47:ch3coch2o2
+Read in 48:c3ket12
+Read in 49:c3ket13
+Read in 50:c3ket21
+Read in 51:hoc3h6o2
+Read in 52:c3h6ooh1-2o2
+Read in 53:c3h6ooh1-3o2
+Read in 54:c3h6ooh2-1o2
+Done Reading in Molecules
+Chemkin>> Quit
+Tables>> Quit
+main>> DbaseOps
+Command:DbaseOps
+DbaseOps>> Chemkin
+Command:Chemkin
+Chemkin>> Store
+Command:Store
+Chemkin>> Fill
+Command:Fill
+Alternate names properties not found for '(null)'
+Alternate names properties not found for '(null)'
+Alternate names properties not found for '(null)'
+
+0:Element Not Found
+for molecule: oxetane (Chemkin: c3h5o1-3)
+
+0:Element Not Found
+for molecule: methyl-oxirane (Chemkin: c3h5o1-2)
+
+0:Element Not Found
+for molecule: propanol-3-yl-radical (Chemkin: ch2c2ch2oh)
+CHEMKIN type not found for 'propanal-2-oxy-radical'
+Chemkin>> Quit
+DbaseOps>> Quit
+main>> Mol
+Command:Mol
+Mol>> Output
+Command:Output
+Output>> Molecules
+Command:Molecules
+Molecules>> Print
+Command:Print
+Molecules>> Quit
+Output>> Quit
+Mol>> Quit
+main>> DbaseOps
+Command:DbaseOps
+DbaseOps>> Molecules
+Command:Molecules
+Molecules>> Current
+Command:Current
+Current>> Store
+Command:Store
+Store:   11011300:propane
+Found in database: 11011300
+New ID:   11011300
+Store:   20910300:1-propyl-radical
+Found in database: 20910300
+New ID:   20910300
+Store:   20910301:2-propyl-radical
+Found in database: 20910301
+New ID:   20910301
+Store:   10809300:propene
+Found in database: 10809300
+New ID:   10809300
+Store:   10909300:cyclopropane
+Found in database: 10909300
+New ID:   10909300
+Store:          0:(null)
+Segmentation fault
+~/Reaction/REACT/programs 
+

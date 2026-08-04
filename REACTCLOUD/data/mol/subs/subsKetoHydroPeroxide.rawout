@@ -1,0 +1,520 @@
+~/git/copilot-worktrees/react/blurock-studious-fortnight/tmp ~/git/copilot-worktrees/react/blurock-studious-fortnight/data/mol/subs 
+-----------------Chemistry Database ------------------
+-----------------Version 0    --------------------
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+main>> Mol
+Command:Mol
+Mol>> Parameters
+Command:Parameters
+Parameters>> RootMolName
+Command:RootMolName
+RootMolName>> Input:RootMolName
+Command:Input:RootMolName
+Input:RootMolName>> Set Value: RootMolName to StandardMeta
+StandardMeta
+RootMolName>> Quit
+Parameters>> Quit
+Mol>> MetaAtoms
+Command:MetaAtoms
+MetaAtoms>> Read
+Command:Read
+Set Of     3 MolFile Meta Atoms (    0:MasterMetaAtom)
+MetaAtoms:    0::(         R,  320 -> [ (    6,    1)  ]
+MetaAtoms:    1::(         Q,  221 -> [ (    1,    1) (    6,    1) (    6,    2)  ]
+MetaAtoms:    2::(         X,  382 -> [ (    9,    1) (   35,    1) (   17,    1)  ]
+MetaAtoms>> Quit
+Mol>> Quit
+main>> CreateOpenClose
+Command:CreateOpenClose
+CreateOpenClose>> Start
+Command:Start
+
+0:No Keys for Reactions
+
+
+0:No Keys for ReactionPatterns
+
+CreateOpenClose>> Quit
+main>> DbaseOps
+Command:DbaseOps
+DbaseOps>> SubStructures
+Command:SubStructures
+SubStructures>> Keys
+Command:Keys
+Keys>> Define
+Command:Define
+Keys>> Write
+Command:Write
+Keys>> Quit
+SubStructures>> Quit
+DbaseOps>> Quit
+main>> Mol
+Command:Mol
+Mol>> Parameters
+Command:Parameters
+Parameters>> RootMolName
+Command:RootMolName
+RootMolName>> Input:RootMolName
+Command:Input:RootMolName
+Input:RootMolName>> Set Value: RootMolName to subs/subsKetoHydroPeroxide
+subs/subsKetoHydroPeroxide
+RootMolName>> Quit
+Parameters>> Quit
+Mol>> Read
+Command:Read
+Read>> SubStructures
+Command:SubStructures
+SubStructures>> SDF
+Command:SDF
+Read SDF Molecule: oc(h)(cooh)
+Read SDF Molecule: oc(r)cooh
+Read SDF Molecule: oc(h)(ccooh)
+Read SDF Molecule: oc(r)(ccooh)
+Read SDF Molecule: oc(h)(cccooh)
+Read SDF Molecule: oc(r)(cccooh)
+SubStructures>> Quit
+Read>> Quit
+Mol>> Calculations
+Command:Calculations
+Calculations>> SubStructures
+Command:SubStructures
+SubStructures>> SemiEmpirical
+Command:SemiEmpirical
+SubStructures>> Quit
+Calculations>> Quit
+Mol>> Output
+Command:Output
+Output>> SubStructures
+Command:SubStructures
+SubStructures>> Print
+Command:Print
+SubStructures>> Quit
+Output>> Quit
+Mol>> Quit
+main>> DbaseOps
+Command:DbaseOps
+DbaseOps>> SubStructures
+Command:SubStructures
+SubStructures>> Current
+Command:Current
+Current>> Store
+Command:Store
+Store:          1:oc(h)(cooh)
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+New ID:   10607209
+Store:          2:oc(r)cooh
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Equivalence: oc(h)(cooh)  oc(r)cooh     0
+New ID:   10607210
+Store:          3:oc(h)(ccooh)
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+New ID:   10708302
+Store:          4:oc(r)(ccooh)
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Equivalence: oc(h)(ccooh) oc(r)(ccooh)     0
+New ID:   10708303
+Store:          5:oc(h)(cccooh)
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+New ID:   10809402
+Store:          6:oc(r)(cccooh)
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Equivalence: oc(h)(cccooh) oc(r)(cccooh)     0
+New ID:   10809403
+Current>> Quit
+SubStructures>> Keys
+Command:Keys
+Keys>> Define
+Command:Define
+Keys>> Fill
+Command:Fill
+Keys>> Write
+Command:Write
+Keys>> Quit
+SubStructures>> Misc
+Command:Misc
+Misc>> PrintList
+Command:PrintList
+  20809319: -->.c(rh)coc(hhh)<--
+  20708320: -->alphaolefin-radical(rr)(r)(rr)<--
+  11112300: -->oc(q)c(h)(h)c(h)(h)(ooh)<--
+  10607209: -->oc(h)(cooh)<--
+  10708302: -->oc(h)(ccooh)<--
+  21011306: -->oc(q)c(h)(h)c(r)(r)(oo)<--
+  20607222: -->ethyl-radical-(rr)(rrr)<--
+  20506210: -->.c(h)(h)co(r)<--
+  20708403: -->.cccc(ooh)(h)<--
+  20809304: -->co(h)c(rr)c.(hh)<--
+  20708305: -->alphaolefin-radical(rr)(h)(hh)<--
+  10809402: -->oc(h)(cccooh)<--
+  20910507: -->.c(h)(h)(ccccooh)<--
+  20607207: -->c(r)(r)(r)(coo.)<--
+  10607207: -->c(rrr)rc(o)<--
+  10102200: -->olefin<--
+  11112406: -->betaolefin(qq)(q)(hh)(rrh)<--
+  20102000: -->hydroxyl-radical<--
+  20708318: -->alphaolefin-radical(hh)(r)(rr)<--
+  20809317: -->co(r)c(rr)c.(rr)<--
+  10809400: -->oc(h)(cccooh)<--
+  21011304: -->oc(q)c(r)(h)c(r)(h)(oo)<--
+  20607220: -->ethyl-radical-(hh)(rrr)<--
+  20506208: -->.c(r)(h)co(h)<--
+  20809410: -->.c(r)(r)(cccooh)<--
+  20809302: -->co(h)c(rh)c.(hh)<--
+  20708303: -->alphaolefin-radical(hh)(h)(hh)<--
+  10809315: -->co(r)c(rr)co(r)<--
+  20910505: -->c(r)(h)(r)(ccccoo.)<--
+  10607108: -->oc(h)(cooh)<--
+  20607205: -->c(h)(h)(r)(coo.)<--
+  20708401: -->oc(r)(cccoo)<--
+  10607205: -->c(rrh)rc(o)<--
+  11112404: -->betaolefin(qq)(q)(rh)(rhh)<--
+  10506215: -->olefin-(qq)(qq)<--
+  20708316: -->alphaolefin-radical(rh)(h)(rr)<--
+  21011317: -->oc.c(r)(r)c(r)(r)(ooh)<--
+  10708300: -->oc(h)(ccooh)<--
+  20708208: -->oc.c(r)(r)(ooh)<--
+  20708334: -->.c(r)(r)(ccooh)<--
+  21011302: -->oc(q)c(r)(r)c(h)(h)(oo)<--
+  20506206: -->c(rrr).c(o)<--
+  20809408: -->.c(h)(h)(cccooh)<--
+  10506200: -->ethane-(hh)(hh)<--
+  20708301: -->alphaolefin-radical(qq)(q)(rh)<--
+  20809300: -->co(h)c(hh)c.(hh)<--
+  10809313: -->co(r)c(rh)co(r)<--
+  20809202: -->.c(r)(r)c(h)(h)(ooh)<--
+  10607106: -->c(r)(r)(h)(ooh)<--
+  20607203: -->c(r)(h)(h)(coo.)<--
+  10607203: -->c(rhh)rc(o)<--
+  20910503: -->c(r)(r)(h)(ccccoo.)<--
+  10506213: -->olefin-(rr)(rh)<--
+  20708314: -->alphaolefin-radical(rr)(r)(rh)<--
+  10809205: -->oc(r)c(r)(r)(ooh)<--
+  20607301: -->oc(r)(ccoo)<--
+  20708206: -->oc.c(h)(h)(ooh)<--
+  20708332: -->.c(h)(h)(ccooh)<--
+  10304103: -->(r)(r)c(o)<--
+  20809406: -->c(r)(h)(r)(cccoo.)<--
+  21011300: -->oc(q)c(h)(h)c(h)(h)(oo)<--
+  20506106: -->(h)(r)(r)coo.<--
+  10809311: -->co(r)c(hh)co(r)<--
+  20809200: -->.c(h)(h)c(h)(h)(ooh)<--
+  20910501: -->c(h)(h)(h)(ccccoo.)<--
+  20809316: -->co(h)c(rr)c.(rr)<--
+  20607201: -->.c(q)(q)(cooh)<--
+  20203300: -->alphaolefin-radical<--
+  10607201: -->c(hhh)rc(o)<--
+  10607104: -->c(h)(h)(h)(ooh)<--
+  10506211: -->olefin-(rh)(rh)<--
+  20708312: -->alphaolefin-radical(hh)(r)(rh)<--
+  10607103: -->(r)(r)(r)cooh<--
+  10809203: -->oc(r)c(h)(h)(ooh)<--
+  20809329: -->.c(rr)coc(rrr)<--
+  10304101: -->(h)(h)c(o)<--
+  20809404: -->c(r)(r)(h)(cccoo.)<--
+  20708330: -->c(r)(h)(r)(ccoo.)<--
+  10304400: -->betaolefin<--
+  10809309: -->co(r)c(rr)co(h)<--
+  20506104: -->(h)(h)(h)coo.<--
+  10102001: -->hydrogen<--
+  20809314: -->co(h)c(rh)c.(rr)<--
+  10809201: -->oc(h)c(r)(h)(ooh)<--
+  20708204: -->oc(h)c(r)(r)(oo)<--
+  21011311: -->oc.c(r)(r)c(h)(h)(ooh)<--
+  21011313: -->oc.c(r)(h)c(r)(h)(ooh)<--
+  10506209: -->olefin-(hh)(hh)<--
+  20708310: -->alphaolefin-radical(rh)(h)(rh)<--
+  10607101: -->(h)(h)(r)cooh<--
+  20708202: -->oc(h)c(r)(h)(oo)<--
+  20809327: -->.c(hh)coc(rrr)<--
+  20708328: -->c(r)(r)(h)(ccoo.)<--
+  11112308: -->oc(q)c(r)(r)c(r)(r)(ooh)<--
+  20809402: -->c(h)(h)(h)(cccoo.)<--
+  21011315: -->oc.c(h)(h)c(r)(r)(ooh)<--
+  20506102: -->(q)(q)(h)coo.<--
+  10809307: -->co(r)c(rh)co(h)<--
+  10405101: -->methane<--
+  11112401: -->betaolefin(qq)(q)(rh)(hhh)<--
+  20809312: -->co(h)c(hh)c.(rr)<--
+  10910500: -->oc(h)(ccccooh)<--
+  21011309: -->oc.c(h)(h)c(h)(h)(ooh)<--
+  10405103: -->secondary-carbon-hydrogen-bond<--
+  20304102: -->primary-carbon-radical<--
+  10506207: -->ethane-(rh)(rr)<--
+  20708308: -->alphaolefin-radical(rr)(r)(hh)<--
+  20506203: -->c(hhh).c(o)<--
+  10304000: -->hydrogen-peroxide<--
+  20809325: -->.c(rh)coc(rrh)<--
+  20708326: -->c(h)(h)(h)(ccoo.)<--
+  20607210: -->.c(r)(r)(cooh)<--
+  20809400: -->c(h)(q)(q)(cccoo.)<--
+  11112306: -->oc(q)c(h)(h)c(r)(r)(ooh)<--
+  20506100: -->(h).cooh-r<--
+  10809305: -->co(r)c(hh)co(h)<--
+  20708200: -->oc(h)c(h)(h)(oo)<--
+  20304104: -->tertiary-carbon-radical<--
+  20809310: -->co(h)c(rr)c.(rh)<--
+  21011307: -->oc(q)c(r)(h)c(r)(r)(oo)<--
+  20910601: -->.c(ooh)ccccc(h)<--
+  21011700: -->.ccccccc(ooh)(h)<--
+  10606300: -->(q)(q)(-ccco-)<--
+  10506205: -->ethane-(hh)(rr)<--
+  20809501: -->.c(ooh)cccc(h)<--
+  20506201: -->.c(r)(h)co(q)<--
+  20809207: -->.c(r)(h)c(r)(r)(ooh)<--
+  20809323: -->.c(rr)coc(rhh)<--
+  20506500: -->.ccccc(h)<--
+  20405103: -->c(q)(q)(q)(o.)<--
+  20708324: -->.ccc(r)(h)(ooh)<--
+  20607208: -->.c(h)(h)(cooh)<--
+  20910508: -->.c(r)(h)(ccccooh)<--
+  10809303: -->alphaolefin-(qq)(q)(rrr)<--
+  20203101: -->(r).c(o)<--
+  11112304: -->oc(q)c(r)(h)c(r)(h)(ooh)<--
+  20809308: -->co(h)c(rh)c.(rh)<--
+  20506214: -->oc(r)(coo)<--
+  20304101: -->methane-carbon-radical<--
+  20001001: -->oxygen-radical<--
+  10505200: -->(q)(q)(-cco-)<--
+  10506203: -->ethane-(rh)(rh)<--
+  20809209: -->c(h)(h)(coo.)(ooh)<--
+  20809205: -->.c(r)(r)c(r)(h)(ooh)<--
+  11112410: -->betaolefin(qq)(q)(rh)(rrr)<--
+  20809321: -->.c(hh)coc(rhh)<--
+  20708322: -->.c(q)(q)(ccooh)<--
+  20405101: -->c(r)(h)(h)(o.)<--
+  11112302: -->oc(q)c(r)(r)c(h)(h)(ooh)<--
+  20405400: -->.cccc(h)<--
+  10809301: -->alphaolefin-(qq)(q)(rhh)<--
+  20506212: -->.c(r)(r)co(r)<--
+  20910300: -->c(h)(h)(ccoo.)(ooh)<--
+  20809306: -->co(h)c(hh)c.(rh)<--
+  21011400: -->(h)(h)(cccooh)cooh<--
+  20607212: -->ethyl-radical-(rh)(hhh)<--
+  20607214: -->ethyl-radical-(hh)(rhh)<--
+  10203300: -->alphaolefin<--
+  10506201: -->ethane-(rh)(hh)<--
+  20607216: -->ethyl-radical-(rr)(rhh)<--
+  20607218: -->ethyl-radical-(rh)(rrh)<--
+  11112408: -->betaolefin(qq)(q)(rr)(rrh)<--
+  20910509: -->.c(r)(r)(ccccooh)<--
+  10809304: -->co(h)c(hh)co(h)<--
+  11112305: -->oc(q)c(r)(r)c(r)(h)(ooh)<--
+  20102100: -->carbonmonoxide<--
+  20809309: -->co(r)c(rh)c.(rh)<--
+  20506215: -->oc.(cooh)<--
+  10303200: -->(-cco-)<--
+  10404300: -->(-ccco-)<--
+  10606500: -->(-ccccco-)<--
+  10506204: -->ethane-(rr)(hh)<--
+  20809500: -->.ccccc(ooh)(h)<--
+  20506200: -->.c(h)(h)co(q)<--
+  11112411: -->betaolefin(qq)(q)(rr)(rrr)<--
+  20809322: -->.c(rh)coc(rhh)<--
+  20809206: -->.c(h)(h)c(r)(r)(ooh)<--
+  20405102: -->c(r)(r)(h)(o.)<--
+  20708323: -->.ccc(h)(h)(ooh)<--
+  11112303: -->oc(q)c(h)(h)c(r)(h)(ooh)<--
+  20304100: -->general-carbon-radical<--
+  10809302: -->alphaolefin-(qq)(q)(rrh)<--
+  20203100: -->(h).c(o)<--
+  20506213: -->oc(h)(coo)<--
+  20809307: -->co(r)c(hh)c.(rh)<--
+  10808500: -->(q)(q)(-ccccco-)<--
+  20809210: -->c(h)(r)(coo.)(ooh)<--
+  20001000: -->hydrogen-radical<--
+  20910301: -->c(h)(r)(ccoo.)(ooh)<--
+  10001000: -->oxygen-atom<--
+  10506202: -->ethane-(hh)(rh)<--
+  20809204: -->.c(r)(h)c(r)(h)(ooh)<--
+  11112409: -->betaolefin(qq)(q)(hh)(rrr)<--
+  20809320: -->.c(rr)coc(hhh)<--
+  20708321: -->c(h)(q)(q)(ccoo.)<--
+  20405100: -->c(h)(h)(h)(o.)<--
+  11112301: -->oc(q)c(r)(h)c(h)(h)(ooh)<--
+  10505400: -->(-cccco-)<--
+  20102200: -->ethyl-radical-general<--
+  10809300: -->alphaolefin-(qq)(q)(hhh)<--
+  20506211: -->.c(r)(h)co(r)<--
+  20203000: -->peroxyl-radical<--
+  20809305: -->co(r)c(rr)c.(hh)<--
+  10203000: -->water<--
+  20708306: -->alphaolefin-radical(hh)(r)(hh)<--
+  20708404: -->.c(ooh)ccc(h)<--
+  10707400: -->(q)(q)(-cccco-)<--
+  20607211: -->ethyl-radical-(hh)(hhh)<--
+  20607213: -->ethyl-radical-(rr)(hhh)<--
+  10607208: -->oc(r)(cooh)<--
+  11112407: -->betaolefin(qq)(q)(rh)(rrh)<--
+  20809318: -->.c(hh)coc(hhh)<--
+  20708319: -->alphaolefin-radical(rh)(r)(rr)<--
+  10809401: -->oc(r)(cccooh)<--
+  20607215: -->ethyl-radical-(rh)(rhh)<--
+  20607217: -->ethyl-radical-(hh)(rrh)<--
+  21011305: -->oc(q)c(r)(r)c(r)(h)(oo)<--
+  20607219: -->ethyl-radical-(rr)(rrh)<--
+  20506209: -->.c(r)(r)co(h)<--
+  20708402: -->oc.(cccooh)<--
+  20809303: -->co(r)c(rh)c.(hh)<--
+  20708304: -->alphaolefin-radical(rh)(h)(hh)<--
+  21011701: -->.c(ooh)cccccc(h)<--
+  20910506: -->c(r)(r)(r)(ccccoo.)<--
+  20607221: -->ethyl-radical-(rh)(rrr)<--
+  20607206: -->c(r)(h)(r)(coo.)<--
+  10607210: -->oc(r)cooh<--
+  10607206: -->c(rrr)hc(o)<--
+  11112405: -->betaolefin(qq)(q)(rr)(rhh)<--
+  10708303: -->oc(r)(ccooh)<--
+  20708317: -->alphaolefin-radical(rr)(h)(rr)<--
+  10809403: -->oc(r)(cccooh)<--
+  10708301: -->oc(r)(ccooh)<--
+  21011303: -->oc(q)c(h)(h)c(r)(h)(oo)<--
+  10910200: -->c2q5ooh<--
+  20506207: -->.c(h)(h)co(h)<--
+  20809409: -->.c(r)(h)(cccooh)<--
+  20809301: -->co(r)c(hh)c.(hh)<--
+  20708302: -->alphaolefin-radical(qq)(q)(rr)<--
+  10809314: -->co(h)c(rr)co(r)<--
+  20809203: -->.c(h)(h)c(r)(h)(ooh)<--
+  10607107: -->c(r)(r)(r)(ooh)<--
+  20607204: -->c(r)(r)(h)(coo.)<--
+  20910504: -->c(h)(h)(r)(ccccoo.)<--
+  10607204: -->c(rrh)hc(o)<--
+  11112403: -->betaolefin(qq)(q)(hh)(rhh)<--
+  10506214: -->olefin-(rr)(rr)<--
+  20708315: -->alphaolefin-radical(hh)(h)(rr)<--
+  20708400: -->oc(h)(cccoo)<--
+  20607302: -->oc.(ccooh)<--
+  20708207: -->oc.c(r)(h)(ooh)<--
+  20708333: -->.c(r)(h)(ccooh)<--
+  21011301: -->oc(q)c(r)(h)c(h)(h)(oo)<--
+  20506205: -->c(rrh).c(o)<--
+  20809407: -->c(r)(r)(r)(cccoo.)<--
+  20506107: -->(r)(r)(r)coo.<--
+  20708300: -->alphaolefin-radical(qq)(q)(hh)<--
+  20809201: -->.c(r)(h)c(h)(h)(ooh)<--
+  10809312: -->co(h)c(rh)co(r)<--
+  10607105: -->c(r)(h)(h)(ooh)<--
+  20607202: -->c(h)(h)(h)(coo.)<--
+  20910502: -->c(r)(h)(h)(ccccoo.)<--
+  10607202: -->c(rhh)hc(o)<--
+  10809204: -->oc(r)c(r)(h)(ooh)<--
+  10506212: -->olefin-(rr)(hh)<--
+  20708313: -->alphaolefin-radical(rh)(r)(rh)<--
+  20607300: -->oc(h)(ccoo)<--
+  20708205: -->oc(r)c(r)(r)(oo)<--
+  21011314: -->oc.c(r)(r)c(r)(h)(ooh)<--
+  20708331: -->c(r)(r)(r)(ccoo.)<--
+  10304102: -->(r)(h)c(o)<--
+  20809405: -->c(h)(h)(r)(cccoo.)<--
+  21011316: -->oc.c(r)(h)c(r)(r)(ooh)<--
+  20506105: -->(h)(h)(r)coo.<--
+  10809310: -->co(h)c(hh)co(r)<--
+  10405102: -->primary-carbon-hydrogen-bond<--
+  20910500: -->.c(q)(q)(ccccooh)<--
+  20809315: -->co(r)c(rh)c.(rr)<--
+  20607200: -->c(q)(q)(h)(coo.)<--
+  10809202: -->oc(h)c(r)(r)(ooh)<--
+  10607200: -->c(hhh)hc(o)<--
+  21011312: -->oc.c(h)(h)c(r)(h)(ooh)<--
+  10506210: -->olefin-(rh)(hh)<--
+  20708311: -->alphaolefin-radical(rr)(h)(rh)<--
+  10607102: -->(h)(r)(r)cooh<--
+  20708203: -->oc(r)c(r)(h)(oo)<--
+  20809328: -->.c(rh)coc(rrr)<--
+  20708329: -->c(h)(h)(r)(ccoo.)<--
+  10304100: -->general-aldehydeketone<--
+  20809403: -->c(r)(h)(h)(cccoo.)<--
+  10405100: -->general-carbon-hydrogen-bond<--
+  20506103: -->(q)(q)(q)coo.<--
+  10809308: -->co(h)c(rr)co(h)<--
+  10405104: -->tertiary-carbon-hydrogen-bond<--
+  10102000: -->oxygen<--
+  11112402: -->betaolefin(qq)(q)(rr)(hhh)<--
+  20809313: -->co(r)c(hh)c.(rr)<--
+  10910501: -->oc(r)(ccccooh)<--
+  10809200: -->oc(h)c(h)(h)(ooh)<--
+  21011310: -->oc.c(r)(h)c(h)(h)(ooh)<--
+  10607100: -->(h)(h)(h)cooh<--
+  10506208: -->ethane-(rr)(rr)<--
+  20708309: -->alphaolefin-radical(hh)(h)(rh)<--
+  20708700: -->.ccccccc(h)<--
+  20809326: -->.c(rr)coc(rrh)<--
+  20506204: -->c(rhh).c(o)<--
+  20708327: -->c(r)(h)(h)(ccoo.)<--
+  20809401: -->.c(q)(q)(cccooh)<--
+  20506101: -->r-.cooh-r<--
+  10809306: -->co(h)c(rh)co(h)<--
+  11112307: -->oc(q)c(r)(h)c(r)(r)(ooh)<--
+  11112400: -->betaolefin(qq)(q)(hh)(hhh)<--
+  20809311: -->co(r)c(rr)c.(rh)<--
+  20708201: -->oc(r)c(h)(h)(oo)<--
+  21011308: -->oc(q)c(r)(r)c(r)(r)(oo)<--
+  20304103: -->secondary-carbon-radical<--
+  20910600: -->.cccccc(ooh)(h)<--
+  10506206: -->ethane-(rr)(rh)<--
+  20708307: -->alphaolefin-radical(rh)(r)(hh)<--
+  20506202: -->.c(r)(r)co(q)<--
+  20809208: -->.c(r)(r)c(r)(r)(ooh)<--
+  20809324: -->.c(hh)coc(rrh)<--
+  20708325: -->.ccc(r)(r)(ooh)<--
+  20607600: -->.cccccc(h)<--
+  20405104: -->c(r)(r)(r)(o.)<--
+  20607209: -->.c(r)(h)(cooh)<--
+Misc>> Quit
+SubStructures>> Quit
+DbaseOps>> Quit
+main>> Quit
+~/git/copilot-worktrees/react/blurock-studious-fortnight/data/mol/subs 

@@ -1,0 +1,273 @@
+%%%------------------------------------------------------------------
+%%%  Symmetry:  2*6 = 12
+%%%------------------------------------------------------------------
+AlkylIsomerization4Ring-(hh)(hh) .c(hh)cc(hhh) = .c(hh)cc(hhh)
+- ID 71201
+- Correspondences
+1 2 3 4 5 6 7 8        2 2 2 2 2 2 4
+3 2 1 6 7 4 5 8        2 2 2 2 2 2 4
+>  <ForwardRxn>
+Standard 3.8E+10  0.67  38800 12; (p->p)  Matheu, Green, Grenda, Int J. Chem. Kinet. 35:95-119 (2003)
+>  <ReverseRxn>
+Standard 9.9999e-41     0.0000       0.00 1;  irreversible
+$$$$
+%%%------------------------------------------------------------------
+%%%  Symmetry:  2*2 = 4
+%%%------------------------------------------------------------------
+AlkylIsomerization4Ring-(hh)(rh) .c(hh)cc(rhh) = .c(rh)cc(hhh)
+- ID 71202
+- Correspondences
+1 2 3 4 5 6 7 8        2 2 2 2 2 2 4
+3 2 1 6 7 4 5 8        2 2 2 2 2 2 4
+>  <ForwardRxn>
+Standard  3.31206E+11    0.392  33896 4; (s->p)  Matheu, Green, Grenda, Int J. Chem. Kinet. 35:95-119 (2003)
+>  <ReverseRxn>
+Standard 9.9999e-41     0.0000       0.00 1;  irreversible
+$$$$
+%%%------------------------------------------------------------------
+%%%  Symmetry:  2*2 = 4
+%%%------------------------------------------------------------------
+AlkylIsomerization4Ring-(hh)(rr) .c(hh)cc(rrh) = .c(rh)cc(hhh)
+- ID 71203
+- Correspondences
+1 2 3 4 5 6 7 8        2 2 2 2 2 2 4
+3 2 1 6 7 4 5 8        2 2 2 2 2 2 4
+>  <ForwardRxn>
+Standard 2.12714E+11    0.376   29222 4; (t->p)  Matheu, Green, Grenda, Int J. Chem. Kinet. 35:95-119 (2003)
+>  <ReverseRxn>
+Standard 9.9999e-41     0.0000       0.00 1;  irreversible
+$$$$
+%%%------------------------------------------------------------------
+%%%  Symmetry:  1*6 = 6
+%%%------------------------------------------------------------------
+AlkylIsomerization4Ring-(rh)(hh) .c(rh)cc(hhh) = .c(hh)cc(rhh)
+- ID 71204
+- Correspondences
+1 2 3 4 5 6 7 8        2 2 2 2 2 2 4
+3 2 1 6 7 4 5 8        2 2 2 2 2 2 4
+>  <ForwardRxn>
+Standard  3.80E+10  0.67  36600 6; (p->s)  Matheu, Green, Grenda, Int J. Chem. Kinet. 35:95-119 (2003)
+>  <ReverseRxn>
+Standard 9.9999e-41     0.0000       0.00 1;  irreversible
+$$$$
+%%%------------------------------------------------------------------
+%%%  Symmetry:  1*2 = 2
+%%%------------------------------------------------------------------
+AlkylIsomerization4Ring-(rh)(rh) .c(rh)cc(rhh) = .c(rh)cc(rhh)
+- ID 71205
+- Correspondences
+1 2 3 4 5 6 7 8        2 2 2 2 2 2 4
+3 2 1 6 7 4 5 8        2 2 2 2 2 2 4
+>  <ForwardRxn>
+Standard  3.80E+10 0.67  38200 2; (s->s)  Matheu, Green, Grenda, Int J. Chem. Kinet. 35:95-119 (2003)
+>  <ReverseRxn>
+Standard 9.9999e-41     0.0000       0.00 1;  irreversible
+$$$$
+%%%------------------------------------------------------------------
+%%%  Symmetry:  1*2 = 2
+%%%------------------------------------------------------------------
+AlkylIsomerization4Ring-(rh)(rr) .c(rh)cc(rrh) = .c(rh)cc(rrh)
+- ID 71206
+- Correspondences
+1 2 3 4 5 6 7 8        2 2 2 2 2 2 4
+3 2 1 6 7 4 5 8        2 2 2 2 2 2 4
+>  <ForwardRxn>
+Standard  3.80E+10 0.67  36600 2; (t->s)  (estimated from t->t) Matheu, Green, Grenda, Int J. Chem. Kinet. 35:95-119 (2003)
+>  <ReverseRxn>
+Standard 9.9999e-41     0.0000       0.00 1;  irreversible
+$$$$
+%%%------------------------------------------------------------------
+%%%  Symmetry:  2*6=12
+%%%------------------------------------------------------------------
+AlkylIsomerization4Ring-(rr)(hh) .c(rr)cc(hhh) = .c(hh)cc(rrh)
+- ID 71207
+- Correspondences
+1 2 3 4 5 6 7 8        2 2 2 2 2 2 4
+3 2 1 6 7 4 5 8        2 2 2 2 2 2 4
+>  <ForwardRxn>
+Standard  3.80E+10 0.67  34300 12; (p->t) Matheu, Green, Grenda, Int J. Chem. Kinet. 35:95-119 (2003)
+>  <ReverseRxn>
+Standard 9.9999e-41     0.0000       0.00 1;  irreversible
+$$$$
+%%%------------------------------------------------------------------
+%%%  Symmetry:  2*2 = 4
+%%%------------------------------------------------------------------
+AlkylIsomerization4Ring-(rr)(rh) .c(rr)cc(rhh) = .c(rh)cc(rrh)
+- ID 71208
+- Correspondences
+1 2 3 4 5 6 7 8        2 2 2 2 2 2 4
+3 2 1 6 7 4 5 8        2 2 2 2 2 2 4
+>  <ForwardRxn>
+Standard  3.80E+10 0.67  36100 4; (s->t) Matheu, Green, Grenda, Int J. Chem. Kinet. 35:95-119 (2003)
+>  <ReverseRxn>
+Standard 9.9999e-41     0.0000       0.00 1;  irreversible
+$$$$
+%%%------------------------------------------------------------------
+%%%  Symmetry:  2*2 = 4
+%%%------------------------------------------------------------------
+AlkylIsomerization4Ring-(rr)(rr) .c(rr)cc(rrh) = .c(rr)cc(rrh)
+- ID 71209
+- Correspondences
+1 2 3 4 5 6 7 8        2 2 2 2 2 2 4
+3 2 1 6 7 4 5 8        2 2 2 2 2 2 4
+>  <ForwardRxn>
+Standard  3.80E+10 0.67  36600 4; (t->t) Matheu, Green, Grenda, Int J. Chem. Kinet. 35:95-119 (2003)
+>  <ReverseRxn>
+Standard 9.9999e-41     0.0000       0.00 1;  irreversible
+$$$$
+%%%------------------------------------------------------------------
+%%%  Symmetry:  2*6 = 12
+%%%------------------------------------------------------------------
+AlkylIsomerization5Ring-(hh)(hh) .c(hh)ccc(hhh) = .c(hh)ccc(hhh)
+- ID 71210
+- Correspondences
+1 2 3 4 5 6 7 8 9       2 2 2 2 2 2 2 4
+4 3 2 1 7 8 5 6 9       2 2 2 2 2 2 2 4
+>  <ForwardRxn>
+Standard 7.85E+11 -0.12  23100 12; (p->p) Matheu, Green, Grenda, Int J. Chem. Kinet. 35:95-119 (2003)
+>  <ReverseRxn>
+Standard 9.9999e-41     0.0000       0.00 1;  irreversible
+$$$$
+%%%------------------------------------------------------------------
+%%%  Symmetry:  2*2 = 4
+%%%------------------------------------------------------------------
+AlkylIsomerization5Ring-(hh)(rh) .c(hh)ccc(rhh) = .c(rh)ccc(hhh)
+- ID 71211
+- Correspondences
+1 2 3 4 5 6 7 8 9       2 2 2 2 2 2 2 4
+4 3 2 1 7 8 5 6 9       2 2 2 2 2 2 2 4
+>  <ForwardRxn>
+Standard 3.43356E+12   -0.398  23296 4; (s->p) (Calculated  c7h15-1  =  c7h15-4) Matheu, Green, Grenda, Int J. Chem. Kinet. 35:95-119 (2003)
+>  <ReverseRxn>
+Standard 9.9999e-41     0.0000       0.00 1;  irreversible
+$$$$
+%%%------------------------------------------------------------------
+%%%  Symmetry:  2*2 = 4
+%%%------------------------------------------------------------------
+AlkylIsomerization5Ring-(hh)(rr) .c(hh)ccc(rrh) = .c(rr)ccc(hhh)
+- ID 71212
+- Correspondences
+1 2 3 4 5 6 7 8 9       2 2 2 2 2 2 2 4
+4 3 2 1 7 8 5 6 9       2 2 2 2 2 2 2 4
+>  <ForwardRxn>
+Standard   5.32253E+12   -0.442  13236 4; (t->p)  (Calculated ec6h13  =  bc6h13) Matheu, Green, Grenda, Int J. Chem. Kinet. 35:95-119 (2003)
+>  <ReverseRxn>
+Standard 9.9999e-41     0.0000       0.00 1;  irreversible
+$$$$
+%%%------------------------------------------------------------------
+%%%  Symmetry:  1*6 = 6
+%%%------------------------------------------------------------------
+AlkylIsomerization5Ring-(rh)(hh) .c(rh)ccc(hhh) = .c(hh)ccc(rhh)
+- ID 71213
+- Correspondences
+1 2 3 4 5 6 7 8 9       2 2 2 2 2 2 2 4
+4 3 2 1 7 8 5 6 9       2 2 2 2 2 2 2 4
+>  <ForwardRxn>
+Standard   7.85E+11  -0.12  20600 6; (p->s)  Matheu, Green, Grenda, Int J. Chem. Kinet. 35:95-119 (2003)
+>  <ReverseRxn>
+Standard 9.9999e-41     0.0000       0.00 1;  irreversible
+$$$$
+%%%------------------------------------------------------------------
+%%%  Symmetry:  1*2 = 2
+%%%------------------------------------------------------------------
+AlkylIsomerization5Ring-(rh)(rh) .c(rh)ccc(rhh) = .c(rh)ccc(rhh)
+- ID 71214
+- Correspondences
+1 2 3 4 5 6 7 8 9       2 2 2 2 2 2 2 4
+4 3 2 1 7 8 5 6 9       2 2 2 2 2 2 2 4
+>  <ForwardRxn>
+Standard  7.85E+11 -0.12  23500 2; (s->s)  Matheu, Green, Grenda, Int J. Chem. Kinet. 35:95-119 (2003)
+>  <ReverseRxn>
+Standard 9.9999e-41     0.0000       0.00 1;  irreversible
+$$$$
+%%%------------------------------------------------------------------
+%%%  Symmetry:  2*6 = 12
+%%%------------------------------------------------------------------
+AlkylIsomerization5Ring-(rr)(hh) .c(rr)ccc(hhh) = .c(hh)ccc(rrh)
+- ID 71215
+- Correspondences
+1 2 3 4 5 6 7 8 9       2 2 2 2 2 2 2 4
+4 3 2 1 7 8 5 6 9       2 2 2 2 2 2 2 4
+>  <ForwardRxn>
+Standard  5.32253E+12   -0.442  13236 12; (t->p) (Calculated  ec6h13  =  bc6h13  ) Matheu, Green, Grenda, Int J. Chem. Kinet. 35:95-119 (2003)
+>  <ReverseRxn>
+Standard 9.9999e-41     0.0000       0.00 1;  irreversible
+$$$$
+%%%------------------------------------------------------------------
+%%%  Symmetry:  2*2 = 4
+%%%------------------------------------------------------------------
+AlkylIsomerization5Ring-(rr)(rh) .c(rr)ccc(rhh) = .c(rh)ccc(rrh)
+- ID 71216
+- Correspondences
+1 2 3 4 5 6 7 8 9       2 2 2 2 2 2 2 4
+4 3 2 1 7 8 5 6 9       2 2 2 2 2 2 2 4
+>  <ForwardRxn>
+Standard 7.85E+11 -0.12  20600 4; (s->t) Matheu, Green, Grenda, Int J. Chem. Kinet. 35:95-119 (2003)
+>  <ReverseRxn>
+Standard 9.9999e-41     0.0000       0.00 1;  irreversible
+$$$$
+%%%------------------------------------------------------------------
+%%%  Symmetry:  2*2 = 4
+%%%------------------------------------------------------------------
+AlkylIsomerization5Ring-(rr)(rr) .c(rr)ccc(rrh) = .c(rr)ccc(rrh)
+- ID 71217
+- Correspondences
+1 2 3 4 5 6 7 8 9       2 2 2 2 2 2 2 4
+4 3 2 1 7 8 5 6 9       2 2 2 2 2 2 2 4
+>  <ForwardRxn>
+Standard  7.85E+11 -0.12  19400 4; (t->t) Matheu, Green, Grenda, Int J. Chem. Kinet. 35:95-119 (2003)
+>  <ReverseRxn>
+Standard 9.9999e-41     0.0000       0.00 1;  irreversible
+$$$$
+%%%------------------------------------------------------------------
+%%%  Symmetry:  2*6 = 12
+%%%------------------------------------------------------------------
+AlkylIsomerization6Ring-(hh)(hh) .c(hh)cccc(hhh) = .c(hh)cccc(hhh)
+- ID 71218
+- Correspondences
+1 2 3 4 5 6 7 8 9 10      2 2 2 2 2 2 2 2 4
+5 4 3 2 1 8 9 6 7 10      2 2 2 2 2 2 2 2 4
+>  <ForwardRxn>
+Standard  3.67E+11 -0.6  15300  12; (p->p)  Matheu, Green, Grenda, Int J. Chem. Kinet. 35:95-119 (2003)
+>  <ReverseRxn>
+Standard 9.9999e-41     0.0000       0.00 1;  irreversible
+$$$$
+%%%------------------------------------------------------------------
+%%%  Symmetry:  2*2 = 4
+%%%------------------------------------------------------------------
+AlkylIsomerization6Ring-(hh)(rh) .c(hh)cccc(rhh) = .c(rh)cccc(hhh)
+- ID 71219
+- Correspondences
+1 2 3 4 5 6 7 8 9 10      2 2 2 2 2 2 2 2 4
+5 4 3 2 1 8 9 6 7 10      2 2 2 2 2 2 2 2 4
+>  <ForwardRxn>
+Standard   4.28e+11  -1.05  11760 4; Westbrook, Type  Combustion and Flame, 114:149-177 (1998) c7h15-1 = c7h15-3
+>  <ReverseRxn>
+Standard 9.9999e-41     0.0000       0.00 1;  irreversible
+$$$$
+%%%------------------------------------------------------------------
+%%%  Symmetry:  2*2 = 4
+%%%------------------------------------------------------------------
+AlkylIsomerization6Ring-(hh)(rr) .c(hh)cccc(rrh) = .c(rr)cccc(hhh)
+- ID 71220
+- Correspondences
+1 2 3 4 5 6 7 8 9 10      2 2 2 2 2 2 2 2 4
+5 4 3 2 1 8 9 6 7 10      2 2 2 2 2 2 2 2 4
+>  <ForwardRxn>
+Standard 3.80E+11  0.0   12110  4; (t->p) Viskolcz, Lendvay, Seres  J Phys. Chem. A 101:7119-7127 (1997)
+>  <ReverseRxn>
+Standard 9.9999e-41     0.0000       0.00 1;  irreversible
+$$$$
+%%%------------------------------------------------------------------
+%%%  Symmetry:  1*6 = 6
+%%%------------------------------------------------------------------
+AlkylIsomerization6Ring-(rh)(hh) .c(rh)cccc(hhh) = .c(hh)cccc(rhh)
+- ID 71221
+- Correspondences
+1 2 3 4 5 6 7 8 9 10      2 2 2 2 2 2 2 2 4
+5 4 3 2 1 8 9 6 7 10      2 2 2 2 2 2 2 2 4
+>  <ForwardRxn>
+Standard   1.36e+10  -0.66  14280  6; Westbrook, Type  Combustion and Flame, 114:149-177 (1998)  (rev) c7h15-1 = c7h15-3 
+>  <ReverseRxn>
+Standard 9.9999e-41     0.0000       0.00 1;  irreversible
+$$$$

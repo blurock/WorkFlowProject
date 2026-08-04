@@ -1,0 +1,30 @@
+###############################################################
+# Program specific definitions
+#   PROGNAME    - The name of the program and the directory
+#   STD_LIBRARIES   - The available libraries to use
+#   ALL_PROGS       - Those progs to be compiled
+#   ALL_SOURCES     - The list of source files
+#   ALL_OBJECTS     - The list of object files
+###############################################################
+PROGNAME   = cluster
+HFILES = cluster.h
+ALL_PROGS = str_form library
+ALL_SOURCES = \
+              cluster0.c cluster1.c
+ALL_OBJECTS = \
+              cluster0.o cluster1.o
+COMMANDFILES = ./cluster/cluster.cmd
+EXTRAS =
+STD_INCLUDES = -I$(CCROOT)/genc\
+               -I$(CCROOT)/genh\
+               -I$(CCROOT)/standard
+
+STD_LIBRARIES            = -L$(MYLIBDIR)\
+           -lbasis\
+           -lcomlib\
+           -ldatmat\
+           -lm
+CFLAGS = $(CCOPTIONS) $(STD_INCLUDES)
+
+
+

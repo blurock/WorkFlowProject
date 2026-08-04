@@ -1,0 +1,51 @@
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+CyclicEtherFromQOOH-3Ring  .c(q)(q)(cooh) =   (q)(q)(-cco-) hydroxyl-radical
+- ID 19003
+- Correspondences
+1 2 3 4 5 6 7       2 2 4 2 2 2
+2 3 4 6 7           2 2 4 2 2
+1 5
+>  <ForwardRxn>
+Standard 3.0e+11 0.0 22000 2; Type XIX: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 5.91775e+07  1.098 35760.0 2 ;  (Ea=149.0); Calculated LUND 1-ooh-hep-2 = oh + 1-2c7h14o
+$$$$
+%%%-------------------------------------------------------------------
+CyclicEtherFromQOOH-4Ring  .c(q)(q)(ccooh) =   (q)(q)(-ccco-) hydroxyl-radical
+- ID 19004
+- Correspondences
+1 2 3 4 5 6 7 8     2 2 2 4 2 2 2
+2 3 4 5 7 8         2 2 2 4 2 2
+1 6
+>  <ForwardRxn>
+Standard 2.50e+10 0.0 15250 2; Type XIX: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 9.27439e+8 0.779 30925.0  2 ; (Ea=129.);  1-ooh-hep-3 = oh + 1-3c7h14o
+$$$$
+%%%-------------------------------------------------------------------
+CyclicEtherFromQOOH-5Ring  .c(q)(q)(cccooh) =  (q)(q)(-cccco-) hydroxyl-radical
+- ID 19005
+- Correspondences
+1 2 3 4 5 6 7 8 9    2 2 2 2 4 2 2 2
+2 3 4 5 6 8 9        2 2 2 2 4 2 2
+1 7
+>  <ForwardRxn>
+Standard 2.08e+9 0.0 6500 2; Type XIX: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 4.2658e+9 0.434 43428.0 2 ; (Ea=182.) ; 1-ooh-hep-4 = oh + 1-4c7h14o
+$$$$
+%%%-------------------------------------------------------------------
+CyclicEtherFromQOOH-6Ring  .c(q)(q)(ccccooh) = (q)(q)(-ccccco-) hydroxyl-radical
+- ID 19006
+- Correspondences
+1 2 3 4 5 6 7 8 9 10   2 2 2 2 2 4 2 2 2
+2 3 4 5 6 7 9 10       2 2 2 2 2 4 2 2
+1 8                    2
+>  <ForwardRxn>
+Standard 1.50e+8 0.0 1800 2; Type XIX: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 9.21454e+10 0.186  45587.0 2 ; (Ea=191) ; 1-ooh-hep-5 = oh + 1-5c7h14
+$$$$

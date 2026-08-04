@@ -1,0 +1,41 @@
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyOlefinFormationFromAlphaOlefinRadical-(hh) \
+     alphaolefin-radical(qq)(q)(hh) oxygen = alphaolefinOO-radical(qq)(q)(hh)
+- ID 42501
+- Correspondences
+1 2 3 4 5 6 7 8           2 2 2 2 2 2 2
+9 10                      2
+1 2 3 4 5 6 7 8 9 10      2 2 2 2 2 2 2 4 2
+>  <ForwardRxn>
+Standard 2.188e+19 -2.5 0.0 8; Come Value ; Estimate  Come Propene (B13)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2 = 2
+%%%-------------------------------------------------------------------
+PeroxyOlefinFormationFromAlphaOlefinRadical-(rh) \
+     alphaolefin-radical(qq)(q)(rh) oxygen = alphaolefinOO-radical(qq)(q)(rh)
+- ID 42502
+- Correspondences
+1 2 3 4 5 6 7 8           2 2 2 2 2 2 2
+9 10                      2
+1 2 3 4 5 6 7 8 9 10      2 2 2 2 2 2 2 4 2
+>  <ForwardRxn>
+Standard 2.188e+19 -2.5 0.0 4; Come Value ; Estimate  Come Propene (B13)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*6 = 12
+%%%-------------------------------------------------------------------
+PeroxyOlefinFormationFromAlphaOlefinRadical-(rr) \
+     alphaolefin-radical(qq)(q)(rr) oxygen = alphaolefinOO-radical(qq)(q)(rr)
+- ID 42503
+- Correspondences
+1 2 3 4 5 6 7 8           2 2 2 2 2 2 2
+9 10                      2
+1 2 3 4 5 6 7 8 9 10      2 2 2 2 2 2 2 4 2
+>  <ForwardRxn>
+Standard 2.188e+19 -2.5 0.0 8; Come Value ; Estimate  Come Propene (B13)
+$$$$

@@ -134,7 +134,7 @@ public class DatasetCollectionManagement {
 		String owner = event.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
 		String transactionID = event.get(ClassLabelConstants.TransactionID).getAsString();
 		String collectionname = info.get(ClassLabelConstants.DatasetCollectionsSetLabel).getAsString();
-		String shortdescription = info.get(ClassLabelConstants.ShortDescription).getAsString();
+		String shortdescription = info.get(ClassLabelConstants.DescriptionTitle).getAsString();
 		String collectiontype = info.get(ClassLabelConstants.DatasetCollectionType).getAsString();
 		String descrabstrace = info.get(ClassLabelConstants.DescriptionAbstract).getAsString();
 		event.addProperty(ClassLabelConstants.CatalogObjectKey, collectionname);
@@ -152,26 +152,40 @@ public class DatasetCollectionManagement {
 		body.addElement("div").addText("Collection Name      : " + collectionname);
 
 		JsonObject idcollection = DatasetCollectionIDManagement
-				.createEmptyChemConnectCurrentDatasetIDSet(collectionname, owner, transactionID, descr);
+				.createEmptyChemConnectCurrentDatasetIDSet(collectiontype, collectionname, owner, transactionID, descr);
 		idcollection.addProperty(ClassLabelConstants.ShortDescription, shortdescription);
 		idcollection.addProperty(ClassLabelConstants.DescriptionAbstract, descrabstrace);
 		idcollection.addProperty(ClassLabelConstants.DatasetCollectionType, collectiontype);
 		BaseCatalogData.insertStandardBaseInformation(idcollection, owner, transactionID, "false", true);
+		body.addElement("div").addText("Fill in defaults");
 
-		fillInDatasetCollectionWithDefaults(collectiontype, owner, idcollection);
+		fillInDatasetCollectionWithDefaults(collectiontype, owner, idcollection, body);
+
 		JsonObject transfirestoreID = BaseCatalogData.insertFirestoreAddress(event);
 		idcollection.add(ClassLabelConstants.FirestoreCatalogIDForTransaction, transfirestoreID.deepCopy());
+		JsonObject firestoreID = BaseCatalogData.insertFirestoreAddress(idcollection);
+		body.addElement("div").addText("After Firestore Setup : ");
+		body.addElement("pre").addText(JsonObjectUtilities.toString(idcollection));
 		String message = WriteFirestoreCatalogObject.writeCatalogObject(idcollection);
 		body.addElement("div").addText(message);
+		JsonObject response = null;
+		if (message.startsWith("ERROR")) {
+			body.addElement("div").addText("Error in Writing Dataset Collection Set");
+			body.addElement("pre").addText(JsonObjectUtilities.toString(firestoreID));
+			response = StandardResponse.standardErrorResponse(document, message, null);
+		} else {
+			JsonArray arr = new JsonArray();
+			arr.add(idcollection);
+			response = StandardResponse.standardServiceResponse(document,
+					"Success: Create Dataset Collection IDs set with standard values", arr);
+		}
 		// putInLocalVersion(idcollection);
-		JsonArray arr = new JsonArray();
-		arr.add(idcollection);
-		JsonObject response = StandardResponse.standardServiceResponse(document,
-				"Success: Create Dataset Collection IDs set with standard values", arr);
+
 		return response;
 	}
 
-	static void fillInDatasetCollectionWithDefaults(String collectiontype, String owner, JsonObject idcollection) {
+	static void fillInDatasetCollectionWithDefaults(String collectiontype, String owner, JsonObject idcollection,
+			Element body) {
 		idcollection.addProperty(ClassLabelConstants.DatasetCollectionType, collectiontype);
 		JsonArray datasets = CollectionSetUtilities.collectionDatasetInfo(collectiontype);
 		for (JsonElement element : datasets) {
@@ -180,9 +194,11 @@ public class DatasetCollectionManagement {
 
 			String identifier = dataset.get(AnnotationObjectsLabels.identifier).getAsString();
 			String type = OntologyUtilityRoutines.typesFromIdentifier(identifier);
+			body.addElement("div").addText("Dataset Type:  : " + type);
 			dataset.addProperty(AnnotationObjectsLabels.type, type);
 			idcollection.add(identifier, dataset);
 		}
+
 	}
 
 	/**

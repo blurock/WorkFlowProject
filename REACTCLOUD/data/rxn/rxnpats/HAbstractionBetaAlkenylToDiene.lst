@@ -1,0 +1,290 @@
+%%%-------------------------------------------------------------------
+%%% HAbstractionBetaAlkenylToDiene
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 6*3*2 = 36
+%%%-------------------------------------------------------------------
+HAbstractionBetaAlkenylToDieneCH3-(h)(hh)\
+     c=ccc(h)(hhh) methane-carbon-radical = c=cc=c(h)(hh) methane
+- ID 42801
+- Correspondences
+1 2 3 4 5 6 7 8   2 2 2 2 2 2 4
+9 10 11 12        2 2 2
+1 2 3 4 5 6 7     2 2 2 2 2 2
+9 8 10 11 12      2 2 2 4
+>  <ForwardRxn>
+Standard 8.00E+12  0.0  0.000     36; c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+>  <ReverseRxn>
+Standard 7.050E+13 0.0  5.728E+04 2; (rev) c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 6*3*2 = 36
+%%%-------------------------------------------------------------------
+HAbstractionBetaAlkenylToDieneCH3-(r)(hh)\
+     c=ccc(r)(hhh) methane-carbon-radical = c=cc=c(r)(hh) methane
+- ID 42802
+- Correspondences
+1 2 3 4 5 6 7 8   2 2 2 2 2 2 4
+9 10 11 12        2 2 2
+1 2 3 4 5 6 7     2 2 2 2 2 2
+9 8 10 11 12      2 2 2 4
+>  <ForwardRxn>
+Standard 8.00E+12  0.0  0.000     36; c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+>  <ReverseRxn>
+Standard 7.050E+13 0.0  5.728E+04 2; (rev) c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 6*2 = 12
+%%%-------------------------------------------------------------------
+HAbstractionBetaAlkenylToDieneCH3-(h)(rh)\
+     c=ccc(h)(rhh) methane-carbon-radical = c=cc=c(h)(rh) methane
+- ID 42803
+- Correspondences
+1 2 3 4 5 6 7 8   2 2 2 2 2 2 4
+9 10 11 12        2 2 2
+1 2 3 4 5 6 7     2 2 2 2 2 2
+9 8 10 11 12      2 2 2 4
+>  <ForwardRxn>
+Standard 8.00E+12  0.0  0.000     12; c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+>  <ReverseRxn>
+Standard 7.050E+13 0.0  5.728E+04 1; (rev) c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 6*2 = 12
+%%%-------------------------------------------------------------------
+HAbstractionBetaAlkenylToDieneCH3-(r)(rh)\
+     c=ccc(r)(rhh) methane-carbon-radical = c=cc=c(r)(rh) methane
+- ID 42804
+- Correspondences
+1 2 3 4 5 6 7 8   2 2 2 2 2 2 4
+9 10 11 12        2 2 2
+1 2 3 4 5 6 7     2 2 2 2 2 2
+9 8 10 11 12      2 2 2 4
+>  <ForwardRxn>
+Standard 8.00E+12  0.0  0.000     12; c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+>  <ReverseRxn>
+Standard 7.050E+13 0.0  5.728E+04 2; (rev) c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 6*3*2 = 36
+%%%-------------------------------------------------------------------
+HAbstractionBetaAlkenylToDieneCH3-(h)(rr)\
+     c=ccc(h)(rrh) methane-carbon-radical = c=cc=c(h)(rr) methane
+- ID 42805
+- Correspondences
+1 2 3 4 5 6 7 8   2 2 2 2 2 2 4
+9 10 11 12        2 2 2
+1 2 3 4 5 6 7     2 2 2 2 2 2
+9 8 10 11 12      2 2 2 4
+>  <ForwardRxn>
+Standard 8.00E+12  0.0  0.000     36; c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+>  <ReverseRxn>
+Standard 7.050E+13 0.0  5.728E+04 2; (rev) c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 6*3*2 = 6
+%%%-------------------------------------------------------------------
+HAbstractionBetaAlkenylToDieneCH3-(r)(rr)\
+     c=ccc(r)(rrh) methane-carbon-radical = c=cc=c(r)(rr) methane
+- ID 42806
+- Correspondences
+1 2 3 4 5 6 7 8   2 2 2 2 2 2 4
+9 10 11 12        2 2 2
+1 2 3 4 5 6 7     2 2 2 2 2 2
+9 8 10 11 12      2 2 2 4
+>  <ForwardRxn>
+Standard 8.00E+12  0.0  0.000     36; c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+>  <ReverseRxn>
+Standard 7.050E+13 0.0  5.728E+04 2; (rev) c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 3*2 = 6
+%%%-------------------------------------------------------------------
+HAbstractionBetaAlkenylToDieneH-(h)(hh)\
+     c=ccc(h)(hhh) hydrogen-radical = c=cc=c(h)(hh) hydrogen
+- ID 42807
+- Correspondences
+1 2 3 4 5 6 7 8   2 2 2 2 2 2 4
+9        
+1 2 3 4 5 6 7     2 2 2 2 2 2
+9 8               4
+>  <ForwardRxn>
+Standard  3.16E+13  0.0  0.0 6; c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+>  <ReverseRxn>
+Standard  1.066E+13 0.0  5.681E+04 2; (rev) c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 3*2 = 6
+%%%-------------------------------------------------------------------
+HAbstractionBetaAlkenylToDieneH-(r)(hh)\
+     c=ccc(r)(hhh) hydrogen-radical = c=cc=c(r)(hh) hydrogen
+- ID 42808
+- Correspondences
+1 2 3 4 5 6 7 8   2 2 2 2 2 2 4
+9        
+1 2 3 4 5 6 7     2 2 2 2 2 2
+9 8               4
+>  <ForwardRxn>
+Standard  3.16E+13  0.0  0.0 6; c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+>  <ReverseRxn>
+Standard  1.066E+13 0.0  5.681E+04 2; (rev) c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+HAbstractionBetaAlkenylToDieneH-(h)(rh)\
+     c=ccc(h)(rhh) hydrogen-radical = c=cc=c(h)(rh) hydrogen
+- ID 42809
+- Correspondences
+1 2 3 4 5 6 7 8   2 2 2 2 2 2 4
+9        
+1 2 3 4 5 6 7     2 2 2 2 2 2
+9 8               4
+>  <ForwardRxn>
+Standard  3.16E+13  0.0  0.0 2; c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+>  <ReverseRxn>
+Standard  1.066E+13 0.0  5.681E+04 2; (rev) c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+HAbstractionBetaAlkenylToDieneH-(r)(rh)\
+     c=ccc(r)(rhh) hydrogen-radical = c=cc=c(r)(rh) hydrogen
+- ID 42810
+- Correspondences
+1 2 3 4 5 6 7 8   2 2 2 2 2 2 4
+9        
+1 2 3 4 5 6 7     2 2 2 2 2 2
+9 8               4
+>  <ForwardRxn>
+Standard  3.16E+13  0.0  0.0 2; c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+>  <ReverseRxn>
+Standard  1.066E+13 0.0  5.681E+04 2; (rev) c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 3*2 = 6
+%%%-------------------------------------------------------------------
+HAbstractionBetaAlkenylToDieneH-(h)(rr)\
+     c=ccc(h)(rrh) hydrogen-radical = c=cc=c(h)(rr) hydrogen
+- ID 42811
+- Correspondences
+1 2 3 4 5 6 7 8   2 2 2 2 2 2 4
+9        
+1 2 3 4 5 6 7     2 2 2 2 2 2
+9 8               4
+>  <ForwardRxn>
+Standard  3.16E+13  0.0  0.0 6; c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+>  <ReverseRxn>
+Standard  1.066E+13 0.0  5.681E+04 2; (rev) c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 3*2 = 6
+%%%-------------------------------------------------------------------
+HAbstractionBetaAlkenylToDieneH-(r)(rr)\
+     c=ccc(r)(rrh) hydrogen-radical = c=cc=c(r)(rr) hydrogen
+- ID 42812
+- Correspondences
+1 2 3 4 5 6 7 8   2 2 2 2 2 2 4
+9        
+1 2 3 4 5 6 7     2 2 2 2 2 2
+9 8               4
+>  <ForwardRxn>
+Standard  3.16E+13  0.0  0.0 6; c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+>  <ReverseRxn>
+Standard  1.066E+13 0.0  5.681E+04 2; (rev) c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 2*3*2 = 12
+%%%-------------------------------------------------------------------
+HAbstractionBetaAlkenylToDieneO2-(h)(hh)\
+     c=ccc(h)(hhh) oxygen = c=cc=c(h)(hh) peroxyl-radical
+- ID 42813
+- Correspondences
+1 2 3 4 5 6 7 8   2 2 2 2 2 2 4
+9 10              2 2
+1 2 3 4 5 6 7     2 2 2 2 2 2
+8 9 10            4 2
+>  <ForwardRxn>
+Standard  1.00E+09  0.0  0.0 12; c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 1.700E+04 2; (rev) c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 2*3*2 = 12
+%%%-------------------------------------------------------------------
+HAbstractionBetaAlkenylToDieneO2-(r)(hh)\
+     c=ccc(r)(hhh) oxygen = c=cc=c(r)(hh) peroxyl-radical
+- ID 42814
+- Correspondences
+1 2 3 4 5 6 7 8   2 2 2 2 2 2 4
+9 10              2 2
+1 2 3 4 5 6 7     2 2 2 2 2 2
+8 9 10            4 2
+>  <ForwardRxn>
+Standard  1.00E+09  0.0  0.0 12; c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+>  <ReverseRxn>
+Standard 1.000E+11 0.00 1.700E+04  2; (rev) c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+HAbstractionBetaAlkenylToDieneO2-(h)(rh)\
+     c=ccc(h)(rhh) oxygen = c=cc=c(h)(rh) peroxyl-radical
+- ID 42815
+- Correspondences
+1 2 3 4 5 6 7 8   2 2 2 2 2 2 4
+9 10              2 2
+1 2 3 4 5 6 7     2 2 2 2 2 2
+8 9 10            4 2
+>  <ForwardRxn>
+Standard  1.00E+09  0.0  0.0 4; c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 1.700E+04 1; (rev) c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+HAbstractionBetaAlkenylToDieneO2-(r)(rh)\
+     c=ccc(r)(rhh) oxygen = c=cc=c(r)(rh) peroxyl-radical
+- ID 42816
+- Correspondences
+1 2 3 4 5 6 7 8   2 2 2 2 2 2 4
+9 10              2 2
+1 2 3 4 5 6 7     2 2 2 2 2 2
+8 9 10            4 2
+>  <ForwardRxn>
+Standard  1.00E+09  0.0  0.0 4; c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+>  <ReverseRxn>
+Standard 1.000E+11 0.00 1.700E+04  1; (rev) c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 2*3*2 = 12
+%%%-------------------------------------------------------------------
+HAbstractionBetaAlkenylToDieneO2-(h)(rr)\
+     c=ccc(h)(rrh) oxygen = c=cc=c(h)(rr) peroxyl-radical
+- ID 42817
+- Correspondences
+1 2 3 4 5 6 7 8   2 2 2 2 2 2 4
+9 10              2 2
+1 2 3 4 5 6 7     2 2 2 2 2 2
+8 9 10            4 2
+>  <ForwardRxn>
+Standard  1.00E+09  0.0  0.0 12; c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 1.700E+04 2; (rev) c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+$$$$
+%%%-------------------------------------------------------------------
+%%%  Symmetry: 2*3*2 = 12
+%%%-------------------------------------------------------------------
+HAbstractionBetaAlkenylToDieneO2-(r)(hh)\
+     c=ccc(r)(hhh) oxygen = c=cc=c(r)(hh) peroxyl-radical
+- ID 42818
+- Correspondences
+1 2 3 4 5 6 7 8   2 2 2 2 2 2 4
+9 10              2 2
+1 2 3 4 5 6 7     2 2 2 2 2 2
+8 9 10            4 2
+>  <ForwardRxn>
+Standard  1.00E+09  0.0  0.0 12; c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+>  <ReverseRxn>
+Standard 1.000E+11 0.00 1.700E+04  2; (rev) c4h7+ch3=ch2chchch2+ch4 (Curran et. al., heptane)
+$$$$

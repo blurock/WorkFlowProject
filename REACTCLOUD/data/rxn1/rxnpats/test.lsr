@@ -1,0 +1,13 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1 = 2
+%%%-------------------------------------------------------------------
+KetoneRadicalDecomp-HHH      c(hhh).c(o)  =  methane-carbon-radical    carbonmonoxide
+- ID 60001
+- Correspondences
+1 2 3 4 5 6             2 4 2 2 2
+3 4 5 6                 2 2 2
+2 1                     2
+
+>  <ForwardRxn>
+Standard 1.58e+13 0.0 72000.0 2; Nehse, Warnatz, Chevalier Value ; Large Aliphatic Hydrocarbons
+$$$$

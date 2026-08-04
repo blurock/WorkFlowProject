@@ -1,0 +1,137 @@
+1 C4H
+butane
+- AlternativeNames CHEMKIN C4H10
+- AlternativeNames Short C4H10
+- AlternativeNames Formula C4H10
+isobutane
+- AlternativeNames CHEMKIN ISOBUTANE
+- AlternativeNames Short ISOBUTANE
+- AlternativeNames Formula C4H10
+1-butyl-radical
+- AlternativeNames CHEMKIN pC4H9
+- AlternativeNames Short pC4H9
+- AlternativeNames Formula C4H9
+2-butyl-radical
+- AlternativeNames CHEMKIN sC4H9
+- AlternativeNames Short sC4H9
+- AlternativeNames Formula C4H9
+isobutyl-radical
+- AlternativeNames CHEMKIN CH3CH(CH3)CH2
+- AlternativeNames Short CH3CH(CH3)CH2
+- AlternativeNames Formula C4H9
+tertbutyl-radical
+- AlternativeNames CHEMKIN (CH3)3C
+- AlternativeNames Short (CH3)3C
+- AlternativeNames Formula C4H9
+1-butene
+- AlternativeNames CHEMKIN pC4H8
+- AlternativeNames Short pC4H8
+- AlternativeNames Formula C4H8
+2-butene
+- AlternativeNames CHEMKIN sC4H8
+- AlternativeNames Short sC4H8
+- AlternativeNames Formula C4H8
+isobutene
+- AlternativeNames CHEMKIN CH2C(CH3)2
+- AlternativeNames Short CH2C(CH3)2
+- AlternativeNames Formula C4H8
+cyclobutane
+- AlternativeNames CHEMKIN cyc-butane
+- AlternativeNames Short cyc-butane
+- AlternativeNames Formula C4H8
+1-butene-1-yl-radical
+- AlternativeNames CHEMKIN CHCHCH2CH3
+- AlternativeNames Short CHCHCH2CH3
+- AlternativeNames Formula C4H7
+1-butene-2-yl-radical
+- AlternativeNames CHEMKIN CH2CCH2CH3
+- AlternativeNames Short CH2CCH2CH3
+- AlternativeNames Formula C4H7
+1-butene-3-yl-radical
+- AlternativeNames CHEMKIN CH2CHCHCH3
+- AlternativeNames Short CH2CHCHCH3
+- AlternativeNames Formula C4H7
+2-butene-2-yl-radical
+- AlternativeNames CHEMKIN CH3CCHCH3
+- AlternativeNames Short CH3CCHCH3
+- AlternativeNames Formula C4H7
+2-butene-1-yl-radical
+- AlternativeNames CHEMKIN CH2CHCHCH3
+- AlternativeNames Short CH2CHCHCH3
+- AlternativeNames Formula C4H7
+3-butene-1-yl-radical
+- AlternativeNames CHEMKIN CH2CH2CHCH2
+- AlternativeNames Short CH2CH2CHCH2
+- AlternativeNames Formula C4H7
+cyclobutyl-radical
+- AlternativeNames CHEMKIN CYC-C4H7
+- AlternativeNames Short CYC-C4H7
+- AlternativeNames Formula C4H7
+1-butyne
+- AlternativeNames CHEMKIN CH3CH2CCH
+- AlternativeNames Short CH3CH2CCH
+- AlternativeNames Formula C4H6
+2-butyne
+- AlternativeNames CHEMKIN CH3CCCH3
+- AlternativeNames Short CH3CCCH3
+- AlternativeNames Formula C4H6
+1,3-butadiene
+- AlternativeNames CHEMKIN C4H6
+- AlternativeNames Short C4H6
+- AlternativeNames Formula C4H6
+1,2-butadiene
+- AlternativeNames CHEMKIN CH2CCHCH3
+- AlternativeNames Short CH2CCHCH3
+- AlternativeNames Formula C4H6
+cyclobutene
+- AlternativeNames CHEMKIN CYC-C4H6
+- AlternativeNames Short CYC-C4H6
+- AlternativeNames Formula C4H6
+2-butynyl-radical
+- AlternativeNames CHEMKIN CH3CCCH2
+- AlternativeNames Short CH3CCCH2
+- AlternativeNames Formula C4H5
+1-butyn-3-yl
+- AlternativeNames CHEMKIN CHCCHCH3
+- AlternativeNames Short CHCCHCH3
+-- AlternativeNames Formula C4H5
+1,3-butadiene-1-yl
+- AlternativeNames CHEMKIN CH2CHCHCH
+- AlternativeNames Short CH2CHCHCH
+- AlternativeNames Formula C4H5
+1,3-butadiene-2-yl
+- AlternativeNames CHEMKIN CH2CHCCH2
+- AlternativeNames Short CH2CHCCH2
+- AlternativeNames Formula C4H5
+1,2-butadiene-4-yl
+- AlternativeNames CHEMKIN CH2CCHCH2
+- AlternativeNames Short CH2CCHCH2
+- AlternativeNames Formula C4H5
+butyne-1-yl-radical
+- AlternativeNames CHEMKIN CCCH2CH3
+- AlternativeNames Short CCCH2CH3
+- AlternativeNames Formula C4H5
+cyclobutadiene
+- AlternativeNames CHEMKIN CYC-CHCHCHCH
+- AlternativeNames Short CYC-CHCHCHCH
+- AlternativeNames Formula C4H4
+1-butyne-3-ene
+- AlternativeNames CHEMKIN CH2CHCCH
+- AlternativeNames Short CH2CHCCH
+- AlternativeNames Formula C4H4
+1-butene-3-yne-1-yl
+- AlternativeNames CHEMKIN C4H3U
+- AlternativeNames Short CHCHCCH
+- AlternativeNames Formula C4H3
+1-butene-3-yne-2-yl
+- AlternativeNames CHEMKIN C4H3S
+- AlternativeNames Short CH2CCCH
+- AlternativeNames Formula C4H3
+butadiyne
+- AlternativeNames CHEMKIN C4H2
+- AlternativeNames Short C4H2
+- AlternativeNames Formula C4H2
+butadiynyl
+- AlternativeNames CHEMKIN C4H
+- AlternativeNames Short C4H
+- AlternativeNames Formula C4H

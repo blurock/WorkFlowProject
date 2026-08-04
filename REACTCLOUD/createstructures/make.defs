@@ -1,0 +1,34 @@
+###############################################################
+# Program specific definitions
+#   PROGNAME    - The name of the program and the directory
+#   STD_LIBRARIES   - The available libraries to use
+#   ALL_PROGS       - Those progs to be compiled
+#   ALL_SOURCES     - The list of source files
+#   ALL_OBJECTS     - The list of object files
+#   STR_STRUCTURES  - The structures definitions for simple structures
+#   SYS_STRUCTURES  - The structure definitions for system structures
+###############################################################
+PROGNAME   = createstructures
+
+STD_LIBRARIES            = \
+           -lbasis
+HFILES         =  strmas.h
+ALL_PROGS      = createstructures moveit
+ALL_SOURCES = \
+              strout.c strcon.c sysout.c      
+EXTRAS = main.c
+
+ALL_OBJECTS = \
+              strout.o strcon.o sysout.o
+STD_INCLUDES = -I$(CCROOT)/genc\
+               -I$(CCROOT)/genh\
+               -I$(CCROOT)/standard
+CFLAGS = $(CCOPTIONS) $(STD_INCLUDES)
+DEPLIBS = -L$(MYLIBDIR)\
+          -lbasis\
+          -lm
+
+moveit:
+	cp createstructures $(BINDIR)/createstructures
+
+

@@ -1,0 +1,69 @@
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+OOQOOH-Isomerization-4Ring-Primary \
+c(h)(h)(coo.)(ooh) = oc(h)(cooh) hydroxyl-radical
+- ID 23401
+- Correspondences
+1 2 3 4 5 6 7 8 9      4 2 4 2 2 2 2 2
+1 2 3 6 7 8 9          4 2 2 2 2 2
+5 4                    2
+>  <ForwardRxn>
+Standard 1.41e+12 0.0 18643 1
+$$$$
+%%%-------------------------------------------------------------------
+OOQOOH-Isomerization-4Ring-Secondary \
+c(h)(r)(coo.)(ooh) = oc(r)(cooh) hydroxyl-radical
+- ID 23402
+- Correspondences
+1 2 3 4 5 6 7 8 9      4 2 4 2 2 2 2 2
+1 2 3 6 7 8 9          4 2 2 2 2 2
+5 4                    2
+>  <ForwardRxn>
+Standard 1.41e+12 0.0 18643 1
+$$$$
+%%%-------------------------------------------------------------------
+OOQOOH-Isomerization-5Ring-Primary \
+c(h)(h)(ccoo.)(ooh) = oc(h)(ccooh) hydroxyl-radical
+- ID 23501
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     4 2 4 2 2 2 2 2 2
+2 6 7 8 3 1 9 10         2 2 2 2 2 4 2
+5 4                      2
+>  <ForwardRxn>
+Standard 1.49e+12 0.0 26700 1 ; Westbrook ; Type 23 
+$$$$
+%%%-------------------------------------------------------------------
+OOQOOH-Isomerization-5Ring-Secondary \
+c(h)(r)(ccoo.)(ooh) = oc(r)(ccooh) hydroxyl-radical
+- ID 23502
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     4 2 4 2 2 2 2 2 2
+2 6 7 8 3 1 9 10         2 2 2 2 2 4 2
+5 4                      2
+>  <ForwardRxn>
+Standard 1.49e+12 0.0 24900 1 ; Westbrook ; Type 23 
+$$$$
+%%%-------------------------------------------------------------------
+OOQOOH-Isomerization-6Ring-Primary \
+(h)(h)(cccooh)cooh = oc(h)(cccooh) hydroxyl-radical
+- ID 23601
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11     4 2 4 2 2 2 2 2 2 2
+2 6 7 8 9 3 1 10 11         2 2 2 2 2 2 4 2
+5 4                         2
+>  <ForwardRxn>
+Standard 1.24e+11 0.0 20900 1
+$$$$
+%%%-------------------------------------------------------------------
+OOQOOH-Isomerization-6Ring-Secondary \
+(h)(r)(cccoo.)cooh = oc(r)(cccooh) hydroxyl-radical
+- ID 23602
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11     4 2 4 2 2 2 2 2 2 2
+2 6 7 8 9 3 1 10 11         2 2 2 2 2 2 4 2
+5 4                         2
+>  <ForwardRxn>
+Standard 1.24e+12 0.0 20900 1
+$$$$

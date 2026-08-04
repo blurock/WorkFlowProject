@@ -1,0 +1,50 @@
+Structures for Graphic Trees
+5 xwintrees
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%       
+   TreeStyle 100 treestyle
+      1 The Outline Style of Bar
+        INT TreeOutline Create
+      2 The Outline Line Thickness
+        INT TreeLine Create
+      3 The Thickness of the borderline
+        INT BorderThickness Create
+      4 Relative Spacing between tree levels
+        FLOAT VertSpacing Create
+      5 Relative Spacing between elements in level
+        FLOAT HorizSpacing Create
+      DONE
+%%%
+   TreeDrawElement 101 treeelementdrawobject
+      1 The element description
+        VOID Element Create
+      0 The style of the element
+        VOID Style Create
+      2 The activation routine
+        FUNCTION Activation Return=INT Create
+      3 The activation routine data object
+        VOID DataObject Create
+      4 The drawobject routine
+        FUNCTION DrawObjectRoutine  Return=INT Create
+      5 Function to insert position
+        FUNCTION InsertPosition Return=INT Create
+      2 The size of the element
+        ObjectSize Size Pointer Create
+      DONE
+   TreeOfDrawElements 102 treeofdrawelements
+      0 The number of tree subtrees from this level
+        INT NumberOfSubTrees Create
+      1 The Tree element
+        TreeDrawElement Element Pointer Create
+      2 The set of subtrees
+        TreeOfDrawElements SubTree Pointer Create Array=NumberOfSubTrees
+      DONE
+   SetOfObjectSizes 103 setofobjectsizes
+      0 The Number of object sizes
+        INT NumberOfSizes Create
+      1 The set of sizes
+        ObjectSize Set Pointer Create Array=NumberOfSizes
+      DONE
+%%%
+DONE
+   

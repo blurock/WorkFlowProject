@@ -1,0 +1,92 @@
+CLASSCOEFFICIENTS
+H-Abstraction-Oxygen-Primary             =      4.1700e+12     0.0000     204.92     6.5375e+10     0.3130      -2.52
+H-Abstraction-Oxygen-Secondary           =      1.0000e+13     0.0000     199.06     1.3265e+11     0.2420       8.67
+Primary-Carbon-Radical-(R.+O2-->RO2.)    =      4.5200e+12     0.0000       0.00     2.6570e+20    -1.6700     148.04
+Secondary-Carbon-Radical-(R.+O2-->RO2.)  =      7.5400e+12     0.0000       0.00     1.3570e+23    -2.3600     157.54
+ROOHFromPeroxy-HHH                       =      1.0000e+11     0.0000       0.00     3.0000e+11     0.0000     163.10
+ROOHFromPeroxy-RHH                       =      1.0000e+11     0.0000       0.00     3.0000e+11     0.0000     163.10
+ROOHFromPeroxy-RRH                       =      1.0000e+11     0.0000       0.00     3.0000e+11     0.0000     163.10
+RO2ToAlkoxy-(hhh)(hhh)                   =      1.0000e+11     0.0000       0.00     9.9999e-41     0.0000       0.00
+RO2ToAlkoxy-(hhh)(rhh)                   =      1.0000e+11     0.0000       0.00     9.9999e-41     0.0000       0.00
+RO2ToAlkoxy-(hhh)(rrh)                   =      1.0000e+11     0.0000       0.00     9.9999e-41     0.0000       0.00
+RO2ToAlkoxy-(rhh)(rhh)                   =      1.0000e+11     0.0000       0.00     9.9999e-41     0.0000       0.00
+RO2ToAlkoxy-(rhh)(rrh)                   =      1.0000e+11     0.0000       0.00     9.9999e-41     0.0000       0.00
+RO2ToAlkoxy-(rrh)(rrh)                   =      1.0000e+11     0.0000       0.00     9.9999e-41     0.0000       0.00
+PeroxyFromHydrogenPeroxide-HHH           =      2.4000e+12     0.0000      41.82     2.4000e+12     0.0000      41.82
+PeroxyFromHydrogenPeroxide-RHH           =      2.4000e+12     0.0000      41.82     2.4000e+12     0.0000      41.82
+PeroxyFromHydrogenPeroxide-RRH           =      2.4000e+12     0.0000      41.82     2.4000e+12     0.0000      41.82
+AlkoxyFromPeroxy-HHH                     =      2.8960e+20    -1.7100     192.37     1.0000e+13     0.0000       0.00
+AlkoxyFromPeroxy-RHH                     =      2.8960e+20    -1.7100     192.37     1.0000e+13     0.0000       0.00
+AlkoxyFromPeroxy-RRH                     =      1.2020e+21    -1.8100     192.37     1.0000e+13     0.0000       0.00
+AlkoxyDecomp-(rh)(hhh)                   =      8.6600e+21    -2.3900      91.50     1.0000e+11     0.0000      49.77
+AlkoxyDecomp-(hh)(rhh)                   =      8.6600e+21    -2.3900      91.50     1.0000e+11     0.0000      49.77
+AlkoxyDecomp-(rh)(rhh)                   =      8.6600e+21    -2.3900      91.50     1.0000e+11     0.0000      49.77
+END
+CLASSEQUIVALENT
+END
+REACTIONCLASS  = H-Abstraction-Oxygen-Primary
+    6 {butane} + {oxygen} = {peroxyl-radical} + {1-butyl-radical}
+END
+REACTIONCLASS  = H-Abstraction-Oxygen-Secondary
+    4 {butane} + {oxygen} = {peroxyl-radical} + {2-butyl-radical}
+END
+REACTIONCLASS  = Primary-Carbon-Radical-(R.+O2-->RO2.)
+    1 {1-butyl-radical} + {oxygen} = {1-butylperoxy-radical}
+END
+REACTIONCLASS  = Secondary-Carbon-Radical-(R.+O2-->RO2.)
+    1 {2-butyl-radical} + {oxygen} = {2-butylperoxy-radical}
+END
+REACTIONCLASS  = ROOHFromPeroxy-HHH
+    1 {peroxyl-radical} + {methylperoxy-radical} = {oxygen} + {methyl-hydroperoxide}
+END
+REACTIONCLASS  = ROOHFromPeroxy-RHH
+    1 {1-butylperoxy-radical} + {peroxyl-radical} = {oxygen} + {1-hydroperoxybutane}
+END
+REACTIONCLASS  = ROOHFromPeroxy-RRH
+    1 {2-butylperoxy-radical} + {peroxyl-radical} = {oxygen} + {2-hydroperoxybutane}
+END
+REACTIONCLASS  = RO2ToAlkoxy-(hhh)(hhh)
+    1 {methylperoxy-radical} + {methylperoxy-radical} = {oxygen} + {methoxy-radical} + {methoxy-radical}
+END
+REACTIONCLASS  = RO2ToAlkoxy-(hhh)(rhh)
+    1 {1-butylperoxy-radical} + {methylperoxy-radical} = {oxygen} + {methoxy-radical} + {1-butoxy-radical}
+END
+REACTIONCLASS  = RO2ToAlkoxy-(hhh)(rrh)
+    1 {2-butylperoxy-radical} + {methylperoxy-radical} = {oxygen} + {methoxy-radical} + {2-butoxy-radical}
+END
+REACTIONCLASS  = RO2ToAlkoxy-(rhh)(rhh)
+    1 {1-butylperoxy-radical} + {1-butylperoxy-radical} = {oxygen} + {1-butoxy-radical} + {1-butoxy-radical}
+END
+REACTIONCLASS  = RO2ToAlkoxy-(rhh)(rrh)
+    1 {1-butylperoxy-radical} + {2-butylperoxy-radical} = {oxygen} + {1-butoxy-radical} + {2-butoxy-radical}
+END
+REACTIONCLASS  = RO2ToAlkoxy-(rrh)(rrh)
+    1 {2-butylperoxy-radical} + {2-butylperoxy-radical} = {oxygen} + {2-butoxy-radical} + {2-butoxy-radical}
+END
+REACTIONCLASS  = PeroxyFromHydrogenPeroxide-HHH
+    1 {hydrogen-peroxide} + {methylperoxy-radical} = {peroxyl-radical} + {methyl-hydroperoxide}
+END
+REACTIONCLASS  = PeroxyFromHydrogenPeroxide-RHH
+    1 {1-butylperoxy-radical} + {hydrogen-peroxide} = {peroxyl-radical} + {1-hydroperoxybutane}
+END
+REACTIONCLASS  = PeroxyFromHydrogenPeroxide-RRH
+    1 {2-butylperoxy-radical} + {hydrogen-peroxide} = {peroxyl-radical} + {2-hydroperoxybutane}
+END
+REACTIONCLASS  = AlkoxyFromPeroxy-HHH
+    1 {methyl-hydroperoxide} = {methoxy-radical} + {hydroxyl-radical}
+END
+REACTIONCLASS  = AlkoxyFromPeroxy-RHH
+    1 {1-hydroperoxybutane} = {1-butoxy-radical} + {hydroxyl-radical}
+END
+REACTIONCLASS  = AlkoxyFromPeroxy-RRH
+    1 {2-hydroperoxybutane} = {2-butoxy-radical} + {hydroxyl-radical}
+END
+REACTIONCLASS  = AlkoxyDecomp-(rh)(hhh)
+    1 {2-butoxy-radical} = {methyl-radical} + {propanal}
+END
+REACTIONCLASS  = AlkoxyDecomp-(hh)(rhh)
+    1 {1-butoxy-radical} = {aldehyde} + {1-propyl-radical}
+END
+REACTIONCLASS  = AlkoxyDecomp-(rh)(rhh)
+    1 {2-butoxy-radical} = {ethanal} + {ethyl-radical}
+END

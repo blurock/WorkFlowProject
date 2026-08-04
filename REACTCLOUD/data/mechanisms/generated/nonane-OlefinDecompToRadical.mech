@@ -1,0 +1,120 @@
+CLASSCOEFFICIENTS
+H-Abstraction-Oxygen-Primary             =      4.1700e+12     0.0000     204.92     6.5375e+10     0.3130      -2.52
+H-Abstraction-Oxygen-Secondary           =      1.0000e+13     0.0000     199.06     1.3265e+11     0.2420       8.67
+HLoss-ethyl-radical(rh)(hhh)-to-olefin   =      1.3380e+15    -0.5500     162.09     1.0000e+13     0.0000       5.02
+HLoss-ethyl-radical(hh)(rhh)-to-olefin   =      2.0710e+16    -0.8900     158.71     1.0000e+13     0.0000      12.13
+HLoss-ethyl-radical(rh)(rhh)-to-olefin   =      1.6393e+14    -0.3620     153.61     1.0000e+13     0.0000      12.13
+AlkenylDecompToAlkyne-(h)(h)(hhh)        =      1.2600e+13     0.0000     139.64     6.3100e+11     0.0000      32.20
+AlkenylDecompToAlkyne-(h)(h)(rhh)        =      1.2600e+13     0.0000     139.64     6.3100e+11     0.0000      32.20
+AlphaOlefinRadicalDecompO-(hh)           =      1.8000e+14     0.0000       0.00     9.9999e-41     0.0000       0.00
+AlphaOlefinRadicalDecompOH-(hh)(h)(hh)   =      1.5000e+13     0.0000       0.00     9.9999e-41     0.0000       0.00
+AlphaOlefinRadicalDecompOH-(rh)(h)(hh)   =      1.5000e+13     0.0000       0.00     9.9999e-41     0.0000       0.00
+AlphaOlefinRadicalDecompHO2-(hh)(h)(hh)  =      5.0000e+12     0.0000       0.00     9.9999e-41     0.0000       0.00
+AlphaOlefinRadicalDecompHO2-(rh)(h)(hh)  =      5.0000e+12     0.0000       0.00     9.9999e-41     0.0000       0.00
+PropylRadicalToEthene-(hh)(hh)(hhh)      =      9.4680e+13    -0.5500     121.28     1.7000e+11     0.0000      32.62
+PropylRadicalToEthene-(hh)(hh)(rhh)      =      3.1752e+19    -2.0880     130.50     8.5000e+10     0.0000      32.62
+Decomp-(rhh)(hhh)                        =      5.8959e+24    -2.3380     382.46     1.0000e+13     0.0000       0.00
+Decomp-(rhh)(rhh)                        =      5.9713e+24    -2.4660     359.21     8.0000e+12     0.0000       0.00
+BetaOlefinRadicalDecomp(qq)(q)(hh)(hh)   =      2.0000e+13     0.0000     148.46     9.9999e-41     0.0000       0.00
+PentenylDecompToPropenyl-(hh)(hh)(hh)    =      2.5000e+13     0.0000     188.19     9.9999e-41     0.0000       0.00
+END
+CLASSEQUIVALENT
+END
+REACTIONCLASS  = H-Abstraction-Oxygen-Primary
+    6 {nonane} + {oxygen} = {peroxyl-radical} + {PP16}
+END
+REACTIONCLASS  = H-Abstraction-Oxygen-Secondary
+    4 {nonane} + {oxygen} = {peroxyl-radical} + {PP12}
+    4 {nonane} + {oxygen} = {peroxyl-radical} + {PP13}
+    4 {nonane} + {oxygen} = {peroxyl-radical} + {PP14}
+    2 {nonane} + {oxygen} = {peroxyl-radical} + {PP15}
+END
+REACTIONCLASS  = HLoss-ethyl-radical(rh)(hhh)-to-olefin
+    1 {PP12} = {hydrogen-radical} + {1-nonene}
+END
+REACTIONCLASS  = HLoss-ethyl-radical(hh)(rhh)-to-olefin
+    1 {PP16} = {hydrogen-radical} + {1-nonene}
+END
+REACTIONCLASS  = HLoss-ethyl-radical(rh)(rhh)-to-olefin
+    1 {PP12} = {hydrogen-radical} + {2-nonene}
+    1 {PP13} = {hydrogen-radical} + {3-nonene}
+    1 {PP13} = {hydrogen-radical} + {2-nonene}
+    1 {PP14} = {hydrogen-radical} + {4-nonene}
+    1 {PP14} = {hydrogen-radical} + {3-nonene}
+    2 {PP15} = {hydrogen-radical} + {4-nonene}
+END
+REACTIONCLASS  = AlkenylDecompToAlkyne-(h)(h)(hhh)
+    1 {prop-1-en-1-yl-radical} = {methyl-radical} + {ethyne}
+END
+REACTIONCLASS  = AlkenylDecompToAlkyne-(h)(h)(rhh)
+    1 {PP47} = {ethyne} + {1-propyl-radical}
+    1 {1-butene-1-yl-radical} = {ethyne} + {ethyl-radical}
+    1 {PP44} = {ethyne} + {1-butyl-radical}
+END
+REACTIONCLASS  = AlphaOlefinRadicalDecompO-(hh)
+    1 {PP40} + {oxygen-radical} = {PP47} + {aldehyde}
+    1 {prop-1-en-3-yl-radical} + {oxygen-radical} = {ethenyl-radical} + {aldehyde}
+    1 {2-butene-1-yl-radical} + {oxygen-radical} = {prop-1-en-1-yl-radical} + {aldehyde}
+    1 {PP43} + {oxygen-radical} = {1-butene-1-yl-radical} + {aldehyde}
+END
+REACTIONCLASS  = AlphaOlefinRadicalDecompOH-(hh)(h)(hh)
+    1 {prop-1-en-3-yl-radical} + {hydroxyl-radical} = {ethene} + {aldehyde}
+END
+REACTIONCLASS  = AlphaOlefinRadicalDecompOH-(rh)(h)(hh)
+    1 {PP43} + {hydroxyl-radical} = {1-butene} + {aldehyde}
+    1 {2-butene-1-yl-radical} + {hydroxyl-radical} = {propene} + {aldehyde}
+    1 {PP40} + {hydroxyl-radical} = {1-pentene} + {aldehyde}
+END
+REACTIONCLASS  = AlphaOlefinRadicalDecompHO2-(hh)(h)(hh)
+    1 {prop-1-en-3-yl-radical} + {peroxyl-radical} = {ethene} + {hydroxyl-radical} + {formyl-radical}
+END
+REACTIONCLASS  = AlphaOlefinRadicalDecompHO2-(rh)(h)(hh)
+    1 {PP40} + {peroxyl-radical} = {hydroxyl-radical} + {formyl-radical} + {1-pentene}
+    1 {PP43} + {peroxyl-radical} = {hydroxyl-radical} + {formyl-radical} + {1-butene}
+    1 {2-butene-1-yl-radical} + {peroxyl-radical} = {hydroxyl-radical} + {formyl-radical} + {propene}
+END
+REACTIONCLASS  = PropylRadicalToEthene-(hh)(hh)(hhh)
+    1 {1-propyl-radical} = {methyl-radical} + {ethene}
+END
+REACTIONCLASS  = PropylRadicalToEthene-(hh)(hh)(rhh)
+    1 {PP22} = {PP34} + {ethene}
+    1 {PP23} = {PP36} + {ethene}
+    1 {PP27} = {1-propyl-radical} + {ethene}
+    1 {PP21} = {PP30} + {ethene}
+    1 {PP30} = {3-butene-1-yl-radical} + {ethene}
+    1 {PP32} = {PP28} + {ethene}
+    1 {PP35} = {PP33} + {ethene}
+    1 {1-butyl-radical} = {ethyl-radical} + {ethene}
+END
+REACTIONCLASS  = Decomp-(rhh)(hhh)
+    1 {4-nonene} = {methyl-radical} + {PP25}
+    1 {4-nonene} = {methyl-radical} + {PP24}
+    1 {3-nonene} = {methyl-radical} + {PP23}
+    1 {2-nonene} = {methyl-radical} + {PP22}
+    1 {1-nonene} = {methyl-radical} + {PP21}
+END
+REACTIONCLASS  = Decomp-(rhh)(rhh)
+    1 {4-nonene} = {ethyl-radical} + {PP38}
+    1 {1-nonene} = {PP30} + {1-propyl-radical}
+    1 {3-nonene} = {1-propyl-radical} + {PP36}
+    1 {1-nonene} = {PP32} + {ethyl-radical}
+    1 {2-nonene} = {1-butyl-radical} + {PP33}
+    1 {1-nonene} = {3-butene-1-yl-radical} + {PP27}
+    1 {1-nonene} = {PP28} + {1-butyl-radical}
+    1 {2-nonene} = {1-propyl-radical} + {PP34}
+    1 {2-nonene} = {ethyl-radical} + {PP35}
+    1 {3-nonene} = {ethyl-radical} + {PP37}
+END
+REACTIONCLASS  = BetaOlefinRadicalDecomp(qq)(q)(hh)(hh)
+    1 {3-butene-1-yl-radical} = {ethene} + {ethenyl-radical}
+    1 {PP36} = {ethene} + {1-butene-1-yl-radical}
+    1 {PP38} = {ethene} + {PP47}
+    1 {PP24} = {ethene} + {PP44}
+    1 {PP33} = {ethene} + {prop-1-en-1-yl-radical}
+END
+REACTIONCLASS  = PentenylDecompToPropenyl-(hh)(hh)(hh)
+    1 {PP34} = {ethene} + {2-butene-1-yl-radical}
+    1 {PP37} = {ethene} + {PP43}
+    1 {PP25} = {ethene} + {PP40}
+    1 {PP28} = {ethene} + {prop-1-en-3-yl-radical}
+END

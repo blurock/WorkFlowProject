@@ -1,0 +1,405 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+PentenylDecompToPropenyl-(hh)(hh)(hh)\
+       .c(hh)c(hh)c(hh)c=c = olefin-(hh)(hh) .c(hh)c=c
+- ID 70901
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11    2 4 2 2 2 2 2 2 2 2
+1 2 6 7 8 9                2 2 2 2 2
+3 4 5 10 11                2 2 2 2
+>  <ForwardRxn>
+Standard 2.500E+13   0.00  4.500E+04   8;  Curran et al. (heptane) c5h9 = c3h5-a + c2h4
+>  <ReverseRxn>
+Standard 1.000E-40   0.00  0.000E+00   8;  Curran et al. (heptane) irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*2 = 4
+%%%-------------------------------------------------------------------
+PentenylDecompToPropenyl-(rh)(hh)(hh)\
+       .c(rh)c(hh)c(hh)c=c = olefin-(rh)(hh) .c(hh)c=c
+- ID 70902
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11    2 4 2 2 2 2 2 2 2 2
+1 2 6 7 8 9                2 2 2 2 2
+3 4 5 10 11                2 2 2 2
+>  <ForwardRxn>
+Standard 2.500E+13   0.00  4.500E+04   4;  Curran et al. (heptane) c5h9 = c3h5-a + c2h4
+>  <ReverseRxn>
+Standard 1.000E-40   0.00  0.000E+00   4;  Curran et al. (heptane) irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+PentenylDecompToPropenyl-(rr)(hh)(hh)\
+       .c(rr)c(hh)c(hh)c=c = olefin-(rr)(hh) .c(hh)c=c
+- ID 70903
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11    2 4 2 2 2 2 2 2 2 2
+1 2 6 7 8 9                2 2 2 2 2
+3 4 5 10 11                2 2 2 2
+>  <ForwardRxn>
+Standard 2.500E+13   0.00  4.500E+04   8;  Curran et al. (heptane) c5h9 = c3h5-a + c2h4
+>  <ReverseRxn>
+Standard 1.000E-40   0.00  0.000E+00   8;  Curran et al. (heptane) irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*2 = 4
+%%%-------------------------------------------------------------------
+PentenylDecompToPropenyl-(hh)(rh)(hh)\
+       .c(hh)c(rh)c(hh)c=c = olefin-(rh)(hh) .c(hh)c=c
+- ID 70904
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11    2 4 2 2 2 2 2 2 2 2
+2 1 8 9 6 7                2 2 2 2 2
+3 4 5 10 11                2 2 2 2
+>  <ForwardRxn>
+Standard 2.500E+13   0.00  4.500E+04   4;  Curran et al. (heptane) c5h9 = c3h5-a + c2h4
+>  <ReverseRxn>
+Standard 1.000E-40   0.00  0.000E+00   4;  Curran et al. (heptane) irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1*2 = 2
+%%%-------------------------------------------------------------------
+PentenylDecompToPropenyl-(rh)(rh)(hh)\
+       .c(rh)c(rh)c(hh)c=c = olefin-(rh)(rh) .c(hh)c=c
+- ID 70905
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11    2 4 2 2 2 2 2 2 2 2
+1 2 6 7 8 9                2 2 2 2 2
+3 4 5 10 11                2 2 2 2
+>  <ForwardRxn>
+Standard 2.500E+13   0.00  4.500E+04   2;  Curran et al. (heptane) c5h9 = c3h5-a + c2h4
+>  <ReverseRxn>
+Standard 1.000E-40   0.00  0.000E+00   2;  Curran et al. (heptane) irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*2 = 4
+%%%-------------------------------------------------------------------
+PentenylDecompToPropenyl-(rr)(rh)(hh)\
+       .c(rr)c(rh)c(hh)c=c = olefin-(rr)(rh) .c(hh)c=c
+- ID 70906
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11    2 4 2 2 2 2 2 2 2 2
+1 2 6 7 8 9                2 2 2 2 2
+3 4 5 10 11                2 2 2 2
+>  <ForwardRxn>
+Standard 2.500E+13   0.00  4.500E+04   4;  Curran et al. (heptane) c5h9 = c3h5-a + c2h4
+>  <ReverseRxn>
+Standard 1.000E-40   0.00  0.000E+00   4;  Curran et al. (heptane) irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+PentenylDecompToPropenyl-(hh)(rr)(hh)\
+       .c(hh)c(rr)c(hh)c=c = olefin-(rr)(hh) .c(hh)c=c
+- ID 70907
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11    2 4 2 2 2 2 2 2 2 2
+2 1 8 9 6 7                2 2 2 2 2
+3 4 5 10 11                2 2 2 2
+>  <ForwardRxn>
+Standard 2.500E+13   0.00  4.500E+04   8;  Curran et al. (heptane) c5h9 = c3h5-a + c2h4
+>  <ReverseRxn>
+Standard 1.000E-40   0.00  0.000E+00   8;  Curran et al. (heptane) irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*2 = 4
+%%%-------------------------------------------------------------------
+PentenylDecompToPropenyl-(rh)(rr)(hh)\
+       .c(rh)c(rr)c(hh)c=c = olefin-(rr)(rh) .c(hh)c=c
+- ID 70908
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11    2 4 2 2 2 2 2 2 2 2
+2 1 8 9 6 7                2 2 2 2 2
+3 4 5 10 11                2 2 2 2
+>  <ForwardRxn>
+Standard 2.500E+13   0.00  4.500E+04   4;  Curran et al. (heptane) c5h9 = c3h5-a + c2h4
+>  <ReverseRxn>
+Standard 1.000E-40   0.00  0.000E+00   4;  Curran et al. (heptane) irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+PentenylDecompToPropenyl-(rr)(rr)(hh)\
+       .c(rr)c(rr)c(hh)c=c = olefin-(rr)(rr) .c(hh)c=c
+- ID 70909
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11    2 4 2 2 2 2 2 2 2 2
+1 2 6 7 8 9                2 2 2 2 2
+3 4 5 10 11                2 2 2 2
+>  <ForwardRxn>
+Standard 2.500E+13   0.00  4.500E+04   8;  Curran et al. (heptane) c5h9 = c3h5-a + c2h4
+>  <ReverseRxn>
+Standard 1.000E-40   0.00  0.000E+00   8;  Curran et al. (heptane) irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*1 = 4
+%%%-------------------------------------------------------------------
+PentenylDecompToPropenyl-(hh)(hh)(rh)\
+       .c(hh)c(hh)c(rh)c=c = olefin-(hh)(hh) .c(rh)c=c
+- ID 70910
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11    2 4 2 2 2 2 2 2 2 2
+1 2 6 7 8 9                2 2 2 2 2
+3 4 5 10 11                2 2 2 2
+>  <ForwardRxn>
+Standard 2.500E+13   0.00  4.500E+04   4;  Curran et al. (heptane) c5h9 = c3h5-a + c2h4
+>  <ReverseRxn>
+Standard 1.000E-40   0.00  0.000E+00   4;  Curran et al. (heptane) irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*1 = 2
+%%%-------------------------------------------------------------------
+PentenylDecompToPropenyl-(rh)(hh)(rh)\
+       .c(rh)c(hh)c(rh)c=c = olefin-(rh)(hh) .c(rh)c=c
+- ID 70911
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11    2 4 2 2 2 2 2 2 2 2
+1 2 6 7 8 9                2 2 2 2 2
+3 4 5 10 11                2 2 2 2
+>  <ForwardRxn>
+Standard 2.500E+13   0.00  4.500E+04   2;  Curran et al. (heptane) c5h9 = c3h5-a + c2h4
+>  <ReverseRxn>
+Standard 1.000E-40   0.00  0.000E+00   2;  Curran et al. (heptane) irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*1 = 4
+%%%-------------------------------------------------------------------
+PentenylDecompToPropenyl-(rr)(hh)(rh)\
+       .c(rr)c(hh)c(rh)c=c = olefin-(rr)(hh) .c(rh)c=c
+- ID 70912
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11    2 4 2 2 2 2 2 2 2 2
+1 2 6 7 8 9                2 2 2 2 2
+3 4 5 10 11                2 2 2 2
+>  <ForwardRxn>
+Standard 2.500E+13   0.00  4.500E+04   4;  Curran et al. (heptane) c5h9 = c3h5-a + c2h4
+>  <ReverseRxn>
+Standard 1.000E-40   0.00  0.000E+00   4;  Curran et al. (heptane) irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*1 = 2
+%%%-------------------------------------------------------------------
+PentenylDecompToPropenyl-(hh)(rh)(rh)\
+       .c(hh)c(rh)c(rh)c=c = olefin-(rh)(hh) .c(rh)c=c
+- ID 70913
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11    2 4 2 2 2 2 2 2 2 2
+2 1 8 9 6 7                2 2 2 2 2
+3 4 5 10 11                2 2 2 2
+>  <ForwardRxn>
+Standard 2.500E+13   0.00  4.500E+04   2;  Curran et al. (heptane) c5h9 = c3h5-a + c2h4
+>  <ReverseRxn>
+Standard 1.000E-40   0.00  0.000E+00   2;  Curran et al. (heptane) irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1*1 = 1
+%%%-------------------------------------------------------------------
+PentenylDecompToPropenyl-(rh)(rh)(rh)\
+       .c(rh)c(rh)c(rh)c=c = olefin-(rh)(rh) .c(rh)c=c
+- ID 70914
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11    2 4 2 2 2 2 2 2 2 2
+1 2 6 7 8 9                2 2 2 2 2
+3 4 5 10 11                2 2 2 2
+>  <ForwardRxn>
+Standard 2.500E+13   0.00  4.500E+04   1;  Curran et al. (heptane) c5h9 = c3h5-a + c2h4
+>  <ReverseRxn>
+Standard 1.000E-40   0.00  0.000E+00   1;  Curran et al. (heptane) irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*1 = 2
+%%%-------------------------------------------------------------------
+PentenylDecompToPropenyl-(rr)(rh)(rh)\
+       .c(rr)c(rh)c(rh)c=c = olefin-(rr)(rh) .c(rh)c=c
+- ID 70915
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11    2 4 2 2 2 2 2 2 2 2
+1 2 6 7 8 9                2 2 2 2 2
+3 4 5 10 11                2 2 2 2
+>  <ForwardRxn>
+Standard 2.500E+13   0.00  4.500E+04   2;  Curran et al. (heptane) c5h9 = c3h5-a + c2h4
+>  <ReverseRxn>
+Standard 1.000E-40   0.00  0.000E+00   2;  Curran et al. (heptane) irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*1 = 4
+%%%-------------------------------------------------------------------
+PentenylDecompToPropenyl-(hh)(rr)(rh)\
+       .c(hh)c(rr)c(rh)c=c = olefin-(rr)(hh) .c(rh)c=c
+- ID 70916
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11    2 4 2 2 2 2 2 2 2 2
+2 1 8 9 6 7                2 2 2 2 2
+3 4 5 10 11                2 2 2 2
+>  <ForwardRxn>
+Standard 2.500E+13   0.00  4.500E+04   4;  Curran et al. (heptane) c5h9 = c3h5-a + c2h4
+>  <ReverseRxn>
+Standard 1.000E-40   0.00  0.000E+00   4;  Curran et al. (heptane) irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*1 = 2
+%%%-------------------------------------------------------------------
+PentenylDecompToPropenyl-(rh)(rr)(rh)\
+       .c(rh)c(rr)c(rh)c=c = olefin-(rr)(rh) .c(rh)c=c
+- ID 70917
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11    2 4 2 2 2 2 2 2 2 2
+2 1 8 9 6 7                2 2 2 2 2
+3 4 5 10 11                2 2 2 2
+>  <ForwardRxn>
+Standard 2.500E+13   0.00  4.500E+04   2;  Curran et al. (heptane) c5h9 = c3h5-a + c2h4
+>  <ReverseRxn>
+Standard 1.000E-40   0.00  0.000E+00   2;  Curran et al. (heptane) irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*1 = 4
+%%%-------------------------------------------------------------------
+PentenylDecompToPropenyl-(rr)(rr)(rh)\
+       .c(rr)c(rr)c(rh)c=c = olefin-(rr)(rr) .c(rh)c=c
+- ID 70918
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11    2 4 2 2 2 2 2 2 2 2
+1 2 6 7 8 9                2 2 2 2 2
+3 4 5 10 11                2 2 2 2
+>  <ForwardRxn>
+Standard 2.500E+13   0.00  4.500E+04   4;  Curran et al. (heptane) c5h9 = c3h5-a + c2h4
+>  <ReverseRxn>
+Standard 1.000E-40   0.00  0.000E+00   4;  Curran et al. (heptane) irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+PentenylDecompToPropenyl-(hh)(hh)(rr)\
+       .c(hh)c(hh)c(rr)c=c = olefin-(hh)(hh) .c(rr)c=c
+- ID 70919
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11    2 4 2 2 2 2 2 2 2 2
+1 2 6 7 8 9                2 2 2 2 2
+3 4 5 10 11                2 2 2 2
+>  <ForwardRxn>
+Standard 2.500E+13   0.00  4.500E+04   8;  Curran et al. (heptane) c5h9 = c3h5-a + c2h4
+>  <ReverseRxn>
+Standard 1.000E-40   0.00  0.000E+00   8;  Curran et al. (heptane) irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*2 = 4
+%%%-------------------------------------------------------------------
+PentenylDecompToPropenyl-(rh)(hh)(rr)\
+       .c(rh)c(hh)c(rr)c=c = olefin-(rh)(hh) .c(rr)c=c
+- ID 70920
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11    2 4 2 2 2 2 2 2 2 2
+1 2 6 7 8 9                2 2 2 2 2
+3 4 5 10 11                2 2 2 2
+>  <ForwardRxn>
+Standard 2.500E+13   0.00  4.500E+04   4;  Curran et al. (heptane) c5h9 = c3h5-a + c2h4
+>  <ReverseRxn>
+Standard 1.000E-40   0.00  0.000E+00   4;  Curran et al. (heptane) irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+PentenylDecompToPropenyl-(rr)(hh)(rr)\
+       .c(rr)c(hh)c(rr)c=c = olefin-(rr)(hh) .c(rr)c=c
+- ID 70921
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11    2 4 2 2 2 2 2 2 2 2
+1 2 6 7 8 9                2 2 2 2 2
+3 4 5 10 11                2 2 2 2
+>  <ForwardRxn>
+Standard 2.500E+13   0.00  4.500E+04   8;  Curran et al. (heptane) c5h9 = c3h5-a + c2h4
+>  <ReverseRxn>
+Standard 1.000E-40   0.00  0.000E+00   8;  Curran et al. (heptane) irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*2 = 4
+%%%-------------------------------------------------------------------
+PentenylDecompToPropenyl-(hh)(rh)(rr)\
+       .c(hh)c(rh)c(rr)c=c = olefin-(rh)(hh) .c(rr)c=c
+- ID 70922
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11    2 4 2 2 2 2 2 2 2 2
+2 1 8 9 6 7                2 2 2 2 2
+3 4 5 10 11                2 2 2 2
+>  <ForwardRxn>
+Standard 2.500E+13   0.00  4.500E+04   4;  Curran et al. (heptane) c5h9 = c3h5-a + c2h4
+>  <ReverseRxn>
+Standard 1.000E-40   0.00  0.000E+00   4;  Curran et al. (heptane) irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1*2 = 2
+%%%-------------------------------------------------------------------
+PentenylDecompToPropenyl-(rh)(rh)(rr)\
+       .c(rh)c(rh)c(rr)c=c = olefin-(rh)(rh) .c(rr)c=c
+- ID 70923
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11    2 4 2 2 2 2 2 2 2 2
+1 2 6 7 8 9                2 2 2 2 2
+3 4 5 10 11                2 2 2 2
+>  <ForwardRxn>
+Standard 2.500E+13   0.00  4.500E+04   2;  Curran et al. (heptane) c5h9 = c3h5-a + c2h4
+>  <ReverseRxn>
+Standard 1.000E-40   0.00  0.000E+00   2;  Curran et al. (heptane) irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*2 = 4
+%%%-------------------------------------------------------------------
+PentenylDecompToPropenyl-(rr)(rh)(rr)\
+       .c(rr)c(rh)c(rr)c=c = olefin-(rr)(rh) .c(rr)c=c
+- ID 70924
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11    2 4 2 2 2 2 2 2 2 2
+1 2 6 7 8 9                2 2 2 2 2
+3 4 5 10 11                2 2 2 2
+>  <ForwardRxn>
+Standard 2.500E+13   0.00  4.500E+04   4;  Curran et al. (heptane) c5h9 = c3h5-a + c2h4
+>  <ReverseRxn>
+Standard 1.000E-40   0.00  0.000E+00   4;  Curran et al. (heptane) irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+PentenylDecompToPropenyl-(hh)(rr)(rr)\
+       .c(hh)c(rr)c(rr)c=c = olefin-(rr)(hh) .c(rr)c=c
+- ID 70925
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11    2 4 2 2 2 2 2 2 2 2
+2 1 8 9 6 7                2 2 2 2 2
+3 4 5 10 11                2 2 2 2
+>  <ForwardRxn>
+Standard 2.500E+13   0.00  4.500E+04   8;  Curran et al. (heptane) c5h9 = c3h5-a + c2h4
+>  <ReverseRxn>
+Standard 1.000E-40   0.00  0.000E+00   8;  Curran et al. (heptane) irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*2 = 4
+%%%-------------------------------------------------------------------
+PentenylDecompToPropenyl-(rh)(rr)(rr)\
+       .c(rh)c(rr)c(rr)c=c = olefin-(rr)(rh) .c(rr)c=c
+- ID 70926
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11    2 4 2 2 2 2 2 2 2 2
+2 1 8 9 6 7                2 2 2 2 2
+3 4 5 10 11                2 2 2 2
+>  <ForwardRxn>
+Standard 2.500E+13   0.00  4.500E+04   4;  Curran et al. (heptane) c5h9 = c3h5-a + c2h4
+>  <ReverseRxn>
+Standard 1.000E-40   0.00  0.000E+00   4;  Curran et al. (heptane) irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+PentenylDecompToPropenyl-(rr)(rr)(rr)\
+       .c(rr)c(rr)c(rr)c=c = olefin-(rr)(rr) .c(rr)c=c
+- ID 70927
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11    2 4 2 2 2 2 2 2 2 2
+1 2 6 7 8 9                2 2 2 2 2
+3 4 5 10 11                2 2 2 2
+>  <ForwardRxn>
+Standard 2.500E+13   0.00  4.500E+04   8;  Curran et al. (heptane) c5h9 = c3h5-a + c2h4
+>  <ReverseRxn>
+Standard 1.000E-40   0.00  0.000E+00   8;  Curran et al. (heptane) irreversible
+$$$$

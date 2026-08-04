@@ -1,0 +1,107 @@
+Basic Low Temperature Scheme
+oxygen,hydroxyl-radical,hydrogen-radical
+%%% ----------------------------------------------------
+H-Abstraction-Oxygen-Tertiary,\
+H-Abstraction-Oxygen-Secondary,\
+H-Abstraction-Oxygen-Primary,\
+H-Abstraction-Hydroxyl-Radical-Primary,\
+H-Abstraction-Hydroxyl-Radical-Secondary,\
+H-Abstraction-Hydroxyl-Radical-Tertiary,\
+H-Abstraction-PeroxylRadical-Primary,\
+H-Abstraction-PeroxylRadical-Secondary,\
+H-Abstraction-PeroxylRadical-Tertiary
+%%% ----------------------------------------------------
+Primary-Carbon-Radical-(R.+O2-->RO2.),\
+Secondary-Carbon-Radical-(R.+O2-->RO2.),\
+Tertiary-Carbon-Radical-(R.+O2-->RO2.)\
+:oxygen
+%%% ----------------------------------------------------
+Intramolecular-1-4-QOOH-Formation,\
+Intramolecular-1-5-QOOH-Formation,\
+Intramolecular-1-6-QOOH-Formation
+%%% ----------------------------------------------------
+Activated-Primary-Carbon-Radical-(R.+O2-->RO2.),\
+Activated-Secondary-Carbon-Radical-(R.+O2-->RO2.),\
+Activated-Tertiary-Carbon-Radical-(R.+O2-->RO2.)\
+:oxygen
+%%% ----------------------------------------------------
+OOQOOH-Isomerization-4Ring-Primary,\
+OOQOOH-Isomerization-4Ring-Secondary,\
+OOQOOH-Isomerization-5Ring-Primary,\
+OOQOOH-Isomerization-5Ring-Secondary,\
+OOQOOH-Isomerization-6Ring-Primary,\
+OOQOOH-Isomerization-6Ring-Secondary
+%%% ----------------------------------------------------
+KetoHydroPeroxideDecomposition,\
+KetoHydroPeroxideDecompToAldRadical-HHH,\
+KetoHydroPeroxideDecompToAldRadical-HRH,\
+KetoHydroPeroxideDecompToAldRadical-HRR,\
+KetoHydroPeroxideDecompToAldRadical-RHH,\
+KetoHydroPeroxideDecompToAldRadical-RRH,\
+KetoHydroPeroxideDecompToAldRadical-RRR
+%%% ----------------------------------------------------
+KetoneRadicalDecomp-HHH,\
+KetoneRadicalDecomp-RHH,\
+KetoneRadicalDecomp-RRH,\
+KetoneRadicalDecomp-RRR,\
+KetoAldCRadDecomp-H-HH-HH,\
+KetoAldCRadDecomp-R-HH-HH,\
+KetoAldCRadDecomp-H-RH-HH,\
+KetoAldCRadDecomp-R-RH-HH,\
+KetoAldCRadDecomp-H-RR-HH,\
+KetoAldCRadDecomp-R-RR-HH,\
+KetoAldCRadDecomp-H-HH-RH,\
+KetoAldCRadDecomp-R-HH-RH,\
+KetoAldCRadDecomp-H-RH-RH,\
+KetoAldCRadDecomp-R-RH-RH,\
+KetoAldCRadDecomp-H-RR-RH,\
+KetoAldCRadDecomp-R-RR-RH,\
+KetoAldCRadDecomp-H-HH-RR,\
+KetoAldCRadDecomp-R-HH-RR,\
+KetoAldCRadDecomp-H-RH-RR,\
+KetoAldCRadDecomp-R-RH-RR,\
+KetoAldCRadDecomp-H-RR-RR,\
+KetoAldCRadDecomp-R-RR-RR,\
+KeteneFormationRadicalDecomp-(hh)(hhh),\
+KeteneFormationRadicalDecomp-(hh)(rhh),\
+KeteneFormationRadicalDecomp-(hh)(rrh),\
+KeteneFormationRadicalDecomp-(hh)(rrr),\
+KeteneFormationRadicalDecomp-(rh)(hhh),\
+KeteneFormationRadicalDecomp-(rh)(rhh),\
+KeteneFormationRadicalDecomp-(rh)(rrh),\
+KeteneFormationRadicalDecomp-(rh)(rrr),\
+KeteneFormationRadicalDecomp-(rr)(hhh),\
+KeteneFormationRadicalDecomp-(rr)(rhh),\
+KeteneFormationRadicalDecomp-(rr)(rrh),\
+KeteneFormationRadicalDecomp-(rr)(rrr),\
+KeteneFormation-(hh),\
+KeteneFormation-(rh),\
+KeteneFormation-(rr)
+%%% ----------------------------------------------------
+KetoneRadicalDecomp-HHH,\
+KetoneRadicalDecomp-RHH,\
+KetoneRadicalDecomp-RRH,\
+KetoneRadicalDecomp-RRR,\
+KeteneDecompHToCO-(hh),\
+KeteneDecompHToCO-(rh),\
+KeteneDecompHToCO-(rr)\
+:hydrogen-radical
+%%% ----------------------------------------------------
+KetoAldCRadDecomp-H-HH-HH,\
+KetoAldCRadDecomp-R-HH-HH,\
+KetoAldCRadDecomp-H-RH-HH,\
+KetoAldCRadDecomp-R-RH-HH,\
+KetoAldCRadDecomp-H-RR-HH,\
+KetoAldCRadDecomp-R-RR-HH,\
+KetoAldCRadDecomp-H-HH-RH,\
+KetoAldCRadDecomp-R-HH-RH,\
+KetoAldCRadDecomp-H-RH-RH,\
+KetoAldCRadDecomp-R-RH-RH,\
+KetoAldCRadDecomp-H-RR-RH,\
+KetoAldCRadDecomp-R-RR-RH,\
+KetoAldCRadDecomp-H-HH-RR,\
+KetoAldCRadDecomp-R-HH-RR,\
+KetoAldCRadDecomp-H-RH-RR,\
+KetoAldCRadDecomp-R-RH-RR,\
+KetoAldCRadDecomp-H-RR-RR,\
+KetoAldCRadDecomp-R-RR-RR

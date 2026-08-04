@@ -1,0 +1,514 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1 = 2
+%%%-------------------------------------------------------------------
+H-Abstraction-Hydroxyl-Radical-Primary\
+     primary-carbon-hydrogen-bond hydroxyl-radical = primary-carbon-radical water
+- ID 1021
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7              2
+1 3 4 5          2 2 2
+7 6 2            2 4
+
+>  <ForwardRxn>
+Standard 1.75e+9 0.97 1590 2; Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998)5
+>  <ReverseRxn>
+Standard 1.07413E+08    1.446  21781.1 2; Calculated reverse (Ea=91.097)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1 = 2
+%%%-------------------------------------------------------------------
+H-Abstraction-Hydroxyl-Radical-Secondary\
+     secondary-carbon-hydrogen-bond hydroxyl-radical = secondary-carbon-radical water
+- ID 1022
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7              2
+1 3 4 5          2 2 2
+7 6 2            2 4
+
+>  <ForwardRxn>
+Standard 2.34e+7 1.61 -35 2;  Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 5.79791E+05    2.022  24219.6 2; Calculated Reverse (Ea=101.296)
+$$$$
+%%%-------------------------------------------------------------------
+%%% 3*2*1*1=6
+%%%-------------------------------------------------------------------
+H-Abstraction-Hydroxyl-Radical-Tertiary\
+     tertiary-carbon-hydrogen-bond hydroxyl-radical = tertiary-carbon-radical water
+- ID 1023
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7              2
+1 3 4 5          2 2 2
+7 6 2            2 4
+
+>  <ForwardRxn>
+Standard 1.700E+06  1.90 -1.451E+03 6;  Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998); ic8h18+oh  =  ac8h17+h2o
+>  <ReverseRxn>
+Standard 3.485E+06  1.80  2.166E+04 2; ic8h18+oh  =  ac8h17+h2o
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: Forward - 1*2*1 = 2
+%%%-------------------------------------------------------------------
+H-Abstraction-Oxygen-Radical-Primary\
+     primary-carbon-hydrogen-bond oxygen-atom = primary-carbon-radical hydroxyl-radical
+- ID 1031
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6                
+1 3 4 5          2 2 2
+2 6              4
+
+>  <ForwardRxn>
+Standard 7.33e+5 2.4 5500 2;  Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 4.87314E+02    3.141  7978.21 2 ;Calculated (Ea= 33.368) ; 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1 = 2
+%%%-------------------------------------------------------------------
+H-Abstraction-Oxygen-Radical-Secondary\
+     secondary-carbon-hydrogen-bond oxygen-atom = secondary-carbon-radical hydroxyl-radical
+- ID 1032
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6                
+1 3 4 5          2 2 2
+2 6              4
+
+>  <ForwardRxn>
+Standard 2.35e+5 2.5 2230 2;  Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.33854E+02    3.169   8788.993 2 ; Calculated (Ea=36.759) ;
+$$$$
+%%%-------------------------------------------------------------------
+%%% 3*2*1*1=6
+%%%-------------------------------------------------------------------
+H-Abstraction-Oxygen-Radical-Tertiary\
+     tertiary-carbon-hydrogen-bond oxygen-atom = tertiary-carbon-radical hydroxyl-radical
+- ID 1033
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6                
+1 3 4 5          2 2 2
+2 6              4
+
+>  <ForwardRxn>
+Standard 3.830E+05  2.41  1.140E+03 6; Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998); ic8h18+o  =  cc8h17+oh
+>  <ReverseRxn>
+Standard 1.273E+02  2.99  9.115E+03 2 ; ic8h18+o  =  cc8h17+oh
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: Forward - 1*2*2 = 4
+%%%-------------------------------------------------------------------
+H-Abstraction-Oxygen-Primary\
+     primary-carbon-hydrogen-bond oxygen = primary-carbon-radical peroxyl-radical
+- ID 1041
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7              2
+1 3 4 5          2 2 2
+2 6 7            4 2
+
+>  <ForwardRxn>
+Standard 4.17e+12 0.00 49000 4; Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 6.53751E+10    0.313  -602.048  4; Calculated (Ea=-2.518)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+H-Abstraction-Oxygen-Secondary\
+     secondary-carbon-hydrogen-bond oxygen = secondary-carbon-radical peroxyl-radical
+- ID 1042
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7              2
+1 3 4 5          2 2 2
+2 6 7            4 2
+
+>  <ForwardRxn>
+Standard 1.00e+13 0.00 47600 4; Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.32646E+11    0.242   2073.216  4; Calculated (Ea=8.671)
+$$$$
+%%%-------------------------------------------------------------------
+%%% 3*2*1*2=12
+%%%-------------------------------------------------------------------
+H-Abstraction-Oxygen-Tertiary\
+     tertiary-carbon-hydrogen-bond oxygen = tertiary-carbon-radical peroxyl-radical
+- ID 1043
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7              2
+1 3 4 5          2 2 2
+2 6 7            4 2
+
+>  <ForwardRxn>
+Standard 7.000E+12  0.00  4.606E+04 12; Westbrook, Type 2 Combustion and Flame, ic8h18+o2  =  cc8h17+ho2
+>  <ReverseRxn>
+Standard 9.626E+07  0.91 -1.352E+03  4; ic8h18+o2  =  cc8h17+ho2
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: Forward - 1*2*1 = 2
+%%%-------------------------------------------------------------------
+H-Abstraction-PeroxylRadical-Primary\
+     primary-carbon-hydrogen-bond peroxyl-radical  = primary-carbon-radical hydrogen-peroxide 
+- ID 1061
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7 8            2 2
+1 3 4 5          2 2 2
+6 7 8 2          2 2 4
+
+>  <ForwardRxn>
+Standard 1.34e+12 0.0 19400 2; Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.59040E+12    0.007  7344.60 2 ; Calculated (Ea=30.718);
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1 = 2
+%%%-------------------------------------------------------------------
+H-Abstraction-PeroxylRadical-Secondary\
+     secondary-carbon-hydrogen-bond peroxyl-radical = secondary-carbon-radical hydrogen-peroxide 
+- ID 1062
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7 8            2 2
+1 3 4 5          2 2 2
+6 7 8 2          2 2 4
+
+>  <ForwardRxn>
+Standard 1.22e+12 0.0 17000 2; Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 4.88000E+12    0.000  16997.4  2; Calculated (Ea=71.090) ;
+$$$$
+%%%-------------------------------------------------------------------
+%%% 3*2*1*1=6
+%%%-------------------------------------------------------------------
+H-Abstraction-PeroxylRadical-Tertiary\
+     tertiary-carbon-hydrogen-bond peroxyl-radical = tertiary-carbon-radical hydrogen-peroxide 
+- ID 1063
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7 8            2 2
+1 3 4 5          2 2 2
+6 7 8 2          2 2 4
+
+>  <ForwardRxn>
+Standard 2.800E+12  0.00  1.601E+04 6; Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998); ic8h18+ho2  =  ac8h17+h2o2
+>  <ReverseRxn>
+Standard  5.448E+10  0.25  9.775E+03 2; ic8h18+ho2  =  ac8h17+h2o2
+$$$$
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%% Symmetry: Forward - 1*2*(3*2*1) = 12
+%%%-------------------------------------------------------------------
+H-Abstraction-Methoxy-Primary\
+     primary-carbon-hydrogen-bond c(h)(h)(h)(o.)  = primary-carbon-radical c(h)(h)(h)(oh) 
+- ID 1071
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7 8 9 10       2 2 2 2
+1 3 4 5          2 2 2
+6 7 2 8 9 10     2 4 2 2 2
+
+>  <ForwardRxn>
+Standard 5.27e+10 0.0 7000 12; Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.79161E+09    0.424   11814.78 12; Calculated (Ea=49.414) ;
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*(3*2*1) = 12
+%%%-------------------------------------------------------------------
+H-Abstraction-Methoxy-Secondary\
+     secondary-carbon-hydrogen-bond c(h)(h)(h)(o.)  = secondary-carbon-radical c(h)(h)(h)(oh) 
+- ID 1072
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7 8 9 10       2 2 2 2
+1 3 4 5          2 2 2
+6 7 2 8 9 10     2 4 2 2 
+
+>  <ForwardRxn>
+Standard 5.48e+11 0.0 5000 12; Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.13502E+10    0.394  13649.612 12; Calculated (Ea=57.088) ;
+$$$$
+%%%-------------------------------------------------------------------
+%%% 3*2*1*(3*2*1)=36
+%%%-------------------------------------------------------------------
+H-Abstraction-Methoxy-Tertiary\
+     tertiary-carbon-hydrogen-bond c(h)(h)(h)(o.)  = tertiary-carbon-radical c(h)(h)(h)(oh) 
+- ID 1073
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7 8 9 10       2 2 2 2
+1 3 4 5          2 2 2
+6 7 2 8 9 10     2 4 2 2 2
+
+>  <ForwardRxn>
+Standard 6.010E-10  6.36  8.9300+02 36; Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998);ic8h18+ch3  =  cc8h17+ch4
+>  <ReverseRxn>
+Standard 1.189E-11  6.94  1.144E+04 12; ic8h18+ch3  =  cc8h17+ch4
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: Forward - 1*2*(3*2*1)*(2*1) = 24
+%%%-------------------------------------------------------------------
+H-Abstraction-EthylRadical-Primary\
+     primary-carbon-hydrogen-bond ethyl-radical-(hh)(hhh) = primary-carbon-radical ethane-(hhh)(hhh) 
+- ID 1081
+- Correspondences
+1 2 3 4 5             4 2 2 2
+6 7 8 9 10 11 12      2 2 2 2 2 2
+1 3 4 5               2 2 2
+6 7 8 2 11 9 10 12    2 2 4 2 2 2 2 
+
+>  <ForwardRxn>
+Standard 1.67e+10 0.0 13400 24; Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 8.86588E+12   -0.330  16071.43  24; Calculated (Ea=64.217) ;
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*(3*2*1)*(2*1) = 24
+%%%-------------------------------------------------------------------
+H-Abstraction-EthylRadical-Secondary\
+     secondary-carbon-hydrogen-bond ethyl-radical-(hh)(hhh) = secondary-carbon-radical ethane-(hhh)(hhh) 
+- ID 1082
+- Correspondences
+1 2 3 4 5             4 2 2 2
+6 7 8 9 10 11 12      2 2 2 2 2 2
+1 3 4 5               2 2 2
+6 7 8 2 11 9 10 12    2 2 4 2 2 2 2 
+
+>  <ForwardRxn>
+Standard 2.5e+10 0.0 10400 24; Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 8.08602E+12   -0.360    16187.16  24; Calculated (Ea=67.701) ;
+$$$$
+%%%-------------------------------------------------------------------
+%%% 3*2*1*(3*2*1)*(2*1)=72
+%%%-------------------------------------------------------------------
+H-Abstraction-EthylRadical-Tertiary\
+     tertiary-carbon-hydrogen-bond ethyl-radical-(hh)(hhh) = tertiary-carbon-radical ethane-(hhh)(hhh) 
+- ID 1083
+- Correspondences
+1 2 3 4 5             4 2 2 2
+6 7 8 9 10 11 12      2 2 2 2 2 2
+1 3 4 5               2 2 2
+6 7 8 2 11 9 10 12    2 2 4 2 2 2 2 
+
+>  <ForwardRxn>
+Standard 1.000E+11  0.00  7.900E+03 72; Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998); ic8h18+c2h5  =  cc8h17+c2h6
+>  <ReverseRxn>
+Standard 3.000E+11  0.00  2.100E+04  24;  ic8h18+c2h5  =  cc8h17+c2h6
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: Forward - 1*2*(2*1) = 4
+%%%-------------------------------------------------------------------
+H-Abstraction-EthenylRadical-Primary\
+     primary-carbon-hydrogen-bond ethenyl-(hh)(h) = primary-carbon-radical olefin-(hh)(hh) 
+- ID 1091
+- Correspondences
+1 2 3 4 5             4 2 2 2
+6 7 8 9 10            2 2 2 2
+1 3 4 5               2 2 2
+6 7 8 9 10 2          2 2 2 2 4 
+
+>  <ForwardRxn>
+Standard 1.67e+11 0.0 18000 4; Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.90298E+13   -0.264 27848.2  4; Calculated (Ea=116.472)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*(2*1) = 4
+%%%-------------------------------------------------------------------
+H-Abstraction-EthenylRadical-Secondary\
+     secondary-carbon-hydrogen-bond ethenyl-(hh)(h) = secondary-carbon-radical olefin-(hh)(hh) 
+- ID 1092
+- Correspondences
+1 2 3 4 5             4 2 2 2
+6 7 8 9 10            2 2 2 2
+1 3 4 5               2 2 2
+6 7 8 9 10 2          2 2 2 2 4 
+
+>  <ForwardRxn>
+Standard 2.00e+11 0.0 16800 4; Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.92198E+13   -0.334   30723.10 4 ; Calculated (Ea=128.496) ;
+$$$$
+%%%-------------------------------------------------------------------
+%%% 3*2*1*(2*1)=12
+%%%-------------------------------------------------------------------
+H-Abstraction-EthenylRadical-Tertiary\
+     tertiary-carbon-hydrogen-bond ethenyl-(hh)(h) = tertiary-carbon-radical olefin-(hh)(hh) 
+- ID 1093
+- Correspondences
+1 2 3 4 5             4 2 2 2
+6 7 8 9 10            2 2 2 2
+1 3 4 5               2 2 2
+6 7 8 9 10 2          2 2 2 2 4 
+
+>  <ForwardRxn>
+Standard 1.500E+12  0.00  1.800E+04 12; Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998); ic8h18+c2h3  =  cc8h17+c2h4
+>  <ReverseRxn>
+Standard 2.570E+12  0.00  2.540E+04 4 ; ic8h18+c2h3  =  cc8h17+c2h4
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: Forward - 1*2*(3*2*1) = 12
+%%%-------------------------------------------------------------------
+H-Abstraction-MethylPeroxyl-Primary\
+     primary-carbon-hydrogen-bond (h)(h)(h)coo. = primary-carbon-radical (h)(h)(h)cooh 
+- ID 1101
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7 8 9 10 11    2 2 2 2 2
+1 3 4 5          2 2 2
+6 7 8 2 9 10 11  2 2 4 2 2 2
+
+>  <ForwardRxn>
+Standard 2.02e+12 0.0 20430 12; Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 3.600e+12   0.00  9.800e+03    1; Calculated From Curran (nc7h16+ch3o2 = c7h15-1+ch3o2h)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*(3*2*1) = 12
+%%%-------------------------------------------------------------------
+H-Abstraction-MethylPeroxyl-Secondary\
+     secondary-carbon-hydrogen-bond (h)(h)(h)coo. = secondary-carbon-radical (h)(h)(h)cooh 
+- ID 1102
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7 8 9 10 11    2 2 2 2 2
+1 3 4 5          2 2 2
+6 7 8 2 9 10 11  2 2 4 2 2 2
+
+>  <ForwardRxn>
+Standard 2.02e+12 0.0 17700 12; Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 2.376e+11   0.00  3.700e+03  1; Calculated From Curran (nc7h16+ch3o2 = c7h15-2+ch3o2h)
+$$$$
+%%%-------------------------------------------------------------------
+%%% 3*2*1*(3*2*1)=36
+%%%-------------------------------------------------------------------
+H-Abstraction-MethylPeroxyl-Tertiary\
+     tertiary-carbon-hydrogen-bond (h)(h)(h)coo. = tertiary-carbon-radical (h)(h)(h)cooh 
+- ID 1103
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7 8 9 10 11    2 2 2 2 2
+1 3 4 5          2 2 2
+6 7 8 2 9 10 11  2 2 4 2 2 2
+
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 14000 36; Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.0e-40 0.0 0.0  1; Set to zero because calculated was not right
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: Forward - 1*2*1 = 2
+%%%-------------------------------------------------------------------
+H-Abstraction-Hydrogen-Radical-Primary\
+     primary-carbon-hydrogen-bond hydrogen-radical = primary-carbon-radical hydrogen
+- ID 1111
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6                
+1 3 4 5          2 2 2
+6 2              4
+
+>  <ForwardRxn>
+Standard 9.33e+6 2.0 7700 2; Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 8.94513E+03    2.795  11925.71 2; Calculated (Ea=49.878) ; 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1 = 2
+%%%-------------------------------------------------------------------
+H-Abstraction-Hydrogen-Radical-Secondary\
+     secondary-carbon-hydrogen-bond hydrogen-radical = secondary-carbon-radical hydrogen
+- ID 1112
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6                
+1 3 4 5          2 2 2
+6 2              4
+
+>  <ForwardRxn>
+Standard 4.55e+6 2.0 5000 2; Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 2.65770E+03    2.765  13060  2; Calculated (Ea=54.622) ;
+$$$$
+%%%-------------------------------------------------------------------
+%%% 3*2*1*1=6
+%%%-------------------------------------------------------------------
+H-Abstraction-Hydrogen-Radical-Tertiary\
+     tertiary-carbon-hydrogen-bond hydrogen-radical = tertiary-carbon-radical hydrogen
+- ID 1113
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6                
+1 3 4 5          2 2 2
+6 2              4
+
+>  <ForwardRxn>
+Standard 6.020E+05  2.40  2.583E+03 6; Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998);ic8h18+h  =  cc8h17+h2
+>  <ReverseRxn>
+Standard 4.557E+02  2.98  1.265E+04  2; ic8h18+h  =  cc8h17+h2 ;
+$$$$
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%% Symmetry: Forward - 1*2*(3*2*1) = 12
+%%%-------------------------------------------------------------------
+H-Abstraction-Methyl-Primary\
+     primary-carbon-hydrogen-bond methane-carbon-radical  = primary-carbon-radical methane 
+- ID 1114
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7 8 9          2 2 2
+1 3 4 5          2 2 2
+6 2 7 8 9        2 2 2 4
+
+>  <ForwardRxn>
+Standard 2.17e+11 0.0 11600 12; Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 5.40238E+12   -0.022  18811.73  12; Calculated (Ea=78.678)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*(3*2*1) = 12
+%%%-------------------------------------------------------------------
+H-Abstraction-Methyl-Secondary\
+     secondary-carbon-hydrogen-bond methane-carbon-radical  = secondary-carbon-radical methane
+- ID 1115
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7 8 9          2 2 2 2
+1 3 4 5          2 2 2
+6 2 7 8 9        2 2 2 4
+
+>  <ForwardRxn>
+Standard 2.00e+11 0.0 9500 12; Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 3.03351E+12   -0.052 20546.14   12; Calculated (Ea=85.932) ;
+$$$$
+%%%-------------------------------------------------------------------
+%%% 3*2*1*(3*2*1)=36
+%%%-------------------------------------------------------------------
+H-Abstraction-Methyl-Tertiary\
+     tertiary-carbon-hydrogen-bond methane-carbon-radical  = tertiary-carbon-radical methane
+- ID 1116
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7 8 9          2 2 2 2
+1 3 4 5          2 2 2
+6 2 7 8 9        2 2 2 4
+
+>  <ForwardRxn>
+Standard 6.010E-10  6.36  8.9300+02 36; Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998);ic8h18+ch3  =  cc8h17+ch4
+>  <ReverseRxn>
+Standard 1.736E-01  3.87  1.236E+04   12; ic8h18+ch3  =  cc8h17+ch4 ;
+$$$$

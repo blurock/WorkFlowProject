@@ -1,0 +1,103 @@
+1 MoleculeChemkinNames
+hydrogen-radical 
+- AlternativeNames CHEMKIN H
+hydrogen 
+- AlternativeNames CHEMKIN H2
+oxygen-atom 
+- AlternativeNames CHEMKIN O
+oxygen 
+- AlternativeNames CHEMKIN O2
+hydroxyl-radical 
+- AlternativeNames CHEMKIN OH
+peroxyl-radical 
+- AlternativeNames CHEMKIN HO2
+water 
+- AlternativeNames CHEMKIN H2O
+hydrogen-peroxide 
+- AlternativeNames CHEMKIN H2O2
+methane 
+- AlternativeNames CHEMKIN CH4
+methyl-radical 
+- AlternativeNames CHEMKIN CH3
+methylene 
+- AlternativeNames CHEMKIN CH2
+methanol 
+- AlternativeNames CHEMKIN CH3OH
+methoxy-radical 
+- AlternativeNames CHEMKIN CH3O
+aldehyde 
+- AlternativeNames CHEMKIN CH2O
+formyl-radical 
+- AlternativeNames CHEMKIN HCO
+carbonmonoxide 
+- AlternativeNames CHEMKIN CO
+carbondioxide 
+- AlternativeNames CHEMKIN CO2
+methylperoxy 
+- AlternativeNames CHEMKIN CH3O2
+methylperoxide 
+- AlternativeNames CHEMKIN CH3O2H
+dimethylperoxide 
+- AlternativeNames CHEMKIN CH3O2CH3
+hydroxymethyl 
+- AlternativeNames CHEMKIN CH2OH
+ethane 
+- AlternativeNames CHEMKIN C2H6
+ethyl-radical 
+- AlternativeNames CHEMKIN C2H5
+ethene 
+- AlternativeNames CHEMKIN C2H4
+ethenyl-radical 
+- AlternativeNames CHEMKIN C2H3
+ethyne 
+- AlternativeNames CHEMKIN C2H2
+ethynyl-radical 
+- AlternativeNames CHEMKIN C2H
+ethanal 
+- AlternativeNames CHEMKIN CH3CHO
+ethanoyl-radical 
+- AlternativeNames CHEMKIN CH3CO
+allenal 
+- AlternativeNames CHEMKIN CH2CO
+allenal-radical 
+- AlternativeNames CHEMKIN HCCO
+oxyethene 
+- AlternativeNames CHEMKIN C2H3O 
+ethoxy-radical 
+- AlternativeNames CHEMKIN C2H5O
+ethanol 
+- AlternativeNames CHEMKIN C2H5OH
+ethylperoxy 
+- AlternativeNames CHEMKIN C2H5O2
+ethylperoxide 
+- AlternativeNames CHEMKIN C2H5O2H
+oxirane 
+- AlternativeNames CHEMKIN C2H4O
+methylcarboxy 
+- AlternativeNames CHEMKIN CH3CO2
+ethanoic-acid 
+- AlternativeNames CHEMKIN CH3CO2H
+methylpercarboxy 
+- AlternativeNames CHEMKIN CH3CO3
+perethanoic-acid 
+- AlternativeNames CHEMKIN CH3CO3H
+propane 
+- AlternativeNames CHEMKIN C3H8
+1-propyl-radical 
+- AlternativeNames CHEMKIN N*C3H7 
+2-propyl-radical 
+- AlternativeNames CHEMKIN I*C3H7 
+propene 
+- AlternativeNames CHEMKIN C3H6
+2-propenyl-radical 
+- AlternativeNames CHEMKIN CH2CHCH2
+allene 
+- AlternativeNames CHEMKIN C3H4
+2-propynyl 
+- AlternativeNames CHEMKIN C3H3
+propenal 
+- AlternativeNames CHEMKIN C2H3CHO
+1-propene-3-ol 
+- AlternativeNames CHEMKIN C3H5OH
+butane
+- AlternativeNames CHEMKIN C4H10

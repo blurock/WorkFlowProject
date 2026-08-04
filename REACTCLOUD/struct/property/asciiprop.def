@@ -1,0 +1,21 @@
+ASCII Property Structures
+0 asciiproperties
+
+%%% ASCIIProperty
+%%% By ASCII (file) input of a reaction, the properties
+%%% of the reaction are listed on each line in the form:
+%%%   PropertyName   Property
+%%% The property name is a set of nonblank characters
+%%% The name of the property is in the Name field
+%%%
+   ASCIIProperty 01 asciiproperty
+      1 The property value
+        STRING PropertyValue Pointer Create
+      DONE
+   ASCIIProperties 02 asciiproperties
+      0 The number of properties listed
+        INT NumberOfProperties Create
+      1 The set of propertties (as ASCII text)
+        ASCIIProperty Properties Pointer Create Array=NumberOfProperties
+      DONE
+DONE

@@ -1,0 +1,195 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% Olefin Alpha HydroPeroxy Gamma Ketone Decomp 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*1 = 2
+%%%-------------------------------------------------------------------
+OlefinAlphaHydroPeroxyGammaKetoneDecomp-(h)(hh)(h) \
+      c=ccoohcco(h)(hh)(h) = c=cco(h) .c(h)(h)co(h) hydroxyl-radical
+- ID 41301
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13           2 2 4 2 2 4 2 2 2 2 2 2
+1 2 3 6 10                              2 2 2 2
+4 5 9 13 11 12                          2 2 2 2 2
+8 7                                     2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 2;  Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 2
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*1 = 2
+%%%-------------------------------------------------------------------
+OlefinAlphaHydroPeroxyGammaKetoneDecomp-(r)(hh)(h) \
+      c=ccoohcco(r)(hh)(h) = c=cco(r) .c(h)(h)co(h) hydroxyl-radical
+- ID 41302
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13           2 2 4 2 2 4 2 2 2 2 2 2
+1 2 3 6 10                              2 2 2 2
+4 5 9 13 11 12                          2 2 2 2 2
+8 7                                     2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 2;  Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 2
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*1 = 1
+%%%-------------------------------------------------------------------
+OlefinAlphaHydroPeroxyGammaKetoneDecomp-(h)(rh)(h) \
+      c=ccoohcco(h)(rh)(h) = c=cco(h) .c(r)(h)co(h) hydroxyl-radical
+- ID 41303
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13           2 2 4 2 2 4 2 2 2 2 2 2
+1 2 3 6 10                              2 2 2 2
+4 5 9 13 11 12                          2 2 2 2 2
+8 7                                     2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 1;  Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 1
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*1 = 1
+%%%-------------------------------------------------------------------
+OlefinAlphaHydroPeroxyGammaKetoneDecomp-(r)(rh)(h) \
+      c=ccoohcco(r)(rh)(h) = c=cco(r) .c(r)(h)co(h) hydroxyl-radical
+- ID 41304
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13           2 2 4 2 2 4 2 2 2 2 2 2
+1 2 3 6 10                              2 2 2 2
+4 5 9 13 11 12                          2 2 2 2 2
+8 7                                     2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 1;  Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 1
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*1 = 2
+%%%-------------------------------------------------------------------
+OlefinAlphaHydroPeroxyGammaKetoneDecomp-(h)(rr)(h) \
+      c=ccoohcco(h)(rr)(h) = c=cco(h) .c(r)(r)co(h) hydroxyl-radical
+- ID 41305
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13           2 2 4 2 2 4 2 2 2 2 2 2
+1 2 3 6 10                              2 2 2 2
+4 5 9 13 11 12                          2 2 2 2 2
+8 7                                     2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 2;  Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 2
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*1 = 2
+%%%-------------------------------------------------------------------
+OlefinAlphaHydroPeroxyGammaKetoneDecomp-(r)(rr)(h) \
+      c=ccoohcco(r)(rr)(h) = c=cco(r) .c(r)(r)co(h) hydroxyl-radical
+- ID 41306
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13           2 2 4 2 2 4 2 2 2 2 2 2
+1 2 3 6 10                              2 2 2 2
+4 5 9 13 11 12                          2 2 2 2 2
+8 7                                     2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 2;  Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 2
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*1 = 2
+%%%-------------------------------------------------------------------
+OlefinAlphaHydroPeroxyGammaKetoneDecomp-(h)(hh)(r) \
+      c=ccoohcco(h)(hh)(r) = c=cco(h) .c(h)(h)co(r) hydroxyl-radical
+- ID 41307
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13           2 2 4 2 2 4 2 2 2 2 2 2
+1 2 3 6 10                              2 2 2 2
+4 5 9 13 11 12                          2 2 2 2 2
+8 7                                     2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 2;  Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 2
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*1 = 2
+%%%-------------------------------------------------------------------
+OlefinAlphaHydroPeroxyGammaKetoneDecomp-(r)(hh)(r) \
+      c=ccoohcco(r)(hh)(r) = c=cco(r) .c(h)(h)co(r) hydroxyl-radical
+- ID 41308
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13           2 2 4 2 2 4 2 2 2 2 2 2
+1 2 3 6 10                              2 2 2 2
+4 5 9 13 11 12                          2 2 2 2 2
+8 7                                     2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 2;  Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 2
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*1 = 1
+%%%-------------------------------------------------------------------
+OlefinAlphaHydroPeroxyGammaKetoneDecomp-(h)(rh)(r) \
+      c=ccoohcco(h)(rh)(r) = c=cco(h) .c(r)(h)co(r) hydroxyl-radical
+- ID 41309
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13           2 2 4 2 2 4 2 2 2 2 2 2
+1 2 3 6 10                              2 2 2 2
+4 5 9 13 11 12                          2 2 2 2 2
+8 7                                     2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 1;  Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 1
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*1 = 1
+%%%-------------------------------------------------------------------
+OlefinAlphaHydroPeroxyGammaKetoneDecomp-(r)(rh)(r) \
+      c=ccoohcco(r)(rh)(r) = c=cco(r) .c(r)(h)co(r) hydroxyl-radical
+- ID 41310
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13           2 2 4 2 2 4 2 2 2 2 2 2
+1 2 3 6 10                              2 2 2 2
+4 5 9 13 11 12                          2 2 2 2 2
+8 7                                     2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 1;  Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 1
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*1 = 2
+%%%-------------------------------------------------------------------
+OlefinAlphaHydroPeroxyGammaKetoneDecomp-(h)(rr)(r) \
+      c=ccoohcco(h)(rr)(r) = c=cco(h) .c(r)(r)co(r) hydroxyl-radical
+- ID 41311
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13           2 2 4 2 2 4 2 2 2 2 2 2
+1 2 3 6 10                              2 2 2 2
+4 5 9 13 11 12                          2 2 2 2 2
+8 7                                     2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 2;  Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 2
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*1 = 2
+%%%-------------------------------------------------------------------
+OlefinAlphaHydroPeroxyGammaKetoneDecomp-(r)(rr)(r) \
+      c=ccoohcco(r)(rr)(r) = c=cco(r) .c(r)(r)co(r) hydroxyl-radical
+- ID 41312
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13           2 2 4 2 2 4 2 2 2 2 2 2
+1 2 3 6 10                              2 2 2 2
+4 5 9 13 11 12                          2 2 2 2 2
+8 7                                     2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 2;  Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 2
+$$$$

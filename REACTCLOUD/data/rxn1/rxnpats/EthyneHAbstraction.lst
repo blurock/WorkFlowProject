@@ -1,0 +1,113 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% H Abstraction From Ethyne
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+HAbstractionToEthynyl-oxygen-(h)\
+     ethyne-(h)(h) oxygen = ethyne-radical-(h) peroxyl-radical
+- ID 42201
+- Correspondences
+1 2 3 4         2 2 4
+5 6             2      
+1 2 3           2 2
+4 5 6           4 2
+
+>  <ForwardRxn>
+Standard 4.00e+13 0.0 61500 4; Propene Come Value
+
+>  <ReverseRxn>
+Standard 3.180e+15 0.-1.38 53180 1; Propene Come Value
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2 = 2
+%%%-------------------------------------------------------------------
+HAbstractionToEthynyl-oxygen-(r)\
+     ethyne-(r)(h) oxygen = ethyne-radical-(r)  peroxyl-radical
+- ID 42202
+- Correspondences
+1 2 3 4         2 2 4
+5 6             2      
+2 1 3           2 2
+4 5 6           4 2
+
+>  <ForwardRxn>
+Standard 4.00e+13 0.0 61500 2; Propene Come Value
+
+>  <ReverseRxn>
+Standard 3.180e+15 0.-1.38 53180 1; Propene Come Value
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2 = 2
+%%%-------------------------------------------------------------------
+HAbstractionToEthynyl-hydroxyl-radical-(h)\
+     ethyne-(h)(h) hydroxyl-radical = ethyne-radical-(h)  water
+- ID 42203
+- Correspondences
+1 2 3 4         2 2 4
+5 6             2
+1 2 3           2 2
+6 5 4           4 2
+
+>  <ForwardRxn>
+Standard 4.00e+13 0.0 61500 4; Propene Come Value
+
+>  <ReverseRxn>
+Standard 3.180e+15 0.-1.38 53180 1; Propene Come Value
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2 = 2
+%%%-------------------------------------------------------------------
+HAbstractionToEthynyl-hydroxyl-radical-(r)\
+     ethyne-(r)(h) hydroxyl-radical = ethyne-radical-(r)  water
+- ID 42204
+- Correspondences
+1 2 3 4         2 2 4
+5 6             2      
+1 2 3           2 2
+6 5 4           4 2
+
+>  <ForwardRxn>
+Standard 4.00e+13 0.0 61500 2; Propene Come Value
+
+>  <ReverseRxn>
+Standard 3.180e+15 0.-1.38 53180 1; Propene Come Value
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2 = 2
+%%%-------------------------------------------------------------------
+HAbstractionToEthynyl-peroxyl-radical-(h)\
+     ethyne-(h)(h) peroxyl-radical = ethyne-radical-(h) hydrogen-peroxide
+- ID 42205
+- Correspondences
+1 2 3 4         2 2 4
+5 6 7           2 2
+1 2 3           2 2
+5 6 7 4         2 2 4
+
+>  <ForwardRxn>
+Standard 3.00e+13 0.0 14000 4; Propene Come Value
+
+>  <ReverseRxn>
+Standard 1.55e+16 0.-1.38 44000 1; Propene Come Value
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2 = 2
+%%%-------------------------------------------------------------------
+HAbstractionToEthynyl-peroxyl-radical-(r)\
+     ethyne-(r)(h) peroxyl-radical = ethyne-radical-(r) hydrogen-peroxide
+- ID 42206
+- Correspondences
+1 2 3 4         2 2 4
+5 6 7           2 2
+1 2 3           2 2
+5 6 7 4         2 2 4
+
+>  <ForwardRxn>
+Standard 3.00e+13 0.0 14000 4; Propene Come Value
+
+>  <ReverseRxn>
+Standard 1.55e+16 0.-1.38 44000 1; Propene Come Value
+$$$$

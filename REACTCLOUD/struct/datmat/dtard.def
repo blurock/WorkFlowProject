@@ -1,0 +1,53 @@
+Structures for dtard.c  
+0 structures
+%% -------------------------------------------------------------
+%% These are the structures which directly coincide to reading in
+%% a set of data points directly from a file.
+%%
+ CharRange  0 chrrng
+     0 The First Character (begining character position - starting with zero)
+       INT BeginChar                       Create
+     1 The Size of the range (in characters)
+       INT Size                            Create
+     DONE
+  BasisType  1 basistyp
+     0  A pointer to an integer
+        INT Integer           Pointer
+     1  A pointer to a Floating Point Number
+        FLOAT Float           Pointer
+     DONE
+  DataPoint  2 dtapnt
+     0  Position in line of element
+        CharRange Range
+     1  The type of element (i.e. the basis type)
+        INT Type                           Create
+     2  The number of points read in of this type
+        INT NumberOfPoints                 Create
+     3  The vector of points
+        BasisType Vector             
+     DONE
+   DataBlock  3 dtablk
+     0  The number of variables
+        INT NumberOfColumns                Create
+     1  The number of points in each column
+        INT NumberOfPoints                 Create
+     2  The vector of variable information
+        DataPoint  Columns    Pointer      Create   Array=NumberOfColumns
+     DONE
+   DataPointName  4 dtapntname
+     DONE
+   DataPointNameSet 4 dtapntnameset
+     0  Number Of Names
+        INT NumberOfNames                  Create
+     1  The vector of names
+        DataPointName Names Pointer            Create    Array=NumberOfNames
+     DONE
+   DataBlockSet 4 dtablkset
+     0 The number of blocks
+        INT NumDataBlocks                  Create
+     1 The blocks of data
+        DataBlock Blocks      Pointer      Create        Array=NumDataBlocks
+     2 The names of the elements
+       DataPointNameSet NameSet Pointer      Create
+     DONE
+   DONE

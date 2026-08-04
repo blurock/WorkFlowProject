@@ -1,0 +1,15 @@
+Simple Ring Radical Isomerization
+NONE
+%%% ----------------------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Step 1  TypeI: H-Abstraction
+H-Abstraction-Oxygen-Tertiary,\
+H-Abstraction-Oxygen-Secondary,\
+H-Abstraction-Oxygen-Primary:\
+oxygen
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Step 2  TypeV: Isomerization
+FiveRing-chain-h-isomerization,\
+SixRing-chain-h-isomerization,\
+SevenRing-chain-h-isomerization,\
+EightRing-chain-h-isomerization

@@ -1,0 +1,96 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+AldehydeAlkeneAdditionOH-Alpha-(h)(hh)\
+   hcoc(h)c(hh) hydroxyl-radical  = (h).c(o) c(hhh)hc(o)
+- ID 72901
+- Correspondences
+1 2 3 4 5 6 7 8     4 2 2 2 2 2 2
+9 10                4
+1 4 5               2 2
+2 10 3 6 7 8 9      4 2 2 2 2 4
+>  <ForwardRxn>
+Standard  1.000E+12   0.00  0.000E+00  2;  Curran, et. al.;   c4h8-1+oh = nc3h7+ch2o
+>  <ReverseRxn>
+Standard  0.000E+00   0.00  0.000E+00  2;  Curran, et. al.;   non-reversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+AldehydeAlkeneAdditionOH-Alpha-(r)(hh)\
+   hcoc(r)c(hh) hydroxyl-radical  = (h).c(o) c(hhh)rc(o)
+- ID 72902
+- Correspondences
+1 2 3 4 5 6 7 8     4 2 2 2 2 2 2
+9 10                4
+1 4 5               2 2
+2 10 3 6 7 8 9      4 2 2 2 2 4
+>  <ForwardRxn>
+Standard  1.000E+12   0.00  0.000E+00  2;  Curran, et. al.;   c4h8-1+oh = nc3h7+ch2o
+>  <ReverseRxn>
+Standard  0.000E+00   0.00  0.000E+00  2;  Curran, et. al.;   non-reversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1 = 1
+%%%-------------------------------------------------------------------
+AldehydeAlkeneAdditionOH-Alpha-(h)(rh)\
+   hcoc(h)c(rh) hydroxyl-radical  = (h).c(o) c(rhh)hc(o)
+- ID 72903
+- Correspondences
+1 2 3 4 5 6 7 8     4 2 2 2 2 2 2
+9 10                4
+1 4 5               2 2
+2 10 3 6 7 8 9      4 2 2 2 2 4
+>  <ForwardRxn>
+Standard  1.000E+12   0.00  0.000E+00  1;  Curran, et. al.;   c4h8-1+oh = nc3h7+ch2o
+>  <ReverseRxn>
+Standard  0.000E+00   0.00  0.000E+00  1;  Curran, et. al.;   non-reversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1 = 1
+%%%-------------------------------------------------------------------
+AldehydeAlkeneAdditionOH-Alpha-(r)(rh)\
+   hcoc(r)c(rh) hydroxyl-radical  = (h).c(o) c(rhh)rc(o)
+- ID 72904
+- Correspondences
+1 2 3 4 5 6 7 8     4 2 2 2 2 2 2
+9 10                4
+1 4 5               2 2
+2 10 3 6 7 8 9      4 2 2 2 2 4
+>  <ForwardRxn>
+Standard  1.000E+12   0.00  0.000E+00  1;  Curran, et. al.;   c4h8-1+oh = nc3h7+ch2o
+>  <ReverseRxn>
+Standard  0.000E+00   0.00  0.000E+00  1;  Curran, et. al.;   non-reversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+AldehydeAlkeneAdditionOH-Alpha-(h)(rr)\
+   hcoc(h)c(rr) hydroxyl-radical  = (h).c(o) c(rrh)hc(o)
+- ID 72905
+- Correspondences
+1 2 3 4 5 6 7 8     4 2 2 2 2 2 2
+9 10                4
+1 4 5               2 2
+2 10 3 6 7 8 9      4 2 2 2 2 4
+>  <ForwardRxn>
+Standard  1.000E+12   0.00  0.000E+00  2;  Curran, et. al.;   c4h8-1+oh = nc3h7+ch2o
+>  <ReverseRxn>
+Standard  0.000E+00   0.00  0.000E+00  2;  Curran, et. al.;   non-reversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+AldehydeAlkeneAdditionOH-Alpha-(r)(rr)\
+   hcoc(r)c(rr) hydroxyl-radical  = (h).c(o) c(rrh)rc(o)
+- ID 72906
+- Correspondences
+1 2 3 4 5 6 7 8     4 2 2 2 2 2 2
+9 10                4
+1 4 5               2 2
+2 10 3 6 7 8 9      4 2 2 2 2 4
+>  <ForwardRxn>
+Standard  1.000E+12   0.00  0.000E+00  2;  Curran, et. al.;   c4h8-1+oh = nc3h7+ch2o
+>  <ReverseRxn>
+Standard  0.000E+00   0.00  0.000E+00  2;  Curran, et. al.;   non-reversible
+$$$$

@@ -1,0 +1,38 @@
+1-methylpropane
+- AlternativeNames CHEMKIN 2CH3C3H7
+1-methylbutane
+- AlternativeNames CHEMKIN 1CH3C4H9
+1-methylpentane
+- AlternativeNames CHEMKIN 1CH3C5H11
+3-methylpentane
+- AlternativeNames CHEMKIN 3CH3C5H11
+1-methylhexane
+- AlternativeNames CHEMKIN 1CH3C6H13
+3-methylhexane
+- AlternativeNames CHEMKIN 3CH3C6H13
+3-methylheptane
+- AlternativeNames CHEMKIN 3CH3C7H15
+4-methylheptane
+- AlternativeNames CHEMKIN 4CH3C7H14
+1-methyloctane
+- AlternativeNames CHEMKIN 1CH3C8H17
+3-methyloctane
+- AlternativeNames CHEMKIN 3CH3C8H17
+4-methyloctane
+- AlternativeNames CHEMKIN 4CH3C8H17
+1-methylnonane
+- AlternativeNames CHEMKIN 1CH3C9H19
+3-methylnonane
+- AlternativeNames CHEMKIN 3CH3C9H19
+4-methylnonane
+- AlternativeNames CHEMKIN 4CH3C9H19
+5-methylnonane
+- AlternativeNames CHEMKIN 5CH3C9H19
+1-methyldecane
+- AlternativeNames CHEMKIN 1CH3C10H21
+3-methyldecane
+- AlternativeNames CHEMKIN 3CH3C10H20
+4-methyldecane
+- AlternativeNames CHEMKIN 4CH3C10H21
+5-methyldecane
+- AlternativeNames CHEMKIN 5CH3C10H21

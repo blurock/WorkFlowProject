@@ -1,0 +1,109 @@
+Fabian Basic Low Temperature Scheme
+%%% ----------------------------------------------------
+oxygen,hydrogen-radical,oxygen-atom,hydroxyl-radical,\
+methyl-radical,peroxyl-radical
+%%% ----------------------------------------------------
+%%% Step 1      TypeI: H-Abstraction
+H-Abstraction-Hydrogen-Radical-Primary,\
+H-Abstraction-Hydrogen-Radical-Secondary,\
+H-Abstraction-Hydrogen-Radical-Tertiary,\
+H-Abstraction-Oxygen-Radical-Primary,\
+H-Abstraction-Oxygen-Radical-Secondary,\
+H-Abstraction-Oxygen-Radical-Tertiary,\
+H-Abstraction-Hydroxyl-Radical-Primary,\
+H-Abstraction-Hydroxyl-Radical-Secondary,\
+H-Abstraction-Hydroxyl-Radical-Tertiary,\
+H-Abstraction-Methyl-Primary,\
+H-Abstraction-Methyl-Secondary,\
+H-Abstraction-Methyl-Tertiary,\
+H-Abstraction-PeroxylRadical-Primary,\
+H-Abstraction-PeroxylRadical-Secondary,\
+H-Abstraction-PeroxylRadical-Tertiary,\
+H-Abstraction-Oxygen-Tertiary,\
+H-Abstraction-Oxygen-Secondary,\
+H-Abstraction-Oxygen-Primary\
+:hydrogen-radical,oxygen-atom,hydroxyl-radical,\
+methyl-radical,peroxyl-radical,oxygen
+%%% Step 2    Type 10: Carbon-Radical-(R.+O2-->RO2.)
+Primary-Carbon-Radical-(R.+O2-->RO2.),\
+Secondary-Carbon-Radical-(R.+O2-->RO2.),\
+Tertiary-Carbon-Radical-(R.+O2-->RO2.)\
+:oxygen
+%%% ----------------------------------------------------
+%%% Step 3    Type 12: Intramolecular-1-4-QOOH-Formation
+Intramolecular-1-4-QOOH-Formation,\
+Intramolecular-1-5-QOOH-Formation,\
+Intramolecular-1-6-QOOH-Formation
+%%% ----------------------------------------------------
+Activated-Primary-Carbon-Radical-(R.+O2-->RO2.),\
+Activated-Secondary-Carbon-Radical-(R.+O2-->RO2.),\
+Activated-Tertiary-Carbon-Radical-(R.+O2-->RO2.)\
+:oxygen
+%%% ----------------------------------------------------
+%%% Step 4    Type 23: OOQOOH-Isomerization-Ring
+OOQOOH-Isomerization-4Ring-Primary,\
+OOQOOH-Isomerization-4Ring-Secondary,\
+OOQOOH-Isomerization-5Ring-Primary,\
+OOQOOH-Isomerization-5Ring-Secondary,\
+OOQOOH-Isomerization-6Ring-Primary,\
+OOQOOH-Isomerization-6Ring-Secondary
+%%% ----------------------------------------------------
+%%% Step 5:    Type 24: KetoHydroPeroxideDecomp
+KetoHydroPeroxideDecompositionC4,\
+KetoHydroPeroxideDecompositionC5,\
+KetoHydroPeroxideDecompositionC6,\
+KetoHydroPeroxideDecompToAldRadical-HHH,\
+KetoHydroPeroxideDecompToAldRadical-HRH,\
+KetoHydroPeroxideDecompToAldRadical-HRR,\
+KetoHydroPeroxideDecompToAldRadical-RHH,\
+KetoHydroPeroxideDecompToAldRadical-RRH,\
+KetoHydroPeroxideDecompToAldRadical-RRR,\
+KetoHydroPeroxideDecompToAldRadical-CHHHH,\
+KetoHydroPeroxideDecompToAldRadical-CRHHH,\
+KetoHydroPeroxideDecompToAldRadical-CRRHH,\
+KetoHydroPeroxideDecompToAldRadical-CHHRH,\
+KetoHydroPeroxideDecompToAldRadical-CRHRH,\
+KetoHydroPeroxideDecompToAldRadical-CRRRH,\
+KetoHydroPeroxideDecompToAldRadical-CHHRR,\
+KetoHydroPeroxideDecompToAldRadical-CRHRR,\
+KetoHydroPeroxideDecompToAldRadical-CRRRR
+%%% ----------------------------------------------------
+%%% Step 5:    Type 24: KetoHydroPeroxideDecomp
+KetoAldCRadDecomp-H-HH-HH,\
+KetoAldCRadDecomp-R-HH-HH,\
+KetoAldCRadDecomp-H-RH-HH,\
+KetoAldCRadDecomp-R-RH-HH,\
+KetoAldCRadDecomp-H-RR-HH,\
+KetoAldCRadDecomp-R-RR-HH,\
+KetoAldCRadDecomp-H-HH-RH,\
+KetoAldCRadDecomp-R-HH-RH,\
+KetoAldCRadDecomp-H-RH-RH,\
+KetoAldCRadDecomp-R-RH-RH,\
+KetoAldCRadDecomp-H-RR-RH,\
+KetoAldCRadDecomp-R-RR-RH,\
+KetoAldCRadDecomp-H-HH-RR,\
+KetoAldCRadDecomp-R-HH-RR,\
+KetoAldCRadDecomp-H-RH-RR,\
+KetoAldCRadDecomp-R-RH-RR,\
+KetoAldCRadDecomp-H-RR-RR,\
+KetoAldCRadDecomp-R-RR-RR,\
+KeteneFormationRadicalDecomp-(hh)(hhh),\
+KeteneFormationRadicalDecomp-(hh)(rhh),\
+KeteneFormationRadicalDecomp-(hh)(rrh),\
+KeteneFormationRadicalDecomp-(hh)(rrr),\
+KeteneFormationRadicalDecomp-(rh)(hhh),\
+KeteneFormationRadicalDecomp-(rh)(rhh),\
+KeteneFormationRadicalDecomp-(rh)(rrh),\
+KeteneFormationRadicalDecomp-(rh)(rrr),\
+KeteneFormationRadicalDecomp-(rr)(hhh),\
+KeteneFormationRadicalDecomp-(rr)(rhh),\
+KeteneFormationRadicalDecomp-(rr)(rrh),\
+KeteneFormationRadicalDecomp-(rr)(rrr),\
+Decomp-(rhh)(hhh),\
+Decomp-(rhh)(rhh),\
+Decomp-(rrh)(hhh),\
+Decomp-(rrr)(hhh),\
+Decomp-(rrh)(rhh),\
+Decomp-(rrr)(rhh),\
+Decomp-(rrr)(rrh),\
+Decomp-(rrr)(rrr)

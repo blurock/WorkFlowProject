@@ -1,0 +1,123 @@
+Structures for Commands
+1  CommandStructures
+   BaseArgumentType  12 basargtyp
+      0  The type of Vector
+         INT Type                                       Create
+      1  An Integer    
+         INT Integer_Value                              Create
+      2  A Floating Point Number
+         FLOAT Float_Value                              Create
+      3  A String Variable
+         STRING String_Value Pointer                    Create
+      DONE
+ BaseArgumentTypeArray 12 baseargtyparray
+      0 The Number of Values
+        INT NumberOfValues Create
+      1 The Set of Values
+        BaseArgumentType Set Pointer Create Array=NumberOfValues
+      DONE
+ VariableName 200 varname
+     DONE
+ FunctionInfo 200 funcinfo
+     0   The Function Call
+         FUNCTION FunctCall Create Return=INT
+     DONE
+ TitleInfo 200 titleinfo
+     DONE
+ VariableNameSet 200 varnameset
+     0   The Number of Names
+         INT NumberOfNames Create
+     1   The set of names
+         VariableName Names Pointer Create Array=NumberOfNames
+     DONE
+ TitleInfoSet 200 titnameset
+     0   The Number of Titles
+         INT NumberOfTitles Create
+     1   The set of titles
+         TitleInfo Titles Pointer Create Array=NumberOfTitles
+     DONE
+
+ KeyWordInfo  201 keywordinfo
+     0   The Key Flag Length
+         VariableName KeyFlagName  Pointer Create
+     DONE
+ KeyWordSetInfo  202 keysetinfo
+     0   The Number of Keys
+         INT NumberOfKeys Create
+     1   The set of keys
+         KeyWordInfo  Keys  Pointer Create Array=NumberOfKeys
+     DONE
+ ArgumentInfo  203 argueinfo
+     0   The Argument Type
+         INT Type Create
+     1   The Flag Name
+         VariableName FlagName Pointer Create
+     3   The Title
+         TitleInfo Title Pointer Create
+     4   The Default Value
+         BaseArgumentType Default Pointer Create
+     5   The Upper Bound
+         BaseArgumentType UpperBound Pointer Create
+     6   The Lower Bound
+         BaseArgumentType LowerBound Pointer Create
+     7   The Flag denoting whether a set of arguments 
+         INT SetFlag Create
+     DONE
+ArgumentSetInfo  204  arguesetinfo
+     0   Number of Arguments
+         INT NumberOfArguments Create
+     1   The set of argument info
+         ArgumentInfo Set Pointer Create Array=NumberOfArguments
+     2   The Value of the argument
+         BaseArgumentType Values Pointer Create Array=NumberOfArguments
+     DONE
+
+KeyArgumentInfo 205 keyargue
+     0   The Key Set Name
+         VariableName KeySetName Pointer Create
+     1   The Argument Name
+         VariableName ArgumentName Pointer Create
+     2   The Title
+         TitleInfo Title Pointer Create
+     DONE
+KeyArgumentSet 206 keyargueset
+     0   The Number Of keys
+         INT NumberOfKeys Create
+     1   The Set of Keys
+         KeyArgumentInfo KeyArguments Pointer Create Array=NumberOfKeys
+     DONE
+SysLstArgumentInfo 207 syslstargue
+     0   The System List Key Name
+         VariableName SysLstKey Pointer Create
+     DONE
+SysLstArgumentSet 208 syslstset
+     0   The number of SysLst Arguments
+         INT NumSysLst Create
+     1   The Set of SysLst Arguments
+         SysLstArgumentInfo SysLstArguments Pointer Create Array=NumSysLst
+     DONE
+CommandInfo 209 commandinfo
+     0   The Flag name 
+         VariableName FlagName Pointer Create
+     0   The Function Parameters
+         FunctionInfo Function Pointer Create
+     0   This is the info about the function (text)
+         TitleInfo Comment Pointer Create
+     1   The Set of Arguments
+         ArgumentSetInfo Arguments Pointer Create
+     2   The Set of keys
+         KeyArgumentSet Keys Pointer Create
+     3   Set of SysLst Arguments
+         SysLstArgumentSet SysLstSet Pointer Create
+     4   KeyWord definitions
+         KeyWordSetInfo KeySetInfo Pointer Create
+     5   Set of Ouput Arguments
+         SysLstArgumentSet Output Pointer Create
+     6   Set of Extra Checks
+         SysLstArgumentSet Checks Pointer Create
+     7   The number of Sub commands
+         INT NumSubCommands Create
+     8   The set of SubCommands
+         CommandInfo SubCommands Pointer Create Array=NumSubCommands
+     DONE
+DONE

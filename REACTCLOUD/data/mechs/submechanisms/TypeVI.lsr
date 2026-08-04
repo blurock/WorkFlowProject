@@ -1,0 +1,73 @@
+OlefinDecomp: Olefin Decomposition through OH addition
+hydroxyl-radical,oxygen,hydrogen-radical,methyl-radical
+%%% ----------------------------------------------------
+H-Abstraction-Oxygen-Tertiary,\
+H-Abstraction-Oxygen-Secondary,\
+H-Abstraction-Oxygen-Primary,\
+:oxygen
+%%% ----------------------------------------------------
+HLoss-ethyl-radical(hh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rhh)-to-olefin,\
+HLoss-ethyl-radical(rr)(hhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(rhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rrh)-to-olefin,\
+HLoss-ethyl-radical(rr)(rhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(rrh)-to-olefin,\
+HLoss-ethyl-radical(rr)(rrh)-to-olefin
+%%% ----------------------------------------------------
+%%% Classes to form the alkenyl or allyl
+%%% 
+%%% H-Alkenyl-Abs:
+%%%     Abstraction from double bond to form alkenyl
+%%%     Abstraction with H, O, OH, CH3
+%%% AlphaHAbstractionFromOlefin
+%%%     Abstraction or Loss of H from the alpha position
+%%%      from the double bond to form an allyl
+%%% BetaOlefinDecomp
+%%%     Loss of an alkyl radical to form a radical
+%%%     alpha to the double bond (allyl)
+%%% ----------------------------------------------------
+H-Alkenyl-Abs-Hydrogen-Radical-(hh)(h),\
+H-Alkenyl-Abs-Hydrogen-Radical-(hh)(r),\
+H-Alkenyl-Abs-Hydrogen-Radical-(rh)(h),\
+H-Alkenyl-Abs-Hydrogen-Radical-(rh)(r),\
+H-Alkenyl-Abs-Hydrogen-Radical-(rr)(h),\
+H-Alkenyl-Abs-Hydrogen-Radical-(rr)(r),\
+H-Alkenyl-Abs-Oxygen-Radical-(hh)(h),\
+H-Alkenyl-Abs-Oxygen-Radical-(hh)(r),\
+H-Alkenyl-Abs-Oxygen-Radical-(rh)(h),\
+H-Alkenyl-Abs-Oxygen-Radical-(rh)(r),\
+H-Alkenyl-Abs-Oxygen-Radical-(rr)(h),\
+H-Alkenyl-Abs-Oxygen-Radical-(rr)(r),\
+H-Alkenyl-Abs-Hydroxyl-Radical-(hh)(h),\
+H-Alkenyl-Abs-Hydroxyl-Radical-(hh)(r),\
+H-Alkenyl-Abs-Hydroxyl-Radical-(rh)(h),\
+H-Alkenyl-Abs-Hydroxyl-Radical-(rh)(r),\
+H-Alkenyl-Abs-Hydroxyl-Radical-(rr)(h),\
+H-Alkenyl-Abs-Hydroxyl-Radical-(rr)(r),\
+H-Alkenyl-Abs-Methane-Carbon-Radical-(hh)(h),\
+H-Alkenyl-Abs-Methane-Carbon-Radical-(hh)(r),\
+H-Alkenyl-Abs-Methane-Carbon-Radical-(rh)(h),\
+H-Alkenyl-Abs-Methane-Carbon-Radical-(rh)(r),\
+H-Alkenyl-Abs-Methane-Carbon-Radical-(rr)(h),\
+H-Alkenyl-Abs-Methane-Carbon-Radical-(rr)(r),\
+AlphaHAbstractionFromOlefinOxygen-(hh),\
+AlphaHAbstractionFromOlefinOxygen-(rh),\
+AlphaHAbstractionFromOlefinOxygen-(rr),\
+AlphaHAbstractionFromOlefin-(hh),\
+AlphaHAbstractionFromOlefin-(rh),\
+AlphaHAbstractionFromOlefin-(rr),\
+BetaOlefinDecomp(qq)(q)(hh)(hhh),\
+BetaOlefinDecomp(qq)(q)(rh)(hhh),\
+BetaOlefinDecomp(qq)(q)(rr)(hhh),\
+BetaOlefinDecomp(qq)(q)(hh)(rhh),\
+BetaOlefinDecomp(qq)(q)(rh)(rhh),\
+BetaOlefinDecomp(qq)(q)(rr)(rhh),\
+BetaOlefinDecomp(qq)(q)(hh)(rrh),\
+BetaOlefinDecomp(qq)(q)(rh)(rrh),\
+BetaOlefinDecomp(qq)(q)(rr)(rrh),\
+BetaOlefinDecomp(qq)(q)(hh)(rrr),\
+BetaOlefinDecomp(qq)(q)(rh)(rrr),\
+BetaOlefinDecomp(qq)(q)(rr)(rrr)
+:hydrogen,oxygen-radical,hydroxyl-radical,methyl-radical

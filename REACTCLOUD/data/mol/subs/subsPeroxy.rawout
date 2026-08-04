@@ -1,0 +1,754 @@
+~/git/copilot-worktrees/react/blurock-studious-fortnight/tmp ~/git/copilot-worktrees/react/blurock-studious-fortnight/data/mol/subs 
+-----------------Chemistry Database ------------------
+-----------------Version 0    --------------------
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+main>> Mol
+Command:Mol
+Mol>> Parameters
+Command:Parameters
+Parameters>> RootMolName
+Command:RootMolName
+RootMolName>> Input:RootMolName
+Command:Input:RootMolName
+Input:RootMolName>> Set Value: RootMolName to StandardMeta
+StandardMeta
+RootMolName>> Quit
+Parameters>> Quit
+Mol>> MetaAtoms
+Command:MetaAtoms
+MetaAtoms>> Read
+Command:Read
+Set Of     3 MolFile Meta Atoms (    0:MasterMetaAtom)
+MetaAtoms:    0::(         R,  320 -> [ (    6,    1)  ]
+MetaAtoms:    1::(         Q,  221 -> [ (    1,    1) (    6,    1) (    6,    2)  ]
+MetaAtoms:    2::(         X,  382 -> [ (    9,    1) (   35,    1) (   17,    1)  ]
+MetaAtoms>> Quit
+Mol>> Quit
+main>> CreateOpenClose
+Command:CreateOpenClose
+CreateOpenClose>> Start
+Command:Start
+
+0:No Keys for Reactions
+
+
+0:No Keys for ReactionPatterns
+
+CreateOpenClose>> Quit
+main>> DbaseOps
+Command:DbaseOps
+DbaseOps>> SubStructures
+Command:SubStructures
+SubStructures>> Keys
+Command:Keys
+Keys>> Define
+Command:Define
+Keys>> Write
+Command:Write
+Keys>> Quit
+SubStructures>> Quit
+DbaseOps>> Quit
+main>> Mol
+Command:Mol
+Mol>> Parameters
+Command:Parameters
+Parameters>> RootMolName
+Command:RootMolName
+RootMolName>> Input:RootMolName
+Command:Input:RootMolName
+Input:RootMolName>> Set Value: RootMolName to subs/subsPeroxy
+subs/subsPeroxy
+RootMolName>> Quit
+Parameters>> Quit
+Mol>> Read
+Command:Read
+Read>> SubStructures
+Command:SubStructures
+SubStructures>> SDF
+Command:SDF
+Read SDF Molecule: (q)(q)(h)coo.
+Read SDF Molecule: (q)(q)(q)coo.
+Read SDF Molecule: (h)(h)(h)coo.
+Read SDF Molecule: (h)(h)(r)coo.
+Read SDF Molecule: (h)(r)(r)coo.
+Read SDF Molecule: (r)(r)(r)coo.
+Read SDF Molecule: (h)(h)(h)cooh
+Read SDF Molecule: (h)(h)(r)cooh
+Read SDF Molecule: (h)(r)(r)cooh
+Read SDF Molecule: (r)(r)(r)cooh
+Read SDF Molecule: c(q)(q)(h)(coo.)
+Read SDF Molecule: c(h)(q)(q)(ccoo.)
+Read SDF Molecule: c(h)(q)(q)(cccoo.)
+Read SDF Molecule: .c(q)(q)(cooh)
+Read SDF Molecule: .c(q)(q)(ccooh)
+Read SDF Molecule: .c(q)(q)(cccooh)
+Read SDF Molecule: .c(q)(q)(ccccooh)
+Read SDF Molecule: c2q5ooh
+Read SDF Molecule: .c(h)(h)c(h)(h)(ooh)
+Read SDF Molecule: .c(r)(h)c(h)(h)(ooh)
+Read SDF Molecule: .c(r)(r)c(h)(h)(ooh)
+Read SDF Molecule: .c(h)(h)c(r)(h)(ooh)
+Read SDF Molecule: .c(r)(h)c(r)(h)(ooh)
+Read SDF Molecule: .c(r)(r)c(r)(h)(ooh)
+Read SDF Molecule: .c(h)(h)c(r)(r)(ooh)
+Read SDF Molecule: .c(r)(h)c(r)(r)(ooh)
+Read SDF Molecule: .c(r)(r)c(r)(r)(ooh)
+Read SDF Molecule: c(h)(h)(h)(ooh)
+Read SDF Molecule: c(r)(h)(h)(ooh)
+Read SDF Molecule: c(r)(r)(h)(ooh)
+Read SDF Molecule: c(r)(r)(r)(ooh)
+Read SDF Molecule: c(h)(h)(h)(o.)
+Read SDF Molecule: c(r)(h)(h)(o.)
+Read SDF Molecule: c(r)(r)(h)(o.)
+Read SDF Molecule: c(q)(q)(q)(o.)
+Read SDF Molecule: c(r)(r)(r)(o.)
+Read SDF Molecule: .ccc(h)(h)(ooh)
+Read SDF Molecule: .ccc(r)(h)(ooh)
+Read SDF Molecule: .ccc(r)(r)(ooh)
+SubStructures>> Quit
+Read>> Quit
+Mol>> Calculations
+Command:Calculations
+Calculations>> SubStructures
+Command:SubStructures
+SubStructures>> SemiEmpirical
+Command:SemiEmpirical
+SubStructures>> Quit
+Calculations>> Quit
+Mol>> Output
+Command:Output
+Output>> SubStructures
+Command:SubStructures
+SubStructures>> Print
+Command:Print
+SubStructures>> Quit
+Output>> Quit
+Mol>> Quit
+main>> DbaseOps
+Command:DbaseOps
+DbaseOps>> SubStructures
+Command:SubStructures
+SubStructures>> Current
+Command:Current
+Current>> Store
+Command:Store
+Store:          1:(q)(q)(h)coo.
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+New ID:   20506102
+Store:          2:(q)(q)(q)coo.
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Equivalence: (q)(q)(h)coo. (q)(q)(q)coo.     0
+New ID:   20506103
+Store:          3:(h)(h)(h)coo.
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Equivalence: (q)(q)(h)coo. (h)(h)(h)coo.     0
+Equivalence: (q)(q)(q)coo. (h)(h)(h)coo.     0
+New ID:   20506104
+Store:          4:(h)(h)(r)coo.
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Equivalence: (q)(q)(h)coo. (h)(h)(r)coo.     0
+Equivalence: (q)(q)(q)coo. (h)(h)(r)coo.     0
+Equivalence: (h)(h)(h)coo. (h)(h)(r)coo.     0
+New ID:   20506105
+Store:          5:(h)(r)(r)coo.
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Equivalence: (q)(q)(h)coo. (h)(r)(r)coo.     0
+Equivalence: (q)(q)(q)coo. (h)(r)(r)coo.     0
+Equivalence: (h)(h)(h)coo. (h)(r)(r)coo.     0
+Equivalence: (h)(h)(r)coo. (h)(r)(r)coo.     0
+New ID:   20506106
+Store:          6:(r)(r)(r)coo.
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Equivalence: (q)(q)(h)coo. (r)(r)(r)coo.     0
+Equivalence: (q)(q)(q)coo. (r)(r)(r)coo.     0
+Equivalence: (h)(h)(h)coo. (r)(r)(r)coo.     0
+Equivalence: (h)(h)(r)coo. (r)(r)(r)coo.     0
+Equivalence: (h)(r)(r)coo. (r)(r)(r)coo.     0
+New ID:   20506107
+Store:          7:(h)(h)(h)cooh
+New ID:   10607100
+Store:          8:(h)(h)(r)cooh
+Equivalence: (h)(h)(h)cooh (h)(h)(r)cooh     0
+New ID:   10607101
+Store:          9:(h)(r)(r)cooh
+Equivalence: (h)(h)(h)cooh (h)(r)(r)cooh     0
+Equivalence: (h)(h)(r)cooh (h)(r)(r)cooh     0
+New ID:   10607102
+Store:         10:(r)(r)(r)cooh
+Equivalence: (h)(h)(h)cooh (r)(r)(r)cooh     0
+Equivalence: (h)(h)(r)cooh (r)(r)(r)cooh     0
+Equivalence: (h)(r)(r)cooh (r)(r)(r)cooh     0
+New ID:   10607103
+Store:         11:c(q)(q)(h)(coo.)
+New ID:   20607200
+Store:         12:c(h)(q)(q)(ccoo.)
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+New ID:   20708321
+Store:         13:c(h)(q)(q)(cccoo.)
+New ID:   20809400
+Store:         14:.c(q)(q)(cooh)
+Equivalence: c(q)(q)(h)(coo.) .c(q)(q)(cooh)     0
+New ID:   20607201
+Store:         15:.c(q)(q)(ccooh)
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Equivalence: c(h)(q)(q)(ccoo.) .c(q)(q)(ccooh)     0
+New ID:   20708322
+Store:         16:.c(q)(q)(cccooh)
+Equivalence: c(h)(q)(q)(cccoo.) .c(q)(q)(cccooh)     0
+New ID:   20809401
+Store:         17:.c(q)(q)(ccccooh)
+New ID:   20910500
+Store:         18:c2q5ooh
+New ID:   10910200
+Store:         19:.c(h)(h)c(h)(h)(ooh)
+New ID:   20809200
+Store:         20:.c(r)(h)c(h)(h)(ooh)
+Equivalence: .c(h)(h)c(h)(h)(ooh) .c(r)(h)c(h)(h)(ooh)     0
+New ID:   20809201
+Store:         21:.c(r)(r)c(h)(h)(ooh)
+Equivalence: .c(h)(h)c(h)(h)(ooh) .c(r)(r)c(h)(h)(ooh)     0
+Equivalence: .c(r)(h)c(h)(h)(ooh) .c(r)(r)c(h)(h)(ooh)     0
+New ID:   20809202
+Store:         22:.c(h)(h)c(r)(h)(ooh)
+Equivalence: .c(h)(h)c(h)(h)(ooh) .c(h)(h)c(r)(h)(ooh)     0
+Equivalence: .c(r)(h)c(h)(h)(ooh) .c(h)(h)c(r)(h)(ooh)     0
+Equivalence: .c(r)(r)c(h)(h)(ooh) .c(h)(h)c(r)(h)(ooh)     0
+New ID:   20809203
+Store:         23:.c(r)(h)c(r)(h)(ooh)
+Equivalence: .c(h)(h)c(h)(h)(ooh) .c(r)(h)c(r)(h)(ooh)     0
+Equivalence: .c(r)(h)c(h)(h)(ooh) .c(r)(h)c(r)(h)(ooh)     0
+Equivalence: .c(r)(r)c(h)(h)(ooh) .c(r)(h)c(r)(h)(ooh)     0
+Equivalence: .c(h)(h)c(r)(h)(ooh) .c(r)(h)c(r)(h)(ooh)     0
+New ID:   20809204
+Store:         24:.c(r)(r)c(r)(h)(ooh)
+Equivalence: .c(h)(h)c(h)(h)(ooh) .c(r)(r)c(r)(h)(ooh)     0
+Equivalence: .c(r)(h)c(h)(h)(ooh) .c(r)(r)c(r)(h)(ooh)     0
+Equivalence: .c(r)(r)c(h)(h)(ooh) .c(r)(r)c(r)(h)(ooh)     0
+Equivalence: .c(h)(h)c(r)(h)(ooh) .c(r)(r)c(r)(h)(ooh)     0
+Equivalence: .c(r)(h)c(r)(h)(ooh) .c(r)(r)c(r)(h)(ooh)     0
+New ID:   20809205
+Store:         25:.c(h)(h)c(r)(r)(ooh)
+Equivalence: .c(h)(h)c(h)(h)(ooh) .c(h)(h)c(r)(r)(ooh)     0
+Equivalence: .c(r)(h)c(h)(h)(ooh) .c(h)(h)c(r)(r)(ooh)     0
+Equivalence: .c(r)(r)c(h)(h)(ooh) .c(h)(h)c(r)(r)(ooh)     0
+Equivalence: .c(h)(h)c(r)(h)(ooh) .c(h)(h)c(r)(r)(ooh)     0
+Equivalence: .c(r)(h)c(r)(h)(ooh) .c(h)(h)c(r)(r)(ooh)     0
+Equivalence: .c(r)(r)c(r)(h)(ooh) .c(h)(h)c(r)(r)(ooh)     0
+New ID:   20809206
+Store:         26:.c(r)(h)c(r)(r)(ooh)
+Equivalence: .c(h)(h)c(h)(h)(ooh) .c(r)(h)c(r)(r)(ooh)     0
+Equivalence: .c(r)(h)c(h)(h)(ooh) .c(r)(h)c(r)(r)(ooh)     0
+Equivalence: .c(r)(r)c(h)(h)(ooh) .c(r)(h)c(r)(r)(ooh)     0
+Equivalence: .c(h)(h)c(r)(h)(ooh) .c(r)(h)c(r)(r)(ooh)     0
+Equivalence: .c(r)(h)c(r)(h)(ooh) .c(r)(h)c(r)(r)(ooh)     0
+Equivalence: .c(r)(r)c(r)(h)(ooh) .c(r)(h)c(r)(r)(ooh)     0
+Equivalence: .c(h)(h)c(r)(r)(ooh) .c(r)(h)c(r)(r)(ooh)     0
+New ID:   20809207
+Store:         27:.c(r)(r)c(r)(r)(ooh)
+Equivalence: .c(h)(h)c(h)(h)(ooh) .c(r)(r)c(r)(r)(ooh)     0
+Equivalence: .c(r)(h)c(h)(h)(ooh) .c(r)(r)c(r)(r)(ooh)     0
+Equivalence: .c(r)(r)c(h)(h)(ooh) .c(r)(r)c(r)(r)(ooh)     0
+Equivalence: .c(h)(h)c(r)(h)(ooh) .c(r)(r)c(r)(r)(ooh)     0
+Equivalence: .c(r)(h)c(r)(h)(ooh) .c(r)(r)c(r)(r)(ooh)     0
+Equivalence: .c(r)(r)c(r)(h)(ooh) .c(r)(r)c(r)(r)(ooh)     0
+Equivalence: .c(h)(h)c(r)(r)(ooh) .c(r)(r)c(r)(r)(ooh)     0
+Equivalence: .c(r)(h)c(r)(r)(ooh) .c(r)(r)c(r)(r)(ooh)     0
+New ID:   20809208
+Store:         28:c(h)(h)(h)(ooh)
+Equivalence: (h)(h)(h)cooh c(h)(h)(h)(ooh)     6
+Equivalence: (h)(h)(r)cooh c(h)(h)(h)(ooh)     0
+Equivalence: (h)(r)(r)cooh c(h)(h)(h)(ooh)     0
+Equivalence: (r)(r)(r)cooh c(h)(h)(h)(ooh)     0
+New ID:   10607104
+Store:         29:c(r)(h)(h)(ooh)
+Equivalence: (h)(h)(h)cooh c(r)(h)(h)(ooh)     0
+Equivalence: (h)(h)(r)cooh c(r)(h)(h)(ooh)     2
+Equivalence: (h)(r)(r)cooh c(r)(h)(h)(ooh)     0
+Equivalence: (r)(r)(r)cooh c(r)(h)(h)(ooh)     0
+Equivalence: c(h)(h)(h)(ooh) c(r)(h)(h)(ooh)     0
+New ID:   10607105
+Store:         30:c(r)(r)(h)(ooh)
+Equivalence: (h)(h)(h)cooh c(r)(r)(h)(ooh)     0
+Equivalence: (h)(h)(r)cooh c(r)(r)(h)(ooh)     0
+Equivalence: (h)(r)(r)cooh c(r)(r)(h)(ooh)     2
+Equivalence: (r)(r)(r)cooh c(r)(r)(h)(ooh)     0
+Equivalence: c(h)(h)(h)(ooh) c(r)(r)(h)(ooh)     0
+Equivalence: c(r)(h)(h)(ooh) c(r)(r)(h)(ooh)     0
+New ID:   10607106
+Store:         31:c(r)(r)(r)(ooh)
+Equivalence: (h)(h)(h)cooh c(r)(r)(r)(ooh)     0
+Equivalence: (h)(h)(r)cooh c(r)(r)(r)(ooh)     0
+Equivalence: (h)(r)(r)cooh c(r)(r)(r)(ooh)     0
+Equivalence: (r)(r)(r)cooh c(r)(r)(r)(ooh)     6
+Equivalence: c(h)(h)(h)(ooh) c(r)(r)(r)(ooh)     0
+Equivalence: c(r)(h)(h)(ooh) c(r)(r)(r)(ooh)     0
+Equivalence: c(r)(r)(h)(ooh) c(r)(r)(r)(ooh)     0
+New ID:   10607107
+Store:         32:c(h)(h)(h)(o.)
+New ID:   20405100
+Store:         33:c(r)(h)(h)(o.)
+Equivalence: c(h)(h)(h)(o.) c(r)(h)(h)(o.)     0
+New ID:   20405101
+Store:         34:c(r)(r)(h)(o.)
+Equivalence: c(h)(h)(h)(o.) c(r)(r)(h)(o.)     0
+Equivalence: c(r)(h)(h)(o.) c(r)(r)(h)(o.)     0
+New ID:   20405102
+Store:         35:c(q)(q)(q)(o.)
+Equivalence: c(h)(h)(h)(o.) c(q)(q)(q)(o.)     0
+Equivalence: c(r)(h)(h)(o.) c(q)(q)(q)(o.)     0
+Equivalence: c(r)(r)(h)(o.) c(q)(q)(q)(o.)     0
+New ID:   20405103
+Store:         36:c(r)(r)(r)(o.)
+Equivalence: c(h)(h)(h)(o.) c(r)(r)(r)(o.)     0
+Equivalence: c(r)(h)(h)(o.) c(r)(r)(r)(o.)     0
+Equivalence: c(r)(r)(h)(o.) c(r)(r)(r)(o.)     0
+Equivalence: c(q)(q)(q)(o.) c(r)(r)(r)(o.)     0
+New ID:   20405104
+Store:         37:.ccc(h)(h)(ooh)
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Equivalence: c(h)(q)(q)(ccoo.) .ccc(h)(h)(ooh)     0
+Equivalence: .c(q)(q)(ccooh) .ccc(h)(h)(ooh)     0
+New ID:   20708323
+Store:         38:.ccc(r)(h)(ooh)
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Equivalence: c(h)(q)(q)(ccoo.) .ccc(r)(h)(ooh)     0
+Equivalence: .c(q)(q)(ccooh) .ccc(r)(h)(ooh)     0
+Equivalence: .ccc(h)(h)(ooh) .ccc(r)(h)(ooh)     0
+New ID:   20708324
+Store:         39:.ccc(r)(r)(ooh)
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Equivalence: c(h)(q)(q)(ccoo.) .ccc(r)(r)(ooh)     0
+Equivalence: .c(q)(q)(ccooh) .ccc(r)(r)(ooh)     0
+Equivalence: .ccc(h)(h)(ooh) .ccc(r)(r)(ooh)     0
+Equivalence: .ccc(r)(h)(ooh) .ccc(r)(r)(ooh)     0
+New ID:   20708325
+Current>> Quit
+SubStructures>> Keys
+Command:Keys
+Keys>> Define
+Command:Define
+Keys>> Fill
+Command:Fill
+Keys>> Write
+Command:Write
+Keys>> Quit
+SubStructures>> Misc
+Command:Misc
+Misc>> PrintList
+Command:PrintList
+  20809319: -->.c(rh)coc(hhh)<--
+  20708320: -->alphaolefin-radical(rr)(r)(rr)<--
+  20506210: -->.c(h)(h)co(r)<--
+  20809304: -->co(h)c(rr)c.(hh)<--
+  20708305: -->alphaolefin-radical(rr)(h)(hh)<--
+  10607207: -->c(rrr)rc(o)<--
+  10102200: -->olefin<--
+  11112406: -->betaolefin(qq)(q)(hh)(rrh)<--
+  20102000: -->hydroxyl-radical<--
+  20708318: -->alphaolefin-radical(hh)(r)(rr)<--
+  20809317: -->co(r)c(rr)c.(rr)<--
+  20506208: -->.c(r)(h)co(h)<--
+  20809302: -->co(h)c(rh)c.(hh)<--
+  20708303: -->alphaolefin-radical(hh)(h)(hh)<--
+  10809315: -->co(r)c(rr)co(r)<--
+  10607205: -->c(rrh)rc(o)<--
+  11112404: -->betaolefin(qq)(q)(rh)(rhh)<--
+  10506215: -->olefin-(qq)(qq)<--
+  20708316: -->alphaolefin-radical(rh)(h)(rr)<--
+  20506206: -->c(rrr).c(o)<--
+  10506200: -->ethane-(hh)(hh)<--
+  20708301: -->alphaolefin-radical(qq)(q)(rh)<--
+  20809300: -->co(h)c(hh)c.(hh)<--
+  10809313: -->co(r)c(rh)co(r)<--
+  20809202: -->.c(r)(r)c(h)(h)(ooh)<--
+  10607106: -->c(r)(r)(h)(ooh)<--
+  10607203: -->c(rhh)rc(o)<--
+  10506213: -->olefin-(rr)(rh)<--
+  20708314: -->alphaolefin-radical(rr)(r)(rh)<--
+  10304103: -->(r)(r)c(o)<--
+  20506106: -->(h)(r)(r)coo.<--
+  10809311: -->co(r)c(hh)co(r)<--
+  20809200: -->.c(h)(h)c(h)(h)(ooh)<--
+  20809316: -->co(h)c(rr)c.(rr)<--
+  20607201: -->.c(q)(q)(cooh)<--
+  20203300: -->alphaolefin-radical<--
+  10607201: -->c(hhh)rc(o)<--
+  10607104: -->c(h)(h)(h)(ooh)<--
+  10506211: -->olefin-(rh)(rh)<--
+  20708312: -->alphaolefin-radical(hh)(r)(rh)<--
+  10607103: -->(r)(r)(r)cooh<--
+  20809329: -->.c(rr)coc(rrr)<--
+  10304101: -->(h)(h)c(o)<--
+  10304400: -->betaolefin<--
+  10809309: -->co(r)c(rr)co(h)<--
+  20506104: -->(h)(h)(h)coo.<--
+  10102001: -->hydrogen<--
+  20809314: -->co(h)c(rh)c.(rr)<--
+  10506209: -->olefin-(hh)(hh)<--
+  20708310: -->alphaolefin-radical(rh)(h)(rh)<--
+  10607101: -->(h)(h)(r)cooh<--
+  20809327: -->.c(hh)coc(rrr)<--
+  20506102: -->(q)(q)(h)coo.<--
+  10809307: -->co(r)c(rh)co(h)<--
+  11112401: -->betaolefin(qq)(q)(rh)(hhh)<--
+  20809312: -->co(h)c(hh)c.(rr)<--
+  10506207: -->ethane-(rh)(rr)<--
+  20708308: -->alphaolefin-radical(rr)(r)(hh)<--
+  20506203: -->c(hhh).c(o)<--
+  10304000: -->hydrogen-peroxide<--
+  20809325: -->.c(rh)coc(rrh)<--
+  20809400: -->c(h)(q)(q)(cccoo.)<--
+  20506100: -->(h).cooh-r<--
+  10809305: -->co(r)c(hh)co(h)<--
+  20809310: -->co(h)c(rr)c.(rh)<--
+  10506205: -->ethane-(hh)(rr)<--
+  20506201: -->.c(r)(h)co(q)<--
+  20809207: -->.c(r)(h)c(r)(r)(ooh)<--
+  20809323: -->.c(rr)coc(rhh)<--
+  20506500: -->.ccccc(h)<--
+  20405103: -->c(q)(q)(q)(o.)<--
+  20708324: -->.ccc(r)(h)(ooh)<--
+  10809303: -->alphaolefin-(qq)(q)(rrr)<--
+  20203101: -->(r).c(o)<--
+  20809308: -->co(h)c(rh)c.(rh)<--
+  20001001: -->oxygen-radical<--
+  10506203: -->ethane-(rh)(rh)<--
+  20809205: -->.c(r)(r)c(r)(h)(ooh)<--
+  11112410: -->betaolefin(qq)(q)(rh)(rrr)<--
+  20809321: -->.c(hh)coc(rhh)<--
+  20708322: -->.c(q)(q)(ccooh)<--
+  20405101: -->c(r)(h)(h)(o.)<--
+  20405400: -->.cccc(h)<--
+  10809301: -->alphaolefin-(qq)(q)(rhh)<--
+  20506212: -->.c(r)(r)co(r)<--
+  20809306: -->co(h)c(hh)c.(rh)<--
+  10203300: -->alphaolefin<--
+  10506201: -->ethane-(rh)(hh)<--
+  11112408: -->betaolefin(qq)(q)(rr)(rrh)<--
+  10809304: -->co(h)c(hh)co(h)<--
+  20102100: -->carbonmonoxide<--
+  20809309: -->co(r)c(rh)c.(rh)<--
+  10506204: -->ethane-(rr)(hh)<--
+  20506200: -->.c(h)(h)co(q)<--
+  11112411: -->betaolefin(qq)(q)(rr)(rrr)<--
+  20809322: -->.c(rh)coc(rhh)<--
+  20809206: -->.c(h)(h)c(r)(r)(ooh)<--
+  20405102: -->c(r)(r)(h)(o.)<--
+  20708323: -->.ccc(h)(h)(ooh)<--
+  10809302: -->alphaolefin-(qq)(q)(rrh)<--
+  20203100: -->(h).c(o)<--
+  20809307: -->co(r)c(hh)c.(rh)<--
+  20001000: -->hydrogen-radical<--
+  10001000: -->oxygen-atom<--
+  10506202: -->ethane-(hh)(rh)<--
+  20809204: -->.c(r)(h)c(r)(h)(ooh)<--
+  11112409: -->betaolefin(qq)(q)(hh)(rrr)<--
+  20809320: -->.c(rr)coc(hhh)<--
+  20708321: -->c(h)(q)(q)(ccoo.)<--
+  20405100: -->c(h)(h)(h)(o.)<--
+  10809300: -->alphaolefin-(qq)(q)(hhh)<--
+  20506211: -->.c(r)(h)co(r)<--
+  20203000: -->peroxyl-radical<--
+  20809305: -->co(r)c(rr)c.(hh)<--
+  10203000: -->water<--
+  20708306: -->alphaolefin-radical(hh)(r)(hh)<--
+  11112407: -->betaolefin(qq)(q)(rh)(rrh)<--
+  20809318: -->.c(hh)coc(hhh)<--
+  20708319: -->alphaolefin-radical(rh)(r)(rr)<--
+  20506209: -->.c(r)(r)co(h)<--
+  20809303: -->co(r)c(rh)c.(hh)<--
+  20708304: -->alphaolefin-radical(rh)(h)(hh)<--
+  10607206: -->c(rrr)hc(o)<--
+  11112405: -->betaolefin(qq)(q)(rr)(rhh)<--
+  20708317: -->alphaolefin-radical(rr)(h)(rr)<--
+  10910200: -->c2q5ooh<--
+  20506207: -->.c(h)(h)co(h)<--
+  20809301: -->co(r)c(hh)c.(hh)<--
+  20708302: -->alphaolefin-radical(qq)(q)(rr)<--
+  10809314: -->co(h)c(rr)co(r)<--
+  20809203: -->.c(h)(h)c(r)(h)(ooh)<--
+  10607107: -->c(r)(r)(r)(ooh)<--
+  10607204: -->c(rrh)hc(o)<--
+  11112403: -->betaolefin(qq)(q)(hh)(rhh)<--
+  10506214: -->olefin-(rr)(rr)<--
+  20708315: -->alphaolefin-radical(hh)(h)(rr)<--
+  20506205: -->c(rrh).c(o)<--
+  20506107: -->(r)(r)(r)coo.<--
+  20708300: -->alphaolefin-radical(qq)(q)(hh)<--
+  20809201: -->.c(r)(h)c(h)(h)(ooh)<--
+  10809312: -->co(h)c(rh)co(r)<--
+  10607105: -->c(r)(h)(h)(ooh)<--
+  10607202: -->c(rhh)hc(o)<--
+  10506212: -->olefin-(rr)(hh)<--
+  20708313: -->alphaolefin-radical(rh)(r)(rh)<--
+  10304102: -->(r)(h)c(o)<--
+  20506105: -->(h)(h)(r)coo.<--
+  10809310: -->co(h)c(hh)co(r)<--
+  20910500: -->.c(q)(q)(ccccooh)<--
+  20809315: -->co(r)c(rh)c.(rr)<--
+  20607200: -->c(q)(q)(h)(coo.)<--
+  10607200: -->c(hhh)hc(o)<--
+  10506210: -->olefin-(rh)(hh)<--
+  20708311: -->alphaolefin-radical(rr)(h)(rh)<--
+  10607102: -->(h)(r)(r)cooh<--
+  20809328: -->.c(rh)coc(rrr)<--
+  10304100: -->general-aldehydeketone<--
+  20506103: -->(q)(q)(q)coo.<--
+  10809308: -->co(h)c(rr)co(h)<--
+  10102000: -->oxygen<--
+  11112402: -->betaolefin(qq)(q)(rr)(hhh)<--
+  20809313: -->co(r)c(hh)c.(rr)<--
+  10607100: -->(h)(h)(h)cooh<--
+  10506208: -->ethane-(rr)(rr)<--
+  20708309: -->alphaolefin-radical(hh)(h)(rh)<--
+  20708700: -->.ccccccc(h)<--
+  20809326: -->.c(rr)coc(rrh)<--
+  20506204: -->c(rhh).c(o)<--
+  20809401: -->.c(q)(q)(cccooh)<--
+  20506101: -->r-.cooh-r<--
+  10809306: -->co(h)c(rh)co(h)<--
+  11112400: -->betaolefin(qq)(q)(hh)(hhh)<--
+  20809311: -->co(r)c(rr)c.(rh)<--
+  10506206: -->ethane-(rr)(rh)<--
+  20708307: -->alphaolefin-radical(rh)(r)(hh)<--
+  20506202: -->.c(r)(r)co(q)<--
+  20809208: -->.c(r)(r)c(r)(r)(ooh)<--
+  20809324: -->.c(hh)coc(rrh)<--
+  20708325: -->.ccc(r)(r)(ooh)<--
+  20607600: -->.cccccc(h)<--
+  20405104: -->c(r)(r)(r)(o.)<--
+Misc>> Quit
+SubStructures>> Quit
+DbaseOps>> Quit
+main>> Quit
+~/git/copilot-worktrees/react/blurock-studious-fortnight/data/mol/subs 

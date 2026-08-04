@@ -1,0 +1,405 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+AldehydeDecompToAlkeneAndch2co-Alkyl-(hh)(hh)(hh)\
+ hcoc(hh)c(hh)c(hh) = .c(h)(h)co(h) olefin-(hh)(hh)
+- ID 72701
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12   2 4 2 2 2 2 2 2 2 2 2
+2 1 5 6 7 8                  2 2 2 2 2
+3 4 9 10 11 12               2 2 2 2 2
+>  <ForwardRxn>
+Standard 7.400E+11  0.00  2.197E+04 8;  Curran, et. al.;  c3h6cho-1  =  c2h4+ch2cho
+>  <ReverseRxn>
+Standard  2.110E+11  0.00  7.350E+03  8;  Curran, et. al.;  c3h6cho-1  =  c2h4+ch2cho
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rh)(hh)(hh)\
+ hcoc(rh)c(hh)c(hh) = .c(r)(h)co(h) olefin-(hh)(hh)
+- ID 72702
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12   2 4 2 2 2 2 2 2 2 2 2
+2 1 5 6 7 8                  2 2 2 2 2
+3 4 9 10 11 12               2 2 2 2 2
+>  <ForwardRxn>
+Standard 7.400E+11  0.00  2.197E+04 4;  Curran, et. al.;   c3h6cho-1  =  c2h4+ch2cho 
+>  <ReverseRxn>
+Standard  2.110E+11  0.00  7.350E+03 4;  Curran, et. al.;  c3h6cho-1  =  c2h4+ch2cho 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rr)(hh)(hh)\
+ hcoc(rr)c(hh)c(hh) = .c(r)(r)co(h) olefin-(hh)(hh)
+- ID 72703
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12   2 4 2 2 2 2 2 2 2 2 2
+2 1 5 6 7 8                  2 2 2 2 2
+3 4 9 10 11 12               2 2 2 2 2
+>  <ForwardRxn>
+Standard 7.400E+11  0.00  2.197E+04 8;  Curran, et. al.;   c3h6cho-1  =  c2h4+ch2cho 
+>  <ReverseRxn>
+Standard  2.110E+11  0.00  7.350E+03 8;  Curran, et. al.;  c3h6cho-1  =  c2h4+ch2cho 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*2 = 4
+%%%-------------------------------------------------------------------
+AldehydeDecompToAlkeneAndch2co-Alkyl-(hh)(rh)(hh)\
+ hcoc(hh)c(rh)c(hh) = .c(h)(h)co(h) olefin-(rh)(hh)
+- ID 72704
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12   2 4 2 2 2 2 2 2 2 2 2
+2 1 5 6 7 8                  2 2 2 2 2
+3 4 9 10 11 12               2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.140E+10   0.18  1.832E+04 4;  Curran, et. al.; (n-heptane, Curran, et al.)  c5h10cho-3 = c4h8-1+ch2cho
+>  <ReverseRxn>
+Standard 1.000E+11   0.00  7.800E+03 4;  Curran, et. al.; (n-heptane, Curran, et al.)   c5h10cho-3 = c4h8-1+ch2cho
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2 = 2
+%%%-------------------------------------------------------------------
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rh)(rh)(hh)\
+ hcoc(rh)c(rh)c(hh) = .c(r)(h)co(h) olefin-(rh)(hh)
+- ID 72705
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12   2 4 2 2 2 2 2 2 2 2 2
+2 1 5 6 7 8                  2 2 2 2 2
+3 4 9 10 11 12               2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.140E+10   0.18  1.832E+04 2;  Curran, et. al.; (n-heptane, Curran, et al.)   c5h10cho-3 = c4h8-1+ch2cho
+>  <ReverseRxn>
+Standard 1.000E+11   0.00  7.800E+03 2;  Curran, et. al.; (n-heptane, Curran, et al.)   c5h10cho-3 = c4h8-1+ch2cho
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*2 = 4
+%%%-------------------------------------------------------------------
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rr)(rh)(hh)\
+ hcoc(rr)c(rh)c(hh) = .c(r)(r)co(h) olefin-(rh)(hh)
+- ID 72706
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12   2 4 2 2 2 2 2 2 2 2 2
+2 1 5 6 7 8                  2 2 2 2 2
+3 4 9 10 11 12               2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.140E+10   0.18  1.832E+04 4;  Curran, et. al.; (n-heptane, Curran, et al.)   c5h10cho-3 = c4h8-1+ch2cho
+>  <ReverseRxn>
+Standard 1.000E+11   0.00  7.800E+03 4;  Curran, et. al.; (n-heptane, Curran, et al.)   c5h10cho-3 = c4h8-1+ch2cho
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+AldehydeDecompToAlkeneAndch2co-Alkyl-(hh)(rr)(hh)\
+ hcoc(hh)c(rr)c(hh) = .c(h)(h)co(h) olefin-(rr)(hh)
+- ID 72707
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12   2 4 2 2 2 2 2 2 2 2 2
+2 1 5 6 7 8                  2 2 2 2 2
+3 4 9 10 11 12               2 2 2 2 2
+>  <ForwardRxn>
+Standard  6.610E+19  -2.20  2.809E+04 8;  Curran, et. al.; (isooctane)  tc4h8ch2cho  =  ic4h8+ch2cho 
+>  <ReverseRxn>
+Standard  1.000E+11  0.00  1.260E+04 8;  Curran, et. al.; (isooctane)  tc4h8ch2cho  =  ic4h8+ch2cho 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*2 = 4
+%%%-------------------------------------------------------------------
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rh)(rr)(hh)\
+ hcoc(rh)c(rr)c(hh) = .c(r)(h)co(h) olefin-(rr)(hh)
+- ID 72708
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12   2 4 2 2 2 2 2 2 2 2 2
+2 1 5 6 7 8                  2 2 2 2 2
+3 4 9 10 11 12               2 2 2 2 2
+>  <ForwardRxn>
+Standard  6.610E+19  -2.20  2.809E+04 4;  Curran, et. al.; (isooctane)  tc4h8ch2cho  =  ic4h8+ch2cho 
+>  <ReverseRxn>
+Standard  1.000E+11  0.00  1.260E+04 4;  Curran, et. al.; (isooctane)  tc4h8ch2cho  =  ic4h8+ch2cho 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rr)(rr)(hh)\
+ hcoc(rr)c(rr)c(hh) = .c(r)(r)co(h) olefin-(rr)(hh)
+- ID 72709
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12   2 4 2 2 2 2 2 2 2 2 2
+2 1 5 6 7 8                  2 2 2 2 2
+3 4 9 10 11 12               2 2 2 2 2
+>  <ForwardRxn>
+Standard  6.610E+19  -2.20  2.809E+04 8;  Curran, et. al.; (isooctane)  tc4h8ch2cho  =  ic4h8+ch2cho 
+>  <ReverseRxn>
+Standard  1.000E+11  0.00  1.260E+04 8;  Curran, et. al.; (isooctane)  tc4h8ch2cho  =  ic4h8+ch2cho 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*1 = 4
+%%%-------------------------------------------------------------------
+AldehydeDecompToAlkeneAndch2co-Alkyl-(hh)(hh)(rh)\
+ hcoc(hh)c(hh)c(rh) = .c(h)(h)co(h) olefin-(rh)(hh)
+- ID 72710
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12   2 4 2 2 2 2 2 2 2 2 2
+2 1 5 6 7 8                  2 2 2 2 2
+4 3 11 12 9 10               2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.140E+10   0.18  1.832E+04 4;  Curran, et. al.; (n-heptane, Curran, et al.)   c5h10cho-3 = c4h8-1+ch2cho
+>  <ReverseRxn>
+Standard 1.000E+11   0.00  7.800E+03 4;  Curran, et. al.; (n-heptane, Curran, et al.)   c5h10cho-3 = c4h8-1+ch2cho
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*1 = 2
+%%%-------------------------------------------------------------------
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rh)(hh)(rh)\
+ hcoc(rh)c(hh)c(rh) = .c(r)(h)co(h) olefin-(rh)(hh)
+- ID 72711
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12   2 4 2 2 2 2 2 2 2 2 2
+2 1 5 6 7 8                  2 2 2 2 2
+4 3 11 12 9 10               2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.140E+10   0.18  1.832E+04 2;  Curran, et. al.; (n-heptane, Curran, et al.)   c5h10cho-3 = c4h8-1+ch2cho
+>  <ReverseRxn>
+Standard 1.000E+11   0.00  7.800E+03 2;  Curran, et. al.; (n-heptane, Curran, et al.)   c5h10cho-3 = c4h8-1+ch2cho
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*1 = 4
+%%%-------------------------------------------------------------------
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rr)(hh)(rh)\
+ hcoc(rr)c(hh)c(rh) = .c(r)(r)co(h) olefin-(rh)(hh)
+- ID 72712
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12   2 4 2 2 2 2 2 2 2 2 2
+2 1 5 6 7 8                  2 2 2 2 2
+4 3 11 12 9 10               2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.140E+10   0.18  1.832E+04 4;  Curran, et. al.; (n-heptane, Curran, et al.)   c5h10cho-3 = c4h8-1+ch2cho
+>  <ReverseRxn>
+Standard 1.000E+11   0.00  7.800E+03 4;  Curran, et. al.; (n-heptane, Curran, et al.)   c5h10cho-3 = c4h8-1+ch2cho
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*1 = 2
+%%%-------------------------------------------------------------------
+AldehydeDecompToAlkeneAndch2co-Alkyl-(hh)(rh)(rh)\
+ hcoc(hh)c(rh)c(rh) = .c(h)(h)co(h) olefin-(rh)(rh)
+- ID 72713
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12   2 4 2 2 2 2 2 2 2 2 2
+2 1 5 6 7 8                  2 2 2 2 2
+3 4 9 10 11 12               2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.140E+10   0.18  1.832E+04 2;  Curran, et. al.; (n-heptane, Curran, et al.)   c5h10cho-3 = c4h8-1+ch2cho
+>  <ReverseRxn>
+Standard 1.000E+11   0.00  7.800E+03 2;  Curran, et. al.; (n-heptane, Curran, et al.)   c5h10cho-3 = c4h8-1+ch2cho
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1*1 = 1
+%%%-------------------------------------------------------------------
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rh)(rh)(rh)\
+ hcoc(rh)c(rh)c(rh) = .c(r)(h)co(h) olefin-(rh)(rh)
+- ID 72714
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12   2 4 2 2 2 2 2 2 2 2 2
+2 1 5 6 7 8                  2 2 2 2 2
+3 4 9 10 11 12               2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.140E+10   0.18  1.832E+04 1;  Curran, et. al.; (n-heptane, Curran, et al.)   c5h10cho-3 = c4h8-1+ch2cho
+>  <ReverseRxn>
+Standard 1.000E+11   0.00  7.800E+03 1;  Curran, et. al.; (n-heptane, Curran, et al.)   c5h10cho-3 = c4h8-1+ch2cho
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*1 = 2
+%%%-------------------------------------------------------------------
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rr)(rh)(rh)\
+ hcoc(rr)c(rh)c(rh) = .c(r)(r)co(h) olefin-(rh)(rh)
+- ID 72715
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12   2 4 2 2 2 2 2 2 2 2 2
+2 1 5 6 7 8                  2 2 2 2 2
+3 4 9 10 11 12               2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.140E+10   0.18  1.832E+04 2;  Curran, et. al.; (n-heptane, Curran, et al.)   c5h10cho-3 = c4h8-1+ch2cho
+>  <ReverseRxn>
+Standard 1.000E+11   0.00  7.800E+03 2;  Curran, et. al.; (n-heptane, Curran, et al.)   c5h10cho-3 = c4h8-1+ch2cho
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*1 = 4
+%%%-------------------------------------------------------------------
+AldehydeDecompToAlkeneAndch2co-Alkyl-(hh)(rr)(rh)\
+ hcoc(hh)c(rr)c(rh) = .c(h)(h)co(h) olefin-(rr)(rh)
+- ID 72716
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12   2 4 2 2 2 2 2 2 2 2 2
+2 1 5 6 7 8                  2 2 2 2 2
+3 4 9 10 11 12               2 2 2 2 2
+>  <ForwardRxn>
+Standard  6.610E+19  -2.20  2.809E+04 4;  Curran, et. al.; (isooctane)  tc4h8ch2cho  =  ic4h8+ch2cho 
+>  <ReverseRxn>
+Standard  1.000E+11  0.00  1.260E+04 4;  Curran, et. al.; (isooctane)  tc4h8ch2cho  =  ic4h8+ch2cho 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*1 = 2
+%%%-------------------------------------------------------------------
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rh)(rr)(rh)\
+ hcoc(rh)c(rr)c(rh) = .c(r)(h)co(h) olefin-(rr)(rh)
+- ID 72717
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12   2 4 2 2 2 2 2 2 2 2 2
+2 1 5 6 7 8                  2 2 2 2 2
+3 4 9 10 11 12               2 2 2 2 2
+>  <ForwardRxn>
+Standard  6.610E+19  -2.20  2.809E+04 2;  Curran, et. al.; (isooctane)  tc4h8ch2cho  =  ic4h8+ch2cho 
+>  <ReverseRxn>
+Standard  1.000E+11  0.00  1.260E+04 2;  Curran, et. al.; (isooctane)  tc4h8ch2cho  =  ic4h8+ch2cho 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*1 = 4
+%%%-------------------------------------------------------------------
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rr)(rr)(rh)\
+ hcoc(rr)c(rr)c(rh) = .c(r)(r)co(h) olefin-(rr)(rh)
+- ID 72718
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12   2 4 2 2 2 2 2 2 2 2 2
+2 1 5 6 7 8                  2 2 2 2 2
+3 4 9 10 11 12               2 2 2 2 2
+>  <ForwardRxn>
+Standard  6.610E+19  -2.20  2.809E+04 4;  Curran, et. al.; (isooctane)  tc4h8ch2cho  =  ic4h8+ch2cho 
+>  <ReverseRxn>
+Standard  1.000E+11  0.00  1.260E+04 4;  Curran, et. al.; (isooctane)  tc4h8ch2cho  =  ic4h8+ch2cho 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+AldehydeDecompToAlkeneAndch2co-Alkyl-(hh)(hh)(rr)\
+ hcoc(hh)c(hh)c(rr) = .c(h)(h)co(h) olefin-(rr)(hh)
+- ID 72719
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12   2 4 2 2 2 2 2 2 2 2 2
+2 1 5 6 7 8                  2 2 2 2 2
+4 3 11 12 9 10               2 2 2 2 2
+>  <ForwardRxn>
+Standard  5.410E+15  -1.13  2.748E+04 8;  Curran, et. al.; isooctane  bc5h10cho  =  ic4h8+ch2cho 
+>  <ReverseRxn>
+Standard  1.000E+11  0.00  1.060E+04 8;  Curran, et. al.;  isooctane  bc5h10cho  =  ic4h8+ch2cho 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*2 = 4
+%%%-------------------------------------------------------------------
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rh)(hh)(rr)\
+ hcoc(rh)c(hh)c(rr) = .c(r)(h)co(h) olefin-(rr)(hh)
+- ID 72720
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12   2 4 2 2 2 2 2 2 2 2 2
+2 1 5 6 7 8                  2 2 2 2 2
+4 3 11 12 9 10               2 2 2 2 2
+>  <ForwardRxn>
+Standard  5.410E+15  -1.13  2.748E+04 4;  Curran, et. al.; isooctane  bc5h10cho  =  ic4h8+ch2cho 
+>  <ReverseRxn>
+Standard  1.000E+11  0.00  1.060E+04 4;  Curran, et. al.;  isooctane  bc5h10cho  =  ic4h8+ch2cho 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rr)(hh)(rr)\
+ hcoc(rr)c(hh)c(rr) = .c(r)(r)co(h) olefin-(rr)(hh)
+- ID 72721
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12   2 4 2 2 2 2 2 2 2 2 2
+2 1 5 6 7 8                  2 2 2 2 2
+4 3 11 12 9 10               2 2 2 2 2
+>  <ForwardRxn>
+Standard  5.410E+15  -1.13  2.748E+04 8;  Curran, et. al.; isooctane  bc5h10cho  =  ic4h8+ch2cho 
+>  <ReverseRxn>
+Standard  1.000E+11  0.00  1.060E+04 8;  Curran, et. al.;  isooctane  bc5h10cho  =  ic4h8+ch2cho 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*2 = 4
+%%%-------------------------------------------------------------------
+AldehydeDecompToAlkeneAndch2co-Alkyl-(hh)(rh)(rr)\
+ hcoc(hh)c(rh)c(rr) = .c(h)(h)co(h) olefin-(rr)(rh)
+- ID 72722
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12   2 4 2 2 2 2 2 2 2 2 2
+2 1 5 6 7 8                  2 2 2 2 2
+4 3 11 12 9 10               2 2 2 2 2
+>  <ForwardRxn>
+Standard  5.410E+15  -1.13  2.748E+04 4;  Curran, et. al.; isooctane  bc5h10cho  =  ic4h8+ch2cho 
+>  <ReverseRxn>
+Standard  1.000E+11  0.00  1.060E+04 4;  Curran, et. al.;  isooctane  bc5h10cho  =  ic4h8+ch2cho 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1*2 = 2
+%%%-------------------------------------------------------------------
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rh)(rh)(rr)\
+ hcoc(rh)c(rh)c(rr) = .c(r)(h)co(h) olefin-(rr)(rh)
+- ID 72723
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12   2 4 2 2 2 2 2 2 2 2 2
+2 1 5 6 7 8                  2 2 2 2 2
+4 3 11 12 9 10               2 2 2 2 2
+>  <ForwardRxn>
+Standard  5.410E+15  -1.13  2.748E+04 2;  Curran, et. al.; isooctane  bc5h10cho  =  ic4h8+ch2cho 
+>  <ReverseRxn>
+Standard  1.000E+11  0.00  1.060E+04 2;  Curran, et. al.;  isooctane  bc5h10cho  =  ic4h8+ch2cho 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*2 = 4
+%%%-------------------------------------------------------------------
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rr)(rh)(rr)\
+ hcoc(rr)c(rh)c(rr) = .c(r)(r)co(h) olefin-(rr)(rh)
+- ID 72724
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12   2 4 2 2 2 2 2 2 2 2 2
+2 1 5 6 7 8                  2 2 2 2 2
+4 3 11 12 9 10               2 2 2 2 2
+>  <ForwardRxn>
+Standard  5.410E+15  -1.13  2.748E+04 4;  Curran, et. al.; isooctane  bc5h10cho  =  ic4h8+ch2cho 
+>  <ReverseRxn>
+Standard  1.000E+11  0.00  1.060E+04 4;  Curran, et. al.;  isooctane  bc5h10cho  =  ic4h8+ch2cho 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+AldehydeDecompToAlkeneAndch2co-Alkyl-(hh)(rr)(rr)\
+ hcoc(hh)c(rr)c(rr) = .c(h)(h)co(h) olefin-(rr)(rr)
+- ID 72725
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12   2 4 2 2 2 2 2 2 2 2 2
+2 1 5 6 7 8                  2 2 2 2 2
+3 4 9 10 11 12               2 2 2 2 2
+>  <ForwardRxn>
+Standard  5.410E+15  -1.13  2.748E+04 8;  Curran, et. al.; isooctane  bc5h10cho  =  ic4h8+ch2cho 
+>  <ReverseRxn>
+Standard  1.000E+11  0.00  1.060E+04 8;  Curran, et. al.;  isooctane  bc5h10cho  =  ic4h8+ch2cho 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*2 = 4
+%%%-------------------------------------------------------------------
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rh)(rr)(rr)\
+ hcoc(rh)c(rr)c(rr) = .c(r)(h)co(h) olefin-(rr)(rr)
+- ID 72726
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12   2 4 2 2 2 2 2 2 2 2 2
+2 1 5 6 7 8                  2 2 2 2 2
+3 4 9 10 11 12               2 2 2 2 2
+>  <ForwardRxn>
+Standard  6.610E+19  -2.20  2.809E+04 4;  Curran, et. al.; (isooctane)  tc4h8ch2cho  =  ic4h8+ch2cho 
+>  <ReverseRxn>
+Standard  1.000E+11  0.00  1.260E+04 4;  Curran, et. al.; (isooctane)  tc4h8ch2cho  =  ic4h8+ch2cho 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+AldehydeDecompToAlkeneAndch2co-Alkyl-(rr)(rr)(rr)\
+ hcoc(rr)c(rr)c(rr) = .c(r)(r)co(h) olefin-(rr)(rr)
+- ID 72727
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12   2 4 2 2 2 2 2 2 2 2 2
+2 1 5 6 7 8                  2 2 2 2 2
+3 4 9 10 11 12               2 2 2 2 2
+>  <ForwardRxn>
+Standard  5.410E+15  -1.13  2.748E+04 8;  Curran, et. al.; isooctane  bc5h10cho  =  ic4h8+ch2cho 
+>  <ReverseRxn>
+Standard  1.000E+11  0.00  1.060E+04 8;  Curran, et. al.;  isooctane  bc5h10cho  =  ic4h8+ch2cho 
+$$$$

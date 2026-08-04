@@ -1,0 +1,33 @@
+The Production of Olefin after basic low temp isomerization
+oxygen
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Step 1  (setup)    TypeI: H-Abstraction
+H-Abstraction-Oxygen-Tertiary,\
+H-Abstraction-Oxygen-Secondary,\
+H-Abstraction-Oxygen-Primary:\
+oxygen
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Step 2  (setup)  Type 10: Carbon-Radical-(R.+O2-->RO2.)
+Primary-Carbon-Radical-(R.+O2-->RO2.),\
+Secondary-Carbon-Radical-(R.+O2-->RO2.),\
+Tertiary-Carbon-Radical-(R.+O2-->RO2.)\
+:oxygen
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Step 3  (setup)  Type 12: Intramolecular-1-4-QOOH-Formation
+Intramolecular-1-4-QOOH-Formation,\
+Intramolecular-1-5-QOOH-Formation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Type 20: BetaHPeroxyToOlefin
+%%% Type 21: OlefinCarbonylFromPeroxy
+BetaHPeroxyToOlefin-HHHH,\
+BetaHPeroxyToOlefin-RHHH,\
+BetaHPeroxyToOlefin-RRHH,\
+BetaHPeroxyToOlefin-HHRH,\
+BetaHPeroxyToOlefin-RHRH,\
+BetaHPeroxyToOlefin-RRRH,\
+BetaHPeroxyToOlefin-HHRR,\
+BetaHPeroxyToOlefin-RHRR,\
+BetaHPeroxyToOlefin-RRRR,\
+OlefinCarbonylFromPeroxy-HH,\
+OlefinCarbonylFromPeroxy-RH,\
+OlefinCarbonylFromPeroxy-RR

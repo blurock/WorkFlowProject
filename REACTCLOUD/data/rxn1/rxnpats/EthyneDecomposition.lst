@@ -1,0 +1,112 @@
+%%%-------------------------------------------------------------------
+%%%   Symmetry 6 = 6
+%%%-------------------------------------------------------------------
+PropyneDecompositionToEthynyl-(h)(hhh)\
+  propyne-(h)(hhh)  = ethyne-radical-(h) methane-carbon-radical
+- ID 42401
+- Correspondences
+1 2 3 4 5 6 7           2 4 2 2 2 2
+2 1 4                   2 2
+3 5 6 7                 2 2 2
+
+>  <ForwardRxn>
+Standard 4.2e+16 0.0 1e+5 6; Westbrook Value from c3h4-p = c2h+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 6 = 6
+%%%-------------------------------------------------------------------
+PropyneDecompositionToEthynyl-(r)(hhh)\
+  propyne-(r)(hhh)  = ethyne-radical-(r) methane-carbon-radical
+- ID 42402
+- Correspondences
+1 2 3 4 5 6 7           2 4 2 2 2 2
+2 1 4                   2 2
+3 5 6 7                 2 2 2
+
+>  <ForwardRxn>
+Standard 4.2e+16 0.0 1.0e+5 6; Westbrook Value from c3h4-p = c2h+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2 = 2
+%%%-------------------------------------------------------------------
+PropyneDecompositionToEthynyl-(h)(rhh)\
+  propyne-(h)(rhh)  = ethyne-radical-(h) primary-carbon-radical
+- ID 42403
+- Correspondences
+1 2 3 4 5 6 7           2 4 2 2 2 2
+2 1 4                   2 2
+3 5 6 7                 2 2 2
+
+>  <ForwardRxn>
+Standard 4.2e+16 0.0 1.0e+5 2; Westbrook Value from c3h4-p = c2h+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2 = 2
+%%%-------------------------------------------------------------------
+PropyneDecompositionToEthynyl-(r)(rhh)\
+  propyne-(r)(rhh)  = ethyne-radical-(r) primary-carbon-radical
+- ID 42404
+- Correspondences
+1 2 3 4 5 6 7           2 4 2 2 2 2
+2 1 4                   2 2
+3 5 6 7                 2 2 2
+
+>  <ForwardRxn>
+Standard 4.2e+16 0.0 1.0e+5 2; Westbrook Value from c3h4-p = c2h+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2 = 2
+%%%-------------------------------------------------------------------
+PropyneDecompositionToEthynyl-(h)(rrh)\
+  propyne-(h)(rrh)  = ethyne-radical-(h) secondary-carbon-radical
+- ID 42405
+- Correspondences
+1 2 3 4 5 6 7           2 4 2 2 2 2
+2 1 4                   2 2
+3 5 6 7                 2 2 2
+
+>  <ForwardRxn>
+Standard 4.2e+16 0.0 1.0e+5 2; Westbrook Value from c3h4-p = c2h+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 6 = 6
+%%%-------------------------------------------------------------------
+PropyneDecompositionToEthynyl-(r)(rrh)\
+  propyne-(r)(rrh)  = ethyne-radical-(r) secondary-carbon-radical
+- ID 42406
+- Correspondences
+1 2 3 4 5 6 7           2 4 2 2 2 2
+2 1 4                   2 2
+3 5 6 7                 2 2 2
+
+>  <ForwardRxn>
+Standard 4.2e+16 0.0 1.0e+5 2; Westbrook Value from c3h4-p = c2h+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 6 = 6
+%%%-------------------------------------------------------------------
+PropyneDecompositionToEthynyl-(h)(rrr)\
+  propyne-(h)(rrr)  = ethyne-radical-(h) tertiary-carbon-radical
+- ID 42407
+- Correspondences
+1 2 3 4 5 6 7           2 4 2 2 2 2
+2 1 4                   2 2
+3 5 6 7                 2 2 2
+
+>  <ForwardRxn>
+Standard 4.2e+16 0.0 1.0e+5 6; Westbrook Value from c3h4-p = c2h+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 6 = 6
+%%%-------------------------------------------------------------------
+PropyneDecompositionToEthynyl-(r)(rrr)\
+  propyne-(r)(rrr)  = ethyne-radical-(r) tertiary-carbon-radical
+- ID 42408
+- Correspondences
+1 2 3 4 5 6 7           2 4 2 2 2 2
+2 1 4                   2 2
+3 5 6 7                 2 2 2
+
+>  <ForwardRxn>
+Standard 4.2e+16 0.0 1.0e+5 6; Westbrook Value from c3h4-p = c2h+ch3
+$$$$

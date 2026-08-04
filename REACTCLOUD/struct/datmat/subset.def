@@ -1,0 +1,33 @@
+Structures For building Subsets
+2 subsetstr
+%% ----------------------------------------------------------------
+%% The DataSubSet structure holds a series of integers.  Their main use is
+%% to keep track of a subset of objects by their id numbers.
+%%     
+   DataSubSet 21 dtasubset SystemList
+      0  The Highest data point number in the Points
+         INT MaximumPoint                       Create
+      1  The number of points in the subset
+         INT NumberOfPoints                     Create
+      2  The Array of integers (ID's) in subset
+         INT Points             Pointer         Create Array=NumberOfPoints
+      DONE
+%% ----------------------------------------------------------------
+%% This stores a vector of subsets
+   DataSubSetVector 22 dtasubsetvec
+      0  The number of data subsets
+         INT NumberOfVectors                    Create
+      1  The set of datasubsets
+         DataSubSet Vector  Create Pointer     Array=NumberOfVectors
+      DONE
+%% ----------------------------------------------------------------
+%% These are two subsets for the classic case of a test and training
+%% set of points.
+   DataTestBlock    23 dtatestblk
+      0  The Build data subset (used for creating structure
+         DataSubSet Build   Pointer     Create
+      1  The Test data subset (independent set used for testing)
+         DataSubSet Test    Pointer     Create
+    DONE
+DONE
+

@@ -1,0 +1,102 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+CyclicEther-4Ring-(h)\
+  (h)(h)(-ccco-) hydroxyl-radical = water olefin (h).c(o)
+- ID 25041
+- Correspondences
+1 2 3 4 5 6                4 2 4 2 2 4
+7 8                        2
+8 7 6                      2 4
+2 3                        2
+1 4 5                      2 2
+>  <ForwardRxn>
+Standard 19.00e+7   1.61  -3.5E+01  2; 
+>  <ReverseRxn>
+Standard 1.00e-30   0.00   0.000E+00  2; 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1 = 1
+%%%-------------------------------------------------------------------
+CyclicEther-4Ring-(r)\
+  (r)(h)(-ccco-) hydroxyl-radical = water olefin (r).c(o)
+- ID 25042
+- Correspondences
+1 2 3 4 5 6                4 2 4 2 2 4
+7 8                        2
+8 7 6                      2 4
+2 3                        2
+1 4 5                      2 2
+>  <ForwardRxn>
+Standard 8.84e+9   1.00  -1.49E+02  1; 
+>  <ReverseRxn>
+Standard 1.00e-30   0.00   0.000E+00  1; 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------1
+CyclicEther-5Ring-(h)\
+  (h)(h)(-cccco-) hydroxyl-radical = water olefin .cco(h)
+- ID 25051
+- Correspondences
+1 2 3 4 5 6 7              2 4 2 4 2 2 4
+8 9                        2
+9 8 7                      2 4
+3 4                        2
+2 1 5 6                    2 2 2
+>  <ForwardRxn>
+Standard 19.0e+7   1.61  -3.5E+01  2; 
+>  <ReverseRxn>
+Standard 1.00e-30   0.00   0.000E+00  2; 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1 = 1
+%%%-------------------------------------------------------1
+CyclicEther-5Ring-(r)\
+  (r)(h)(-cccco-) hydroxyl-radical = water olefin .cco(r)
+- ID 25052
+- Correspondences
+1 2 3 4 5 6 7              2 4 2 4 2 2 4
+8 9                        2
+9 8 7                      2 4
+3 4                        2
+2 1 5 6                    2 2 2
+>  <ForwardRxn>
+Standard 8.84e+9   1.00  -1.49E+02  1; 
+>  <ReverseRxn>
+Standard 1.00e-30   0.00   0.000E+00  1; 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------1
+CyclicEther-6Ring-(h)\
+  (h)(h)(-ccccco-) hydroxyl-radical = water olefin .ccco(h)
+- ID 25061
+- Correspondences
+1 2 3 4 5 6 7 8            2 2 4 2 4 2 2 4
+9 10                       2
+10 9 8                     2 4
+4 5                        2
+3 2 1 6 7                  2 2 2 2
+>  <ForwardRxn>
+Standard 19.00e+7   1.61  -3.5E+01  2; 
+>  <ReverseRxn>
+Standard 1.00e-30   0.00   0.000E+00  2; 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------1
+CyclicEther-6Ring-(r)\
+  (r)(h)(-ccccco-) hydroxyl-radical = water olefin .ccco(r)
+- ID 25062
+- Correspondences
+1 2 3 4 5 6 7 8            2 2 4 2 4 2 2 4
+9 10                       2
+10 9 8                     2 4
+4 5                        2
+3 2 1 6 7                  2 2 2 2
+>  <ForwardRxn>
+Standard 8.84e+9   1.00  -1.49E+02  1; 
+>  <ReverseRxn>
+Standard 1.00e-30   0.00   0.000E+00  1; 
+$$$$

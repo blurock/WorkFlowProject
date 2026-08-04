@@ -1,0 +1,19 @@
+ROOH from hydrogen peroxide going to peroxyl radical
+hydrogen-peroxide
+%%% ----------------------------------------------------
+H-Abstraction-Oxygen-Tertiary,\
+H-Abstraction-Oxygen-Secondary,\
+H-Abstraction-Oxygen-Primary:\
+oxygen
+%%% ----------------------------------------------------
+Primary-Carbon-Radical-(R.+O2-->RO2.),\
+Secondary-Carbon-Radical-(R.+O2-->RO2.),\
+Tertiary-Carbon-Radical-(R.+O2-->RO2.):\
+oxygen
+%%% ----------------------------------------------------
+PeroxyFromHydrogenPeroxide-HHH,\
+PeroxyFromHydrogenPeroxide-RHH,\
+PeroxyFromHydrogenPeroxide-RRH,\
+PeroxyFromHydrogenPeroxide-RRR:\
+hydrogen-peroxide
+

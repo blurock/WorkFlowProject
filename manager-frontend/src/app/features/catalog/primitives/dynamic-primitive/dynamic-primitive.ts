@@ -82,9 +82,9 @@ import { JsonArrayPrimitiveComponent } from '../json-array-primitive/json-array-
 })
 export class DynamicPrimitiveComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
   @Input() structure!: OntologyStructure;
-  
+
   private _value: any;
-  @Input() 
+  @Input()
   get value() { return this._value; }
   set value(v: any) {
     if (this._value !== v) {
@@ -103,7 +103,8 @@ export class DynamicPrimitiveComponent implements OnInit, OnChanges, AfterViewIn
 
   get customComponent() {
     if (this.structure && this.structure.classname) {
-      return resolveCustomInterface(this.structure.classname);
+      const resolved = resolveCustomInterface(this.structure.classname);
+      return resolved;
     }
     return undefined;
   }
@@ -136,7 +137,7 @@ export class DynamicPrimitiveComponent implements OnInit, OnChanges, AfterViewIn
 
   private updateCustomComponent() {
     if (!this.isViewInit || !this.customContainer) return;
-    
+
     const compType = this.customComponent;
     if (!compType) {
       this.customContainer.clear();
@@ -159,7 +160,7 @@ export class DynamicPrimitiveComponent implements OnInit, OnChanges, AfterViewIn
     ref.setInput('structure', this.structure);
     ref.setInput('value', this.value);
     ref.setInput('classname', this.structure.classname);
-    
+
     if (ref.instance.valueChange) {
       ref.instance.valueChange.subscribe((v: any) => {
         this.onChildValueChange(v);

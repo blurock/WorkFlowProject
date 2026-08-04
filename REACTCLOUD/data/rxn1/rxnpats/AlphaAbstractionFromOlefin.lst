@@ -1,0 +1,83 @@
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*6 = 12
+%%%-------------------------------------------------------------------
+AlphaHAbstractionFromOlefinOxygen-(hh) \
+     alphaolefin-(qq)(q)(hhh) oxygen = alphaolefin-radical(qq)(q)(hh) peroxyl-radical
+- ID 42001
+- Correspondences
+1 2 3 4 5 6 7 8 9    2 2 2 2 2 2 2 4
+10 11                2
+1 2 3 6 4 5 7 8      2 2 2 2 2 2 2
+9 10 11              4 2
+>  <ForwardRxn>
+Standard 1.905e+12 0.0 163.6 24; Ranzi Value ; Estimate  Come Propene (B13)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+AlphaHAbstractionFromOlefinOxygen-(rh) \
+     alphaolefin-(qq)(q)(rhh) oxygen = alphaolefin-radical(qq)(q)(rh) peroxyl-radical
+- ID 42002
+- Correspondences
+1 2 3 4 5 6 7 8 9    2 2 2 2 2 2 2 4
+10 11                2
+1 2 3 6 4 5 7 8      2 2 2 2 2 2 2
+9 10 11              4 2
+>  <ForwardRxn>
+Standard 1.905e+12 0.0 163.6 8; Ranzi Value ; Estimate  Come Propene (B13)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+AlphaHAbstractionFromOlefinOxygen-(rr) \
+     alphaolefin-(qq)(q)(rrh) oxygen = alphaolefin-radical(qq)(q)(rr) peroxyl-radical
+- ID 42003
+- Correspondences
+1 2 3 4 5 6 7 8 9    2 2 2 2 2 2 2 4
+10 11                2
+1 2 3 6 4 5 7 8      2 2 2 2 2 2 2
+9 10 11              4 2
+>  <ForwardRxn>
+Standard 1.905e+12 0.0 163.6 8; Ranzi Value ; Estimate  Come Propene (B13)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 6 = 6
+%%%-------------------------------------------------------------------
+AlphaHAbstractionFromOlefin-(hh) \
+     alphaolefin-(qq)(q)(hhh)  = alphaolefin-radical(qq)(q)(hh) hydrogen-radical
+- ID 42004
+- Correspondences
+1 2 3 4 5 6 7 8 9    2 2 2 2 2 2 2 4                
+1 2 3 6 4 5 7 8      2 2 2 2 2 2 2
+9                    
+>  <ForwardRxn>
+Standard 1.585e+14 0.0 361.4 12; Come Value ; Estimate  Come Propene (UI1)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2 = 2
+%%%-------------------------------------------------------------------
+AlphaHAbstractionFromOlefin-(rh) \
+     alphaolefin-(qq)(q)(rhh) = alphaolefin-radical(qq)(q)(rh) hydrogen-radical
+- ID 42005
+- Correspondences
+1 2 3 4 5 6 7 8 9    2 2 2 2 2 2 2 4                
+1 2 3 6 4 5 7 8      2 2 2 2 2 2 2
+9                    
+>  <ForwardRxn>
+Standard 1.585e+14 0.0 361.4 4; Come Value ; Estimate  Come Propene (UI1)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2 = 2
+%%%-------------------------------------------------------------------
+AlphaHAbstractionFromOlefin-(rr) \
+     alphaolefin-(qq)(q)(rrh) = alphaolefin-radical(qq)(q)(rr) hydrogen-radical
+- ID 42006
+- Correspondences
+1 2 3 4 5 6 7 8 9    2 2 2 2 2 2 2 4                
+1 2 3 6 4 5 7 8      2 2 2 2 2 2 2
+9                    
+>  <ForwardRxn>
+Standard 1.585e+14 0.0 361.4 4; Come Value ; Estimate  Come Propene (UI1)
+$$$$

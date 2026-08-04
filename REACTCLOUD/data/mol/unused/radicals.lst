@@ -1,0 +1,25 @@
+1 TestCase
+hydrogen-radical
+ - AlternativeNames Chemkin H                  ; Chemkin Name  ; Used in Chemkin runs
+ - ChemkinThermo Chemkin H                     ; Chemkin ; From Table
+hydrogen
+ - AlternativeNames Chemkin H2                 ; Chemkin Name  ; Used in Chemkin runs
+ - ChemkinThermo Chemkin H2                    ; Chemkin ; From Table
+oxygen-molecule
+ - AlternativeNames Chemkin O                  ; Chemkin Name  ; Used in Chemkin runs
+ - ChemkinThermo Chemkin O                     ; Chemkin ; From Table
+oxygen
+ - AlternativeNames Chemkin O2                 ; Chemkin Name  ; Used in Chemkin runs
+ - ChemkinThermo Chemkin O2                    ; Chemkin ; From Table
+hydroxyl-radical
+ - AlternativeNames Chemkin OH                 ; Chemkin Name  ; Used in Chemkin runs
+ - ChemkinThermo Chemkin OH                    ; Chemkin ; From Table
+peroxyl-radical
+ - AlternativeNames Chemkin HO2                ; Chemkin Name  ; Used in Chemkin runs
+ - ChemkinThermo Chemkin HO2                   ; Chemkin ; From Table
+hydrogen-peroxide
+ - AlternativeNames Chemkin H2O2               ; Chemkin Name  ; Used in Chemkin runs
+ - ChemkinThermo Chemkin H2O2                  ; Chemkin ; From Table
+water
+ - AlternativeNames Chemkin H2O                ; Chemkin Name  ; Used in Chemkin runs
+ - ChemkinThermo Chemkin H2O                   ; Chemkin ; From Table

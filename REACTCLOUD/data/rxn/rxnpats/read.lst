@@ -1,0 +1,60 @@
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2 = 2
+%%%-------------------------------------------------------------------
+HLossEthenylToEthyne-(hh)\
+   ethenyl-(hh)(h)  = ethyne-(h)(h) + hydrogen-radical
+- ID 42101
+- Correspondences
+1 2 3 4 5        2 2 4 2
+1 2 3 5          2 2 2
+4                        
+>  <ForwardRxn>
+Standard 7.95e+14 0.0 31600 2;  C2H3 =  C2H2 + H  Benson, S.W.;Haugen , G.R., J. Phys. Chem.,  71 (1.32x10-9 (cm3/molecule s) e-31.60
+>  <ReverseRxn>
+Standard 79.00e+12 0.0  15000  2;  C2H3 =  C2H2 + H Benson, S.W.;Haugen , G.R., J. Phys. Chem., (rev) 2.18x10-34 (cm6/molecule2 s)  (15.00)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1 = 1
+%%%-------------------------------------------------------------------
+HLossEthenylToEthyne-(rh)\
+   ethenyl-(rh)(h)  = ethyne-(r)(h) + hydrogen-radical
+- ID 42102
+- Correspondences
+1 2 3 4 5        2 2 4 2
+1 2 3 5          2 2 2
+4                        
+>  <ForwardRxn>
+Standard 7.94e+12 0.0 37928 1;  (Propene mechanism) tC3H5 > R1H+pC3H4 Heyberger et al. Comb. Flame, 126:1780-1802
+>  <ReverseRxn>
+Standard 6.5e+12 0.0 1700 1; (Heyberger, et al. Propene) pC3H4+R1H > tC3H5  %<WAGNER72>%
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1 = 1
+%%%-------------------------------------------------------------------
+HLossEthenylToEthyne-(rr)\
+   ethenyl-(rh)(r)  = ethyne-(r)(r) + hydrogen-radical
+- ID 42103
+- Correspondences
+1 2 3 4 5        2 2 4 2
+1 2 3 5          2 2 2
+4                        
+>  <ForwardRxn>
+Standard 7.94e+12 0.0 37928 1;  (Propene mechanism) tC3H5 > R1H+pC3H4 Heyberger et al. Comb. Flame, 126:1780-1802
+>  <ReverseRxn>
+Standard 6.5e+12 0.0 1700 1; (Heyberger, et al. Propene) pC3H4+R1H > tC3H5  %<WAGNER72>%
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2 = 2
+%%%-------------------------------------------------------------------
+HLossEthenylToEthyne-(hr)\
+   ethenyl-(hh)(r)  = ethyne-(r)(h) + hydrogen-radical
+- ID 42104
+- Correspondences
+1 2 3 4 5        2 2 4 2
+1 2 5 3          2 2 2
+4                        
+>  <ForwardRxn>
+Standard 7.94e+12 0.0 37928 2;  (Propene mechanism) tC3H5 > R1H+pC3H4 Heyberger et al. Comb. Flame, 126:1780-1802
+>  <ReverseRxn>
+Standard 6.5e+12 0.0 1700 1; (Heyberger, et al. Propene) pC3H4+R1H > tC3H5  %<WAGNER72>%
+$$$$

@@ -1,0 +1,65 @@
+2ary Level Side Reaction:  Generation of Cyclic Ether from QOOH
+oxygen,hydroxyl-radical
+%%% ----------------------------------------------------
+H-Abstraction-Oxygen-Tertiary,\
+H-Abstraction-Oxygen-Secondary,\
+H-Abstraction-Oxygen-Primary:\
+oxygen
+%%% ----------------------------------------------------
+Primary-Carbon-Radical-(R.+O2-->RO2.),\
+Secondary-Carbon-Radical-(R.+O2-->RO2.),\
+Tertiary-Carbon-Radical-(R.+O2-->RO2.)\
+:oxygen
+%%% ----------------------------------------------------
+RO2-Isomerization-5RingPrimary,\
+RO2-Isomerization-5RingSecondary,\
+RO2-Isomerization-5RingTertiary,\
+RO2-Isomerization-6RingPrimary,\
+RO2-Isomerization-6RingSecondary,\
+RO2-Isomerization-6RingTertiary,\
+RO2-Isomerization-7RingPrimary,\
+RO2-Isomerization-7RingSecondary,\
+RO2-Isomerization-7RingTertiary,\
+RO2-Isomerization-8RingPrimary,\
+RO2-Isomerization-8RingSecondary,\
+RO2-Isomerization-8RingTertiary
+%%% ---------------------------------------------------
+CyclicEtherFromQOOH-3Ring,\
+CyclicEtherFromQOOH-4Ring,\
+CyclicEtherFromQOOH-5Ring,\
+CyclicEtherFromQOOH-6Ring
+%%% ----------------------------------------------------
+CyclicEther-3Ring-(hh),\
+CyclicEther-3Ring-(rh),\
+CyclicEther-3RingDecomp-(hh)(h)(hhh),\
+CyclicEther-3RingDecomp-(rh)(h)(hhh),\
+CyclicEther-3RingDecomp-(rr)(h)(hhh),\
+CyclicEther-3RingDecomp-(hh)(h)(rhh),\
+CyclicEther-3RingDecomp-(rh)(h)(rhh),\
+CyclicEther-3RingDecomp-(rr)(h)(rhh),\
+CyclicEther-3RingDecomp-(hh)(h)(rrh),\
+CyclicEther-3RingDecomp-(rh)(h)(rrh),\
+CyclicEther-3RingDecomp-(rr)(h)(rrh),\
+CyclicEther-3RingDecomp-(hh)(h)(rrr),\
+CyclicEther-3RingDecomp-(rh)(h)(rrr),\
+CyclicEther-3RingDecomp-(rr)(h)(rrr),\
+CyclicEther-4Ring-(h),\
+CyclicEther-4Ring-(r),\
+CyclicEther-5Ring-(h),\
+CyclicEther-5Ring-(r),\
+CyclicEther-6Ring-(h),\
+CyclicEther-6Ring-(r)\
+:hydroxyl-radical
+%%% ----------------------------------------------------
+%%% ----------------------------------------------------
+KetoneAdditionOH-Alpha-(h)(hh),\
+KetoneAdditionOH-Alpha-(r)(hh),\
+KetoneAdditionOH-Alpha-(h)(rh),\
+KetoneAdditionOH-Alpha-(r)(rh),\
+KetoneAdditionOH-Alpha-(h)(rr),\
+KetoneAdditionOH-Alpha-(r)(rr),\
+KetoneAdditionOH-Alpha-(h)(hh),\
+KetoneAdditionOH-Alpha-(r)(rr),\
+:hydrogen-radical,hydroxyl-radical
+%%% ----------------------------------------------------
+%%% ----------------------------------------------------

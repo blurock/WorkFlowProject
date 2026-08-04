@@ -1,0 +1,49 @@
+CLASSCOEFFICIENTS
+H-Abstraction-Methoxy-Primary            =      5.2700e+10     0.0000      29.27     1.7916e+09     0.4240      49.41
+H-Abstraction-Methoxy-Secondary          =      5.4800e+11     0.0000      20.91     1.1350e+10     0.3940      57.08
+H-Abstraction-EthylRadical-Primary       =      1.6700e+10     0.0000      56.04     8.8659e+12    -0.3300      67.21
+H-Abstraction-EthylRadical-Secondary     =      2.5000e+10     0.0000      43.49     8.0860e+12    -0.3600      67.69
+H-Abstraction-EthenylRadical-Primary     =      1.6700e+11     0.0000      75.28     1.9030e+13    -0.2640     116.46
+H-Abstraction-EthenylRadical-Secondary   =      2.0000e+11     0.0000      70.26     1.9220e+13    -0.3340     128.48
+H-Abstraction-MethylPeroxyl-Primary      =      2.0200e+12     0.0000      85.44     3.6000e+12     0.0000      40.98
+H-Abstraction-MethylPeroxyl-Secondary    =      2.0200e+12     0.0000      74.02     2.3760e+11     0.0000      15.47
+H-Abstraction-Methyl-Primary             =      2.1700e+11     0.0000      48.51     5.4024e+12    -0.0220      78.67
+H-Abstraction-Methyl-Secondary           =      2.0000e+11     0.0000      39.73     3.0335e+12    -0.0520      85.92
+END
+CLASSEQUIVALENT
+END
+REACTIONCLASS  = H-Abstraction-Methoxy-Primary
+    6 {hexane} + {methoxy-radical} = {PP12} + {methanol}
+END
+REACTIONCLASS  = H-Abstraction-Methoxy-Secondary
+    4 {hexane} + {methoxy-radical} = {PP14} + {methanol}
+    4 {hexane} + {methoxy-radical} = {PP15} + {methanol}
+END
+REACTIONCLASS  = H-Abstraction-EthylRadical-Primary
+    6 {hexane} + {ethyl-radical} = {PP12} + {ethane}
+END
+REACTIONCLASS  = H-Abstraction-EthylRadical-Secondary
+    4 {hexane} + {ethyl-radical} = {PP15} + {ethane}
+    4 {hexane} + {ethyl-radical} = {PP14} + {ethane}
+END
+REACTIONCLASS  = H-Abstraction-EthenylRadical-Primary
+    6 {hexane} + {ethenyl-radical} = {PP12} + {ethene}
+END
+REACTIONCLASS  = H-Abstraction-EthenylRadical-Secondary
+    4 {hexane} + {ethenyl-radical} = {PP15} + {ethene}
+    4 {hexane} + {ethenyl-radical} = {PP14} + {ethene}
+END
+REACTIONCLASS  = H-Abstraction-MethylPeroxyl-Primary
+    6 {hexane} + {methylperoxy-radical} = {PP12} + {methyl-hydroperoxide}
+END
+REACTIONCLASS  = H-Abstraction-MethylPeroxyl-Secondary
+    4 {hexane} + {methylperoxy-radical} = {PP15} + {methyl-hydroperoxide}
+    4 {hexane} + {methylperoxy-radical} = {PP14} + {methyl-hydroperoxide}
+END
+REACTIONCLASS  = H-Abstraction-Methyl-Primary
+    6 {hexane} + {methyl-radical} = {PP12} + {methane}
+END
+REACTIONCLASS  = H-Abstraction-Methyl-Secondary
+    4 {hexane} + {methyl-radical} = {methane} + {PP14}
+    4 {hexane} + {methyl-radical} = {methane} + {PP15}
+END

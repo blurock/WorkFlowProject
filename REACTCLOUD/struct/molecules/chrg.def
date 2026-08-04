@@ -1,0 +1,82 @@
+%%*****************************************************************************
+%%
+%%  charge-objects
+%%    Objects for Partial Charge and Electronegativity Calculations
+%%
+%%*****************************************************************************
+Structures for Charge Routines
+1 charges
+%%
+%% Electronic Information For a Single Atom
+%%
+     AtomElectronic 30 atomelectronic
+        0 Atomic Number
+          INT AtomicNumber       Create
+        1 The full integral charge on the atom
+          FLOAT Shells  Pointer  Create   Array=NumberOfShells
+        2 The number of electrons on the atom
+          INT NOccupied          Create
+        3 An array with the number of electrons in each shell.
+          FLOAT NElectrons       Create
+        4 The number of shells which are occupied
+          FLOAT Charge           Create
+        5 The calculated electronegativity
+          FLOAT Electronegativity Create
+        6 The sigma screening charge
+          FLOAT Screening         Create
+        7 The covalent radius of the atom
+          FLOAT CovalentRadius    Create
+        8 The effective nuclear charge
+          FLOAT NuclearCharge     Create
+        9 The residual charge on the atom
+          FLOAT ResidualCharge    Create
+         10 Screening factor
+          FLOAT Beta              Create
+         11 Effective Atom Charge
+          FLOAT ZEff              Create
+         12 Number of Shells
+          INT NumberOfShells      Create
+         13 The Polarizability
+          FLOAT Polarizability    Create
+         DONE
+%%****************************************************************************
+%%ResonantSets
+%%     These are the set of resonant structures in the molecule.
+%%
+%%      NSets       - The number of sets
+%%      Sets        - An array of pointers to a single resonant set
+%%
+%%   ResonantSet
+%%      This is the information representing a single resonant structure
+%%                         
+%%      NumberOfAtoms - This is the number of Resonant Set
+%%      Atoms         - This is the vector of atoms in the resonant set
+%%
+
+     Resonance 42 resonantset
+        0 Number of atoms in set
+          INT NumberOfAtoms Create
+        1 The set of labels for resonant atoms
+          INT Atoms Pointer Create Array=NumberOfAtoms
+        DONE
+      SetOfResonances 43 resonantsets
+        0 Number Of Sets
+          INT NumberOfSets Create
+        1 The set of Resonant Sets
+          Resonance Sets Pointer Create Array=NumberOfSets
+        DONE
+%%****************************************************************************
+%%
+%%  Accumulation of the Charge and Bond information for a Molecule
+%%
+     MoleculeElectronic 31 moleculeelectronic
+         0 The number of atoms in the molecule
+            INT NAtoms          Create
+         1 AtomElectronic structures (vector of NAtom)
+            AtomElectronic Atoms Pointer  Create  Array=NAtoms
+         2 The bond order matrix
+            BondOrderMatrix BondOrder Pointer Create
+         3 The set of Resonances
+            SetOfResonances Resonant Pointer Create 
+         DONE
+DONE

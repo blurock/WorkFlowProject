@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deployment Phases | REACT ChemDB Docs</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <h1>Deployment Phases</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/deployment-phases">Deployment Phases</a>
+      <a href="/update-and-deploy-image">Update & Deploy Docker Image</a>
+      <a href="/backup-to-github">Backup to GitHub</a>
+      <a href="/archive">Full Implementation Archive</a>
+    </nav>
+  </header>
+  <main>
+    <h2>Phase-by-Phase Implementation</h2>
+    <ol>
+      <li><strong>Project setup:</strong> Created Docker-related scaffolding and branch workflow.</li>
+      <li><strong>Dockerfile build pipeline:</strong> Built REACT binaries and initialized chemistry databases during image build.</li>
+      <li><strong>C compatibility updates:</strong> Applied Linux-safe compile flags, RPC header shims, and legacy code fixes.</li>
+      <li><strong>Runtime entrypoint + API:</strong> Added HTTP wrapper and dual-mode startup behavior (CLI/HTTP).</li>
+      <li><strong>Validation:</strong> Confirmed local Docker runtime and endpoint behavior.</li>
+      <li><strong>Production optimization:</strong> Added non-root runtime user and Cloud Run focused deployment workflow.</li>
+    </ol>
+
+    <h2>Cloud Run Deployment Path</h2>
+    <p>
+      The release path uses Artifact Registry image hosting plus <code>gcloud run deploy</code>.
+      Build with <code>linux/amd64</code> when running from Apple Silicon so Cloud Run can run the image.
+    </p>
+    <pre><code>export PROJECT_ID="blurock-database"
+export REGION="us-central1"
+export SERVICE_NAME="react-chemdb"
+export REPO_NAME="react-images"
+export IMAGE_URI="$REGION-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/$SERVICE_NAME:v1-amd64"
+
+docker buildx build --platform linux/amd64 -t "$IMAGE_URI" --push .
+
+gcloud run deploy "$SERVICE_NAME" \
+  --image "$IMAGE_URI" \
+  --platform managed \
+  --region "$REGION" \
+  --allow-unauthenticated \
+  --memory 2Gi \
+  --timeout 3600 \
+  --cpu 2 \
+  --concurrency 1 \
+  --max-instances 10</code></pre>
+
+    <h2>Detailed Phase Pages</h2>
+    <p>
+      For full implementation detail and source-backed phase documentation, use the archive phase pages:
+      <a href="/archive/phase-1">Phase 1</a>,
+      <a href="/archive/phase-2">Phase 2</a>,
+      <a href="/archive/phase-3">Phase 3</a>,
+      <a href="/archive/phase-4">Phase 4</a>,
+      <a href="/archive/phase-5">Phase 5</a>,
+      <a href="/archive/phase-6">Phase 6</a>.
+    </p>
+  </main>
+  <footer>
+    REACT ChemDB deployment reference
+  </footer>
+</body>
+</html>

@@ -1,0 +1,22 @@
+Structures for Graphic Rectangles
+5 xwinrectangle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%       
+   RectangleStyle 100 rectanglestyle
+      0 The Fill Style
+        INT FillStyle Create
+      1 The Outline Style
+        INT Outline Create
+      2 The Outline Line Thickness
+        INT Thickness Create
+      DONE
+%%%
+   RectangleObject  100 rectangleobject
+      0 The corner of the rectangle
+        ObjectPosition Corner Pointer Create
+      1 The size of the rectangle
+        ObjectSize Size Pointer Create
+      DONE 
+%%%
+DONE
+   

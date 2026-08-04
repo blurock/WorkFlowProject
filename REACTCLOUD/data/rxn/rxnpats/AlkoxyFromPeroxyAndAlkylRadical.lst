@@ -1,0 +1,258 @@
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*6=36
+%%%-------------------------------------------------------------------
+AlkoxyFromPeroxyAndAlkylRadical-(hhh)(hhh) \
+       (h)(h)(h)coo. methane-carbon-radical  =  .oc(hhh) .oc(hhh)
+- ID 17301
+- Correspondences
+1 2 3 4 5 6      2 4 2 2 2
+7 8 9 10         2 2 2
+1 2 4 5 6        2 2 2 2
+7 3 8 9 10       4 2 2 2
+>  <ForwardRxn>
+Standard 7.0e+12 0.0 -1000.0  36; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
+>  <ReverseRxn>
+Standard 6.43169e+15 -0.565 31503.  36; reverse Calculated (Ea=131.898); Lund 1-c7h15 + 1-c7h15o2 = 1-c7h15o + 1-c7h15o
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*6=12
+%%%-------------------------------------------------------------------
+AlkoxyFromPeroxyAndAlkylRadical-(rhh)(hhh) \
+      (r)(h)(h)coo. methane-carbon-radical  =  .oc(rhh) .oc(hhh)
+- ID 17302
+- Correspondences
+1 2 3 4 5 6      2 4 2 2 2
+7 8 9 10         2 2 2
+1 2 4 5 6        2 2 2 2
+7 3 8 9 10       4 2 2 2
+>  <ForwardRxn>
+Standard 7.0e+12 0.0 -1000.0  12; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
+>  <ReverseRxn>
+Standard 6.43169e+15 -0.565 31503. 12; reverse Calculated (Ea=131.898); Lund 1-c7h15 + 1-c7h15o2 = 1-c7h15o + 1-c7h15o
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*6=12
+%%%-------------------------------------------------------------------
+AlkoxyFromPeroxyAndAlkylRadical-(rrh)(hhh) \
+      (r)(r)(h)coo. methane-carbon-radical  =  .oc(rrh) .oc(hhh)
+- ID 17303
+- Correspondences
+1 2 3 4 5 6      2 4 2 2 2
+7 8 9 10         2 2 2
+1 2 4 5 6        2 2 2 2
+7 3 8 9 10       4 2 2 2
+>  <ForwardRxn>
+Standard 7.0e+12 0.0 -1000.0  12; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
+>  <ReverseRxn>
+Standard 6.43169e+15 -0.565 31503.  12; reverse Calculated (Ea=131.898); Lund 1-c7h15 + 1-c7h15o2 = 1-c7h15o + 1-c7h15o
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*6=36
+%%%-------------------------------------------------------------------
+AlkoxyFromPeroxyAndAlkylRadical-(rrr)(hhh) \
+      (r)(r)(r)coo. methane-carbon-radical  =  .oc(rrr) .oc(hhh)
+- ID 17304
+- Correspondences
+1 2 3 4 5 6      2 4 2 2 2
+7 8 9 10         2 2 2
+1 2 4 5 6        2 2 2 2
+7 3 8 9 10       4 2 2 2
+>  <ForwardRxn>
+Standard 7.0e+12 0.0 -1000.0  36; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
+>  <ReverseRxn>
+Standard 6.43169e+15 -0.565 31503.  36; reverse Calculated (Ea=131.898); Lund 1-c7h15 + 1-c7h15o2 = 1-c7h15o + 1-c7h15o
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2=12
+%%%-------------------------------------------------------------------
+AlkoxyFromPeroxyAndAlkylRadical-(hhh)(rhh) \
+      (h)(h)(h)coo. primary-carbon-radical  =  .oc(hhh) .oc(rhh)
+- ID 17305
+- Correspondences
+1 2 3 4 5 6      2 4 2 2 2
+7 8 9 10         2 2 2
+1 2 4 5 6        2 2 2 2
+7 3 8 9 10       4 2 2 2
+>  <ForwardRxn>
+Standard 7.0e+12 0.0 -1000.0  12; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
+>  <ReverseRxn>
+Standard 6.43169e+15 -0.565 31503.  12; reverse Calculated (Ea=131.898); Lund 1-c7h15 + 1-c7h15o2 = 1-c7h15o + 1-c7h15o
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2=4
+%%%-------------------------------------------------------------------
+AlkoxyFromPeroxyAndAlkylRadical-(rhh)(rhh) \
+      (r)(h)(h)coo. primary-carbon-radical  =  .oc(rhh) .oc(rhh)
+- ID 17306
+- Correspondences
+1 2 3 4 5 6      2 4 2 2 2
+7 8 9 10         2 2 2
+1 2 4 5 6        2 2 2 2
+7 3 8 9 10       4 2 2 2
+>  <ForwardRxn>
+Standard 7.0e+12 0.0 -1000.0  4; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
+>  <ReverseRxn>
+Standard 6.43169e+15 -0.565 31503.  4; reverse Calculated (Ea=131.898); Lund 1-c7h15 + 1-c7h15o2 = 1-c7h15o + 1-c7h15o
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2=4
+%%%-------------------------------------------------------------------
+AlkoxyFromPeroxyAndAlkylRadical-(rrh)(rhh) \
+      (r)(r)(h)coo. primary-carbon-radical  =  .oc(rrh) .oc(rhh)
+- ID 17307
+- Correspondences
+1 2 3 4 5 6      2 4 2 2 2
+7 8 9 10         2 2 2
+1 2 4 5 6        2 2 2 2
+7 3 8 9 10       4 2 2 2
+>  <ForwardRxn>
+Standard 7.0e+12 0.0 -1000.0  4; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
+>  <ReverseRxn>
+Standard 6.43169e+15 -0.565 31503.  4; reverse Calculated (Ea=131.898); Lund 1-c7h15 + 1-c7h15o2 = 1-c7h15o + 1-c7h15o
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2=12 
+%%%-------------------------------------------------------------------
+AlkoxyFromPeroxyAndAlkylRadical-(rrr)(rhh) \
+      (r)(r)(r)coo. primary-carbon-radical  =  .oc(rrr) .oc(rhh)
+- ID 17308
+- Correspondences
+1 2 3 4 5 6      2 4 2 2 2
+7 8 9 10         2 2 2
+1 2 4 5 6        2 2 2 2
+7 3 8 9 10       4 2 2 2
+>  <ForwardRxn>
+Standard 7.0e+12 0.0 -1000.0  12; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
+>  <ReverseRxn>
+Standard 6.43169e+15 -0.565 31503.  12; reverse Calculated (Ea=131.898); Lund 1-c7h15 + 1-c7h15o2 = 1-c7h15o + 1-c7h15o
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2=12
+%%%-------------------------------------------------------------------
+AlkoxyFromPeroxyAndAlkylRadical-(hhh)(rrh) \
+      (h)(h)(h)coo. secondary-carbon-radical  =  .oc(hhh) .oc(rrh)
+- ID 17309
+- Correspondences
+1 2 3 4 5 6      2 4 2 2 2
+7 8 9 10         2 2 2
+1 2 4 5 6        2 2 2 2
+7 3 8 9 10       4 2 2 2
+>  <ForwardRxn>
+Standard 7.0e+12 0.0 -1000.0  12; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
+>  <ReverseRxn>
+Standard 6.43169e+15 -0.565 31503.  12; reverse Calculated (Ea=131.898); Lund 1-c7h15 + 1-c7h15o2 = 1-c7h15o + 1-c7h15o
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2=4
+%%%-------------------------------------------------------------------
+AlkoxyFromPeroxyAndAlkylRadical-(rhh)(rrh) \
+      (r)(h)(h)coo. secondary-carbon-radical  =  .oc(rhh) .oc(rrh)
+- ID 17310
+- Correspondences
+1 2 3 4 5 6      2 4 2 2 2
+7 8 9 10         2 2 2
+1 2 4 5 6        2 2 2 2
+7 3 8 9 10       4 2 2 2
+>  <ForwardRxn>
+Standard 7.0e+12 0.0 -1000.0  4; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
+>  <ReverseRxn>
+Standard 6.43169e+15 -0.565 31503.  4; reverse Calculated (Ea=131.898); Lund 1-c7h15 + 1-c7h15o2 = 1-c7h15o + 1-c7h15o
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2=4
+%%%-------------------------------------------------------------------
+AlkoxyFromPeroxyAndAlkylRadical-(rrh)(rrh) \
+      (r)(r)(h)coo. secondary-carbon-radical  =  .oc(rrh) .oc(rrh)
+- ID 17311
+- Correspondences
+1 2 3 4 5 6      2 4 2 2 2
+7 8 9 10         2 2 2
+1 2 4 5 6        2 2 2 2
+7 3 8 9 10       4 2 2 2
+>  <ForwardRxn>
+Standard 7.0e+12 0.0 -1000.0  4; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
+>  <ReverseRxn>
+Standard 6.43169e+15 -0.565 31503.  4; reverse Calculated (Ea=131.898); Lund 1-c7h15 + 1-c7h15o2 = 1-c7h15o + 1-c7h15o
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2=4
+%%%-------------------------------------------------------------------
+AlkoxyFromPeroxyAndAlkylRadical-(rrr)(rrh) \
+      (r)(r)(r)coo. secondary-carbon-radical  =  .oc(rrr) .oc(rrh)
+- ID 17312
+- Correspondences
+1 2 3 4 5 6      2 4 2 2 2
+7 8 9 10         2 2 2
+1 2 4 5 6        2 2 2 2
+7 3 8 9 10       4 2 2 2
+>  <ForwardRxn>
+Standard 7.0e+12 0.0 -1000.0  4; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
+>  <ReverseRxn>
+Standard 6.43169e+15 -0.565 31503.  4; reverse Calculated (Ea=131.898); Lund 1-c7h15 + 1-c7h15o2 = 1-c7h15o + 1-c7h15o
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*6=36
+%%%-------------------------------------------------------------------
+AlkoxyFromPeroxyAndAlkylRadical-(hhh)(rrr) \
+      (h)(h)(h)coo. tertiary-carbon-radical  =  .oc(hhh) .oc(rrr)
+- ID 17313
+- Correspondences
+1 2 3 4 5 6      2 4 2 2 2
+7 8 9 10         2 2 2
+1 2 4 5 6        2 2 2 2
+7 3 8 9 10       4 2 2 2
+>  <ForwardRxn>
+Standard 7.0e+12 0.0 -1000.0  36; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
+>  <ReverseRxn>
+Standard 6.43169e+15 -0.565 31503.  36; reverse Calculated (Ea=131.898); Lund 1-c7h15 + 1-c7h15o2 = 1-c7h15o + 1-c7h15o
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*6=12
+%%%-------------------------------------------------------------------
+AlkoxyFromPeroxyAndAlkylRadical-(rhh)(rrr) \
+     (r)(h)(h)coo. tertiary-carbon-radical  =  .oc(rhh) .oc(rrr)
+- ID 17314
+- Correspondences
+1 2 3 4 5 6      2 4 2 2 2
+7 8 9 10         2 2 2
+1 2 4 5 6        2 2 2 2
+7 3 8 9 10       4 2 2 2
+>  <ForwardRxn>
+Standard 7.0e+12 0.0 -1000.0  12; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
+>  <ReverseRxn>
+Standard 6.43169e+15 -0.565 31503.  12; reverse Calculated (Ea=131.898); Lund 1-c7h15 + 1-c7h15o2 = 1-c7h15o + 1-c7h15o
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*6=12
+%%%-------------------------------------------------------------------
+AlkoxyFromPeroxyAndAlkylRadical-(rrh)(rrr) \
+      (r)(r)(h)coo. tertiary-carbon-radical  =  .oc(rrh) .oc(rrr)
+- ID 17315
+- Correspondences
+1 2 3 4 5 6      2 4 2 2 2
+7 8 9 10         2 2 2
+1 2 4 5 6        2 2 2 2
+7 3 8 9 10       4 2 2 2
+>  <ForwardRxn>
+Standard 7.0e+12 0.0 -1000.0  12; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
+>  <ReverseRxn>
+Standard 6.43169e+15 -0.565 31503.  12; reverse Calculated (Ea=131.898); Lund 1-c7h15 + 1-c7h15o2 = 1-c7h15o + 1-c7h15o
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*6=36
+%%%-------------------------------------------------------------------
+AlkoxyFromPeroxyAndAlkylRadical-(rrr)(rrr) \
+      (r)(r)(r)coo. tertiary-carbon-radical  =  .oc(rrr) .oc(rrr)
+- ID 17316
+- Correspondences
+1 2 3 4 5 6      2 4 2 2 2
+7 8 9 10         2 2 2
+1 2 4 5 6        2 2 2 2
+7 3 8 9 10       4 2 2 2
+>  <ForwardRxn>
+Standard 7.0e+12 0.0 -1000.0  36; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
+>  <ReverseRxn>
+Standard 6.43169e+15 -0.565 31503.  36; reverse Calculated (Ea=131.898); Lund 1-c7h15 + 1-c7h15o2 = 1-c7h15o + 1-c7h15o
+$$$$

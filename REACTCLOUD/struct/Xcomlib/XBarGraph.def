@@ -1,0 +1,30 @@
+Structures for Graphic Rectangles
+5 xwinrectangle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%       
+   BarGraphStyle 100 bargraphstyle
+      0 The Fill Style of each bar
+        INT BarFillStyle Create
+      1 The Outline Style of Bar
+        INT BarOutline Create
+      2 The Outline Line Thickness
+        INT BarLine Create
+      3 The Thickness of the borderline
+        INT BorderThickness Create
+      4 Relative Spacing between Bars (0-100)
+        INT Spacing Create
+      DONE
+%%%
+   BarGraphObject  100 bargraphobject
+      0 The corner of the rectangle
+        ObjectPosition Corner Pointer Create
+      1 The size of the rectangle
+        ObjectSize Size Pointer Create
+      2 The number of elements
+        INT NumberOfElements Create
+      3 The Lengths (from 0 to 100)
+        FLOAT Lengths Pointer Create Array=NumberOfElements
+      DONE 
+%%%
+DONE
+   

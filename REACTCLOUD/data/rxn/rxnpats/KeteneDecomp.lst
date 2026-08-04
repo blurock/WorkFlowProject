@@ -1,0 +1,80 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+KeteneDecomp-(hh)\
+     ketene-(hh) oxygen = ketenyl-(h) peroxyl-radical
+- ID 70201
+- Correspondences
+1 2 3 4 5          2 2 2 2 4
+6 7                2
+1 2 3 4            2 2 2 2
+5 6 7              4 2
+>  <ForwardRxn>
+Standard 1.81e+11   0.00 1.840E+03  4; From ch2cho+o2 = ch2co+ho2 and ch3chcho+o2 = ch3chco+ho2
+>  <ReverseRxn>
+Standard 2.306e+13   -0.51 1.954E+04  2; From ch3chcho+o2 = ch3chco+ho2
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+KeteneDecomp-(rh)\
+     ketene-(rh) oxygen = ketenyl-(r) peroxyl-radical
+- ID 70202
+- Correspondences
+1 2 3 4 5          2 2 2 2 4
+6 7                2
+1 2 3 4            2 2 2 2
+5 6 7              4 2
+>  <ForwardRxn>
+Standard 1.81e+11   0.00 1.840E+03  4; From ch2cho+o2 = ch2co+ho2 and ch3chcho+o2 = ch3chco+ho2
+>  <ReverseRxn>
+Standard 2.306e+13   -0.51 1.954E+04   2; From ch3chcho+o2 = ch3chco+ho2
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+KeteneDecompHToCO-(hh)\
+     ketene-(hh) hydrogen-radical = methane-carbon-radical + carbonmonoxide
+- ID 70203
+- Correspondences
+1 2 3 4 5          4 2 2 2
+6                  2
+1 4 5 6            2 2 4 
+2 3                2
+>  <ForwardRxn>
+Standard 1.76e+13   0.00  1.459e+03 2; From ch3chco+h = c2h5+co and ic3h6co+h = ic3h7+co
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   4; No Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1 = 1
+%%%-------------------------------------------------------------------
+KeteneDecompHToCO-(rh)\
+     ketene-(rh) hydrogen-radical = primary-carbon-radical + carbonmonoxide
+- ID 70204
+- Correspondences
+1 2 3 4 5          4 2 2 2
+6                  2
+1 4 5 6            2 2 4 
+2 3                2
+>  <ForwardRxn>
+Standard 1.76e+13   0.00  1.459e+03 1; From ch3chco+h = c2h5+co and ic3h6co+h = ic3h7+co
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   4; No Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+KeteneDecompHToCO-(rr)\
+     ketene-(rr) hydrogen-radical = secondary-carbon-radical + carbonmonoxide
+- ID 70205
+- Correspondences
+1 2 3 4 5          4 2 2 2
+6                  2
+1 4 5 6            2 2 4 
+2 3                2
+>  <ForwardRxn>
+Standard 1.76e+13   0.00  1.459e+03 2; From ch3chco+h = c2h5+co and ic3h6co+h = ic3h7+co
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   4; No Reverse
+$$$$

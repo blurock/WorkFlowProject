@@ -1,0 +1,21 @@
+Thermodyanic Database Structures
+0 thermo
+%%%  BensonTables
+%%%      These are a set of tables storing the benson information
+%%%
+%%%      In a sense, this is the union of tables -- some are
+%%%      empty.  The ID gives the table type.
+%%%      This structure enables having just one database of benson
+%%%      related information:
+%%%           SecondOrder - Raw Tables of Benson Additive Elements
+%%%           BensonTree  - The tables in tree form
+%%%
+     BensonTables 100 bensontables
+        0 The Table of Second Order Bond Values
+          BensonSecondOrderTable SecondOrder Pointer Create
+        1 The Table Values in Tree form
+          BensonCalculation BensonTree Pointer Create
+        2 The corresponding translation table
+          SetOfBensonAtomTranslationPairs Translation Pointer Create
+        DONE
+DONE

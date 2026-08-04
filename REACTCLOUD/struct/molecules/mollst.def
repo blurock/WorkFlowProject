@@ -1,0 +1,24 @@
+%%*****************************************************************************
+%%
+%%  Read in Lists
+%%    
+%%
+%%*****************************************************************************
+Molecule Read Lists
+0 molreadlist
+%%% Read in a molecule property list
+     ReadInMolecule 02 readinmolecule
+       0 The rest of the line (Auxillary information)
+         STRING Rest Pointer Create
+       1 The set of properties (if applicaable) following the line
+         ASCIIProperties Properties Pointer Create
+       DONE
+%%% A set of property lists
+     ReadInMoleculeSet 03 readinmoleculeset
+       0 The number of molecules in the list
+         INT NumberOfMolecules Create
+       1 The set of molecules
+         ReadInMolecule Molecules Pointer Create Array=NumberOfMolecules
+       DONE
+DONE
+

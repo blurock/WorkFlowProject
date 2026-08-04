@@ -1,0 +1,24 @@
+Hydrogen Abstraction from fuel alkane
+%%% ----------------------------------------------------
+%%% Molecules used for the patterns
+%%% ----------------------------------------------------
+ethyl-radical,ethenyl-radical,methyl-radical,methoxy-radical,methylperoxy-radical
+%%% ----------------------------------------------------
+%%% The reaction patterns
+%%% ----------------------------------------------------
+H-Abstraction-Methyl-Primary,\
+H-Abstraction-Methyl-Secondary,\
+H-Abstraction-Methyl-Tertiary,\
+H-Abstraction-Methoxy-Primary,\
+H-Abstraction-Methoxy-Secondary,\
+H-Abstraction-Methoxy-Tertiary,\
+H-Abstraction-EthylRadical-Primary,\
+H-Abstraction-EthylRadical-Secondary,\
+H-Abstraction-EthylRadical-Tertiary,\
+H-Abstraction-EthenylRadical-Primary,\
+H-Abstraction-EthenylRadical-Secondary,\
+H-Abstraction-EthenylRadical-Tertiary,\
+H-Abstraction-MethylPeroxyl-Primary,\
+H-Abstraction-MethylPeroxyl-Secondary,\
+H-Abstraction-MethylPeroxyl-Tertiary
+: methyl-radical,methoxy-radical,ethyl-radical,ethenyl-radical,methylperoxy-radical

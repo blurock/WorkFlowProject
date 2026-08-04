@@ -1,0 +1,110 @@
+Olefin From Radical
+oxygen,hydrogen-radical,methyl-radical
+%%% ----------------------------------------------------
+%%%  Prilimiary Step 1:  Formation of Radical
+%%% ----------------------------------------------------
+H-Abstraction-Oxygen-Tertiary,\
+H-Abstraction-Oxygen-Secondary,\
+H-Abstraction-Oxygen-Primary\
+:oxygen
+%%% ----------------------------------------------------
+%%% Preliminary Step 2: Formation of Olefin through hydrogen loss
+%%% ----------------------------------------------------
+HLoss-ethyl-radical(hh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rhh)-to-olefin,\
+HLoss-ethyl-radical(rr)(hhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(rhh)-to-olefin
+%%% ----------------------------------------------------
+%%%  Formation of Allyl Radical
+%%%   AlphaHAbstractionFromOlefin: hydrogen abstraction by oxygen
+%%%   AlphaHAbstractionFromOlefin: H loss to form allyl
+%%% ----------------------------------------------------
+AlphaHAbstractionFromOlefinOxygen-(hh),\
+AlphaHAbstractionFromOlefinOxygen-(rh),\
+AlphaHAbstractionFromOlefinOxygen-(rr),\
+AlphaHAbstractionFromOlefin-(hh),\
+AlphaHAbstractionFromOlefin-(rh),\
+AlphaHAbstractionFromOlefin-(rr)\
+:oxygen
+%%% ----------------------------------------------------
+%%%  Formation of Butadiene
+HAbstractionBetaAlkenylToDieneCH3-(h)(hh),\
+HAbstractionBetaAlkenylToDieneCH3-(r)(hh),\
+HAbstractionBetaAlkenylToDieneCH3-(h)(rh),\
+HAbstractionBetaAlkenylToDieneCH3-(r)(rh),\
+HAbstractionBetaAlkenylToDieneCH3-(h)(rr),\
+HAbstractionBetaAlkenylToDieneCH3-(r)(rr),\
+HAbstractionBetaAlkenylToDieneH-(h)(hh),\
+HAbstractionBetaAlkenylToDieneH-(r)(hh),\
+HAbstractionBetaAlkenylToDieneH-(h)(rh),\
+HAbstractionBetaAlkenylToDieneH-(r)(rh),\
+HAbstractionBetaAlkenylToDieneH-(h)(rr),\
+HAbstractionBetaAlkenylToDieneH-(r)(rr),\
+HAbstractionBetaAlkenylToDieneO2-(h)(hh),\
+HAbstractionBetaAlkenylToDieneO2-(r)(hh),\
+HAbstractionBetaAlkenylToDieneO2-(h)(rh),\
+HAbstractionBetaAlkenylToDieneO2-(r)(rh),\
+HAbstractionBetaAlkenylToDieneO2-(h)(rr),\
+HAbstractionBetaAlkenylToDieneO2-(r)(hh),\
+HLossBetaAlkenylToDiene-(h)(hh),\
+HLossBetaAlkenylToDiene-(r)(hh),\
+HLossBetaAlkenylToDiene-(h)(rh),\
+HLossBetaAlkenylToDiene-(r)(rh),\
+HLossBetaAlkenylToDiene-(h)(rr),\
+HLossBetaAlkenylToDiene-(r)(rr)\
+:oxygen,hydrogen-radical,methyl-radical
+%%% ----------------------------------------------------
+%%%  Formation of Allyl Radical of the diene
+%%%   AlphaHAbstractionFromOlefin: hydrogen abstraction by oxygen
+%%%   AlphaHAbstractionFromOlefin: H loss to form allyl
+%%% ----------------------------------------------------
+AlphaHAbstractionFromOlefinOxygen-(hh),\
+AlphaHAbstractionFromOlefinOxygen-(rh),\
+AlphaHAbstractionFromOlefinOxygen-(rr),\
+AlphaHAbstractionFromOlefin-(hh),\
+AlphaHAbstractionFromOlefin-(rh),\
+AlphaHAbstractionFromOlefin-(rr)\
+:oxygen
+%%% ----------------------------------------------------
+%%%  Formation of Triene
+%%% ----------------------------------------------------
+HAbstractionBetaAlkenylToDieneCH3-(h)(hh),\
+HAbstractionBetaAlkenylToDieneCH3-(r)(hh),\
+HAbstractionBetaAlkenylToDieneCH3-(h)(rh),\
+HAbstractionBetaAlkenylToDieneCH3-(r)(rh),\
+HAbstractionBetaAlkenylToDieneCH3-(h)(rr),\
+HAbstractionBetaAlkenylToDieneCH3-(r)(rr),\
+HAbstractionBetaAlkenylToDieneH-(h)(hh),\
+HAbstractionBetaAlkenylToDieneH-(r)(hh),\
+HAbstractionBetaAlkenylToDieneH-(h)(rh),\
+HAbstractionBetaAlkenylToDieneH-(r)(rh),\
+HAbstractionBetaAlkenylToDieneH-(h)(rr),\
+HAbstractionBetaAlkenylToDieneH-(r)(rr),\
+HAbstractionBetaAlkenylToDieneO2-(h)(hh),\
+HAbstractionBetaAlkenylToDieneO2-(r)(hh),\
+HAbstractionBetaAlkenylToDieneO2-(h)(rh),\
+HAbstractionBetaAlkenylToDieneO2-(r)(rh),\
+HAbstractionBetaAlkenylToDieneO2-(h)(rr),\
+HAbstractionBetaAlkenylToDieneO2-(r)(hh),\
+HLossBetaAlkenylToDiene-(h)(hh),\
+HLossBetaAlkenylToDiene-(r)(hh),\
+HLossBetaAlkenylToDiene-(h)(rh),\
+HLossBetaAlkenylToDiene-(r)(rh),\
+HLossBetaAlkenylToDiene-(h)(rr),\
+HLossBetaAlkenylToDiene-(r)(rr)\
+:oxygen,hydrogen-radical,methyl-radical
+%%% ----------------------------------------------------
+%%% Loss of remaining carbon chain to form trienyl radical
+%%% ----------------------------------------------------
+OlefinDecompToAkenyl(hhh),\
+OlefinDecompToAkenyl(rhh),\
+OlefinDecompToAkenyl(rrh),\
+OlefinDecompToAkenyl(rrr)
+%%% ----------------------------------------------------
+%%% Ring closure of trienyl radical to aromatic
+%%% ----------------------------------------------------
+TrieneToAromatic-(h)(h),\
+TrieneToAromatic-(h)(r),\
+TrieneToAromatic-(r)(h),\
+TrieneToAromatic-(r)(r)

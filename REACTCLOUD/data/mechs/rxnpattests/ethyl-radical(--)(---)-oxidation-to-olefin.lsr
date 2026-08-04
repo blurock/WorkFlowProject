@@ -1,0 +1,15 @@
+Test for ethyl radical to olefin reaction pattern
+NONE
+%%% ----------------------------------------------------
+Carbon-Radical-Initiation-Step-(RH+O2->R+HO2)
+%%% ----------------------------------------------------
+ethyl-radical(hh)(hhh)-oxidation-to-olefin,\
+ethyl-radical(rh)(hhh)-oxidation-to-olefin,\
+ethyl-radical(hh)(rhh)-oxidation-to-olefin,\
+ethyl-radical(rr)(hhh)-oxidation-to-olefin,\
+ethyl-radical(rh)(rhh)-oxidation-to-olefin,\
+ethyl-radical(hh)(rrh)-oxidation-to-olefin,\
+ethyl-radical(rr)(rhh)-oxidation-to-olefin,\
+ethyl-radical(rh)(rrh)-oxidation-to-olefin,\
+ethyl-radical(rr)(rrh)-oxidation-to-olefin\
+:oxygen

@@ -1,0 +1,31 @@
+###############################################################
+# Program specific definitions
+#   PROGNAME    - The name of the program and the directory
+#   STD_LIBRARIES   - The available libraries to use
+#   ALL_PROGS       - Those progs to be compiled
+#   ALL_SOURCES     - The list of source files
+#   ALL_OBJECTS     - The list of object files
+#   EXTRAS          - The list of extra files associated with program
+###############################################################
+PROGNAME   = dbase
+ALL_PROGS = str_form library
+HFILES     = dblink.h
+ALL_SOURCES = \
+	linked.c datum.c dbasemaster.c
+
+ALL_OBJECTS = \
+ 	linked.o datum.o dbasemaster.o
+
+COMMANDFILES = util.cmd
+
+EXTRAS = 
+
+STD_INCLUDES = -I$(CCROOT)/genc\
+               -I$(CCROOT)/genh\
+               -I$(CCROOT)/standard
+
+DEPLIBS = -L$(MYLIBDIR)\
+           -lbasis\
+          -lm
+
+CFLAGS = $(CCOPTIONS) $(STD_INCLUDES)

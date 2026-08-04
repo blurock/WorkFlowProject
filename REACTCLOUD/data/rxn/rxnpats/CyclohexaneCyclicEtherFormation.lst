@@ -1,0 +1,128 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1 = 1
+%%%-------------------------------------------------------------------
+cyclohexane-13-cyclicetherformation-HH\
+ hydroperoxycyclohexane-3-radical-HH = cyclohexane-13-CyclicEther-HH hydroxyl-radical
+- ID 19010
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11              2 2 2 2 2 2 2 2 4 2 2
+1 2 3 4 5 6 7 8 11                   2 2 2 2 2 2 2 2 4 2
+10 9                                 2
+
+>  <ForwardRxn>
+Standard 1.4e+12 0.0 2.0e+04 1;  LLNL Values; J. Chem Phys. Vol 111 p3761
+>  <ReverseRxn>
+Standard 9.27e+08 7.79e-01 3.09e+04 1 ; (Ea=129.);  1-ooh-hep-3 = oh + 1-3c7h14o
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1 = 1
+%%%-------------------------------------------------------------------
+cyclohexane-13-cyclicetherformation-RH\
+ hydroperoxycyclohexane-3-radical-RH = cyclohexane-13-CyclicEther-RH hydroxyl-radical
+- ID 19011
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11              2 2 2 2 2 2 2 2 4 2 2
+1 2 3 4 5 6 7 8 11                   2 2 2 2 2 2 2 2 4 2
+10 9                                 2
+
+>  <ForwardRxn>
+Standard 1.4e+12 0.0 2.0e+04 1 ; LLNL Values; J. Chem Phys. Vol 111 p3761
+>  <ReverseRxn>
+Standard 9.27e+08 7.79e-01 3.09e+04 1 ; (Ea=129.);  1-ooh-hep-3 = oh + 1-3c7h14o
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1 = 1
+%%%-------------------------------------------------------------------
+cyclohexane-13-cyclicetherformation-HR\
+ hydroperoxycyclohexane-3-radical-HR = cyclohexane-13-CyclicEther-HR hydroxyl-radical
+- ID 19012
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11              2 2 2 2 2 2 2 2 4 2 2
+1 2 3 4 5 6 7 8 11                   2 2 2 2 2 2 2 2 4 2
+10 9                                 2
+
+>  <ForwardRxn>
+Standard 1.4e+12 0.0 2.0e+04 1;  LLNL Values; J. Chem Phys. Vol 111 p3761
+>  <ReverseRxn>
+Standard 9.27e+08 7.79e-01 3.09e+04  1 ; (Ea=129.);  1-ooh-hep-3 = oh + 1-3c7h14o
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1 = 1
+%%%-------------------------------------------------------------------
+cyclohexane-13-cyclicetherformation-RR\
+ hydroperoxycyclohexane-3-radical-RR = cyclohexane-13-CyclicEther-RR hydroxyl-radical
+- ID 19013
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11              2 2 2 2 2 2 2 2 4 2 2
+1 2 3 4 5 6 7 8 11                   2 2 2 2 2 2 2 2 4 2
+10 9                                 2
+
+>  <ForwardRxn>
+Standard 1.4e+12 0.0 2.0e+04 1;  LLNL Values; J. Chem Phys. Vol 111 p3761
+>  <ReverseRxn>
+Standard 9.27e+08 7.79e-01 3.09e+04 1 ; (Ea=129.);  1-ooh-hep-3 = oh + 1-3c7h14o
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1 = 1
+%%%-------------------------------------------------------------------
+cyclohexane-14-cyclicetherformation-HH\
+ hydroperoxycyclohexane-4-radical-HH = cyclohexane-14-CyclicEther-HH hydroxyl-radical
+- ID 19014
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11              2 2 2 2 2 2 2 2 4 2 2
+1 2 3 4 5 6 7 8 11                   2 2 2 2 2 2 2 2 4 2
+10 9                                 2
+
+>  <ForwardRxn>
+Standard 8.6e+12 0.0 1.85e+04 1;  LLNL Values; J. Chem Phys. Vol 111 p3761
+>  <ReverseRxn>
+Standard 4.2658e+9 0.434 43428.0 2 ; (Ea=182.) ; 1-ooh-hep-4 = oh + 1-4c7h14o
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1 = 1
+%%%-------------------------------------------------------------------
+cyclohexane-14-cyclicetherformation-RH\
+ hydroperoxycyclohexane-4-radical-RH = cyclohexane-14-CyclicEther-RH hydroxyl-radical
+- ID 19015
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11              2 2 2 2 2 2 2 2 4 2 2
+1 2 3 4 5 6 7 8 11                   2 2 2 2 2 2 2 2 4 2
+10 9                                 2
+
+>  <ForwardRxn>
+Standard 8.6e+12 0.0 1.85e+04 1;  LLNL Values; J. Chem Phys. Vol 111 p3761
+>  <ReverseRxn>
+Standard 4.2658e+9 0.434 43428.0 2 ; (Ea=182.) ; 1-ooh-hep-4 = oh + 1-4c7h14o
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1 = 1
+%%%-------------------------------------------------------------------
+cyclohexane-14-cyclicetherformation-HR\
+ hydroperoxycyclohexane-4-radical-HR = cyclohexane-14-CyclicEther-HR hydroxyl-radical
+- ID 19016
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11              2 2 2 2 2 2 2 2 4 2 2
+1 2 3 4 5 6 7 8 11                   2 2 2 2 2 2 2 2 4 2
+10 9                                 2
+
+>  <ForwardRxn>
+Standard 8.6e+12 0.0 1.85e+04 1;  LLNL Values; J. Chem Phys. Vol 111 p3761
+>  <ReverseRxn>
+Standard 4.2658e+9 0.434 43428.0 2 ; (Ea=182.) ; 1-ooh-hep-4 = oh + 1-4c7h14o
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1 = 1
+%%%-------------------------------------------------------------------
+cyclohexane-14-cyclicetherformation-RR\
+ hydroperoxycyclohexane-4-radical-RR = cyclohexane-14-CyclicEther-RR hydroxyl-radical
+- ID 19017
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11              2 2 2 2 2 2 2 2 4 2 2
+1 2 3 4 5 6 7 8 11                   2 2 2 2 2 2 2 2 4 2
+10 9                                 2
+
+>  <ForwardRxn>
+Standard 8.6e+12 0.0 1.85e+04 1;  LLNL Values; J. Chem Phys. Vol 111 p3761
+>  <ReverseRxn>
+Standard 4.2658e+9 0.434 43428.0 2 ; (Ea=182.) ; 1-ooh-hep-4 = oh + 1-4c7h14o
+$$$$

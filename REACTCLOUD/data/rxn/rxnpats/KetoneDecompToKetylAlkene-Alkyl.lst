@@ -1,0 +1,360 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(3*2*1) = 12
+%%%-------------------------------------------------------------------
+KetoneDecompToKetylAlkene-Alkyl-(h)(hh)(hhh)\
+     c(qqq)coc(h)c(hh)c(hhh) = c(qqq)coc(h)c(hh) methane-carbon-radical
+- ID 72100
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15     2 2 4 2 2 2 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9 10 11 12                2 2 2 2 2 2 2 2 2 2
+4 13 14 15                              2 2 2
+>  <ForwardRxn>
+Standard  9.615E+15 -0.75 3.239E+04 12;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 12;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(3*2*1) = 12
+%%%-------------------------------------------------------------------
+KetoneDecompToKetylAlkene-Alkyl-(r)(hh)(hhh)\
+     c(qqq)coc(r)c(hh)c(hhh) = c(qqq)coc(r)c(hh) methane-carbon-radical
+- ID 72101
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15     2 2 4 2 2 2 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9 10 11 12                2 2 2 2 2 2 2 2 2 2
+4 13 14 15                              2 2 2
+>  <ForwardRxn>
+Standard   1.564E+19 -1.53 3.331E+04 12;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 12;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: (3*2*1) = 6
+%%%-------------------------------------------------------------------
+KetoneDecompToKetylAlkene-Alkyl-(h)(rh)(hhh)\
+     c(qqq)coc(h)c(rh)c(hhh) = c(qqq)coc(h)c(rh) methane-carbon-radical
+- ID 72102
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15     2 2 4 2 2 2 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9 10 11 12                2 2 2 2 2 2 2 2 2 2
+4 13 14 15                              2 2 2
+>  <ForwardRxn>
+Standard  9.615E+15 -0.75 3.239E+04 6;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 6;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: (3*2*1) = 6
+%%%-------------------------------------------------------------------
+KetoneDecompToKetylAlkene-Alkyl-(r)(rh)(hhh)\
+     c(qqq)coc(r)c(rh)c(hhh) = c(qqq)coc(r)c(rh) methane-carbon-radical
+- ID 72103
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15     2 2 4 2 2 2 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9 10 11 12                2 2 2 2 2 2 2 2 2 2
+4 13 14 15                              2 2 2
+>  <ForwardRxn>
+Standard   1.564E+19 -1.53 3.331E+04 6;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 6;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(3*2*1) = 12
+%%%-------------------------------------------------------------------
+KetoneDecompToKetylAlkene-Alkyl-(h)(rr)(hhh)\
+     c(qqq)coc(h)c(rr)c(hhh) = c(qqq)coc(h)c(rr) methane-carbon-radical
+- ID 72104
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15     2 2 4 2 2 2 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9 10 11 12                2 2 2 2 2 2 2 2 2 2
+4 13 14 15                              2 2 2
+>  <ForwardRxn>
+Standard  9.615E+15 -0.75 3.239E+04 12;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 12;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(3*2*1) = 12
+%%%-------------------------------------------------------------------
+KetoneDecompToKetylAlkene-Alkyl-(r)(rr)(hhh)\
+     c(qqq)coc(r)c(rr)c(hhh) = c(qqq)coc(r)c(rr) methane-carbon-radical
+- ID 72105
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15     2 2 4 2 2 2 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9 10 11 12                2 2 2 2 2 2 2 2 2 2
+4 13 14 15                              2 2 2
+>  <ForwardRxn>
+Standard   1.564E+19 -1.53 3.331E+04 12;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 12;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(2*1) = 4
+%%%-------------------------------------------------------------------
+KetoneDecompToKetylAlkene-Alkyl-(h)(hh)(rhh)\
+     c(qqq)coc(h)c(hh)c(rhh) = c(qqq)coc(h)c(hh) primary-carbon-radical
+- ID 72106
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15     2 2 4 2 2 2 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9 10 11 12                2 2 2 2 2 2 2 2 2 2
+4 13 14 15                              2 2 2
+>  <ForwardRxn>
+Standard  9.615E+15 -0.75 3.239E+04 4;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 4;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(2*1) = 4
+%%%-------------------------------------------------------------------
+KetoneDecompToKetylAlkene-Alkyl-(r)(hh)(rhh)\
+     c(qqq)coc(r)c(hh)c(rhh) = c(qqq)coc(r)c(hh) primary-carbon-radical
+- ID 72107
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15     2 2 4 2 2 2 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9 10 11 12                2 2 2 2 2 2 2 2 2 2
+4 13 14 15                              2 2 2
+>  <ForwardRxn>
+Standard   1.564E+19 -1.53 3.331E+04 4;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 4;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*(2*1) = 2
+%%%-------------------------------------------------------------------
+KetoneDecompToKetylAlkene-Alkyl-(h)(rh)(rhh)\
+     c(qqq)coc(h)c(rh)c(rhh) = c(qqq)coc(h)c(rh) primary-carbon-radical
+- ID 72108
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15     2 2 4 2 2 2 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9 10 11 12                2 2 2 2 2 2 2 2 2 2
+4 13 14 15                              2 2 2
+>  <ForwardRxn>
+Standard  9.615E+15 -0.75 3.239E+04 2;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 2;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*(2*1) = 2
+%%%-------------------------------------------------------------------
+KetoneDecompToKetylAlkene-Alkyl-(r)(rh)(rhh)\
+     c(qqq)coc(r)c(rh)c(rhh) = c(qqq)coc(r)c(rh) primary-carbon-radical
+- ID 72109
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15     2 2 4 2 2 2 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9 10 11 12                2 2 2 2 2 2 2 2 2 2
+4 13 14 15                              2 2 2
+>  <ForwardRxn>
+Standard   1.564E+19 -1.53 3.331E+04 2;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 2;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(2*1) = 4
+%%%-------------------------------------------------------------------
+KetoneDecompToKetylAlkene-Alkyl-(h)(rr)(rhh)\
+     c(qqq)coc(h)c(rr)c(rhh) = c(qqq)coc(h)c(rr) primary-carbon-radical
+- ID 72110
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15     2 2 4 2 2 2 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9 10 11 12                2 2 2 2 2 2 2 2 2 2
+4 13 14 15                              2 2 2
+>  <ForwardRxn>
+Standard  9.615E+15 -0.75 3.239E+04 4;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 4;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(2*1) = 4
+%%%-------------------------------------------------------------------
+KetoneDecompToKetylAlkene-Alkyl-(r)(rr)(rhh)\
+     c(qqq)coc(r)c(rr)c(rhh) = c(qqq)coc(r)c(rr) primary-carbon-radical
+- ID 72111
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15     2 2 4 2 2 2 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9 10 11 12                2 2 2 2 2 2 2 2 2 2
+4 13 14 15                              2 2 2
+>  <ForwardRxn>
+Standard   1.564E+19 -1.53 3.331E+04 4;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 4;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(2*1) = 4
+%%%-------------------------------------------------------------------
+KetoneDecompToKetylAlkene-Alkyl-(h)(hh)(rrh)\
+     c(qqq)coc(h)c(hh)c(hhh) = c(qqq)coc(h)c(hh) secondary-carbon-radical
+- ID 72112
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15     2 2 4 2 2 2 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9 10 11 12                2 2 2 2 2 2 2 2 2 2
+4 13 14 15                              2 2 2
+>  <ForwardRxn>
+Standard  9.615E+15 -0.75 3.239E+04 4;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 4;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(2*1) = 4
+%%%-------------------------------------------------------------------
+KetoneDecompToKetylAlkene-Alkyl-(r)(hh)(rrh)\
+     c(qqq)coc(r)c(hh)c(hhh) = c(qqq)coc(r)c(hh) secondary-carbon-radical
+- ID 72113
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15     2 2 4 2 2 2 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9 10 11 12                2 2 2 2 2 2 2 2 2 2
+4 13 14 15                              2 2 2
+>  <ForwardRxn>
+Standard   1.564E+19 -1.53 3.331E+04 4;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 4;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: (2*1) = 2
+%%%-------------------------------------------------------------------
+KetoneDecompToKetylAlkene-Alkyl-(h)(rh)(rrh)\
+     c(qqq)coc(h)c(rh)c(hhh) = c(qqq)coc(h)c(rh) secondary-carbon-radical
+- ID 72114
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15     2 2 4 2 2 2 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9 10 11 12                2 2 2 2 2 2 2 2 2 2
+4 13 14 15                              2 2 2
+>  <ForwardRxn>
+Standard  9.615E+15 -0.75 3.239E+04 2;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 2;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: (2*1) = 2
+%%%-------------------------------------------------------------------
+KetoneDecompToKetylAlkene-Alkyl-(r)(rh)(rrh)\
+     c(qqq)coc(r)c(rh)c(hhh) = c(qqq)coc(r)c(rh) secondary-carbon-radical
+- ID 72115
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15     2 2 4 2 2 2 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9 10 11 12                2 2 2 2 2 2 2 2 2 2
+4 13 14 15                              2 2 2
+>  <ForwardRxn>
+Standard   1.564E+19 -1.53 3.331E+04 2;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 2;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(2*1) = 4
+%%%-------------------------------------------------------------------
+KetoneDecompToKetylAlkene-Alkyl-(h)(rr)(rrh)\
+     c(qqq)coc(h)c(rr)c(hhh) = c(qqq)coc(h)c(rr) secondary-carbon-radical
+- ID 721116
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15     2 2 4 2 2 2 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9 10 11 12                2 2 2 2 2 2 2 2 2 2
+4 13 14 15                              2 2 2
+>  <ForwardRxn>
+Standard  9.615E+15 -0.75 3.239E+04 4;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 4;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(2*1) = 4
+%%%-------------------------------------------------------------------
+KetoneDecompToKetylAlkene-Alkyl-(r)(rr)(rrh)\
+     c(qqq)coc(r)c(rr)c(hhh) = c(qqq)coc(r)c(rr) secondary-carbon-radical
+- ID 72117
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15     2 2 4 2 2 2 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9 10 11 12                2 2 2 2 2 2 2 2 2 2
+4 13 14 15                              2 2 2
+>  <ForwardRxn>
+Standard   1.564E+19 -1.53 3.331E+04 4;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 4;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(3*2*1) = 12
+%%%-------------------------------------------------------------------
+KetoneDecompToKetylAlkene-Alkyl-(h)(hh)(rrr)\
+     c(qqq)coc(h)c(hh)c(hhh) = c(qqq)coc(h)c(hh) tertiary-carbon-radical
+- ID 72118
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15     2 2 4 2 2 2 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9 10 11 12                2 2 2 2 2 2 2 2 2 2
+4 13 14 15                              2 2 2
+>  <ForwardRxn>
+Standard  9.615E+15 -0.75 3.239E+04 12;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 12;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(3*2*1) = 12
+%%%-------------------------------------------------------------------
+KetoneDecompToKetylAlkene-Alkyl-(r)(hh)(rrr)\
+     c(qqq)coc(r)c(hh)c(hhh) = c(qqq)coc(r)c(hh) tertiary-carbon-radical
+- ID 72119
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15     2 2 4 2 2 2 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9 10 11 12                2 2 2 2 2 2 2 2 2 2
+4 13 14 15                              2 2 2
+>  <ForwardRxn>
+Standard   1.564E+19 -1.53 3.331E+04 12;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 12;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: (3*2*1) = 6
+%%%-------------------------------------------------------------------
+KetoneDecompToKetylAlkene-Alkyl-(h)(rh)(rrr)\
+     c(qqq)coc(h)c(rh)c(hhh) = c(qqq)coc(h)c(rh) tertiary-carbon-radical
+- ID 72120
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15     2 2 4 2 2 2 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9 10 11 12                2 2 2 2 2 2 2 2 2 2
+4 13 14 15                              2 2 2
+>  <ForwardRxn>
+Standard  9.615E+15 -0.75 3.239E+04 6;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 6;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: (3*2*1) = 6
+%%%-------------------------------------------------------------------
+KetoneDecompToKetylAlkene-Alkyl-(r)(rh)(rrr)\
+     c(qqq)coc(r)c(rh)c(hhh) = c(qqq)coc(r)c(rh) tertiary-carbon-radical
+- ID 72121
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15     2 2 4 2 2 2 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9 10 11 12                2 2 2 2 2 2 2 2 2 2
+4 13 14 15                              2 2 2
+>  <ForwardRxn>
+Standard   1.564E+19 -1.53 3.331E+04 6;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 6;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(3*2*1) = 12
+%%%-------------------------------------------------------------------
+KetoneDecompToKetylAlkene-Alkyl-(h)(rr)(rrr)\
+     c(qqq)coc(h)c(rr)c(hhh) = c(qqq)coc(h)c(rr) tertiary-carbon-radical
+- ID 72122
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15     2 2 4 2 2 2 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9 10 11 12                2 2 2 2 2 2 2 2 2 2
+4 13 14 15                              2 2 2
+>  <ForwardRxn>
+Standard  9.615E+15 -0.75 3.239E+04 12;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 12;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(3*2*1) = 12
+%%%-------------------------------------------------------------------
+KetoneDecompToKetylAlkene-Alkyl-(r)(rr)(rrr)\
+     c(qqq)coc(r)c(rr)c(hhh) = c(qqq)coc(r)c(rr) tertiary-carbon-radical
+- ID 72123
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15     2 2 4 2 2 2 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9 10 11 12                2 2 2 2 2 2 2 2 2 2
+4 13 14 15                              2 2 2
+>  <ForwardRxn>
+Standard   1.564E+19 -1.53 3.331E+04 12;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 12;  Curran, et. al.; c3h6coch3-3 = c2h3coch3+ch3
+$$$$

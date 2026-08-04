@@ -1,0 +1,35 @@
+propynylidene
+ - AlternativeNames CHEMKIN c3h2
+ - AlternativeNames Short c3h2
+ch2cch
+ - AlternativeNames CHEMKIN c3h3
+ - AlternativeNames Short c3h3
+1,2-propadiene 
+ - AlternativeNames CHEMKIN c3h4-a
+ - AlternativeNames Short c3h4-a
+(1E)-1-propene-1,2-diide
+ - AlternativeNames CHEMKIN c3h4-p
+ - AlternativeNames Short c3h4-p
+prop-1-ene
+ - AlternativeNames CHEMKIN c3h5-a
+ - AlternativeNames Short c3h5-a
+1-propen-2-yl
+ - AlternativeNames CHEMKIN c3h5-t
+ - AlternativeNames Short c3h5-t
+propene 
+ - AlternativeNames CHEMKIN c3h6
+ - AlternativeNames Short c3h6
+propane
+ - AlternativeNames CHEMKIN c3h8
+ - AlternativeNames Short c3h8
+isopropyl radical
+ - AlternativeNames CHEMKIN ic3h7
+ - AlternativeNames Short ic3h7
+n-propyl radical 
+ - AlternativeNames CHEMKIN nc3h7
+ - AlternativeNames Short nc3h7
+
+
+
+
+

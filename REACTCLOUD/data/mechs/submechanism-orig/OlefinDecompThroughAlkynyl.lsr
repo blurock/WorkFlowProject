@@ -1,0 +1,73 @@
+OlefinDecompThroughAlkynl: Alkyl-radical to olefin reaction sub-mechanism
+hydrogen-radical,methyl-radical,\
+oxygen-atom,hydroxyl-radical
+%%% ----------------------------------------------------
+H-Abstraction-Oxygen-Tertiary,\
+H-Abstraction-Oxygen-Secondary,\
+H-Abstraction-Oxygen-Primary,\
+:oxygen
+%%% ----------------------------------------------------
+HLoss-ethyl-radical(hh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rhh)-to-olefin,\
+HLoss-ethyl-radical(rr)(hhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(rhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rrh)-to-olefin,\
+HLoss-ethyl-radical(rr)(rhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(rrh)-to-olefin,\
+HLoss-ethyl-radical(rr)(rrh)-to-olefin
+%%% ----------------------------------------------------
+H-Alkenyl-Abs-Hydrogen-Radical-(hh)(h),\
+H-Alkenyl-Abs-Hydrogen-Radical-(hh)(r),\
+H-Alkenyl-Abs-Hydrogen-Radical-(rh)(h),\
+H-Alkenyl-Abs-Hydrogen-Radical-(rh)(r),\
+H-Alkenyl-Abs-Hydrogen-Radical-(rr)(h),\
+H-Alkenyl-Abs-Hydrogen-Radical-(rr)(r),\
+H-Alkenyl-Abs-Oxygen-Radical-(hh)(h),\
+H-Alkenyl-Abs-Oxygen-Radical-(hh)(r),\
+H-Alkenyl-Abs-Oxygen-Radical-(rh)(h),\
+H-Alkenyl-Abs-Oxygen-Radical-(rh)(r),\
+H-Alkenyl-Abs-Oxygen-Radical-(rr)(h),\
+H-Alkenyl-Abs-Oxygen-Radical-(rr)(r),\
+H-Alkenyl-Abs-Hydroxyl-Radical-(hh)(h),\
+H-Alkenyl-Abs-Hydroxyl-Radical-(hh)(r),\
+H-Alkenyl-Abs-Hydroxyl-Radical-(rh)(h),\
+H-Alkenyl-Abs-Hydroxyl-Radical-(rh)(r),\
+H-Alkenyl-Abs-Hydroxyl-Radical-(rr)(h),\
+H-Alkenyl-Abs-Hydroxyl-Radical-(rr)(r),\
+H-Alkenyl-Abs-Methane-Carbon-Radical-(hh)(h),\
+H-Alkenyl-Abs-Methane-Carbon-Radical-(hh)(r),\
+H-Alkenyl-Abs-Methane-Carbon-Radical-(rh)(h),\
+H-Alkenyl-Abs-Methane-Carbon-Radical-(rh)(r),\
+H-Alkenyl-Abs-Methane-Carbon-Radical-(rr)(h),\
+H-Alkenyl-Abs-Methane-Carbon-Radical-(rr)(r),\
+:hydrogen-radical,methyl-radical,\
+oxygen,oxygen-atom,hydroxyl-radical
+%%% ----------------------------------------------------
+HLossEthenylToEthyne-(hh),\
+HLossEthenylToEthyne-(rh),\
+HLossEthenylToEthyne-(hr),\
+HLossEthenylToEthyne-(rr)
+%%% ----------------------------------------------------
+PropyneDecompositionToEthynyl-(h)(hhh),\
+PropyneDecompositionToEthynyl-(r)(hhh),\
+PropyneDecompositionToEthynyl-(h)(rhh),\
+PropyneDecompositionToEthynyl-(r)(rhh),\
+PropyneDecompositionToEthynyl-(h)(rrh),\
+PropyneDecompositionToEthynyl-(r)(rrh),\
+PropyneDecompositionToEthynyl-(h)(rrr),\
+PropyneDecompositionToEthynyl-(r)(rrr),\
+HAbstractionToEthynyl-oxygen-(r),\
+HAbstractionToEthynyl-hydroxyl-radical-(r),\
+HAbstractionToEthynyl-peroxyl-radical-(r)\
+:oxygen,hydroxyl-radical,peroxyl-radical
+%%% ----------------------------------------------------
+EthyneDecompositionWithOxygen-(h),\
+EthyneDecompositionWithOxygen-(r)\
+:oxygen
+%%% -----------------------------------------------------------
+KetoneRadicalDecomp-HHH,\
+KetoneRadicalDecomp-RHH,\
+KetoneRadicalDecomp-RRH,\
+KetoneRadicalDecomp-RRR,\
+:oxygen

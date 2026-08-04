@@ -1,0 +1,68 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1 = 2
+%%%-------------------------------------------------------------------
+H-AbstractionCyclohexane-Hydroxyl-Radical-HH\
+   cyclohexane-HH hydroxyl-radical = cyclohexaneRadical-H water
+- ID 1200
+- Correspondences
+1 2 3 4 5 6 7 8         2 2 2 2 2 2 4 2
+9 10                    2
+1 2 3 4 5 6 8           2 2 2 2 2 2 2
+9 10 7                  2 4
+
+>  <ForwardRxn>
+Standard 2.34e+7 1.61 -35 2;  (same as alkyl secondary) Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 5.79791E+05    2.022  24219.6 2; (same as alkyl secondary) Calculated Reverse (Ea=101.296)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1 = 2
+%%%-------------------------------------------------------------------
+H-AbstractionCyclohexane-Hydroxyl-Radical-RH\
+   cyclohexane-HH hydroxyl-radical = cyclohexaneRadical-H water
+- ID 1201
+- Correspondences
+1 2 3 4 5 6 7 8         2 2 2 2 2 2 4 2
+9 10                    2
+1 2 3 4 5 6 8           2 2 2 2 2 2 2
+9 10 7                  2 4
+
+>  <ForwardRxn>
+Standard 1.700E+06  1.90 -1.451E+03 6;  (same as alkyl tertiary) Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998); ic8h18+oh  =  ac8h17+h2o
+>  <ReverseRxn>
+Standard 3.485E+06  1.80  2.166E+04 2; (same as alkyl secondary) ic8h18+oh  =  ac8h17+h2o
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1 = 2
+%%%-------------------------------------------------------------------
+H-AbstractionCyclohexane-Oxygen-Radical-HH\
+   cyclohexane-HH oxygen-radical = cyclohexaneRadical-H hydroxyl-radical
+- ID 1205
+- Correspondences
+1 2 3 4 5 6 7 8         2 2 2 2 2 2 4 2
+9                       2
+1 2 3 4 5 6 8           2 2 2 2 2 2 2
+9 7                     4
+
+>  <ForwardRxn>
+Standard 2.35e+5 2.5 2230 2;  Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.33854E+02    3.169   8788.993 2 ; Calculated (Ea=36.759) ;
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1 = 2
+%%%-------------------------------------------------------------------
+H-AbstractionCyclohexane-Oxygen-Radical-RH\
+   cyclohexane-HH oxygen-radical = cyclohexaneRadical-H hydroxyl-radical
+- ID 1206
+- Correspondences
+1 2 3 4 5 6 7 8         2 2 2 2 2 2 4 2
+9                    
+1 2 3 4 5 6 8           2 2 2 2 2 2 2
+9 7                     4
+
+>  <ForwardRxn>
+Standard 3.830E+05  2.41  1.140E+03 6; Westbrook, Type 2 Combustion and Flame, 114:149-177 (1998); ic8h18+o  =  cc8h17+oh
+>  <ReverseRxn>
+Standard 1.273E+02  2.99  9.115E+03 2 ; ic8h18+o  =  cc8h17+oh
+$$$$

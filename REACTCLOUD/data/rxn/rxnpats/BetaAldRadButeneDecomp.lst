@@ -1,0 +1,45 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+BetaAldRadButeneDecomp(qq)(q)(hh)\
+    betaaldradolefin(qq)(q)(hh) = carbonmonoxide propenyl-radical-(qq)(q)(hh)
+- ID 70701
+- Correspondences
+1 2 3 4 5 6 7 8 9 10           2 2 4 2 2 2 2 2 2
+4 10                           2
+1 2 3 5 6 7 8 9                2 2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 8.600E+15   0.00 2.300E+04 4; Curran et. al, Heptane, sc3h5co = c3h5-s+co
+>  <ReverseRxn>
+Standard 1.000E+11   0.00 6.000E+03 4; Curran et. al, Heptane, sc3h5co = c3h5-s+co
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+BetaAldRadButeneDecomp(qq)(q)(rh)\
+    betaaldradolefin(qq)(q)(rh) = carbonmonoxide propenyl-radical-(qq)(q)(rh)
+- ID 70702
+- Correspondences
+1 2 3 4 5 6 7 8 9 10           2 2 4 2 2 2 2 2 2
+4 10                           2
+1 2 3 5 6 7 8 9                2 2 2 2 2 2 2
+>  <ForwardRxn>
+Standard  8.600E+15  0.00 2.300E+04 2;  Curran et. al, Heptane, sc3h5co = c3h5-s+co
+>  <ReverseRxn>
+Standard 1.000E+11   0.00 6.000E+03 2; Curran et. al, Heptane, sc3h5co = c3h5-s+co
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+BetaAldRadButeneDecomp(qq)(q)(rr)\
+    betaaldradolefin(qq)(q)(rr) = carbonmonoxide propenyl-radical-(qq)(q)(rr)
+- ID 70703
+- Correspondences
+1 2 3 4 5 6 7 8 9 10           2 2 4 2 2 2 2 2 2
+4 10                           2
+1 2 3 5 6 7 8 9                2 2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.0e+13   0.00 2.300E+0435500.0  4;  Curran et. al, Heptane, sc3h5co = c3h5-s+co
+>  <ReverseRxn>
+Standard 1.000E+11   0.00 6.000E+03 4; Curran et. al, Heptane, sc3h5co = c3h5-s+co
+$$$$

@@ -1,0 +1,253 @@
+methyl vinyl ketone
+ - AlternativeNames CHEMKIN c2h3coch3
+ - AlternativeNames Short c2h3coch3
+2-oxobutyl
+ - AlternativeNames CHEMKIN c2h5coch2
+ - AlternativeNames Short c2h5coch2
+2-butanone
+ - AlternativeNames CHEMKIN c2h5coch3
+ - AlternativeNames Short c2h5coch3
+butanal
+ - AlternativeNames CHEMKIN c3h6cho-1
+ - AlternativeNames Short c3h6cho-1
+butan-2-ol
+ - AlternativeNames CHEMKIN c4h7o
+ - AlternativeNames Short c4h7o
+oxirane, ethyl-
+ - AlternativeNames CHEMKIN c4h8o1-2
+ - AlternativeNames Short c4h8o1-2
+2-methyl-oxetane
+ - AlternativeNames CHEMKIN c4h8o1-3
+ - AlternativeNames Short c4h8o1-3
+furan, tetrahydro-
+ - AlternativeNames CHEMKIN c4h8o1-4
+ - AlternativeNames Short c4h8o1-4
+o "2,3-dimethyloxirane"
+ - AlternativeNames CHEMKIN c4h8o2-3
+ - AlternativeNames Short c4h8o2-3
+butan-1-ol
+ - AlternativeNames CHEMKIN c4h8oh-1   
+ - AlternativeNames Short c4h8oh-1   
+butan-2-ol
+ - AlternativeNames CHEMKIN  c4h8oh-2   
+ - AlternativeNames Short  c4h8oh-2   
+-----
+ - AlternativeNames CHEMKIN c4h8oh-1o2    
+ - AlternativeNames Short c4h8oh-1o2    
+-----
+ - AlternativeNames CHEMKIN c4h8oh-2o2    
+ - AlternativeNames Short c4h8oh-2o2    
+----- 
+ - AlternativeNames CHEMKIN c4h8ooh1-2
+ - AlternativeNames Short c4h8ooh1-2
+----- 
+ - AlternativeNames CHEMKIN c4h8ooh1-3
+ - AlternativeNames Short c4h8ooh1-3
+----- 
+ - AlternativeNames CHEMKIN c4h8ooh1-4
+ - AlternativeNames Short c4h8ooh1-4
+----- 
+ - AlternativeNames CHEMKIN c4h8ooh1-2o2
+ - AlternativeNames Short c4h8ooh1-2o2
+-----
+ - AlternativeNames CHEMKIN c4h8ooh1-3o2
+ - AlternativeNames Short c4h8ooh1-3o2
+-----
+ - AlternativeNames CHEMKIN c4h8ooh1-4o2
+ - AlternativeNames Short c4h8ooh1-4o2
+-----
+ - AlternativeNames CHEMKIN c4h8ooh2-1
+ - AlternativeNames Short c4h8ooh2-1
+----- 
+ - AlternativeNames CHEMKIN c4h8ooh2-1o2
+ - AlternativeNames Short c4h8ooh2-1o2
+----- 
+ - AlternativeNames CHEMKIN c4h8ooh2-3
+ - AlternativeNames Short c4h8ooh2-3
+----- 
+ - AlternativeNames CHEMKIN c4h8ooh2-4
+ - AlternativeNames Short c4h8ooh2-4
+----- 
+ - AlternativeNames CHEMKIN c4h8ooh2-3o2
+ - AlternativeNames Short c4h8ooh2-3o2
+----- 
+ - AlternativeNames CHEMKIN c4h8ooh2-4o2
+ - AlternativeNames Short c4h8ooh2-4o2
+3-methyloxetane  
+ - AlternativeNames CHEMKIN cc4h8o
+ - AlternativeNames Short cc4h8o
+butan-2-one
+ - AlternativeNames CHEMKIN ch2ch2coch3
+ - AlternativeNames Short ch2ch2coch3
+----- 
+ - AlternativeNames CHEMKIN ch2choohcoch3
+ - AlternativeNames Short ch2choohcoch3
+----- 
+ - AlternativeNames CHEMKIN ch3chcoch3
+ - AlternativeNames Short ch3chcoch3
+----- 
+ - AlternativeNames CHEMKIN ch3choococh3
+ - AlternativeNames Short ch3choococh3
+2-propenal, 2-methyl-
+ - AlternativeNames CHEMKIN ic3h5cho
+ - AlternativeNames Short ic3h5cho
+2-methylprop-2-en-1-one
+ - AlternativeNames CHEMKIN ic3h5co
+ - AlternativeNames Short ic3h5co
+-----
+ - AlternativeNames CHEMKIN ic3h5o2hcho
+ - AlternativeNames Short ic3h5o2hcho
+-----
+ - AlternativeNames CHEMKIN ic3h6cho
+ - AlternativeNames Short ic3h6cho
+2-propenal, 2-methyl-
+ - AlternativeNames CHEMKIN ic3h6co
+ - AlternativeNames Short ic3h6co
+propanal, 2-methyl-
+ - AlternativeNames CHEMKIN ic3h7cho
+ - AlternativeNames Short ic3h7cho
+2-methylpropan-1-one
+ - AlternativeNames CHEMKIN ic3h7co
+ - AlternativeNames Short ic3h7co
+-----
+ - AlternativeNames CHEMKIN ic4h6oh
+ - AlternativeNames Short ic4h6oh
+-----
+ - AlternativeNames CHEMKIN ic4h7o
+ - AlternativeNames Short ic4h7o
+2-propen-1-ol, 2-methyl-
+ - AlternativeNames CHEMKIN ic4h7oh
+ - AlternativeNames Short ic4h7oh
+-----
+ - AlternativeNames CHEMKIN ic4h7ooh
+ - AlternativeNames Short ic4h7ooh
+-----
+ - AlternativeNames CHEMKIN ic4h8o
+ - AlternativeNames Short ic4h8o
+-----
+ - AlternativeNames CHEMKIN ic4h8o2h-i
+ - AlternativeNames Short ic4h8o2h-i
+-----
+ - AlternativeNames CHEMKIN ic4h8o2h-t
+ - AlternativeNames Short ic4h8o2h-t
+-----  
+ - AlternativeNames CHEMKIN ic4h8oh
+ - AlternativeNames Short ic4h8oh
+-----
+ - AlternativeNames CHEMKIN ic4h8ooh-io2
+ - AlternativeNames Short ic4h8ooh-io2
+-----
+ - AlternativeNames CHEMKIN ic4h8ooh-to2
+ - AlternativeNames Short ic4h8ooh-to2
+-----
+ - AlternativeNames CHEMKIN ic4h9o
+ - AlternativeNames Short ic4h9o
+-----
+ - AlternativeNames CHEMKIN ic4h9o2
+ - AlternativeNames Short ic4h9o2
+-----  
+ - AlternativeNames CHEMKIN ic4h9o2h
+ - AlternativeNames Short ic4h9o2h
+-----
+ - AlternativeNames CHEMKIN ic4ketii
+ - AlternativeNames Short ic4ketii
+-----
+ - AlternativeNames CHEMKIN ic4ketit
+ - AlternativeNames Short ic4ketit
+-----
+ - AlternativeNames CHEMKIN io2c4h8oh
+ - AlternativeNames Short io2c4h8oh
+butanal
+ - AlternativeNames CHEMKIN nc3h7cho
+ - AlternativeNames Short nc3h7cho
+butan-1-one
+ - AlternativeNames CHEMKIN nc3h7co
+ - AlternativeNames Short nc3h7co
+-----
+ - AlternativeNames CHEMKIN nc4ket12
+ - AlternativeNames Short nc4ket12
+-----
+ - AlternativeNames CHEMKIN nc4ket13
+ - AlternativeNames Short nc4ket13
+-----
+ - AlternativeNames CHEMKIN nc4ket14
+ - AlternativeNames Short nc4ket14
+-----
+ - AlternativeNames CHEMKIN nc4ket21
+ - AlternativeNames Short nc4ket21
+-----
+ - AlternativeNames CHEMKIN nc4ket23
+ - AlternativeNames Short nc4ket23
+-----
+ - AlternativeNames CHEMKIN nc4ket24
+ - AlternativeNames Short nc4ket24
+1-butanolate
+ - AlternativeNames CHEMKIN pc4h9o
+ - AlternativeNames Short pc4h9o
+butyldioxidanyl
+ - AlternativeNames CHEMKIN pc4h9o2
+ - AlternativeNames Short pc4h9o2
+butyl hydroperoxide
+ - AlternativeNames CHEMKIN pc4h9o2h
+ - AlternativeNames Short pc4h9o2h
+2-butenal
+ - AlternativeNames CHEMKIN sc3h5cho
+ - AlternativeNames Short sc3h5cho
+but-1-en-1-one
+ - AlternativeNames CHEMKIN sc3h5co
+ - AlternativeNames Short sc3h5co
+-----
+ - AlternativeNames CHEMKIN sc4h9o
+ - AlternativeNames Short sc4h9o
+-----
+ - AlternativeNames CHEMKIN sc4h9o2
+ - AlternativeNames Short sc4h9o2
+sec-butyl hydroperoxide
+ - AlternativeNames CHEMKIN sc4h9o2h
+ - AlternativeNames Short sc4h9o2h
+-----
+ - AlternativeNames CHEMKIN tc3h6cho
+ - AlternativeNames Short tc3h6cho
+-----
+ - AlternativeNames CHEMKIN tc3h6o2cho
+ - AlternativeNames Short tc3h6o2cho
+-----
+ - AlternativeNames CHEMKIN tc3h6o2hco
+ - AlternativeNames Short tc3h6o2hco
+-----
+ - AlternativeNames CHEMKIN tc3h6ocho
+ - AlternativeNames Short tc3h6ocho
+2-hydroxy-2-methylpropanal
+ - AlternativeNames CHEMKIN tc3h6ohcho
+ - AlternativeNames Short tc3h6ohcho
+-----
+ - AlternativeNames CHEMKIN pc4h9o
+ - AlternativeNames Short pc4h9o
+-----
+ - AlternativeNames CHEMKIN tc4h8ooh-io2
+ - AlternativeNames Short tc4h8ooh-io2
+-----
+ - AlternativeNames CHEMKIN tc4h9o
+ - AlternativeNames Short tc4h9o
+(CH3)3CO2 
+ - AlternativeNames CHEMKIN tc4h9o2
+ - AlternativeNames Short tc4h9o2
+tert-butyl hydroperoxide 
+ - AlternativeNames CHEMKIN tc4h9o2h
+ - AlternativeNames Short tc4h9o2h
+-----
+ - AlternativeNames CHEMKIN c3h6cho-2
+ - AlternativeNames Short c3h6cho-2
+-----
+ - AlternativeNames CHEMKIN c3h6cho-3
+ - AlternativeNames Short c3h6cho-3
+-----
+ - AlternativeNames CHEMKIN c2h5chco
+ - AlternativeNames Short c2h5chco
+ethanol, 1,1-dimethyl-
+ - AlternativeNames CHEMKIN tc4h9oh
+ - AlternativeNames Short tc4h9oh
+-----
+ - AlternativeNames CHEMKIN tic4h7q2-i
+ - AlternativeNames Short tic4h7q2-i
+

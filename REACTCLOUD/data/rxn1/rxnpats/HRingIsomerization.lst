@@ -1,0 +1,96 @@
+%%%------------------------------------------------------------------
+FiveRing-chain-h-isomerization .cccc(h) = .cccc(h)
+- ID 14447
+- Correspondences
+1 2 3 4 5        2 2 2 4
+4 3 2 1 5        2 2 2 4
+>  <ForwardRxn>
+Standard 2.8e+12 0.0 29700 1; Type 12 ; Primary Value
+
+>  <ReverseRxn>
+Standard 1.0e+11 0.0 6590 1; Nehse/Warnatz/Chevalier ; Primary Value
+$$$$
+%%%------------------------------------------------------------------
+SixRing-chain-h-isomerization .ccccc(h) = .ccccc(h)
+- ID 14448
+- Correspondences
+1 2 3 4 5 6       2 2 2 2 4
+5 4 3 2 1 6       2 2 2 2 4
+>  <ForwardRxn>
+Standard 2.47e+11 0.0 23900 1; Type 12 ; Primary Value
+
+>  <ReverseRxn>
+Standard 1.0e+11 0.0 7000 1; Nehse/Warnatz/Chevalier ; Primary Value
+$$$$
+%%%------------------------------------------------------------------
+SevenRing-chain-h-isomerization .cccccc(h) = .cccccc(h)
+- ID 14449
+- Correspondences
+1 2 3 4 5 6 7       2 2 2 2 2 4
+6 5 4 3 2 1 7       2 2 2 2 2 4
+>  <ForwardRxn>
+Standard 2.06e+10 0.0 21100 1; Type 12 ; Primary Value
+
+>  <ReverseRxn>
+Standard 1.0e+11 0.0 280000 1; Nehse/Warnatz/Chevalier ; Primary Value
+$$$$
+%%%------------------------------------------------------------------
+EightRing-chain-h-isomerization .ccccccc(h) = .ccccccc(h)
+- ID 14450
+- Correspondences
+1 2 3 4 5 6 7 8     2 2 2 2 2 2 4
+7 6 5 4 3 2 1 8     2 2 2 2 2 2 4
+>  <ForwardRxn>
+Standard 1.72e+9 0.0 23900 1; Type 12 ; Primary Value
+
+>  <ReverseRxn>
+Standard 1.0e+11 0.0 280000 1; Nehse/Warnatz/Chevalier ; Primary Value as 7 ring
+$$$$
+%%%-------------------------------------------------------------------
+FiveRing-(ooh)-h-isomerization .cccc(ooh)(h) = .c(ooh)ccc(h)
+- ID 14451
+- Correspondences
+1 2 3 4 5 6 7 8     2 2 2 4 2 2 2
+1 2 3 4 5 6 7 8     2 2 2 4 2 2 2
+>  <ForwardRxn>
+Standard 2.8e+12 0.0 29700 1; Type 12 ; Primary Value
+
+>  <ReverseRxn>
+Standard 1.0e+11 0.0 115000 1; Nehse/Warnatz/Chevalier ; Primary Value as without OOH
+$$$$
+%%%------------------------------------------------------------------
+SixRing-(ooh)-h-isomerization .ccccc(ooh)(h) = .c(ooh)cccc(h)
+- ID 14452
+- Correspondences
+1 2 3 4 5 6 7 8 9      2 2 2 2 4 2 2 2
+1 2 3 4 5 6 7 8 9      2 2 2 2 4 2 2 2
+>  <ForwardRxn>
+Standard 2.47e+11 0.0 23900 1; Type 12 ; Primary Value
+
+>  <ReverseRxn>
+Standard 1.0e+11 0.0 123000 1; Nehse/Warnatz/Chevalier ; Primary Value as without OOH
+$$$$
+%%%------------------------------------------------------------------
+SevenRing-(ooh)-h-isomerization .cccccc(ooh)(h) = .c(ooh)ccccc(h)
+- ID 14453
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     2 2 2 2 2 4 2 2 2
+1 2 3 4 5 6 7 8 9 10     2 2 2 2 2 4 2 2 2
+>  <ForwardRxn>
+Standard 2.06e+10 0.0 21100 1; Type 12 ; Primary Value
+
+>  <ReverseRxn>
+Standard 1.0e+11 0.0 280000 1; Nehse/Warnatz/Chevalier ; Primary Value as without OOH
+$$$$
+%%%------------------------------------------------------------------
+EightRing-(ooh)-h-isomerization .ccccccc(ooh)(h) = .c(ooh)cccccc(h)
+- ID 14454
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11    2 2 2 2 2 2 4 2 2 2
+1 2 3 4 5 6 7 8 9 10 11    2 2 2 2 2 2 4 2 2 2
+>  <ForwardRxn>
+Standard 1.72e+9 0.0 23900 1; Type 12 ; Primary Value
+
+>  <ReverseRxn>
+Standard 1.0e+11 0.0 280000 1; Nehse/Warnatz/Chevalier ; Primary Value as 7 ring with OOH
+$$$$

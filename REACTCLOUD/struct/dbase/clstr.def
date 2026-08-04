@@ -1,0 +1,59 @@
+Structures for Clustering Data
+0 Structures
+  ClusterConstants 40 clusterconstants
+     0 The Number of Clusters
+       INT NumClusters Create
+     1 The Maximum Number of Cycles 
+       INT MaxCycles Create
+     2 The Definition of Optimized
+       FLOAT Optimized Create
+     3 The Debug Flag
+       INT Debug Create
+     4 The power of a very small number
+       INT Tiny Create
+     DONE
+  SubVector 40 subvec
+     0  The Number of Clusters
+        INT NumberOfClusters Create
+     1  The Vector of Cluster Centers (Integer)
+        FLOAT Centers Pointer Create Array=NumberOfClusters
+     DONE
+  DistanceMatrix 40 distmat
+     0  The number of Points
+        INT NumberOfPoints Create
+     1  The set of Points (the distances from the respective points)
+        SubVector Points Pointer Create Array=NumberOfPoints
+     DONE
+  ClusterCenters 41 cluscenter SystemList
+     0  The number of Clusters
+        INT NumberOfClusters Create
+     1  The Number Of Variables
+        INT NumberOfVariables Create
+     2  The set of points (numbers) belonging to the set
+        DataSubSetVector Sets Pointer Create
+     3  The set of cluster center information for each variable
+        SysSamVector Clusters Pointer Create Array=NumberOfVariables
+     4  The set of point information for each variable
+        SysSamVector Points Pointer Create Array=NumberOfVariables
+     5  The ID of the SysSamVector Used
+        INT SysSamID Create
+     6  The ID of the DataSubSet Used
+        INT SubSetID Create
+     7  The ID of the Variable List
+        INT VarLstID Create
+     DONE
+  ClusterDefinitions 42 clusdef
+     0  The Distance Contribution of Element
+        FUNCTION Distance Pointer Return=INT
+     1  The Average Contribution
+        FUNCTION Average Pointer Return=void
+     DONE
+   ClusterMaster 45 clustercentermaster
+     0 The Cluster Center Information
+       ClusterCenters Centers Pointer Create
+     1 The Constants For Clustering
+       ClusterConstants Constants Pointer Create
+     2 The definition of the cluster functions
+       ClusterDefinitions Definitions Pointer Create
+     DONE
+DONE

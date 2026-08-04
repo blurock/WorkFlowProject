@@ -1,0 +1,39 @@
+Property Structures
+4 property
+
+     IntegerPropVector 100 intpropvec
+        0 The Number of Integers Stored
+          INT NumberOfIntegers Create
+        1 The Vector of Integers
+          INT Integers Pointer Create Array=NumberOfIntegers
+        DONE
+     FloatPropVector 100 fltpropvec
+        0 The Number of Floats Stored
+          INT NumberOfFloats Create
+        1 The Vector of Floats
+          INT Floats Pointer Create Array=NumberOfFloats
+        DONE
+     PropValue 102 propvalue
+        0 A Single Integer
+          INT Integer Create
+        1 A Single Float
+          FLOAT Float Create
+        2 A Vector of Integers
+          IntegerPropVector IntVec Pointer Create
+        3 A Vector of Floats
+          FloatPropVector   FltVec Pointer Create
+        DONE
+     CompareVector  104  comparevector
+        0 The Number Objects
+          INT NumberOfObjects Create
+        1 The Comparisons of reference object with rest
+          INT Compares Pointer Create Array=NumberOfObjects
+        DONE
+     CompareVectorSet 105 comparevectorset
+        0 The number of sets
+          INT NumberOfSets Create
+        1 The set of Compare Vectors
+          CompareVector Sets Pointer Create Array=NumberOfSets
+        DONE
+DONE
+          

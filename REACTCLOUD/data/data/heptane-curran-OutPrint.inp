@@ -1,0 +1,21 @@
+Print Mechanism Print the mechanism
+Attributes:
+%% ------------------------------------
+%% PrintMechanism   KeySet
+%% ------------------------------------
+data/data/heptane-curran
+StandardMechanism
+KJoule-cm3
+GCKiloJoules-Mole
+GCKiloJoules-Mole
+GCKiloJoules-Mole
+data/data/heptane-curran-Out
+END
+%% ------------------------------------
+%% SubMolecules   KeyWords
+%% ------------------------------------
+END
+%% ------------------------------------
+%% No Instances
+%% ------------------------------------
+END

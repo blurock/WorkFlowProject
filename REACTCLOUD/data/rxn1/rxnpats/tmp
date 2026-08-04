@@ -1,0 +1,8 @@
+%%%=>cyclo-ethoxy-pentane ---------------------------------
+.c(q)(q)(ccccooh) = (q)(q)(-ccccco-) hydroxyl-radical
+- ID 12345
+-Correspondences
+1 2 3 4 5 6 7 8 9 10    2 2 2 2 2 2 4 2 2
+2 3 4 5 6 7 9 10        2 2 2 2 2 4 2 2
+1 8                     2
+

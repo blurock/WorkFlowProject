@@ -1,0 +1,97 @@
+Reaction Structures
+2 reaction
+
+     RxnAtom 60 rxnatom
+        0 The Molecule
+          INT MoleculeNumber Create
+        1 The Atom in Molecule
+          INT AtomNumber Create
+        DONE
+     RxnAtomCorrespondence 61 rxnatomcorr
+        0 The Product Atom
+          RxnAtom Product Pointer Create
+        1 The Reactant Atom
+          RxnAtom Reactant Pointer Create
+        2 The Molecule Position in the set of Reactants
+          INT ReactantPosition Create
+        3 The Molecule Position in the set of Products
+          INT ProductPosition Create
+          DONE
+     RxnUnMatchedSet 62 rxnunmatchedset
+        0 The Number of Unmatched Reactants
+          INT NumberUnMatchedAtoms Create
+        1 The Unmatched Reactant Atoms
+          RxnAtom UnMatchedAtoms Pointer Create Array=NumberUnMatchedAtoms
+        DONE
+     RxnBond 62 rxnbond
+        0 Atom Number 1
+          RxnAtomCorrespondence Atom1 Pointer Create
+        1 Atom Number 2
+          RxnAtomCorrespondence Atom2 Pointer Create
+        2 The type of bond change
+          INT Type Create
+        DONE
+     RxnBondChanges 62 rxnbondchanges
+        0 The Number of bond changes
+          INT NumberBondChanges Create
+        1 Set of Reaction Bond Changes
+          RxnBond Changes Pointer Create Array=NumberBondChanges
+        DONE
+     RxnCorrespondenceSet 62 rxncorrset
+        0 The Number of Correspondences
+          INT NumberOfCorrs Create
+        1 The Correspondences
+          RxnAtomCorrespondence Corrs Pointer Create Array=NumberOfCorrs
+        2 The Set of Bond Changes
+          RxnBondChanges BondChanges Pointer Create
+        3 The Unmatched Reactant Atoms
+          RxnUnMatchedSet UnMatched Pointer Create
+        DONE
+
+     ReactionDataConstants 13 reactiondataconstants
+        1 The Symmetry Factor of the Products
+          INT Sym    Create
+        2 The Relative Rate of Reactins
+          FLOAT Relative Create
+        3 The Arrhenius Constant
+          FLOAT Aconstant Create
+        4 The Activation Energy
+          FLOAT Energy Create
+        6 The Temperature Exponent
+          FLOAT TempExp Create
+        DONE
+     ReactionData 13 reactiondata
+        0 The data constants for the forward direction
+          ReactionDataConstants Forward Pointer Create
+        1 The data constants for the reverse direction
+          ReactionDataConstants Reverse Pointer Create
+        DONE
+     ReactionInfo 63 reactioninfo
+        0 The Number of reactants
+          INT NumberOfReactants Create
+        1 The Number of Products
+          INT NumberOfProducts Create
+	2 The set of Reactants (molecule ID's)
+          INT Reactants Pointer Create Array=NumberOfReactants
+        3 The Set of Products (molecule ID's)
+          INT Products Pointer Create Array=NumberOfProducts
+        4 The total set of correspondences
+          RxnCorrespondenceSet TotalCorr Pointer Create
+        5 The rxn-pattern set of correspondences
+          RxnCorrespondenceSet RxnPatCorr Pointer Create
+        6 The Set  of Constants associated with a reaction
+          ReactionData Data Pointer Create
+        7 The set of properties for the reactions
+          SetOfPropertyValues Properties Pointer Create
+        DONE
+     ReactionSet 64 reactionset
+        0 The Number of Reactions
+          INT NumberOfReactions Create
+        1 The Reactions
+          ReactionInfo Reactions Pointer Create Array=NumberOfReactions
+        2 The property types
+          SetOfPropertyTypes PropertyTypes Pointer Create
+        DONE
+DONE
+
+

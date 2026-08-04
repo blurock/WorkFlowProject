@@ -1,0 +1,291 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% Olefin Gamma HydroPeroxy Decomposition to Butadiene
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*2 = 4
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(hh)(hh) \
+       c=ccccooh(h)(hh)(hh) = c=cc=c(h)(hh) (h)(h)c(o) hydroxyl-radical
+- ID 41001
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 4 2 4 2 2 2 2 2 2
+1 2 3 4 9 10 11                 2 2 2 2 2 2
+5 6 12 13                       2 2 2
+8 7                             2
+>  <ForwardRxn>
+Standard 5.0e+13 0.0 25500 4; Type XXI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 4; No Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*2 = 4
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(hh)(hh) \
+       c=ccccooh(r)(hh)(hh) = c=cc=c(r)(hh) (h)(h)c(o) hydroxyl-radical
+- ID 41002
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 4 2 4 2 2 2 2 2 2
+1 2 3 4 9 10 11                 2 2 2 2 2 2
+5 6 12 13                       2 2 2
+8 7                             2
+>  <ForwardRxn>
+Standard 5.0e+13 0.0 25500 4; Type XXI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 4; No Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*2 = 2
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(rh)(hh) \
+       c=ccccooh(h)(rh)(hh) = c=cc=c(h)(rh) (h)(h)c(o) hydroxyl-radical
+- ID 41003
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 4 2 4 2 2 2 2 2 2
+1 2 3 4 9 10 11                 2 2 2 2 2 2
+5 6 12 13                       2 2 2
+8 7                             2
+>  <ForwardRxn>
+Standard 5.0e+13 0.0 25500 2; Type XXI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 2; No Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*2 = 2
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(rh)(hh) \
+       c=ccccooh(r)(rh)(hh) = c=cc=c(r)(rh) (h)(h)c(o) hydroxyl-radical
+- ID 41004
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 4 2 4 2 2 2 2 2 2
+1 2 3 4 9 10 11                 2 2 2 2 2 2
+5 6 12 13                       2 2 2
+8 7                             2
+>  <ForwardRxn>
+Standard 5.0e+13 0.0 25500 2; Type XXI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 2; No Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*2 = 4
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(rr)(hh) \
+       c=ccccooh(h)(rr)(hh) = c=cc=c(h)(rr) (h)(h)c(o) hydroxyl-radical
+- ID 41005
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 4 2 4 2 2 2 2 2 2
+1 2 3 4 9 10 11                 2 2 2 2 2 2
+5 6 12 13                       2 2 2
+8 7                             2
+>  <ForwardRxn>
+Standard 5.0e+13 0.0 25500 4; Type XXI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 4; No Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*2 = 4
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(rr)(hh) \
+       c=ccccooh(r)(rr)(hh) = c=cc=c(r)(rr) (h)(h)c(o) hydroxyl-radical
+- ID 41006
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 4 2 4 2 2 2 2 2 2
+1 2 3 4 9 10 11                 2 2 2 2 2 2
+5 6 12 13                       2 2 2
+8 7                             2
+>  <ForwardRxn>
+Standard 5.0e+13 0.0 25500 4; Type XXI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 4; No Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*1 = 2
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(hh)(rh) \
+       c=ccccooh(h)(hh)(rh) = c=cc=c(h)(hh) (r)(h)c(o) hydroxyl-radical
+- ID 41007
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 4 2 4 2 2 2 2 2 2
+1 2 3 4 9 10 11                 2 2 2 2 2 2
+5 6 12 13                       2 2 2
+8 7                             2
+>  <ForwardRxn>
+Standard 5.0e+13 0.0 25500 2; Type XXI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 2; No Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*1 = 2
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(hh)(rh) \
+       c=ccccooh(r)(hh)(rh) = c=cc=c(r)(hh) (r)(h)c(o) hydroxyl-radical
+- ID 41008
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 4 2 4 2 2 2 2 2 2
+1 2 3 4 9 10 11                 2 2 2 2 2 2
+5 6 12 13                       2 2 2
+8 7                             2
+>  <ForwardRxn>
+Standard 5.0e+13 0.0 25500 2; Type XXI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 2; No Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*1 = 1
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(rh)(rh) \
+       c=ccccooh(h)(rh)(rh) = c=cc=c(h)(rh) (r)(h)c(o) hydroxyl-radical
+- ID 41009
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 4 2 4 2 2 2 2 2 2
+1 2 3 4 9 10 11                 2 2 2 2 2 2
+5 6 12 13                       2 2 2
+8 7                             2
+>  <ForwardRxn>
+Standard 5.0e+13 0.0 25500 1; Type XXI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 1; No Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*1 = 1
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(rh)(rh) \
+       c=ccccooh(r)(rh)(rh) = c=cc=c(r)(rh) (r)(h)c(o) hydroxyl-radical
+- ID 41010
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 4 2 4 2 2 2 2 2 2
+1 2 3 4 9 10 11                 2 2 2 2 2 2
+5 6 12 13                       2 2 2
+8 7                             2
+>  <ForwardRxn>
+Standard 5.0e+13 0.0 25500 1; Type XXI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 1; No Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*1 = 2
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(rr)(rh) \
+       c=ccccooh(h)(rr)(rh) = c=cc=c(h)(rr) (r)(h)c(o) hydroxyl-radical
+- ID 41011
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 4 2 4 2 2 2 2 2 2
+1 2 3 4 9 10 11                 2 2 2 2 2 2
+5 6 12 13                       2 2 2
+8 7                             2
+>  <ForwardRxn>
+Standard 5.0e+13 0.0 25500 2; Type XXI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 2; No Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*1 = 2
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(rr)(rh) \
+       c=ccccooh(r)(rr)(rh) = c=cc=c(r)(rr) (r)(h)c(o) hydroxyl-radical
+- ID 41012
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 4 2 4 2 2 2 2 2 2
+1 2 3 4 9 10 11                 2 2 2 2 2 2
+5 6 12 13                       2 2 2
+8 7                             2
+>  <ForwardRxn>
+Standard 5.0e+13 0.0 25500 2; Type XXI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 2; No Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*2 = 4
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(hh)(rr) \
+       c=ccccooh(h)(hh)(rr) = c=cc=c(h)(hh) (r)(r)c(o) hydroxyl-radical
+- ID 41013
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 4 2 4 2 2 2 2 2 2
+1 2 3 4 9 10 11                 2 2 2 2 2 2
+5 6 12 13                       2 2 2
+8 7                             2
+>  <ForwardRxn>
+Standard 5.0e+13 0.0 25500 4; Type XXI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 4; No Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*2 = 4
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(hh)(rr) \
+       c=ccccooh(r)(hh)(rr) = c=cc=c(r)(hh) (r)(r)c(o) hydroxyl-radical
+- ID 41014
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 4 2 4 2 2 2 2 2 2
+1 2 3 4 9 10 11                 2 2 2 2 2 2
+5 6 12 13                       2 2 2
+8 7                             2
+>  <ForwardRxn>
+Standard 5.0e+13 0.0 25500 4; Type XXI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 4; No Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*2 = 2
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(rh)(rr) \
+       c=ccccooh(h)(rh)(rr) = c=cc=c(h)(rh) (r)(r)c(o) hydroxyl-radical
+- ID 41015
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 4 2 4 2 2 2 2 2 2
+1 2 3 4 9 10 11                 2 2 2 2 2 2
+5 6 12 13                       2 2 2
+8 7                             2
+>  <ForwardRxn>
+Standard 5.0e+13 0.0 25500 2; Type XXI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 2; No Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*2 = 2
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(rh)(rr) \
+       c=ccccooh(r)(rh)(rr) = c=cc=c(r)(rh) (r)(r)c(o) hydroxyl-radical
+- ID 41016
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 4 2 4 2 2 2 2 2 2
+1 2 3 4 9 10 11                 2 2 2 2 2 2
+5 6 12 13                       2 2 2
+8 7                             2
+>  <ForwardRxn>
+Standard 5.0e+13 0.0 25500 2; Type XXI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 2; No Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*2 = 4
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(rr)(rr) \
+       c=ccccooh(h)(rr)(rr) = c=cc=c(h)(rr) (r)(r)c(o) hydroxyl-radical
+- ID 41017
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 4 2 4 2 2 2 2 2 2
+1 2 3 4 9 10 11                 2 2 2 2 2 2
+5 6 12 13                       2 2 2
+8 7                             2
+>  <ForwardRxn>
+Standard 5.0e+13 0.0 25500 4; Type XXI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 4; No Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*2 = 4
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(rr)(rr) \
+       c=ccccooh(r)(rr)(rr) = c=cc=c(r)(rr) (r)(r)c(o) hydroxyl-radical
+- ID 41018
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 4 2 4 2 2 2 2 2 2
+1 2 3 4 9 10 11                 2 2 2 2 2 2
+5 6 12 13                       2 2 2
+8 7                             2
+>  <ForwardRxn>
+Standard 5.0e+13 0.0 25500 4; Type XXI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 4; No Reverse
+$$$$

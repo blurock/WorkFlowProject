@@ -1,0 +1,156 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2*2 = 24
+%%%-------------------------------------------------------------------
+Decomp-(hhh)(hh)(rhh)\
+     propyl-(rhh)(hh)(hhh) = ethyl-radical-(hh)(hhh) primary-carbon-radical
+- ID 70410
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         4 2 2 2 2 2 2 2 2 2
+2 3 7 9 11 8 10                 2 2 2 2 2 2
+1 4 5 6                         2 2 2
+>  <ReverseRxn>
+Standard 8.000E+12   0.00  0.000E+00 1;Type I: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(2*2*2 = 8)
+%%%-------------------------------------------------------------------
+Decomp-(rhh)(hh)(rhh)\
+     propyl-(rhh)(hh)(rhh) = ethyl-radical-(hh)(rhh) primary-carbon-radical
+- ID 70411
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         4 2 2 2 2 2 2 2 2 2
+2 3 7 10 9 8 11                 2 2 2 2 2 2
+1 4 5 6                         2 2 2
+>  <ReverseRxn>
+Standard 8.000E+12   0.00  0.000E+00 1; Type I: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+Decomp-(rrh)(hh)(rhh)\
+     propyl-(rrh)(hh)(rhh) = ethyl-radical-(hh)(rrh) primary-carbon-radical
+- ID 70412
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         2 4 2 2 2 2 2 2 2 2
+2 1 7 6 4 8 5                   2 2 2 2 2 2
+3 9 10 11                       2 2 2
+>  <ReverseRxn>
+Standard 8.000E+12   0.00  0.000E+00 1; Type I: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2*2 = 24
+%%%-------------------------------------------------------------------
+Decomp-(rrr)(hh)(rhh)\
+     propyl-(rrr)(hh)(rhh) = ethyl-radical-(hh)(rrr) primary-carbon-radical
+- ID 70413
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         2 4 2 2 2 2 2 2 2 2
+2 1 7 4 6 8 5                   2 2 2 2 2 2
+3 9 10 13                       2 2 2
+>  <ReverseRxn>
+Standard 8.000E+12   0.00  0.000E+00 1; Type I: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2 = 12
+%%%-------------------------------------------------------------------
+Decomp-(hhh)(rh)(rrh)\
+     propyl-(rrh)(rh)(hhh) = ethyl-radical-(rh)(hhh) secondary-carbon-radical
+- ID 70414
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         4 2 2 2 2 2 2 2 2 2
+2 3 7 9 11 8 10                 2 2 2 2 2 2
+1 4 5 6                       2 2 2
+>  <ReverseRxn>
+Standard 8.000E+12   0.00  0.000E+00 1; Type I: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*2 = 4
+%%%-------------------------------------------------------------------
+Decomp-(rhh)(rh)(rrh)\
+     propyl-(rrh)(rh)(rhh) = ethyl-radical-(rh)(rhh) secondary-carbon-radical
+- ID 70415
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         4 2 2 2 2 2 2 2 2 2
+2 3 7 9 10 8 11                 2 2 2 2 2 2
+1 4 5 6                       2 2 2
+>  <ReverseRxn>
+Standard 8.000E+12   0.00  0.000E+00 1; Type I: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*2 = 4
+%%%-------------------------------------------------------------------
+Decomp-(rrh)(rh)(rrh)\
+     propyl-(rrh)(rh)(rrh) = ethyl-radical-(rh)(rrh) secondary-carbon-radical
+- ID 70416
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         2 4 2 2 2 2 2 2 2 2
+2 1 7 4 6 8 5                   2 2 2 2 2 2
+3 9 10 11                       2 2 2
+>  <ReverseRxn>
+Standard 8.000E+12   0.00  0.000E+00 1; Type I: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*1*2 = 12
+%%%-------------------------------------------------------------------
+Decomp-(rrr)(rh)(rrh)\
+     propyl-(rrr)(rh)(rrh) = ethyl-radical-(rh)(rrr) secondary-carbon-radical
+- ID 70417
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         2 4 2 2 2 2 2 2 2 2
+2 1 7 4 6 8 5                   2 2 2 2 2 2
+3 9 10 11                       2 2 2
+>  <ReverseRxn>
+Standard 8.000E+12   0.00  0.000E+00 1; Type I: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2*6 = 72
+%%%-------------------------------------------------------------------
+Decomp-(hhh)(rr)(rrr)\
+     propyl-(rrr)(rr)(hhh) = ethyl-radical-(rr)(hhh) tertiary-carbon-radical
+- ID 70418
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         4 2 2 2 2 2 2 2 2 2
+2 3 7 9 11 8 10                 2 2 2 2 2 2
+1 4 5 6                       2 2 2
+>  <ReverseRxn>
+Standard 8.000E+12   0.00  0.000E+00 1; Type I: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*6 = 24
+%%%-------------------------------------------------------------------
+Decomp-(rhh)(rr)(rrr)\
+     propyl-(rrh)(rh)(rhh) = ethyl-radical-(rr)(rhh) tertiary-carbon-radical
+- ID 70419
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         4 2 2 2 2 2 2 2 2 2
+2 3 7 9 11 8 10                 2 2 2 2 2 2
+1 4 5 6                       2 2 2
+>  <ReverseRxn>
+Standard 8.000E+12   0.00  0.000E+00 1; Type I: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+Decomp-(rrh)(rr)(rrr)\
+     propyl-(rrr)(rr)(rrh) = ethyl-radical-(rr)(rrh) tertiary-carbon-radical
+- ID 70420
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         4 2 2 2 2 2 2 2 2 2
+2 3 7 9 11 8 10                 2 2 2 2 2 2
+1 4 5 6                         2 2 2
+>  <ReverseRxn>
+Standard 8.000E+12   0.00  0.000E+00 1; Type I: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2*6 = 72
+%%%-------------------------------------------------------------------
+Decomp-(rrr)(rr)(rrr)\
+     propyl-(rrr)(rr)(rrr) = ethyl-radical-(rr)(rrr) tertiary-carbon-radical
+- ID 70421
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         2 4 2 2 2 2 2 2 2 2
+2 1 7 4 6 8 5                   2 2 2 2 2 2
+3 9 10 11                       2 2 2
+>  <ReverseRxn>
+Standard 8.000E+12   0.00  0.000E+00 1; Type I: Combustion and Flame, 114:149-177 (1998)
+$$$$

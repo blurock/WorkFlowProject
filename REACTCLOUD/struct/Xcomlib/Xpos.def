@@ -1,0 +1,32 @@
+Structures for Basic Graphic Positions
+5 xwinposition
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   ObjectPosition 100 position
+      0 The X Coordinate
+        FLOAT X Create
+      1 The Y Coordinate
+        FLOAT Y Create
+      DONE
+%% Window Position in Pixels for specific window
+   WindowPosition 100 windowposition
+      0 The X Coordinate
+        INT X Create
+      1 The Y Coordinate
+        INT Y Create
+      DONE
+%% Object Size for absolute object
+   ObjectSize 100 objectsize
+      0 The Width
+        FLOAT Width Create
+      1 The Height
+        FLOAT Height Create
+      DONE
+%% WindowObject Size in Pixels for specific window
+   WindowObjectSize 100 windowobjectsize
+      0 The Width
+        INT Width Create
+      1 The Height
+        INT Height Create
+      DONE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+DONE

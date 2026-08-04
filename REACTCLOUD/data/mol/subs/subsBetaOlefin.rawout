@@ -1,0 +1,293 @@
+~/git/copilot-worktrees/react/blurock-studious-fortnight/tmp ~/git/copilot-worktrees/react/blurock-studious-fortnight/data/mol/subs 
+-----------------Chemistry Database ------------------
+-----------------Version 0    --------------------
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+main>> Mol
+Command:Mol
+Mol>> Parameters
+Command:Parameters
+Parameters>> RootMolName
+Command:RootMolName
+RootMolName>> Input:RootMolName
+Command:Input:RootMolName
+Input:RootMolName>> Set Value: RootMolName to StandardMeta
+StandardMeta
+RootMolName>> Quit
+Parameters>> Quit
+Mol>> MetaAtoms
+Command:MetaAtoms
+MetaAtoms>> Read
+Command:Read
+Set Of     3 MolFile Meta Atoms (    0:MasterMetaAtom)
+MetaAtoms:    0::(         R,  320 -> [ (    6,    1)  ]
+MetaAtoms:    1::(         Q,  221 -> [ (    1,    1) (    6,    1) (    6,    2)  ]
+MetaAtoms:    2::(         X,  382 -> [ (    9,    1) (   35,    1) (   17,    1)  ]
+MetaAtoms>> Quit
+Mol>> Quit
+main>> CreateOpenClose
+Command:CreateOpenClose
+CreateOpenClose>> Start
+Command:Start
+
+0:No Keys for Reactions
+
+
+0:No Keys for ReactionPatterns
+
+CreateOpenClose>> Quit
+main>> DbaseOps
+Command:DbaseOps
+DbaseOps>> SubStructures
+Command:SubStructures
+SubStructures>> Keys
+Command:Keys
+Keys>> Define
+Command:Define
+Keys>> Write
+Command:Write
+Keys>> Quit
+SubStructures>> Quit
+DbaseOps>> Quit
+main>> Mol
+Command:Mol
+Mol>> Parameters
+Command:Parameters
+Parameters>> RootMolName
+Command:RootMolName
+RootMolName>> Input:RootMolName
+Command:Input:RootMolName
+Input:RootMolName>> Set Value: RootMolName to subs/subsBetaOlefin
+subs/subsBetaOlefin
+RootMolName>> Quit
+Parameters>> Quit
+Mol>> Read
+Command:Read
+Read>> SubStructures
+Command:SubStructures
+SubStructures>> SDF
+Command:SDF
+Read SDF Molecule: betaolefin
+Read SDF Molecule: betaolefin(qq)(q)(hh)(hhh)
+Read SDF Molecule: betaolefin(qq)(q)(rh)(hhh)
+Read SDF Molecule: betaolefin(qq)(q)(rr)(hhh)
+Read SDF Molecule: betaolefin(qq)(q)(hh)(rhh)
+Read SDF Molecule: betaolefin(qq)(q)(rh)(rhh)
+Read SDF Molecule: betaolefin(qq)(q)(rr)(rhh)
+Read SDF Molecule: betaolefin(qq)(q)(hh)(rrh)
+Read SDF Molecule: betaolefin(qq)(q)(rh)(rrh)
+Read SDF Molecule: betaolefin(qq)(q)(rr)(rrh)
+Read SDF Molecule: betaolefin(qq)(q)(hh)(rrr)
+Read SDF Molecule: betaolefin(qq)(q)(rh)(rrr)
+Read SDF Molecule: betaolefin(qq)(q)(rr)(rrr)
+SubStructures>> Quit
+Read>> Quit
+Mol>> Calculations
+Command:Calculations
+Calculations>> SubStructures
+Command:SubStructures
+SubStructures>> SemiEmpirical
+Command:SemiEmpirical
+SubStructures>> Quit
+Calculations>> Quit
+Mol>> Output
+Command:Output
+Output>> SubStructures
+Command:SubStructures
+SubStructures>> Print
+Command:Print
+SubStructures>> Quit
+Output>> Quit
+Mol>> Quit
+main>> DbaseOps
+Command:DbaseOps
+DbaseOps>> SubStructures
+Command:SubStructures
+SubStructures>> Current
+Command:Current
+Current>> Store
+Command:Store
+Store:          1:betaolefin
+New ID:   10304400
+Store:          2:betaolefin(qq)(q)(hh)(hhh)
+New ID:   11112400
+Store:          3:betaolefin(qq)(q)(rh)(hhh)
+Equivalence: betaolefin(qq)(q)(hh)(hhh) betaolefin(qq)(q)(rh)(hhh)     0
+New ID:   11112401
+Store:          4:betaolefin(qq)(q)(rr)(hhh)
+Equivalence: betaolefin(qq)(q)(hh)(hhh) betaolefin(qq)(q)(rr)(hhh)     0
+Equivalence: betaolefin(qq)(q)(rh)(hhh) betaolefin(qq)(q)(rr)(hhh)     0
+New ID:   11112402
+Store:          5:betaolefin(qq)(q)(hh)(rhh)
+Equivalence: betaolefin(qq)(q)(hh)(hhh) betaolefin(qq)(q)(hh)(rhh)     0
+Equivalence: betaolefin(qq)(q)(rh)(hhh) betaolefin(qq)(q)(hh)(rhh)     0
+Equivalence: betaolefin(qq)(q)(rr)(hhh) betaolefin(qq)(q)(hh)(rhh)     0
+New ID:   11112403
+Store:          6:betaolefin(qq)(q)(rh)(rhh)
+Equivalence: betaolefin(qq)(q)(hh)(hhh) betaolefin(qq)(q)(rh)(rhh)     0
+Equivalence: betaolefin(qq)(q)(rh)(hhh) betaolefin(qq)(q)(rh)(rhh)     0
+Equivalence: betaolefin(qq)(q)(rr)(hhh) betaolefin(qq)(q)(rh)(rhh)     0
+Equivalence: betaolefin(qq)(q)(hh)(rhh) betaolefin(qq)(q)(rh)(rhh)     0
+New ID:   11112404
+Store:          7:betaolefin(qq)(q)(rr)(rhh)
+Equivalence: betaolefin(qq)(q)(hh)(hhh) betaolefin(qq)(q)(rr)(rhh)     0
+Equivalence: betaolefin(qq)(q)(rh)(hhh) betaolefin(qq)(q)(rr)(rhh)     0
+Equivalence: betaolefin(qq)(q)(rr)(hhh) betaolefin(qq)(q)(rr)(rhh)     0
+Equivalence: betaolefin(qq)(q)(hh)(rhh) betaolefin(qq)(q)(rr)(rhh)     0
+Equivalence: betaolefin(qq)(q)(rh)(rhh) betaolefin(qq)(q)(rr)(rhh)     0
+New ID:   11112405
+Store:          8:betaolefin(qq)(q)(hh)(rrh)
+Equivalence: betaolefin(qq)(q)(hh)(hhh) betaolefin(qq)(q)(hh)(rrh)     0
+Equivalence: betaolefin(qq)(q)(rh)(hhh) betaolefin(qq)(q)(hh)(rrh)     0
+Equivalence: betaolefin(qq)(q)(rr)(hhh) betaolefin(qq)(q)(hh)(rrh)     0
+Equivalence: betaolefin(qq)(q)(hh)(rhh) betaolefin(qq)(q)(hh)(rrh)     0
+Equivalence: betaolefin(qq)(q)(rh)(rhh) betaolefin(qq)(q)(hh)(rrh)     0
+Equivalence: betaolefin(qq)(q)(rr)(rhh) betaolefin(qq)(q)(hh)(rrh)     0
+New ID:   11112406
+Store:          9:betaolefin(qq)(q)(rh)(rrh)
+Equivalence: betaolefin(qq)(q)(hh)(hhh) betaolefin(qq)(q)(rh)(rrh)     0
+Equivalence: betaolefin(qq)(q)(rh)(hhh) betaolefin(qq)(q)(rh)(rrh)     0
+Equivalence: betaolefin(qq)(q)(rr)(hhh) betaolefin(qq)(q)(rh)(rrh)     0
+Equivalence: betaolefin(qq)(q)(hh)(rhh) betaolefin(qq)(q)(rh)(rrh)     0
+Equivalence: betaolefin(qq)(q)(rh)(rhh) betaolefin(qq)(q)(rh)(rrh)     0
+Equivalence: betaolefin(qq)(q)(rr)(rhh) betaolefin(qq)(q)(rh)(rrh)     0
+Equivalence: betaolefin(qq)(q)(hh)(rrh) betaolefin(qq)(q)(rh)(rrh)     0
+New ID:   11112407
+Store:         10:betaolefin(qq)(q)(rr)(rrh)
+Equivalence: betaolefin(qq)(q)(hh)(hhh) betaolefin(qq)(q)(rr)(rrh)     0
+Equivalence: betaolefin(qq)(q)(rh)(hhh) betaolefin(qq)(q)(rr)(rrh)     0
+Equivalence: betaolefin(qq)(q)(rr)(hhh) betaolefin(qq)(q)(rr)(rrh)     0
+Equivalence: betaolefin(qq)(q)(hh)(rhh) betaolefin(qq)(q)(rr)(rrh)     0
+Equivalence: betaolefin(qq)(q)(rh)(rhh) betaolefin(qq)(q)(rr)(rrh)     0
+Equivalence: betaolefin(qq)(q)(rr)(rhh) betaolefin(qq)(q)(rr)(rrh)     0
+Equivalence: betaolefin(qq)(q)(hh)(rrh) betaolefin(qq)(q)(rr)(rrh)     0
+Equivalence: betaolefin(qq)(q)(rh)(rrh) betaolefin(qq)(q)(rr)(rrh)     0
+New ID:   11112408
+Store:         11:betaolefin(qq)(q)(hh)(rrr)
+Equivalence: betaolefin(qq)(q)(hh)(hhh) betaolefin(qq)(q)(hh)(rrr)     0
+Equivalence: betaolefin(qq)(q)(rh)(hhh) betaolefin(qq)(q)(hh)(rrr)     0
+Equivalence: betaolefin(qq)(q)(rr)(hhh) betaolefin(qq)(q)(hh)(rrr)     0
+Equivalence: betaolefin(qq)(q)(hh)(rhh) betaolefin(qq)(q)(hh)(rrr)     0
+Equivalence: betaolefin(qq)(q)(rh)(rhh) betaolefin(qq)(q)(hh)(rrr)     0
+Equivalence: betaolefin(qq)(q)(rr)(rhh) betaolefin(qq)(q)(hh)(rrr)     0
+Equivalence: betaolefin(qq)(q)(hh)(rrh) betaolefin(qq)(q)(hh)(rrr)     0
+Equivalence: betaolefin(qq)(q)(rh)(rrh) betaolefin(qq)(q)(hh)(rrr)     0
+Equivalence: betaolefin(qq)(q)(rr)(rrh) betaolefin(qq)(q)(hh)(rrr)     0
+New ID:   11112409
+Store:         12:betaolefin(qq)(q)(rh)(rrr)
+Equivalence: betaolefin(qq)(q)(hh)(hhh) betaolefin(qq)(q)(rh)(rrr)     0
+Equivalence: betaolefin(qq)(q)(rh)(hhh) betaolefin(qq)(q)(rh)(rrr)     0
+Equivalence: betaolefin(qq)(q)(rr)(hhh) betaolefin(qq)(q)(rh)(rrr)     0
+Equivalence: betaolefin(qq)(q)(hh)(rhh) betaolefin(qq)(q)(rh)(rrr)     0
+Equivalence: betaolefin(qq)(q)(rh)(rhh) betaolefin(qq)(q)(rh)(rrr)     0
+Equivalence: betaolefin(qq)(q)(rr)(rhh) betaolefin(qq)(q)(rh)(rrr)     0
+Equivalence: betaolefin(qq)(q)(hh)(rrh) betaolefin(qq)(q)(rh)(rrr)     0
+Equivalence: betaolefin(qq)(q)(rh)(rrh) betaolefin(qq)(q)(rh)(rrr)     0
+Equivalence: betaolefin(qq)(q)(rr)(rrh) betaolefin(qq)(q)(rh)(rrr)     0
+Equivalence: betaolefin(qq)(q)(hh)(rrr) betaolefin(qq)(q)(rh)(rrr)     0
+New ID:   11112410
+Store:         12:betaolefin(qq)(q)(rr)(rrr)
+Equivalence: betaolefin(qq)(q)(hh)(hhh) betaolefin(qq)(q)(rr)(rrr)     0
+Equivalence: betaolefin(qq)(q)(rh)(hhh) betaolefin(qq)(q)(rr)(rrr)     0
+Equivalence: betaolefin(qq)(q)(rr)(hhh) betaolefin(qq)(q)(rr)(rrr)     0
+Equivalence: betaolefin(qq)(q)(hh)(rhh) betaolefin(qq)(q)(rr)(rrr)     0
+Equivalence: betaolefin(qq)(q)(rh)(rhh) betaolefin(qq)(q)(rr)(rrr)     0
+Equivalence: betaolefin(qq)(q)(rr)(rhh) betaolefin(qq)(q)(rr)(rrr)     0
+Equivalence: betaolefin(qq)(q)(hh)(rrh) betaolefin(qq)(q)(rr)(rrr)     0
+Equivalence: betaolefin(qq)(q)(rh)(rrh) betaolefin(qq)(q)(rr)(rrr)     0
+Equivalence: betaolefin(qq)(q)(rr)(rrh) betaolefin(qq)(q)(rr)(rrr)     0
+Equivalence: betaolefin(qq)(q)(hh)(rrr) betaolefin(qq)(q)(rr)(rrr)     0
+Equivalence: betaolefin(qq)(q)(rh)(rrr) betaolefin(qq)(q)(rr)(rrr)     0
+New ID:   11112411
+Current>> Quit
+SubStructures>> Keys
+Command:Keys
+Keys>> Define
+Command:Define
+Keys>> Fill
+Command:Fill
+Keys>> Write
+Command:Write
+Keys>> Quit
+SubStructures>> Misc
+Command:Misc
+Misc>> PrintList
+Command:PrintList
+  20708320: -->alphaolefin-radical(rr)(r)(rr)<--
+  20102100: -->carbonmonoxide<--
+  10506204: -->ethane-(rr)(hh)<--
+  20708305: -->alphaolefin-radical(rr)(h)(hh)<--
+  11112411: -->betaolefin(qq)(q)(rr)(rrr)<--
+  10102200: -->olefin<--
+  11112406: -->betaolefin(qq)(q)(hh)(rrh)<--
+  20102000: -->hydroxyl-radical<--
+  10809302: -->alphaolefin-(qq)(q)(rrh)<--
+  20708318: -->alphaolefin-radical(hh)(r)(rr)<--
+  20001000: -->hydrogen-radical<--
+  10001000: -->oxygen-atom<--
+  10506202: -->ethane-(hh)(rh)<--
+  20708303: -->alphaolefin-radical(hh)(h)(hh)<--
+  11112409: -->betaolefin(qq)(q)(hh)(rrr)<--
+  11112404: -->betaolefin(qq)(q)(rh)(rhh)<--
+  10506215: -->olefin-(qq)(qq)<--
+  10809300: -->alphaolefin-(qq)(q)(hhh)<--
+  20708316: -->alphaolefin-radical(rh)(h)(rr)<--
+  20203000: -->peroxyl-radical<--
+  10203000: -->water<--
+  20708306: -->alphaolefin-radical(hh)(r)(hh)<--
+  10506200: -->ethane-(hh)(hh)<--
+  20708301: -->alphaolefin-radical(qq)(q)(rh)<--
+  11112407: -->betaolefin(qq)(q)(rh)(rrh)<--
+  20708319: -->alphaolefin-radical(rh)(r)(rr)<--
+  10506213: -->olefin-(rr)(rh)<--
+  20708314: -->alphaolefin-radical(rr)(r)(rh)<--
+  20708304: -->alphaolefin-radical(rh)(h)(hh)<--
+  11112405: -->betaolefin(qq)(q)(rr)(rhh)<--
+  20708317: -->alphaolefin-radical(rr)(h)(rr)<--
+  20203300: -->alphaolefin-radical<--
+  10506211: -->olefin-(rh)(rh)<--
+  20708312: -->alphaolefin-radical(hh)(r)(rh)<--
+  20708302: -->alphaolefin-radical(qq)(q)(rr)<--
+  10304400: -->betaolefin<--
+  10102001: -->hydrogen<--
+  10506214: -->olefin-(rr)(rr)<--
+  20708315: -->alphaolefin-radical(hh)(h)(rr)<--
+  11112403: -->betaolefin(qq)(q)(hh)(rhh)<--
+  10506209: -->olefin-(hh)(hh)<--
+  20708310: -->alphaolefin-radical(rh)(h)(rh)<--
+  20708300: -->alphaolefin-radical(qq)(q)(hh)<--
+  11112401: -->betaolefin(qq)(q)(rh)(hhh)<--
+  10506212: -->olefin-(rr)(hh)<--
+  20708313: -->alphaolefin-radical(rh)(r)(rh)<--
+  10506207: -->ethane-(rh)(rr)<--
+  20708308: -->alphaolefin-radical(rr)(r)(hh)<--
+  10304000: -->hydrogen-peroxide<--
+  10506210: -->olefin-(rh)(hh)<--
+  20708311: -->alphaolefin-radical(rr)(h)(rh)<--
+  10506205: -->ethane-(hh)(rr)<--
+  10102000: -->oxygen<--
+  11112402: -->betaolefin(qq)(q)(rr)(hhh)<--
+  10809303: -->alphaolefin-(qq)(q)(rrr)<--
+  10506208: -->ethane-(rr)(rr)<--
+  20708309: -->alphaolefin-radical(hh)(h)(rh)<--
+  20001001: -->oxygen-radical<--
+  10506203: -->ethane-(rh)(rh)<--
+  11112410: -->betaolefin(qq)(q)(rh)(rrr)<--
+  11112400: -->betaolefin(qq)(q)(hh)(hhh)<--
+  10809301: -->alphaolefin-(qq)(q)(rhh)<--
+  10506206: -->ethane-(rr)(rh)<--
+  20708307: -->alphaolefin-radical(rh)(r)(hh)<--
+  10203300: -->alphaolefin<--
+  10506201: -->ethane-(rh)(hh)<--
+  11112408: -->betaolefin(qq)(q)(rr)(rrh)<--
+Misc>> Quit
+SubStructures>> Quit
+DbaseOps>> Quit
+main>> Quit
+~/git/copilot-worktrees/react/blurock-studious-fortnight/data/mol/subs 

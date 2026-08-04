@@ -1,0 +1,81 @@
+Benson Thermodynamic Constants
+0 benson
+%%% BensonAtoms
+%%%   A single atom type that is connected to the center atom
+%%%   The atom and its multiplicity (i.e. the number of times
+%%%   it is connected to the center atom) is stored
+%%%
+   BensonAtomConnections 100 bensonatomconnections
+     0 The Atom Valence Value
+       INT Valence Create
+     1 The Multiplicity
+       INT Multiplicity Create
+     DONE
+%%%
+%%% BensonSecondThermoTable
+%%%   The Floating point values of the Heat of Formation,
+%%%   Entropy and the set of Capacity values for several
+%%%   temperature (the temperatures are listed in the main
+%%%   structure - BensonSecondOrderTable)
+%%%
+    BensonSecondThermoTable 101 bensonsecondthermotable
+      0 Heat Of Formation
+        FLOAT HeatOfFormation Create
+      1 Entropy
+        FLOAT Entropy Create
+      2 The number of heat capacity values
+        INT NumberOfHeatCapacityValues Create
+      3 The set of Values
+        FLOAT HeatCapacityValues Pointer Create Array=NumberOfHeatCapacityValues
+      DONE
+%%%    
+%%% BensonSecondOrder
+%%%   This is the information on a single line of the table
+%%%
+   BensonSecondOrder 102 bensonsecondorder
+     0 The Center Atom Valence
+       INT CenterAtom Create
+     1 The number of Types Connected
+       INT NumberOfConnections Create
+     2 The set of Connection Types
+       BensonAtomConnections Connections Pointer Create Array=NumberOfConnections
+     3 The thermodynamic information
+       BensonSecondThermoTable TableValues Pointer Create
+     DONE
+%%%
+%%% BensonSecondOrderTable
+   BensonSecondOrderTable 103 bensonsecondordertable
+     0 The number of Table Values
+       INT NumberOfTableValues Create
+     1 The table values
+       BensonSecondOrder Values Pointer Create Array=NumberOfTableValues
+     2 The number temperatures for heat capacities
+       INT NumberOfTemperatures Create
+     3 The set of Temperatures
+       FLOAT Temperatures Pointer Create Array=NumberOfTemperatures
+     4 Reference
+       STRING Reference Pointer Create
+     DONE
+%%%
+   SetOfBenson2ndOrderTables 104 setofbenson2ndordertables
+      0 The number of tables
+        INT NumberOfTables Create
+      1 The set of tables
+        BensonSecondOrderTable Tables Pointer Create Array=NumberOfTables
+      DONE
+%%%
+   BensonTranslationPair 105 bensontranslationelement
+      0 The Valence Value
+        INT Valence Create
+      1 The Name
+        STRING AtomName Pointer Create
+      DONE
+%%%
+   SetOfBensonAtomTranslationPairs 106 setofbensontranslationelpairs
+      0 The number of pairs
+        INT NumberOfPairs Create
+      1 The set of Translation Pairs
+         BensonTranslationPair Pairs Pointer Create Array=NumberOfPairs
+      DONE
+DONE
+

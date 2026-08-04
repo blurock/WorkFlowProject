@@ -1,0 +1,273 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% Olefin Gamma HydroPeroxy Alpha Radical O2 Addition
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*2 = 4
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(h)(hh)(hh) \
+       c=ccccooh(h)(hh)(hh) oxygen = c=ccooccooh(h)(hh)(hh) 
+- ID 41101
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13          2 2 2 2 2 2 2 2 2 2 2 2
+14 15                                  2
+1 2 3 4 5 14 15 6 7 8 9 10 11 12 13    2 2 2 2 4 2 2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 4;  Type X: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  2.015E+21 -2.08    36200  4; Lund Calculated Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*2 = 4
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(r)(hh)(hh) \
+       c=ccccooh(r)(hh)(hh) oxygen = c=ccooccooh(r)(hh)(hh) 
+- ID 41102
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13          2 2 2 2 2 2 2 2 2 2 2 2
+14 15                                  2
+1 2 3 4 5 14 15 6 7 8 9 10 11 12 13    2 2 2 2 4 2 2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 4;  Type X: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  2.015E+21 -2.08    36200  4; Lund Calculated Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*2 = 2
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(h)(rh)(hh) \
+       c=ccccooh(h)(rh)(hh) oxygen = c=ccooccooh(h)(rh)(hh) 
+- ID 41103
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13          2 2 2 2 2 2 2 2 2 2 2 2
+14 15                                  2
+1 2 3 4 5 14 15 6 7 8 9 10 11 12 13    2 2 2 2 4 2 2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 2;  Type X: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  2.015E+21 -2.08    36200  2; Lund Calculated Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*2 = 2
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(r)(rh)(hh) \
+       c=ccccooh(r)(rh)(hh) oxygen = c=ccooccooh(r)(rh)(hh) 
+- ID 41104
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13          2 2 2 2 2 2 2 2 2 2 2 2
+14 15                                  2
+1 2 3 4 5 14 15 6 7 8 9 10 11 12 13    2 2 2 2 4 2 2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 2;  Type X: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  2.015E+21 -2.08    36200  2; Lund Calculated Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*2 = 4
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(h)(rr)(hh) \
+       c=ccccooh(h)(rr)(hh) oxygen = c=ccooccooh(h)(rr)(hh) 
+- ID 41105
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13          2 2 2 2 2 2 2 2 2 2 2 2
+14 15                                  2
+1 2 3 4 5 14 15 6 7 8 9 10 11 12 13    2 2 2 2 4 2 2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 4;  Type X: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  2.015E+21 -2.08    36200  4; Lund Calculated Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*2 = 4
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(r)(rr)(hh) \
+       c=ccccooh(r)(rr)(hh) oxygen = c=ccooccooh(r)(rr)(hh) 
+- ID 41106
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13          2 2 2 2 2 2 2 2 2 2 2 2
+14 15                                  2
+1 2 3 4 5 14 15 6 7 8 9 10 11 12 13    2 2 2 2 4 2 2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 4;  Type X: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  2.015E+21 -2.08    36200  4; Lund Calculated Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*1 = 2
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(h)(hh)(rh) \
+       c=ccccooh(h)(hh)(rh) oxygen = c=ccooccooh(h)(hh)(rh) 
+- ID 41107
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13          2 2 2 2 2 2 2 2 2 2 2 2
+14 15                                  2
+1 2 3 4 5 14 15 6 7 8 9 10 11 12 13    2 2 2 2 4 2 2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 2;  Type X: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  2.015E+21 -2.08    36200  2; Lund Calculated Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*1 = 2
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(r)(hh)(rh) \
+       c=ccccooh(r)(hh)(rh) oxygen = c=ccooccooh(r)(hh)(rh) 
+- ID 41108
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13          2 2 2 2 2 2 2 2 2 2 2 2
+14 15                                  2
+1 2 3 4 5 14 15 6 7 8 9 10 11 12 13    2 2 2 2 4 2 2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 2;  Type X: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  2.015E+21 -2.08    36200  2; Lund Calculated Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*1 = 1
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(h)(rh)(rh) \
+       c=ccccooh(h)(rh)(rh) oxygen = c=ccooccooh(h)(rh)(rh) 
+- ID 41109
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13          2 2 2 2 2 2 2 2 2 2 2 2
+14 15                                  2
+1 2 3 4 5 14 15 6 7 8 9 10 11 12 13    2 2 2 2 4 2 2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 1;  Type X: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  2.015E+21 -2.08    36200  1; Lund Calculated Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*1 = 1
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(r)(rh)(rh) \
+       c=ccccooh(r)(rh)(rh) oxygen = c=ccooccooh(r)(rh)(rh) 
+- ID 41110
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13          2 2 2 2 2 2 2 2 2 2 2 2
+14 15                                  2
+1 2 3 4 5 14 15 6 7 8 9 10 11 12 13    2 2 2 2 4 2 2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 1;  Type X: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  2.015E+21 -2.08    36200  1; Lund Calculated Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*1 = 2
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(h)(rr)(rh) \
+       c=ccccooh(h)(rr)(rh) oxygen = c=ccooccooh(h)(rr)(rh) 
+- ID 41111
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13          2 2 2 2 2 2 2 2 2 2 2 2
+14 15                                  2
+1 2 3 4 5 14 15 6 7 8 9 10 11 12 13    2 2 2 2 4 2 2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 2;  Type X: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  2.015E+21 -2.08    36200  2; Lund Calculated Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*1 = 2
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(r)(rr)(rh) \
+       c=ccccooh(r)(rr)(rh) oxygen = c=ccooccooh(r)(rr)(rh) 
+- ID 41112
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13          2 2 2 2 2 2 2 2 2 2 2 2
+14 15                                  2
+1 2 3 4 5 14 15 6 7 8 9 10 11 12 13    2 2 2 2 4 2 2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 2;  Type X: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  2.015E+21 -2.08    36200  2; Lund Calculated Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*2 = 4
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(h)(hh)(rr) \
+       c=ccccooh(h)(hh)(rr) oxygen = c=ccooccooh(h)(hh)(rr) 
+- ID 41113
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13          2 2 2 2 2 2 2 2 2 2 2 2
+14 15                                  2
+1 2 3 4 5 14 15 6 7 8 9 10 11 12 13    2 2 2 2 4 2 2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 4;  Type X: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  2.015E+21 -2.08    36200  4; Lund Calculated Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*2 = 4
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(r)(hh)(rr) \
+       c=ccccooh(r)(hh)(rr) oxygen = c=ccooccooh(r)(hh)(rr) 
+- ID 41114
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13          2 2 2 2 2 2 2 2 2 2 2 2
+14 15                                  2
+1 2 3 4 5 14 15 6 7 8 9 10 11 12 13    2 2 2 2 4 2 2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 4;  Type X: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  2.015E+21 -2.08    36200  4; Lund Calculated Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*2 = 2
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(h)(rh)(rr) \
+       c=ccccooh(h)(rh)(rr) oxygen = c=ccooccooh(h)(rh)(rr) 
+- ID 41115
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13          2 2 2 2 2 2 2 2 2 2 2 2
+14 15                                  2
+1 2 3 4 5 14 15 6 7 8 9 10 11 12 13    2 2 2 2 4 2 2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 2;  Type X: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  2.015E+21 -2.08    36200  2; Lund Calculated Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*2 = 2
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(r)(rh)(rr) \
+       c=ccccooh(r)(rh)(rr) oxygen = c=ccooccooh(r)(rh)(rr) 
+- ID 41116
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13          2 2 2 2 2 2 2 2 2 2 2 2
+14 15                                  2
+1 2 3 4 5 14 15 6 7 8 9 10 11 12 13    2 2 2 2 4 2 2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 2;  Type X: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  2.015E+21 -2.08    36200  2; Lund Calculated Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*2 = 4
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(h)(rr)(rr) \
+       c=ccccooh(h)(rr)(rr) oxygen = c=ccooccooh(h)(rr)(rr) 
+- ID 41117
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13          2 2 2 2 2 2 2 2 2 2 2 2
+14 15                                  2
+1 2 3 4 5 14 15 6 7 8 9 10 11 12 13    2 2 2 2 4 2 2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 4;  Type X: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  2.015E+21 -2.08    36200  4; Lund Calculated Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*2 = 4
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(r)(rr)(rr) \
+       c=ccccooh(r)(rr)(rr) oxygen = c=ccooccooh(r)(rr)(rr) 
+- ID 41118
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13          2 2 2 2 2 2 2 2 2 2 2 2
+14 15                                  2
+1 2 3 4 5 14 15 6 7 8 9 10 11 12 13    2 2 2 2 4 2 2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 4;  Type X: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  2.015E+21 -2.08    36200  4; Lund Calculated Reverse
+$$$$

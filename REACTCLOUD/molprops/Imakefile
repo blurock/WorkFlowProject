@@ -1,0 +1,64 @@
+ROOT       = /home/blurock
+CCROOT     = $(ROOT)/cc
+
+PROGRAM    = molprops
+LIBNAME    = lib$(PROGRAM).a
+MYLIBDIR   = $(ROOT)/lib
+LIBFILE    = $(MYLIBDIR)/$(LIBNAME)
+
+
+STD_INCLUDES = -I./standard\
+               -I./genc\
+               -I./genh\
+               -I$(CCROOT)/genc\
+               -I$(CCROOT)/genh\
+               -I$(CCROOT)/standard\
+               -I$(ROOT)/cc/dbase/genh\
+               -I$(ROOT)/cc/dbase/standard\
+               -I$(COMROOT)/genh\
+               -I$(COMROOT)/standard
+          
+##CCOPTIONS = -O -Wall
+CCOPTIONS =
+CDEBUGFLAGS= -g -Wall -Wcast-align -Wconversion -Wshadow
+DEPLIBS =  -L/home/blurock/lib\
+           -lXcomlib\
+           -lmolecules\
+           -lgraph\
+           -ldatmat\
+           -lproperty\
+           -lcomlib\
+           -ldbase\
+           -lbasis\
+           -lgdbm\
+           -lXG\
+            -lm
+
+##CC = cc
+CC = gcc
+AR = ar rv
+RANLIB = ar ts
+
+SRCS = benson2chemkin.c molcalc.c molread.c scndcorr.c molprp.c molprt.c\
+       bensonord.c ben2ndorder.c\
+       chemkinread.c chemkinutil.c tableset.c prpfunc.c
+
+OBJS =  benson2chemkin.o molcalc.o molread.o scndcorr.o molprp.o molprt.o\
+        bensonord.o ben2ndorder.o\
+        chemkinread.o chemkinutil.o tableset.o prpfunc.o
+
+NormalProgramTarget($(PROGRAM),$(OBJS) main.o,,$(DEPLIBS),XawClientLibs)
+
+structures: 
+	createstructures system Str
+
+library: $(OBJS)
+	$(RM) $(LIBFILE)
+	ar rv  $(LIBFILE) $(OBJS)
+	ar ts $(LIBFILE)
+
+depend::
+	$(DEPEND) $(DEPENDFLAGS) -s "# DO NOT DELETE" -- $(ALLDEFINES) -- $(SRCS)
+    
+# DO NOT DELETE THIS LINE -- make depend depends on it.
+

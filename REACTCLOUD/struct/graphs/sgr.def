@@ -1,0 +1,69 @@
+Structures For Graphs
+4 graphs
+     Neighbor 52 neighbors
+       0 Number Of Neighbors
+         INT NumberOfNeighbors Create
+       1 The list of Neighbor ID's
+         INT List Pointer Create Array=NumberOfNeighbors
+       DONE
+     GraphMetaAtom 52 graphmetaatom
+        0 The Number of Possibilities
+          INT NumberOfAliased Create
+        1 The Atomic Types
+          INT AtomicTypes Pointer Create Array=NumberOfAliased
+        DONE
+     SetOfGraphMetaAtoms 15 setofgraphmetaatoms
+        0 The number of MetaAtoms
+          INT NumberOfMetaAtoms   Create
+        1 The Set of MetaAtoms
+          GraphMetaAtom MetaAtoms Pointer Create Array=NumberOfMetaAtoms
+        DONE       
+     Graph  51 graph
+       0 Number of Nodes in Graph
+         INT NumberOfNodes   Create
+       1 Types (Colors) of the Nodes
+         INT NodeTypes Pointer Create Array=NumberOfNodes
+       2 The set of Neighbors
+         Neighbor Neighbors Pointer Create Array=NumberOfNodes
+       3 The set of MetaAtoms
+         SetOfGraphMetaAtoms MetaAtoms Pointer Create
+       DONE
+     SetOfGraphs 52 setofgraphs
+       0 The number of graphs
+          INT NumberOfGraphs Create
+       1 The set of graphs
+          Graph Graphs Pointer Create Array=NumberOfGraphs
+       DONE
+     GraphReaction 52 graphreaction
+       0 The number of graphs on left hand side
+          INT NumberLHS Create
+      1 The set of graph on the left hand side
+         Graph GraphLHS Pointer Create Array=NumberLHS
+      2 The number of graphs on the right hand side
+         INT NumberRHS Create
+      3 The set of graphs on the RHS
+         Graph GraphRHS Pointer Create Array=NumberRHS
+      DONE
+     SetOfGraphReactions 52 setofgraphreactions
+       0 The number of graph reactions
+          INT NumberOfGraphReactions Create
+       1 The set of graph reactions
+          GraphReaction Reactions Pointer Create Array=NumberOfGraphReactions
+       DONE
+     CombinedGraph 55 graphbegins
+       0 The combined graph
+         Graph Combined Pointer Create
+       1 The number of graphs in the one graph
+         INT NumberOfBegins Create
+       2 The set of Begin Points of the nodes of the corr. graphs
+         INT Begins Pointer Create Array=NumberOfBegins
+       DONE
+     SetOfCombinedGraphs 52 setofcombinedgraphs
+       0 The number of graphs
+          INT NumberOfCGraphs Create
+       1 The set of graphs
+          CombinedGraph CGraphs Pointer Create Array=NumberOfCGraphs
+       DONE
+DONE
+
+

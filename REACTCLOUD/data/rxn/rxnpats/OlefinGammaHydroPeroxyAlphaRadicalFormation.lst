@@ -1,0 +1,255 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% Intramolecular H Abstraction From Olefin Gamma Peroxy forming a alpha radical
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2*2/2 = 4
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(hh)(hh) \
+       c=ccccoo(hh)(hh)(hh) = c=ccccooh(h)(hh)(hh)
+- ID 40900
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 8 10 11 12 13   2 2 2 2 2 2 2 4 2 2 2 2 
+>  <ForwardRxn>
+Standard 2.48e+11 0.0 22150 4; Type XI (6-Ring, secondary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 4.734E+10  -0.14  1.190E+04 4; Type XI (6-Ring, secondary): c7h15o2-1 = c7h14ooh1-3
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*2/1 = 4
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(hh)(hh) \
+       c=ccccoo(rh)(hh)(hh) = c=ccccooh(r)(hh)(hh)
+- ID 40901
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 8 10 11 12 13   2 2 2 2 2 2 2 4 2 2 2 2 
+>  <ForwardRxn>
+Standard 2.16e+11 0.0 19700 4; Type XI (6-Ring, tertiary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 4.734E+10  -0.14  1.190E+04  4; Type XI (6-Ring, tertiary): Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1*2/2 = 2
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(rh)(hh) \
+       c=ccccoo(hh)(rh)(hh) = c=ccccooh(h)(rh)(hh)
+- ID 40902
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 8 10 11 12 13   2 2 2 2 2 2 2 4 2 2 2 2 
+>  <ForwardRxn>
+Standard 2.48e+11 0.0 22150 2; Type XI (6-Ring, secondary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 4.734E+10  -0.14  1.190E+04 2; Type XI (6-Ring, secondary): c7h15o2-1 = c7h14ooh1-3
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*2/1 = 2
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(rh)(hh) \
+       c=ccccoo(rh)(rh)(hh) = c=ccccooh(r)(rh)(hh)
+- ID 40903
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 8 10 11 12 13   2 2 2 2 2 2 2 4 2 2 2 2 
+>  <ForwardRxn>
+Standard 2.16e+11 0.0 19700 2; Type XI (6-Ring, tertiary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 4.734E+10  -0.14  1.190E+04  2; Type XI (6-Ring, tertiary): Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2*2/2 = 4
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(rr)(hh) \
+       c=ccccoo(hh)(rr)(hh) = c=ccccooh(h)(rr)(hh)
+- ID 40904
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 8 10 11 12 13   2 2 2 2 2 2 2 4 2 2 2 2 
+>  <ForwardRxn>
+Standard 2.48e+11 0.0 22150 4; Type XI (6-Ring, secondary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 4.734E+10  -0.14  1.190E+04 4; Type XI (6-Ring, secondary): c7h15o2-1 = c7h14ooh1-3
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*2/1 = 4
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(rr)(hh) \
+       c=ccccoo(rh)(rr)(hh) = c=ccccooh(r)(rr)(hh)
+- ID 40905
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 8 10 11 12 13   2 2 2 2 2 2 2 4 2 2 2 2 
+>  <ForwardRxn>
+Standard 2.16e+11 0.0 19700 4; Type XI (6-Ring, tertiary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 4.734E+10  -0.14  1.190E+04  4; Type XI (6-Ring, tertiary): Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2*1/2 = 2
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(hh)(rh) \
+       c=ccccoo(hh)(hh)(rh) = c=ccccooh(h)(hh)(rh)
+- ID 40906
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 8 10 11 12 13   2 2 2 2 2 2 2 4 2 2 2 2 
+>  <ForwardRxn>
+Standard 2.48e+11 0.0 22150 2; Type XI (6-Ring, secondary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 4.734E+10  -0.14  1.190E+04 2; Type XI (6-Ring, secondary): c7h15o2-1 = c7h14ooh1-3
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*1/1 = 2
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(hh)(rh) \
+       c=ccccoo(rh)(hh)(rh) = c=ccccooh(r)(hh)(rh)
+- ID 40907
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 8 10 11 12 13   2 2 2 2 2 2 2 4 2 2 2 2 
+>  <ForwardRxn>
+Standard 2.16e+11 0.0 19700 2; Type XI (6-Ring, tertiary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 4.734E+10  -0.14  1.190E+04  2; Type XI (6-Ring, tertiary): Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1*1/2 = 1
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(rh)(rh) \
+       c=ccccoo(hh)(rh)(rh) = c=ccccooh(h)(rh)(rh)
+- ID 40908
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 8 10 11 12 13   2 2 2 2 2 2 2 4 2 2 2 2 
+>  <ForwardRxn>
+Standard 2.48e+11 0.0 22150 1; Type XI (6-Ring, secondary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 4.734E+10  -0.14  1.190E+04 1; Type XI (6-Ring, secondary): c7h15o2-1 = c7h14ooh1-3
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*1/1 = 1
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(rh)(rh) \
+       c=ccccoo(rh)(rh)(rh) = c=ccccooh(r)(rh)(rh)
+- ID 40909
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 8 10 11 12 13   2 2 2 2 2 2 2 4 2 2 2 2 
+>  <ForwardRxn>
+Standard 2.16e+11 0.0 19700 1; Type XI (6-Ring, tertiary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 4.734E+10  -0.14  1.190E+04  1; Type XI (6-Ring, tertiary): Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2*1/2 = 2
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(rr)(rh) \
+       c=ccccoo(hh)(rr)(rh) = c=ccccooh(h)(rr)(rh)
+- ID 40910
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 8 10 11 12 13   2 2 2 2 2 2 2 4 2 2 2 2 
+>  <ForwardRxn>
+Standard 2.48e+11 0.0 22150 2; Type XI (6-Ring, secondary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 4.734E+10  -0.14  1.190E+04 2; Type XI (6-Ring, secondary): c7h15o2-1 = c7h14ooh1-3
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*1/1 = 2
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(rr)(rh) \
+       c=ccccoo(rh)(rr)(rh) = c=ccccooh(r)(rr)(rh)
+- ID 40911
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 8 10 11 12 13   2 2 2 2 2 2 2 4 2 2 2 2 
+>  <ForwardRxn>
+Standard 2.16e+11 0.0 19700 2; Type XI (6-Ring, tertiary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 4.734E+10  -0.14  1.190E+04  2; Type XI (6-Ring, tertiary): Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2*2/2 = 4
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(hh)(rr) \
+       c=ccccoo(hh)(hh)(rr) = c=ccccooh(h)(hh)(rr)
+- ID 40912
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 8 10 11 12 13   2 2 2 2 2 2 2 4 2 2 2 2 
+>  <ForwardRxn>
+Standard 2.48e+11 0.0 22150 4; Type XI (6-Ring, secondary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 4.734E+10  -0.14  1.190E+04 4; Type XI (6-Ring, secondary): c7h15o2-1 = c7h14ooh1-3
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*2/1 = 4
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(hh)(rr) \
+       c=ccccoo(rh)(hh)(rr) = c=ccccooh(r)(hh)(rr)
+- ID 40913
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 8 10 11 12 13   2 2 2 2 2 2 2 4 2 2 2 2 
+>  <ForwardRxn>
+Standard 2.16e+11 0.0 19700 4; Type XI (6-Ring, tertiary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 4.734E+10  -0.14  1.190E+04  4; Type XI (6-Ring, tertiary): Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1*2/2 = 2
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(rh)(rr) \
+       c=ccccoo(hh)(rh)(rr) = c=ccccooh(h)(rh)(rr)
+- ID 40914
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 8 10 11 12 13   2 2 2 2 2 2 2 4 2 2 2 2 
+>  <ForwardRxn>
+Standard 2.48e+11 0.0 22150 2; Type XI (6-Ring, secondary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 4.734E+10  -0.14  1.190E+04 2; Type XI (6-Ring, secondary): c7h15o2-1 = c7h14ooh1-3
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*2/1 = 2
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(rh)(rr) \
+       c=ccccoo(rh)(rh)(rr) = c=ccccooh(r)(rh)(rr)
+- ID 40915
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 8 10 11 12 13   2 2 2 2 2 2 2 4 2 2 2 2 
+>  <ForwardRxn>
+Standard 2.16e+11 0.0 19700 2; Type XI (6-Ring, tertiary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 4.734E+10  -0.14  1.190E+04  2; Type XI (6-Ring, tertiary): Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2*2/2 = 4
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(rr)(rr) \
+       c=ccccoo(hh)(rr)(rr) = c=ccccooh(h)(rr)(rr)
+- ID 40916
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 8 10 11 12 13   2 2 2 2 2 2 2 4 2 2 2 2 
+>  <ForwardRxn>
+Standard 2.48e+11 0.0 22150 4; Type XI (6-Ring, secondary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 4.734E+10  -0.14  1.190E+04 4; Type XI (6-Ring, secondary): c7h15o2-1 = c7h14ooh1-3
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*2/1 = 4
+%%%-------------------------------------------------------------------
+OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(rr)(rr) \
+       c=ccccoo(rh)(rr)(rr) = c=ccccooh(r)(rr)(rr)
+- ID 40917
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 8 10 11 12 13   2 2 2 2 2 2 2 4 2 2 2 2 
+>  <ForwardRxn>
+Standard 2.16e+11 0.0 19700 4; Type XI (6-Ring, tertiary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 4.734E+10  -0.14  1.190E+04  4; Type XI (6-Ring, tertiary): Combustion and Flame, 114:149-177 (1998)
+$$$$

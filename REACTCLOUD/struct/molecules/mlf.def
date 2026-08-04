@@ -1,0 +1,64 @@
+MolFile Structures
+2 molefile
+     MolFileAtom 10 molfileatom
+        0 The X coordinate
+          FLOAT X     Create
+        1 The Y coordinate
+          FLOAT Y                   Create
+        2 The Z coordinate
+          FLOAT Z                   Create
+        3 The atomic number
+          INT AtomicNumber          Create
+        4 The Charge on the atom 
+          FLOAT Charge              Create
+        5 If a Free Radical
+          INT Radical               Create
+        6 The number of parameters
+          INT NumberOfParameters    Create
+        7 The Parameters
+          INT Parameters Pointer    Create Array=NumberOfParameters
+        DONE
+     MolFileBond 11 molfilebond
+        0 The label of the first atom
+          INT I                     Create
+        1 The label of the second atom
+          INT J                     Create
+        2 The bond order
+          INT Order                 Create
+        3 The Number Of Parameters
+          INT NumberOfParameters    Create
+        4 The Bond Parameters
+          INT Parameters Pointer Create Array=NumberOfParameters
+        DONE
+     MolFileMolecule 12 molecularmolfile
+        0   The number of atoms in the molecule
+          INT  NAtoms               Create
+        1   The number of bonds in the molecule
+          INT  NBonds               Create
+        2   An array of MolfileAtom structures
+          MolFileAtom Atoms Pointer Create Array=NAtoms
+        3   An array of MolfileBonds structures
+          MolFileBond Bonds Pointer Create Array=NBonds
+        4 The set of properties
+           ASCIIProperties  Properties Pointer Create
+        DONE
+%%% MolFileMetaAtom 
+%%%     The Name is the name of the metaatom
+%%%     The ID is the code of the metaatom
+%%%
+     MolFileMetaAtom 14 molfilemetaatom
+        0 The Number of Possibilities
+          INT NumberOfAliased Create
+        1 The Atomic Numbers
+          INT AtomicNumbers Pointer Create Array=NumberOfAliased
+        2 The Bonding 
+          INT Bonding Pointer Create Array=NumberOfAliased
+        DONE
+     SetOfMolFileMetaAtoms 15 setofmolfilemetaatoms
+        0 The number of MetaAtoms
+          INT NumberOfMetaAtoms   Create
+        1 The Set of MetaAtoms
+          MolFileMetaAtom MetaAtoms Pointer Create Array=NumberOfMetaAtoms
+        DONE
+DONE
+

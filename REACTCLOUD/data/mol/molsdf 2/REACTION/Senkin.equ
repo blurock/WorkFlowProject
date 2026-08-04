@@ -1,0 +1,31 @@
+hydrogen-radical
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo 
+hydrogen
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo 
+oxygen-atom 
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo 
+hydroxyl-radical 
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo 
+oxygen
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo 
+water
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo 
+peroxyl-radical 
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo 
+hydrogen-peroxide 
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo 
+carbonmonoxide
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo 
+formyl-radical 
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo 
+carbondioxide
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo 
+aldehyde
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo 
+nitrogen-atom
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo 
+nitrogen
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo 
+nitrous-oxide
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo 
+

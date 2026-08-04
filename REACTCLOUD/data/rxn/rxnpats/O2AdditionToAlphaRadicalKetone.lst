@@ -1,0 +1,86 @@
+%%%-------------------------------------------------------------------
+%%%  Addition of an Oxygen to the radical on the carbon next to the ketone
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2(c)*2(o2) = 4
+%%%-------------------------------------------------------------------
+O2AdditionToAlphaRadicalKetone-HHH   .c(h)(h)co(h) oxygen = oc(h)c(h)(h)(oo)
+- ID 2051
+- Correspondences
+1 2 3 4 5 6         2 2 2 2 2
+7 8                 2
+2 3 4 1 5 6 7 8     2 2 2 2 2 4 2
+>  <ForwardRxn>
+Standard 2.000e+12  0.00   0.0    4; Neopentane (o2c4h8cho = tc4h8cho+o2); Combustion and Flame, 118:415-430 (1999)
+>  <ReverseRxn>
+Standard 1.519e+19 -1.44   34510  2; Neopentane (o2c4h8cho = tc4h8cho+o2); Combustion and Flame, 118:415-430 (1999)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1(c)*2(o2) = 2
+%%%-------------------------------------------------------------------
+O2AdditionToAlphaRadicalKetone-RHH   .c(r)(h)co(h) oxygen = oc(h)c(r)(h)(oo)
+- ID 2052
+- Correspondences
+1 2 3 4 5 6         2 2 2 2 2
+7 8                 2
+2 3 4 1 5 6 7 8     2 2 2 2 2 4 2
+>  <ForwardRxn>
+Standard 2.000e+12  0.00   0.0    2; Neopentane (o2c4h8cho = tc4h8cho+o2); Combustion and Flame, 118:415-430 (1999)
+>  <ReverseRxn>
+Standard 1.519e+19 -1.44   34510  1; Neopentane (o2c4h8cho = tc4h8cho+o2); Combustion and Flame, 118:415-430 (1999)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2(c)*2(o2) = 4
+%%%-------------------------------------------------------------------
+O2AdditionToAlphaRadicalKetone-RRH   .c(r)(r)co(h) oxygen = oc(h)c(r)(r)(oo)
+- ID 2053
+- Correspondences
+1 2 3 4 5 6         2 2 2 2 2
+7 8                 2
+2 3 4 1 5 6 7 8     2 2 2 2 2 4 2
+>  <ForwardRxn>
+Standard 2.000e+12  0.00   0.0    4; Neopentane (o2c4h8cho = tc4h8cho+o2); Combustion and Flame, 118:415-430 (1999)
+>  <ReverseRxn>
+Standard 1.519e+19 -1.44   34510  2; Neopentane (o2c4h8cho = tc4h8cho+o2); Combustion and Flame, 118:415-430 (1999)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2(c)*2(o2) = 4
+%%%-------------------------------------------------------------------
+O2AdditionToAlphaRadicalKetone-HHR   .c(h)(h)co(r) oxygen = oc(r)c(h)(h)(oo)
+- ID 2054
+- Correspondences
+1 2 3 4 5 6         2 2 2 2 2
+7 8                 2
+2 3 4 1 5 6 7 8     2 2 2 2 2 4 2
+>  <ForwardRxn>
+Standard 2.000e+12  0.00   0.0    4; Neopentane (o2c4h8cho = tc4h8cho+o2); Combustion and Flame, 118:415-430 (1999)
+>  <ReverseRxn>
+Standard 1.519e+19 -1.44   34510  2; Neopentane (o2c4h8cho = tc4h8cho+o2); Combustion and Flame, 118:415-430 (1999)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1(c)*2(o2) = 4
+%%%-------------------------------------------------------------------
+O2AdditionToAlphaRadicalKetone-RHR   .c(r)(h)co(r) oxygen = oc(r)c(r)(h)(oo)
+- ID 2055
+- Correspondences
+1 2 3 4 5 6         2 2 2 2 2
+7 8                 2
+2 3 4 1 5 6 7 8     2 2 2 2 2 4 2
+>  <ForwardRxn>
+Standard 2.000e+12  0.00   0.0    2; Neopentane (o2c4h8cho = tc4h8cho+o2); Combustion and Flame, 118:415-430 (1999)
+>  <ReverseRxn>
+Standard 1.519e+19 -1.44   34510  1; Neopentane (o2c4h8cho = tc4h8cho+o2); Combustion and Flame, 118:415-430 (1999)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2(c)*2(o2) = 4
+%%%-------------------------------------------------------------------
+O2AdditionToAlphaRadicalKetone-RRR   .c(r)(r)co(r) oxygen = oc(r)c(r)(r)(oo)
+- ID 2056
+- Correspondences
+1 2 3 4 5 6         2 2 2 2 2
+7 8                 2
+2 3 4 1 5 6 7 8     2 2 2 2 2 4 2
+>  <ForwardRxn>
+Standard 2.000e+12  0.00   0.0    4; Neopentane (o2c4h8cho = tc4h8cho+o2); Combustion and Flame, 118:415-430 (1999)
+>  <ReverseRxn>
+Standard 1.519e+19 -1.44   34510  2; Neopentane (o2c4h8cho = tc4h8cho+o2); Combustion and Flame, 118:415-430 (1999)
+$$$$

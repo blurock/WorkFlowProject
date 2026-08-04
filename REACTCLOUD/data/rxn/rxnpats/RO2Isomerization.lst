@@ -1,0 +1,164 @@
+%%%-------------------------------------------------------------------
+%%% The symmetry factors are 'per group' to be compatable
+%%%  with the reverse, which is also 'per group'.  The
+%%%  rate constants in the patterns reflect specific reactions
+%%%
+%%%   Tertiary values are not consistent at the moment....
+%%%
+%%%  These values reflect n-heptane
+%%%-------------------------------------------------------------------
+%%%  3*2*1 = 6
+%%%-------------------------------------------------------------------
+RO2-Isomerization-5RingPrimary c(h)(h)(h)(coo.) = .c(h)(h)(cooh)
+- ID 3121
+- Correspondences
+1 2 3 4 5 6 7    4 2 2 2 2 2
+1 2 3 4 5 6 7    2 2 2 4 2 2
+>  <ForwardRxn>
+Standard  8.94E+12 0.0  29700 6; Type XII (5-Ring, primary) Per Group; Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 2.704E+13  -0.54  1.693E+04 2; Type XII (5-Ring, primary) Per Group ; (rev) c7h15o2-2 = c7h14ooh2-1
+$$$$
+%%%-------------------------------------------------------------------
+%%% 2*1 = 2
+%%%-------------------------------------------------------------------
+RO2-Isomerization-5RingSecondary c(r)(h)(h)(coo.) = .c(r)(h)(cooh)
+- ID 3122
+- Correspondences
+1 2 3 4 5 6 7    4 2 2 2 2 2
+1 2 3 4 5 6 7    2 2 2 4 2 2
+>  <ForwardRxn>
+Standard 5.960E+12 0.0 27900 2; Type XII (5-Ring, secondary) Per Group; Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 5.679E+11  -0.14  1.765E+04 1; Type XII (5-Ring, secondary): (rev) c7h15o2-1 = c7h14ooh1-2
+$$$$
+%%%-------------------------------------------------------------------
+%%% 2*1 = 2
+%%%-------------------------------------------------------------------
+RO2-Isomerization-5RingTertiary c(r)(r)(h)(coo.) = .c(r)(r)(cooh)
+- ID 3123
+- Correspondences
+1 2 3 4 5 6 7    4 2 2 2 2 2
+1 2 3 4 5 6 7    2 2 2 4 2 2
+>  <ForwardRxn>
+Standard 2.59e+12 0.0 25400 2; Type XII (5-Ring, tertiary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 5.679E+11  -0.14  1.765E+04 2; Type XII (5-Ring, tertiary): Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry  3*2*1 = 6
+%%%-------------------------------------------------------------------
+RO2-Isomerization-6RingPrimary c(h)(h)(h)(ccoo.) = .c(h)(h)(ccooh)
+- ID 3124
+- Correspondences
+1 2 3 4 5 6 7 8   4 2 2 2 2 2 2
+1 2 3 4 5 6 7 8   2 2 2 2 4 2 2
+>  <ForwardRxn>
+Standard 7.420E+11   0.00  2.390E+04 6; Type XII (6-Ring, primary):  Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 2.255E+12  -0.54  1.113E+04  2; Type XII (6-Ring, primary): c7h15o2-3 = c7h14ooh3-1
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry  2*1 = 2
+%%%-------------------------------------------------------------------
+RO2-Isomerization-6RingSecondary c(r)(h)(h)(ccoo.) = .c(r)(h)(ccooh)
+- ID 3125
+- Correspondences
+1 2 3 4 5 6 7 8   4 2 2 2 2 2 2
+1 2 3 4 5 6 7 8   2 2 2 2 4 2 2
+>  <ForwardRxn>
+Standard 4.960E+11   0.00  2.215E+04 2; Type XII (6-Ring, secondary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 4.734E+10  -0.14  1.190E+04 1; Type XII (6-Ring, secondary): c7h15o2-1 = c7h14ooh1-3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry  2*1 = 2
+%%%-------------------------------------------------------------------
+RO2-Isomerization-6RingTertiary c(r)(r)(h)(ccoo.) = .c(r)(r)(ccooh)
+- ID 3126
+- Correspondences
+1 2 3 4 5 6 7 8   4 2 2 2 2 2 2
+1 2 3 4 5 6 7 8   2 2 2 2 4 2 2
+>  <ForwardRxn>
+Standard 2.16e+11 0.0 19700 2; Type XI (6-Ring, tertiary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 4.734E+10  -0.14  1.190E+04  2; Type XI (6-Ring, tertiary): Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry = 3*2*1 = 6
+%%%-------------------------------------------------------------------
+RO2-Isomerization-7RingPrimary c(h)(h)(h)(cccoo.) = .c(h)(h)(cccooh)
+- ID 3127
+- Correspondences
+1 2 3 4 5 6 7 8 9  4 2 2 2 2 2 2 2
+1 2 3 4 5 6 7 8 9  2 2 2 2 2 4 2 2
+>  <ForwardRxn>
+Standard 6.18E+10   0.00  2.110E+04 6; Type XII (7-Ring, primary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.878E+11  -0.54  8.330E+03 2; Type XII (7-Ring, primary): (rev) c7h15o2-4 = c7h14ooh4-1
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry = 2*1 = 2
+%%%-------------------------------------------------------------------
+RO2-Isomerization-7RingSecondary c(r)(h)(h)(cccoo.) = .c(r)(h)(cccooh)
+- ID 3128
+- Correspondences
+1 2 3 4 5 6 7 8 9  4 2 2 2 2 2 2 2
+1 2 3 4 5 6 7 8 9  2 2 2 2 2 4 2 2
+>  <ForwardRxn>
+Standard 4.120E+10   0.00  1.935E+04 2; Type XII (7-Ring, secondary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 3.942E+09  -0.14  9.100E+03  1; Type XII (7-Ring, secondary): (rev) c7h15o2-1 = c7h14ooh1-4
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry = 2*1 = 2
+%%%-------------------------------------------------------------------
+RO2-Isomerization-7RingTertiary c(r)(r)(h)(cccoo.) = .c(r)(r)(cccooh)
+- ID 3129
+- Correspondences
+1 2 3 4 5 6 7 8 9  4 2 2 2 2 2 2 2
+1 2 3 4 5 6 7 8 9  2 2 2 2 2 4 2 2
+>  <ForwardRxn>
+Standard  1.80e+10 0.0 16400 2; Type XI (7-Ring, tertiary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 3.942E+09  -0.14  9.100E+03  2; Type XI (7-Ring, tertiary): Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry = 3*2*1 = 2
+%%%-------------------------------------------------------------------
+RO2-Isomerization-8RingPrimary c(h)(h)(h)(ccccoo.) = .c(h)(h)(ccccooh)
+- ID 3130
+- Correspondences
+1 2 3 4 5 6 7 8 9 10  4 2 2 2 2 2 2 2 2
+1 2 3 4 5 6 7 8 9 10  2 2 2 2 2 2 4 2 2
+>  <ForwardRxn>
+Standard 5.160E+09   0.00  2.390E+04 6; Type XII (8-Ring, primary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.565E+10  -0.54  1.113E+04 2; Type XII (8-Ring, primary):(rev)  c7h15o2-3 = c7h14ooh3-7
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry = 2*1 = 2
+%%%-------------------------------------------------------------------
+RO2-Isomerization-8RingSecondary c(r)(h)(h)(ccccoo.) = .c(r)(h)(ccccooh)
+- ID 3131
+- Correspondences
+1 2 3 4 5 6 7 8 9 10  4 2 2 2 2 2 2 2 2
+1 2 3 4 5 6 7 8 9 10  2 2 2 2 2 2 4 2 2
+>  <ForwardRxn>
+Standard 3.440E+09   0.00  2.215E+04 2; Type XII (8-Ring, secondary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.942E+08  -0.07  1.183E+04 1; Type XII (8-Ring, secondary): (rev) c7h15o2-2 = c7h14ooh2-6
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry = 2*1 = 2
+%%%-------------------------------------------------------------------
+RO2-Isomerization-8RingTertiary c(r)(r)(h)(ccccoo.) = .c(r)(r)(ccccooh)
+- ID 3132
+- Correspondences
+1 2 3 4 5 6 7 8 9 10  4 2 2 2 2 2 2 2 2
+1 2 3 4 5 6 7 8 9 10  2 2 2 2 2 2 4 2 2
+>  <ForwardRxn>
+Standard 1.50e+09 0.0 19700 2; Type XI (8-Ring, tertiary): Combustion and Flame, 114:149-177 (1998)
+>  <ForwardRxn>
+Standard 1.00e-40 0.0 0.0 2; Type XI (8-Ring, tertiary): Combustion and Flame, 114:149-177 (1998)
+$$$$

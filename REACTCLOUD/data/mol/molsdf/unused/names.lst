@@ -1,0 +1,295 @@
+1 C0HOAlternativeNames
+1-pentene
+- AlternativeNames CHEMKIN 1C5H10
+- AlternativeNames Short 1C5H10
+1-hexene
+- AlternativeNames CHEMKIN 1C6H12
+- AlternativeNames Short 1C6H12
+1-heptene
+- AlternativeNames CHEMKIN 1C7H14
+- AlternativeNames Short 1C7H14
+1-octene
+- AlternativeNames CHEMKIN 1C8H16
+- AlternativeNames Short 1C8H16
+1-nonene
+- AlternativeNames CHEMKIN 1C9H18
+- AlternativeNames Short 1C9H18
+1-decene
+- AlternativeNames CHEMKIN 1C10H20
+- AlternativeNames Short 1C10H20
+2-pentene
+- AlternativeNames CHEMKIN 2C5H10
+- AlternativeNames Short 2C5H10
+2-hexene
+- AlternativeNames CHEMKIN 2C6H12
+- AlternativeNames Short 2C6H12
+2-heptene
+- AlternativeNames CHEMKIN 2C7H14
+- AlternativeNames Short 2C7H14
+2-octene
+- AlternativeNames CHEMKIN 2C8H16
+- AlternativeNames Short 2C8H16
+2-nonene
+- AlternativeNames CHEMKIN 2C9H18
+- AlternativeNames Short 2C9H18
+2-decene
+- AlternativeNames CHEMKIN 2C10H20
+- AlternativeNames Short 2C10H20
+3-pentene
+- AlternativeNames CHEMKIN 3C5H10
+- AlternativeNames Short 3C5H10
+3-hexene
+- AlternativeNames CHEMKIN 3C6H12
+- AlternativeNames Short 3C6H12
+3-heptene
+- AlternativeNames CHEMKIN 3C7H14
+- AlternativeNames Short 3C7H14
+3-octene
+- AlternativeNames CHEMKIN 3C8H16
+- AlternativeNames Short 3C8H16
+3-nonene
+- AlternativeNames CHEMKIN 3C9H18
+- AlternativeNames Short 3C9H18
+3-decene
+- AlternativeNames CHEMKIN 3C10H20
+- AlternativeNames Short 3C10H20
+4-octene
+- AlternativeNames CHEMKIN 4C8H16
+- AlternativeNames Short 4C8H16
+4-nonene
+- AlternativeNames CHEMKIN 4C9H18
+- AlternativeNames Short 4C9H18
+4-decene
+- AlternativeNames CHEMKIN 4C10H20
+- AlternativeNames Short 4C10H20
+5-decene
+- AlternativeNames CHEMKIN 5C10H20
+- AlternativeNames Short 5C10H20
+1-pentyl-radical 
+- AlternativeNames CHEMKIN 1C5H11
+- AlternativeNames Short 1C5H11
+2-pentyl-radical
+- AlternativeNames CHEMKIN 2C5H11
+- AlternativeNames Short 2C5H11
+3-pentyl-radical
+- AlternativeNames CHEMKIN 3C5H11
+- AlternativeNames Short 3C5H11
+1-hexyl-radical
+- AlternativeNames CHEMKIN 1C6H13
+- AlternativeNames Short 1C6H13
+2-hexyl-radical
+- AlternativeNames CHEMKIN 2C6H13
+- AlternativeNames Short 2C6H13
+3-hexyl-radical
+- AlternativeNames CHEMKIN 3C6H13
+- AlternativeNames Short 3C6H13
+1-heptyl-radical
+- AlternativeNames CHEMKIN 1C7H15
+- AlternativeNames Short 1C7H15
+2-heptyl-radical
+- AlternativeNames CHEMKIN 2C7H15
+- AlternativeNames Short 2C7H15
+3-heptyl-radical
+- AlternativeNames CHEMKIN 3C7H15
+- AlternativeNames Short 3C7H15
+4-heptyl-radical
+- AlternativeNames CHEMKIN 4C7H15
+- AlternativeNames Short 4C7H15
+1-octyl-radical
+- AlternativeNames CHEMKIN 1C8H17
+- AlternativeNames Short 1C8H17
+2-octyl-radical
+- AlternativeNames CHEMKIN 2C8H17
+- AlternativeNames Short 2C8H17
+3-octyl-radical
+- AlternativeNames CHEMKIN 3C8H17
+- AlternativeNames Short 3C8H17
+4-octyl-radical
+- AlternativeNames CHEMKIN 4C8H17
+- AlternativeNames Short 4C8H17
+1-nonyl-radical
+- AlternativeNames CHEMKIN 1C9H19
+- AlternativeNames Short 1C9H19
+2-nonyl-radical
+- AlternativeNames CHEMKIN 2C9H19
+- AlternativeNames Short 2C9H19
+3-nonyl-radical
+- AlternativeNames CHEMKIN 3C9H19
+- AlternativeNames Short 3C9H19
+4-nonyl-radical
+- AlternativeNames CHEMKIN 4C9H19
+- AlternativeNames Short 4C9H19
+5-nonyl-radical
+- AlternativeNames CHEMKIN 5C9H19
+- AlternativeNames Short 5C9H19
+1-propylperoxy-radical
+- AlternativeNames CHEMKIN 1C3H7OO
+- AlternativeNames Short 1C3H7OO
+1-pentylperoxy-radical
+- AlternativeNames CHEMKIN 1C5H11OO
+- AlternativeNames Short 1C5H11OO
+1-hexylperoxy-radical
+- AlternativeNames CHEMKIN 1C6H13OO
+- AlternativeNames Short 1C6H13OO
+1-heptylperoxy-radical
+- AlternativeNames CHEMKIN 1C7H15OO
+- AlternativeNames Short 1C7H15OO
+1-propyl-1-hydroperoxy-radical
+- AlternativeNames CHEMKIN 1OOH1C2H5
+- AlternativeNames Short 1OOH1C2H5
+2-propyl-1-hydroperoxy-radical
+- AlternativeNames CHEMKIN 1OOH2C2H5
+- AlternativeNames Short 1OOH2C2H5
+3-propyl-1-hydroperoxy-radical
+- AlternativeNames CHEMKIN 1OOH3C2H5
+- AlternativeNames Short 1OOH2C2H5
+1-pentyl-1-hydroperoxy-radical
+- AlternativeNames CHEMKIN 1OOH1C5H11
+- AlternativeNames Short 1OOH1C5H11
+2-pentyl-1-hydroperoxy-radical
+- AlternativeNames CHEMKIN 1OOH2C5H11
+- AlternativeNames Short 1OOH2C5H11
+3-pentyl-1-hydroperoxy-radical
+- AlternativeNames CHEMKIN 1OOH3C5H11
+- AlternativeNames Short 1OOH3C5H11
+3-pentyl-1-hydroperoxy-radical
+- AlternativeNames CHEMKIN 1OOH4C5H11
+- AlternativeNames Short 1OOH4C5H11
+4-pentyl-1-hydroperoxy-radical
+- AlternativeNames CHEMKIN 1OOH5C5H11
+- AlternativeNames Short 1OOH5C5H11
+1-hexyl-1-hydroperoxy-radical
+- AlternativeNames CHEMKIN 1OOH1C6H13
+- AlternativeNames Short 1OOH1C6H13
+2-hexyl-1-hydroperoxy-radical
+- AlternativeNames CHEMKIN 1OOH2C6H13
+- AlternativeNames Short 1OOH2C6H13
+3-hexyl-1-hydroperoxy-radical
+- AlternativeNames CHEMKIN 1OOH3C6H13
+- AlternativeNames Short 1OOH3C6H13
+4-hexyl-1-hydroperoxy-radical
+- AlternativeNames CHEMKIN 1OOH4C6H13
+- AlternativeNames Short 1OOH4C6H13
+5-hexyl-1-hydroperoxy-radical
+- AlternativeNames CHEMKIN 1OOH5C6H13
+- AlternativeNames Short 1OOH5C6H13
+6-hexyl-1-hydroperoxy-radical
+- AlternativeNames CHEMKIN 1OOH6C6H13
+- AlternativeNames Short 1OOH6C6H13
+1-heptyl-1-hydroperoxy-radical
+- AlternativeNames CHEMKIN 1OOH1C7H15
+- AlternativeNames Short 1OOH1C7H15
+2-heptyl-1-hydroperoxy-radical
+- AlternativeNames CHEMKIN 1OOH2C7H15
+- AlternativeNames Short 1OOH2C7H15
+3-heptyl-1-hydroperoxy-radical
+- AlternativeNames CHEMKIN 1OOH3C7H15
+- AlternativeNames Short 1OOH3C7H15
+4-heptyl-1-hydroperoxy-radical
+- AlternativeNames CHEMKIN 1OOH4C7H15
+- AlternativeNames Short 1OOH4C7H15
+5-heptyl-1-hydroperoxy-radical
+- AlternativeNames CHEMKIN 1OOH5C7H15
+- AlternativeNames Short 1OOH5C7H15
+6-heptyl-1-hydroperoxy-radical
+- AlternativeNames CHEMKIN 1OOH6C7H15
+- AlternativeNames Short 1OOH6C7H15
+7-heptyl-1-hydroperoxy-radical
+- AlternativeNames CHEMKIN 1OOH7C7H15
+- AlternativeNames Short 1OOH7C7H15
+1-propyl-2-hydroperoxy-radical
+- AlternativeNames CHEMKIN 2OOH1C2H5
+- AlternativeNames Short 2OOH1C2H5
+2-propyl-2-hydroperoxy-radical
+- AlternativeNames CHEMKIN 2OOH2C2H5
+- AlternativeNames Short 2OOH2C2H5
+3-propyl-2-hydroperoxy-radical
+- AlternativeNames CHEMKIN 2OOH3C2H5
+- AlternativeNames Short 2OOH2C2H5
+1-pentyl-2-hydroperoxy-radical
+- AlternativeNames CHEMKIN 2OOH1C5H11
+- AlternativeNames Short 2OOH1C5H11
+2-pentyl-2-hydroperoxy-radical
+- AlternativeNames CHEMKIN 2OOH2C5H11
+- AlternativeNames Short 2OOH2C5H11
+3-pentyl-2-hydroperoxy-radical
+- AlternativeNames CHEMKIN 2OOH3C5H11
+- AlternativeNames Short 2OOH3C5H11
+4-pentyl-2-hydroperoxy-radical
+- AlternativeNames CHEMKIN 2OOH5C5H11
+- AlternativeNames Short 2OOH5C5H11
+1-hexyl-2-hydroperoxy-radical
+- AlternativeNames CHEMKIN 2OOH1C6H13
+- AlternativeNames Short 2OOH1C6H13
+2-hexyl-2-hydroperoxy-radical
+- AlternativeNames CHEMKIN 2OOH2C6H13
+- AlternativeNames Short 2OOH2C6H13
+3-hexyl-2-hydroperoxy-radical
+- AlternativeNames CHEMKIN 2OOH3C6H13
+- AlternativeNames Short 2OOH3C6H13
+4-hexyl-2-hydroperoxy-radical
+- AlternativeNames CHEMKIN 2OOH4C6H13
+- AlternativeNames Short 2OOH4C6H13
+5-hexyl-2-hydroperoxy-radical
+- AlternativeNames CHEMKIN 2OOH5C6H13
+- AlternativeNames Short 2OOH5C6H13
+6-hexyl-2-hydroperoxy-radical
+- AlternativeNames CHEMKIN 2OOH6C6H13
+- AlternativeNames Short 2OOH6C6H13
+1-heptyl-2-hydroperoxy-radical
+- AlternativeNames CHEMKIN 2OOH1C7H15
+- AlternativeNames Short 2OOH1C7H15
+2-heptyl-2-hydroperoxy-radical
+- AlternativeNames CHEMKIN 2OOH2C7H15
+- AlternativeNames Short 2OOH2C7H15
+3-heptyl-2-hydroperoxy-radical
+- AlternativeNames CHEMKIN 2OOH3C7H15
+- AlternativeNames Short 2OOH3C7H15
+4-heptyl-2-hydroperoxy-radical
+- AlternativeNames CHEMKIN 2OOH4C7H15
+- AlternativeNames Short 2OOH4C7H15
+5-heptyl-2-hydroperoxy-radical
+- AlternativeNames CHEMKIN 2OOH5C7H15
+- AlternativeNames Short 2OOH5C7H15
+6-heptyl-2-hydroperoxy-radical
+- AlternativeNames CHEMKIN 2OOH6C7H15
+- AlternativeNames Short 2OOH6C7H15
+7-heptyl-2-hydroperoxy-radical
+- AlternativeNames CHEMKIN 2OOH7C7H15
+- AlternativeNames Short 2OOH7C7H15
+3-methylpentane
+- AlternativeNames CHEMKIN 3MC5H11
+- AlternativeNames Short 3MC5H11
+3-methylhexane
+- AlternativeNames CHEMKIN 3MC6H13
+- AlternativeNames Short 3MC6H13
+3-methylheptane
+- AlternativeNames CHEMKIN 3MC7H15
+- AlternativeNames Short 3MC7H15
+3-methyloctane
+- AlternativeNames CHEMKIN 3MC8H17
+- AlternativeNames Short 3MC5H11
+3-methylnonane
+- AlternativeNames CHEMKIN 3MC9H19
+- AlternativeNames Short 3MC9H19
+3-methyldecane
+- AlternativeNames CHEMKIN 3MC10H21
+- AlternativeNames Short 3MC10H21
+4-methylheptane
+- AlternativeNames CHEMKIN 4MC7H15
+- AlternativeNames Short 4MC7H15
+4-methyloctane
+- AlternativeNames CHEMKIN 4MC8H17
+- AlternativeNames Short 4MC8H17
+4-methylnonane
+- AlternativeNames CHEMKIN 4MC9H19
+- AlternativeNames Short 4MC9H19
+4-methyldecane
+- AlternativeNames CHEMKIN 4MC10H21
+- AlternativeNames Short 4MC10H21
+5-methylnonane
+- AlternativeNames CHEMKIN 5MC9H19
+- AlternativeNames Short 5MC9H19
+5-methyldecane
+- AlternativeNames CHEMKIN 5MC10H21
+- AlternativeNames Short 5MC10H21

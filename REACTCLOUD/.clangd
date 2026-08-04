@@ -1,0 +1,30 @@
+CompileFlags:
+  Add:
+    - "-isysroot"
+    - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
+    - "-I/usr/local/include"
+    - "-I/Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include"
+    - "-I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include"
+    - "-I/Library/Developer/CommandLineTools/usr/include"
+    - "-I/Users/edwardblurock/git/WorkFlowProject/REACTCLOUD/standard"
+    - "-I/Users/edwardblurock/git/WorkFlowProject/REACTCLOUD/basis"
+    - "-I/Users/edwardblurock/git/WorkFlowProject/REACTCLOUD/comlib"
+    - "-I/Users/edwardblurock/git/WorkFlowProject/REACTCLOUD/dbase"
+    - "-I/Users/edwardblurock/git/WorkFlowProject/REACTCLOUD/graphs"
+    - "-I/Users/edwardblurock/git/WorkFlowProject/REACTCLOUD/rxn"
+    - "-I/Users/edwardblurock/git/WorkFlowProject/REACTCLOUD/spectrum"
+    - "-I/Users/edwardblurock/git/WorkFlowProject/REACTCLOUD/datmat"
+    - "-I/Users/edwardblurock/git/WorkFlowProject/REACTCLOUD/molprops"
+    - "-I/Users/edwardblurock/git/WorkFlowProject/REACTCLOUD/property"
+    - "-I/Users/edwardblurock/git/WorkFlowProject/REACTCLOUD/molecules"
+    - "-I/Users/edwardblurock/git/WorkFlowProject/REACTCLOUD/statistics"
+    - "-I/Users/edwardblurock/git/WorkFlowProject/REACTCLOUD/cluster"
+    - "-I/Users/edwardblurock/git/WorkFlowProject/REACTCLOUD/structgen"
+    - "-I/Users/edwardblurock/git/WorkFlowProject/REACTCLOUD/gentrans"
+    - "-I/Users/edwardblurock/git/WorkFlowProject/REACTCLOUD/chemdb"
+    - "-I/Users/edwardblurock/git/WorkFlowProject/REACTCLOUD/genc"
+    - "-I/Users/edwardblurock/git/WorkFlowProject/REACTCLOUD/genh"
+    - "-std=gnu89"
+
+Diagnostics:
+  UnusedIncludes: None

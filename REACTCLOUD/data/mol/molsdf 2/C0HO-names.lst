@@ -1,0 +1,25 @@
+====== Molecule Name File: mol/molsdf/C0HO-names.lst
+hydrogen-radical
+- AlternativeNames CHEMKIN H
+- AlternativeNames Short H
+hydrogen
+- AlternativeNames CHEMKIN H2
+- AlternativeNames Short H2
+oxygen-radical
+- AlternativeNames CHEMKIN O
+- AlternativeNames Short O
+oxygen
+- AlternativeNames CHEMKIN O2
+- AlternativeNames Short O2
+hydroxyl-radical
+- AlternativeNames CHEMKIN OH
+- AlternativeNames Short OH
+peroxyl-radical
+- AlternativeNames CHEMKIN HO2
+- AlternativeNames Short HO2
+water
+- AlternativeNames CHEMKIN H2O
+- AlternativeNames Short H2O
+hydrogen-peroxide
+- AlternativeNames CHEMKIN H2O2
+- AlternativeNames Short H2O2

@@ -1,0 +1,16 @@
+Structures for Current Thermodynamic Tables (As Read In and transformed)
+0 Tables
+
+%% SetOfTables
+   SetOfTables 100 setofthermotables
+     0 The Chemkin Thermodynamic Table
+       SetOfChemkinThermoInformation ChemkinThermo Pointer Create
+     1 Set of Benson 2nd Order Tables
+       SetOfBenson2ndOrderTables SecondOrder Pointer Create
+     2 Set of translations of benson atom strings
+       SetOfBensonAtomTranslationPairs AtomTranslations Pointer Create
+     3 The transformed Benson Tables
+       BensonCalculation BensonTree Pointer Create
+     DONE
+DONE
+

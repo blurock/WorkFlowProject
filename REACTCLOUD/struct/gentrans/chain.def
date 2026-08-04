@@ -1,0 +1,43 @@
+Chain Sequence Structures
+2 chain
+
+     AuxMolecules 00 auxmolecules
+       0 The number of molecules
+         INT NumberOfMolecules Create
+       1 The set of molecules
+         INT Molecules Pointer Create Array
+       DONE
+     ChainSequenceElement 01 chainsequenceelement
+       0 The set of auxiliary molecule for reaction
+         SetOfGraphs Molecules Pointer Create
+       1 The set of Transforms
+         TransformSet Reactions Pointer Create
+       DONE
+     ReadChainReactionStep 03 readchainreactionstep
+       1 The set of reaction patterns
+         ReadInReactionSet Reactions Pointer Create
+       2 The set of step molecules
+         ReadInMoleculeSet Molecules Pointer Create
+       DONE
+     ReadChainSet 02 readchainset
+       0 The number in the sequence
+         INT NumberOfSteps Create
+       1 The set of steps
+         ReadChainReactionStep Steps Pointer Create Array=NumberOfSteps
+       2 Auxiliary molecules for all steps
+         ReadInMoleculeSet ExtraMolecules Pointer Create
+       4 The set of molecules
+         ReadInMoleculeSet Molecules Pointer Create
+       6 The set of reactions
+         ReadInReactionSet Reactions Pointer Create
+       DONE
+     ChainSequence 02 chainsequence
+       0 The number in the Sequence
+         INT NumberOfSteps Create
+       1 The set of steps
+         ChainSequenceElement Steps Pointer Create Array=NumberOfSteps
+       2 Auxiliary molecules for all steps
+         SetOfGraphs Molecules Pointer Create
+       DONE
+DONE
+

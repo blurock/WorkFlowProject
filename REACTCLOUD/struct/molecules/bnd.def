@@ -1,0 +1,33 @@
+%%****************************************************************************
+%%
+%% Bond Objects 
+%%    These are the structures having to do with bonding matrices
+%%
+%%****************************************************************************
+%% BondOrderMatrix
+%%    This is the structure of the Bond Order Matrix. The elements are 
+%%    in the order of the molecule they represent.
+%%
+%%    For each element(i.j):
+%%            i .NE. j    -  0 - not bonded
+%%                           1 - single bonded
+%%                           2 double bonded
+%%                          <0 Conjucgated (result of conjugation analysis)
+%%
+%%             i == j     -  0 - Normal
+%%                           1 - Lone Pair
+%%
+%%
+%%     This matrix is special type of IntSqrMat.
+
+Structures Describing Bonding
+  3 bonding
+     BondOrderMatrix 41 bondordermatrix
+        0 Number of Columns , Rows
+          INT Size    Create
+        2 Total Size of Matrix
+          INT TotalSize       Create
+        3 The Matrix Array
+          INT Matrix Pointer Create Array=TotalSize
+        DONE
+DONE

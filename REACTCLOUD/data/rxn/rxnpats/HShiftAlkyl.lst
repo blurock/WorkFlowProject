@@ -1,0 +1,88 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*6 = 6
+%%%-------------------------------------------------------------------
+HShift-12-Alkyl-(rh)(hh)    ethyl-radical-(rh)(hhh) = ethyl-radical-(hh)(rhh)
+- ID 71102
+- Correspondences
+1 2 3 4 5 6 7               2 2 2 2 2 4 
+2 1 5 6 3 4 7               2 2 2 2 2 4
+>  <ForwardRxn>
+Standard  1.74E+07  2.01  41280  6; (Curran, et al. isooctane)  (rev) c7h15-1  =  c7h15-2 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*6 = 12
+%%%-------------------------------------------------------------------
+HShift-12-Alkyl-(rr)(hh)    ethyl-radical-(rr)(hhh) = ethyl-radical-(hh)(rrh)
+- ID 71103
+- Correspondences
+1 2 3 4 5 6 7               2 2 2 2 2 4 
+2 1 5 6 3 4 7               2 2 2 2 2 4
+>  <ForwardRxn>
+Standard  9.491E+09  0.52  2.826E+04 12; (Curran, et al. isooctane)  (rev) xc7h15  =  yc7h15 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+HShift-12-Alkyl-(hh)(rh)    ethyl-radical-(hh)(rhh) = ethyl-radical-(rh)(hhh)
+- ID 71104
+- Correspondences
+1 2 3 4 5 6 7               2 2 2 2 2 4 
+2 1 5 6 3 4 7               2 2 2 2 2 4
+>  <ForwardRxn>
+Standard  5.48E+08  1.62  38760 4; (Curran, et al. isooctane)  c7h15-1  =  c7h15-2
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2 = 2
+%%%-------------------------------------------------------------------
+HShift-12-Alkyl-(rh)(rh)    ethyl-radical-(rh)(rhh) = ethyl-radical-(rh)(rhh)
+- ID 71105
+- Correspondences
+1 2 3 4 5 6 7               2 2 2 2 2 4 
+2 1 5 6 3 4 7               2 2 2 2 2 4
+>  <ForwardRxn>
+Standard   9.587E+08  1.39  39700 2; (Curran, et al. isooctane)  c7h15-2  =  c7h15-3 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+HShift-12-Alkyl-(rr)(rh)    ethyl-radical-(rr)(rhh) = ethyl-radical-(rh)(rrh)
+- ID 71106
+- Correspondences
+1 2 3 4 5 6 7               2 2 2 2 2 4 
+2 1 5 6 3 4 7               2 2 2 2 2 4
+>  <ForwardRxn>
+Standard  9.491E+09  0.52  2.826E+04 4; (Curran, et al. isooctane)  rev (rr)(hhh)  xc7h15  =  yc7h15 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4  not included because too crowded (and no values)
+%%%-------------------------------------------------------------------
+%%%HShift-12-Alkyl-(hh)(rr)    ethyl-radical-(hh)(rrh) = ethyl-radical-(rr)(hhh)
+%%%- ID 71107
+%%%- Correspondences
+%%%1 2 3 4 5 6 7               2 2 2 2 2 4 
+%%%2 1 5 6 3 4 7               2 2 2 2 2 4
+%%%>  <ForwardRxn>
+%%%Standard  ; (Curran, et al. isooctane) 
+%%%$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2 = 2 not included because too crowded (and no values)
+%%%-------------------------------------------------------------------
+%%%HShift-12-Alkyl-(rh)(rr)    ethyl-radical-(rh)(rrh) = ethyl-radical-(rr)(rhh)
+%%%- ID 71108
+%%%- Correspondences
+%%%1 2 3 4 5 6 7               2 2 2 2 2 4 
+%%%2 1 5 6 3 4 7               2 2 2 2 2 4
+%%%>  <ForwardRxn>
+%%%Standard  ; (Curran, et al. isooctane) 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4 not included because too crowded (and no values)
+%%%-------------------------------------------------------------------
+%%%HShift-12-Alkyl-(rr)(rr)    ethyl-radical-(rr)(rrh) = ethyl-radical-(rr)(rrh)
+%%%- ID 71109
+%%%- Correspondences
+%%%1 2 3 4 5 6 7               2 2 2 2 2 4 
+%%%2 1 5 6 3 4 7               2 2 2 2 2 4
+%%%>  <ForwardRxn>
+%%%Standard  ; (Curran, et al. isooctane) 
+$$$$

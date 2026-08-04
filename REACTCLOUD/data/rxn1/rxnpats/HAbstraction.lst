@@ -1,0 +1,407 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1 = 2
+%%%-------------------------------------------------------------------
+H-Abstraction-Hydroxyl-Radical-Primary\
+     primary-carbon-hydrogen-bond hydroxyl-radical = primary-carbon-radical water
+- ID 1021
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7              2
+1 3 4 5          2 2 2
+6 7 2            2 4
+
+>  <ForwardRxn>
+Standard 1.75e+9 0.97 1590 2; Westbrook Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1 = 2
+%%%-------------------------------------------------------------------
+H-Abstraction-Hydroxyl-Radical-Secondary\
+     secondary-carbon-hydrogen-bond hydroxyl-radical = secondary-carbon-radical water
+- ID 1022
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7              2
+1 3 4 5          2 2 2
+6 7 2            2 4
+
+>  <ForwardRxn>
+Standard 2.34e+7 1.61 -35 2; Westbrook Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%% 3*2*1*1=6
+%%%-------------------------------------------------------------------
+H-Abstraction-Hydroxyl-Radical-Tertiary\
+     tertiary-carbon-hydrogen-bond hydroxyl-radical = tertiary-carbon-radical water
+- ID 1023
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7              2
+1 3 4 5          2 2 2
+6 7 2            2 4
+
+>  <ForwardRxn>
+Standard 5.73e+10 0.51 63 6; Ranzi Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: Forward - 1*2*1 = 2
+%%%-------------------------------------------------------------------
+H-Abstraction-Oxygen-Radical-Primary\
+     primary-carbon-hydrogen-bond oxygen-atom = primary-carbon-radical hydroxyl-radical
+- ID 1031
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6                
+1 3 4 5          2 2 2
+6 2              4
+
+>  <ForwardRxn>
+Standard 7.33e+5 2.4 5500 2; Westbrook Value
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1 = 2
+%%%-------------------------------------------------------------------
+H-Abstraction-Oxygen-Radical-Secondary\
+     secondary-carbon-hydrogen-bond oxygen-atom = secondary-carbon-radical hydroxyl-radical
+- ID 1032
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6                
+1 3 4 5          2 2 2
+6 2              4
+
+>  <ForwardRxn>
+Standard 2.35e+5 2.5 2230 2; Westbrook Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%% 3*2*1*1=6
+%%%-------------------------------------------------------------------
+H-Abstraction-Oxygen-Radical-Tertiary\
+     tertiary-carbon-hydrogen-bond oxygen-atom = tertiary-carbon-radical hydroxyl-radical
+- ID 1033
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6                
+1 3 4 5          2 2 2
+6 2              4
+
+>  <ForwardRxn>
+Standard 1.10e+13 0.0 3280; Ranzi Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: Forward - 1*2*2 = 4
+%%%-------------------------------------------------------------------
+H-Abstraction-Oxygen-Primary\
+     primary-carbon-hydrogen-bond oxygen = primary-carbon-radical peroxyl-radical
+- ID 1041
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7              2
+1 3 4 5          2 2 2
+6 7 2            2 4
+
+>  <ForwardRxn>
+Standard 4.17e+12 0.00 49000 4; Westbrook Value
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+H-Abstraction-Oxygen-Secondary\
+     secondary-carbon-hydrogen-bond oxygen = secondary-carbon-radical peroxyl-radical
+- ID 1042
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7              2
+1 3 4 5          2 2 2
+6 7 2            2 4
+
+>  <ForwardRxn>
+Standard 1.00e+13 0.00 47600 4; Westbrook Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%% 3*2*1*2=12
+%%%-------------------------------------------------------------------
+H-Abstraction-Oxygen-Tertiary\
+     tertiary-carbon-hydrogen-bond oxygen = tertiary-carbon-radical peroxyl-radical
+- ID 1043
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7              2
+1 3 4 5          2 2 2
+6 7 2            2 4
+
+>  <ForwardRxn>
+Standard 2.00e+12 0.00 41300 12; Ranzi Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: Forward - 1*2*1 = 2
+%%%-------------------------------------------------------------------
+H-Abstraction-PeroxylRadical-Primary\
+     primary-carbon-hydrogen-bond peroxyl-radical  = primary-carbon-radical hydrogen-peroxide 
+- ID 1061
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7 8            2 2
+1 3 4 5          2 2 2
+6 7 8 2          2 2 4
+
+>  <ForwardRxn>
+Standard 1.34e+12 0.0 19400 2; Westbrook Value
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1 = 2
+%%%-------------------------------------------------------------------
+H-Abstraction-PeroxylRadical-Secondary\
+     secondary-carbon-hydrogen-bond peroxyl-radical = secondary-carbon-radical hydrogen-peroxide 
+- ID 1062
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7 8            2 2
+1 3 4 5          2 2 2
+6 7 8 2          2 2 4
+
+>  <ForwardRxn>
+Standard 1.22e+12 0.0 17000 2; Westbrook Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%% 3*2*1*1=6
+%%%-------------------------------------------------------------------
+H-Abstraction-PeroxylRadical-Tertiary\
+     tertiary-carbon-hydrogen-bond peroxyl-radical = tertiary-carbon-radical hydrogen-peroxide 
+- ID 1063
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7 8            2 2
+1 3 4 5          2 2 2
+6 7 8 2          2 2 4
+
+>  <ForwardRxn>
+Standard 2.16e+12 0.0 14400 6; Ranzi Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%% Symmetry: Forward - 1*2*(3*2*1) = 12
+%%%-------------------------------------------------------------------
+H-Abstraction-Methoxy-Primary\
+     primary-carbon-hydrogen-bond c(h)(h)(h)(o.)  = primary-carbon-radical c(h)(h)(h)(oh) 
+- ID 1071
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7 8 9 10       2 2 2 2
+1 3 4 5          2 2 2
+6 7 2 8 9 10     2 4 2 2 2
+
+>  <ForwardRxn>
+Standard 5.27e+10 0.0 7000 12; Westbrook Value
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*(3*2*1) = 12
+%%%-------------------------------------------------------------------
+H-Abstraction-Methoxy-Secondary\
+     secondary-carbon-hydrogen-bond c(h)(h)(h)(o.)  = secondary-carbon-radical c(h)(h)(h)(oh) 
+- ID 1072
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7 8 9 10       2 2 2 2
+1 3 4 5          2 2 2
+6 7 2 8 9 10     2 4 2 2 2
+
+>  <ForwardRxn>
+Standard 5.48e+11 0.0 5000 12; Westbrook Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%% 3*2*1*(3*2*1)=36
+%%%-------------------------------------------------------------------
+H-Abstraction-Methoxy-Tertiary\
+     tertiary-carbon-hydrogen-bond c(h)(h)(h)(o.)  = tertiary-carbon-radical c(h)(h)(h)(oh) 
+- ID 1073
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7 8 9 10       2 2 2 2
+1 3 4 5          2 2 2
+6 7 2 8 9 10     2 4 2 2 2
+
+>  <ForwardRxn>
+Standard 1.90e+11 0.0 2800 36; Ranzi Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: Forward - 1*2*(3*2*1)*(2*1) = 24
+%%%-------------------------------------------------------------------
+H-Abstraction-EthylRadical-Primary\
+     primary-carbon-hydrogen-bond ethyl-radical-(hh)(hhh) = primary-carbon-radical ethane-(hhh)(hhh) 
+- ID 1081
+- Correspondences
+1 2 3 4 5             4 2 2 2
+6 7 8 9 10 11 12      2 2 2 2 2 2
+1 3 4 5               2 2 2
+6 7 8 2 11 9 10 12    2 2 4 2 2 2 2 
+
+>  <ForwardRxn>
+Standard 1.67e+10 0.0 13400 24; Westbrook Value
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*(3*2*1)*(2*1) = 24
+%%%-------------------------------------------------------------------
+H-Abstraction-EthylRadical-Secondary\
+     secondary-carbon-hydrogen-bond ethyl-radical-(hh)(hhh) = secondary-carbon-radical ethane-(hhh)(hhh) 
+- ID 1082
+- Correspondences
+1 2 3 4 5             4 2 2 2
+6 7 8 9 10 11 12      2 2 2 2 2 2
+1 3 4 5               2 2 2
+6 7 8 2 11 9 10 12    2 2 4 2 2 2 2 
+
+>  <ForwardRxn>
+Standard 2.5e+10 0.0 10400 24; Westbrook Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%% 3*2*1*(3*2*1)*(2*1)=72
+%%%-------------------------------------------------------------------
+H-Abstraction-EthylRadical-Tertiary\
+     tertiary-carbon-hydrogen-bond ethyl-radical-(hh)(hhh) = tertiary-carbon-radical ethane-(hhh)(hhh) 
+- ID 1083
+- Correspondences
+1 2 3 4 5             4 2 2 2
+6 7 8 9 10 11 12      2 2 2 2 2 2
+1 3 4 5               2 2 2
+6 7 8 2 11 9 10 12    2 2 4 2 2 2 2 
+
+>  <ForwardRxn>
+Standard 1.00e+11 0.0 7900 72; Ranzi Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: Forward - 1*2*(2*1) = 4
+%%%-------------------------------------------------------------------
+H-Abstraction-EthenylRadical-Primary\
+     primary-carbon-hydrogen-bond ethenyl-(hh)(h) = primary-carbon-radical olefin-(hh)(hh) 
+- ID 1091
+- Correspondences
+1 2 3 4 5             4 2 2 2
+6 7 8 9 10            2 2 2 2
+1 3 4 5               2 2 2
+6 7 8 9 10 2          2 2 2 2 4 
+
+>  <ForwardRxn>
+Standard 1.67e+11 0.0 18000 4; Westbrook Value
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*(2*1) = 4
+%%%-------------------------------------------------------------------
+H-Abstraction-EthenylRadical-Secondary\
+     secondary-carbon-hydrogen-bond ethenyl-(hh)(h) = secondary-carbon-radical olefin-(hh)(hh) 
+- ID 1092
+- Correspondences
+1 2 3 4 5             4 2 2 2
+6 7 8 9 10            2 2 2 2
+1 3 4 5               2 2 2
+6 7 8 9 10 2          2 2 2 2 4 
+
+>  <ForwardRxn>
+Standard 2.00e+11 0.0 16800 4; Westbrook Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%% 3*2*1*(2*1)=12
+%%%-------------------------------------------------------------------
+H-Abstraction-EthenylRadical-Tertiary\
+     tertiary-carbon-hydrogen-bond ethenyl-(hh)(h) = tertiary-carbon-radical olefin-(hh)(hh) 
+- ID 1093
+- Correspondences
+1 2 3 4 5             4 2 2 2
+6 7 8 9 10            2 2 2 2
+1 3 4 5               2 2 2
+6 7 8 9 10 2          2 2 2 2 4 
+
+>  <ForwardRxn>
+Standard 2.00e+11 0.0 14300 12; Ranzi Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: Forward - 1*2*(3*2*1) = 12
+%%%-------------------------------------------------------------------
+H-Abstraction-MethylPeroxyl-Primary\
+     primary-carbon-hydrogen-bond (h)(h)(h)coo. = primary-carbon-radical (h)(h)(h)cooh 
+- ID 1101
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7 8 9 10 11    2 2 2 2 2
+1 3 4 5          2 2 2
+6 7 8 2 9 10 11  2 2 4 2 2 2
+
+>  <ForwardRxn>
+Standard 2.02e+12 0.0 20430 12; Westbrook Value
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*(3*2*1) = 12
+%%%-------------------------------------------------------------------
+H-Abstraction-MethylPeroxyl-Secondary\
+     secondary-carbon-hydrogen-bond (h)(h)(h)coo. = secondary-carbon-radical (h)(h)(h)cooh 
+- ID 1102
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7 8 9 10 11    2 2 2 2 2
+1 3 4 5          2 2 2
+6 7 8 2 9 10 11  2 2 4 2 2 2
+
+>  <ForwardRxn>
+Standard 2.02e+12 0.0 17700 12; Westbrook Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%% 3*2*1*(3*2*1)=36
+%%%-------------------------------------------------------------------
+H-Abstraction-MethylPeroxyl-Tertiary\
+     tertiary-carbon-hydrogen-bond (h)(h)(h)coo. = tertiary-carbon-radical (h)(h)(h)cooh  
+- ID 1103
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6 7 8 9 10 11    2 2 2 2 2
+1 3 4 5          2 2 2
+6 7 8 2 9 10 11  2 2 4 2 2 2
+
+>  <ForwardRxn>
+Standard 2.02e+12 0.0 14000 36; Ranzi Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: Forward - 1*2*1 = 2
+%%%-------------------------------------------------------------------
+H-Abstraction-Hydrogen-Radical-Primary\
+     primary-carbon-hydrogen-bond hydrogen-radical = primary-carbon-radical hydrogen
+- ID 1111
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6                
+1 3 4 5          2 2 2
+6 2              4
+
+>  <ForwardRxn>
+Standard 7.33e+5 2.4 5500 2; Westbrook Value
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1 = 2
+%%%-------------------------------------------------------------------
+H-Abstraction-Hydrogen-Radical-Secondary\
+     secondary-carbon-hydrogen-bond hydrogen-radical = secondary-carbon-radical hydrogen
+- ID 1112
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6                
+1 3 4 5          2 2 2
+6 2              4
+
+>  <ForwardRxn>
+Standard 2.35e+5 2.5 2230 2; Westbrook Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%% 3*2*1*1=6
+%%%-------------------------------------------------------------------
+H-Abstraction-Hydrogen-Radical-Tertiary\
+     tertiary-carbon-hydrogen-bond hydrogen-radical = tertiary-carbon-radical hydrogen
+- ID 1113
+- Correspondences
+1 2 3 4 5        4 2 2 2
+6                
+1 3 4 5          2 2 2
+6 2              4
+
+>  <ForwardRxn>
+Standard 1.10e+13 0.0 3280; Ranzi Value ; Estimate  
+$$$$

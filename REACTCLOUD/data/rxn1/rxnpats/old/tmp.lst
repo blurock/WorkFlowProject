@@ -1,0 +1,12 @@
+%%%------------------------------------------------------------------
+6ring-(ooh)-h-isomerization .ccccc(ooh)(h) = .c(ooh)cccc(h)
+- ID 14452
+- Correspondences
+1 2 3 4 5 6 7 8 9      2 2 2 2 4 2 2 2
+1 2 3 4 5 6 7 8 9      2 2 2 2 4 2 2 2
+>  <ForwardRxn>
+Standard 1.4e+11 0.0 5.6 2; Westbrook Value ; Wild guess 
+
+>  <ReverseRxn>
+Standard 1.4e+11 0.0 5.6 2; Westbrook Value ; Wild guess  
+$$$$

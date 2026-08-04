@@ -1,0 +1,34 @@
+====== Molecule Name File: mol/molsdf/cyclohexanes-names.lst
+cyclohexane
+- AlternativeNames CHEMKIN cycc6h12
+- AlternativeNames Short cycc6h12
+methylcyclohexane
+- AlternativeNames CHEMKIN c1c6h12
+- AlternativeNames Short Mthcycc6h12
+ethylcyclohexane
+- AlternativeNames CHEMKIN c2c6h12
+- AlternativeNames Short Ethcycc6h12
+propylcyclohexane
+- AlternativeNames CHEMKIN c3c6h12
+- AlternativeNames Short Propcycc6h12
+butyllcyclohexane
+- AlternativeNames CHEMKIN c4c6h12
+- AlternativeNames Short Butcycc6h12
+pentylcyclohexane
+- AlternativeNames CHEMKIN c5c6h12
+- AlternativeNames Short Pentcycc6h12
+hexylcyclohexane
+- AlternativeNames CHEMKIN c6cc6h12
+- AlternativeNames Short Hexcycc6h12
+heptylcyclohexane
+- AlternativeNames CHEMKIN c7c6h12
+- AlternativeNames Short Heptcycc6h12
+octylcyclohexane
+- AlternativeNames CHEMKIN c8c6h12
+- AlternativeNames Short Octcycc6h12
+nonylcyclohexane
+- AlternativeNames CHEMKIN c9c6h12
+- AlternativeNames Short Noncycc6h12
+decylcyclohexane
+- AlternativeNames CHEMKIN c10c6h12
+- AlternativeNames Short Deccycc6h12

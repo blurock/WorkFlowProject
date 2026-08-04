@@ -1,0 +1,13 @@
+Misc. Property Types
+0 PropertyTypes
+     ArrheniusFormValue 81 arrheniusformvalues
+        0 The Arrhenius Constant
+          FLOAT Aconstant Create
+        1 The Activation Energy
+          FLOAT Energy Create
+        2 The Temperature Exponent
+          FLOAT TempExp Create
+        3 The Symmetry Factor
+          FLOAT SymmetryFactor Create
+        DONE
+DONE

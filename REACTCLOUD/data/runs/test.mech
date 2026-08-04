@@ -1,0 +1,67 @@
+CLASSCOEFFICIENTS
+H-Abstraction-Oxygen-Primary             =      1.7500e+09     0.9700    1590.00     0.0000e+00     0.0000       0.00
+H-Abstraction-Oxygen-Secondary           =      2.3400e+07     1.6100     -35.00     0.0000e+00     0.0000       0.00
+Primary-Carbon-Radical-(R.+O2-->RO2.)    =      5.4200e+09     0.0000       0.00     7.6000e+16     0.0000   16358.00
+Secondary-Carbon-Radical-(R.+O2-->RO2.)  =      5.4200e+09     0.0000       0.00     7.6000e+16     0.0000   16358.00
+Intramolecular-1-4-QOOH-Formation        =      1.4100e+12     0.0000   18643.00     8.6300e+10     0.0000   12000.00
+Intramolecular-1-5-QOOH-Formation        =      1.7600e+11     0.0000   14758.00     3.3300e+09     0.0000    8000.00
+Intramolecular-1-6-QOOH-Formation        =      1.1000e+10     0.0000   12617.00     3.3600e+09     0.0000    6170.00
+OOQOOH-Isomerization-4Ring-Primary       =      1.4100e+12     0.0000   18643.00     8.6300e+10     0.0000   12000.00
+OOQOOH-Isomerization-4Ring-Secondary     =      1.4100e+12     0.0000   18643.00     8.6300e+10     0.0000   12000.00
+OOQOOH-Isomerization-5Ring-Primary       =      1.4100e+12     0.0000   18643.00     8.6300e+10     0.0000   12000.00
+OOQOOH-Isomerization-5Ring-Secondary     =      1.4100e+12     0.0000   18643.00     8.6300e+10     0.0000   12000.00
+OOQOOH-Isomerization-6Ring-Primary       =      1.4100e+12     0.0000   18643.00     8.6300e+10     0.0000   12000.00
+KetoHydroPeroxideDecomposition           =      1.0000e+16     0.0000   43000.00     0.0000e+00     0.0000       0.00
+END
+CLASSEQUIVALENT
+END
+REACTIONCLASS  = H-Abstraction-Oxygen-Primary
+    6 {butane} + {oxygen} = {peroxyl-radical} + {1-butyl-radical}
+END
+REACTIONCLASS  = H-Abstraction-Oxygen-Secondary
+    4 {butane} + {oxygen} = {2-butyl-radical} + {peroxyl-radical}
+END
+REACTIONCLASS  = Primary-Carbon-Radical-(R.+O2-->RO2.)
+    1 {1-butyl-radical} + {oxygen} = {M5}
+    1 {M8} + {oxygen} = {M13}
+    1 {M11} + {oxygen} = {M14}
+    1 {M12} + {oxygen} = {M15}
+END
+REACTIONCLASS  = Secondary-Carbon-Radical-(R.+O2-->RO2.)
+    1 {2-butyl-radical} + {oxygen} = {M6}
+    1 {M7} + {oxygen} = {M16}
+    1 {M9} + {oxygen} = {M17}
+    1 {M10} + {oxygen} = {M18}
+END
+REACTIONCLASS  = Intramolecular-1-4-QOOH-Formation
+    4 {M5} = {M7}
+    6 {M6} = {M8}
+    4 {M6} = {M9}
+END
+REACTIONCLASS  = Intramolecular-1-5-QOOH-Formation
+    4 {M5} = {M10}
+    6 {M6} = {M11}
+END
+REACTIONCLASS  = Intramolecular-1-6-QOOH-Formation
+    3 {M5} = {M12}
+END
+REACTIONCLASS  = OOQOOH-Isomerization-4Ring-Primary
+    2 {M16} = {M19} + {hydroxyl-radical}
+END
+REACTIONCLASS  = OOQOOH-Isomerization-4Ring-Secondary
+    1 {M13} = {hydroxyl-radical} + {M21}
+    1 {M17} = {hydroxyl-radical} + {M22}
+END
+REACTIONCLASS  = OOQOOH-Isomerization-5Ring-Primary
+    2 {M18} = {hydroxyl-radical} + {M23}
+END
+REACTIONCLASS  = OOQOOH-Isomerization-5Ring-Secondary
+    1 {M14} = {hydroxyl-radical} + {M24}
+END
+REACTIONCLASS  = OOQOOH-Isomerization-6Ring-Primary
+    2 {M15} = {hydroxyl-radical} + {M25}
+END
+REACTIONCLASS  = KetoHydroPeroxideDecomposition
+    1 {M23} = {hydroxyl-radical} + {M26} + {M27}
+    1 {M25} = {hydroxyl-radical} + {M28} + {aldehyde}
+END

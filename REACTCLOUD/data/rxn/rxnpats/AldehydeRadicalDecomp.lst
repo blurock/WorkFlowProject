@@ -1,0 +1,60 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 3*2*1 = 6
+%%%-------------------------------------------------------------------
+KetoneRadicalDecomp-HHH\
+       c(hhh).c(o) = methane-carbon-radical carbonmonoxide 
+- ID 60001
+- Correspondences
+1 2 3 4 5 6             2 4 2 2 2
+3 4 5 6                 2 2 2
+2 1                     2
+>  <ForwardRxn>
+Standard 4.37000E+27   -5.200    19332  6;   80.940=>  19332   CH3CO=CH3+CO  (Lund,Warnatz, C2, Kassel at P = 3.00 bar)
+>  <ReverseRxn>
+Standard 8.49616E+19   -3.401    3304  6; 13.836 => 3304   (LUND calculated)  CH3CO=CH3+CO 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2=2
+%%%-------------------------------------------------------------------
+KetoneRadicalDecomp-RHH\
+       c(rhh).c(o) = primary-carbon-radical carbonmonoxide
+- ID 60002
+- Correspondences
+1 2 3 4 5 6             2 4 2 2 2
+3 4 5 6                 2 2 2
+1 2                     2
+>  <ForwardRxn>
+Standard 1.000E+11   0.00  9600  2; Curran (Heptane) ; nc4h9co = pc4h9+co
+>  <ReverseRxn>
+Standard 1.000E+11   0.00  0.000E+00   2; Curran (Heptane) ; nc4h9co = pc4h9+co
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2=2
+%%%-------------------------------------------------------------------
+KetoneRadicalDecomp-RRH\
+       c(rrh).c(o) = secondary-carbon-radical carbonmonoxide
+- ID 60003
+- Correspondences
+1 2 3 4 5 6             2 4 2 2 2
+3 4 5 6                 2 2 2
+1 2                     2
+>  <ForwardRxn>
+Standard 1.426E+13  -0.04  10950   2; Curran (IsoOctane) ; ic3h7co  =  ic3h7+co
+>  <ReverseRxn>
+Standard 1.500E+11  0.00  4810  2; Curran (IsoOctane) ; ic3h7co  =  ic3h7+co
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6 = 6
+%%%-------------------------------------------------------------------
+KetoneRadicalDecomp-RRR\
+       c(rrr).c(o) = tertiary-carbon-radical carbonmonoxide
+- ID 60004
+- Correspondences
+1 2 3 4 5 6             2 4 2 2 2
+3 4 5 6                 2 2 2
+1 2                     2
+>  <ForwardRxn>
+Standard 1.426E+13  -0.04  10950   6; Curran (IsoOctane) ; ic3h7co  =  ic3h7+co
+>  <ReverseRxn>
+Standard 1.500E+11  0.00  4810  6; Curran (IsoOctane) ; ic3h7co  =  ic3h7+co
+$$$$

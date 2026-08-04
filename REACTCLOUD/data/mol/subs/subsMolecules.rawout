@@ -1,0 +1,166 @@
+~/git/copilot-worktrees/react/blurock-studious-fortnight/tmp ~/git/copilot-worktrees/react/blurock-studious-fortnight/data/mol/subs 
+-----------------Chemistry Database ------------------
+-----------------Version 0    --------------------
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+main>> Mol
+Command:Mol
+Mol>> Parameters
+Command:Parameters
+Parameters>> RootMolName
+Command:RootMolName
+RootMolName>> Input:RootMolName
+Command:Input:RootMolName
+Input:RootMolName>> Set Value: RootMolName to StandardMeta
+StandardMeta
+RootMolName>> Quit
+Parameters>> Quit
+Mol>> MetaAtoms
+Command:MetaAtoms
+MetaAtoms>> Read
+Command:Read
+Set Of     3 MolFile Meta Atoms (    0:MasterMetaAtom)
+MetaAtoms:    0::(         R,  320 -> [ (    6,    1)  ]
+MetaAtoms:    1::(         Q,  221 -> [ (    1,    1) (    6,    1) (    6,    2)  ]
+MetaAtoms:    2::(         X,  382 -> [ (    9,    1) (   35,    1) (   17,    1)  ]
+MetaAtoms>> Quit
+Mol>> Quit
+main>> CreateOpenClose
+Command:CreateOpenClose
+CreateOpenClose>> Start
+Command:Start
+
+0:No Keys for Reactions
+
+
+0:No Keys for Substructures
+
+
+0:No Keys for ReactionPatterns
+
+CreateOpenClose>> Quit
+main>> DbaseOps
+Command:DbaseOps
+DbaseOps>> SubStructures
+Command:SubStructures
+SubStructures>> Keys
+Command:Keys
+Keys>> Define
+Command:Define
+Keys>> Write
+Command:Write
+Keys>> Quit
+SubStructures>> Quit
+DbaseOps>> Quit
+main>> Mol
+Command:Mol
+Mol>> Parameters
+Command:Parameters
+Parameters>> RootMolName
+Command:RootMolName
+RootMolName>> Input:RootMolName
+Command:Input:RootMolName
+Input:RootMolName>> Set Value: RootMolName to subs/subsMolecules
+subs/subsMolecules
+RootMolName>> Quit
+Parameters>> Quit
+Mol>> Read
+Command:Read
+Read>> SubStructures
+Command:SubStructures
+SubStructures>> SDF
+Command:SDF
+Read SDF Molecule: hydrogen-radical
+Read SDF Molecule: oxygen-radical
+Read SDF Molecule: oxygen-atom
+Read SDF Molecule: oxygen
+Read SDF Molecule: hydrogen
+Read SDF Molecule: hydroxyl-radical
+Read SDF Molecule: peroxyl-radical
+Read SDF Molecule: water
+Read SDF Molecule: hydrogen-peroxide
+Read SDF Molecule: carbonmonoxide
+SubStructures>> Quit
+Read>> Quit
+Mol>> Calculations
+Command:Calculations
+Calculations>> SubStructures
+Command:SubStructures
+SubStructures>> SemiEmpirical
+Command:SemiEmpirical
+SubStructures>> Quit
+Calculations>> Quit
+Mol>> Output
+Command:Output
+Output>> SubStructures
+Command:SubStructures
+SubStructures>> Print
+Command:Print
+SubStructures>> Quit
+Output>> Quit
+Mol>> Quit
+main>> DbaseOps
+Command:DbaseOps
+DbaseOps>> SubStructures
+Command:SubStructures
+SubStructures>> Current
+Command:Current
+Current>> Store
+Command:Store
+Store:          1:hydrogen-radical
+New ID:   20001000
+Store:          2:oxygen-radical
+Equivalence: hydrogen-radical oxygen-radical     0
+New ID:   20001001
+Store:          3:oxygen-atom
+New ID:   10001000
+Store:          4:oxygen
+New ID:   10102000
+Store:          5:hydrogen
+Equivalence:     oxygen   hydrogen     0
+New ID:   10102001
+Store:          6:hydroxyl-radical
+New ID:   20102000
+Store:          7:peroxyl-radical
+New ID:   20203000
+Store:          8:water
+New ID:   10203000
+Store:          9:hydrogen-peroxide
+New ID:   10304000
+Store:         10:carbonmonoxide
+New ID:   20102100
+Current>> Quit
+SubStructures>> Keys
+Command:Keys
+Keys>> Define
+Command:Define
+Keys>> Fill
+Command:Fill
+Keys>> Write
+Command:Write
+Keys>> Quit
+SubStructures>> Misc
+Command:Misc
+Misc>> PrintList
+Command:PrintList
+  20102100: -->carbonmonoxide<--
+  20102000: -->hydroxyl-radical<--
+  20001000: -->hydrogen-radical<--
+  10001000: -->oxygen-atom<--
+  20203000: -->peroxyl-radical<--
+  10203000: -->water<--
+  10102001: -->hydrogen<--
+  10304000: -->hydrogen-peroxide<--
+  10102000: -->oxygen<--
+  20001001: -->oxygen-radical<--
+Misc>> Quit
+SubStructures>> Quit
+DbaseOps>> Quit
+main>> Quit
+~/git/copilot-worktrees/react/blurock-studious-fortnight/data/mol/subs 

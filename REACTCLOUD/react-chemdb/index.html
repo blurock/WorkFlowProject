@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>REACT ChemDB Docs</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <h1>REACT ChemDB Documentation</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/deployment-phases">Deployment Phases</a>
+      <a href="/update-and-deploy-image">Update & Deploy Docker Image</a>
+      <a href="/backup-to-github">Backup to GitHub</a>
+      <a href="/archive">Full Implementation Archive</a>
+    </nav>
+  </header>
+  <main>
+    <p>
+      The project goal is to containerize the REACT chemistry system (a 12-year-old C codebase) for deployment on Google Cloud Run.
+      The overall strategy is a multi-stage Docker build producing a runtime image that can run <code>chemdb</code> either in CLI mode
+      or via an HTTP server wrapper on port 8080. Work has proceeded through 6 phases: project setup, Dockerfile creation,
+      C code modernization, HTTP entrypoint wrapper, Docker build validation on Linux, and production/endpoint enhancements.
+    </p>
+
+    <h2>Project Summary</h2>
+    <p>
+      This project modernized and containerized the legacy REACT chemistry system for
+      production use on Google Cloud Run. The work included Linux compatibility fixes for C builds,
+      a dual-mode container entrypoint, and an HTTP API wrapper that can execute direct commands
+      or input-template workflows.
+    </p>
+    <ul>
+      <li>Multi-stage Docker build with runtime dependencies only.</li>
+      <li>Database initialization baked into image build via <code>make all</code> and <code>make install</code>.</li>
+      <li>API endpoints: <code>/health</code>, <code>/api/run</code>, and <code>/api/run-input</code>.</li>
+      <li>Cloud Run deployment pipeline through Artifact Registry.</li>
+    </ul>
+
+    <h2>Documentation Sections</h2>
+    <ul>
+      <li><a href="/deployment-phases">Deployment Phases</a>: End-to-end deployment implementation from planning through Cloud Run launch.</li>
+      <li><a href="/update-and-deploy-image">Update & Deploy Docker Image</a>: Repeatable update workflow for image rebuild and rollout.</li>
+      <li><a href="/backup-to-github">Backup to GitHub</a>: Branch, commit, and push flow used for safe backup.</li>
+      <li><a href="/archive">Full Implementation Archive</a>: Verbatim research, plans, checkpoints, and phase completion records from session-state files.</li>
+    </ul>
+
+    <h2>Archive Phase Pages</h2>
+    <ul>
+      <li><a href="/archive/phase-1">Phase 1</a> · <a href="/archive/phase-2">Phase 2</a> · <a href="/archive/phase-3">Phase 3</a></li>
+      <li><a href="/archive/phase-4">Phase 4</a> · <a href="/archive/phase-5">Phase 5</a> · <a href="/archive/phase-6">Phase 6</a></li>
+    </ul>
+  </main>
+  <footer>
+    Firebase Hosting site: react-chemdb (project: blurock-database)
+  </footer>
+</body>
+</html>

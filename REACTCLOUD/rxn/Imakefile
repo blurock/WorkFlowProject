@@ -1,0 +1,58 @@
+ROOT       = /home/blurock
+CCROOT     = $(ROOT)/cc
+
+PROGRAM    = rxn
+LIBNAME    = lib$(PROGRAM).a
+MYLIBDIR   = $(ROOT)/lib
+LIBFILE    = $(MYLIBDIR)/$(LIBNAME)
+
+STD_INCLUDES = -I./standard\
+               -I./genc\
+               -I./genh\
+               -I$(CCROOT)/genc\
+               -I$(CCROOT)/genh\
+               -I$(CCROOT)/standard\
+               -I$(ROOT)/cc/dbase/genh\
+               -I$(ROOT)/cc/dbase/standard\
+               -I$(COMROOT)/genh\
+               -I$(COMROOT)/standard
+          
+##CCOPTIONS = -O -Wall
+CCOPTIONS =
+CDEBUGFLAGS= -g -Wall -Wcast-align -Wshadow
+DEPLIBS =  -L/home/blurock/lib\
+           -lmolprops\
+           -lmolecules\
+           -lgraph\
+           -lproperty\
+           -ldatmat\
+           -lXcomlib\
+           -lcomlib\
+           -ldbase\
+           -lbasis\
+           -lgdbm\
+           -lXG\
+            -lm
+
+##CC = cc
+CC = gcc
+AR = ar
+
+SRCS = rmolfile.c asciiread.c rxnprps.c rxn0.c rxn1.c rxnfunc.c rxnprt.c rxntype.c
+
+OBJS = rmolfile.o asciiread.o rxnprps.o rxn0.o rxn1.o rxnfunc.o rxnprt.o rxntype.o
+
+NormalProgramTarget($(PROGRAM),$(OBJS) main.o,,$(DEPLIBS),XawClientLibs)
+
+library: $(OBJS)
+	$(RM) $(LIBFILE)
+	$(AR) rv $(LIBFILE) $(OBJS)
+	$(AR) ts $(LIBFILE)
+
+depend:
+	makedepend  -- $(CFLAGS) -- $(ALL_SOURCES)
+    
+# DO NOT DELETE THIS LINE -- make depend depends on it.
+
+
+

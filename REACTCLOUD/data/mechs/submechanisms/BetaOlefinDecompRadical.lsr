@@ -1,0 +1,36 @@
+BetaOlefinRadicalDecomp
+oxygen
+%%% ----------------------------------------------------
+H-Abstraction-Oxygen-Tertiary,\
+H-Abstraction-Oxygen-Secondary,\
+H-Abstraction-Oxygen-Primary\
+:oxygen
+%%% ----------------------------------------------------
+HLoss-ethyl-radical(hh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rhh)-to-olefin,\
+HLoss-ethyl-radical(rr)(hhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(rhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rrh)-to-olefin,\
+HLoss-ethyl-radical(rr)(rhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(rrh)-to-olefin,\
+HLoss-ethyl-radical(rr)(rrh)-to-olefin
+%%% ----------------------------------------------------
+%%%  This abstracts all 
+%%% ----------------------------------------------------
+H-Abstraction-Oxygen-Tertiary,\
+H-Abstraction-Oxygen-Secondary,\
+H-Abstraction-Oxygen-Primary\
+:oxygen
+%%% ----------------------------------------------------
+%%% ----------------------------------------------------
+BetaOlefinRadicalDecomp(qq)(q)(hh)(hh),\
+BetaOlefinRadicalDecomp(qq)(q)(hh)(rh),\
+BetaOlefinRadicalDecomp(qq)(q)(hh)(rr),\
+BetaOlefinRadicalDecomp(qq)(q)(rh)(hh),\
+BetaOlefinRadicalDecomp(qq)(q)(rh)(rh),\
+BetaOlefinRadicalDecomp(qq)(q)(rh)(rr),\
+BetaOlefinRadicalDecomp(qq)(q)(rr)(hh),\
+BetaOlefinRadicalDecomp(qq)(q)(rr)(rh),\
+BetaOlefinRadicalDecomp(qq)(q)(rr)(rr)
+

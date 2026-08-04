@@ -1,0 +1,65 @@
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%% ROOHFromPeroxy-HHH
+%%% Symmetry Forward: 3*2*1=6  Reverse: 3*2*1=6
+%%%-------------------------------------------------------------------
+ROOHFromPeroxy-HHH  (h)(h)(h)coo. peroxyl-radical = c(h)(h)(h)(ooh) oxygen
+- ID 13111
+- Correspondences
+1 2 3 4 5 6          2 2 2 2 2
+7 8 9                4 2
+7 3 2 1 4 5 6        4 2 2 2 2 2
+8 9                  2
+
+>  <ForwardRxn>
+Standard 1.00e+11 0.0 0.0 6; Combustion and Flame, 114:149-177 (1998)
+
+>  <ReverseRxn>
+Standard 3.00e+11 0.0 39000 12; Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+ROOHFromPeroxy-RHH  (h)(h)(r)coo. peroxyl-radical = c(r)(h)(h)(ooh) oxygen
+- ID 13112
+- Correspondences
+1 2 3 4 5 6          2 2 2 2 2
+7 8 9                4 2
+7 3 2 1 4 5 6        4 2 2 2 2 2
+8 9                  2
+
+>  <ForwardRxn>
+Standard 1.00e+11 0.0 0.0 2; Combustion and Flame, 114:149-177 (1998)
+
+>  <ReverseRxn>
+Standard 3.00e+11 0.0 39000 4; Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+ROOHFromPeroxy-RRH  (h)(r)(r)coo. peroxyl-radical = c(r)(r)(h)(ooh) oxygen
+- ID 13122
+- Correspondences
+1 2 3 4 5 6          2 2 2 2 2
+7 8 9                4 2
+7 3 2 1 4 5 6        4 2 2 2 2 2
+8 9                  2
+
+>  <ForwardRxn>
+Standard 1.00e+11 0.0 0.0 2; Combustion and Flame, 114:149-177 (1998)
+
+>  <ReverseRxn>
+Standard 3.00e+11 0.0 39000 4; Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+ROOHFromPeroxy-RRR  (r)(r)(r)coo. peroxyl-radical = c(r)(r)(r)(ooh) oxygen
+- ID 13222
+- Correspondences
+1 2 3 4 5 6          2 2 2 2 2
+7 8 9                4 2
+7 3 2 1 4 5 6        4 2 2 2 2 2
+8 9                  2
+
+>  <ForwardRxn>
+Standard 1.00e+11 0.0 0.0 6; Combustion and Flame, 114:149-177 (1998)
+
+>  <ReverseRxn>
+Standard 3.00e+11 0.0 39000 12; Combustion and Flame, 114:149-177 (1998)
+$$$$

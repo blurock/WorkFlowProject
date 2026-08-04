@@ -1,0 +1,66 @@
+2ary Level Side Reaction:  Generation of Cyclic Ether from QOOH
+oxygen,hydroxyl-radical
+%%% ----------------------------------------------------
+H-Abstraction-Oxygen-Tertiary,\
+H-Abstraction-Oxygen-Secondary,\
+H-Abstraction-Oxygen-Primary:\
+oxygen
+%%% ----------------------------------------------------
+Primary-Carbon-Radical-(R.+O2-->RO2.),\
+Secondary-Carbon-Radical-(R.+O2-->RO2.),\
+Tertiary-Carbon-Radical-(R.+O2-->RO2.)\
+:oxygen
+%%% ----------------------------------------------------
+RO2-Isomerization-5RingPrimary,\
+RO2-Isomerization-5RingSecondary,\
+RO2-Isomerization-5RingTertiary,\
+RO2-Isomerization-6RingPrimary,\
+RO2-Isomerization-6RingSecondary,\
+RO2-Isomerization-6RingTertiary,\
+RO2-Isomerization-7RingPrimary,\
+RO2-Isomerization-7RingSecondary,\
+RO2-Isomerization-7RingTertiary,\
+RO2-Isomerization-8RingPrimary,\
+RO2-Isomerization-8RingSecondary,\
+RO2-Isomerization-8RingTertiary
+%%% ---------------------------------------------------
+CyclicEtherFromQOOH-3Ring,\
+CyclicEtherFromQOOH-4Ring,\
+CyclicEtherFromQOOH-5Ring,\
+CyclicEtherFromQOOH-6Ring
+%%% ----------------------------------------------------
+CyclicEther-3Ring-(hh),\
+CyclicEther-3Ring-(rh),\
+CyclicEther-4Ring-(h),\
+CyclicEther-4Ring-(r),\
+CyclicEther-5Ring-(h),\
+CyclicEther-5Ring-(r),\
+CyclicEther-6Ring-(h),\
+CyclicEther-6Ring-(r),\
+CyclicEther-3Ring-(hh)(hhh),\
+CyclicEther-3Ring-(hh)(rhh),\
+CyclicEther-3Ring-(hh)(rrh),\
+CyclicEther-3Ring-(hh)(rrr),\
+CyclicEther-3Ring-(rh)(hhh),\
+CyclicEther-3Ring-(rh)(rhh),\
+CyclicEther-3Ring-(rh)(rrh),\
+CyclicEther-3Ring-(rh)(rrr),\
+CyclicEther-3Ring-(rr)(hhh),\
+CyclicEther-3Ring-(rr)(rhh),\
+CyclicEther-3Ring-(rr)(rrh),\
+CyclicEther-3Ring-(rr)(rrr)\
+:hydroxyl-radical
+%%% ----------------------------------------------------
+%%% KetoneAdditionOH-Alpha:  This eliminates the product of the
+%%%        3-Ring decomposition to produce an aldehyde/ketone and
+%%%        a ketyl radical (on the C=O).
+%%% The rest of the products of the decomposition are radicals
+%%% on the aldehyde and these are taken care of with other mechanisms.
+%%% ----------------------------------------------------
+KetoneAdditionOH-Alpha-(h)(hh),\
+KetoneAdditionOH-Alpha-(r)(hh),\
+KetoneAdditionOH-Alpha-(h)(rh),\
+KetoneAdditionOH-Alpha-(r)(rh),\
+KetoneAdditionOH-Alpha-(h)(rr),\
+KetoneAdditionOH-Alpha-(r)(rr)\
+:hydroxyl-radical

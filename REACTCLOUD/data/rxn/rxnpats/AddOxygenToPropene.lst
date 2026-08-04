@@ -1,0 +1,288 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*6 = 12
+%%%-------------------------------------------------------------------
+AddOxygenToPropene-(hh)(h)(hhh)\
+       propene-(hh)(h)(hhh) oxygen-atom = (h)(h)c(o) olefin-(hh)(hh) 
+- ID 700001
+- Correspondences
+1 2 3 4 5 6 7 8 9        4 2 2 2 2 2 2 4
+10
+1 10 4 5                 4 2 2
+2 3 6 9 7 8              2 2 4 2 2
+>  <ForwardRxn>
+Standard 2.000e+10   0.00  -1.050e+03 12; Type VII : Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1;  Zero reverse 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6 = 6
+%%%-------------------------------------------------------------------
+AddOxygenToPropene-(rh)(h)(hhh)\
+       propene-(rh)(h)(hhh) oxygen-atom = (r)(h)c(o) olefin-(hh)(hh) 
+- ID 700002
+- Correspondences
+1 2 3 4 5 6 7 8 9        4 2 2 2 2 2 2 4
+10
+1 10 4 5                 4 2 2
+2 3 6 9 7 8              2 2 4 2 2
+>  <ForwardRxn>
+Standard 2.000e+10   0.00  -1.050e+03 6; Type VII : Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1;  Zero reverse 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*6 = 12
+%%%-------------------------------------------------------------------
+AddOxygenToPropene-(rr)(h)(hhh)\
+       propene-(rr)(h)(hhh) oxygen-atom = (r)(r)c(o) olefin-(hh)(hh) 
+- ID 700003
+- Correspondences
+1 2 3 4 5 6 7 8 9        4 2 2 2 2 2 2 4
+10
+1 10 4 5                 4 2 2
+2 3 6 9 7 8              2 2 4 2 2
+>  <ForwardRxn>
+Standard 2.000e+10   0.00  -1.050e+03 12; Type VII : Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1;  Zero reverse 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*6 = 12
+%%%-------------------------------------------------------------------
+AddOxygenToPropene-(hh)(r)(hhh)\
+       propene-(hh)(r)(hhh) oxygen-atom = (h)(h)c(o) olefin-(rh)(hh) 
+- ID 700004
+- Correspondences
+1 2 3 4 5 6 7 8 9        4 2 2 2 2 2 2 4
+10
+1 10 4 5                 4 2 2
+2 3 6 9 7 8              2 2 4 2 2
+>  <ForwardRxn>
+Standard 2.000e+10   0.00  -1.050e+03 12; Type VII : Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1;  Zero reverse 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6 = 6
+%%%-------------------------------------------------------------------
+AddOxygenToPropene-(rh)(r)(hhh)\
+       propene-(rh)(r)(hhh) oxygen-atom = (r)(h)c(o) olefin-(rh)(hh) 
+- ID 700005
+- Correspondences
+1 2 3 4 5 6 7 8 9        4 2 2 2 2 2 2 4
+10
+1 10 4 5                 4 2 2
+2 3 6 9 7 8              2 2 4 2 2
+>  <ForwardRxn>
+Standard 2.000e+10   0.00  -1.050e+03 6; Type VII : Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1;  Zero reverse 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*6 = 12
+%%%-------------------------------------------------------------------
+AddOxygenToPropene-(rr)(r)(hhh)\
+       propene-(rr)(r)(hhh) oxygen-atom = (r)(r)c(o) olefin-(rh)(hh) 
+- ID 700006
+- Correspondences
+1 2 3 4 5 6 7 8 9        4 2 2 2 2 2 2 4
+10
+1 10 4 5                 4 2 2
+2 3 6 9 7 8              2 2 4 2 2
+>  <ForwardRxn>
+Standard 2.000e+10   0.00  -1.050e+03 12; Type VII : Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1;  Zero reverse 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+AddOxygenToPropene-(hh)(h)(rhh)\
+       propene-(hh)(h)(rhh) oxygen-atom = (h)(h)c(o) olefin-(rh)(hh) 
+- ID 700007
+- Correspondences
+1 2 3 4 5 6 7 8 9        4 2 2 2 2 2 2 4
+10
+1 10 4 5                 4 2 2
+3 2 7 8 6 9              2 2 2 2 4
+>  <ForwardRxn>
+Standard 2.000e+10   0.00  -1.050e+03 4; Type VII : Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1;  Zero reverse 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+AddOxygenToPropene-(rh)(h)(rhh)\
+       propene-(rh)(h)(rhh) oxygen-atom = (r)(h)c(o) olefin-(rh)(hh) 
+- ID 700008
+- Correspondences
+1 2 3 4 5 6 7 8 9        4 2 2 2 2 2 2 4
+10
+1 10 4 5                 4 2 2
+3 2 7 8 6 9              2 2 2 2 4
+>  <ForwardRxn>
+Standard 2.000e+10   0.00  -1.050e+03 2; Type VII : Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1;  Zero reverse 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+AddOxygenToPropene-(rr)(h)(rhh)\
+       propene-(rr)(h)(rhh) oxygen-atom = (r)(r)c(o) olefin-(rh)(hh) 
+- ID 700009
+- Correspondences
+1 2 3 4 5 6 7 8 9        4 2 2 2 2 2 2 4
+10
+1 10 4 5                 4 2 2
+3 2 7 8 6 9              2 2 2 2 4
+>  <ForwardRxn>
+Standard 2.000e+10   0.00  -1.050e+03 4; Type VII : Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1;  Zero reverse 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+AddOxygenToPropene-(hh)(r)(rhh)\
+       propene-(hh)(r)(rhh) oxygen-atom = (h)(h)c(o) olefin-(rh)(rh) 
+- ID 700010
+- Correspondences
+1 2 3 4 5 6 7 8 9        4 2 2 2 2 2 2 4
+10
+1 10 4 5                 4 2 2
+2 3 6 9 7 8              2 2 4 2 2
+>  <ForwardRxn>
+Standard 2.000e+10   0.00  -1.050e+03 4; Type VII : Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1;  Zero reverse 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+AddOxygenToPropene-(rh)(r)(rhh)\
+       propene-(rh)(r)(rhh) oxygen-atom = (r)(h)c(o) olefin-(rh)(rh) 
+- ID 700011
+- Correspondences
+1 2 3 4 5 6 7 8 9        4 2 2 2 2 2 2 4
+10
+1 10 4 5                 4 2 2
+2 3 6 9 7 8              2 2 4 2 2
+>  <ForwardRxn>
+Standard 2.000e+10   0.00  -1.050e+03 2; Type VII : Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1;  Zero reverse 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+AddOxygenToPropene-(rr)(r)(rhh)\
+       propene-(rr)(r)(rhh) oxygen-atom = (r)(r)c(o) olefin-(rh)(rh) 
+- ID 700012
+- Correspondences
+1 2 3 4 5 6 7 8 9        4 2 2 2 2 2 2 4
+10
+1 10 4 5                 4 2 2
+2 3 6 9 7 8              2 2 4 2 2
+>  <ForwardRxn>
+Standard 2.000e+10   0.00  -1.050e+03 4; Type VII : Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1;  Zero reverse 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+AddOxygenToPropene-(hh)(h)(rrh)\
+       propene-(hh)(h)(rrh) oxygen-atom = (h)(h)c(o) olefin-(rr)(hh) 
+- ID 700013
+- Correspondences
+1 2 3 4 5 6 7 8 9        4 2 2 2 2 2 2 4
+10
+1 10 4 5                 4 2 2
+3 2 7 8 6 9              2 2 2 2 4
+>  <ForwardRxn>
+Standard 2.000e+10   0.00  -1.050e+03 4; Type VII : Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1;  Zero reverse 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+AddOxygenToPropene-(rh)(h)(rrh)\
+       propene-(rh)(h)(rrh) oxygen-atom = (r)(h)c(o) olefin-(rr)(hh) 
+- ID 700014
+- Correspondences
+1 2 3 4 5 6 7 8 9        4 2 2 2 2 2 2 4
+10
+1 10 4 5                 4 2 2
+3 2 7 8 6 9              2 2 2 2 4
+>  <ForwardRxn>
+Standard 2.000e+10   0.00  -1.050e+03 2; Type VII : Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1;  Zero reverse 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+AddOxygenToPropene-(rr)(h)(rrh)\
+       propene-(rr)(h)(rrh) oxygen-atom = (r)(r)c(o) olefin-(rr)(hh) 
+- ID 700015
+- Correspondences
+1 2 3 4 5 6 7 8 9        4 2 2 2 2 2 2 4
+10
+1 10 4 5                 4 2 2
+3 2 7 8 6 9              2 2 2 2 4
+>  <ForwardRxn>
+Standard 2.000e+10   0.00  -1.050e+03 4; Type VII : Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1;  Zero reverse 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+AddOxygenToPropene-(hh)(r)(rrh)\
+       propene-(hh)(r)(rrh) oxygen-atom = (h)(h)c(o) olefin-(rr)(rh) 
+- ID 700016
+- Correspondences
+1 2 3 4 5 6 7 8 9        4 2 2 2 2 2 2 4
+10
+1 10 4 5                 4 2 2
+3 2 7 8 6 9              2 2 2 2 4
+>  <ForwardRxn>
+Standard 2.000e+10   0.00  -1.050e+03 4; Type VII : Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1;  Zero reverse 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+AddOxygenToPropene-(rh)(r)(rrh)\
+       propene-(rh)(r)(rrh) oxygen-atom = (r)(h)c(o) olefin-(rr)(rh) 
+- ID 700017
+- Correspondences
+1 2 3 4 5 6 7 8 9        4 2 2 2 2 2 2 4
+10
+1 10 4 5                 4 2 2
+3 2 7 8 6 9              2 2 2 2 4
+>  <ForwardRxn>
+Standard 2.000e+10   0.00  -1.050e+03 2; Type VII : Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1;  Zero reverse 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+AddOxygenToPropene-(rr)(r)(rrh)\
+       propene-(rr)(r)(rrh) oxygen-atom = (r)(r)c(o) olefin-(rr)(rh) 
+- ID 700018
+- Correspondences
+1 2 3 4 5 6 7 8 9        4 2 2 2 2 2 2 4
+10
+1 10 4 5                 4 2 2
+3 2 7 8 6 9              2 2 2 2 4
+>  <ForwardRxn>
+Standard 2.000e+10   0.00  -1.050e+03 4; Type VII : Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1;  Zero reverse 
+$$$$

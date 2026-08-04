@@ -1,0 +1,45 @@
+Structures for varlst.c
+3 Structures
+%% ----------------------------------------------------------------
+%% These are the structures associated with the lists of variable
+%% names
+%%
+   VarInfo 20 info
+     0 The length of the information string
+       INT Length          Create
+     1 The Information String
+       CHAR Info  Pointer  Create  Array=Length
+     DONE
+   VarName 21 namevar
+     0 The length of the name string
+       INT Length          Create
+     1 The Name 
+       CHAR Variable  Pointer  Create  Array=Length
+     DONE
+   VarNames 22 varnames
+     0 The Variable Name
+       VarName Variable  Pointer       Create
+     1 The Variable Number
+       INT Number Create
+     2 The Corresponding Information
+       VarInfo Information Pointer   Create
+     DONE
+%%% SystemVariableList
+%%%  The information for a variable type
+%%%
+   SystemVariableList 23 sysvarlst
+     0 The Number of Variables
+       INT NumberOfVariables      Create
+     1 The variable information
+       VarNames Variables Pointer Create Array=NumberOfVariables
+     DONE
+%%% SystemVariablePair
+%%%   The master structure for the variable list
+%%%
+   SystemVariablePair 24 systemvariablepair SystemList
+     0 The Descriptor Variables
+       SystemVariableList Descriptors Pointer Create
+     1 The Goal Variables
+       SystemVariableList Goals Pointer Create
+     DONE
+DONE

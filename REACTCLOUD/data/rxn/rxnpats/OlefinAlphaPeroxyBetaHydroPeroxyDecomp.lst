@@ -1,0 +1,64 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% OlefinAlphaPeroxyBetaHydroPeroxyDecomp
+%%%%%%%%    similar to TypeXXIII
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2/2=1
+%%%-------------------------------------------------------------------
+OlefinAlphaPeroxyBetaHydroPeroxyDecomp-(h)(h)\
+  c=ccoocooh(h)(hh) = c=ccoohco(h)(h) hydroxyl-radical
+- ID 40700
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12      2 2 2 2 2 2 4 2 2 2 2
+1 2 3 4 5 6 12 7 10 11          2 2 2 2 2 4 2 2 2 
+9 8                             2
+>  <ForwardRxn>
+Standard 1.49e+12 0.0 26700 1;  Type XXIII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  6.3429e+04     1.628  46003  1; From LUND
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2/2 = 1
+%%%-------------------------------------------------------------------
+OlefinAlphaPeroxyBetaHydroPeroxyDecomp-(r)(h)\
+  c=ccoocooh(r)(hh) = c=ccoohco(r)(h) hydroxyl-radical
+- ID 40701
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12      2 2 2 2 2 2 4 2 2 2 2
+1 2 3 4 5 6 12 7 10 11          2 2 2 2 2 4 2 2 2 
+9 8                             2
+>  <ForwardRxn>
+Standard 1.49e+12 0.0 26700 1;  Type XXIII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  6.3429e+04     1.628  46003  1; From LUND
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1/1 = 1
+%%%-------------------------------------------------------------------
+OlefinAlphaPeroxyBetaHydroPeroxyDecomp-(h)(r)\
+  c=ccoocooh(h)(rh) = c=ccoohco(h)(r) hydroxyl-radical
+- ID 40702
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12      2 2 2 2 2 2 4 2 2 2 2
+1 2 3 4 5 6 12 7 10 11          2 2 2 2 2 4 2 2 2 
+9 8                             2
+>  <ForwardRxn>
+Standard 1.49e+12 0.0 24900 1;  Type XXIII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  8.3677e+03     1.926  47230   1;  From LUND
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1/1 = 1
+%%%-------------------------------------------------------------------
+OlefinAlphaPeroxyBetaHydroPeroxyDecomp-(r)(r)\
+  c=ccoocooh(r)(rh) = c=ccoohco(r)(r) hydroxyl-radical
+- ID 40703
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12      2 2 2 2 2 2 4 2 2 2 2
+1 2 3 4 5 6 12 7 10 11          2 2 2 2 2 4 2 2 2 
+9 8                             2
+>  <ForwardRxn>
+Standard 1.49e+12 0.0 24900 1;  Type XXIII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  8.3677e+03     1.926  47230   1;  From LUND
+$$$$

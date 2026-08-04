@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Update & Deploy Docker Image | REACT ChemDB Docs</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <h1>How to Update and Deploy the Docker Image</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/deployment-phases">Deployment Phases</a>
+      <a href="/update-and-deploy-image">Update & Deploy Docker Image</a>
+      <a href="/backup-to-github">Backup to GitHub</a>
+      <a href="/archive">Full Implementation Archive</a>
+    </nav>
+  </header>
+  <main>
+    <h2>1. Update Source</h2>
+    <pre><code>git checkout blurock-reactcloudrun-setup
+git pull --ff-only</code></pre>
+
+    <h2>2. Build a New Image Tag</h2>
+    <pre><code>export PROJECT_ID="blurock-database"
+export REGION="us-central1"
+export SERVICE_NAME="react-chemdb"
+export REPO_NAME="react-images"
+export TAG="v2-amd64"
+export IMAGE_URI="$REGION-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/$SERVICE_NAME:$TAG"
+
+docker buildx build --platform linux/amd64 -t "$IMAGE_URI" --push .</code></pre>
+
+    <h2>3. Deploy to Cloud Run</h2>
+    <pre><code>gcloud run deploy "$SERVICE_NAME" \
+  --image "$IMAGE_URI" \
+  --platform managed \
+  --region "$REGION" \
+  --allow-unauthenticated \
+  --memory 2Gi \
+  --timeout 3600 \
+  --cpu 2 \
+  --concurrency 1 \
+  --max-instances 10</code></pre>
+
+    <h2>4. Validate</h2>
+    <pre><code>SERVICE_URL="$(gcloud run services describe "$SERVICE_NAME" --region "$REGION" --format='value(status.url)')"
+curl "$SERVICE_URL/health"
+curl -X POST "$SERVICE_URL/api/run-input" \
+  -H 'Content-Type: application/json' \
+  -d '{"inputFile":"PrintRxnPatternsList.inp","root":"printpats"}'</code></pre>
+  </main>
+  <footer>
+    Use a new immutable tag for every deploy.
+  </footer>
+</body>
+</html>

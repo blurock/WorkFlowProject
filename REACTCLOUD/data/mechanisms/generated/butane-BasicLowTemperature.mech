@@ -1,0 +1,102 @@
+CLASSCOEFFICIENTS
+H-Abstraction-Oxygen-Primary             =      4.1700e+12     0.0000     204.92     6.5375e+10     0.3130      -2.52
+H-Abstraction-Oxygen-Secondary           =      1.0000e+13     0.0000     199.06     1.3265e+11     0.2420       8.67
+Primary-Carbon-Radical-(R.+O2-->RO2.)    =      4.5200e+12     0.0000       0.00     2.6570e+20    -1.6700     148.04
+Activated-Primary-Carbon-Radical-(R.+O2-->RO2.) =      4.5200e+12     0.0000       0.00     5.3140e+20    -1.6700     148.04
+Secondary-Carbon-Radical-(R.+O2-->RO2.)  =      7.5400e+12     0.0000       0.00     1.3570e+23    -2.3600     157.54
+Activated-Secondary-Carbon-Radical-(R.+O2-->RO2.) =      7.5400e+12     0.0000       0.00     2.7140e+23    -2.3600     157.54
+RO2-Isomerization-5RingPrimary           =      8.9400e+12     0.0000     124.21     2.7040e+13    -0.5400      70.80
+RO2-Isomerization-5RingSecondary         =      5.9600e+12     0.0000     116.68     5.6790e+11    -0.1400      73.81
+RO2-Isomerization-6RingPrimary           =      7.4200e+11     0.0000      99.95     2.2550e+12    -0.5400      46.55
+RO2-Isomerization-6RingSecondary         =      4.9600e+11     0.0000      92.63     4.7340e+10    -0.1400      49.77
+RO2-Isomerization-7RingPrimary           =      6.1800e+10     0.0000      88.24     1.8780e+11    -0.5400      34.84
+OOQOOH-Isomerization-5Ring-Primary       =      2.9800e+12     0.0000     111.66     9.9310e+02     2.1260     186.19
+OOQOOH-Isomerization-5Ring-Secondary     =      1.4900e+12     0.0000     104.13     2.5674e+02     2.3130     194.04
+OOQOOH-Isomerization-6Ring-Primary       =      2.4800e+11     0.0000      87.40     3.0220e+02     1.9710     180.14
+OOQOOH-Isomerization-6Ring-Secondary     =      1.2400e+11     0.0000      80.09     8.0602e+01     2.1400     187.73
+OOQOOH-Isomerization-7Ring-Primary       =      2.0600e+10     0.0000      75.69     2.5102e+01     1.9710     168.43
+KetoHydroPeroxideDecompToAldRadical-HRH  =      1.0000e+16     0.0000     179.83     9.9999e-41     0.0000       0.00
+KetoHydroPeroxideDecompToAldRadical-RHH  =      1.0000e+16     0.0000     179.83     9.9999e-41     0.0000       0.00
+KetoHydroPeroxideDecompToAldRadical-RRH  =      1.0000e+16     0.0000     179.83     9.9999e-41     0.0000       0.00
+KetoHydroPeroxideDecompToAldRadical-CHHHH =      1.0000e+16     0.0000     179.83     9.9999e-41     0.0000       0.00
+KetoHydroPeroxideDecompToAldRadical-CHHRH =      1.0000e+16     0.0000     179.83     9.9999e-41     0.0000       0.00
+KetoHydroPeroxideDecompositionC4         =      1.0000e+16     0.0000     179.83     9.9999e-41     0.0000       0.00
+KetoneRadicalDecomp-RHH                  =      1.0000e+11     0.0000      40.15     1.0000e+11     0.0000       0.00
+END
+CLASSEQUIVALENT
+END
+REACTIONCLASS  = H-Abstraction-Oxygen-Primary
+    6 {butane} + {oxygen} = {peroxyl-radical} + {1-butyl-radical}
+END
+REACTIONCLASS  = H-Abstraction-Oxygen-Secondary
+    4 {butane} + {oxygen} = {peroxyl-radical} + {2-butyl-radical}
+END
+REACTIONCLASS  = Primary-Carbon-Radical-(R.+O2-->RO2.)
+    1 {1-butyl-radical} + {oxygen} = {1-butylperoxy-radical}
+END
+REACTIONCLASS  = Activated-Primary-Carbon-Radical-(R.+O2-->RO2.)
+    1 {4-butyl-2-hydroperoxy-radical} + {oxygen} = {2-hydroperoxy-4-peroxy-butane}
+    1 {1-butyl-2-hydroperoxy-radical} + {oxygen} = {2-hydroperoxy-1-peroxy-butane}
+    1 {4-butyl-1-hydroperoxy-radical} + {oxygen} = {1-hydroperoxy-4-peroxy-butane}
+END
+REACTIONCLASS  = Secondary-Carbon-Radical-(R.+O2-->RO2.)
+    1 {2-butyl-radical} + {oxygen} = {2-butylperoxy-radical}
+END
+REACTIONCLASS  = Activated-Secondary-Carbon-Radical-(R.+O2-->RO2.)
+    1 {3-butyl-2-hydroperoxy-radical} + {oxygen} = {2-hydroperoxy-3-peroxy-butane}
+    1 {2-butyl-1-hydroperoxy-radical} + {oxygen} = {1-hydroperoxy-2-peroxy-butane}
+    1 {3-butyl-1-hydroperoxy-radical} + {oxygen} = {1-hydroperoxy-3-peroxy-butane}
+END
+REACTIONCLASS  = RO2-Isomerization-5RingPrimary
+    1 {2-butylperoxy-radical} = {1-butyl-2-hydroperoxy-radical}
+END
+REACTIONCLASS  = RO2-Isomerization-5RingSecondary
+    1 {2-butylperoxy-radical} = {3-butyl-2-hydroperoxy-radical}
+    1 {1-butylperoxy-radical} = {2-butyl-1-hydroperoxy-radical}
+END
+REACTIONCLASS  = RO2-Isomerization-6RingPrimary
+    1 {2-butylperoxy-radical} = {4-butyl-2-hydroperoxy-radical}
+END
+REACTIONCLASS  = RO2-Isomerization-6RingSecondary
+    1 {1-butylperoxy-radical} = {3-butyl-1-hydroperoxy-radical}
+END
+REACTIONCLASS  = RO2-Isomerization-7RingPrimary
+    1 {1-butylperoxy-radical} = {4-butyl-1-hydroperoxy-radical}
+END
+REACTIONCLASS  = OOQOOH-Isomerization-5Ring-Primary
+    1 {1-hydroperoxy-2-peroxy-butane} = {2-hydroperoxy-1-butanal} + {hydroxyl-radical}
+END
+REACTIONCLASS  = OOQOOH-Isomerization-5Ring-Secondary
+    1 {2-hydroperoxy-3-peroxy-butane} = {hydroxyl-radical} + {3-hydroperoxy-2-butanone}
+    1 {2-hydroperoxy-1-peroxy-butane} = {hydroxyl-radical} + {1-hydroperoxy-2-butanone}
+END
+REACTIONCLASS  = OOQOOH-Isomerization-6Ring-Primary
+    1 {1-hydroperoxy-3-peroxy-butane} = {hydroxyl-radical} + {3-hydroperoxy-1-butanal}
+END
+REACTIONCLASS  = OOQOOH-Isomerization-6Ring-Secondary
+    1 {2-hydroperoxy-4-peroxy-butane} = {hydroxyl-radical} + {4-hydroperoxy-2-butanone}
+END
+REACTIONCLASS  = OOQOOH-Isomerization-7Ring-Primary
+    1 {1-hydroperoxy-4-peroxy-butane} = {hydroxyl-radical} + {4-hydroperoxy-1-butanal}
+END
+REACTIONCLASS  = KetoHydroPeroxideDecompToAldRadical-HRH
+    1 {2-hydroperoxy-1-butanal} = {hydroxyl-radical} + {formyl-radical} + {propanal}
+END
+REACTIONCLASS  = KetoHydroPeroxideDecompToAldRadical-RHH
+    1 {1-hydroperoxy-2-butanone} = {hydroxyl-radical} + {aldehyde} + {propanoyl-radical}
+END
+REACTIONCLASS  = KetoHydroPeroxideDecompToAldRadical-RRH
+    1 {3-hydroperoxy-2-butanone} = {hydroxyl-radical} + {ethanoyl-radical} + {ethanal}
+END
+REACTIONCLASS  = KetoHydroPeroxideDecompToAldRadical-CHHHH
+    1 {4-hydroperoxy-2-butanone} = {hydroxyl-radical} + {aldehyde} + {propanon-1-yl-radical}
+END
+REACTIONCLASS  = KetoHydroPeroxideDecompToAldRadical-CHHRH
+    1 {3-hydroperoxy-1-butanal} = {hydroxyl-radical} + {ethanal} + {ethanal-2-yl-radical}
+END
+REACTIONCLASS  = KetoHydroPeroxideDecompositionC4
+    1 {4-hydroperoxy-1-butanal} = {hydroxyl-radical} + {propanal-3-yl-radical} + {aldehyde}
+END
+REACTIONCLASS  = KetoneRadicalDecomp-RHH
+    1 {propanoyl-radical} = {carbon-monoxide} + {ethyl-radical}
+END

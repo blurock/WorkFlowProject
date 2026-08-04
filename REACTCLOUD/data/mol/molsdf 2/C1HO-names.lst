@@ -1,0 +1,34 @@
+1 C1HO
+methane
+- AlternativeNames CHEMKIN CH4
+- AlternativeNames Short CH4
+methyl-radical
+- AlternativeNames CHEMKIN CH3
+- AlternativeNames Short CH3
+methanol
+- AlternativeNames CHEMKIN CH3OH
+- AlternativeNames Short CH3OH
+methoxy-radical
+- AlternativeNames CHEMKIN CH3O
+- AlternativeNames Short CH3O
+aldehyde
+- AlternativeNames CHEMKIN CH2O
+- AlternativeNames Short CH2O
+formyl-radical
+- AlternativeNames CHEMKIN HCO
+- AlternativeNames Short HCO
+methylperoxy-radical
+- AlternativeNames CHEMKIN CH3O2
+- AlternativeNames Short CH3O2
+hydroxymethyl-radical
+- AlternativeNames CHEMKIN CH2OH
+- AlternativeNames Short CH2OH
+methyl-hydroperoxide
+- AlternativeNames CHEMKIN CH3O2H
+- AlternativeNames Short CH3O2H
+carbon-monoxide
+- AlternativeNames CHEMKIN CO
+- AlternativeNames Short CO
+carbon-dioxide
+- AlternativeNames CHEMKIN CO2
+- AlternativeNames Short CO2

@@ -1,0 +1,9 @@
+Test for ethyl radical to olefin reaction pattern
+NONE
+%%% ----------------------------------------------------
+Carbon-Radical-Initiation-Step-(RH+O2->R+HO2)
+%%% ----------------------------------------------------
+FiveRing-chain-h-isomerization,\
+SixRing-chain-h-isomerization,\
+SevenRing-chain-h-isomerization,\
+EightRing-chain-h-isomerization

@@ -1,0 +1,94 @@
+Structures for Basic X-Window Objects
+5 xwinbasic
+%% The Stuctures for a basic object to be draw
+%%     The ID of DrawObject is the object type
+%%
+   DrawObject 100 drawobject
+      0 This is the object to be draw
+        VOID ObjectToDraw Create
+      1 This is object data for the activation function
+        VOID ObjectData Create
+      2 The activation routine
+        FUNCTION Activation Create Return=INT
+      3 The Size of the object (the Middle is the middle of this rectangle)
+        ObjectPosition Middle Pointer Create
+      4 The Size of the object (the Middle is the middle of this rectangle)
+        ObjectSize Size Pointer Create
+      5 The GC characteristics of the object
+        VOID Style Create
+      DONE
+   DrawObjectReturn 101 drawobjectreturn
+      0 The activation position within window 
+        WindowPosition Middle Pointer Create
+      1 The Size of the object (the Middle is the middle of this rectangle)
+        WindowObjectSize Size Pointer Create
+      2 The activation routine
+        FUNCTION Activation Create Return=INT
+      3 This is object data for the activation function
+        VOID ObjectData Create
+      DONE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  The Tree of Draw Objects
+%%    this is the structure that is given to the event handler
+%%
+    TreeOfDrawObjects 105 listdrawobjects
+      0 The number of DrawObjects
+        INT NumberOfObjects Create
+      1 The number of DrawObjects that have been allocated
+        INT NumberAllocated Create
+      2 The list of objects on this level
+        DrawObject Objects Pointer Create Array=NumberOfObjects
+      3 The Subtree of of objects
+        TreeOfDrawObjects SubTree Pointer Create
+      DONE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  The Tree of Return Draw Objects
+%%    this is the structure that is given to the event handler
+%%
+    TreeOfDrawObjectReturns 105 listdrawobjectreturns
+      0 The number of DrawObjectReturns
+        INT NumberOfObjects Create
+      1 The number of DrawObjectReturns that have been allocated
+        INT NumberAllocated Create
+      2 The list of objects on this level
+        DrawObjectReturn Objects Pointer Create Array=NumberOfObjects
+      3 The Subtree of of objects
+        TreeOfDrawObjectReturns SubTree Pointer Create
+      DONE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SinglePage
+%%    This is the necessary information for a single page of
+%%    information
+    SinglePageInfo 120 singlepageinfo
+       0 The type of page
+         INT TypeOfPage Create
+       1 The tree of draw objects
+         TreeOfDrawObjects  RawSet Pointer Create
+       2 The tree of return objects
+         TreeOfDrawObjectReturns ReturnSet Pointer Create
+       3 The Widget of the Page
+         Widget Page Create
+       4 The Name of the page
+         STRING PageName Pointer Create
+       5 The offset of the window
+         WindowPosition GraphicOffset Pointer Create
+       DONE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  List of Pages
+    ListOfPages 121 listofpages
+       0 The Number of Pages
+         INT NumberOfPages Create
+       1 The set of pages
+         SinglePageInfo Pages Pointer Create Array=NumberOfPages
+       DONE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% The basic objects that are drawn
+%% The Name holds the string to be printed
+   BasicStringObject   111 basicstringobject
+      0 The String Text Type
+        INT TextType Create
+      1 Text Positioning
+        INT TextPosition Create
+      DONE
+DONE
+

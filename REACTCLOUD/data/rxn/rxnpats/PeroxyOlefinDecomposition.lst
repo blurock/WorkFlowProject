@@ -1,0 +1,276 @@
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyOlefinDecomposition-(hh)(h)(hh) \
+  peroxypropene-radical-(hh)(h)(hh) = .c(h)(h)co(h) (h)(h)c(o)
+- ID 42601
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 4 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 6.792e+9 1.00 26000 4; Come Value ; Estimate  4x Come Propene ch2chch2oo = ch2cho + h2co
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   4; Come Value ; Estimate  Come Propene ch2chch2oo = ch2cho + h2co
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyOlefinDecomposition-(rh)(h)(hh) \
+  peroxypropene-radical-(rh)(h)(hh) = .c(r)(h)co(h) (h)(h)c(o)
+- ID 42602
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 4 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 6.792e+9 1.00 26000 2; Come Value ; Estimate  4x Come Propene ch2chch2oo = ch2cho + h2co
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   2; Come Value ; Estimate  Come Propene ch2chch2oo = ch2cho + h2co
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyOlefinDecomposition-(rr)(h)(hh) \
+  peroxypropene-radical-(rr)(h)(hh) = .c(r)(r)co(h) (h)(h)c(o)
+- ID 42603
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 4 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 6.792e+9 1.00 26000 4; Come Value ; Estimate  4x Come Propene ch2chch2oo = ch2cho + h2co
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   4; Come Value ; Estimate  Come Propene ch2chch2oo = ch2cho + h2co
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyOlefinDecomposition-(hh)(r)(hh) \
+  peroxypropene-radical-(hh)(r)(hh) = .c(h)(h)co(r) (h)(h)c(o)
+- ID 42604
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 4 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 6.792e+9 1.00 26000 4; Come Value ; Estimate  4x Come Propene ch2chch2oo = ch2cho + h2co
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   4; Come Value ; Estimate  Come Propene ch2chch2oo = ch2cho + h2co
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyOlefinDecomposition-(rh)(r)(hh) \
+  peroxypropene-radical-(rh)(r)(hh) = .c(r)(h)co(r) (h)(h)c(o)
+- ID 42605
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 4 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 6.792e+9 1.00 26000 2; Come Value ; Estimate  4x Come Propene ch2chch2oo = ch2cho + h2co
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   2; Come Value ; Estimate  Come Propene ch2chch2oo = ch2cho + h2co
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyOlefinDecomposition-(rr)(r)(hh) \
+  peroxypropene-radical-(rr)(r)(hh) = .c(r)(r)co(r) (h)(h)c(o)
+- ID 42606
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 4 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 6.792e+9 1.00 26000 4; Come Value ; Estimate  4x Come Propene ch2chch2oo = ch2cho + h2co
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   4; Come Value ; Estimate  Come Propene ch2chch2oo = ch2cho + h2co
+$$$$
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyOlefinDecomposition-(hh)(h)(rh) \
+  peroxypropene-radical-(hh)(h)(rh) = .c(h)(h)co(h) (r)(h)c(o)
+- ID 42607
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 4 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 6.792e+9 1.00 26000 2; Come Value ; Estimate  4x Come Propene ch2chch2oo = ch2cho + h2co
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   2; Come Value ; Estimate  Come Propene ch2chch2oo = ch2cho + h2co
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyOlefinDecomposition-(rh)(h)(rh) \
+  peroxypropene-radical-(rh)(h)(rh) = .c(r)(h)co(h) (r)(h)c(o)
+- ID 42608
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 4 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 6.792e+9 1.00 26000 1; Come Value ; Estimate  4x Come Propene ch2chch2oo = ch2cho + h2co
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Come Value ; Estimate  Come Propene ch2chch2oo = ch2cho + h2co
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyOlefinDecomposition-(rr)(h)(rh) \
+  peroxypropene-radical-(rr)(h)(rh) = .c(r)(r)co(h) (r)(h)c(o)
+- ID 42609
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 4 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 6.792e+9 1.00 26000 2; Come Value ; Estimate  4x Come Propene ch2chch2oo = ch2cho + h2co
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   2; Come Value ; Estimate  Come Propene ch2chch2oo = ch2cho + h2co
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyOlefinDecomposition-(hh)(r)(rh) \
+  peroxypropene-radical-(hh)(r)(rh) = .c(h)(h)co(r) (r)(h)c(o)
+- ID 42610
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 4 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 6.792e+9 1.00 26000 2; Come Value ; Estimate  4x Come Propene ch2chch2oo = ch2cho + h2co
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   2; Come Value ; Estimate  Come Propene ch2chch2oo = ch2cho + h2co
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyOlefinDecomposition-(rh)(r)(rh) \
+  peroxypropene-radical-(rh)(r)(rh) = .c(r)(h)co(r) (r)(h)c(o)
+- ID 42611
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 4 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 6.792e+9 1.00 26000 1; Come Value ; Estimate  4x Come Propene ch2chch2oo = ch2cho + h2co
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Come Value ; Estimate  Come Propene ch2chch2oo = ch2cho + h2co
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyOlefinDecomposition-(rr)(r)(rh) \
+  peroxypropene-radical-(rr)(r)(rh) = .c(r)(r)co(r) (r)(h)c(o)
+- ID 42612
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 4 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 6.792e+9 1.00 26000 2; Come Value ; Estimate  4x Come Propene ch2chch2oo = ch2cho + h2co
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   2; Come Value ; Estimate  Come Propene ch2chch2oo = ch2cho + h2co
+$$$$
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyOlefinDecomposition-(hh)(h)(rr) \
+  peroxypropene-radical-(hh)(h)(rr) = .c(h)(h)co(h) (r)(r)c(o)
+- ID 42613
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 4 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 6.792e+9 1.00 26000 4; Come Value ; Estimate  4x Come Propene ch2chch2oo = ch2cho + h2co
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   4; Come Value ; Estimate  Come Propene ch2chch2oo = ch2cho + h2co
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyOlefinDecomposition-(rh)(h)(rr) \
+  peroxypropene-radical-(rh)(h)(rr) = .c(r)(h)co(h) (r)(r)c(o)
+- ID 42614
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 4 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 6.792e+9 1.00 26000 2; Come Value ; Estimate  4x Come Propene ch2chch2oo = ch2cho + h2co
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   2; Come Value ; Estimate  Come Propene ch2chch2oo = ch2cho + h2co
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyOlefinDecomposition-(rr)(h)(rr) \
+  peroxypropene-radical-(rr)(h)(rr) = .c(r)(r)co(h) (r)(r)c(o)
+- ID 42615
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 4 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 6.792e+9 1.00 26000 4; Come Value ; Estimate  4x Come Propene ch2chch2oo = ch2cho + h2co
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   4; Come Value ; Estimate  Come Propene ch2chch2oo = ch2cho + h2co
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyOlefinDecomposition-(hh)(r)(rr) \
+  peroxypropene-radical-(hh)(r)(rr) = .c(h)(h)co(r) (r)(r)c(o)
+- ID 42616
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 4 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 6.792e+9 1.00 26000 4; Come Value ; Estimate  4x Come Propene ch2chch2oo = ch2cho + h2co
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   4; Come Value ; Estimate  Come Propene ch2chch2oo = ch2cho + h2co
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyOlefinDecomposition-(rh)(r)(rr) \
+  peroxypropene-radical-(rh)(r)(rr) = .c(r)(h)co(r) (r)(r)c(o)
+- ID 42617
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 4 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 6.792e+9 1.00 26000 2; Come Value ; Estimate  4x Come Propene ch2chch2oo = ch2cho + h2co
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   2; Come Value ; Estimate  Come Propene ch2chch2oo = ch2cho + h2co
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyOlefinDecomposition-(rr)(r)(rr) \
+  peroxypropene-radical-(rr)(r)(rr) = .c(r)(r)co(r) (r)(r)c(o)
+- ID 42618
+- Correspondences
+1 2 3 4 5 6 7 8 9 10          2 4 2 2 2 2 2 2 4
+1 2 10 6 4 5                  2 4 2 2 2
+3 9 7 8                       2 2 2
+>  <ForwardRxn>
+Standard 6.792e+9 1.00 26000 4; Come Value ; Estimate  4x Come Propene ch2chch2oo = ch2cho + h2co
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   4; No Reverse
+$$$$

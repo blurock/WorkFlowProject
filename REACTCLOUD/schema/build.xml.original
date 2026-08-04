@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<!--
+  author: Edward S. Blurock
+-->
+
+<project basedir="." default="run">
+
+    <!-- if you are not running from $JWSDP_HOME/jaxb/samples AND you
+         are using your own version of Ant, then you need to specify
+         "ant -Djwsdp.home=..." -->
+    <property name="jwsdp.home" value="/opt/jwsdp_1.3" />
+
+    <path id="classpath">
+        <pathelement path="." />
+        <!-- for use with bundled ant -->
+        <fileset dir="${jwsdp.home}" includes="jaxb/lib/*.jar" />
+        <fileset dir="${jwsdp.home}" includes="jwsdp-shared/lib/*.jar" />
+        <fileset dir="${jwsdp.home}" includes="jaxp/lib/**/*.jar" />
+    </path>
+
+    <taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
+        <classpath refid="classpath" />
+    </taskdef>
+    
+    <!-- compile Java source files -->
+    <target name="compile">
+    
+        <!-- generate the Java content classes from the schema -->
+        <echo message="Compiling the schema..."/>
+        <xjc schema="thermo.xsd" target="." package="se.lth.forbrf.blurock.thermo"/>
+
+        <!-- generate the javadocs from the content classes -->
+        <mkdir dir="docs/api"/>
+        <javadoc packagenames="se.lth.forbrf.blurock.thermo"
+                 sourcepath="."
+                 destdir="docs/api"
+                 windowtitle="Generated Interfaces for thermo.xsd">
+            <classpath refid="classpath" />
+    	</javadoc>
+
+        <!-- compile all of the java sources -->
+        <echo message="Compiling the java source files..."/>
+        <javac srcdir="." destdir="." debug="on">
+            <classpath refid="classpath" />
+        </javac>
+    </target>
+    
+    <target name="run" depends="compile">
+        <echo message="Running the sample application..."/>
+        <java classname="Main" fork="true">
+            <classpath refid="classpath" />
+        </java>
+    </target>
+</project>

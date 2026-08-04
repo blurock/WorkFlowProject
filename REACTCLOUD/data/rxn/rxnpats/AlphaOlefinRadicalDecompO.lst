@@ -1,0 +1,50 @@
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1*2 = 4
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompO-(hh) \
+     alphaolefin-radical(qq)(q)(hh) oxygen-atom = alkenyl-(qq)(q) (h)(h)c(o) 
+- ID 43100
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 2
+9                  
+1 2 4 5 6            2 2 2 2
+3 9 7 8              4 2 2
+>  <ForwardRxn>
+Standard 1.8e+14 0.0 0.0 4; aC3H5 + O = C2H3 + HCHO ; J. Phys. Chem.  1990 94, 3652
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   4; Set to zero 
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1*1 = 2
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompO-(rh) \
+     alphaolefin-radical(qq)(q)(rh) oxygen-atom = alkenyl-(qq)(q) (r)(h)c(o) 
+- ID 43101
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 2
+9                  
+1 2 4 5 6            2 2 2 2
+3 9 7 8              4 2 2
+>  <ForwardRxn>
+Standard 1.8e+14 0.0 0.0 2; aC3H5 + O = C2H3 + HCHO ; J. Phys. Chem.  1990 94, 3652
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   2; Set to zero 
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1*2 = 4
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompO-(rr) \
+     alphaolefin-radical(qq)(q)(rr) oxygen-atom = alkenyl-(qq)(q) (r)(r)c(o) 
+- ID 43102
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 2
+9                  
+1 2 4 5 6            2 2 2 2
+3 9 7 8              4 2 2
+>  <ForwardRxn>
+Standard 1.8e+14 0.0 0.0 4; aC3H5 + O = C2H3 + HCHO ; J. Phys. Chem.  1990 94, 3652
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   4; Set to zero  
+$$$$

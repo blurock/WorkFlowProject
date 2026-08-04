@@ -1,0 +1,58 @@
+Structures for the CHEMKIN Thermo data
+0 CHEMKIN
+
+%% ThermoCoefficients
+%%    The fitted coefficients for the thermodynamic data
+%%
+   ThermoCoefficients 100 thermocoefficients
+     0 The number of coefficients
+       INT NumberOfCoefficients Create
+     1 The set of coefficients
+       FLOAT Coefficients Pointer Create Array=NumberOfCoefficients
+      DONE
+%% ChemkinAtomicInfo
+%%    The atomic information that is read in.  
+%%    The Name is the string name
+%%
+   ChemkinAtomicInfo 101 chemkinatomicinfo
+     0 The Atomic Number
+       INT AtomicNumber Create
+     1 The Number of this atom in the molecule
+       INT Formula Create
+     DONE
+%% SetOfChemkinAtomicInfo
+%%
+   SetOfChemkinAtomicInfo 102 setofchemkinatomicinfo
+     0 The number of atoms
+       INT NumberOfAtoms Create
+     1 The atoms 
+       ChemkinAtomicInfo Atoms Pointer Create Array=NumberOfAtoms
+     DONE
+%% ChemkinThermoRead 
+%%
+   ChemkinThermoRead 101 chemkinthermoread
+     0 Species Name
+       STRING Species Pointer
+     1 The set of atoms
+       SetOfChemkinAtomicInfo AtomicSet Pointer Create
+     2 The Phase of the molecule information
+       INT Phase Create
+     3 The Low Temperature
+       FLOAT LowTemperature Create
+     4 The High Temperature
+       FLOAT HighTemperature Create
+     5 The command Temperature
+       FLOAT CommonTemperature Create
+     6 The coefficients for the upper temperature
+       ThermoCoefficients UpperTempCoefficients Pointer Create
+     7 The coefficients for the lower temperature
+       ThermoCoefficients LowerTempCoefficients Pointer Create
+     DONE
+%% 
+   SetOfChemkinThermoInformation 105 setofchemkinthermoinformation
+     0 The number of atoms read in
+       INT NumberOfMolecules Create
+     1 The set of thermodynamic information
+       ChemkinThermoRead Thermo Pointer Create Array=NumberOfMolecules
+     DONE  
+DONE

@@ -1,0 +1,176 @@
+%%%-------------------------------------------------------------------
+%%% RO2ToAlkoxy  6*6 = 36
+%%%-------------------------------------------------------------------
+RO2ToAlkoxy-(qqq)(qqq) (q)(q)(q)coo. (q)(q)(q)coo. = .oc(qqq) .oc(qqq) oxygen
+- ID 13300
+- Correspondences
+1 2 3 4 5 6                2 4 2 2 2
+7 8 9 10 11 12             2 4 2 2 2
+1 2 4 5 6                  2 2 2 2
+7 8 10 11 12               2 2 2 2
+3 9                        4
+>  <ForwardRxn>
+Standard 1.0e+11 0.0 0.0   36; Type XVI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.0e-40 0.0 0.0   72; Type XVI: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% RO2ToAlkoxy  2*6*6 = 72 factor 2 due to symmetry
+%%%-------------------------------------------------------------------
+RO2ToAlkoxy-(hhh)(hhh) (h)(h)(h)coo. (h)(h)(h)coo. = .oc(hhh) .oc(hhh) oxygen
+- ID 13301
+- Correspondences
+1 2 3 4 5 6                2 4 2 2 2
+7 8 9 10 11 12             2 4 2 2 2
+1 2 4 5 6                  2 2 2 2
+7 8 10 11 12               2 2 2 2
+3 9                        4
+>  <ForwardRxn>
+Standard 1.0e+11 0.0 0.0 72; Type XVI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.0e-40 0.0 0.0 72; Type XVI: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% RO2ToAlkoxy  6*2 = 12
+%%%-------------------------------------------------------------------
+RO2ToAlkoxy-(hhh)(rhh) (h)(h)(h)coo. (h)(h)(r)coo. = .oc(hhh) .oc(rhh) oxygen
+- ID 13302
+- Correspondences
+1 2 3 4 5 6                2 4 2 2 2
+7 8 9 10 11 12             2 4 2 2 2
+1 2 4 5 6                  2 2 2 2
+7 8 10 11 12               2 2 2 2
+3 9                        4
+>  <ForwardRxn>
+Standard 1.0e+11 0.0 0.0 12; Type XVI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.0e-40 0.0 0.0 12; Type XVI: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% RO2ToAlkoxy  6*2 = 12
+%%%-------------------------------------------------------------------
+RO2ToAlkoxy-(hhh)(rrh) (h)(h)(h)coo. (h)(r)(r)coo. = .oc(hhh) .oc(rrh) oxygen
+- ID 13303
+- Correspondences
+1 2 3 4 5 6                2 4 2 2 2
+7 8 9 10 11 12             2 4 2 2 2
+1 2 4 5 6                  2 2 2 2
+7 8 10 11 12               2 2 2 2
+3 9                        4
+>  <ForwardRxn>
+Standard 1.0e+11 0.0 0.0 12; Type XVI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.0e-40 0.0 0.0 12; Type XVI: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% RO2ToAlkoxy  6*6 = 36
+%%%-------------------------------------------------------------------
+RO2ToAlkoxy-(hhh)(rrr) (h)(h)(h)coo. (r)(r)(r)coo. = .oc(hhh) .oc(rrr) oxygen
+- ID 13304
+- Correspondences
+1 2 3 4 5 6                2 4 2 2 2
+7 8 9 10 11 12             2 4 2 2 2
+1 2 4 5 6                  2 2 2 2
+7 8 10 11 12               2 2 2 2
+3 9                        4
+>  <ForwardRxn>
+Standard 1.0e+11 0.0 0.0 36; Type XVI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.0e-40 0.0 0.0 36; Type XVI: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% RO2ToAlkoxy  2*2*2 = 8 Factor 2 for the symmetry
+%%%-------------------------------------------------------------------
+RO2ToAlkoxy-(rhh)(rhh) (h)(h)(r)coo. (h)(h)(r)coo. = .oc(rhh) .oc(rhh) oxygen
+- ID 13305
+- Correspondences
+1 2 3 4 5 6                2 4 2 2 2
+7 8 9 10 11 12             2 4 2 2 2
+1 2 4 5 6                  2 2 2 2
+7 8 10 11 12               2 2 2 2
+3 9                        4
+>  <ForwardRxn>
+Standard 1.0e+11 0.0 0.0 8; Type XVI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.0e-40 0.0 0.0 8; Type XVI: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% RO2ToAlkoxy  2*2 = 4
+%%%-------------------------------------------------------------------
+RO2ToAlkoxy-(rhh)(rrh) (h)(h)(r)coo. (h)(r)(r)coo. = .oc(rhh) .oc(rrh) oxygen
+- ID 13306
+- Correspondences
+1 2 3 4 5 6                2 4 2 2 2
+7 8 9 10 11 12             2 4 2 2 2
+1 2 4 5 6                  2 2 2 2
+7 8 10 11 12               2 2 2 2
+3 9                        4
+>  <ForwardRxn>
+Standard 1.0e+11 0.0 0.0 4; Type XVI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.0e-40 0.0 0.0 4; Type XVI: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% RO2ToAlkoxy  6*2 = 12
+%%%-------------------------------------------------------------------
+RO2ToAlkoxy-(rhh)(rrr) (h)(h)(r)coo. (r)(r)(r)coo. = .oc(rhh) .oc(rrr) oxygen
+- ID 13307
+- Correspondences
+1 2 3 4 5 6                2 4 2 2 2
+7 8 9 10 11 12             2 4 2 2 2
+1 2 4 5 6                  2 2 2 2
+7 8 10 11 12               2 2 2 2
+3 9                        4
+>  <ForwardRxn>
+Standard 1.0e+11 0.0 0.0 12; Type XVI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.0e-40 0.0 0.0 12; Type XVI: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% RO2ToAlkoxy  2*2*2 = 8  factor 2 due to symmetry
+%%%-------------------------------------------------------------------
+RO2ToAlkoxy-(rrh)(rrh) (h)(r)(r)coo. (h)(r)(r)coo. = .oc(rrh) .oc(rrh) oxygen
+- ID 13308
+- Correspondences
+1 2 3 4 5 6                2 4 2 2 2
+7 8 9 10 11 12             2 4 2 2 2
+1 2 4 5 6                  2 2 2 2
+7 8 10 11 12               2 2 2 2
+3 9                        4
+>  <ForwardRxn>
+Standard 1.0e+11 0.0 0.0 8; Type XVI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.0e-40 0.0 0.0 8; Type XVI: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% RO2ToAlkoxy  2*6 = 12
+%%%-------------------------------------------------------------------
+RO2ToAlkoxy-(rrh)(rrr) (h)(r)(r)coo. (r)(r)(r)coo. = .oc(rrh) .oc(rrr) oxygen
+- ID 13309
+- Correspondences
+1 2 3 4 5 6                2 4 2 2 2
+7 8 9 10 11 12             2 4 2 2 2
+1 2 4 5 6                  2 2 2 2
+7 8 10 11 12               2 2 2 2
+3 9                        4
+>  <ForwardRxn>
+Standard 1.0e+11 0.0 0.0 12; Type XVI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.0e-40 0.0 0.0 12; Type XVI: Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% RO2ToAlkoxy  6*6*2 = 72 factor 2 due to symmetry
+%%%-------------------------------------------------------------------
+RO2ToAlkoxy-(rrr)(rrr) (r)(r)(r)coo. (r)(r)(r)coo. = .oc(rrr) .oc(rrr) oxygen
+- ID 13310
+- Correspondences
+1 2 3 4 5 6                2 4 2 2 2
+7 8 9 10 11 12             2 4 2 2 2
+1 2 4 5 6                  2 2 2 2
+7 8 10 11 12               2 2 2 2
+3 9                        4
+>  <ForwardRxn>
+Standard 1.0e+11 0.0 0.0 72; Type XVI: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.0e-40 0.0 0.0 72; Type XVI: Combustion and Flame, 114:149-177 (1998)
+$$$$

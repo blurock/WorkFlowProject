@@ -1,0 +1,26 @@
+Structures For statistic
+%%--------------------------------------------------------------
+%% This is the main statistical structure
+%%--------------------------------------------------------------
+
+1 structures
+StatisticsConstants 01 statisticsconstants
+     0 The set of Cluster Constants
+       ClusterConstants Cluster Pointer Create
+     DONE
+
+StatisticsMaster 00 statisticsmaster
+     0 The Simple Statistics
+        SetOfSysSamData Simple Pointer Create
+     1 The factor analysis data
+       FactorAnalysis FactorRun Pointer Create
+     2 The Data for Regression Analysis
+       RegressionSet RegressionRun Pointer Create
+     3 The set of needed constants
+       StatisticsConstants Constants Pointer Create
+     4 The Univariate Clusters
+       UniVariateClusterSet UniClusters Pointer Create
+     DONE
+DONE
+
+       

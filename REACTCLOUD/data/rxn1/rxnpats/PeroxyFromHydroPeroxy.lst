@@ -1,0 +1,66 @@
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+PeroxyFromHydrogenPeroxide-HHH (h)(h)(h)coo. hydrogen-peroxide = c(h)(h)(h)(ooh) peroxyl-radical
+- ID 14111
+- Correspondences
+1 2 3 4 5 6        2 2 2 2 2
+7 8 9 10           2 2 4
+10 3 2 1 4 5 6     4 2 2 2 2 2
+7 8 9              2 2
+
+>  <ForwardRxn>
+Standard 1.003e+10 0.0 2610 6; General Estimate ; Estimate
+
+>  <ReverseRxn>
+Standard 1.003e+10 0.0 2610 6; General Estimate ; Estimate
+$$$$
+%%%-------------------------------------------------------------------
+PeroxyFromHydrogenPeroxide-RHH (h)(h)(r)coo. hydrogen-peroxide = c(r)(h)(h)(ooh) peroxyl-radical
+- ID 14211
+- Correspondences
+1 2 3 4 5 6        2 2 2 2 2
+7 8 9 10           2 2 4
+10 3 2 1 4 5 6     4 2 2 2 2 2
+7 8 9              2 2
+
+>  <ForwardRxn>
+Standard 1.003e+10 0.0 2610 6; General Estimate ; Estimate
+
+>  <ReverseRxn>
+Standard 1.003e+10 0.0 2610 6; General Estimate ; Estimate
+$$$$
+%%%-------------------------------------------------------------------
+PeroxyFromHydrogenPeroxide-RRH (h)(r)(r)coo. hydrogen-peroxide = c(r)(r)(h)(ooh) peroxyl-radical
+- ID 14221
+- Correspondences
+1 2 3 4 5 6        2 2 2 2 2
+7 8 9 10           2 2 4
+10 3 2 1 4 5 6     4 2 2 2 2 2
+7 8 9              2 2
+
+>  <ForwardRxn>
+Standard 1.003e+10 0.0 2610 6; General Estimate ; Estimate
+
+>  <ReverseRxn>
+Standard 1.003e+10 0.0 2610 6; General Estimate ; Estimate
+$$$$
+%%%-------------------------------------------------------------------
+PeroxyFromHydrogenPeroxide-RRR (r)(r)(r)coo. hydrogen-peroxide = c(r)(r)(r)(ooh) peroxyl-radical
+- ID 14222
+- Correspondences
+1 2 3 4 5 6        2 2 2 2 2
+7 8 9 10           2 2 4
+10 3 2 1 4 5 6     4 2 2 2 2 2
+7 8 9              2 2
+
+>  <ForwardRxn>
+Standard 1.003e+10 0.0 2610 6; General Estimate ; Estimate
+
+>  <ReverseRxn>
+Standard 1.003e+10 0.0 2610 6; General Estimate ; Estimate
+$$$$
+
+
+

@@ -1,0 +1,8 @@
+chemdb/dbinitial
+chemdb/dboperations
+molecules/molecule
+rxn/rxn
+molprops/tables
+molprops/molcalcs
+chemdb/objid
+spectrum/spectrum

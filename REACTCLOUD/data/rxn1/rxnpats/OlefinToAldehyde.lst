@@ -1,0 +1,117 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+OlefinToAldehydeDecomp-(hh)(hh)    olefin-(hh)(hh) hydroxyl-radical = (h)(h)c(o) methane-carbon-radical
+- ID 3201
+- Correspondences
+1 2 3 4 5 6             4 2 2 2 2
+7 8                     4
+1 8 3 4                 4 2 2
+2 5 6 7                 2 2 4
+>  <ForwardRxn>
+Standard 1.4E+12  0.0  -900.0 8; Come, et. al ; from n-decane mechanism
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2 = 2
+%%%-------------------------------------------------------------------
+OlefinToAldehydeDecomp-(rh)(hh)    olefin-(rh)(hh) hydroxyl-radical = (r)(h)c(o) methane-carbon-radical
+- ID 3202
+- Correspondences
+1 2 3 4 5 6             4 2 2 2 2
+7 8                     4
+1 8 3 4                 4 2 2
+2 5 6 7                 2 2 4
+>  <ForwardRxn>
+Standard 1.4E+12  0.0  -900.0 2; Come, et. al ; from n-decane mechanism
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+OlefinToAldehydeDecomp-(rr)(hh)    olefin-(rr)(hh) hydroxyl-radical = (r)(r)c(o) methane-carbon-radical
+- ID 3203
+- Correspondences
+1 2 3 4 5 6             4 2 2 2 2
+7 8                     4
+1 8 3 4                 4 2 2
+2 5 6 7                 2 2 4
+>  <ForwardRxn>
+Standard 1.4E+12  0.0  -900.0 4; Come, et. al ; from n-decane mechanism
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1 = 2
+%%%-------------------------------------------------------------------
+OlefinToAldehydeDecomp-(hh)(rh)    olefin-(rh)(hh) hydroxyl-radical = (h)(h)c(o) primary-carbon-radical
+- ID 3204
+- Correspondences
+1 2 5 6 3 4             4 2 2 2 2
+7 8                     4
+1 8 3 4                 4 2 2
+2 5 6 7                 2 2 4
+>  <ForwardRxn>
+Standard 1.4E+12  0.0  -900.0 2; Come, et. al ; from n-decane mechanism
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1*2 = 2
+%%%-------------------------------------------------------------------
+OlefinToAldehydeDecomp-(rh)(rh)    olefin-(rh)(rh) hydroxyl-radical = (r)(h)c(o) primary-carbon-radical
+- ID 3205
+- Correspondences
+1 2 3 4 5 6             4 2 2 2 2
+7 8                     4
+1 8 3 4                 4 2 2
+2 5 6 7                 2 2 4
+>  <ForwardRxn>
+Standard 1.4E+12  0.0  -900.0 2; Come, et. al ; from n-decane mechanism
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+OlefinToAldehydeDecomp-(rr)(rh)    olefin-(rr)(rh) hydroxyl-radical = (r)(r)c(o) primary-carbon-radical
+- ID 3206
+- Correspondences
+1 2 3 4 5 6             4 2 2 2 2
+7 8                     4
+1 8 3 4                 4 2 2
+2 5 6 7                 2 2 4
+>  <ForwardRxn>
+Standard 1.4E+12  0.0  -900.0 8; Come, et. al ; from n-decane mechanism
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+OlefinToAldehydeDecomp-(hh)(rr)    olefin-(rr)(hh) hydroxyl-radical = (h)(h)c(o) secondary-carbon-radical
+- ID 3207
+- Correspondences
+1 2 5 6 3 4             4 2 2 2 2
+7 8                     4
+1 8 3 4                 4 2 2
+2 5 6 7                 2 2 4
+>  <ForwardRxn>
+Standard 1.4E+12  0.0  -900.0 8; Come, et. al ; from n-decane mechanism
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1 = 2
+%%%-------------------------------------------------------------------
+OlefinToAldehydeDecomp-(rh)(rr)    olefin-(rr)(rh) hydroxyl-radical = (r)(h)c(o) secondary-carbon-radical
+- ID 3208
+- Correspondences
+1 2 5 6 3 4             4 2 2 2 2
+7 8                     4
+1 8 3 4                 4 2 2
+2 5 6 7                 2 2 4
+>  <ForwardRxn>
+Standard 1.4E+12  0.0  -900.0 2; Come, et. al ; from n-decane mechanism
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+OlefinToAldehydeDecomp-(rr)(rr)    olefin-(rr)(rr) hydroxyl-radical = (r)(r)c(o) secondary-carbon-radical
+- ID 3209
+- Correspondences
+1 2 5 6 3 4             4 2 2 2 2
+7 8                     4
+1 8 3 4                 4 2 2
+2 5 6 7                 2 2 4
+>  <ForwardRxn>
+Standard 1.4E+12  0.0  -900.0 8; Come, et. al ; from n-decane mechanism
+$$$$

@@ -1,0 +1,15 @@
+Decomposition
+NONE
+%%% -----------------------------------------------------
+Decomp-(rhh)(hhh),\
+Decomp-(rhh)(rhh),\
+Decomp-(rrh)(hhh),\
+Decomp-(rrr)(hhh),\
+Decomp-(rrh)(rhh),\
+Decomp-(rrr)(rhh),\
+Decomp-(rrr)(rrh),\
+Decomp-(rrr)(rrr),\
+HLossDecomposition-(hhh),\
+HLossDecomposition-(rhh),\
+HLossDecomposition-(rrh),\
+HLossDecomposition-(rrr)

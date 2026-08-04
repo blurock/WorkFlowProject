@@ -1,0 +1,49 @@
+CLASSCOEFFICIENTS
+H-Abstraction-Hydroxyl-Radical-Primary   =      1.7500e+09     0.9700       6.65     1.0741e+08     1.4460      91.09
+H-Abstraction-Hydroxyl-Radical-Secondary =      2.3400e+07     1.6100      -0.15     5.7979e+05     2.0220     101.29
+H-Abstraction-Oxygen-Radical-Primary     =      7.3300e+05     2.4000      23.00     4.8731e+02     3.1410      33.36
+H-Abstraction-Oxygen-Radical-Secondary   =      2.3500e+05     2.5000       9.33     1.3385e+02     3.1690      36.76
+H-Abstraction-Oxygen-Primary             =      4.1700e+12     0.0000     204.92     6.5375e+10     0.3130      -2.52
+H-Abstraction-Oxygen-Secondary           =      1.0000e+13     0.0000     199.06     1.3265e+11     0.2420       8.67
+H-Abstraction-PeroxylRadical-Primary     =      1.3400e+12     0.0000      81.13     1.5904e+12     0.0070      30.72
+H-Abstraction-PeroxylRadical-Secondary   =      1.2200e+12     0.0000      71.09     4.8800e+12     0.0000      71.08
+H-Abstraction-Hydrogen-Radical-Primary   =      9.3300e+06     2.0000      32.20     8.9451e+03     2.7950      49.87
+H-Abstraction-Hydrogen-Radical-Secondary =      4.5500e+06     2.0000      20.91     2.6577e+03     2.7650      54.62
+END
+CLASSEQUIVALENT
+END
+REACTIONCLASS  = H-Abstraction-Hydroxyl-Radical-Primary
+    6 {pentane} + {hydroxyl-radical} = {PP12} + {water}
+END
+REACTIONCLASS  = H-Abstraction-Hydroxyl-Radical-Secondary
+    4 {pentane} + {hydroxyl-radical} = {water} + {PP14}
+    2 {pentane} + {hydroxyl-radical} = {water} + {PP15}
+END
+REACTIONCLASS  = H-Abstraction-Oxygen-Radical-Primary
+    6 {pentane} + {oxygen-radical} = {hydroxyl-radical} + {PP12}
+END
+REACTIONCLASS  = H-Abstraction-Oxygen-Radical-Secondary
+    4 {pentane} + {oxygen-radical} = {hydroxyl-radical} + {PP14}
+    2 {pentane} + {oxygen-radical} = {hydroxyl-radical} + {PP15}
+END
+REACTIONCLASS  = H-Abstraction-Oxygen-Primary
+    6 {pentane} + {oxygen} = {peroxyl-radical} + {PP12}
+END
+REACTIONCLASS  = H-Abstraction-Oxygen-Secondary
+    4 {pentane} + {oxygen} = {peroxyl-radical} + {PP14}
+    2 {pentane} + {oxygen} = {peroxyl-radical} + {PP15}
+END
+REACTIONCLASS  = H-Abstraction-PeroxylRadical-Primary
+    6 {pentane} + {peroxyl-radical} = {hydrogen-peroxide} + {PP12}
+END
+REACTIONCLASS  = H-Abstraction-PeroxylRadical-Secondary
+    4 {pentane} + {peroxyl-radical} = {hydrogen-peroxide} + {PP14}
+    2 {pentane} + {peroxyl-radical} = {hydrogen-peroxide} + {PP15}
+END
+REACTIONCLASS  = H-Abstraction-Hydrogen-Radical-Primary
+    6 {pentane} + {hydrogen-radical} = {PP12} + {hydrogen}
+END
+REACTIONCLASS  = H-Abstraction-Hydrogen-Radical-Secondary
+    4 {pentane} + {hydrogen-radical} = {PP14} + {hydrogen}
+    2 {pentane} + {hydrogen-radical} = {PP15} + {hydrogen}
+END

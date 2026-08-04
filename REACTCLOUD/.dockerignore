@@ -1,0 +1,41 @@
+# Docker .gitignore - excludes files from Docker context
+# This file is used by Docker COPY commands
+
+# Git-related
+.git
+.gitignore
+.gitattributes
+
+# Documentation (kept in image but excluded from build context to save space)
+README.md
+LICENSE
+INSTALL.txt
+*.md
+
+# Test and temporary files
+.test/
+.tmp/
+*.test
+test-results/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+
+# Session state and artifacts
+.copilot/
+
+# Docker files (not needed in image)
+docker-compose.yml
+Dockerfile
+.dockerignore
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+
+# Build artifacts (these are regenerated)
+genc/
+genh/
+tmp/

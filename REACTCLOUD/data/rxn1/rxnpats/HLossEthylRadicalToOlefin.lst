@@ -1,0 +1,129 @@
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+HLoss-ethyl-radical(hh)(hhh)-to-olefin ethyl-radical-(hh)(hhh) = olefin-(hh)(hh) hydrogen-radical
+- ID 10101
+- Correspondences
+1 2 3 4 5 6 7     2 2 2 2 2 4
+1 2 3 6 4 5       2 2 2 2 2
+7
+>  <ForwardRxn>
+Standard 4.204e+16  -0.94  3.754e+04 12; Estimate c7h15-1 = c7h14-1+h
+
+>  <ReverseRxn>
+Standard 1.000e+13   0.00  1.200e+03 1; Curran/Westbrook Type III 
+$$$$
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+HLoss-ethyl-radical(rh)(hhh)-to-olefin ethyl-radical-(rh)(hhh) = olefin-(rh)(hh)  hydrogen-radical
+- ID 10102
+- Correspondences
+1 2 3 4 5 6 7     2 2 2 2 2 4
+1 2 3 6 4 5       2 2 2 2 2
+7
+>  <ForwardRxn>
+Standard 4.204e+16  -0.94  3.754e+04 6; Estimate c7h15-1 = c7h14-1+h
+
+>  <ReverseRxn>
+Standard 1.000e+13   0.00  1.200e+03 2; Curran/Westbrook Type III 
+$$$$
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+HLoss-ethyl-radical(hh)(rhh)-to-olefin ethyl-radical-(hh)(rhh) = olefin-(rh)(hh) hydrogen-radical
+- ID 10103
+- Correspondences
+1 2 3 4 5 6 7     2 2 2 2 2 4
+1 2 5 4 3 6       2 2 2 2 2
+7
+>  <ForwardRxn>
+Standard 1.885e+16  -0.89  2.973e+04 4; c7h15-2 = c7h14-1+h 
+
+>  <ReverseRxn>
+Standard 1.000e+13 0.00 2.900e+03 2; Curran/Westbrook Type III 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry:   (2)((3*2*1)/3)(2)=8
+%%%-------------------------------------------------------------------
+HLoss-ethyl-radical(rr)(hhh)-to-olefin ethyl-radical-(rr)(hhh) = olefin-(rr)(hh)  hydrogen-radical
+- ID 10104
+- Correspondences
+1 2 3 4 5 6 7     2 2 2 2 2 4
+1 2 3 6 4 5       2 2 2 2 2
+7
+>  <ForwardRxn>
+Standard 1.885e+16  -0.89  2.973e+04 12; Westbrook/heptane; c7h15-2 = c7h14-1+h 
+
+>  <ReverseRxn>
+Standard 1.000+13 0.0 1.200e+3 4; Westbrook/Curran Type III
+$$$$
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+HLoss-ethyl-radical(rh)(rhh)-to-olefin ethyl-radical-(rh)(rhh) = olefin-(rh)(rh)  hydrogen-radical
+- ID 10105
+- Correspondences
+1 2 3 4 5 6 7     2 2 2 2 2 4
+1 2 3 6 5 4       2 2 2 2 2
+7
+>  <ForwardRxn>
+Standard 2.710e+15  -0.72  3.719e+04 2; Estimate  c7h15-3 = c7h14-2+h 
+
+>  <ReverseRxn>
+Standard 1.00e+13 0.0 2.900e+3 2; Westbrook/Curran Type III
+$$$$
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+HLoss-ethyl-radical(hh)(rrh)-to-olefin ethyl-radical-(hh)(rrh) = olefin-(rr)(hh)  hydrogen-radical
+- ID 10106
+- Correspondences
+1 2 3 4 5 6 7     2 2 2 2 2 4
+1 2 4 5 3 6       2 2 2 2 2
+7
+>  <ForwardRxn>
+Standard 1.338e+15  -0.55  4.006e+04 4; Westbrook/Curran Value ; Estimate  c7h15-2 = c7h14-1+h
+
+>  <ReverseRxn>
+Standard 1.00e+13 0.0 2.900e+3 4; Westbrook/Curran ; Estimate  Type III
+$$$$
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+HLoss-ethyl-radical(rr)(rhh)-to-olefin ethyl-radical-(rr)(rhh) = olefin-(rr)(rh)  hydrogen-radical
+- ID 10107
+- Correspondences
+1 2 3 4 5 6 7     2 2 2 2 2 4
+1 2 3 6 5 4       2 2 2 2 2
+7
+>  <ForwardRxn>
+Standard 2.710e+15  -0.72  3.719e+04 4; Westbrook/Curran Value ; Estimate  c7h15-3 = c7h14-2+h
+
+>  <ReverseRxn>
+Standard 1.00e+13 0.0 2.900e+3 2; Westbrook/Curran ; Estimate  Type III
+$$$$
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+HLoss-ethyl-radical(rh)(rrh)-to-olefin ethyl-radical-(rh)(rrh) = olefin-(rr)(rh) hydrogen-radical
+- ID 10108
+- Correspondences
+1 2 3 4 5 6 7     2 2 2 2 2 4
+1 2 4 5 3 6       2 2 2 2 2
+7
+>  <ForwardRxn>
+Standard 2.710e+15  -0.72  3.719e+04 2; Westbrook/Curran Value ; Estimate  c7h15-3 = c7h14-2+h
+
+>  <ReverseRxn>
+Standard 1.00e+13 0.0 2.900e+3 2; Westbrook/Curran ; Estimate  Type III
+$$$$
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+HLoss-ethyl-radical(rr)(rrh)-to-olefin ethyl-radical-(rr)(rrh) = olefin-(rr)(rr)  hydrogen-radical
+- ID 10109
+- Correspondences
+1 2 3 4 5 6 7     2 2 2 2 2 4
+1 2 3 6 5 4       2 2 2 2 2
+7
+>  <ForwardRxn>
+Standard 2.710e+15  -0.72  3.719e+04 4; Westbrook/Curran Value ; Estimate  c7h15-3 = c7h14-2+h
+
+>  <ReverseRxn>
+Standard 1.00e+13 0.0 2.900e+3 4; Westbrook/Curran ; Estimate  Type III
+$$$$

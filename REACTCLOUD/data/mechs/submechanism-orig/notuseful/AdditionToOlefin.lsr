@@ -1,0 +1,10 @@
+Addition To Olefin
+hydrogen-radical
+%%% -----------------------------------------------------
+H-Alkene-Add-Hydrogen-Radical-(hh)(hh),\
+H-Alkene-Add-Hydrogen-Radical-(rh)(hh),\
+H-Alkene-Add-Hydrogen-Radical-(hh)(rh),\
+H-Alkene-Add-Hydrogen-Radical-(rh)(rh),\
+H-Alkene-Add-Hydrogen-Radical-(rr)(hh),\
+H-Alkene-Add-Hydrogen-Radical-(rr)(rh),\
+H-Alkene-Add-Hydrogen-Radical-(rr)(rr)

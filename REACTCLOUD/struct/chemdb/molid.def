@@ -1,0 +1,130 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  These are the structures dealing with the automatic
+%%%  labeling of objects and their identification within
+%%%  the database (local memory or disk)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Object Identification Structures
+0 molid
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% TreeLevelDescription
+%%%   The description of each level is described.  This 
+%%%   holds how the id is extracted from the object (LevelIDFunc),
+%%%   what part of the total object id number this part holds and
+%%%   the maximum number it can take
+%%%   
+    TreeLevelDescription 100 treeleveldescription
+       0 The ID Multiplication Factor
+         INT IDMultFactor Create
+       1 The Maximum Size of the id
+         INT MaxSize Create
+       2 The routine to get level id
+         FUNCTION LevelIDFunc Return=INT
+       DONE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% ListOfTreeLevelDescriptions 
+%%%   This is the list of descriiption of the class idenitifications.
+%%%   This list corresponds to the list of ids in the ObjectIDInfo
+%%%   structure and the levels of the classification tree.
+%%%
+    ListOfTreeLevelDescriptions 100 listoftreeleveldescriptions
+       0 The number of tree levels
+         INT NumberOfLevels Createo
+       1 The set of levels
+         TreeLevelDescription Levels Pointer Create Array=NumberOfLevels
+       DONE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% ObjectIDInfo
+%%%    This structure holds the molecular information that is used to 
+%%%    to traverse the tree of Object IDs.  The ordering of the
+%%%    ObjectIDs is determined by the ListOfTreeLevelDescriptions.
+%%%
+   ObjectIDInfo 101 molidinfo
+     0 The number of object id's
+       INT NumberOfObjectIDs Create
+     1 The list of object id's
+       INT ObjectIDs Pointer Create Array=NumberOfObjectIDs
+     DONE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% ObjectIDClass
+%%% This is at the terminal node of the tree and stores the 
+%%% keywords of the objects with the same characteristics.
+%%%
+   ObjectIDClass 100 molidClass
+      0 The Object Information of this group
+        ObjectIDInfo Pointer Create
+      0 The number of Keys
+        INT NumberOfKeys Create
+      1 The set of Keys
+        DbaseKeyword Keys Pointer Create Array=NumberOfKeys
+      DONE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% ObjectIDTreeNode 
+%%%   The Node of the tree to classifying the objects
+%%%   Each level in the tree is associated with an object 
+%%%   identification ID (specified in the ListOfTreeLevelDescriptions
+%%%   structure).  At the terminal node is the objcet class 
+%%%   defintion (ObjectIDClass).
+%%%
+   ObjectIDTreeNode 100 molidtreenode
+      0 The number of subtrees
+         INT NumberOfSubTrees Create
+      1 The set of subtrees
+         ObjectIDNode SubTrees Pointer Create Array=NumberOfSubTrees
+      2 The Node Information (if a terminal node)
+         ObjectIDClass Info Pointer Create
+      DONE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% ObjectClassification
+%%%  This is the basic information needed to define a classification
+%%%  and the current classification tree itself.
+%%%
+%%%  Two routines are specified:
+%%%       INT Equivalence(VOID obj1,VOID obj2)
+%%%          obj1,obj2 - The objects to be compared
+%%%          return    -  0 - Equivalent
+%%%                      <0 - obj1 < obj2
+%%%                      >0 - obj1 > obj2
+%%%       VOID FindElementInSet(DbaseKeyword *key, VOID elements)
+%%%          key - The keyword describing the element in the set
+%%%          elements - The list of elements in some structure
+%%%          return   - The element matching (0 if not found)
+%%%
+   ObjectClassification 100 objectclassifications
+      0 The object tree
+        ObjectIDTreeNode TreeOfObjects Pointer Create
+      1 The tree descriptions
+        ListOfTreeLevelDescriptions Description Pointer Create
+      2 The equivalence function
+        FUNCTION Equivalence Create Return=INT
+      3 Find an element in a set of elements
+        FUNCTION FindElementInSet Create Return=VOID
+      DONE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% SetOfObjectClassifications
+%%%  Each type of object has a set of classifications.  This
+%%%  structure has the set of classifications that hae
+%%%  been accessed during this run (they are added as needed).
+%%%
+   SetOfObjectClassifications 100 setofobjectclassifications
+      0 The number of classifications
+        INT NumberOfClassifications Create
+      1 The object classifications
+        ObjectClassification Classifications Pointer Create Array=NumberOfClassifications
+      DONE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% LocDbaseClassifications
+%%%  There are two types of classification trees, one for
+%%%  for the local set of objects in memory, and one for the 
+%%%  set of objects in the database. 
+%%%
+%%%  This structure is the bind structure for the classification 
+%%%  objects
+%%%
+   LocDbaseClassifications 100 localanddatabaseclassifications
+      0 The local classifications
+        SetOfObjectClassifications Local Pointer Create
+      1 The database classifications
+        SetOfObjectClassifications Database Pointer Create
+      DONE
+DONE
+

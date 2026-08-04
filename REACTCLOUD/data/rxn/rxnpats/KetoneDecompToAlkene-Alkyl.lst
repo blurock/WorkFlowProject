@@ -1,0 +1,135 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2*2 = 24
+%%%-------------------------------------------------------------------
+KetoneDecompToAlkene-Alkyl-(hh)(hh)\
+   c(qqq)coc(hh)c(hh) = c(qqq).c(o) olefin-(hh)(hh)
+- ID 72300
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     4 2 2 2 2 2 2 2 2 2 2
+1 4 5 6 7 8                    2 2 2 2 2 
+2 3 9 10 11 12                 2 2 2 2 2
+>  <ForwardRxn>
+Standard  5.398E+17 -1.45 2.604E+04 24;  Curran, et. al.;  nc3h7coc2h4p = nc3h7co+c2h4
+>  <ReverseRxn>
+Standard  2.500E+11 0.00 7.800E+03 24;  Curran, et. al.;  nc3h7coc2h4p = nc3h7co+c2h4
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*1*2 = 12
+%%%-------------------------------------------------------------------
+KetoneDecompToAlkene-Alkyl-(rh)(hh)\
+   c(qqq)coc(rh)c(hh) = c(qqq).c(o) olefin-(rh)(hh)
+- ID 72301
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     4 2 2 2 2 2 2 2 2 2 2
+1 4 5 6 7 8                    2 2 2 2 2 
+2 3 9 10 11 12                 2 2 2 2 2
+>  <ForwardRxn>
+Standard  7.391E+18 -1.59 2.568E+04 12;  Curran, et. al.;   ic3h6coc2h5 = c3h6+c2h5co
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 8.300E+03 12;  Curran, et. al.;   ic3h6coc2h5 = c3h6+c2h5co
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2*2 = 24
+%%%-------------------------------------------------------------------
+KetoneDecompToAlkene-Alkyl-(rr)(hh)\
+   c(qqq)coc(rr)c(hh) = c(qqq).c(o) olefin-(rr)(hh)
+- ID 72302
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     4 2 2 2 2 2 2 2 2 2 2
+1 4 5 6 7 8                    2 2 2 2 2 
+2 3 9 10 11 12                 2 2 2 2 2
+>  <ForwardRxn>
+Standard  1.384E+22  -2.63  2.745E+04  24;  Curran, et. al.; tc4h8coch3  =  ic4h8+ch3co
+>  <ReverseRxn>
+Standard  8.000E+10  0.00  1.060E+04 24;  Curran, et. al.;tc4h8coch3  =  ic4h8+ch3co
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2*1 = 12
+%%%-------------------------------------------------------------------
+KetoneDecompToAlkene-Alkyl-(hh)(rh)\
+   c(qqq)coc(hh)c(rh) = c(qqq).c(o) olefin-(rh)(hh)
+- ID 72303
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     4 2 2 2 2 2 2 2 2 2 2
+1 4 5 6 7 8                    2 2 2 2 2 
+3 2 11 12 9 10                 2 2 2 2 2
+>  <ForwardRxn>
+Standard   5.851E+11 0.01 2.058E+04 12;  Curran, et. al.;  c4h8coch3-3 = c4h8-1+ch3co
+>  <ReverseRxn>
+Standard   1.000E+11 0.00 9.800E+03 12;  Curran, et. al.;   c4h8coch3-3 = c4h8-1+ch3co
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*1*1 = 6
+%%%-------------------------------------------------------------------
+KetoneDecompToAlkene-Alkyl-(rh)(rh)\
+   c(qqq)coc(rh)c(rh) = c(qqq).c(o) olefin-(rh)(rh)
+- ID 72304
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     4 2 2 2 2 2 2 2 2 2 2
+1 4 5 6 7 8                    2 2 2 2 2 
+3 2 11 12 9 10                 2 2 2 2 2
+>  <ForwardRxn>
+Standard  7.391E+18 -1.59 2.568E+04 6;  Curran, et. al.;   ic3h6coc2h5 = c3h6+c2h5co
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 8.300E+03 6;  Curran, et. al.;   ic3h6coc2h5 = c3h6+c2h5co
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2*1 = 12
+%%%-------------------------------------------------------------------
+KetoneDecompToAlkene-Alkyl-(rr)(rh)\
+   c(qqq)coc(rr)c(rh) = c(qqq).c(o) olefin-(rr)(rh)
+- ID 72305
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     4 2 2 2 2 2 2 2 2 2 2
+1 4 5 6 7 8                    2 2 2 2 2 
+2 3 9 10 11 12                 2 2 2 2 2
+>  <ForwardRxn>
+Standard  7.391E+18 -1.59 2.568E+04 12;  Curran, et. al.;   ic3h6coc2h5 = c3h6+c2h5co
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 8.300E+03 12;  Curran, et. al.;   ic3h6coc2h5 = c3h6+c2h5co
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2*2 = 24
+%%%-------------------------------------------------------------------
+KetoneDecompToAlkene-Alkyl-(hh)(rr)\
+   c(qqq)coc(hh)c(rr) = c(qqq).c(o) olefin-(rr)(hh)
+- ID 72306
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     4 2 2 2 2 2 2 2 2 2 2
+1 4 5 6 7 8                    2 2 2 2 2 
+3 2 11 12 9 10                 2 2 2 2 2
+>  <ForwardRxn>
+Standard  6.148E+17  -1.45  3.178E+04 24;  Curran, et. al.;   tc3h6ch2coch3  =  ic4h8+ch3co 
+>  <ReverseRxn>
+Standard  1.000E+11  0.00  1.260E+04 24;  Curran, et. al.;    tc3h6ch2coch3  =  ic4h8+ch3co 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*1*2 = 12
+%%%-------------------------------------------------------------------
+KetoneDecompToAlkene-Alkyl-(rh)(rr)\
+   c(qqq)coc(rh)c(rr) = c(qqq).c(o) olefin-(rr)(rh)
+- ID 72307
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     4 2 2 2 2 2 2 2 2 2 2
+1 4 5 6 7 8                    2 2 2 2 2 
+3 2 11 12 9 10                 2 2 2 2 2
+>  <ForwardRxn>
+Standard  6.148E+17  -1.45  3.178E+04 12;  Curran, et. al.;   tc3h6ch2coch3  =  ic4h8+ch3co 
+>  <ReverseRxn>
+Standard  1.000E+11  0.00  1.260E+04 12;  Curran, et. al.;    tc3h6ch2coch3  =  ic4h8+ch3co 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2*2 = 24
+%%%-------------------------------------------------------------------
+KetoneDecompToAlkene-Alkyl-(rr)(rr)\
+   c(qqq)coc(rr)c(rr) = c(qqq).c(o) olefin-(rr)(rr)
+- ID 72308
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     4 2 2 2 2 2 2 2 2 2 2
+1 4 5 6 7 8                    2 2 2 2 2 
+2 3 9 10 11 12                 2 2 2 2 2
+>  <ForwardRxn>
+Standard  6.148E+17  -1.45  3.178E+04 24;  Curran, et. al.;   tc3h6ch2coch3  =  ic4h8+ch3co 
+>  <ReverseRxn>
+Standard  1.000E+11  0.00  1.260E+04 24;  Curran, et. al.;    tc3h6ch2coch3  =  ic4h8+ch3co 
+$$$$

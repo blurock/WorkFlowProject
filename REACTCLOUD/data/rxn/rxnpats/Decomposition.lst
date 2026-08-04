@@ -1,0 +1,135 @@
+%%%------------------------------------------------------------------
+%%% Symmetry: 2*6 = 12
+%%%-------------------------------------------------------------------
+Decomp-(rhh)(hhh)\
+     ethane-(rhh)(hhh) = primary-carbon-radical methane-carbon-radical
+- ID 70401
+- Correspondences
+1 2 3 4 5 6 7 8          4 2 2 2 2 2 2
+1 3 4 5                  2 2 2
+2 6 7 8                  2 2 2
+>  <ForwardRxn>
+Standard 5.89588e+24 -2.338 91454 12; Calculated (Ea = 382.901) ; c7h16 = ch3 + 1-c6h13
+>  <ReverseRxn>
+Standard 1.00e+13   0.00 0.0 12; Curran Isooctane paper; Baulch et al. J. Phys. Chem. Ref. Data, 21, 411-429 (1992)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(2*2) = 8  extra factor 2 for symmetry of ethane-(rhh)(rhh)
+%%%-------------------------------------------------------------------
+Decomp-(rhh)(rhh)\
+     ethane-(rhh)(rhh) = primary-carbon-radical primary-carbon-radical
+- ID 70402
+- Correspondences
+1 2 3 4 5 6 7 8          4 2 2 2 2 2 2
+1 3 4 5                  2 2 2
+2 6 7 8                  2 2 2
+>  <ForwardRxn>
+Standard 5.97131e+24  -2.466 85894.5  12; Calculated (Ea=359.623); c7h16=n-c3h7+1-c4h9
+>  <ReverseRxn>
+Standard  8.000E+12  0.00 0.0 12; (Curran et al, n-heptane); Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*6 = 12
+%%%-------------------------------------------------------------------
+Decomp-(rrh)(hhh)\
+     ethane-(rrh)(hhh) = secondary-carbon-radical methane-carbon-radical
+- ID 70403
+- Correspondences
+1 2 3 4 5 6 7 8          4 2 2 2 2 2 2
+1 3 4 5                  2 2 2
+2 6 7 8                  2 2 2
+>  <ForwardRxn>
+Standard 5.97131e+24  -2.466 85894.5  12; Calculated (Ea=359.623); c7h16=n-c3h7+1-c4h9
+>  <ReverseRxn>
+Standard  8.000E+12  0.00 0.0 12; (Curran et al, n-heptane); Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*6 = 36
+%%%-------------------------------------------------------------------
+Decomp-(rrr)(hhh)\
+     ethane-(rrr)(hhh) = tertiary-carbon-radical methane-carbon-radical
+- ID 70404
+- Correspondences
+1 2 3 4 5 6 7 8          4 2 2 2 2 2 2
+1 3 4 5                  2 2 2
+2 6 7 8                  2 2 2
+>  <ForwardRxn>
+Standard  1.783E+23  -1.88  8.504E+04 36; (Curran et al, isooctane) neoc7h16  =  bc6h13+ch3
+>  <ReverseRxn>
+Standard 4.000E+12  0.00 -5.960E+02 36; (Curran et al, isooctane) neoc7h16  =  bc6h13+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+Decomp-(rrh)(rhh)\
+     ethane-(rrh)(rhh) = secondary-carbon-radical primary-carbon-radical
+- ID 70405
+- Correspondences
+1 2 3 4 5 6 7 8          4 2 2 2 2 2 2
+1 3 4 5                  2 2 2
+2 6 7 8                  2 2 2
+>  <ForwardRxn>
+Standard 4.358E+19  -0.73  8.583E+04 4;  (Curran et al, isooctane) ic6h14  =  ic3h7+nc3h7 
+>  <ReverseRxn>
+Standard  4.000E+12  0.00 -5.960E+02 4; (Curran et al, isooctane) ic6h14  =  ic3h7+nc3h7 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(2*2) = 8  factor 2 due to symmetry of ethane-(rrh)(rrh)
+%%%-------------------------------------------------------------------
+Decomp-(rrh)(rrh)\
+     ethane-(rrh)(rrh) = secondary-carbon-radical secondary-carbon-radical
+- ID 70406
+- Correspondences
+1 2 3 4 5 6 7 8          4 2 2 2 2 2 2
+1 3 4 5                  2 2 2
+2 6 7 8                  2 2 2
+>  <ForwardRxn>
+Standard 4.358E+19  -0.73  8.583E+04 8;  (Curran et al, isooctane) c(rrh)c(rhh) ic6h14  =  ic3h7+nc3h7 
+>  <ReverseRxn>
+Standard  4.000E+12  0.00 -5.960E+02 8;  (Curran et al, isooctane) c(rrh)c(rhh) ic6h14  =  ic3h7+nc3h7 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2 = 12
+%%%-------------------------------------------------------------------
+Decomp-(rrr)(rhh)\
+     ethane-(rrr)(rhh) = tertiary-carbon-radical primary-carbon-radical
+- ID 70407
+- Correspondences
+1 2 3 4 5 6 7 8          4 2 2 2 2 2 2
+1 3 4 5                  2 2 2
+2 6 7 8                  2 2 2
+>  <ForwardRxn>
+Standard .203E+27  -2.91  8.665E+04 12; (Curran et al, isooctane) neoc7h16  =  tc4h9+nc3h7
+>  <ReverseRxn>
+Standard 4.000E+12  0.00 -5.960E+02 12; (Curran et al, isooctane) neoc7h16  =  tc4h9+nc3h7
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2 = 12
+%%%-------------------------------------------------------------------
+Decomp-(rrr)(rrh)\
+     ethane-(rrr)(rrh) = tertiary-carbon-radical secondary-carbon-radical
+- ID 70408
+- Correspondences
+1 2 3 4 5 6 7 8          4 2 2 2 2 2 2
+1 3 4 5                  2 2 2
+2 6 7 8                  2 2 2
+>  <ForwardRxn>
+Standard  2.203E+27  -2.91  8.665E+04 12;  (Curran et al, isooctane) neoc7h16  =  tc4h9+nc3h7
+>  <ReverseRxn>
+Standard 4.000E+12  0.00 -5.960E+02 12;  (Curran et al, isooctane) neoc7h16  =  tc4h9+nc3h7
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(6*6) = 72  factor 2 due to symmetry ethane-(rrr)(rrr)
+%%%-------------------------------------------------------------------
+Decomp-(rrr)(rrr)\
+     ethane-(rrr)(rrr) = tertiary-carbon-radical tertiary-carbon-radical
+- ID 70409
+- Correspondences
+1 2 3 4 5 6 7 8          4 2 2 2 2 2 2
+1 3 4 5                  2 2 2
+2 6 7 8                  2 2 2
+>  <ForwardRxn>
+Standard  2.203E+27  -2.91  8.665E+04 72;  (Curran et al, isooctane) neoc7h16  =  tc4h9+nc3h7
+>  <ReverseRxn>
+Standard 4.000E+12  0.00 -5.960E+02 72;  (Curran et al, isooctane) neoc7h16  =  tc4h9+nc3h7
+$$$$

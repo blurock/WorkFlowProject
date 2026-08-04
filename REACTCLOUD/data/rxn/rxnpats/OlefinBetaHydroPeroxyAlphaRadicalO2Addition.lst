@@ -1,0 +1,94 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% OlefinBetaHydroPeroxyAlphaRadicalO2Addition
+%%%%%%%%    Propenal and Aldehyde Radical Formation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*2 = 4
+%%%-------------------------------------------------------------------
+OlefinBetaHydroPeroxyAlphaRadicalO2Addition-(h)(hh)\
+  c=cccooh(h)(hh)  + oxygen =  c=ccoocooh(h)(hh) 
+- ID 40600
+- Correspondences
+1 2 3 4 5 6 7 8 9 10        2 2 2 2 2 2 2 2 2
+11 12                       2
+1 2 3 4 11 12 5 6 7 8 9 10  2 2 2 4 2 2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 4;  Type X: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  2.015E+21 -2.08    36200  4; Lund Calculated Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*2 = 4
+%%%-------------------------------------------------------------------
+OlefinBetaHydroPeroxyAlphaRadicalO2Addition-(r)(hh)\
+  c=cccooh(r)(hh)  + oxygen =  c=ccoocooh(r)(hh) 
+- ID 40601
+- Correspondences
+1 2 3 4 5 6 7 8 9 10        2 2 2 2 2 2 2 2 2
+11 12                       2
+1 2 3 4 11 12 5 6 7 8 9 10  2 2 2 4 2 2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 4;  Type X: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  2.015E+21 -2.08    36200  4; Lund Calculated Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*2 = 2
+%%%-------------------------------------------------------------------
+OlefinBetaHydroPeroxyAlphaRadicalO2Addition-(h)(rh)\
+  c=cccooh(h)(rh)  + oxygen =  c=ccoocooh(h)(rh) 
+- ID 40602
+- Correspondences
+1 2 3 4 5 6 7 8 9 10        2 2 2 2 2 2 2 2 2
+11 12                       2
+1 2 3 4 11 12 5 6 7 8 9 10  2 2 2 4 2 2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 2;  Type X: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  2.015E+21 -2.08    36200  2; Lund Calculated Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*2 = 2
+%%%-------------------------------------------------------------------
+OlefinBetaHydroPeroxyAlphaRadicalO2Addition-(r)(rh)\
+  c=cccooh(r)(rh)  + oxygen =  c=ccoocooh(r)(rh) 
+- ID 40603
+- Correspondences
+1 2 3 4 5 6 7 8 9 10        2 2 2 2 2 2 2 2 2
+11 12                       2
+1 2 3 4 11 12 5 6 7 8 9 10  2 2 2 4 2 2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 2;  Type X: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  2.015E+21 -2.08    36200  2; Lund Calculated Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*2 = 4
+%%%-------------------------------------------------------------------
+OlefinBetaHydroPeroxyAlphaRadicalO2Addition-(h)(rr)\
+  c=cccooh(h)(rr)  + oxygen =  c=ccoocooh(h)(rr) 
+- ID 40604
+- Correspondences
+1 2 3 4 5 6 7 8 9 10        2 2 2 2 2 2 2 2 2
+11 12                       2
+1 2 3 4 11 12 5 6 7 8 9 10  2 2 2 4 2 2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 4;  Type X: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  2.015E+21 -2.08    36200  4; Lund Calculated Reverse
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2*2 = 4
+%%%-------------------------------------------------------------------
+OlefinBetaHydroPeroxyAlphaRadicalO2Addition-(r)(rr)\
+  c=cccooh(r)(rr)  + oxygen =  c=ccoocooh(r)(rr) 
+- ID 40605
+- Correspondences
+1 2 3 4 5 6 7 8 9 10        2 2 2 2 2 2 2 2 2
+11 12                       2
+1 2 3 4 11 12 5 6 7 8 9 10  2 2 2 4 2 2 2 2 2 2 2
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 4;  Type X: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  2.015E+21 -2.08    36200  4; Lund Calculated Reverse
+$$$$

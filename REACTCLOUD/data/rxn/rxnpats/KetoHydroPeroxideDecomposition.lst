@@ -1,0 +1,196 @@
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+KetoHydroPeroxideDecomposition c2q5ooh = general-carbon-radical hydroxyl-radical general-aldehydeketone
+- ID 24000
+- Correspondences
+1 2 3 4 5 6 7 8 9 10       4 2 4 2 2 2 2 2 2
+1 6 7 8                    2 2 2
+5 4                        2
+2 3 9 10                   2 2 2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 12;  Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 1; irreversible
+$$$$
+KetoHydroPeroxideDecompToAldRadical-HHH oc(h)c(h)(h)(ooh) = (h).c(o) (h)(h)c(o) hydroxyl-radical
+- ID 24001
+- Correspondences
+1 2 3 4 5 6 7 8 9          2 2 4 2 4 2 2 2
+2 3 7                      2 2
+4 5 8 9                    2 2 2
+1 6                        2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 2; Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 2; irreversible
+$$$$
+KetoHydroPeroxideDecompToAldRadical-HRH oc(h)c(r)(h)(ooh) = (h).c(o) (r)(h)c(o) hydroxyl-radical
+- ID 24002
+- Correspondences
+1 2 3 4 5 6 7 8 9          2 2 4 2 4 2 2 2
+2 3 7                      2 2
+4 5 8 9                    2 2 2
+1 6                        2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 1; Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 1; irreversible
+$$$$
+KetoHydroPeroxideDecompToAldRadical-HRR oc(h)c(r)(r)(ooh) = (h).c(o) (r)(r)c(o) hydroxyl-radical
+- ID 24003
+- Correspondences
+1 2 3 4 5 6 7 8 9          2 2 4 2 4 2 2 2
+2 3 7                      2 2
+4 5 8 9                    2 2 2
+1 6                        2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 2; Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 2; irreversible
+$$$$
+KetoHydroPeroxideDecompToAldRadical-RHH oc(r)c(h)(h)(ooh) = (r).c(o) (h)(h)c(o) hydroxyl-radical
+- ID 24004
+- Correspondences
+1 2 3 4 5 6 7 8 9          2 2 4 2 4 2 2 2
+2 3 7                      2 2
+4 5 8 9                    2 2 2
+1 6                        2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 2; Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 2; irreversible
+$$$$
+KetoHydroPeroxideDecompToAldRadical-RRH oc(r)c(r)(h)(ooh) = (r).c(o) (r)(h)c(o) hydroxyl-radical
+- ID 24005
+- Correspondences
+1 2 3 4 5 6 7 8 9          2 2 4 2 4 2 2 2
+2 3 7                      2 2
+4 5 8 9                    2 2 2
+1 6                        2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 1; Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 1; irreversible
+$$$$
+KetoHydroPeroxideDecompToAldRadical-RRR oc(r)c(r)(r)(ooh) = (r).c(o) (r)(r)c(o) hydroxyl-radical
+- ID 24006
+- Correspondences
+1 2 3 4 5 6 7 8 9          2 2 4 2 4 2 2 2
+2 3 7                      2 2
+4 5 8 9                    2 2 2
+1 6                        2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 2; Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 2; irreversible
+$$$$
+KetoHydroPeroxideDecompToAldRadical-CHHHH oc(q)c(h)(h)c(h)(h)(ooh) = .c(h)(h)co(q) (h)(h)c(o) hydroxyl-radical
+- ID 24011
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12         4 2 2 2 4 2 2 2 2 2 2
+2 3 4 8 9 10                       2 2 2 2 2
+1 5 11 12                          2 2 2
+7 6                                2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 4; Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 1; irreversible
+$$$$
+KetoHydroPeroxideDecompToAldRadical-CHHRH oc(q)c(h)(h)c(r)(h)(ooh) = .c(h)(h)co(q) (r)(h)c(o) hydroxyl-radical
+- ID 24012
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12         4 2 2 2 4 2 2 2 2 2 2
+2 3 4 8 9 10                       2 2 2 2 2
+1 5 11 12                          2 2 2
+7 6                                2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 2; Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 1; irreversible
+$$$$
+KetoHydroPeroxideDecompToAldRadical-CHHRR oc(q)c(h)(h)c(r)(r)(ooh) = .c(h)(h)co(q) (r)(r)c(o) hydroxyl-radical
+- ID 24013
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12         4 2 2 2 4 2 2 2 2 2 2
+2 3 4 8 9 10                       2 2 2 2 2
+1 5 11 12                          2 2 2
+7 6                                2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 4; Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 1; irreversible
+$$$$
+KetoHydroPeroxideDecompToAldRadical-CRHHH oc(q)c(r)(h)c(h)(h)(ooh) = .c(r)(h)co(q) (h)(h)c(o) hydroxyl-radical
+- ID 24014
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12         4 2 2 2 4 2 2 2 2 2 2
+2 3 4 8 9 10                       2 2 2 2 2
+1 5 11 12                          2 2 2
+7 6                                2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 2; Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 1; irreversible
+$$$$
+KetoHydroPeroxideDecompToAldRadical-CRHRH oc(q)c(r)(h)c(r)(h)(ooh) = .c(r)(h)co(q) (r)(h)c(o) hydroxyl-radical
+- ID 24015
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12         4 2 2 2 4 2 2 2 2 2 2
+2 3 4 8 9 10                       2 2 2 2 2
+1 5 11 12                          2 2 2
+7 6                                2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 1; Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 1; irreversible
+$$$$
+KetoHydroPeroxideDecompToAldRadical-CRHRR oc(q)c(r)(h)c(r)(r)(ooh) = .c(r)(h)co(q) (r)(r)c(o) hydroxyl-radical
+- ID 24016
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12         4 2 2 2 4 2 2 2 2 2 2
+2 3 4 8 9 10                       2 2 2 2 2
+1 5 11 12                          2 2 2
+7 6                                2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 2; Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 1; irreversible
+$$$$
+KetoHydroPeroxideDecompToAldRadical-CRRHH oc(q)c(r)(r)c(h)(h)(ooh) = .c(r)(r)co(q) (h)(h)c(o) hydroxyl-radical
+- ID 24017
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12         4 2 2 2 4 2 2 2 2 2 2
+2 3 4 8 9 10                       2 2 2 2 2
+1 5 11 12                          2 2 2
+7 6                                2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 4; Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 1; irreversible
+$$$$
+KetoHydroPeroxideDecompToAldRadical-CRRRH oc(q)c(r)(r)c(r)(h)(ooh) = .c(r)(r)co(q) (r)(h)c(o) hydroxyl-radical
+- ID 24018
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12         4 2 2 2 4 2 2 2 2 2 2
+2 3 4 8 9 10                       2 2 2 2 2
+1 5 11 12                          2 2 2
+7 6                                2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 2; Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 1; irreversible
+$$$$
+KetoHydroPeroxideDecompToAldRadical-CRRRR oc(q)c(r)(r)c(r)(r)(ooh) = .c(r)(r)co(q) (r)(r)c(o) hydroxyl-radical
+- ID 24019
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12         4 2 2 2 4 2 2 2 2 2 2
+2 3 4 8 9 10                       2 2 2 2 2
+1 5 11 12                          2 2 2
+7 6                                2
+>  <ForwardRxn>
+Standard 1.00e+16 0.0 43000 4; Type XVII: Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.0 1; irreversible
+$$$$

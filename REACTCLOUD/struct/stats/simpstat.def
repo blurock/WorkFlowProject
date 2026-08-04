@@ -1,0 +1,58 @@
+Structures For Statistics and Clustering
+1 structures
+  StatDivisionChoice 10 statdivisionchoice
+      0 The Flag whether the boundary is set or not
+        INT BoundarySet Create
+      1 The division as a Float
+        FLOAT Division Create
+      DONE
+   SimpleVarDivisions 10 simplevardivisions
+      0 The number of divisions
+        INT NumberOfDivisions Create 
+      1 The Values of the division as floats
+        StatDivisionChoice DivInfo Pointer Create Array=NumberOfDivisions
+      DONE
+   SysSamStats 14 syssamstats
+      0 The average or Sample Mean
+        FLOAT Average Create
+      1 The Standard Sample Deviation
+        FLOAT StdDeviation Create
+      DONE
+   SysSamVectorData 15 syssamdata
+      0 The Highest Value
+         BaseType Highest Pointer Create
+      1 The Lowest Value
+         BaseType Lowest Pointer Create
+      2 The Average Value
+         BaseType Average Pointer Create
+      3 The Set of Distinct Values
+         BaseVector DistinctValues Pointer Create
+      4 The Number of Distinct Values
+         INT NumberDistinctValues Create
+      5 The Number of each distinct value
+         INT Counts Pointer Create Array=NumberDistinctValues
+      6 The Cluster Divisions of the Variable
+         SimpleVarDivisions Divisions Pointer Create
+      DONE
+   SetOfSysSamData 16 setofsyssamdata
+      0 The Number Of Variables
+        INT NumberOfVariables Create
+      1 The set of stats
+        SysSamVectorData Stats Pointer Create Array=NumberOfVariables
+      DONE
+   UniVariateCluster 100 univariatecluster
+     0  The number of Clusters
+        INT NumberOfClusters Create
+     1  The set of points (numbers) belonging to the set
+        DataSubSetVector Sets Pointer Create
+     2  The Set of statistics for each cluster
+        SysSamVectorData Statistics Pointer Create Array=NumberOfClusters
+     DONE
+   UniVariateClusterSet 101 univariateclusterset
+      0 The number of Variables
+        INT NumberOfVariables Create
+      1 The Set of Clusters for each variable
+        UniVariateCluster VarClusters Pointer Create Array=NumberOfVariables
+      DONE
+DONE
+

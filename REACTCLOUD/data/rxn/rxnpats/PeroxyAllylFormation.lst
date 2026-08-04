@@ -1,0 +1,270 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+PeroxyAllylFormation(hh)(h)(hh)\
+    propenyl-radical-(hh)(h)(hh) oxygen = peroxypropene-radical-(hh)(h)(hh)
+- ID 70901
+- Correspondences
+1 2 3 4 5 6 7 8           2 2 2 2 2 2 2
+9 10                      2
+1 2 3 4 5 6 7 8 9 10      2 2 2 2 2 2 2 4 2
+>  <ForwardRxn>
+Standard 2.2D+19  -2.500  0.0  8; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+>  <ReverseRxn>
+Standard 5.4D+21  -2.500  32500.0  4; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyAllylFormation(rh)(h)(hh)\
+    propenyl-radical-(rh)(h)(hh) oxygen = peroxypropene-radical-(rh)(h)(hh)
+- ID 70902
+- Correspondences
+1 2 3 4 5 6 7 8           2 2 2 2 2 2 2
+9 10                      2
+1 2 3 4 5 6 7 8 9 10      2 2 2 2 2 2 2 4 2
+>  <ForwardRxn>
+Standard 2.2D+19  -2.500  0.0  4; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+>  <ReverseRxn>
+Standard 5.4D+21  -2.500  32500.0  2; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+PeroxyAllylFormation(rr)(h)(hh)\
+    propenyl-radical-(rr)(h)(hh) oxygen = peroxypropene-radical-(rr)(h)(hh)
+- ID 70903
+- Correspondences
+1 2 3 4 5 6 7 8           2 2 2 2 2 2 2
+9 10                      2
+1 2 3 4 5 6 7 8 9 10      2 2 2 2 2 2 2 4 2
+>  <ForwardRxn>
+Standard 2.2D+19  -2.500  0.0  8; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+>  <ReverseRxn>
+Standard 5.4D+21  -2.500  32500.0  4; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+PeroxyAllylFormation(hh)(r)(hh)\
+    propenyl-radical-(hh)(r)(hh) oxygen = peroxypropene-radical-(hh)(r)(hh)
+- ID 70904
+- Correspondences
+1 2 3 4 5 6 7 8           2 2 2 2 2 2 2
+9 10                      2
+1 2 3 4 5 6 7 8 9 10      2 2 2 2 2 2 2 4 2
+>  <ForwardRxn>
+Standard 2.2D+19  -2.500  0.0  8; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+>  <ReverseRxn>
+Standard 5.4D+21  -2.500  32500.0  4; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 8
+%%%-------------------------------------------------------------------
+PeroxyAllylFormation(rh)(r)(hh)\
+    propenyl-radical-(rh)(r)(hh) oxygen = peroxypropene-radical-(rh)(r)(hh)
+- ID 70905
+- Correspondences
+1 2 3 4 5 6 7 8           2 2 2 2 2 2 2
+9 10                      2
+1 2 3 4 5 6 7 8 9 10      2 2 2 2 2 2 2 4 2
+>  <ForwardRxn>
+Standard 2.2D+19  -2.500  0.0  4; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+>  <ReverseRxn>
+Standard 5.4D+21  -2.500  32500.0  2; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+PeroxyAllylFormation(rr)(r)(hh)\
+    propenyl-radical-(rr)(r)(hh) oxygen = peroxypropene-radical-(rr)(r)(hh)
+- ID 70906
+- Correspondences
+1 2 3 4 5 6 7 8           2 2 2 2 2 2 2
+9 10                      2
+1 2 3 4 5 6 7 8 9 10      2 2 2 2 2 2 2 4 2
+>  <ForwardRxn>
+Standard 2.2D+19  -2.500  0.0  8; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+>  <ReverseRxn>
+Standard 5.4D+21  -2.500  32500.0  4; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyAllylFormation(hh)(h)(rh)\
+    propenyl-radical-(hh)(h)(rh) oxygen = peroxypropene-radical-(hh)(h)(rh)
+- ID 70907
+- Correspondences
+1 2 3 4 5 6 7 8           2 2 2 2 2 2 2
+9 10                      2
+1 2 3 4 5 6 7 8 9 10      2 2 2 2 2 2 2 4 2
+>  <ForwardRxn>
+Standard 2.2D+19  -2.500  0.0  4; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+>  <ReverseRxn>
+Standard 5.4D+21  -2.500  32500.0  2; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+PeroxyAllylFormation(rh)(h)(rh)\
+    propenyl-radical-(rh)(h)(rh) oxygen = peroxypropene-radical-(rh)(h)(rh)
+- ID 70908
+- Correspondences
+1 2 3 4 5 6 7 8           2 2 2 2 2 2 2
+9 10                      2
+1 2 3 4 5 6 7 8 9 10      2 2 2 2 2 2 2 4 2
+>  <ForwardRxn>
+Standard 2.2D+19  -2.500  0.0  2; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+>  <ReverseRxn>
+Standard 5.4D+21  -2.500  32500.0  1; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyAllylFormation(rr)(h)(rh)\
+    propenyl-radical-(rr)(h)(rh) oxygen = peroxypropene-radical-(rr)(h)(rh)
+- ID 70909
+- Correspondences
+1 2 3 4 5 6 7 8           2 2 2 2 2 2 2
+9 10                      2
+1 2 3 4 5 6 7 8 9 10      2 2 2 2 2 2 2 4 2
+>  <ForwardRxn>
+Standard 2.2D+19  -2.500  0.0  4; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+>  <ReverseRxn>
+Standard 5.4D+21  -2.500  32500.0  2; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyAllylFormation(hh)(r)(rh)\
+    propenyl-radical-(hh)(r)(rh) oxygen = peroxypropene-radical-(hh)(r)(rh)
+- ID 70910
+- Correspondences
+1 2 3 4 5 6 7 8           2 2 2 2 2 2 2
+9 10                      2
+1 2 3 4 5 6 7 8 9 10      2 2 2 2 2 2 2 4 2
+>  <ForwardRxn>
+Standard 2.2D+19  -2.500  0.0  4; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+>  <ReverseRxn>
+Standard 5.4D+21  -2.500  32500.0  2; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+PeroxyAllylFormation(rh)(r)(rh)\
+    propenyl-radical-(rh)(r)(rh) oxygen = peroxypropene-radical-(rh)(r)(rh)
+- ID 70911
+- Correspondences
+1 2 3 4 5 6 7 8           2 2 2 2 2 2 2
+9 10                      2
+1 2 3 4 5 6 7 8 9 10      2 2 2 2 2 2 2 4 2
+>  <ForwardRxn>
+Standard 2.2D+19  -2.500  0.0  2; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+>  <ReverseRxn>
+Standard 5.4D+21  -2.500  32500.0  1; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyAllylFormation(rr)(r)(rh)\
+    propenyl-radical-(rr)(r)(rh) oxygen = peroxypropene-radical-(rr)(r)(rh)
+- ID 70912
+- Correspondences
+1 2 3 4 5 6 7 8           2 2 2 2 2 2 2
+9 10                      2
+1 2 3 4 5 6 7 8 9 10      2 2 2 2 2 2 2 4 2
+>  <ForwardRxn>
+Standard 2.2D+19  -2.500  0.0  4; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+>  <ReverseRxn>
+Standard 5.4D+21  -2.500  32500.0  2; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+PeroxyAllylFormation(hh)(h)(rr)\
+    propenyl-radical-(hh)(h)(rr) oxygen = peroxypropene-radical-(hh)(h)(rr)
+- ID 70913
+- Correspondences
+1 2 3 4 5 6 7 8           2 2 2 2 2 2 2
+9 10                      2
+1 2 3 4 5 6 7 8 9 10      2 2 2 2 2 2 2 4 2
+>  <ForwardRxn>
+Standard 2.2D+19  -2.500  0.0  8; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+>  <ReverseRxn>
+Standard 5.4D+21  -2.500  32500.0  4; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyAllylFormation(rh)(h)(rr)\
+    propenyl-radical-(rh)(h)(rr) oxygen = peroxypropene-radical-(rh)(h)(rr)
+- ID 70914
+- Correspondences
+1 2 3 4 5 6 7 8           2 2 2 2 2 2 2
+9 10                      2
+1 2 3 4 5 6 7 8 9 10      2 2 2 2 2 2 2 4 2
+>  <ForwardRxn>
+Standard 2.2D+19  -2.500  0.0  4; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+>  <ReverseRxn>
+Standard 5.4D+21  -2.500  32500.0  2; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+PeroxyAllylFormation(rr)(h)(rr)\
+    propenyl-radical-(rr)(h)(rr) oxygen = peroxypropene-radical-(rr)(h)(rr)
+- ID 70915
+- Correspondences
+1 2 3 4 5 6 7 8           2 2 2 2 2 2 2
+9 10                      2
+1 2 3 4 5 6 7 8 9 10      2 2 2 2 2 2 2 4 2
+>  <ForwardRxn>
+Standard 2.2D+19  -2.500  0.0  8; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+>  <ReverseRxn>
+Standard 5.4D+21  -2.500  32500.0  4; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+PeroxyAllylFormation(hh)(r)(rr)\
+    propenyl-radical-(hh)(r)(rr) oxygen = peroxypropene-radical-(hh)(r)(rr)
+- ID 70916
+- Correspondences
+1 2 3 4 5 6 7 8           2 2 2 2 2 2 2
+9 10                      2
+1 2 3 4 5 6 7 8 9 10      2 2 2 2 2 2 2 4 2
+>  <ForwardRxn>
+Standard 2.2D+19  -2.500  0.0  8; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+>  <ReverseRxn>
+Standard 5.4D+21  -2.500  32500.0  4; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+PeroxyAllylFormation(rh)(r)(rr)\
+    propenyl-radical-(rh)(r)(rr) oxygen = peroxypropene-radical-(rh)(r)(rr)
+- ID 70917
+- Correspondences
+1 2 3 4 5 6 7 8           2 2 2 2 2 2 2
+9 10                      2
+1 2 3 4 5 6 7 8 9 10      2 2 2 2 2 2 2 4 2
+>  <ForwardRxn>
+Standard 2.2D+19  -2.500  0.0  4; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+>  <ReverseRxn>
+Standard 5.4D+21  -2.500  32500.0  2; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+PeroxyAllylFormation(rr)(r)(rr)\
+    propenyl-radical-(rr)(r)(rr) oxygen = peroxypropene-radical-(rr)(r)(rr)
+- ID 70918
+- Correspondences
+1 2 3 4 5 6 7 8           2 2 2 2 2 2 2
+9 10                      2
+1 2 3 4 5 6 7 8 9 10      2 2 2 2 2 2 2 4 2
+>  <ForwardRxn>
+Standard 2.2D+19  -2.500  0.0  8; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+>  <ReverseRxn>
+Standard 5.4D+21  -2.500  32500.0  8; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+$$$$

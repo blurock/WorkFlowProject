@@ -1,0 +1,83 @@
+%%%-------------------------------------------------------------------
+%%% Original value:
+%%% Standard  4.520E+12  0.00  0.000E+00 4;  Type X: Combustion and Flame, 129:253-280 (2002)
+%%% Standard 2.657E+20  -1.67  3.540E+04 4;
+%%% From Tsang:  Not good results
+%%% Standard  1.63000E+19   -2.700     0.000 4;  Type X: Tsang value
+%%% Standard  8.50828E+26   -4.460   147.936 4; Calculated from Tsang
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+Primary-Carbon-Radical-(R.+O2-->RO2.) primary-carbon-radical oxygen = (h)(h)(r)coo.
+- ID 2010 
+- Correspondences 
+1 4 5 6           2 2 2
+2 3               2
+1 2 3 4 5 6       4 2 2 2 2
+>  <ForwardRxn>
+Standard  4.520E+12  0.00  0.000E+00 4;  Type X: Combustion and Flame, 129:253-280 (2002)
+>  <ReverseRxn>
+Standard 2.657E+20  -1.67  3.540E+04 4; (Curran, et al. isooctane)  c7h15o2-1  =  c7h15-1+o2 
+$$$$
+%%%-------------------------------------------------------------------
+Secondary-Carbon-Radical-(R.+O2-->RO2.) secondary-carbon-radical oxygen = (h)(r)(r)coo.
+- ID 2020
+- Correspondences
+1 4 5 6           2 2 2
+2 3               2
+1 2 3 4 5 6       4 2 2 2 2
+>  <ForwardRxn>
+Standard  7.540E+12  0.00  0.000E+00 4;  Type X: Combustion and Flame, 129:253-280 (2002)
+>  <ReverseRxn>
+Standard  1.357E+23  -2.36  3.767E+04 4; (Curran, et al. isooctane)  c7h15o2-2  =  c7h15-2+o2
+$$$$
+%%%-------------------------------------------------------------------
+Tertiary-Carbon-Radical-(R.+O2-->RO2.) tertiary-carbon-radical oxygen = (r)(r)(r)coo.
+- ID 2030
+- Correspondences
+1 4 5 6           2 2 2
+2 3               2
+1 2 3 4 5 6       4 2 2 2 2
+>  <ForwardRxn>
+Standard  3.000E+12  0.00  0.000E+00 12; (Curran, et al. isooctane)  yc7h15o2  =  yc7h15+o2 
+>  <ReverseRxn>
+Standard 3.408E+23  -2.45  3.721E+04 12;(Curran, et al. isooctane)  yc7h15o2  =  yc7h15+o2 
+$$$$
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+Activated-Primary-Carbon-Radical-(R.+O2-->RO2.) primary-carbon-radical oxygen = (h)(h)(r)coo.
+- ID 2011 
+- Correspondences 
+1 4 5 6           2 2 2
+2 3               2
+1 2 3 4 5 6       4 2 2 2 2
+>  <ForwardRxn>
+Standard  4.520E+12  0.00  0.000E+00 4;  Type X: Combustion and Flame, 129:253-280 (2002)
+>  <ReverseRxn>
+Standard 5.314E+20  -1.67  3.540E+04 4; (Curran, et al. isooctane)  c7h15o2-1  =  c7h15-1+o2 
+$$$$
+%%%-------------------------------------------------------------------
+Activated-Secondary-Carbon-Radical-(R.+O2-->RO2.) secondary-carbon-radical oxygen = (h)(r)(r)coo.
+- ID 2021
+- Correspondences
+1 4 5 6           2 2 2
+2 3               2
+1 2 3 4 5 6       4 2 2 2 2
+>  <ForwardRxn>
+Standard  7.540E+12  0.00  0.000E+00 4;  Type X: Combustion and Flame, 129:253-280 (2002)
+>  <ReverseRxn>
+Standard  2.714E+23  -2.36  3.767E+04 4; (Curran, et al. isooctane)  c7h15o2-2  =  c7h15-2+o2
+$$$$
+%%%-------------------------------------------------------------------
+Activated-Tertiary-Carbon-Radical-(R.+O2-->RO2.) tertiary-carbon-radical oxygen = (r)(r)(r)coo.
+- ID 2031
+- Correspondences
+1 4 5 6           2 2 2
+2 3               2
+1 2 3 4 5 6       4 2 2 2 2
+>  <ForwardRxn>
+Standard  3.000E+12  0.00  0.000E+00 12; (Curran, et al. isooctane)  yc7h15o2  =  yc7h15+o2 
+>  <ReverseRxn>
+Standard 6.816E+23  -2.45  3.721E+04 12;(Curran, et al. isooctane)  yc7h15o2  =  yc7h15+o2 
+$$$$

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<cml xmlns="">
+    <list>
+        <scalar dataType="xsd:string">primary-carbon-hydrogen-bond</scalar>
+        <scalar dataType="xsd:string">1</scalar>
+        <scalar dataType="xsd:string">1</scalar>
+        <scalar dataType="xsd:string">1</scalar>
+    </list>
+    <list>
+        <scalar dataType="xsd:string">secondary-carbon-hydrogen-bond</scalar>
+        <scalar dataType="xsd:string">1</scalar>
+        <scalar dataType="xsd:string">1</scalar>
+        <scalar dataType="xsd:string">2</scalar>
+    </list>
+    <list>
+        <scalar dataType="xsd:string">primary-carbon-hydrogen-bond</scalar>
+        <scalar dataType="xsd:string">1</scalar>
+        <scalar dataType="xsd:string">1</scalar>
+        <scalar dataType="xsd:string">3</scalar>
+    </list>
+</cml>
+

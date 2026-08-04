@@ -1,0 +1,48 @@
+Structures  for   Regression
+6 structures
+    RegressionStat 54 regstat
+      0 The Number of Variables Removed
+         INT NumberOfVariables Create
+      1 The variable numbers of those removed
+         INT VariableSet Pointer Create Array=NumberOfVariables
+      2 The Number of Degrees of Freedom
+         INT DegreesOfFreedom Create
+      3 The total error
+         FLOAT SError Create
+      4 The set of points over the maximum allowed error
+         DataSubSet Outliers Pointer Create
+      5 The F-Statistic
+         FLOAT FStat Create
+      6 Allowed Reduction ( 0 = Not allowed, 1 = Allowed )
+         FLAG Allowed Create
+      DONE
+     Regression 56 regression SystemList
+       0 The Number Of Variables
+         INT NumberOfVariables Create
+       1 The Set of Variable Numbers
+         INT Variables Pointer Create Array=NumberOfVariables
+       2 The Variable Number to Predict
+         INT ResultVariable Create
+       3 The Set of DataPoints
+         DataSubSet Points Pointer Create
+       4 The Maximum Allowed Error
+         FLOAT AllowedError Create
+       5 The Set of Points over this error
+         DataSubSet Outliers Pointer Create
+       6 The Total Error
+         FLOAT TotalError Create
+       8 The Coefficients
+         FullMatrixFLT Coefficients Pointer Create
+       9 The SysSamVectorSet ID
+         INT SysSamVectorSetID Create
+       DONE
+    RegressionSet 55 regset
+      0 The Original Regression
+        Regression Original Pointer Create
+      1 The Number of Reductions
+         INT NumberOfReductions Create
+      2 The Set of Reductions
+         RegressionStat SetOfReductions Pointer Create Array=NumberOfReductions
+      DONE
+DONE
+

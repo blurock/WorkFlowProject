@@ -1,0 +1,37 @@
+###############################################################
+# Program specific definitions
+#   PROGNAME    - The name of the program and the directory
+#   STD_LIBRARIES   - The available libraries to use
+#   ALL_PROGS       - Those progs to be compiled
+#   ALL_SOURCES     - The list of source files
+#   ALL_OBJECTS     - The list of object files
+##############################################################
+PROGNAME   = statistics
+
+HFILES = statistics.h matrix0.h
+ALL_PROGS = str_form library
+ALL_SOURCES = \
+              univar.c divisions.c\
+              routines.c statmain.c statout.c\
+              simple.c matrix0.c statbind.c
+
+ALL_OBJECTS = \
+              univar.o divisions.o\
+              routines.o statmain.o statout.o\
+              simple.o matrix0.o statbind.o
+
+COMMANDFILES = statistics.lst statistics.als\
+        statistics/statistics.cmd
+EXTRAS = main.c
+STD_INCLUDES = -I$(CCROOT)/genc\
+               -I$(CCROOT)/genh\
+               -I$(CCROOT)/standard
+
+DEPLIBS = -L$(MYLIBDIR)\
+           -lcluster\
+           -ldatmat\
+           -lcomlib\
+           -lbasis\
+            -lm
+CFLAGS = $(CCOPTIONS) $(STD_INCLUDES)
+

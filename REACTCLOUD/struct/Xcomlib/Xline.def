@@ -1,0 +1,20 @@
+Structures for Basic Graphic Lines
+5 xwinbasic
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%       
+   LineStyle 100 linecharacteristics
+      0 The Line Type
+        INT LineThickness Create
+      1 The Line Type
+        INT LineType Create
+      DONE
+%%%
+   BasicVectorObject  100 basiclineobject
+      0 The start position of the line
+        ObjectPosition LineBegin Pointer Create
+      1 The start position of the line
+        ObjectPosition LineEnd Pointer Create
+      DONE 
+%%%
+DONE
+   

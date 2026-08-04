@@ -1,0 +1,70 @@
+HLoss-ethyl-radical(rr)(rhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(rrh)-to-olefin,\
+HLoss-ethyl-radical(rr)(rrh)-to-olefin
+%%% ----------------------------------------------------
+%%%  Formation of Butadiene
+HAbstractionBetaAlkenylToDieneCH3-(h)(hh),\
+HAbstractionBetaAlkenylToDieneCH3-(r)(hh),\
+HAbstractionBetaAlkenylToDieneCH3-(h)(rh),\
+HAbstractionBetaAlkenylToDieneCH3-(r)(rh),\
+HAbstractionBetaAlkenylToDieneCH3-(h)(rr),\
+HAbstractionBetaAlkenylToDieneCH3-(r)(rr),\
+HAbstractionBetaAlkenylToDieneH-(h)(hh),\
+HAbstractionBetaAlkenylToDieneH-(r)(hh),\
+HAbstractionBetaAlkenylToDieneH-(h)(rh),\
+HAbstractionBetaAlkenylToDieneH-(r)(rh),\
+HAbstractionBetaAlkenylToDieneH-(h)(rr),\
+HAbstractionBetaAlkenylToDieneH-(r)(rr),\
+HAbstractionBetaAlkenylToDieneO2-(h)(hh),\
+HAbstractionBetaAlkenylToDieneO2-(r)(hh),\
+HAbstractionBetaAlkenylToDieneO2-(h)(rh),\
+HAbstractionBetaAlkenylToDieneO2-(r)(rh),\
+HAbstractionBetaAlkenylToDieneO2-(h)(rr),\
+HAbstractionBetaAlkenylToDieneO2-(r)(hh),\
+HLossBetaAlkenylToDiene-(h)(hh),\
+HLossBetaAlkenylToDiene-(r)(hh),\
+HLossBetaAlkenylToDiene-(h)(rh),\
+HLossBetaAlkenylToDiene-(r)(rh),\
+HLossBetaAlkenylToDiene-(h)(rr),\
+HLossBetaAlkenylToDiene-(r)(rr)\
+:oxygen,hydrogen-radical,methyl-radical
+%%% ----------------------------------------------------
+%%%  Formation of Allyl Radical of the diene
+%%%   AlphaHAbstractionFromOlefin: hydrogen abstraction by oxygen
+%%%   AlphaHAbstractionFromOlefin: H loss to form allyl
+%%% ----------------------------------------------------
+AlphaHAbstractionFromOlefinOxygen-(hh),\
+AlphaHAbstractionFromOlefinOxygen-(rh),\
+AlphaHAbstractionFromOlefinOxygen-(rr),\
+AlphaHAbstractionFromOlefin-(hh),\
+AlphaHAbstractionFromOlefin-(rh),\
+AlphaHAbstractionFromOlefin-(rr)\
+:oxygen
+%%% ----------------------------------------------------
+%%%  Formation of Triene
+HAbstractionBetaAlkenylToDieneCH3-(h)(hh),\
+HAbstractionBetaAlkenylToDieneCH3-(r)(hh),\
+HAbstractionBetaAlkenylToDieneCH3-(h)(rh),\
+HAbstractionBetaAlkenylToDieneCH3-(r)(rh),\
+HAbstractionBetaAlkenylToDieneCH3-(h)(rr),\
+HAbstractionBetaAlkenylToDieneCH3-(r)(rr),\
+HAbstractionBetaAlkenylToDieneH-(h)(hh),\
+HAbstractionBetaAlkenylToDieneH-(r)(hh),\
+HAbstractionBetaAlkenylToDieneH-(h)(rh),\
+HAbstractionBetaAlkenylToDieneH-(r)(rh),\
+HAbstractionBetaAlkenylToDieneH-(h)(rr),\
+HAbstractionBetaAlkenylToDieneH-(r)(rr),\
+HAbstractionBetaAlkenylToDieneO2-(h)(hh),\
+HAbstractionBetaAlkenylToDieneO2-(r)(hh),\
+HAbstractionBetaAlkenylToDieneO2-(h)(rh),\
+HAbstractionBetaAlkenylToDieneO2-(r)(rh),\
+HAbstractionBetaAlkenylToDieneO2-(h)(rr),\
+HAbstractionBetaAlkenylToDieneO2-(r)(hh),\
+HLossBetaAlkenylToDiene-(h)(hh),\
+HLossBetaAlkenylToDiene-(r)(hh),\
+HLossBetaAlkenylToDiene-(h)(rh),\
+HLossBetaAlkenylToDiene-(r)(rh),\
+HLossBetaAlkenylToDiene-(h)(rr),\
+HLossBetaAlkenylToDiene-(r)(rr)\
+:oxygen,hydrogen-radical,methyl-radical
+%%% ----------------------------------------------------

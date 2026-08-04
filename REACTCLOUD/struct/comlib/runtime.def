@@ -1,0 +1,97 @@
+Structures for Commands Run Version
+1 Command Run Structures
+  AliasString 10 aliasstring
+     0 The string to be substituted
+       STRING KeyWord Pointer                           Create
+     1 The value to be inserted for keyword
+        STRING Alias Pointer                            Create
+     DONE
+   AliasArray 11 aliasarray
+     1 The maximum (for add alias routine)
+       INT MaxNumber                                    Create
+     0 The number of aliases
+       INT NumberOfAliases                              Create
+     1 The Set of Aliases
+       AliasString Set Pointer   Create Array=NumberOfAliases
+     DONE
+%%%  This is the Information needed for each command level
+%%%       ID - The level number
+%%%     Name - The prefix of the output of the Level 
+%%%             (the previous command names)
+  CommandLevel 300 commandlevel
+  0 The next Deeper Level
+     CommandLevel Next Pointer Create
+  DONE
+%%% This is the standard string buffer structure to which general
+%%% output goes.
+  StringBuffer 301 stringbuffer
+  0 The number of bytes left in the buffer
+     INT BufferLeft Create
+  1 The output buffer
+     STRING OutputBuffer Pointer Create
+  2 The associated file to print to
+     FILE OutputFile Pointer Create
+  DONE
+%%%
+%% General Structure for error and error recovery
+%%%
+  ErrorStatus  301 errorstatus
+   0 The Error Status Flag
+     INT EStatus  Create
+   1 What to do to recover from an error
+     INT ErrorRecovery  Create
+   DONE
+%%%
+%%%  This is the Input Source Information
+%%%  From this structure is all the data necessary to know where the
+%%%  input is coming from.
+%%%
+ CommandSource 300 commandsource
+  0 This is the source ASCII file under Batch Mode
+     FILE File Pointer Create
+  1 This is the Current Command Line in Batch Mode
+     CommandReturn Command Pointer Create
+  2 This is what to do in case of an error
+     ErrorStatus ErrorStat Pointer Create
+  3 This is the level of Verbose printout
+     INT Verbose Create
+  4 This is the standard ASCII out
+     StringBuffer StandardOut Pointer Create
+  5 This is the standard ASCII protocol
+     StringBuffer ProtocolOut Pointer Create
+  6  This is the standard error
+     StringBuffer ErrorOut Pointer Create
+     DONE
+%%%
+%%%
+%%%
+  FunctionList 302 functionlist
+  0 The number of functions in the list
+    INT NumberOfFunctions Create
+  1 The List of Functions
+    FunctionInfo Function Pointer Create Array=NumberOfFunctions
+  DONE
+%%% This is the master structure set up to be set to be able to deal
+%%% with the command input.  It has all the necessary structures.
+%%%
+%%% It should be noted that the master structure for the program is 
+%%% under VOID.  This means under copy circumstances, only the pointer
+%%% is transfered
+%%%
+  CommandMaster 301 commandmaster
+  0 This is Input Source Information
+     CommandSource Source Pointer Create
+  1 This is the main command tree
+     CommandInfo Commands Pointer Create
+  2 This are the list of available functions
+     FunctionList Functions Pointer Create
+  3 These are the levels of Command
+     CommandLevel Levels Pointer Create
+  4 This is the Master Structure for the Program Data
+     VOID MasterProgInfo Create
+  5 These are the Utility (fixed) Commands
+    CommandInfo Utilities Pointer Create
+  6   The set of aliases
+    AliasArray AliasSet Pointer Create
+  DONE
+DONE

@@ -1,0 +1,59 @@
+Olefin Decomposition
+NONE
+%%% ----------------------------------------------------
+H-Abstraction-Hydroxyl-Radical-Tertiary,\
+H-Abstraction-Hydroxyl-Radical-Secondary,\
+H-Abstraction-Hydroxyl-Radical-Primary\
+:hydroxyl-radical
+%%% ----------------------------------------------------
+HLoss-ethyl-radical(hh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rhh)-to-olefin,\
+HLoss-ethyl-radical(rr)(hhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(rhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rrh)-to-olefin,\
+HLoss-ethyl-radical(rr)(rhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(rrh)-to-olefin,\
+HLoss-ethyl-radical(rr)(rrh)-to-olefin
+%%% ----------------------------------------------------
+OlefinToAldehydeDecomp-(hh)(hh),\
+OlefinToAldehydeDecomp-(rh)(hh),\
+OlefinToAldehydeDecomp-(rr)(hh),\
+OlefinToAldehydeDecomp-(hh)(rh),\
+OlefinToAldehydeDecomp-(rh)(rh),\
+OlefinToAldehydeDecomp-(rr)(rh),\
+OlefinToAldehydeDecomp-(hh)(rr),\
+OlefinToAldehydeDecomp-(rh)(rr),\
+OlefinToAldehydeDecomp-(rr)(rr)\
+:hydroxyl-radical
+%%% ----------------------------------------------------
+H-Abstraction-Hydrogen-Radical-Primary,\
+H-Abstraction-Hydrogen-Radical-Secondary,\
+H-Abstraction-Hydrogen-Radical-Tertiary,\
+H-Abstraction-Hydroxyl-Radical-Primary,\
+H-Abstraction-Hydroxyl-Radical-Secondary,\
+H-Abstraction-Hydroxyl-Radical-Tertiary,\
+H-Abstraction-Oxygen-Radical-Primary,\
+H-Abstraction-Oxygen-Radical-Secondary,\
+H-Abstraction-Oxygen-Radical-Tertiary,\
+H-Abstraction-Oxygen-Primary,\
+H-Abstraction-Oxygen-Secondary,\
+H-Abstraction-Oxygen-Tertiary,\
+H-Abstraction-PeroxylRadical-Primary,\
+H-Abstraction-PeroxylRadical-Secondary,\
+H-Abstraction-PeroxylRadical-Tertiary,\
+H-Abstraction-Methoxy-Primary,\
+H-Abstraction-Methoxy-Secondary,\
+H-Abstraction-Methoxy-Tertiary,\
+H-Abstraction-EthylRadical-Primary,\
+H-Abstraction-EthylRadical-Secondary,\
+H-Abstraction-EthylRadical-Tertiary,\
+H-Abstraction-EthenylRadical-Primary,\
+H-Abstraction-EthenylRadical-Secondary,\
+H-Abstraction-EthenylRadical-Tertiary,\
+H-Abstraction-MethylPeroxyl-Primary,\
+H-Abstraction-MethylPeroxyl-Secondary,\
+H-Abstraction-MethylPeroxyl-Tertiary\
+: hydrogen-radical,oxygen-radical,oxygen,\
+methyl-radical,peroxyl-radical,methoxy-radical,\
+ethyl-radical,ethenyl-radical,methylperoxy-radical 

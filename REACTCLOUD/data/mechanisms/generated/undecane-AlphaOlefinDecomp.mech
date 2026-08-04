@@ -1,0 +1,152 @@
+CLASSCOEFFICIENTS
+H-Abstraction-Oxygen-Primary             =      4.1700e+12     0.0000     204.92     6.5375e+10     0.3130      -2.52
+H-Abstraction-Oxygen-Secondary           =      1.0000e+13     0.0000     199.06     1.3265e+11     0.2420       8.67
+BetaOlefinDecomp(qq)(q)(hh)(hhh)         =      2.5000e+16     0.0000     296.92     4.3926e+04     2.4740    -117.10
+BetaOlefinDecomp(qq)(q)(hh)(rhh)         =      2.5000e+16     0.0000     296.92     2.7732e+07     1.5490      15.49
+HLoss-ethyl-radical(rh)(hhh)-to-olefin   =      1.3380e+15    -0.5500     162.09     1.0000e+13     0.0000       5.02
+HLoss-ethyl-radical(hh)(rhh)-to-olefin   =      2.0710e+16    -0.8900     158.71     1.0000e+13     0.0000      12.13
+HLoss-ethyl-radical(rh)(rhh)-to-olefin   =      1.6393e+14    -0.3620     153.61     1.0000e+13     0.0000      12.13
+AlphaOlefinRadicalDecompOH-(hh)(h)(hh)   =      1.5000e+13     0.0000       0.00     9.9999e-41     0.0000       0.00
+AlphaOlefinRadicalDecompOH-(rh)(h)(hh)   =      1.5000e+13     0.0000       0.00     9.9999e-41     0.0000       0.00
+AlphaOlefinRadicalDecompOH-(hh)(h)(rh)   =      1.5000e+13     0.0000       0.00     9.9999e-41     0.0000       0.00
+AlphaOlefinRadicalDecompOH-(rh)(h)(rh)   =      1.5000e+13     0.0000       0.00     9.9999e-41     0.0000       0.00
+AlphaOlefinRadicalDecompHO2-(hh)(h)(hh)  =      5.0000e+12     0.0000       0.00     9.9999e-41     0.0000       0.00
+AlphaOlefinRadicalDecompHO2-(rh)(h)(hh)  =      5.0000e+12     0.0000       0.00     9.9999e-41     0.0000       0.00
+AlphaOlefinRadicalDecompHO2-(hh)(h)(rh)  =      5.0000e+12     0.0000       0.00     9.9999e-41     0.0000       0.00
+AlphaOlefinRadicalDecompHO2-(rh)(h)(rh)  =      5.0000e+12     0.0000       0.00     9.9999e-41     0.0000       0.00
+AlphaHAbstractionFromOlefinH-(hh)        =      1.0000e+12     0.0000      16.31     1.6570e+10     0.5320      90.50
+AlphaHAbstractionFromOlefinH-(rh)        =      1.0000e+12     0.0000      16.31     1.6570e+10     0.5320      90.50
+AlphaHAbstractionFromOlefinO-(hh)        =      1.0000e+12     0.0000      16.73     1.1673e+10     0.4760      83.64
+AlphaHAbstractionFromOlefinO-(rh)        =      1.0000e+12     0.0000      16.73     1.1673e+10     0.4760      83.64
+AlphaHAbstractionFromOlefinOH-(hh)       =      1.0000e+12     0.0000       5.14     1.0608e+12     0.2120     146.03
+AlphaHAbstractionFromOlefinOH-(rh)       =      1.0000e+12     0.0000       5.14     1.0608e+12     0.2120     146.03
+END
+CLASSEQUIVALENT
+END
+REACTIONCLASS  = H-Abstraction-Oxygen-Primary
+    6 {undecane} + {oxygen} = {peroxyl-radical} + {PP17}
+END
+REACTIONCLASS  = H-Abstraction-Oxygen-Secondary
+    4 {undecane} + {oxygen} = {peroxyl-radical} + {PP13}
+    2 {undecane} + {oxygen} = {peroxyl-radical} + {PP16}
+    4 {undecane} + {oxygen} = {peroxyl-radical} + {PP15}
+    4 {undecane} + {oxygen} = {peroxyl-radical} + {PP12}
+    4 {undecane} + {oxygen} = {peroxyl-radical} + {PP14}
+END
+REACTIONCLASS  = BetaOlefinDecomp(qq)(q)(hh)(hhh)
+    1 {PP20} = {methyl-radical} + {PP23}
+END
+REACTIONCLASS  = BetaOlefinDecomp(qq)(q)(hh)(rhh)
+    1 {PP22} = {1-propyl-radical} + {PP36}
+    1 {PP22} = {PP33} + {1-butyl-radical}
+    1 {PP21} = {ethyl-radical} + {PP32}
+    1 {PP21} = {PP30} + {PP31}
+    1 {PP20} = {PP28} + {PP29}
+    1 {PP19} = {2-butene-1-yl-radical} + {PP27}
+    1 {PP18} = {prop-1-en-3-yl-radical} + {PP25}
+END
+REACTIONCLASS  = HLoss-ethyl-radical(rh)(hhh)-to-olefin
+    1 {PP12} = {hydrogen-radical} + {PP18}
+END
+REACTIONCLASS  = HLoss-ethyl-radical(hh)(rhh)-to-olefin
+    1 {PP17} = {hydrogen-radical} + {PP18}
+END
+REACTIONCLASS  = HLoss-ethyl-radical(rh)(rhh)-to-olefin
+    1 {PP13} = {hydrogen-radical} + {PP19}
+    1 {PP12} = {hydrogen-radical} + {PP19}
+    1 {PP13} = {hydrogen-radical} + {PP20}
+    1 {PP14} = {hydrogen-radical} + {PP21}
+    1 {PP14} = {hydrogen-radical} + {PP20}
+    1 {PP15} = {hydrogen-radical} + {PP22}
+    1 {PP15} = {hydrogen-radical} + {PP21}
+    2 {PP16} = {hydrogen-radical} + {PP22}
+END
+REACTIONCLASS  = AlphaOlefinRadicalDecompOH-(hh)(h)(hh)
+    1 {prop-1-en-3-yl-radical} + {hydroxyl-radical} = {ethene} + {aldehyde}
+END
+REACTIONCLASS  = AlphaOlefinRadicalDecompOH-(rh)(h)(hh)
+    1 {PP23} + {hydroxyl-radical} = {aldehyde} + {1-nonene}
+    1 {PP37} + {hydroxyl-radical} = {aldehyde} + {1-decene}
+    1 {PP36} + {hydroxyl-radical} = {aldehyde} + {1-heptene}
+    1 {PP33} + {hydroxyl-radical} = {aldehyde} + {1-hexene}
+    1 {PP32} + {hydroxyl-radical} = {aldehyde} + {1-octene}
+    1 {PP30} + {hydroxyl-radical} = {aldehyde} + {1-pentene}
+    1 {PP28} + {hydroxyl-radical} = {aldehyde} + {1-butene}
+    1 {2-butene-1-yl-radical} + {hydroxyl-radical} = {aldehyde} + {propene}
+END
+REACTIONCLASS  = AlphaOlefinRadicalDecompOH-(hh)(h)(rh)
+    1 {PP39} + {hydroxyl-radical} = {ethene} + {PP58}
+END
+REACTIONCLASS  = AlphaOlefinRadicalDecompOH-(rh)(h)(rh)
+    1 {PP46} + {hydroxyl-radical} = {1-heptene} + {1-butanal}
+    1 {PP45} + {hydroxyl-radical} = {1-hexene} + {PP64}
+    1 {PP44} + {hydroxyl-radical} = {1-octene} + {propanal}
+    1 {PP43} + {hydroxyl-radical} = {1-pentene} + {PP62}
+    1 {PP42} + {hydroxyl-radical} = {1-nonene} + {ethanal}
+    1 {PP41} + {hydroxyl-radical} = {1-butene} + {PP60}
+    1 {PP40} + {hydroxyl-radical} = {propene} + {PP59}
+END
+REACTIONCLASS  = AlphaOlefinRadicalDecompHO2-(hh)(h)(hh)
+    1 {prop-1-en-3-yl-radical} + {peroxyl-radical} = {hydroxyl-radical} + {ethene} + {formyl-radical}
+END
+REACTIONCLASS  = AlphaOlefinRadicalDecompHO2-(rh)(h)(hh)
+    1 {PP33} + {peroxyl-radical} = {hydroxyl-radical} + {1-hexene} + {formyl-radical}
+    1 {PP23} + {peroxyl-radical} = {hydroxyl-radical} + {1-nonene} + {formyl-radical}
+    1 {2-butene-1-yl-radical} + {peroxyl-radical} = {hydroxyl-radical} + {propene} + {formyl-radical}
+    1 {PP28} + {peroxyl-radical} = {hydroxyl-radical} + {1-butene} + {formyl-radical}
+    1 {PP30} + {peroxyl-radical} = {hydroxyl-radical} + {1-pentene} + {formyl-radical}
+    1 {PP32} + {peroxyl-radical} = {hydroxyl-radical} + {1-octene} + {formyl-radical}
+    1 {PP36} + {peroxyl-radical} = {hydroxyl-radical} + {1-heptene} + {formyl-radical}
+    1 {PP37} + {peroxyl-radical} = {hydroxyl-radical} + {1-decene} + {formyl-radical}
+END
+REACTIONCLASS  = AlphaOlefinRadicalDecompHO2-(hh)(h)(rh)
+    1 {PP39} + {peroxyl-radical} = {hydroxyl-radical} + {ethene} + {PP67}
+END
+REACTIONCLASS  = AlphaOlefinRadicalDecompHO2-(rh)(h)(rh)
+    1 {PP46} + {peroxyl-radical} = {hydroxyl-radical} + {1-heptene} + {1-yl-1-butanal}
+    1 {PP40} + {peroxyl-radical} = {hydroxyl-radical} + {propene} + {PP68}
+    1 {PP41} + {peroxyl-radical} = {hydroxyl-radical} + {1-butene} + {PP69}
+    1 {PP42} + {peroxyl-radical} = {hydroxyl-radical} + {1-nonene} + {ethanoyl-radical}
+    1 {PP43} + {peroxyl-radical} = {hydroxyl-radical} + {1-pentene} + {PP71}
+    1 {PP44} + {peroxyl-radical} = {hydroxyl-radical} + {1-octene} + {propanoyl-radical}
+    1 {PP45} + {peroxyl-radical} = {hydroxyl-radical} + {1-hexene} + {PP73}
+END
+REACTIONCLASS  = AlphaHAbstractionFromOlefinH-(hh)
+    1 {PP19} + {hydrogen-radical} = {PP37} + {hydrogen}
+END
+REACTIONCLASS  = AlphaHAbstractionFromOlefinH-(rh)
+    1 {PP19} + {hydrogen-radical} = {hydrogen} + {PP40}
+    1 {PP18} + {hydrogen-radical} = {hydrogen} + {PP39}
+    1 {PP22} + {hydrogen-radical} = {hydrogen} + {PP46}
+    1 {PP22} + {hydrogen-radical} = {hydrogen} + {PP45}
+    1 {PP21} + {hydrogen-radical} = {hydrogen} + {PP44}
+    1 {PP21} + {hydrogen-radical} = {hydrogen} + {PP43}
+    1 {PP20} + {hydrogen-radical} = {hydrogen} + {PP42}
+    1 {PP20} + {hydrogen-radical} = {hydrogen} + {PP41}
+END
+REACTIONCLASS  = AlphaHAbstractionFromOlefinO-(hh)
+    1 {PP19} + {oxygen-radical} = {hydroxyl-radical} + {PP37}
+END
+REACTIONCLASS  = AlphaHAbstractionFromOlefinO-(rh)
+    1 {PP20} + {oxygen-radical} = {hydroxyl-radical} + {PP41}
+    1 {PP18} + {oxygen-radical} = {hydroxyl-radical} + {PP39}
+    1 {PP19} + {oxygen-radical} = {hydroxyl-radical} + {PP40}
+    1 {PP22} + {oxygen-radical} = {hydroxyl-radical} + {PP46}
+    1 {PP22} + {oxygen-radical} = {hydroxyl-radical} + {PP45}
+    1 {PP21} + {oxygen-radical} = {hydroxyl-radical} + {PP44}
+    1 {PP21} + {oxygen-radical} = {hydroxyl-radical} + {PP43}
+    1 {PP20} + {oxygen-radical} = {hydroxyl-radical} + {PP42}
+END
+REACTIONCLASS  = AlphaHAbstractionFromOlefinOH-(hh)
+    1 {PP19} + {hydroxyl-radical} = {PP37} + {water}
+END
+REACTIONCLASS  = AlphaHAbstractionFromOlefinOH-(rh)
+    1 {PP22} + {hydroxyl-radical} = {PP45} + {water}
+    1 {PP18} + {hydroxyl-radical} = {PP39} + {water}
+    1 {PP19} + {hydroxyl-radical} = {PP40} + {water}
+    1 {PP20} + {hydroxyl-radical} = {PP41} + {water}
+    1 {PP20} + {hydroxyl-radical} = {PP42} + {water}
+    1 {PP21} + {hydroxyl-radical} = {PP43} + {water}
+    1 {PP21} + {hydroxyl-radical} = {PP44} + {water}
+    1 {PP22} + {hydroxyl-radical} = {PP46} + {water}
+END

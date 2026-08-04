@@ -1,0 +1,39 @@
+ROOT       = /home/blurock
+
+CCROOT     = $(ROOT)/cc
+
+PROGRAM    = dbase
+LIBNAME    = lib$(PROGRAM).a
+MYLIBDIR   = $(ROOT)/lib
+LIBFILE    = $(MYLIBDIR)/$(LIBNAME)
+
+
+STD_LIBRARIES            = -L$(MYLIBDIR)\
+           -lgdbm -lbasis -lm 
+
+
+STD_INCLUDES = -I./standard\
+               -I./genc\
+               -I./genh\
+               -I$(CCROOT)/genc\
+               -I$(CCROOT)/genh\
+               -I$(CCROOT)/standard
+          
+CC = gcc
+
+SRCS = \
+	linked.c datum.c dbasemaster.c
+
+OBJS = \
+ 	linked.o datum.o dbasemaster.o
+
+library: $(OBJS)
+	$(RM) $(LIBFILE)
+	ar rv  $(LIBFILE) $(OBJS)
+	ar ts $(LIBFILE)
+
+structures:
+	createstructures dbase Str
+
+NormalProgramTarget($(PROGRAM),$(OBJS) main.o,,$(STD_LIBRARIES),XawClientLibs)
+

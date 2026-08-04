@@ -1,0 +1,80 @@
+Structures For syssamstr.c
+%%--------------------------------------------------------------
+%% These are the structures for storing a set of variables and their
+%% values.
+%%--------------------------------------------------------------
+
+1 structures
+%%--------------------------------------------------------------
+%%  The data points for each variable are stored in a vector
+%%  according to type.  The types are representing by BaseType.
+%%  At present the types are:
+%%         INT - INTEGERVALUE  - BaseIntVector
+%%       FLOAT - FLOATVALUE    - BaseFltVector
+%%
+   BaseIntVector 10 basintvec
+      0  The number of points
+         INT VectorLength                                 Create
+      1  The vector 
+         INT Vector  Pointer Array=VectorLength           Create
+      DONE
+   BaseFltVector 11 basfltvec
+      0  The number of points
+         INT VectorLength                                 Create
+      1  The vector 
+         FLOAT Vector  Pointer Array=VectorLength         Create
+      DONE
+   BaseVector 12 basvec
+      0  The type of Vector
+         INT Type                                         Create
+      1  The Integer Basis Vector (zero if not used)
+         BaseIntVector Integer Pointer                Create
+      2  The Float Basis Vector (zero if not used)
+         BaseFltVector  Float Pointer                   Create
+      DONE
+   BaseType  13 bastyp
+      0  The type of Vector
+         INT Type                                         Create
+      1  An Integer    
+         INT Integer                                      Create
+      2  A Floating Point Number
+         FLOAT Float                                      Create
+      DONE
+%%--------------------------------------------------------------
+%% This is the information associated with each variable.  Allowance
+%% is made for missing variables by assigning a special value.
+%% 
+   SysSamVector 14 syssamvec
+      0  The Value of a missing value
+         BaseType  Missing  Pointer                       Create
+      1  The number of points that are not missing
+         INT NumNotMissing                                Create
+      2  The data vector of type Type
+         BaseVector Data Pointer                          Create
+      DONE
+%%--------------------------------------------------------------
+%%  This is for storing the names of the data points
+   SysSamName   15  syssamname
+      DONE
+   SysSamNameSet 16 syssamnameset
+      0 The number of Data Points
+         INT NumberOfNames Create
+      1 The set of Names of the Points
+         SysSamName Names Pointer Create Array=NumberOfNames
+      DONE      
+%%--------------------------------------------------------------
+%% This is the set of all variables and the name of the data points.
+%%
+   SysSamVectorSet 17 syssamvecset SystemList
+      0 The number of samples
+         INT NumSystemSamples Create
+      1 The number of Data Points
+         INT NumSystemPoints Create
+      2 The set of SystemSampleVectors
+         SysSamVector Sets Pointer  Create Array=NumSystemSamples
+      3  The set of Names of each data point
+         SysSamNameSet NameSet Pointer Create
+      DONE
+DONE
+
+

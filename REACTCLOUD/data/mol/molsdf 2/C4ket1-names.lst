@@ -1,0 +1,37 @@
+1 C4ket
+1-yl-1-butanal
+- AlternativeNames CHEMKIN n-c3h7co
+- AlternativeNames Short n-c3h7co
+- AlternativeNames Formula C4H7O
+2-yl-1-butanal
+- AlternativeNames CHEMKIN ch3ch2chcho
+- AlternativeNames Short ch3ch2chcho
+- AlternativeNames Formula C4H7O
+3-yl-1-butanal
+- AlternativeNames CHEMKIN ch3chch2cho
+- AlternativeNames Short ch3chch2cho
+- AlternativeNames Formula C4H7O
+4-yl-1-butanal
+- AlternativeNames CHEMKIN ch2ch2ch2cho
+- AlternativeNames Short ch2ch2ch2cho
+- AlternativeNames Formula C4H7O
+1-yl-2-butanone
+- AlternativeNames CHEMKIN c2h5coch2
+- AlternativeNames Short c2h5coch2
+- AlternativeNames Formula C4H7O
+3-yl-2-butanone
+- AlternativeNames CHEMKIN ch3chcoch3
+- AlternativeNames Short ch3chcoch3
+- AlternativeNames Formula C4H7O
+4-yl-2-butanone
+- AlternativeNames CHEMKIN ch2ch2coch3
+- AlternativeNames Short ch2ch2coch3
+- AlternativeNames Formula C4H7O
+1-butanal
+- AlternativeNames CHEMKIN n-c3h7cho
+- AlternativeNames Short n-c3h7cho
+- AlternativeNames Formula C4H8O
+2-butanal
+- AlternativeNames CHEMKIN c2h5coch3
+- AlternativeNames Short c2h5coch3
+- AlternativeNames Formula C4H8O

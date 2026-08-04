@@ -1,0 +1,36 @@
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+Intramolecular-1-4-QOOH-Formation c(q)(q)(h)(coo.) = .c(q)(q)(cooh)
+- ID 3121
+- Correspondences
+1 2 3 4 5 6 7    4 2 2 2 2 2
+1 2 3 4 5 6 7    2 2 2 4 2 2
+>  <ForwardRxn>
+Standard 2.98e+12 0.0 29700 2; Type XI (5-Ring, secondary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 3.3590e+10    -0.0700    17578  2; Type XI (5-Ring, secondary): Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+Intramolecular-1-5-QOOH-Formation c(h)(q)(q)(ccoo.) = .c(q)(q)(ccooh)
+- ID 3122
+- Correspondences
+1 2 3 4 5 6 7 8   4 2 2 2 2 2 2
+1 2 3 4 5 6 7 8   2 2 2 2 4 2 2
+>  <ForwardRxn>
+Standard 2.48e+11 0.0 22150 2; Type XI (6-Ring, secondary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  2.3670e+10    -0.1400    11900  2; Type XI (5-Ring, secondary): Combustion and Flame, 114:149-177 (1998)
+$$$$
+%%%-------------------------------------------------------------------
+Intramolecular-1-6-QOOH-Formation c(h)(q)(q)(cccoo.) = .c(q)(q)(cccooh)
+- ID 3123
+- Correspondences
+1 2 3 4 5 6 7 8 9  4 2 2 2 2 2 2 2
+1 2 3 4 5 6 7 8 9  2 2 2 2 2 4 2 2
+>  <ForwardRxn>
+Standard 2.06e+10 0.0 19350 2; Type XI (7-Ring, secondary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  1.9710e+09    -0.1400   9130  2; Type XI (7-Ring, secondary): Combustion and Flame, 114:149-177 (1998)
+$$$$

@@ -1,0 +1,31 @@
+%%% /home/reaction/running/data/gri30IsomerEquivalentSetsClass.inp ======================= Find Isomers from predicates from distributions ======================= 
+ObjectClasses:
+DataType: DegreeOfEquivalenceNumeric Standard DegreeOfEquivalenceNumeric
+StandardDegreeOfEquivalenceNumeric
+InstanceVector
+DataType: EquivalentSet A standard numeric criteria equivalent set
+NumericStandardEquivalentSet
+StandardDegreeOfEquivalenceNumeric Real
+DataType: SetOfEquivalentSets A standard numeric set of equivalent sets
+NumericSetOfEquivalentSets
+NumericStandardEquivalentSet
+DataType: ExactlyEqualPredicate Exactly Equal Numeric Quantity in Molecule
+MoleculeExactlyEqualPredicateNumeric
+Continuous Integer
+END
+ClassNamePairs:
+%% -----------------------------------------------------
+EquivalentSets KeyWords
+StartEquivalentSet NumericSetOfEquivalentSets
+CutOffCriteria Real
+PredicateObject MoleculeExactlyEqualPredicateNumeric
+MoleculeNameList String
+RootName String
+END
+%% ----------------------------------------------------
+ObjectClasses:
+END
+%% ----------------------------------------------------
+ClassNamePairs:
+END
+%% ----------------------------------------------------

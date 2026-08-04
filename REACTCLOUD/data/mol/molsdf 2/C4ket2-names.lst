@@ -1,0 +1,21 @@
+2     C4ket
+1-butanal-1-ene
+- AlternativeNames CHEMKIN c2h5chco
+- AlternativeNames Short c2h5chco
+- AlternativeNames Formula C4H6O
+1-butanal-2-ene
+- AlternativeNames CHEMKIN sc3h5cho
+- AlternativeNames Short sc3h5cho
+- AlternativeNames Formula C4H6O
+1-butanal-3-ene
+- AlternativeNames CHEMKIN ac3h5cho 
+- AlternativeNames Short ac3h5cho
+- AlternativeNames Formula C4H6O 
+2-butanal-3-ene
+- AlternativeNames CHEMKIN c2h3coch3
+- AlternativeNames Short c2h3coch3
+- AlternativeNames Formula C4H6O
+3-buten-1-al-1-yl-radical
+- AlternativeNames CHEMKIN ac3h5co 
+- AlternativeNames Short ac3h5co 
+- AlternativeNames Formula C4H6O

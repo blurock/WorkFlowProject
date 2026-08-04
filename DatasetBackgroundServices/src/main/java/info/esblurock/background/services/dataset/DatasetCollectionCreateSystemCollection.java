@@ -24,8 +24,8 @@ public class DatasetCollectionCreateSystemCollection {
 
     public static JsonObject processCreateSystemCollection(JsonObject event, JsonObject info) {
         JsonObject response = null;
-        String maintainer = info.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
-        info.addProperty(ClassLabelConstants.SourceCollectionOwner, maintainer);
+        String owner = info.get(ClassLabelConstants.CatalogObjectOwner).getAsString();
+        info.addProperty(ClassLabelConstants.SourceCollectionOwner, owner);
         info.addProperty(ClassLabelConstants.DestinationCollectionOwner, systemhierarchy);
 
         String systemcollectionlabel = info.get(ClassLabelConstants.SystemDatasetCollectionsSetLabel).getAsString();

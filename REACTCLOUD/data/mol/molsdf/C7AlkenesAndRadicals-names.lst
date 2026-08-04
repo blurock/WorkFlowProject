@@ -1,0 +1,46 @@
+1   C7AlkenesAndRadicals
+2-heptene-1-yl-radical
+- AlternativeNames CHEMKIN CH2-C2H2C4H9
+- AlternativeNames Short   CH2-C2H2C4H9
+3-heptene-2-yl-radical
+- AlternativeNames CHEMKIN CH3CHCHCHC3H7
+- AlternativeNames Short   CH3CHCHCHC3H7
+4-heptene-3-yl-radical
+- AlternativeNames CHEMKIN c2h5chchchc2h5  
+- AlternativeNames Short   c2h5chchchc2h5  
+2-heptene-4-yl-radical
+- AlternativeNames CHEMKIN CH3CHCHCHC3H7r
+- AlternativeNames Short   CH3CHCHCHC3H7r
+1-heptene-3-yl-radical
+- AlternativeNames CHEMKIN C2H3-CHC4H9
+- AlternativeNames Short   C2H3-CHC4H9
+1,3-heptadiene
+- AlternativeNames CHEMKIN CH2CHCHCHC3H7
+- AlternativeNames Short   CH2CHCHCHC3H7
+2,4-heptadiene
+- AlternativeNames CHEMKIN CH3CHCHCHCHC2H5
+- AlternativeNames Short   CH3CHCHCHCHC2H5
+4,6-heptadien-3-yl-radical
+- AlternativeNames CHEMKIN C2H5CHCHCHCHCH2
+- AlternativeNames Short   C2H5CHCHCHCHCH2
+3,5-heptadien-2-yl-radical
+- AlternativeNames CHEMKIN CH3CHCHCHCHCHCH3
+- AlternativeNames Short   CH3CHCHCHCHCHCH3
+1,3,5-heptatriene
+- AlternativeNames CHEMKIN CH2CHCHCHCHCHCH3
+- AlternativeNames Short   CH2CHCHCHCHCHCH3
+1-heptyl-radical
+- AlternativeNames CHEMKIN C7H15-1
+- AlternativeNames Short   C7H15-1
+2-heptyl-radical
+- AlternativeNames CHEMKIN C7H15-2
+- AlternativeNames Short   C7H15-2
+3-heptyl-radical
+- AlternativeNames CHEMKIN C7H15-3
+- AlternativeNames Short   C7H15-3
+4-heptyl-radical
+- AlternativeNames CHEMKIN C7H15-4
+- AlternativeNames Short   C7H15-4
+2,4-heptadien-1-yl-radical
+- AlternativeNames CHEMKIN CH2CHCHCHCHC2H5
+- AlternativeNames Short   CH2CHCHCHCHC2H5

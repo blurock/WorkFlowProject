@@ -1,0 +1,17 @@
+%%% /Users/edwardblurock/reactionrun/PrintCombinedMechanismClass.inp ======================= Print out the combined generated and base mechanism ======================= 
+ObjectClasses:
+END
+ClassNamePairs:
+%% -----------------------------------------------------
+PrintParameters KeySet
+SubMolecules KeyWords
+MoleculeList KeyWords
+ReactionList KeyWords
+END
+%% ----------------------------------------------------
+ObjectClasses:
+END
+%% ----------------------------------------------------
+ClassNamePairs:
+END
+%% ----------------------------------------------------

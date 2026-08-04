@@ -1,0 +1,18 @@
+Isomerizations
+%%% ----------------------------------------------------
+%%% No molecules needed for the patterns
+%%% ----------------------------------------------------
+oxygen,hydroxyl-radical
+%%% ----------------------------------------------------
+%%%  Preparation: Hydrogen Abstraction
+%%% ----------------------------------------------------
+H-Abstraction-Hydroxyl-Radical-Primary,\
+H-Abstraction-Hydroxyl-Radical-Secondary,\
+H-Abstraction-Hydroxyl-Radical-Tertiary\
+:oxygen
+%%% ----------------------------------------------------
+HShift-12-Alkyl-(rr)(hh),\
+HShift-12-Alkyl-(rh)(rh),\
+HShift-12-Alkyl-(rh)(hh),\
+HShift-12-Alkyl-(hh)(rh),\
+HShift-12-Alkyl-(rr)(rh)

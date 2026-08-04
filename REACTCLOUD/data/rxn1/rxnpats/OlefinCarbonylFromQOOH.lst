@@ -1,0 +1,48 @@
+%%%-------------------------------------------------------------------
+%%% Peroxy --> Ketone Olefin and Hydroxyl-Radical
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+OlefinCarbonylFromPeroxy-HH .ccc(h)(h)(ooh) = (h)(h)c(o) olefin hydroxyl-radical
+- ID 21011
+- Correspondences
+1 2 3 4 5 6 7 8    2 4 2 4 2 2 2
+4 3 7 8            2 2 2
+5 6                2
+1 2                2
+
+>  <ForwardRxn>
+Standard 1.76e+11 0.0 14758 1
+
+>  <ReverseRxn>
+Standard 3.33e+9  0.0 8000  1
+$$$$
+%%%-------------------------------------------------------------------
+OlefinCarbonylFromPeroxy-RH .ccc(r)(h)(ooh) = (r)(h)c(o) olefin hydroxyl-radical
+- ID 21021
+- Correspondences
+1 2 3 4 5 6 7 8    2 4 2 4 2 2 2
+4 3 7 8            2 2 2
+5 6                2
+1 2                2
+
+>  <ForwardRxn>
+Standard 1.76e+11 0.0 14758 1
+
+>  <ReverseRxn>
+Standard 3.33e+9  0.0 8000  1
+$$$$
+%%%-------------------------------------------------------------------
+OlefinCarbonylFromPeroxy-RR .ccc(r)(r)(ooh) = (r)(r)c(o) olefin hydroxyl-radical
+- ID 21022
+- Correspondences
+1 2 3 4 5 6 7 8    2 4 2 4 2 2 2
+4 3 7 8            2 2 2
+5 6                2
+1 2                2
+
+>  <ForwardRxn>
+Standard 1.76e+11 0.0 14758 1
+
+>  <ReverseRxn>
+Standard 3.33e+9  0.0 8000  1
+$$$$

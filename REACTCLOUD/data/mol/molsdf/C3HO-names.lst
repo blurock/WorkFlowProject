@@ -1,0 +1,191 @@
+1 C3HO
+propane
+- AlternativeNames CHEMKIN C3H8
+- AlternativeNames Short C3H8
+1-propyl-radical
+- AlternativeNames CHEMKIN N-C3H7
+- AlternativeNames Short N-C3H7
+2-propyl-radical
+- AlternativeNames CHEMKIN I-C3H7
+- AlternativeNames Short I-C3H7
+propene 
+- AlternativeNames CHEMKIN C3H6
+- AlternativeNames Short C3H6
+cyclopropane
+- AlternativeNames CHEMKIN cy-C3H6
+- AlternativeNames Short cy-C3H6
+prop-1-en-1-yl-radical
+- AlternativeNames CHEMKIN c3h5a
+- AlternativeNames Short c3h5a
+prop-1-en-2-yl-radical
+- AlternativeNames CHEMKIN c3h5t
+- AlternativeNames Short c3h5t
+prop-1-en-3-yl-radical
+- AlternativeNames CHEMKIN c3h5s
+- AlternativeNames Short c3h5s
+allene 
+- AlternativeNames CHEMKIN C3H4
+- AlternativeNames Short C3H4-a
+propyne 
+- AlternativeNames CHEMKIN C3H4p
+- AlternativeNames Short C3H4-p
+prop-2-yn-1-yl-radical
+- AlternativeNames CHEMKIN CHCCH2
+- AlternativeNames Short CHCCH2
+propyn-1-yl-radical
+- AlternativeNames CHEMKIN CH3CC
+- AlternativeNames Short CH3CC
+propanal
+- AlternativeNames CHEMKIN C2H5CHO
+- AlternativeNames Short C2H5CHO
+propanone
+- AlternativeNames CHEMKIN CH3COCH3
+- AlternativeNames Short CH3COCH3
+propanoyl-radical
+- AlternativeNames CHEMKIN c2h5co
+- AlternativeNames Short c2h5co
+propanon-1-yl-radical
+- AlternativeNames CHEMKIN CH3COCH2
+- AlternativeNames Short CH3COCH2
+propanal-2-yl-radical
+- AlternativeNames CHEMKIN ch3chcho
+- AlternativeNames Short ch3chcho
+propanal-3-yl-radical
+- AlternativeNames CHEMKIN c2h4cho
+- AlternativeNames Short c2h4cho
+propanal-2-one
+- AlternativeNames CHEMKIN ch3cocho
+- AlternativeNames Short ch3cocho
+1,3-dipropanal
+- AlternativeNames CHEMKIN CHOCH2CHO
+- AlternativeNames Short CHOCH2CHO
+propanoyl-3-al-radical
+- AlternativeNames CHEMKIN COCH2CHO
+- AlternativeNames Short COCH2CHO
+dipropanal-2-yl-radical
+- AlternativeNames CHEMKIN HCOCHCHO
+- AlternativeNames Short HCOCHCHO
+propanoyl-2-one-radical
+- AlternativeNames CHEMKIN COCOCH3
+- AlternativeNames Short COCOCH3
+propanal-2-one-3-yl-radical
+- AlternativeNames CHEMKIN HCOCOCH2
+- AlternativeNames Short HCOCOCH2
+propen-3-al
+- AlternativeNames CHEMKIN ch2chcho
+- AlternativeNames Short ch2chcho
+methyl-ketene
+- AlternativeNames CHEMKIN ch3chco
+- AlternativeNames Short   ch3chco
+prop-3-en-1-peroxy-radical
+- AlternativeNames CHEMKIN CH2CHCH2OO
+- AlternativeNames Short   CH2CHCH2OO
+propenylal-radical
+- AlternativeNames CHEMKIN c2h3co
+- AlternativeNames Short   c2h3co
+propen-3-ol
+- AlternativeNames CHEMKIN ch2chch2oh
+- AlternativeNames Short   ch2chch2oh
+propen-2-yl-3-ol
+- AlternativeNames CHEMKIN ch2cch2oh
+- AlternativeNames Short   ch2cch2oh
+propen-3-oxy-radical
+- AlternativeNames CHEMKIN ch2chch2o
+- AlternativeNames Short   ch2chch2o
+- AlternativeNames   Formula ch2chch2o
+oxetane
+- AlternativeNames CHEMKIN c3h6o1-3
+- AlternativeNames Short   c3h6o1-3
+- AlternativeNames   Formula c3h6
+methyl-oxirane
+- AlternativeNames CHEMKIN c3h6o1-2
+- AlternativeNames Short   c3h6o1-2
+- AlternativeNames   Formula c3h6
+propen-2-ol
+- AlternativeNames CHEMKIN ch2c(oh)ch3
+- AlternativeNames Short   ch2c(oh)ch3
+- AlternativeNames   Formula c3h6
+propanol-3-yl-radical
+- AlternativeNames CHEMKIN ch2ch2ch2oh
+- AlternativeNames Short   ch2ch2ch2oh
+- AlternativeNames   Formula c3h7o
+2-propanol-2-yl-radical
+- AlternativeNames CHEMKIN ch3c(oh)ch3
+- AlternativeNames Short   ch3c(oh)ch3
+- AlternativeNames   Formula c3h7o
+1-oxypropane-radical
+- AlternativeNames CHEMKIN ch3ch2ch2o
+- AlternativeNames Short   ch3ch2ch2o
+- AlternativeNames   Formula c3h7o
+isopropyloxidanyl
+- AlternativeNames CHEMKIN ch3ch(o)ch3
+- AlternativeNames Short   ch3ch(o)ch3
+- AlternativeNames   Formula c3h67o
+propanal-2-oxy-radical
+- AlternativeNames CHEMKIN ch3ch(o)cho
+- AlternativeNames Short   ch3ch(o)cho
+- AlternativeNames   Formula c3h5o2
+2-oxo-1-propanolate
+- AlternativeNames CHEMKIN ch3coch2o
+- AlternativeNames Short   ch3coch2o
+- AlternativeNames   Formula c3h5o2
+1-hydroperoxy-2-propyl-radical
+- AlternativeNames CHEMKIN c3h6ooh1-2
+- AlternativeNames Short   c3h6ooh1-2
+- AlternativeNames   Formula c3h7o2
+1-hydroperoxy-3-propyl-radical
+- AlternativeNames CHEMKIN c3h6ooh1-3
+- AlternativeNames Short   c3h6ooh1-3
+- AlternativeNames   Formula c3h7o2
+2-hydroperoxy-1-propyl-radical
+- AlternativeNames CHEMKIN c3h6ooh2-1
+- AlternativeNames Short   c3h6ooh2-1
+- AlternativeNames   Formula c3h7o2
+1-peroxy-propane
+- AlternativeNames CHEMKIN nc3h7o2
+- AlternativeNames Short   nc3h7o2
+- AlternativeNames   Formula c3h7o2
+2-peroxy-propane
+- AlternativeNames CHEMKIN ic3h7o2
+- AlternativeNames Short   ic3h7o2
+- AlternativeNames   Formula c3h7o2
+1-hydroperoxy-propane
+- AlternativeNames CHEMKIN nc3h7o2h
+- AlternativeNames Short   nc3h7o2h
+- AlternativeNames   Formula c3h8o2
+2-hydroperoxy-propane
+- AlternativeNames CHEMKIN ic3h7o2h
+- AlternativeNames Short   ic3h7o2h
+- AlternativeNames   Formula c3h8o2
+1-peroxy-2-propanone
+- AlternativeNames CHEMKIN ch3coch2o2
+- AlternativeNames Short   ch3coch2o2
+- AlternativeNames   Formula c3h5o3
+2-hydroperoxy-1-propanone
+- AlternativeNames CHEMKIN c3ket12
+- AlternativeNames Short   c3ket12
+- AlternativeNames   Formula c3h6o3
+3-hydroperoxy-1-propanone
+- AlternativeNames CHEMKIN c3ket13
+- AlternativeNames Short   c3ket13
+- AlternativeNames   Formula c3h6o3
+1-hydroperoxy-2-propanone
+- AlternativeNames CHEMKIN c3ket21
+- AlternativeNames Short   c3ket21
+- AlternativeNames   Formula c3h6o3
+2-peroxy-1-propanol
+- AlternativeNames CHEMKIN hoc3h6o2
+- AlternativeNames Short   hoc3h6o2
+- AlternativeNames   Formula c3h7o3
+1-hydroperoxy-2-peroxy-propane
+- AlternativeNames CHEMKIN c3h6ooh1-2o2
+- AlternativeNames Short   c3h6ooh1-2o2
+- AlternativeNames   Formula c3h7o3
+1-hydroperoxy-3-peroxy-propane
+- AlternativeNames CHEMKIN c3h6ooh1-3o2
+- AlternativeNames Short   c3h6ooh1-3o2
+- AlternativeNames   Formula c3h7o3
+2-hydroperoxy-1-peroxy-propane
+- AlternativeNames CHEMKIN c3h6ooh2-1o2
+- AlternativeNames Short   c3h6ooh2-1o2
+- AlternativeNames   Formula c3h7o3

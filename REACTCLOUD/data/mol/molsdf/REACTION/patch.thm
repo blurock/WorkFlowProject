@@ -1,0 +1,9 @@
+1-propene-3-ol
+- Enthalpy StandardEnthalpy 8.67E+04 J-mol 
+- CpPowerSeries CpSeriesInT .001 Kcals-K-mol Barbieri -2.272E+01  1.542E+02 -1.644E+02  8.578E+01 -2.187E+01  2.177E+00 
+- Entropy StandardEntropy 77.33 cals-K-mol Benson 
+- CalculateBenson C3H5OH StandardEnthalpy StandardEntropy CpSeriesInT Standard  
+- ChemkinFromBenson ChemkinThermo Benson
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo 
+
+

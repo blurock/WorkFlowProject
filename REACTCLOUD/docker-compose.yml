@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  react:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: react-chemdb
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - REACTROOT=/opt/react
+      - CCROOT=/opt/react
+    volumes:
+      - ./data:/opt/react/data
+      - ./tests:/opt/react/tests
+    working_dir: /opt/react
+    # Uncomment to run in CLI mode for testing
+    # command: ["/opt/react/bin/chemdb", "--help"]
+    # Uncomment to run in HTTP server mode
+    # command: ["/opt/react/entrypoint.sh", "http"]
+
+networks:
+  default:
+    name: react-network

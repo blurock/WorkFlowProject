@@ -1,0 +1,30 @@
+%%% /Users/edwardblurock/reactionrun/mechs/chemkin/LLNL-BaseNHeptaneSetupClass.inp ======================= Setup for Reading CHEMKIN mechanism ======================= 
+ObjectClasses:
+DataType: MoleculeSummarySet  The set of standard molecule summaries
+StandardMoleculeSummary
+MoleculeSummary
+END
+ClassNamePairs:
+%% -----------------------------------------------------
+MoleculeClass String
+ReactionClass String
+MechanismClass String
+ChemkinClass String
+ThermoNameInInstance String
+ChemkinNameInInstance String
+LiteratureReference String
+MoleculeSummaryName String
+ReactionRate String
+ThirdBody String
+ReactionRateHiLow String
+FileRoot String
+Reference LiteratureReference
+StandardMoleculeSummary StandardMoleculeSummary
+END
+%% ----------------------------------------------------
+ObjectClasses:
+END
+%% ----------------------------------------------------
+ClassNamePairs:
+END
+%% ----------------------------------------------------

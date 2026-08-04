@@ -1,0 +1,78 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+AldehydeHAbstractionOH-(hh)    (h)(h)c(o) hydroxyl-radical = (h).c(o) water
+- ID 3301
+- Correspondences
+1 2 3 4               2 2 4
+5 6                   2
+1 2 3                 2 2
+6 5 4                 2 4
+>  <ForwardRxn>
+Standard 4.2e+12  0.0 500.0 2; Come, et. al ; from n-decane mechanism
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1 = 1
+%%%-------------------------------------------------------------------
+AldehydeHAbstractionOH-(rh)    (r)(h)c(o) hydroxyl-radical = (r).c(o) water
+- ID 3302
+- Correspondences
+1 2 3 4               2 2 4
+5 6                   2
+1 2 3                 2 2
+6 5 4                 2 4
+>  <ForwardRxn>
+Standard 4.2e+12  0.0 500.0 1; Come, et. al ; from n-decane mechanism
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+AldehydeHAbstractionH-(hh)    (h)(h)c(o) hydrogen-radical = (h).c(o) hydrogen
+- ID 3303
+- Correspondences
+1 2 3 4               2 2 4
+5                     2
+1 2 3                 2 2
+5 4                   4
+>  <ForwardRxn>
+Standard 4.0e+13  0.0 4200.0 2; Come, et. al ; from n-decane mechanism
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2 = 2
+%%%-------------------------------------------------------------------
+AldehydeHAbstractionH-(rh)    (r)(h)c(o) hydrogen-radical = (r).c(o) hydrogen
+- ID 3304
+- Correspondences
+1 2 3 4               2 2 4
+5                     2
+1 2 3                 2 2
+5 4                   4
+>  <ForwardRxn>
+Standard 4.0e+13  0.0 4200.0 1; Come, et. al ; from n-decane mechanism
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*6/2 = 12/2 = 6
+%%%-------------------------------------------------------------------
+AldehydeHAbstractionCH3-(hh)    (h)(h)c(o) methane-carbon-radical = (h).c(o) methane
+- ID 3305
+- Correspondences
+1 2 3 4               2 2 4
+5 6 7 8               2 2 2
+1 2 3                 2 2
+5 8 7 6 4             2 2 2 4
+>  <ForwardRxn>
+Standard 2.0e-6  5.6 2500.0.0 6; Come, et. al ; from n-decane mechanism
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*6 = 6
+%%%-------------------------------------------------------------------
+AldehydeHAbstractionCH3-(rh)    (r)(h)c(o) methane-carbon-radical = (r).c(o) methane
+- ID 3306
+- Correspondences
+1 2 3 4               2 2 4
+5 6 7 8               2 2 2
+1 2 3                 2 2
+5 8 7 6 4             2 2 2 4
+>  <ForwardRxn>
+Standard 2.0e-6  5.6 2500.0.0 6; Come, et. al ; from n-decane mechanism
+$$$$

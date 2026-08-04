@@ -1,0 +1,119 @@
+Reference to Curran,Gaffuri,Pitz,Westbrook Heptane article
+
+----------------------------------------------------------------------
+Alkyl Radical Isomerization with peroxy (not listed)
+HRingIsomerization.lst (last half)
+FiveRing-(ooh)-h-isomerization .cccc(ooh)(h) = .c(ooh)ccc(h)
+SixRing-(ooh)-h-isomerization .ccccc(ooh)(h) = .c(ooh)cccc(h)
+SevenRing-(ooh)-h-isomerization .cccccc(ooh)(h) = .c(ooh)ccccc(h)
+EightRing-(ooh)-h-isomerization .ccccccc(ooh)(h) = .c(ooh)cccccc(h)
+
+
+
+----------------------------------------------------------------------
+Type 1: H Abstraction (only general with O2)
+Carbon-Radical-Initiation-Step-(RH+O2->R+HO2) general-carbon-hydrogen-bond oxygen = general-carbon-radical peroxyl-radical
+
+----------------------------------------------------------------------
+Type 4: Alkyl Radical to Olefin
+EthyneRadicalToOlefin.lst
+ethyl-radical(hh)(hhh)-oxidation-to-olefin ethyl-radical-(hh)(hhh) oxygen = olefin-(hh)(hh) peroxyl-radical
+ethyl-radical(rh)(hhh)-oxidation-to-olefin ethyl-radical-(rh)(hhh) oxygen = olefin-(rh)(hh) peroxyl-radical
+ethyl-radical(hh)(rhh)-oxidation-to-olefin ethyl-radical-(hh)(rhh) oxygen = olefin-(rh)(hh) peroxyl-radical
+ethyl-radical(rr)(hhh)-oxidation-to-olefin ethyl-radical-(rr)(hhh) oxygen = olefin-(rr)(hh) peroxyl-radical
+ethyl-radical(rh)(rhh)-oxidation-to-olefin ethyl-radical-(rh)(rhh) oxygen = olefin-(rh)(rh) peroxyl-radical
+ethyl-radical(hh)(rrh)-oxidation-to-olefin ethyl-radical-(hh)(rrh) oxygen = olefin-(rr)(hh) peroxyl-radical
+ethyl-radical(rr)(rhh)-oxidation-to-olefin ethyl-radical-(rr)(rhh) oxygen = olefin-(rr)(rh) peroxyl-radical
+ethyl-radical(rh)(rrh)-oxidation-to-olefin ethyl-radical-(rh)(rrh) oxygen = olefin-(rr)(rh) peroxyl-radical
+ethyl-radical(rr)(rrh)-oxidation-to-olefin ethyl-radical-(rr)(rrh) oxygen = olefin-(rr)(rr) peroxyl-radical
+----------------------------------------------------------------------
+Type 5: Alkyl Radical Isomerization
+HRingIsomerization.lst
+FiveRing-chain-h-isomerization .cccc(h) = .cccc(h)
+SixRing-chain-h-isomerization .ccccc(h) = .ccccc(h)
+SevenRing-chain-h-isomerization .cccccc(h) = .cccccc(h)
+EightRing-chain-h-isomerization .ccccccc(h) = .ccccccc(h)
+FiveRing-(ooh)-h-isomerization .cccc(ooh)(h) = .c(ooh)ccc(h)
+SixRing-(ooh)-h-isomerization .ccccc(ooh)(h) = .c(ooh)cccc(h)
+SevenRing-(ooh)-h-isomerization .cccccc(ooh)(h) = .c(ooh)ccccc(h)
+EightRing-(ooh)-h-isomerization .ccccccc(ooh)(h) = .c(ooh)cccccc(h)
+
+----------------------------------------------------------------------
+Type 10: Oxygen addition to carbon radical
+O2AdditionToRadical.lst
+Primary-Carbon-Radical-(R.+O2-->RO2.) primary-carbon-radical oxygen = (h)(h)(r)coo.
+Secondary-Carbon-Radical-(R.+O2-->RO2.) secondary-carbon-radical oxygen = (h)(r)(r)coo.
+Tertiary-Carbon-Radical-(R.+O2-->RO2.) tertiary-carbon-radical oxygen = (r)(r)(r)coo.
+----------------------------------------------------------------------
+Type 11: R. + RO2. -> RO. + RO.
+AlkoxyFromRadicalAndPeroxy.lst
+TwoAlkoxyFormation general-carbon-radical (q)(q)(q)coo. = c(q)(q)(q)(o.) c(q)(q)(q)(o.)
+----------------------------------------------------------------------
+Type 12: RO2. Isomerization
+QOOHFormation.lst
+Intramolecular-1-4-QOOH-Formation c(q)(q)(h)(coo.) = .c(q)(q)(cooh)
+Intramolecular-1-5-QOOH-Formation c(h)(q)(q)(ccoo.) = .c(q)(q)(ccooh)
+Intramolecular-1-6-QOOH-Formation c(h)(q)(q)(cccoo.) = .c(q)(q)(cccooh)
+----------------------------------------------------------------------
+Type 13: RO2 + HO2 -> RO2H + O2
+ROOHFromRO2AndPeroxy.lst
+ROOHFromPeroxy-HHH  (h)(h)(h)coo. peroxyl-radical = c(h)(h)(h)(ooh) oxygen
+ROOHFromPeroxy-RHH  (h)(h)(r)coo. peroxyl-radical = c(r)(h)(h)(ooh) oxygen
+ROOHFromPeroxy-RRH  (h)(r)(r)coo. peroxyl-radical = c(r)(r)(h)(ooh) oxygen
+ROOHFromPeroxy-RRR  (r)(r)(r)coo. peroxyl-radical = c(r)(r)(r)(ooh) oxygen
+
+----------------------------------------------------------------------
+Type 14: RO2. + H2O2 --> RO2H + HO2.
+PeroxyFromHydroPeroxy.lst
+PeroxyFromHydrogenPeroxide-HHH (h)(h)(h)coo. hydrogen-peroxide = c(h)(h)(h)(ooh) peroxyl-radical
+PeroxyFromHydrogenPeroxide-RHH (h)(h)(r)coo. hydrogen-peroxide = c(r)(h)(h)(ooh) peroxyl-radical
+PeroxyFromHydrogenPeroxide-RRH (h)(r)(r)coo. hydrogen-peroxide = c(r)(r)(h)(ooh) peroxyl-radical
+PeroxyFromHydrogenPeroxide-RRR (r)(r)(r)coo. hydrogen-peroxide = c(r)(r)(r)(ooh) peroxyl-radical
+
+----------------------------------------------------------------------
+Type 17: RO2H --> RO. + .OH
+AlkoxyFromPeroxy.lst
+AlkoxyFromPeroxy-HHH c(h)(h)(h)(ooh) = c(h)(h)(h)(o.) hydroxyl-radical
+AlkoxyFromPeroxy-RHH c(r)(h)(h)(ooh) = c(r)(h)(h)(o.) hydroxyl-radical
+AlkoxyFromPeroxy-RRH c(r)(r)(h)(ooh) = c(r)(r)(h)(o.) hydroxyl-radical
+AlkoxyFromPeroxy-RRR c(r)(r)(r)(ooh) = c(r)(r)(r)(o.) hydroxyl-radical
+----------------------------------------------------------------------
+Type 19: Cyclic Ether Formation
+CyclicEtherFormationFromQOOH.lst
+CyclicEtherFromQOOH-3Ring  .c(q)(q)(cooh) =   (q)(q)(-cco-) hydroxyl-radical
+CyclicEtherFromQOOH-4Ring  .c(q)(q)(ccooh) =   (q)(q)(-ccco-) hydroxyl-radical
+CyclicEtherFromQOOH-5Ring  .c(q)(q)(cccooh) =  (q)(q)(-cccco-) hydroxyl-radical
+CyclicEtherFromQOOH-6Ring  .c(q)(q)(ccccooh) = (q)(q)(-ccccco-) hydroxyl-radical
+----------------------------------------------------------------------
+Type 20: Olefin Formation from Beta Peroxy
+OlefinToOOH.lst
+BetaHPeroxyToOlefin-HHHH .c(h)(h)c(h)(h)(coo.) = olefin-(hh)(hh) peroxyl-radical
+BetaHPeroxyToOlefin-RHHH .c(r)(h)c(h)(h)(coo.) = olefin-(rh)(hh) peroxyl-radical
+BetaHPeroxyToOlefin-RRHH .c(r)(r)c(h)(h)(coo.) = olefin-(rr)(hh) peroxyl-radical
+BetaHPeroxyToOlefin-HHRH .c(h)(h)c(r)(h)(coo.) = olefin-(rh)(hh) peroxyl-radical
+BetaHPeroxyToOlefin-RHRH .c(r)(h)c(r)(h)(coo.) = olefin-(rh)(rh) peroxyl-radical
+BetaHPeroxyToOlefin-RRRH .c(r)(r)c(r)(h)(coo.) = olefin-(rr)(rh) peroxyl-radical
+BetaHPeroxyToOlefin-HHRR .c(h)(h)c(r)(r)(coo.) = olefin-(rr)(hh) peroxyl-radical
+BetaHPeroxyToOlefin-RHRR .c(r)(h)c(r)(r)(coo.) = olefin-(rr)(rh) peroxyl-radical
+BetaHPeroxyToOlefin-RRRR .c(r)(r)c(r)(r)(coo.) = olefin-(rr)(rr) peroxyl-radical
+----------------------------------------------------------------------
+Type 21: Peroxy --> Ketone Olefin and Hydroxyl-Radical
+OlefinCarbonylFromQOOH.lst
+OlefinCarbonylFromPeroxy-HH .ccc(h)(h)(ooh) = (h)(h)c(o) olefin hydroxyl-radical
+OlefinCarbonylFromPeroxy-RH .ccc(r)(h)(ooh) = (r)(h)c(o) olefin hydroxyl-radical
+OlefinCarbonylFromPeroxy-RR .ccc(r)(r)(ooh) = (r)(r)c(o) olefin hydroxyl-radical
+----------------------------------------------------------------------
+Type 23: .O2QOOH Isomerization to Ketohydroperoxide
+QOOHQOO.lst
+OOQOOH-Isomerization-4Ring-Primary c(h)(h)(coo.)(ooh) = o=c(h)(cooh) hydroxyl-radical
+OOQOOH-Isomerization-4Ring-Secondary c(h)(r)(coo.)(ooh) = o=c(r)(cooh) hydroxyl-radical
+OOQOOH-Isomerization-5Ring-Primary c(h)(h)(ccoo.)(ooh) = o=c(h)(ccooh) hydroxyl-radical
+OOQOOH-Isomerization-5Ring-Secondary c(h)(r)(ccoo.)(ooh) = o=c(r)(ccooh) hydroxyl-radical
+OOQOOH-Isomerization-6Ring-Primary (h)(h)(cccooh)cooh = o=c(h)(cccooh) hydroxyl-radical
+OOQOOH-Isomerization-6Ring-Secondary (h)(r)(cccoo.)cooh = o=c(r)(cccooh) hydroxyl-radical
+----------------------------------------------------------------------
+Type 24: Ketohydroperoxide Decomposition
+KetoHydroPeroxideDecomposition.lst
+KetoHydroPeroxideDecomposition c2q5ooh = general-carbon-radical hydroxyl-radical general-aldehydeketone
+----------------------------------------------------------------------
+

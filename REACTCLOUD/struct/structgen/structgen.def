@@ -1,0 +1,55 @@
+Structure Generation Structures
+4 structgen
+     StructuralElement 1100 structuralelement
+        1 The minimum number of times to appear
+          INT Minimum Create
+        2 The maximum number of times to appear
+          INT Maximum Create
+        3 The priority
+          INT Priority Create
+     DONE
+     MoleculeStructureSpecification 1101 moleculestructurespecification
+        0 The number of structural elements
+          INT NumberOfElements Create
+        1 The array of structural elements
+          StructuralElement StructuralElements Pointer Create Array=NumberOfElements
+        DONE
+     FullStructuralElement 1102 fullstructuralelement
+        0 The Basic Structural information
+          StructuralElement Info Pointer Create
+        1 The Molecule information
+          MoleculeInfo Molecule Create Pointer
+        2 The Molecule as Graph
+          Graph MoleculeGraph Create Pointer
+        3 The connections that can be made (relative to graph)
+          DataSubSet Connections Pointer Create
+     DONE
+     FullMoleculeSpecification 1103 fulmoleculespecification
+        0 The number of structural elements
+          INT NumberOfElements Create
+        1 The array of structural elements
+          FullStructuralElement FullStructuralElements Pointer Create Array=NumberOfElements
+        2 The Priority Set Values
+          DataSubSet PrioritySets Pointer Create
+     DONE
+     GenerateStructureMaster 1200 generatestructuremaster
+        0 The Basic Structure Specification
+          MoleculeStructureSpecification BasicSpecification Create Pointer
+        1 The Full Filled Specification for molecule generation
+          FullMoleculeSpecification FullSpecification Pointer Create
+        DONE
+     CurrentStructure 1201 currentstructure
+        0 1 if the structure is completed, 0 otherwise
+          INT Completed Create
+        1 The structure as a Graph
+          Graph Structure Create Pointer
+        2 The list of nodes that are open for attachments
+          DataSubSet Attachments Pointer Create
+        DONE
+     AttachmentRemoved 1202 attachmentremoved
+        0 The new graph with no attachment
+          Graph Structure Pointer Create
+        1 The new point of attachment
+          INT Attachment Create
+        DONE
+DONE

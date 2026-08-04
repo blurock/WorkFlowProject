@@ -1,0 +1,23 @@
+Structures for the Matrix   Routines
+5   structures
+   FullMatrixFLT 51 fullmatrix
+      0 The number of Rows
+         INT Dim1 Create
+      1 The number of Columns
+         INT Dim2 Create
+      2 The total Dimension
+         INT TotalDim Create
+      3 The Array as Vector of Floating Points
+         FLOAT Elements Pointer Create Array=TotalDim
+      DONE
+   SymmetricEigenMath 52 symeigen
+      0 The number of rows
+         INT NumberOfRows Create
+      1 The matrix of elements
+         FullMatrixFLT Elements  Pointer Create
+      2 The eigenvalues
+         FLOAT Eigenvalues  Pointer Create Array=NumberOfRows
+      3 The Eigenvectors
+         FullMatrixFLT Eigenvectors Pointer Create
+      DONE
+DONE

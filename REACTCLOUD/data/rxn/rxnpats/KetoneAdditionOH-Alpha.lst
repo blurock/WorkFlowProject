@@ -1,0 +1,99 @@
+%%%-------------------------------------------------------------------
+%%% Modified April 22,2004:  Fixed correspondences on products.
+%%%                          And Bond Breaking
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2 = 12
+%%%-------------------------------------------------------------------
+KetoneAdditionOH-Alpha-(h)(hh)\
+   c(qqq)coc(h)c(hh) hydroxyl-radical = c(hhh)hc(o) c(qqq).c(o)
+- ID 72801
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11     4 2 2 2 2 2 2 2 2 2
+12 13                       4
+2 13 3 9 10 11 12           4 2 2 2 2 4
+1 4 5 6 7 8                 2 2 2 2 2
+>  <ForwardRxn>
+Standard   1.530E+08  1.53  8.775E+03 12;  Curran, et. al. (isooctane, heptane);   ic3h7coc2h3+oh = ch3cho+ic3h7co
+>  <ReverseRxn>
+Standard   1.013E+03  2.76  2.841E+04 12;  Curran, et. al. (isooctane, heptane);   ic3h7coc2h3+oh = ch3cho+ic3h7co
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2 = 12
+%%%-------------------------------------------------------------------
+KetoneAdditionOH-Alpha-(r)(hh)\
+   c(qqq)coc(r)c(hh) hydroxyl-radical = c(hhh)rc(o) c(qqq).c(o)
+- ID 72802
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11     4 2 2 2 2 2 2 2 2 2
+12 13                       4
+2 13 3 9 10 11 12           4 2 2 2 2 4
+1 4 5 6 7 8                 2 2 2 2 2
+>  <ForwardRxn>
+Standard   1.000E+12   0.00   0.000E+00 12;  Curran, et. al. (isooctane, heptane);    ic3h5coc2h5+oh = ch3coch3+c2h5co
+>  <ReverseRxn>
+Standard   6.042E+10   0.15   2.655E+04 12;  Curran, et. al. (isooctane, heptane);    ic3h5coc2h5+oh = ch3coch3+c2h5co
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6 = 6
+%%%-------------------------------------------------------------------
+KetoneAdditionOH-Alpha-(h)(rh)\
+   c(qqq)coc(h)c(rh) hydroxyl-radical = c(rhh)hc(o) c(qqq).c(o)
+- ID 72803
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11     4 2 2 2 2 2 2 2 2 2
+12 13                       4
+2 13 3 9 10 11 12           4 2 2 2 2 4
+1 4 5 6 7 8                 2 2 2 2 2
+>  <ForwardRxn>
+Standard   1.000E+11   0.00   0.000E+00 6;  Curran, et. al. (isooctane, heptane);   ic3h6chcoch3+oh = ic3h7cho+ch3co
+>  <ReverseRxn>
+Standard   3.844E+06   1.02   1.555E+04 6;  Curran, et. al. (isooctane, heptane);   ic3h6chcoch3+oh = ic3h7cho+ch3co
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6 = 6
+%%%-------------------------------------------------------------------
+KetoneAdditionOH-Alpha-(r)(rh)\
+   c(qqq)coc(r)c(rh) hydroxyl-radical = c(rhh)rc(o) c(qqq).c(o)
+- ID 72804
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11     4 2 2 2 2 2 2 2 2 2
+12 13                       4
+2 13 3 9 10 11 12           4 2 2 2 2 4
+1 4 5 6 7 8                 2 2 2 2 2
+>  <ForwardRxn>
+Standard   1.000E+11   0.00   0.000E+00 6;  Curran, et. al.(isooctane, heptane);   ic3h6chcoch3+oh = ic3h7cho+ch3co
+>  <ReverseRxn>
+Standard   3.844E+06   1.02   1.555E+04 6;  Curran, et. al.(isooctane, heptane);   ic3h6chcoch3+oh = ic3h7cho+ch3co
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2 = 12
+%%%-------------------------------------------------------------------
+KetoneAdditionOH-Alpha-(h)(rr)\
+   c(qqq)coc(h)c(rr) hydroxyl-radical = c(rrh)hc(o) c(qqq).c(o)
+- ID 72805
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11     4 2 2 2 2 2 2 2 2 2
+12 13                       4
+2 13 3 9 10 11 12           4 2 2 2 2 4
+1 4 5 6 7 8                 2 2 2 2 2
+>  <ForwardRxn>
+Standard   1.000E+11   0.00   0.000E+00 12;  Curran, et. al.(isooctane, heptane);   ic3h6chcoch3+oh = ic3h7cho+ch3co
+>  <ReverseRxn>
+Standard   3.844E+06   1.02   1.555E+04 12;  Curran, et. al.(isooctane, heptane);   ic3h6chcoch3+oh = ic3h7cho+ch3co
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2 = 12
+%%%-------------------------------------------------------------------
+KetoneAdditionOH-Alpha-(r)(rr)\
+   c(qqq)coc(r)c(rr) hydroxyl-radical = c(rrh)rc(o) c(qqq).c(o)
+- ID 72806
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11     4 2 2 2 2 2 2 2 2 2
+12 13                       4
+2 13 3 9 10 11 12           4 2 2 2 2 4
+1 4 5 6 7 8                 2 2 2 2 2
+>  <ForwardRxn>
+Standard   1.000E+11   0.00   0.000E+00 12;  Curran, et. al.(isooctane, heptane);   ic3h6chcoch3+oh = ic3h7cho+ch3co
+>  <ReverseRxn>
+Standard   3.844E+06   1.02   1.555E+04 12;  Curran, et. al.(isooctane, heptane);   ic3h6chcoch3+oh = ic3h7cho+ch3co
+$$$$

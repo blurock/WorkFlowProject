@@ -1,0 +1,315 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*6 = 12
+%%%-------------------------------------------------------------------
+Decomp-(rhh)(hhh)\
+     ethane-(rhh)(hhh) = primary-carbon-radical methane-carbon-radical
+- ID 70401
+- Correspondences
+1 2 3 4 5 6 7 8          4 2 2 2 2 2 2
+1 3 4 5                  2 2 2
+2 6 7 8                  2 2 2
+>  <ForwardRxn>
+Standard 6.300E+16   0.00  8.540E+04 6; From nc6h14 = c5h11-1+ch3
+>  <ReverseRxn>
+Standard 1.000e+13   0.00  0.000     6; From nc6h14 = c5h11-1+ch3
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(2*2) = 4
+%%%-------------------------------------------------------------------
+Decomp-(rhh)(rhh)\
+     ethane-(rhh)(rhh) = primary-carbon-radical primary-carbon-radical
+- ID 70402
+- Correspondences
+1 2 3 4 5 6 7 8          4 2 2 2 2 2 2
+1 3 4 5                  2 2 2
+2 6 7 8                  2 2 2
+>  <ForwardRxn>
+Standard 5.000e+16   0.00  7.900e+04 4; From  ic5h12 = ic3h7+c2h5 
+>  <ReverseRxn>
+Standard 8.000e+12   0.00  0.000     4; 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*6 = 12
+%%%-------------------------------------------------------------------
+Decomp-(rrh)(hhh)\
+     ethane-(rrh)(hhh) = secondary-carbon-radical methane-carbon-radical
+- ID 70403
+- Correspondences
+1 2 3 4 5 6 7 8          4 2 2 2 2 2 2
+1 3 4 5                  2 2 2
+2 6 7 8                  2 2 2
+>  <ForwardRxn>
+Standard 6.300E+16   0.00  8.540E+04 6; From nc6h14 = c5h11-1+ch3
+>  <ReverseRxn>
+Standard 1.000e+13   0.00  0.000e+00 12; From nc7h16 = pc4h9+nc3h7
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*6 = 36
+%%%-------------------------------------------------------------------
+Decomp-(rrr)(hhh)\
+     ethane-(rrr)(hhh) = tertiary-carbon-radical methane-carbon-radical
+- ID 70404
+- Correspondences
+1 2 3 4 5 6 7 8          4 2 2 2 2 2 2
+1 3 4 5                  2 2 2
+2 6 7 8                  2 2 2
+>  <ForwardRxn>
+Standard 1.735e+22 -1.62 8.402e+04 36; From neoc5h12 = tc4h9+ch3 
+>  <ReverseRxn>
+Standard 1.000e+12 0.00 -5.960e+02 36; 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+Decomp-(rrh)(rhh)\
+     ethane-(rrh)(rhh) = secondary-carbon-radical primary-carbon-radical
+- ID 70405
+- Correspondences
+1 2 3 4 5 6 7 8          4 2 2 2 2 2 2
+1 3 4 5                  2 2 2
+2 6 7 8                  2 2 2
+>  <ForwardRxn>
+Standard 5.000e+16   0.00  7.900e+04 4; From  ic5h12 = ic3h7+c2h5 
+>  <ReverseRxn>
+Standard 8.000e+12   0.00  0.000e+00 4;  
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(2*2) = 8
+%%%-------------------------------------------------------------------
+Decomp-(rrh)(rrh)\
+     ethane-(rrh)(rrh) = secondary-carbon-radical secondary-carbon-radical
+- ID 70406
+- Correspondences
+1 2 3 4 5 6 7 8          4 2 2 2 2 2 2
+1 3 4 5                  2 2 2
+2 6 7 8                  2 2 2
+>  <ForwardRxn>
+Standard 5.000e+16   0.00  7.900e+04 8; From  ic5h12 = ic3h7+c2h5 
+>  <ReverseRxn>
+Standard 8.000e+12   0.00  0.000e+00 8; From  ic5h12 = ic3h7+c2h5 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2 = 12
+%%%-------------------------------------------------------------------
+Decomp-(rrr)(rhh)\
+     ethane-(rrr)(rhh) = tertiary-carbon-radical primary-carbon-radical
+- ID 70407
+- Correspondences
+1 2 3 4 5 6 7 8          4 2 2 2 2 2 2
+1 3 4 5                  2 2 2
+2 6 7 8                  2 2 2
+>  <ForwardRxn>
+Standard 5.000e+16   0.00  7.900e+04 12; From  ic5h12 = ic3h7+c2h5 
+>  <ReverseRxn>
+Standard 8.000e+12   0.00  0.000e+00 12; From  ic5h12 = ic3h7+c2h5 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2 = 12
+%%%-------------------------------------------------------------------
+Decomp-(rrr)(rrh)\
+     ethane-(rrr)(rrh) = tertiary-carbon-radical secondary-carbon-radical
+- ID 70408
+- Correspondences
+1 2 3 4 5 6 7 8          4 2 2 2 2 2 2
+1 3 4 5                  2 2 2
+2 6 7 8                  2 2 2
+>  <ForwardRxn>
+Standard 5.000e+16   0.00  7.900e+04 12; From  ic5h12 = ic3h7+c2h5 
+>  <ReverseRxn>
+Standard 8.000e+12   0.00  0.000e+00 12; From  ic5h12 = ic3h7+c2h5 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(6*6) = 72
+%%%-------------------------------------------------------------------
+Decomp-(rrr)(rrr)\
+     ethane-(rrr)(rrh) = tertiary-carbon-radical tertiary-carbon-radical
+- ID 70409
+- Correspondences
+1 2 3 4 5 6 7 8          4 2 2 2 2 2 2
+1 3 4 5                  2 2 2
+2 6 7 8                  2 2 2
+>  <ForwardRxn>
+Standard 5.000e+16   0.00  7.900e+04 72; From  ic5h12 = ic3h7+c2h5 
+>  <ReverseRxn>
+Standard 8.000e+12   0.00  0.000e+00 72; From  ic5h12 = ic3h7+c2h5 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2*2 = 24
+%%%-------------------------------------------------------------------
+Decomp-(hhh)(hh)(rhh)\
+     propyl-(rhh)(hh)(hhh) = ethyl-radical-(hh)(hhh) primary-carbon-radical
+- ID 70410
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         4 2 2 2 2 2 2 2 2 2
+2 3 7 9 11 8 10                 2 2 2 2 2 2
+1 4 5 6                         2 2 2
+>  <ForwardRxn>
+Standard 7.810E+22  -1.57  8.806E+04 24; From nc7h16 = c5h11-1+c2h5
+>  <ReverseRxn>
+Standard 8.000E+12   0.00  0.000E+00 24; From nc7h16 = c5h11-1+c2h5
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(2*2*2 = 8)
+%%%-------------------------------------------------------------------
+Decomp-(rhh)(hh)(rhh)\
+     propyl-(rhh)(hh)(rhh) = ethyl-radical-(hh)(rhh) primary-carbon-radical
+- ID 70411
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         4 2 2 2 2 2 2 2 2 2
+2 3 7 10 9 8 11                 2 2 2 2 2 2
+1 4 5 6                         2 2 2
+>  <ForwardRxn>
+Standard 7.810E+22  -1.57  8.806E+04 8; From nc7h16 = c5h11-1+c2h5
+>  <ReverseRxn>
+Standard 8.000E+12   0.00  0.000E+00 8; From nc7h16 = c5h11-1+c2h5
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+Decomp-(rrh)(hh)(rhh)\
+     propyl-(rrh)(hh)(rhh) = ethyl-radical-(hh)(rrh) primary-carbon-radical
+- ID 70412
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         2 4 2 2 2 2 2 2 2 2
+2 1 7 6 4 8 5                   2 2 2 2 2 2
+3 9 10 11                       2 2 2
+>  <ForwardRxn>
+Standard 7.810E+22  -1.57  8.806E+04 8; From nc7h16 = c5h11-1+c2h5
+>  <ReverseRxn>
+Standard 8.000E+12   0.00  0.000E+00 8; From nc7h16 = c5h11-1+c2h5
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2*2 = 24
+%%%-------------------------------------------------------------------
+Decomp-(rrr)(hh)(rhh)\
+     propyl-(rrr)(hh)(rhh) = ethyl-radical-(hh)(rrr) primary-carbon-radical
+- ID 70413
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         2 4 2 2 2 2 2 2 2 2
+2 1 7 4 6 8 5                   2 2 2 2 2 2
+3 9 10 13                       2 2 2
+>  <ForwardRxn>
+Standard 7.810E+22  -1.57  8.806E+04 24; From nc7h16 = c5h11-1+c2h5
+>  <ReverseRxn>
+Standard 8.000E+12   0.00  0.000E+00 24; From nc7h16 = c5h11-1+c2h5
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2 = 12
+%%%-------------------------------------------------------------------
+Decomp-(hhh)(rh)(rrh)\
+     propyl-(rrh)(rh)(hhh) = ethyl-radical-(rh)(hhh) secondary-carbon-radical
+- ID 70414
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         4 2 2 2 2 2 2 2 2 2
+2 3 7 9 11 8 10                 2 2 2 2 2 2
+1 4 5 6                       2 2 2
+>  <ForwardRxn>
+Standard 7.810E+22  -1.57  8.806E+04 12; From nc7h16 = c5h11-1+c2h5
+>  <ReverseRxn>
+Standard 8.000E+12   0.00  0.000E+00 12; From nc7h16 = c5h11-1+c2h5
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*2 = 4
+%%%-------------------------------------------------------------------
+Decomp-(rhh)(rh)(rrh)\
+     propyl-(rrh)(rh)(rhh) = ethyl-radical-(rh)(rhh) secondary-carbon-radical
+- ID 70415
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         4 2 2 2 2 2 2 2 2 2
+2 3 7 9 10 8 11                 2 2 2 2 2 2
+1 4 5 6                       2 2 2
+>  <ForwardRxn>
+Standard 7.810E+22  -1.57  8.806E+04 4; From nc7h16 = c5h11-1+c2h5
+>  <ReverseRxn>
+Standard 8.000E+12   0.00  0.000E+00 4; From nc7h16 = c5h11-1+c2h5
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*2 = 4
+%%%-------------------------------------------------------------------
+Decomp-(rrh)(rh)(rrh)\
+     propyl-(rrh)(rh)(rrh) = ethyl-radical-(rh)(rrh) secondary-carbon-radical
+- ID 70416
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         2 4 2 2 2 2 2 2 2 2
+2 1 7 4 6 8 5                   2 2 2 2 2 2
+3 9 10 11                       2 2 2
+>  <ForwardRxn>
+Standard 7.810E+22  -1.57  8.806E+04 4; From nc7h16 = c5h11-1+c2h5
+>  <ReverseRxn>
+Standard 8.000E+12   0.00  0.000E+00 4; From nc7h16 = c5h11-1+c2h5
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*1*2 = 12
+%%%-------------------------------------------------------------------
+Decomp-(rrr)(rh)(rrh)\
+     propyl-(rrr)(rh)(rrh) = ethyl-radical-(rh)(rrr) secondary-carbon-radical
+- ID 70417
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         2 4 2 2 2 2 2 2 2 2
+2 1 7 4 6 8 5                   2 2 2 2 2 2
+3 9 10 11                       2 2 2
+>  <ForwardRxn>
+Standard 7.810E+22  -1.57  8.806E+04 12; From nc7h16 = c5h11-1+c2h5
+>  <ReverseRxn>
+Standard 8.000E+12   0.00  0.000E+00 12; From nc7h16 = c5h11-1+c2h5
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2*6 = 72
+%%%-------------------------------------------------------------------
+Decomp-(hhh)(rr)(rrr)\
+     propyl-(rrr)(rr)(hhh) = ethyl-radical-(rr)(hhh) tertiary-carbon-radical
+- ID 70418
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         4 2 2 2 2 2 2 2 2 2
+2 3 7 9 11 8 10                 2 2 2 2 2 2
+1 4 5 6                       2 2 2
+>  <ForwardRxn>
+Standard 7.810E+22  -1.57  8.806E+04 72; From nc7h16 = c5h11-1+c2h5
+>  <ReverseRxn>
+Standard 8.000E+12   0.00  0.000E+00 72; From nc7h16 = c5h11-1+c2h5
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*6 = 24
+%%%-------------------------------------------------------------------
+Decomp-(rhh)(rr)(rrr)\
+     propyl-(rrh)(rh)(rhh) = ethyl-radical-(rr)(rhh) tertiary-carbon-radical
+- ID 70419
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         4 2 2 2 2 2 2 2 2 2
+2 3 7 9 11 8 10                 2 2 2 2 2 2
+1 4 5 6                       2 2 2
+>  <ForwardRxn>
+Standard 7.810E+22  -1.57  8.806E+04 24; From nc7h16 = c5h11-1+c2h5
+>  <ReverseRxn>
+Standard 8.000E+12   0.00  0.000E+00 24; From nc7h16 = c5h11-1+c2h5
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+Decomp-(rrh)(rr)(rrr)\
+     propyl-(rrr)(rr)(rrh) = ethyl-radical-(rr)(rrh) tertiary-carbon-radical
+- ID 70420
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         4 2 2 2 2 2 2 2 2 2
+2 3 7 9 11 8 10                 2 2 2 2 2 2
+1 4 5 6                         2 2 2
+>  <ForwardRxn>
+Standard 7.810E+22  -1.57  8.806E+04 8; From nc7h16 = c5h11-1+c2h5
+>  <ReverseRxn>
+Standard 8.000E+12   0.00  0.000E+00 8; From nc7h16 = c5h11-1+c2h5
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2*6 = 72
+%%%-------------------------------------------------------------------
+Decomp-(rrr)(rr)(rrr)\
+     propyl-(rrr)(rr)(rrr) = ethyl-radical-(rr)(rrr) tertiary-carbon-radical
+- ID 70421
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         2 4 2 2 2 2 2 2 2 2
+2 1 7 4 6 8 5                   2 2 2 2 2 2
+3 9 10 11                       2 2 2
+>  <ForwardRxn>
+Standard 7.810E+22  -1.57  8.806E+04 72; From nc7h16 = c5h11-1+c2h5
+>  <ReverseRxn>
+Standard 8.000E+12   0.00  0.000E+00 72; From nc7h16 = c5h11-1+c2h5
+$$$$

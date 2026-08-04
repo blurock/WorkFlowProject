@@ -1,0 +1,61 @@
+ROOT       = /home/blurock
+CCROOT     = $(ROOT)/cc
+
+PROGRAM    = graphs
+LIBNAME    = lib$(PROGRAM).a
+MYLIBDIR   = $(ROOT)/lib
+LIBFILE    = $(MYLIBDIR)/$(LIBNAME)
+
+
+STD_INCLUDES = -I./standard\
+               -I./genc\
+               -I./genh\
+               -I$(CCROOT)/genc\
+               -I$(CCROOT)/genh\
+               -I$(CCROOT)/standard\
+               -I$(ROOT)/cc/dbase/genh\
+               -I$(ROOT)/cc/dbase/standard\
+               -I$(COMROOT)/genh\
+               -I$(COMROOT)/standard
+          
+##CCOPTIONS = -O -Wall
+CCOPTIONS =
+CDEBUGFLAGS= -g -Wall -Wcast-align -Wconversion -Wshadow
+DEPLIBS =  -L/home/blurock/lib\
+           -lXcomlib\
+           -lgraph\
+           -ldatmat\
+           -lcomlib\
+           -lbasis\
+           -lgdbm\
+           -lXG\
+            -lm
+
+##CC = cc
+CC = gcc
+AR = ar rv
+RANLIB = ar ts
+
+SRCS = \
+       graph0.c graph1.c graph2.c graph3.c \
+       subgraph.c pairset.c
+
+OBJS = \
+       graph0.o graph1.o graph2.o graph3.o \
+       subgraph.o pairset.o
+
+NormalProgramTarget($(PROGRAM),$(OBJS) main.o,,$(DEPLIBS),XawClientLibs)
+
+structures: 
+	createstructures system Str
+
+library: $(OBJS)
+	$(RM) $(LIBFILE)
+	ar rv  $(LIBFILE) $(OBJS)
+	ar ts $(LIBFILE)
+
+depend::
+	$(DEPEND) $(DEPENDFLAGS) -s "# DO NOT DELETE" -- $(ALLDEFINES) -- $(SRCS)
+    
+# DO NOT DELETE THIS LINE -- make depend depends on it.
+

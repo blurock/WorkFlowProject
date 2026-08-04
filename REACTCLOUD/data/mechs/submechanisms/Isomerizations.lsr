@@ -1,0 +1,17 @@
+Isomerizations
+%%% ----------------------------------------------------
+%%% No molecules needed for the patterns
+%%% ----------------------------------------------------
+oxygen,hydroxyl-radical
+%%% ----------------------------------------------------
+%%%  Preparation: Hydrogen Abstraction
+%%% ----------------------------------------------------
+H-Abstraction-Hydroxyl-Radical-Primary,\
+H-Abstraction-Hydroxyl-Radical-Secondary,\
+H-Abstraction-Hydroxyl-Radical-Tertiary\
+:oxygen
+%%% ----------------------------------------------------
+FiveRing-chain-h-isomerization,\
+SixRing-chain-h-isomerization,\
+SevenRing-chain-h-isomerization,\
+EightRing-chain-h-isomerization

@@ -1,0 +1,66 @@
+/Users/edwardblurock/reactionrun/mechanisms/Test-Combined.inp ======================= Read in Generated Mechanism ======================= 
+Attributes:
+%%% --------------------------------------------------
+%%%   Generated KeyWords
+%%% --------------------------------------------------
+%%%KeyWords: Object
+data/mechanisms/Test-Combined
+MolecularStructureDataBase
+Molecule
+Reaction
+Mechanisms
+StandardChemkin
+MoleculeChemkin
+ChemkinName
+RefGenerated
+StandardMoleculeSummary
+END
+
+
+%%% --------------------------------------------------
+%%%   RefGenerated LiteratureReference
+%%% --------------------------------------------------
+from react; Edward S. Blurock; Generated;
+
+%%% --------------------------------------------------
+%%%   StandardMoleculeSummary StandardMoleculeSummary
+%%% --------------------------------------------------
+ethenyl-radical MoleculeChemkin ChemkinName
+ethene MoleculeChemkin ChemkinName
+ethyl-radical MoleculeChemkin ChemkinName
+ethane MoleculeChemkin ChemkinName
+propene MoleculeChemkin ChemkinName
+methyl-radical MoleculeChemkin ChemkinName
+ethanal MoleculeChemkin ChemkinName
+methylperoxy-radical MoleculeChemkin ChemkinName
+methanol MoleculeChemkin ChemkinName
+methyl-hydroperoxide MoleculeChemkin ChemkinName
+methane MoleculeChemkin ChemkinName
+carbon-monoxide MoleculeChemkin ChemkinName
+hydrogen-radical MoleculeChemkin ChemkinName
+hydrogen MoleculeChemkin ChemkinName
+water MoleculeChemkin ChemkinName
+hydrogen-peroxide MoleculeChemkin ChemkinName
+formyl-radical MoleculeChemkin ChemkinName
+peroxyl-radical MoleculeChemkin ChemkinName
+oxygen-radical MoleculeChemkin ChemkinName
+oxygen MoleculeChemkin ChemkinName
+hydroxyl-radical MoleculeChemkin ChemkinName
+1-propyl-radical MoleculeChemkin ChemkinName
+aldehyde MoleculeChemkin ChemkinName
+prop-2-en-1-yl-radical MoleculeChemkin ChemkinName
+ethenone MoleculeChemkin ChemkinName
+methoxy-radical MoleculeChemkin ChemkinName
+propenal MoleculeChemkin ChemkinName
+ethanal-2-yl-radical MoleculeChemkin ChemkinName
+ethanoyl-radical MoleculeChemkin ChemkinName
+propanal MoleculeChemkin ChemkinName
+propanoyl-radical MoleculeChemkin ChemkinName
+propanal-2-yl-radical MoleculeChemkin ChemkinName
+prop-1-en-1-one MoleculeChemkin ChemkinName
+END
+%%% --------------------------------------------------
+%%%   Mechanism String
+%%% --------------------------------------------------
+data/mechanisms/Test-Combined
+END

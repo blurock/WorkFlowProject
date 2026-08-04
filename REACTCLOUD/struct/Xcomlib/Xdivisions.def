@@ -1,0 +1,61 @@
+The structures for Division Graph
+0 division
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% The variable number is stored in the ID
+   DivisionGraphInfo 10 divisiongraphinfo
+      0 The Bar Rectangle
+        RectangleObject BarRectangle Pointer Create
+      1 The Bar Rectangle Style
+        RectangleStyle BarStyle Pointer Create
+      2 The Spacer Rectangle
+        RectangleObject Spacer Pointer Create
+      3 The Highlighted Spacer Style Pointer Create
+        RectangleStyle HighlightStyle Pointer Create
+      4 The Unhighlighted Spacer Style Pointer Create
+        RectangleStyle UnHighlightStyle Pointer Create
+      5 The Width of the Bar in the Graph
+        FLOAT BarWidth Create
+      6 The Spacing Width
+       FLOAT SpacerWidth Create
+        DONE
+
+SetOfDivisionsCategoriesStyle 00 setofdivisioncategoriesstyle
+    0 Relative Bar Begin
+      FLOAT BarBegin Create
+    0 The relative Bar Length
+      FLOAT BarLength Create
+    2 The spacing when separated
+      FLOAT SpaceBarPercentage Create
+    3 The Relative Top of Graph
+      FLOAT TopOfGraph Create
+    4 The Font Style
+      STRING TitleFont Pointer Create
+    DONE
+%%%      Name - The division title
+%%%      ID   - The identification of the distinct value to toggle
+%%%             (The StatDivisionChoice Structure in SysSamVectorData)
+%%%
+DivisionCategory 00 divisioninfo
+    0 The number of points in division
+      INT NumberOfPoints Create
+    1 The Boundary Flag  (0 no boundary, 1 a boundary)
+      INT BoundaryFlag Create
+    2 The activation routine
+      FUNCTION Activation Return=INT Create
+    3 the activation routine drawobject
+      VOID DivisionDrawObject Create
+    DONE
+
+%%%    Name   - The name of the Page
+%%%
+SetOfDivisionCategories 01 division
+    0 The number of Divisions
+      INT NumberOfDivisions Create
+    1 The Set of Divisions
+      DivisionCategory Divisions Pointer Create Array=NumberOfDivisions
+    3 The Total Number of Points
+      INT TotalNumberOfPoints Create
+    4 The title for the drawing
+      STRING Title Pointer Create    
+    DONE
+DONE

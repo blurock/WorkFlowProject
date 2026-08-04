@@ -1,0 +1,203 @@
+~/git/copilot-worktrees/react/blurock-studious-fortnight/tmp ~/git/copilot-worktrees/react/blurock-studious-fortnight/data/mol/subs 
+-----------------Chemistry Database ------------------
+-----------------Version 0    --------------------
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+main>> Mol
+Command:Mol
+Mol>> Parameters
+Command:Parameters
+Parameters>> RootMolName
+Command:RootMolName
+RootMolName>> Input:RootMolName
+Command:Input:RootMolName
+Input:RootMolName>> Set Value: RootMolName to StandardMeta
+StandardMeta
+RootMolName>> Quit
+Parameters>> Quit
+Mol>> MetaAtoms
+Command:MetaAtoms
+MetaAtoms>> Read
+Command:Read
+Set Of     3 MolFile Meta Atoms (    0:MasterMetaAtom)
+MetaAtoms:    0::(         R,  320 -> [ (    6,    1)  ]
+MetaAtoms:    1::(         Q,  221 -> [ (    1,    1) (    6,    1) (    6,    2)  ]
+MetaAtoms:    2::(         X,  382 -> [ (    9,    1) (   35,    1) (   17,    1)  ]
+MetaAtoms>> Quit
+Mol>> Quit
+main>> CreateOpenClose
+Command:CreateOpenClose
+CreateOpenClose>> Start
+Command:Start
+
+0:No Keys for Reactions
+
+
+0:No Keys for ReactionPatterns
+
+CreateOpenClose>> Quit
+main>> DbaseOps
+Command:DbaseOps
+DbaseOps>> SubStructures
+Command:SubStructures
+SubStructures>> Keys
+Command:Keys
+Keys>> Define
+Command:Define
+Keys>> Write
+Command:Write
+Keys>> Quit
+SubStructures>> Quit
+DbaseOps>> Quit
+main>> Mol
+Command:Mol
+Mol>> Parameters
+Command:Parameters
+Parameters>> RootMolName
+Command:RootMolName
+RootMolName>> Input:RootMolName
+Command:Input:RootMolName
+Input:RootMolName>> Set Value: RootMolName to subs/subsCarbon2
+subs/subsCarbon2
+RootMolName>> Quit
+Parameters>> Quit
+Mol>> Read
+Command:Read
+Read>> SubStructures
+Command:SubStructures
+SubStructures>> SDF
+Command:SDF
+Read SDF Molecule: ethane-(hh)(hh)
+Read SDF Molecule: ethane-(rh)(hh)
+Read SDF Molecule: ethane-(hh)(rh)
+Read SDF Molecule: ethane-(rh)(rh)
+Read SDF Molecule: ethane-(rr)(hh)
+Read SDF Molecule: ethane-(hh)(rr)
+Read SDF Molecule: ethane-(rr)(rh)
+Read SDF Molecule: ethane-(rh)(rr)
+Read SDF Molecule: ethane-(rr)(rr)
+SubStructures>> Quit
+Read>> Quit
+Mol>> Calculations
+Command:Calculations
+Calculations>> SubStructures
+Command:SubStructures
+SubStructures>> SemiEmpirical
+Command:SemiEmpirical
+SubStructures>> Quit
+Calculations>> Quit
+Mol>> Output
+Command:Output
+Output>> SubStructures
+Command:SubStructures
+SubStructures>> Print
+Command:Print
+SubStructures>> Quit
+Output>> Quit
+Mol>> Quit
+main>> DbaseOps
+Command:DbaseOps
+DbaseOps>> SubStructures
+Command:SubStructures
+SubStructures>> Current
+Command:Current
+Current>> Store
+Command:Store
+Store:          1:ethane-(hh)(hh)
+New ID:   10506200
+Store:          2:ethane-(rh)(hh)
+Equivalence: ethane-(hh)(hh) ethane-(rh)(hh)     0
+New ID:   10506201
+Store:          3:ethane-(hh)(rh)
+Equivalence: ethane-(hh)(hh) ethane-(hh)(rh)     0
+Equivalence: ethane-(rh)(hh) ethane-(hh)(rh)     2
+New ID:   10506202
+Store:          4:ethane-(rh)(rh)
+Equivalence: ethane-(hh)(hh) ethane-(rh)(rh)     0
+Equivalence: ethane-(rh)(hh) ethane-(rh)(rh)     0
+Equivalence: ethane-(hh)(rh) ethane-(rh)(rh)     0
+New ID:   10506203
+Store:          5:ethane-(rr)(hh)
+Equivalence: ethane-(hh)(hh) ethane-(rr)(hh)     0
+Equivalence: ethane-(rh)(hh) ethane-(rr)(hh)     0
+Equivalence: ethane-(hh)(rh) ethane-(rr)(hh)     0
+Equivalence: ethane-(rh)(rh) ethane-(rr)(hh)     0
+New ID:   10506204
+Store:          6:ethane-(hh)(rr)
+Equivalence: ethane-(hh)(hh) ethane-(hh)(rr)     0
+Equivalence: ethane-(rh)(hh) ethane-(hh)(rr)     0
+Equivalence: ethane-(hh)(rh) ethane-(hh)(rr)     0
+Equivalence: ethane-(rh)(rh) ethane-(hh)(rr)     0
+Equivalence: ethane-(rr)(hh) ethane-(hh)(rr)     4
+New ID:   10506205
+Store:          7:ethane-(rr)(rh)
+Equivalence: ethane-(hh)(hh) ethane-(rr)(rh)     0
+Equivalence: ethane-(rh)(hh) ethane-(rr)(rh)     0
+Equivalence: ethane-(hh)(rh) ethane-(rr)(rh)     0
+Equivalence: ethane-(rh)(rh) ethane-(rr)(rh)     0
+Equivalence: ethane-(rr)(hh) ethane-(rr)(rh)     0
+Equivalence: ethane-(hh)(rr) ethane-(rr)(rh)     0
+New ID:   10506206
+Store:          8:ethane-(rh)(rr)
+Equivalence: ethane-(hh)(hh) ethane-(rh)(rr)     0
+Equivalence: ethane-(rh)(hh) ethane-(rh)(rr)     0
+Equivalence: ethane-(hh)(rh) ethane-(rh)(rr)     0
+Equivalence: ethane-(rh)(rh) ethane-(rh)(rr)     0
+Equivalence: ethane-(rr)(hh) ethane-(rh)(rr)     0
+Equivalence: ethane-(hh)(rr) ethane-(rh)(rr)     0
+Equivalence: ethane-(rr)(rh) ethane-(rh)(rr)     2
+New ID:   10506207
+Store:          9:ethane-(rr)(rr)
+Equivalence: ethane-(hh)(hh) ethane-(rr)(rr)     0
+Equivalence: ethane-(rh)(hh) ethane-(rr)(rr)     0
+Equivalence: ethane-(hh)(rh) ethane-(rr)(rr)     0
+Equivalence: ethane-(rh)(rh) ethane-(rr)(rr)     0
+Equivalence: ethane-(rr)(hh) ethane-(rr)(rr)     0
+Equivalence: ethane-(hh)(rr) ethane-(rr)(rr)     0
+Equivalence: ethane-(rr)(rh) ethane-(rr)(rr)     0
+Equivalence: ethane-(rh)(rr) ethane-(rr)(rr)     0
+New ID:   10506208
+Current>> Quit
+SubStructures>> Keys
+Command:Keys
+Keys>> Define
+Command:Define
+Keys>> Fill
+Command:Fill
+Keys>> Write
+Command:Write
+Keys>> Quit
+SubStructures>> Misc
+Command:Misc
+Misc>> PrintList
+Command:PrintList
+  20102100: -->carbonmonoxide<--
+  10506204: -->ethane-(rr)(hh)<--
+  20102000: -->hydroxyl-radical<--
+  20001000: -->hydrogen-radical<--
+  10001000: -->oxygen-atom<--
+  10506202: -->ethane-(hh)(rh)<--
+  20203000: -->peroxyl-radical<--
+  10203000: -->water<--
+  10506200: -->ethane-(hh)(hh)<--
+  10102001: -->hydrogen<--
+  10506207: -->ethane-(rh)(rr)<--
+  10304000: -->hydrogen-peroxide<--
+  10506205: -->ethane-(hh)(rr)<--
+  10102000: -->oxygen<--
+  10506208: -->ethane-(rr)(rr)<--
+  20001001: -->oxygen-radical<--
+  10506203: -->ethane-(rh)(rh)<--
+  10506206: -->ethane-(rr)(rh)<--
+  10506201: -->ethane-(rh)(hh)<--
+Misc>> Quit
+SubStructures>> Quit
+DbaseOps>> Quit
+main>> Quit
+~/git/copilot-worktrees/react/blurock-studious-fortnight/data/mol/subs 

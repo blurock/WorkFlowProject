@@ -1,0 +1,15 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2*2 = 24
+%%%-------------------------------------------------------------------
+Decomp-(hhh)(hh)(rhh)\
+     propyl-(rhh)(hh)(hhh) = ethyl-radical-(hh)(hhh) primary-carbon-radical
+- ID 70407
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11         2 4 2 2 2 2 2 2 2 2
+2 3 7 8 9 10 11                 2 2 2 2 2 2
+1 4 5 6                         2 2 2
+>  <ForwardRxn>
+Standard 7.810E+22  -1.57  8.806E+04 24; From nc7h16 = c5h11-1+c2h5
+>  <ReverseRxn>
+Standard 8.000E+12   0.00  0.000E+00 24; From nc7h16 = c5h11-1+c2h5
+$$$$

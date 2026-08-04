@@ -1,0 +1,153 @@
+%%%-------------------------------------------------------------------
+%%%   Symmetry (2*1)*(2*1)*2 = 8
+%%%-------------------------------------------------------------------
+O2-AdditionToCCOH-(hh)(hh)\
+     c(hh)c(hh)oh  oxygen =  ooc(hh)c(hh)oh
+- ID 3020
+- Correspondences
+1 2 3 4 5 6 7 8        2 2 2 2 2 2 2
+9 10                   2                   
+1 2 3 4 5 6 7 8 9 10   2 2 2 2 2 2 2 4 2
+
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 8; Westbrook  
+
+>  <ReverseRxn>
+Standard 4.0e+15 0.0 27944 4; Nehse,Warnatz,Chevalier ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry (2*1)*(1)*2 = 4
+%%%-------------------------------------------------------------------
+O2-AdditionToCCOH-(hh)(rh)\
+     c(hh)c(rh)oh  oxygen =  ooc(hh)c(rh)oh
+- ID 3021
+- Correspondences
+1 2 3 4 5 6 7 8        2 2 2 2 2 2 2
+9 10                   2                   
+1 2 3 4 5 6 7 8 9 10   2 2 2 2 2 2 2 4 2
+
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 4; Westbrook  
+
+>  <ReverseRxn>
+Standard 4.0e+15 0.0 27944 2; Nehse,Warnatz,Chevalier ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry (2*1)*(2*1)*2 = 8
+%%%-------------------------------------------------------------------
+O2-AdditionToCCOH-(hh)(rr)\
+     c(hh)c(rr)oh  oxygen =  ooc(hh)c(rr)oh
+- ID 3022
+- Correspondences
+1 2 3 4 5 6 7 8        2 2 2 2 2 2 2
+9 10                   2                   
+1 2 3 4 5 6 7 8 9 10   2 2 2 2 2 2 2 4 2
+
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 8; Westbrook  
+
+>  <ReverseRxn>
+Standard 4.0e+15 0.0 27944 4; Nehse,Warnatz,Chevalier ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry (1)*(2*1)*2 = 4
+%%%-------------------------------------------------------------------
+O2-AdditionToCCOH-(rh)(hh)\
+     c(rh)c(hh)oh  oxygen =  ooc(rh)c(hh)oh
+- ID 3023
+- Correspondences
+1 2 3 4 5 6 7 8        2 2 2 2 2 2 2
+9 10                   2                   
+1 2 3 4 5 6 7 8 9 10   2 2 2 2 2 2 2 4 2
+
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 4; Come ; Estimate  
+
+>  <ReverseRxn>
+Standard 4.0e+15 0.0 27944 2; Nehse,Warnatz,Chevalier ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry (1)*(1)*2 = 2
+%%%-------------------------------------------------------------------
+O2-AdditionToCCOH-(rh)(rh)\
+     c(rh)c(rh)oh  oxygen =  ooc(rh)c(rh)oh
+- ID 3024
+- Correspondences
+1 2 3 4 5 6 7 8        2 2 2 2 2 2 2
+9 10                   2                   
+1 2 3 4 5 6 7 8 9 10   2 2 2 2 2 2 2 4 2
+
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 2; Come ; Estimate  
+
+>  <ReverseRxn>
+Standard 4.0e+15 0.0 27944 1; Nehse,Warnatz,Chevalier ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry (2*1)*(2*1)*2 = 8
+%%%-------------------------------------------------------------------
+O2-AdditionToCCOH-(rh)(rr)\
+     c(rh)c(rr)oh  oxygen =  ooc(rh)c(rr)oh
+- ID 3025
+- Correspondences
+1 2 3 4 5 6 7 8        2 2 2 2 2 2 2
+9 10                   2                   
+1 2 3 4 5 6 7 8 9 10   2 2 2 2 2 2 2 4 2
+
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 4; Come ; Estimate  
+
+>  <ReverseRxn>
+Standard 4.0e+15 0.0 27944 1; Nehse,Warnatz,Chevalier ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry (2*1)*(2*1)*2 = 8
+%%%-------------------------------------------------------------------
+O2-AdditionToCCOH-(rr)(hh)\
+     c(rr)c(hh)oh  oxygen =  ooc(rr)c(hh)oh
+- ID 3026
+- Correspondences
+1 2 3 4 5 6 7 8        2 2 2 2 2 2 2
+9 10                   2                   
+1 2 3 4 5 6 7 8 9 10   2 2 2 2 2 2 2 4 2
+
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 4; Westbrook
+
+>  <ReverseRxn>
+Standard 4.0e+15 0.0 27944 1; Nehse,Warnatz,Chevalier ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry (2*1)*(2*1)*2 = 8
+%%%-------------------------------------------------------------------
+O2-AdditionToCCOH-(rr)(rh)\
+     c(rr)c(rh)oh  oxygen =  ooc(rr)c(rh)oh
+- ID 3027
+- Correspondences
+1 2 3 4 5 6 7 8        2 2 2 2 2 2 2
+9 10                   2                   
+1 2 3 4 5 6 7 8 9 10   2 2 2 2 2 2 2 4 2
+
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 4; Westbrook
+
+>  <ReverseRxn>
+Standard 4.0e+15 0.0 27944 1; Nehse,Warnatz,Chevalier ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry (2*1)*(2*1)*2 = 8
+%%%-------------------------------------------------------------------
+O2-AdditionToCCOH-(rr)(rr)\
+     c(rr)c(rr)oh  oxygen =  ooc(rr)c(rr)oh
+- ID 3028
+- Correspondences
+1 2 3 4 5 6 7 8        2 2 2 2 2 2 2
+9 10                   2                   
+1 2 3 4 5 6 7 8 9 10   2 2 2 2 2 2 2 4 2
+
+>  <ForwardRxn>
+Standard 2.00e+12 0.0 0 4; Westbrook
+
+>  <ReverseRxn>
+Standard 4.0e+15 0.0 27944 1; Nehse,Warnatz,Chevalier ; Estimate  
+$$$$

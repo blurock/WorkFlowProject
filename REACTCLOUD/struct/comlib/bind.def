@@ -1,0 +1,13 @@
+Binding Together Master Data Structures
+0 BindingStructures
+BindStructure 10 bindstructure SystemList
+     0 The Maximum Number of Structures to be bound
+       INT MaxNumberOfBoundStructures Create
+     1 The Number of Structures to be bound
+       INT NumberOfBoundStructures Create
+     2 The Master Structures 
+       VOID Structures Pointer Create Array=MaxNumberOfBoundStructures
+     3 The List of Corresponding Flags for the Bound Structures
+       INT Flags Pointer Create Array=MaxNumberOfBoundStructures
+     DONE
+DONE

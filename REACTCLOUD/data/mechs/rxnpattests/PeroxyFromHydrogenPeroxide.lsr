@@ -1,0 +1,15 @@
+ROOH from hydrogen peroxide going to peroxyl radical
+NONE
+%%% ----------------------------------------------------
+Carbon-Radical-Initiation-Step-(RH+O2->R+HO2)
+%%% ----------------------------------------------------
+Primary-Carbon-Radical-(R.+O2-->RO2.),\
+Secondary-Carbon-Radical-(R.+O2-->RO2.),\
+Tertiary-Carbon-Radical-(R.+O2-->RO2.)\
+:oxygen
+%%% ----------------------------------------------------
+PeroxyFromHydrogenPeroxide-HHH,\
+PeroxyFromHydrogenPeroxide-RHH,\
+PeroxyFromHydrogenPeroxide-RRH,\
+PeroxyFromHydrogenPeroxide-RRR\
+: hydrogen-peroxide

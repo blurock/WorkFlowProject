@@ -1,0 +1,360 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(3*2*1) = 12
+%%%-------------------------------------------------------------------
+AldehydeDecompToKetylAlkene-Alkyl-(h)(hh)(hhh)\
+     hcoc(h)c(hh)c(hhh) = hcoc(h)c(hh) methane-carbon-radical
+- ID 72200
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                2 2 2 2 2 2 2 2 2 2
+4 10 11 12                     2 2 2
+>  <ForwardRxn>
+Standard  3.174E+14  -0.39  2.990E+04  12;  Curran, et. al.;  c3h6cho-3  =  c2h3cho+ch3 
+>  <ReverseRxn>
+Standard  1.230E+11  0.00  7.800E+03 12;  Curran, et. al.;  c3h6cho-3  =  c2h3cho+ch3 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(3*2*1) = 12
+%%%-------------------------------------------------------------------
+AldehydeDecompToKetylAlkene-Alkyl-(r)(hh)(hhh)\
+     hcoc(r)c(hh)c(hhh) = hcoc(r)c(hh) methane-carbon-radical
+- ID 72201
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                2 2 2 2 2 2 2 2 2 2
+4 10 11 12                     2 2 2
+>  <ForwardRxn>
+Standard  1.863E+18 -1.30 3.083E+04 12;  Curran, et. al.;  c4h8cho-4 = c2h3cho+c2h5 
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 12;  Curran, et. al.;  c4h8cho-4 = c2h3cho+c2h5 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*(3*2*1) = 6
+%%%-------------------------------------------------------------------
+AldehydeDecompToKetylAlkene-Alkyl-(h)(rh)(hhh)\
+     hcoc(h)c(rh)c(hhh) = hcoc(h)c(rh) methane-carbon-radical
+- ID 72202
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                2 2 2 2 2 2 2 2 2 2
+4 10 11 12                     2 2 2
+>  <ForwardRxn>
+Standard  1.863E+18 -1.30 3.083E+04 6;  Curran, et. al.;  c4h8cho-4 = c2h3cho+c2h5 
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 6;  Curran, et. al.;  c4h8cho-4 = c2h3cho+c2h5 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*(3*2*1) = 6
+%%%-------------------------------------------------------------------
+AldehydeDecompToKetylAlkene-Alkyl-(r)(rh)(hhh)\
+     hcoc(r)c(rh)c(hhh) = hcoc(r)c(rh) methane-carbon-radical
+- ID 72203
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                2 2 2 2 2 2 2 2 2 2
+4 10 11 12                     2 2 2
+>  <ForwardRxn>
+Standard  1.863E+18 -1.30 3.083E+04 6;  Curran, et. al.;  c4h8cho-4 = c2h3cho+c2h5 
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 6;  Curran, et. al.;  c4h8cho-4 = c2h3cho+c2h5 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(3*2*1) = 12
+%%%-------------------------------------------------------------------
+AldehydeDecompToKetylAlkene-Alkyl-(h)(rr)(hhh)\
+     hcoc(h)c(rr)c(hhh) = hcoc(h)c(rr) methane-carbon-radical
+- ID 72204
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                2 2 2 2 2 2 2 2 2 2
+4 10 11 12                     2 2 2
+>  <ForwardRxn>
+Standard  1.863E+18 -1.30 3.083E+04 12;  Curran, et. al.;  c4h8cho-4 = c2h3cho+c2h5 
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 12;  Curran, et. al.;  c4h8cho-4 = c2h3cho+c2h5 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(3*2*1) = 12
+%%%-------------------------------------------------------------------
+AldehydeDecompToKetylAlkene-Alkyl-(r)(rr)(hhh)\
+     hcoc(r)c(rr)c(hhh) = hcoc(r)c(rr) methane-carbon-radical
+- ID 72205
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                2 2 2 2 2 2 2 2 2 2
+4 10 11 12                     2 2 2
+>  <ForwardRxn>
+Standard  1.863E+18 -1.30 3.083E+04 12;  Curran, et. al.;  c4h8cho-4 = c2h3cho+c2h5 
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 12;  Curran, et. al.;  c4h8cho-4 = c2h3cho+c2h5 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(2*1) = 4
+%%%-------------------------------------------------------------------
+AldehydeDecompToKetylAlkene-Alkyl-(h)(hh)(rhh)\
+     hcoc(h)c(hh)c(rhh) = hcoc(h)c(hh) primary-carbon-radical
+- ID 72206
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                2 2 2 2 2 2 2 2 2 2
+4 10 11 12                     2 2 2
+>  <ForwardRxn>
+Standard  1.863E+18 -1.30 3.083E+04 4;  Curran, et. al.;  c4h8cho-4 = c2h3cho+c2h5 
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 4;  Curran, et. al.;  c4h8cho-4 = c2h3cho+c2h5 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(2*1) = 4
+%%%-------------------------------------------------------------------
+AldehydeDecompToKetylAlkene-Alkyl-(r)(hh)(rhh)\
+     hcoc(r)c(hh)c(rhh) = hcoc(r)c(hh) primary-carbon-radical
+- ID 72207
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                2 2 2 2 2 2 2 2 2 2
+4 10 11 12                     2 2 2
+>  <ForwardRxn>
+Standard  1.863E+18 -1.30 3.083E+04 4  Curran, et. al.;  c4h8cho-4 = c2h3cho+c2h5 
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 4  Curran, et. al.;  c4h8cho-4 = c2h3cho+c2h5 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1(2*1) = 2
+%%%-------------------------------------------------------------------
+AldehydeDecompToKetylAlkene-Alkyl-(h)(rh)(rhh)\
+     hcoc(h)c(rh)c(rhh) = hcoc(h)c(rh) primary-carbon-radical
+- ID 72208
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                2 2 2 2 2 2 2 2 2 2
+4 10 11 12                     2 2 2
+>  <ForwardRxn>
+Standard  1.863E+18 -1.30 3.083E+04 2;  Curran, et. al.;  c4h8cho-4 = c2h3cho+c2h5 
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 2;  Curran, et. al.;  c4h8cho-4 = c2h3cho+c2h5 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*(2*1) = 2
+%%%-------------------------------------------------------------------
+AldehydeDecompToKetylAlkene-Alkyl-(r)(rh)(rhh)\
+     hcoc(r)c(rh)c(rhh) = hcoc(r)c(rh) primary-carbon-radical
+- ID 72209
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                2 2 2 2 2 2 2 2 2 2
+4 10 11 12                     2 2 2
+>  <ForwardRxn>
+Standard  1.863E+18 -1.30 3.083E+04 2;  Curran, et. al.;  c4h8cho-4 = c2h3cho+c2h5 
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 2;  Curran, et. al.;  c4h8cho-4 = c2h3cho+c2h5 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(2*1) = 4
+%%%-------------------------------------------------------------------
+AldehydeDecompToKetylAlkene-Alkyl-(h)(rr)(rhh)\
+     hcoc(h)c(rr)c(rhh) = hcoc(h)c(rr) primary-carbon-radical
+- ID 72210
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                2 2 2 2 2 2 2 2 2 2
+4 10 11 12                     2 2 2
+>  <ForwardRxn>
+Standard  1.863E+18 -1.30 3.083E+04 4;  Curran, et. al.;  c4h8cho-4 = c2h3cho+c2h5 
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 4;  Curran, et. al.;  c4h8cho-4 = c2h3cho+c2h5 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(2*1) = 4
+%%%-------------------------------------------------------------------
+AldehydeDecompToKetylAlkene-Alkyl-(r)(rr)(rhh)\
+     hcoc(r)c(rr)c(rhh) = hcoc(r)c(rr) primary-carbon-radical
+- ID 72211
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                2 2 2 2 2 2 2 2 2 2
+4 10 11 12                     2 2 2
+>  <ForwardRxn>
+Standard  1.863E+18 -1.30 3.083E+04 4;  Curran, et. al.;  c4h8cho-4 = c2h3cho+c2h5 
+>  <ReverseRxn>
+Standard  1.000E+11 0.00 7.800E+03 4;  Curran, et. al.;  c4h8cho-4 = c2h3cho+c2h5 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(2*1) = 4
+%%%-------------------------------------------------------------------
+AldehydeDecompToKetylAlkene-Alkyl-(h)(hh)(rrh)\
+     hcoc(h)c(hh)c(rrh) = hcoc(h)c(hh) secondary-carbon-radical
+- ID 72212
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                2 2 2 2 2 2 2 2 2 2
+4 10 11 12                     2 2 2
+>  <ForwardRxn>
+Standard 1.215E+16  -0.54  3.326E+04  4;  Curran, et. al.;  dc5h10cho  =  ic3h7+c2h3cho
+>  <ReverseRxn>
+Standard  1.000E+11  0.00  1.190E+04  4;  Curran, et. al.;  dc5h10cho  =  ic3h7+c2h3cho
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(2*1) = 4
+%%%-------------------------------------------------------------------
+AldehydeDecompToKetylAlkene-Alkyl-(r)(hh)(rrh)\
+     hcoc(r)c(hh)c(rrh) = hcoc(r)c(hh) secondary-carbon-radical
+- ID 72213
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                2 2 2 2 2 2 2 2 2 2
+4 10 11 12                     2 2 2
+>  <ForwardRxn>
+Standard 1.215E+16  -0.54  3.326E+04  4;  Curran, et. al.;  dc5h10cho  =  ic3h7+c2h3cho
+>  <ReverseRxn>
+Standard  1.000E+11  0.00  1.190E+04  4;  Curran, et. al.;  dc5h10cho  =  ic3h7+c2h3cho
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*(2*1) = 2
+%%%-------------------------------------------------------------------
+AldehydeDecompToKetylAlkene-Alkyl-(h)(rh)(rrh)\
+     hcoc(h)c(rh)c(rrh) = hcoc(h)c(rh) secondary-carbon-radical
+- ID 72214
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                2 2 2 2 2 2 2 2 2 2
+4 10 11 12                     2 2 2
+>  <ForwardRxn>
+Standard 1.215E+16  -0.54  3.326E+04  2;  Curran, et. al.;  dc5h10cho  =  ic3h7+c2h3cho
+>  <ReverseRxn>
+Standard  1.000E+11  0.00  1.190E+04  2;  Curran, et. al.;  dc5h10cho  =  ic3h7+c2h3cho
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*(2*1) = 2
+%%%-------------------------------------------------------------------
+AldehydeDecompToKetylAlkene-Alkyl-(r)(rh)(rrh)\
+     hcoc(r)c(rh)c(rrh) = hcoc(r)c(rh) secondary-carbon-radical
+- ID 72215
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                2 2 2 2 2 2 2 2 2 2
+4 10 11 12                     2 2 2
+>  <ForwardRxn>
+Standard 1.215E+16  -0.54  3.326E+04  2;  Curran, et. al.;  dc5h10cho  =  ic3h7+c2h3cho
+>  <ReverseRxn>
+Standard  1.000E+11  0.00  1.190E+04  2;  Curran, et. al.;  dc5h10cho  =  ic3h7+c2h3cho
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(2*1) = 4
+%%%-------------------------------------------------------------------
+AldehydeDecompToKetylAlkene-Alkyl-(h)(rr)(rrh)\
+     hcoc(h)c(rr)c(rrh) = hcoc(h)c(rr) secondary-carbon-radical
+- ID 72216
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                2 2 2 2 2 2 2 2 2 2
+4 10 11 12                     2 2 2
+>  <ForwardRxn>
+Standard 1.215E+16  -0.54  3.326E+04  4;  Curran, et. al.;  dc5h10cho  =  ic3h7+c2h3cho
+>  <ReverseRxn>
+Standard  1.000E+11  0.00  1.190E+04  4;  Curran, et. al.;  dc5h10cho  =  ic3h7+c2h3cho
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(2*1) = 4
+%%%-------------------------------------------------------------------
+AldehydeDecompToKetylAlkene-Alkyl-(r)(rr)(rrh)\
+     hcoc(r)c(rr)c(rrh) = hcoc(r)c(rr) secondary-carbon-radical
+- ID 72217
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                2 2 2 2 2 2 2 2 2 2
+4 10 11 12                     2 2 2
+>  <ForwardRxn>
+Standard 1.215E+16  -0.54  3.326E+04  4;  Curran, et. al.;  dc5h10cho  =  ic3h7+c2h3cho
+>  <ReverseRxn>
+Standard  1.000E+11  0.00  1.190E+04  4;  Curran, et. al.;  dc5h10cho  =  ic3h7+c2h3cho
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(3*2*1) = 12
+%%%-------------------------------------------------------------------
+AldehydeDecompToKetylAlkene-Alkyl-(h)(hh)(rrr)\
+     hcoc(h)c(hh)c(rrr) = hcoc(h)c(hh) tertiary-carbon-radical
+- ID 72218
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                2 2 2 2 2 2 2 2 2 2
+4 10 11 12                     2 2 2
+>  <ForwardRxn>
+Standard  6.884E+19  -1.76  2.769E+04  12;  Curran, et. al.; hc6h12cho  =  c2h3cho+tc4h9 
+>  <ReverseRxn>
+Standard 1.000E+11  0.00  7.800E+03 12;  Curran, et. al.; hc6h12cho  =  c2h3cho+tc4h9 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(3*2*1) = 12
+%%%-------------------------------------------------------------------
+AldehydeDecompToKetylAlkene-Alkyl-(r)(hh)(rrr)\
+     hcoc(r)c(hh)c(rrr) = hcoc(r)c(hh) tertiary-carbon-radical
+- ID 72219
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                2 2 2 2 2 2 2 2 2 2
+4 10 11 12                     2 2 2
+>  <ForwardRxn>
+Standard  6.884E+19  -1.76  2.769E+04  12;  Curran, et. al.; hc6h12cho  =  c2h3cho+tc4h9 
+>  <ReverseRxn>
+Standard 1.000E+11  0.00  7.800E+03 12;  Curran, et. al.; hc6h12cho  =  c2h3cho+tc4h9 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*(3*2*1) = 6
+%%%-------------------------------------------------------------------
+AldehydeDecompToKetylAlkene-Alkyl-(h)(rh)(rrr)\
+     hcoc(h)c(rh)c(rrr) = hcoc(h)c(rh) tertiary-carbon-radical
+- ID 72220
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                2 2 2 2 2 2 2 2 2 2
+4 10 11 12                     2 2 2
+>  <ForwardRxn>
+Standard  6.884E+19  -1.76  2.769E+04  6;  Curran, et. al.; hc6h12cho  =  c2h3cho+tc4h9 
+>  <ReverseRxn>
+Standard 1.000E+11  0.00  7.800E+03 6;  Curran, et. al.; hc6h12cho  =  c2h3cho+tc4h9 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*(3*2*1) = 6
+%%%-------------------------------------------------------------------
+AldehydeDecompToKetylAlkene-Alkyl-(r)(rh)(rrr)\
+     hcoc(r)c(rh)c(rrr) = hcoc(r)c(rh) tertiary-carbon-radical
+- ID 72221
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                2 2 2 2 2 2 2 2 2 2
+4 10 11 12                     2 2 2
+>  <ForwardRxn>
+Standard  6.884E+19  -1.76  2.769E+04  6;  Curran, et. al.; hc6h12cho  =  c2h3cho+tc4h9 
+>  <ReverseRxn>
+Standard 1.000E+11  0.00  7.800E+03 6;  Curran, et. al.; hc6h12cho  =  c2h3cho+tc4h9 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(3*2*1) = 12
+%%%-------------------------------------------------------------------
+AldehydeDecompToKetylAlkene-Alkyl-(h)(rr)(rrr)\
+     hcoc(h)c(rr)c(rrr) = hcoc(h)c(rr) tertiary-carbon-radical
+- ID 72222
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                2 2 2 2 2 2 2 2 2 2
+4 10 11 12                     2 2 2
+>  <ForwardRxn>
+Standard  6.884E+19  -1.76  2.769E+04  12;  Curran, et. al.; hc6h12cho  =  c2h3cho+tc4h9 
+>  <ReverseRxn>
+Standard 1.000E+11  0.00  7.800E+03 12;  Curran, et. al.; hc6h12cho  =  c2h3cho+tc4h9 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*(3*2*1) = 12
+%%%-------------------------------------------------------------------
+AldehydeDecompToKetylAlkene-Alkyl-(r)(rr)(rrr)\
+     hcoc(r)c(rr)c(rrr) = hcoc(r)c(rr) tertiary-carbon-radical
+- ID 72223
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12     2 2 4 2 2 2 2 2 2 2 2
+1 2 3 5 6 7 8 9                2 2 2 2 2 2 2 2 2 2
+4 10 11 12                     2 2 2
+>  <ForwardRxn>
+Standard  6.884E+19  -1.76  2.769E+04  12;  Curran, et. al.; hc6h12cho  =  c2h3cho+tc4h9 
+>  <ReverseRxn>
+Standard 1.000E+11  0.00  7.800E+03 12;  Curran, et. al.; hc6h12cho  =  c2h3cho+tc4h9 
+$$$$

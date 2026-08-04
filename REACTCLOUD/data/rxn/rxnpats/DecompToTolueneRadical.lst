@@ -1,0 +1,180 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*6 = 24
+%%%-------------------------------------------------------------------
+DecompToTolueneRadical-(hh)(hhh)\
+  c6h5cc-(hh)(hhh)  = toluene-radical-(hh) methane-carbon-radical
+- ID 74000
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13     2 2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 10                2 2 2 2 2 2 2 2 2
+8 11 12 13                        2 2 2
+>  <ForwardRxn>
+Standard  8.61641E+15           0.000           71420.0 24; Frenklach: A2C2H5 > A2CH2+CH3
+>  <ReverseRxn>
+Standard  1.19000E+13           0.000           219.73   24; Frenklach: A2CH2+CH3=A2C2H5
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*6 = 12
+%%%-------------------------------------------------------------------
+DecompToTolueneRadical-(rh)(hhh)\
+  c6h5cc-(rh)(hhh)  = toluene-radical-(rh) methane-carbon-radical
+- ID 74001
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13     2 2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 10              2 2 2 2 2 2 2 2 2
+8 11 12 13                      2 2 2
+>  <ForwardRxn>
+Standard  8.61641E+15           0.000           71420.0 12; Frenklach: A2C2H5 > A2CH2+CH3
+>  <ReverseRxn>
+Standard  1.19000E+13           0.000           219.73  12; Frenklach: A2CH2+CH3=A2C2H5
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*6 = 24
+%%%-------------------------------------------------------------------
+DecompToTolueneRadical-(rr)(hhh)\
+  c6h5cc-(rr)(hhh)  = toluene-radical-(rr) methane-carbon-radical
+- ID 74002
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13     2 2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 10              2 2 2 2 2 2 2 2 2
+8 11 12 13                      2 2 2
+>  <ForwardRxn>
+Standard  8.61641E+15           0.000           71420.0 24; Frenklach: A2C2H5 > A2CH2+CH3
+>  <ReverseRxn>
+Standard  1.19000E+13           0.000           219.73  24; Frenklach: A2CH2+CH3=A2C2H5
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+DecompToTolueneRadical-(hh)(rhh)\
+  c6h5cc-(hh)(rhh)  = toluene-radical-(hh) primary-carbon-radical
+- ID 74003
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13     2 2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 10              2 2 2 2 2 2 2 2 2
+8 11 12 13                      2 2 2
+>  <ForwardRxn>
+Standard  8.61641E+15           0.000           71420.0 8; Frenklach: A2C2H5 > A2CH2+CH3
+>  <ReverseRxn>
+Standard  1.19000E+13           0.000           219.73  8; Frenklach: A2CH2+CH3=A2C2H5
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*2 = 4
+%%%-------------------------------------------------------------------
+DecompToTolueneRadical-(rh)(rhh)\
+  c6h5cc-(rh)(rhh)  = toluene-radical-(rh) primary-carbon-radical
+- ID 74004
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13     2 2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 10              2 2 2 2 2 2 2 2 2
+8 11 12 13                      2 2 2
+>  <ForwardRxn>
+Standard  8.61641E+15           0.000           71420.0 4; Frenklach: A2C2H5 > A2CH2+CH3
+>  <ReverseRxn>
+Standard  1.19000E+13           0.000           219.73  4; Frenklach: A2CH2+CH3=A2C2H5
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+DecompToTolueneRadical-(rr)(rhh)\
+  c6h5cc-(rr)(rhh)  = toluene-radical-(rr) primary-carbon-radical
+- ID 74005
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13     2 2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 10              2 2 2 2 2 2 2 2 2
+8 11 12 13                      2 2 2
+>  <ForwardRxn>
+Standard  8.61641E+15           0.000           71420.0 8; Frenklach: A2C2H5 > A2CH2+CH3
+>  <ReverseRxn>
+Standard  1.19000E+13           0.000           219.73  8; Frenklach: A2CH2+CH3=A2C2H5
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+DecompToTolueneRadical-(hh)(rrh)\
+  c6h5cc-(hh)(rrh)  = toluene-radical-(hh) secondary-carbon-radical
+- ID 74006
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13     2 2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 10              2 2 2 2 2 2 2 2 2
+8 11 12 13                      2 2 2
+>  <ForwardRxn>
+Standard  8.61641E+15           0.000           71420.0 8; Frenklach: A2C2H5 > A2CH2+CH3
+>  <ReverseRxn>
+Standard  1.19000E+13           0.000           219.73  8; Frenklach: A2CH2+CH3=A2C2H5
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*2 = 8
+%%%-------------------------------------------------------------------
+DecompToTolueneRadical-(rh)(rrh)\
+  c6h5cc-(rh)(rrh)  = toluene-radical-(rh) secondary-carbon-radical
+- ID 74007
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13     2 2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 10              2 2 2 2 2 2 2 2 2
+8 11 12 13                      2 2 2
+>  <ForwardRxn>
+Standard  8.61641E+15           0.000           71420.0 8; Frenklach: A2C2H5 > A2CH2+CH3
+>  <ReverseRxn>
+Standard  1.19000E+13           0.000           219.73  8; Frenklach: A2CH2+CH3=A2C2H5
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+DecompToTolueneRadical-(rr)(rrh)\
+  c6h5cc-(rr)(rrh)  = toluene-radical-(rr) secondary-carbon-radical
+- ID 74008
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13     2 2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 10              2 2 2 2 2 2 2 2 2
+8 11 12 13                      2 2 2
+>  <ForwardRxn>
+Standard  8.61641E+15           0.000           71420.0 8; Frenklach: A2C2H5 > A2CH2+CH3
+>  <ReverseRxn>
+Standard  1.19000E+13           0.000           219.73  8; Frenklach: A2CH2+CH3=A2C2H5
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*6 = 24
+%%%-------------------------------------------------------------------
+DecompToTolueneRadical-(hh)(rrr)\
+  c6h5cc-(hh)(rrr)  = toluene-radical-(hh) tertiary-carbon-radical
+- ID 74009
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13     2 2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 10              2 2 2 2 2 2 2 2 2
+8 11 12 13                      2 2 2
+>  <ForwardRxn>
+Standard  8.61641E+15           0.000           71420.0 24; Frenklach: A2C2H5 > A2CH2+CH3
+>  <ReverseRxn>
+Standard  1.19000E+13           0.000           219.73  24; Frenklach: A2CH2+CH3=A2C2H5
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1*6 = 12
+%%%-------------------------------------------------------------------
+DecompToTolueneRadical-(rh)(rrr)\
+  c6h5cc-(rh)(rrr)  = toluene-radical-(rh) tertiary-carbon-radical
+- ID 74010
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13     2 2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 10              2 2 2 2 2 2 2 2 2
+8 11 12 13                      2 2 2
+>  <ForwardRxn>
+Standard  8.61641E+15           0.000           71420.0 12; Frenklach: A2C2H5 > A2CH2+CH3
+>  <ReverseRxn>
+Standard  1.19000E+13           0.000           219.73  12; Frenklach: A2CH2+CH3=A2C2H5
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*6 = 24
+%%%-------------------------------------------------------------------
+DecompToTolueneRadical-(rr)(rrr)\
+  c6h5cc-(rr)(rrr)  = toluene-radical-(rr) tertiary-carbon-radical
+- ID 74011
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13     2 2 2 2 2 2 2 4 2 2 2 2 2
+1 2 3 4 5 6 7 9 10              2 2 2 2 2 2 2 2 2
+8 11 12 13                      2 2 2
+>  <ForwardRxn>
+Standard  8.61641E+15           0.000           71420.0 24; Frenklach: A2C2H5 > A2CH2+CH3
+>  <ReverseRxn>
+Standard  1.19000E+13           0.000           219.73  24; Frenklach: A2CH2+CH3=A2C2H5
+$$$$

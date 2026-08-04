@@ -1,0 +1,6 @@
+0 Benson Thermodynamic Values
+%%  Heat    Entropy  Cps(7)
+%% (kcals)   (cals)   cal/K
+butane
+ - BensonThermodynamics 79.660 -30260.000 23.380 29.580 35.300 40.280 48.180 54.220 63.560 
+ - AlternativeNames CHEMKIN C4H10

@@ -1,0 +1,104 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 3*2*1 = 2
+%%%-------------------------------------------------------------------
+KetoAldDecomp-OH-HHH       c(hhh)hc(o) hydroxyl-radical = c(hhh).c(o) water
+- ID 61001
+- Correspondences
+1 2 3 4 5 6 7            2 2 4 2 2 2
+8 9                      2
+1 2 3 5 6 7              2 2 2 2 2
+9 8 4                    2 4
+>  <ForwardRxn>
+Standard 1.75e+13 0.0 0.0 6; Nehse, Warnatz, Chevalier Value ; Generic for RCO
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1 = 2
+%%%-------------------------------------------------------------------
+KetoAldDecomp-OH-RHH       c(rhh)hc(o) hydroxyl-radical = c(rhh).c(o) water
+- ID 61002
+- Correspondences
+1 2 3 4 5 6 7            2 2 4 2 2 2
+8 9                      2
+1 2 3 5 6 7              2 2 2 2 2
+9 8 4                    2 4
+>  <ForwardRxn>
+Standard 1.75e+13 0.0 0.0 2; Nehse, Warnatz, Chevalier Value ; Generic for RCO
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1 = 2
+%%%-------------------------------------------------------------------
+KetoAldDecomp-OH-RRH       c(rrh)hc(o) hydroxyl-radical = c(rrh).c(o) water
+- ID 61003
+- Correspondences
+1 2 3 4 5 6 7            2 2 4 2 2 2
+8 9                      2
+1 2 3 5 6 7              2 2 2 2 2
+9 8 4                    2 4
+>  <ForwardRxn>
+Standard 1.75e+13 0.0 0.0 2; Nehse, Warnatz, Chevalier Value ; Generic for RCO
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 3*2*1 = 6
+%%%-------------------------------------------------------------------
+KetoAldDecomp-OH-RRR       c(rrr)hc(o) hydroxyl-radical = c(rrr).c(o) water
+- ID 61004
+- Correspondences
+1 2 3 4 5 6 7            2 2 4 2 2 2
+8 9                      2
+1 2 3 5 6 7              2 2 2 2 2
+9 8 4                    2 4
+>  <ForwardRxn>
+Standard 1.75e+13 0.0 0.0 6; Nehse, Warnatz, Chevalier Value ; Generic for RCO
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 3*2*1 = 6
+%%%-------------------------------------------------------------------
+KetoAldDecomp-O2-HHH       c(hhh)hc(o) oxygen = c(hhh).c(o) peroxyl-radical
+- ID 61005
+- Correspondences
+1 2 3 4 5 6 7            2 2 4 2 2 2
+8 9                      2
+1 2 3 5 6 7              2 2 2 2 2
+4 9 8                    4 2
+>  <ForwardRxn>
+Standard 2.00e+13 0.0 41800.0 6; Nehse, Warnatz, Chevalier Value ; Generic for RCO
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1 = 2
+%%%-------------------------------------------------------------------
+KetoAldDecomp-O2-RHH       c(rhh)hc(o) oxygen = c(rhh).c(o) peroxyl-radical
+- ID 61006
+- Correspondences
+1 2 3 4 5 6 7            2 2 4 2 2 2
+8 9                      2
+1 2 3 5 6 7              2 2 2 2 2
+4 9 8                    4 2
+>  <ForwardRxn>
+Standard 2.00e+13 0.0 41800.0 2; Nehse, Warnatz, Chevalier Value ; Generic for RCO
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1 = 2
+%%%-------------------------------------------------------------------
+KetoAldDecomp-O2-RRH       c(rrh)hc(o) oxygen = c(rrh).c(o) peroxyl-radical
+- ID 61007
+- Correspondences
+1 2 3 4 5 6 7            2 2 4 2 2 2
+8 9                      2
+1 2 3 5 6 7              2 2 2 2 2
+4 9 8                    4 2
+>  <ForwardRxn>
+Standard 2.00e+13 0.0 41800.0 2; Nehse, Warnatz, Chevalier Value ; Generic for RCO
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 3*2*1 = 6
+%%%-------------------------------------------------------------------
+KetoAldDecomp-O2-RRR       c(rrr)hc(o) oxygen = c(rrr).c(o) peroxyl-radical
+- ID 61008
+- Correspondences
+1 2 3 4 5 6 7            2 2 4 2 2 2
+8 9                      2
+1 2 3 5 6 7              2 2 2 2 2
+4 9 8                    4 2
+>  <ForwardRxn>
+Standard 2.00e+13 0.0 41800.0 6; Nehse, Warnatz, Chevalier Value ; Generic for RCO
+$$$$

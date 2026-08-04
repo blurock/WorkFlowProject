@@ -417,7 +417,7 @@ public class ClassLabelConstants {
     public static String TransactionDebugMode = "dataset:transactiondebugmode";
     public static String ParameterTypeSpecification = "dataset:dynamicType";
     public static String HttpAddressInformationType = "dataset:httpinformationtype";
-    public static String DatasetCollectionType = "dcat:dataset";
+    public static String DatasetCollectionType = "dataset:datasetcollectiontype";
     public static String FileSourceMediaType = "dataset:filemediatype";
     public static String DataLinkType = "skos:related";
     public static String DataCatalog = "skos:inScheme";

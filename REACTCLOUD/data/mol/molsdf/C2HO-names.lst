@@ -1,0 +1,95 @@
+2 C2HO
+ethane
+- AlternativeNames CHEMKIN C2H6
+- AlternativeNames Short C2H6
+ethyl-radical
+- AlternativeNames CHEMKIN C2H5
+- AlternativeNames Short C2H5
+ethene
+- AlternativeNames CHEMKIN C2H4
+- AlternativeNames Short C2H4
+ethenyl-radical
+- AlternativeNames CHEMKIN C2H3
+- AlternativeNames Short C2H3
+ethyne
+- AlternativeNames CHEMKIN C2H2
+- AlternativeNames Short C2H2
+ethynyl-radical
+- AlternativeNames CHEMKIN C2H
+- AlternativeNames Short C2H
+ethanal
+- AlternativeNames CHEMKIN CH3CHO
+- AlternativeNames Short CH3CHO
+ethanal-2-yl-radical
+- AlternativeNames CHEMKIN CH2CHO
+- AlternativeNames Short CH2CHO
+ethenone
+- AlternativeNames CHEMKIN CH2CO
+- AlternativeNames Short CH2CO
+ketenyl-radical
+- AlternativeNames CHEMKIN HCCO
+- AlternativeNames Short HCCO
+ethanol
+- AlternativeNames CHEMKIN C2H5OH
+- AlternativeNames Short C2H5OH
+ethoxy-radical
+- AlternativeNames CHEMKIN C2H5O
+- AlternativeNames Short C2H5O
+ethylperoxy-radical
+- AlternativeNames CHEMKIN C2H5O2
+- AlternativeNames Short C2H5O2
+ethyl-hydroperoxide
+- AlternativeNames CHEMKIN C2H5O2H
+- AlternativeNames Short C2H5O2H
+oxirane
+- AlternativeNames CHEMKIN OXIRANE
+- AlternativeNames Short OXIRANE
+methylcarboxy-radical
+- AlternativeNames CHEMKIN CH3CO2
+- AlternativeNames Short CH3CO2
+ethanoic-acid
+- AlternativeNames CHEMKIN CH3COOH
+- AlternativeNames Short CH3COOH
+peroxyethanoic-acid
+- AlternativeNames CHEMKIN CH3CO3H
+- AlternativeNames Short CH3CO3H
+hydroperoxyethanyl-radical
+- AlternativeNames CHEMKIN C2H4O2H
+- AlternativeNames Short C2H4O2H
+diformyl
+- AlternativeNames CHEMKIN CHOCHO
+- AlternativeNames Short CHOCHO
+ethanoyl-radical
+- AlternativeNames CHEMKIN CH3CO
+- AlternativeNames Short CH3CO
+dimethylperoxide
+- AlternativeNames CHEMKIN CH3O2CH3
+- AlternativeNames Short CH3O2CH3
+acetyl-peroxy-radical
+- AlternativeNames CHEMKIN ch3co3
+- AlternativeNames Short ch3co3
+- AlternativeNames Short c2h3o3
+2-hydroperoxyethanal
+- AlternativeNames CHEMKIN ch2o2hcho
+- AlternativeNames Short ch2o2hcho
+- AlternativeNames Formula c2h4o3
+2-peroxy-ethanol
+- AlternativeNames CHEMKIN o2c2h4oh
+- AlternativeNames Short o2c2h4oh
+- AlternativeNames Formula c2h5o3
+1-hydroperoxy-2-peroxy-ethane
+- AlternativeNames CHEMKIN o2c2h4o2h
+- AlternativeNames Short o2c2h4o2h
+- AlternativeNames Short c2h5o3
+ethanol-2-yl-radical
+- AlternativeNames CHEMKIN pc2h4oh
+- AlternativeNames Short pc2h4oh
+- AlternativeNames Formula c2h5o
+ethanol-1-yl-radical
+- AlternativeNames CHEMKIN sc2h4oh
+- AlternativeNames Short sc2h4oh
+- AlternativeNames Short c2h5o
+oxirane-1-yl-radical
+- AlternativeNames CHEMKIN c2h3o1-2
+- AlternativeNames Short c2h3o1-2
+- AlternativeNames Short c2h3o

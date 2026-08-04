@@ -1,0 +1,55 @@
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+AlkoxyFromPeroxy-HHH c(h)(h)(h)(ooh) = c(h)(h)(h)(o.) hydroxyl-radical
+- ID 17111
+- Correspondences
+1 2 3 4 5 6 7      2 4 2 2 2 2
+3 4 5 6 7          2 2 2 2
+1 2                2
+>  <ForwardRxn>
+Standard 5.42e+9 0.0 0.0 2; Ranzi Value ; Estimate  
+
+>  <ReverseRxn>
+Standard 7.6e+16 0.0 16358 1; Ranzi Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+AlkoxyFromPeroxy-RHH c(r)(h)(h)(ooh) = c(r)(h)(h)(o.) hydroxyl-radical
+- ID 17211
+- Correspondences
+1 2 3 4 5 6 7      2 4 2 2 2 2
+3 4 5 6 7          2 2 2 2
+1 2                2
+>  <ForwardRxn>
+Standard 5.42e+9 0.0 0.0 1; Ranzi Value ; Estimate  
+
+>  <ReverseRxn>
+Standard 7.6e+16 0.0 16358 1; Ranzi Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+AlkoxyFromPeroxy-RRH c(r)(r)(h)(ooh) = c(r)(r)(h)(o.) hydroxyl-radical
+- ID 17221
+- Correspondences
+1 2 3 4 5 6 7      2 4 2 2 2 2
+3 4 5 6 7          2 2 2 2
+1 2                2
+>  <ForwardRxn>
+Standard 5.42e+9 0.0 0.0 2; Ranzi Value ; Estimate  
+
+>  <ReverseRxn>
+Standard 7.6e+16 0.0 16358 1; Ranzi Value ; Estimate  
+$$$$
+%%%-------------------------------------------------------------------
+AlkoxyFromPeroxy-RRR c(r)(r)(r)(ooh) = c(r)(r)(r)(o.) hydroxyl-radical
+- ID 17222
+- Correspondences
+1 2 3 4 5 6 7      2 4 2 2 2 2
+3 4 5 6 7          2 2 2 2
+1 2                2
+>  <ForwardRxn>
+Standard 5.42e+9 0.0 0.0 6; Ranzi Value ; Estimate  
+
+>  <ReverseRxn>
+Standard 7.6e+16 0.0 16358 1; Ranzi Value ; Estimate  
+$$$$

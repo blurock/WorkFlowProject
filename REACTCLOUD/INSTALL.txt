@@ -1,0 +1,22 @@
+Installing REACT
+
+0.  The sytem depends on two environment variables.  These must be 
+      set up in the shell.  Both should be set to the location
+      of the REACT system.  In bash these would be initialized with
+       (if the system is in the directory /usr/share/REACT):
+           export REACTROOT=/usr/share/REACT
+           export CCROOT=/usr/share/REACT
+           
+1.  To compile the system and create the main executable bin/chemdb:
+    from the main directory type
+         make install
+
+2. To initialize the runtime system and the database:
+         make runsetup
+         make database
+
+3. At this point the system should be up and running.  Some useful
+       scripts can be found in the directory:
+           <REACT home>/programs/scripts
+           <REACT home>/bin
+   These should be added to the path

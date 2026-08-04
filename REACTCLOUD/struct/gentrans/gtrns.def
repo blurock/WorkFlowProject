@@ -1,0 +1,171 @@
+Graph Transformation Structures
+3 graphtransform
+
+%%% GraphNode
+%%% This is a Description of a node within a graph transform
+%%% It is implicit in its use whether it is the left or right side
+%%%
+   GraphNode 300 graphnode
+      0 Position of Molecule Within List
+         INT Molecule            Create
+      1 Position of node within Molecule
+         INT GNode               Create
+      DONE
+
+%%% GraphNodePair
+%%%  This is the pairs of transform, graph correspondences.  The First
+%%%  in the pair is the tranform atom and the second is the graph
+%%%  atom. 
+   GraphNodePair 301 graphnodepair
+     0 Transform Node
+        GraphNode TransformN Pointer Create
+     1 Graph Node
+        GraphNode GraphN Pointer Create
+     DONE
+%%% GraphBond
+%%% This is the definition of a bond (i.e. a binding between nodes
+%%% within a graph
+%%%
+   GraphBond 301 graphbond
+      0 Position of Molecule Within List
+         INT MoleculeI            Create
+      1 Position of first node within Molecule
+         INT GNodeI               Create
+      2 Position of Molecule Within List
+         INT MoleculeJ            Create
+      3 Position of second node within molecule
+         INT GNodeJ               Create
+      4 The Type of Bond change
+         INT Type                 Create
+      DONE
+
+%%% NodeTransform
+%%% This is the structure which matches the LHS with the RHS
+%%% The transform is defined as the change in the type from the LHS
+%%% node to the RHS node
+%%%
+   NodeTransform 302 nodetransform
+      0 The node on the Left Hand Side
+         GraphNode LHSnode Pointer  Create
+      1 The node on the Right Hand Side
+         GraphNode RHSnode Pointer  Create
+      DONE
+
+%%% SetOfNodeMatches
+%%% This is the set correspondences between the LHS and RHS of the
+%%% transform
+%%% 
+   SetOfNodeTransforms 303 setofnodetransforms
+      0 Number Of Nodes that are transformed
+         INT NumberOfNodeTransforms     Create
+      1 The Set of transforms
+         NodeTransform Transforms Pointer Create Array=NumberOfNodeTransforms
+      2 The number of unmatched atoms
+        INT NumberRUnmatched  Create
+      3 The set of Unmatched Reactant Atoms
+        GraphNode RUnmatched Pointer Create Array=NumberRUnmatched
+      4 The number of unmatched atoms
+        INT NumberPUnmatched  Create
+      5 The set of Unmatched Product Atoms
+        GraphNode PUnmatched Pointer Create Array=NumberPUnmatched
+      DONE
+
+%%% BondTransforms
+%%% This is the set of bonds that are present on the current side of the
+%%% transform and are absent on the other side
+%%%
+   BondTransforms 304 bondtransforms 
+      0 The number of bonds bonds made
+         INT NumberOfBondsMade         Create
+      1 The Made Bonds
+         GraphBond BondsMade Pointer Create Array=NumberOfBondsMade
+      2 The number of bond broken
+         INT NumberOfBondsBroken         Create
+      3 The Broken Bonds
+         GraphBond BondsBroken Pointer Create Array=NumberOfBondsBroken
+      DONE
+
+%%% BondTransformSet
+%%% This is the set of transforms for the LHS and RHS 
+%%%
+   BondTransformSet  305 bondtransformset
+      0 The bonds on the LHS that are present but not on RHS
+         BondTransforms LHStransform Pointer Create
+      1 The bonds on the RHS that are present but not on LHS
+         BondTransforms RHStransform Pointer Create
+      DONE
+
+%%% GraphTransform
+%%% This is the entire transform for a graph
+%%%
+   GraphTransform 306 graphtransform
+      0 The number of Graphs on the LHS
+         INT NumberLHS  Create
+      1 The number of Graphs on the RHS
+         INT NumberRHS  Create
+      2 The set of graphs on the LHS
+         Graph GraphLHS Pointer Create Array=NumberLHS
+      3 The set of graphs on the RHS
+         Graph GraphRHS Pointer Create Array=NumberRHS
+      4 The Node Transforms
+        SetOfNodeTransforms Nodes Pointer Create
+      5 The Bond Transforms
+        BondTransformSet Bonds Pointer Create
+      DONE
+%%% TransformGraphCorrSet
+%%%   For a given level, i.e. a given graph within a reaction, the set
+%%%   of molecules (represented as graphs) are examined whether the
+%%%   reaction graph fits.  The set of correspondences are the ways
+%%%   the reaction fits in the molecule.
+%%%
+   TransformGraphCorrSet 307 transformgraphcorrset
+      0 The number of graphs in the transform
+         INT NumberOfGraphs Create
+      1 The SetOfPairSets for each transform graph
+        SetOfPairSets TransformPairSet Pointer Create Array=NumberOfGraphs
+      DONE
+%%% GraphTransformGraphTree
+%%%  This is the node of the a given reaction graph tree.  Each level
+%%%  represents one of the graphs in a multigraph reaction. The
+%%%  CorrSets are the sets of correspondences for the set of molecules
+%%%  for the reaction graph of this level.  Each SubTree element 
+%%%  corresponds to one of the PairSets.  The loops of the pair sets
+%%%  are first over the number of molecules and then the PairSets
+%%%  within each molecule.
+%%%
+   GraphTransformGraphTree 306 graphtransformgraphtree
+      1 The set of graph reaction correspondences
+        TransformGraphCorrSet CorrSets Pointer Create
+      2 The number of subtrees (total combinations of graphs and corrs)
+        INT NumberOfSubTrees Create
+      3 The correspondence subtree
+        GraphTransformGraphTree SubTree Pointer Create Array=NumberOfSubTrees
+      DONE
+%%% TransformSet
+%%% This is a set of Transforms corresponding to a set of reactions
+%%%
+   TransformSet 307 transformset
+      0 The number of Transforms
+         INT NumberOfTransforms Create
+      1 The set of Transforms
+         GraphTransform Set Pointer Create Array=NumberOfTransforms
+      DONE
+%%% SetOfGraphNodePairs
+%%%  This is a set of GraphNodePair for a given transform and graph
+%%%
+    SetOfGraphNodePairs 311 setofgraphnodepairs
+     0 The Number Of GraphNodePairs
+        INT NumberOfPairs Create
+     1 The Set of GraphNOdePairs
+        GraphNodePair Pairs Pointer Create Array=NumberOfPairs
+     DONE
+%%% TotalSetOfTransformPairs
+%%% This is a list of the entire set of transform pairs in groups of
+%%% SetOfGraphNodePairs. 
+   TotalSetOfTransformPairs 312 totalsetoftransformpairs
+      0 The Number Of Sets
+         INT NumberOfPairSets Create
+      1 The Pair Sets
+         SetOfGraphNodePairs PairSets Create Pointer Array=NumberOfPairSets
+      DONE
+DONE

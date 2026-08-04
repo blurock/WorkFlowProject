@@ -1,0 +1,135 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+BetaOlefinRadicalDecomp(qq)(q)(hh)(hh)\
+    betaolefinrad(qq)(q)(hh)(hh) = alkenyl-(qq)(q) olefin-(hh)(hh)
+- ID 70601
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11              2 4 2 2 2 2 2 2 2 2 2
+1 2 5 6 7                            2 2 2 2 2 2 2
+3 4 8 9 10 11                        2 2 2
+>  <ForwardRxn>
+Standard 2.0e+13   0.00 35500.0  8; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+>  <ReverseRxn>
+Standard 1.0e-40   0.00 0.0  8; irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+BetaOlefinRadicalDecomp(qq)(q)(hh)(rh)\
+    betaolefinrad(qq)(q)(hh)(rh) = alkenyl-(qq)(q) olefin-(rh)(hh)
+- ID 70602
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11              2 4 2 2 2 2 2 2 2 2 2
+1 2 5 6 7                            2 2 2 2 2 2 2
+4 3 10 11 8 9                        2 2 2
+>  <ForwardRxn>
+Standard 2.0e+13   0.00 35500.0  8; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+>  <ReverseRxn>
+Standard 1.0e-40   0.00 0.0  8; irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+BetaOlefinRadicalDecomp(qq)(q)(hh)(rr)\
+    betaolefinrad(qq)(q)(hh)(rr) = alkenyl-(qq)(q) olefin-(rr)(hh)
+- ID 70603
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11              2 4 2 2 2 2 2 2 2 2 2
+1 2 5 6 7                            2 2 2 2 2 2 2
+4 3 10 11 8 9                        2 2 2
+>  <ForwardRxn>
+Standard 2.0e+13   0.00 35500.0  8; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+>  <ReverseRxn>
+Standard 1.0e-40   0.00 0.0  8; irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+BetaOlefinRadicalDecomp(qq)(q)(rh)(hh)\
+    betaolefinrad(qq)(q)(rh)(hh) = alkenyl-(qq)(q) olefin-(rh)(hh)
+- ID 70604
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11              2 4 2 2 2 2 2 2 2 2 2
+1 2 5 6 7                            2 2 2 2 2 2 2
+3 4 8 9 10 11                        2 2 2
+>  <ForwardRxn>
+Standard 2.0e+13   0.00 35500.0  8; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+>  <ReverseRxn>
+Standard 1.0e-40   0.00 0.0  8; irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+BetaOlefinRadicalDecomp(qq)(q)(rh)(rh)\
+    betaolefinrad(qq)(q)(rh)(rh) = alkenyl-(qq)(q) olefin-(rh)(rh)
+- ID 70605
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11              2 4 2 2 2 2 2 2 2 2 2
+1 2 5 6 7                            2 2 2 2 2 2 2
+4 3 10 11 8 9                        2 2 2
+>  <ForwardRxn>
+Standard 2.0e+13   0.00 35500.0  8; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+>  <ReverseRxn>
+Standard 1.0e-40   0.00 0.0  8; irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+BetaOlefinRadicalDecomp(qq)(q)(rh)(rr)\
+    betaolefinrad(qq)(q)(rh)(rr) = alkenyl-(qq)(q) olefin-(rr)(rh)
+- ID 70606
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11              2 4 2 2 2 2 2 2 2 2 2
+1 2 5 6 7                            2 2 2 2 2 2 2
+4 3 10 11 8 9                        2 2 2
+>  <ForwardRxn>
+Standard 2.0e+13   0.00 35500.0  8; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+>  <ReverseRxn>
+Standard 1.0e-40   0.00 0.0  8; irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+BetaOlefinRadicalDecomp(qq)(q)(rr)(hh)\
+    betaolefinrad(qq)(q)(rr)(hh) = alkenyl-(qq)(q) olefin-(rr)(hh)
+- ID 70607
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11              2 4 2 2 2 2 2 2 2 2 2
+1 2 5 6 7                            2 2 2 2 2 2 2
+3 4 8 9 10 11                        2 2 2
+>  <ForwardRxn>
+Standard 2.0e+13   0.00 35500.0  8; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+>  <ReverseRxn>
+Standard 1.0e-40   0.00 0.0  8; irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+BetaOlefinRadicalDecomp(qq)(q)(rr)(rh)\
+    betaolefinrad(qq)(q)(rr)(rh) = alkenyl-(qq)(q) olefin-(rr)(rh)
+- ID 70608
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11              2 4 2 2 2 2 2 2 2 2 2
+1 2 5 6 7                            2 2 2 2 2 2 2
+3 4 8 9 10 11                        2 2 2
+>  <ForwardRxn>
+Standard 2.0e+13   0.00 35500.0  8; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+>  <ReverseRxn>
+Standard 1.0e-40   0.00 0.0  8; irreversible
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*2 = 8
+%%%-------------------------------------------------------------------
+BetaOlefinRadicalDecomp(qq)(q)(rr)(rr)\
+    betaolefinrad(qq)(q)(rr)(rr) = alkenyl-(qq)(q) olefin-(rr)(rr)
+- ID 70609
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11              2 4 2 2 2 2 2 2 2 2 2
+1 2 5 6 7                            2 2 2 2 2 2 2
+4 3 10 11 8 9                        2 2 2
+>  <ForwardRxn>
+Standard 2.0e+13   0.00 35500.0  8; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
+>  <ReverseRxn>
+Standard 1.0e-40   0.00 0.0  8; irreversible
+$$$$

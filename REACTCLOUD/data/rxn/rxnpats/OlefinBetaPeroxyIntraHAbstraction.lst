@@ -1,0 +1,87 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% Intramolecular H Abstraction from an OlefinBetaPeroxy
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2/2 = 2
+%%%-------------------------------------------------------------------
+OlefinBetaPeroxyIntraHAbstraction5Ring-(h)(hh)\
+       c=cccoo(hh)(hh) = c=cccooh(h)(hh)
+- ID 40400
+- Correspondences
+1 2 3 4 5 6 7 8 9 10    2 2 2 2 2 2 4 2 2
+1 2 3 4 5 6 8 7 9 10    2 2 2 2 2 4 2 2 2 
+>  <ForwardRxn>
+Standard 2.98e+12 0.0 27900 2; Type XI (5-Ring, secondary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 5.679E+11  -0.14  1.765E+04 2; Type XI (5-Ring, secondary):c7h15o2-1 = c7h14ooh1-2
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2/1 = 2
+%%%-------------------------------------------------------------------
+OlefinBetaPeroxyIntraHAbstraction5Ring-(r)(hh)\
+       c=cccoo(rh)(hh) = c=cccooh(r)(hh)
+- ID 40401
+- Correspondences
+1 2 3 4 5 6 7 8 9 10    2 2 2 2 2 2 4 2 2
+1 2 3 4 5 6 8 7 9 10    2 2 2 2 2 4 2 2 2 
+>  <ForwardRxn>
+Standard 2.98e+12 0.0 27900 2; Type XI (5-Ring, secondary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 5.679E+11  -0.14  1.765E+04 2; Type XI (5-Ring, secondary):c7h15o2-1 = c7h14ooh1-2
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1/2 = 1
+%%%-------------------------------------------------------------------
+OlefinBetaPeroxyIntraHAbstraction5Ring-(h)(rh)\
+       c=cccoo(hh)(rh) = c=cccooh(h)(rh)
+- ID 40402
+- Correspondences
+1 2 3 4 5 6 7 8 9 10    2 2 2 2 2 2 4 2 2
+1 2 3 4 5 6 8 7 9 10    2 2 2 2 2 4 2 2 2 
+>  <ForwardRxn>
+Standard 2.98e+12 0.0 27900 1; Type XI (5-Ring, secondary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 5.679E+11  -0.14  1.765E+04 1; Type XI (5-Ring, secondary):c7h15o2-1 = c7h14ooh1-2
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1/1 = 1
+%%%-------------------------------------------------------------------
+OlefinBetaPeroxyIntraHAbstraction5Ring-(r)(rh)\
+       c=cccoo(rh)(rh) = c=cccooh(r)(rh)
+- ID 40403
+- Correspondences
+1 2 3 4 5 6 7 8 9 10    2 2 2 2 2 2 4 2 2
+1 2 3 4 5 6 8 7 9 10    2 2 2 2 2 4 2 2 2 
+>  <ForwardRxn>
+Standard 2.98e+12 0.0 27900 1; Type XI (5-Ring, secondary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 5.679E+11  -0.14  1.765E+04 1; Type XI (5-Ring, secondary):c7h15o2-1 = c7h14ooh1-2
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*2/2=2
+%%%-------------------------------------------------------------------
+OlefinBetaPeroxyIntraHAbstraction5Ring-(h)(rr)\
+       c=cccoo(hh)(rr) = c=cccooh(h)(rr)
+- ID 40404
+- Correspondences
+1 2 3 4 5 6 7 8 9 10    2 2 2 2 2 2 4 2 2
+1 2 3 4 5 6 8 7 9 10    2 2 2 2 2 4 2 2 2 
+>  <ForwardRxn>
+Standard 2.98e+12 0.0 27900 2; Type XI (5-Ring, secondary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 5.679E+11  -0.14  1.765E+04 2; Type XI (5-Ring, secondary):c7h15o2-1 = c7h14ooh1-2
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*2/1 = 2
+%%%-------------------------------------------------------------------
+OlefinBetaPeroxyIntraHAbstraction5Ring-(r)(rr)\
+       c=cccoo(rh)(rr) = c=cccooh(r)(rr)
+- ID 40405
+- Correspondences
+1 2 3 4 5 6 7 8 9 10    2 2 2 2 2 2 4 2 2
+1 2 3 4 5 6 8 7 9 10    2 2 2 2 2 4 2 2 2 
+>  <ForwardRxn>
+Standard 2.98e+12 0.0 27900 2; Type XI (5-Ring, secondary): Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 5.679E+11  -0.14  1.765E+04 2; Type XI (5-Ring, secondary):c7h15o2-1 = c7h14ooh1-2
+$$$$

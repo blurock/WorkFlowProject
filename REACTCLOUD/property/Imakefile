@@ -1,0 +1,42 @@
+ROOT       = /home/blurock
+
+CCROOT     = $(ROOT)/cc
+
+PROGRAM    = property
+LIBNAME    = lib$(PROGRAM).a
+MYLIBDIR   = $(ROOT)/lib
+LIBFILE    = $(MYLIBDIR)/$(LIBNAME)
+
+
+STD_LIBRARIES            = -L$(MYLIBDIR)\
+                           -lcomlib -lbasis\
+                           -lm 
+
+
+STD_INCLUDES = -I./standard\
+               -I./genc\
+               -I./genh\
+               -I$(CCROOT)/genc\
+               -I$(CCROOT)/genh\
+               -I$(CCROOT)/standard
+          
+CC = gcc
+CDEBUGFLAGS= -g -Wall -Wcast-align -Wconversion -Wshadow
+
+SRCS = propertytypes.c aprops.c propout.c pstore.c types.c util.c
+
+OBJS = propertytypes.o aprops.o propout.o pstore.o types.o util.o
+
+library: $(OBJS)
+	$(RM) $(LIBFILE)
+	ar rv  $(LIBFILE) $(OBJS)
+	ar ts $(LIBFILE)
+
+structures:
+	createstructures dbase Str
+
+NormalProgramTarget($(PROGRAM),$(OBJS) main.o,,$(STD_LIBRARIES),XawClientLibs)
+
+depend::
+	$(DEPEND) $(DEPENDFLAGS) -s "# DO NOT DELETE" -- $(ALLDEFINES) -- $(SRCS)
+

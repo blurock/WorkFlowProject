@@ -1,0 +1,66 @@
+1-propene-3-ol
+- ThermoFromChemkin ChemkinThermo 298.0 StandardEnthalpy StandardEntropy ExpEquilibrium
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo2
+1-propyl-radical
+- ThermoFromChemkin ChemkinThermo 298.0 StandardEnthalpy StandardEntropy ExpEquilibrium
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo
+2-propenyl-radical
+- ThermoFromChemkin ChemkinThermo 298.0 StandardEnthalpy StandardEntropy ExpEquilibrium
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo
+allenal
+- ThermoFromChemkin ChemkinThermo 298.0 StandardEnthalpy StandardEntropy ExpEquilibrium
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo
+butane
+- ThermoFromChemkin ChemkinThermo 298.0 StandardEnthalpy StandardEntropy ExpEquilibrium
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo
+dimethylperoxide
+- ThermoFromChemkin ChemkinThermo 298.0 StandardEnthalpy StandardEntropy ExpEquilibrium
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo
+ethane
+- ThermoFromChemkin ChemkinThermo 298.0 StandardEnthalpy StandardEntropy ExpEquilibrium
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo
+ethanoic-acid
+- ThermoFromChemkin ChemkinThermo 298.0 StandardEnthalpy StandardEntropy ExpEquilibrium
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo
+ethanol
+- ThermoFromChemkin ChemkinThermo 298.0 StandardEnthalpy StandardEntropy ExpEquilibrium
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo
+ethanoyl-radical
+- ThermoFromChemkin ChemkinThermo 298.0 StandardEnthalpy StandardEntropy ExpEquilibrium
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo
+ethene
+- ThermoFromChemkin ChemkinThermo 298.0 StandardEnthalpy StandardEntropy ExpEquilibrium
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo
+ethenyl-radical
+- ThermoFromChemkin ChemkinThermo 298.0 StandardEnthalpy StandardEntropy ExpEquilibrium
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo
+ethyl-radical
+- ThermoFromChemkin ChemkinThermo 298.0 StandardEnthalpy StandardEntropy ExpEquilibrium
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo
+ethyne
+- ThermoFromChemkin ChemkinThermo 298.0 StandardEnthalpy StandardEntropy ExpEquilibrium
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo
+ethynyl-radical
+- ThermoFromChemkin ChemkinThermo 298.0 StandardEnthalpy StandardEntropy ExpEquilibrium
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo
+methane
+- ThermoFromChemkin ChemkinThermo 298.0 StandardEnthalpy StandardEntropy ExpEquilibrium
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo
+methanol
+- ThermoFromChemkin ChemkinThermo 298.0 StandardEnthalpy StandardEntropy ExpEquilibrium
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo
+methoxy-radical
+- ThermoFromChemkin ChemkinThermo 298.0 StandardEnthalpy StandardEntropy ExpEquilibrium
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo
+methyl-radical
+- ThermoFromChemkin ChemkinThermo 298.0 StandardEnthalpy StandardEntropy ExpEquilibrium
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo
+methylene
+- ThermoFromChemkin ChemkinThermo 298.0 StandardEnthalpy StandardEntropy ExpEquilibrium
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo
+propenal
+- ThermoFromChemkin ChemkinThermo 298.0 StandardEnthalpy StandardEntropy ExpEquilibrium
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo
+propene
+- ThermoFromChemkin ChemkinThermo 298.0 StandardEnthalpy StandardEntropy ExpEquilibrium
+- ExpEquilibrium ExpEquilibrium Chemkin ChemkinThermo

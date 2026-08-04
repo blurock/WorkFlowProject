@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ThermoData  xmlns="http://blurock.forbrf.lth.se/thermo">
+<Benson MoleculeName='hydrogen-radical'>
+<BensonTotal>
+<HeatOfFormation>    0.0000 </HeatOfFormation>
+<Entropy>    0.0000</Entropy>
+<Cp>
+    0.00     0.00     0.00     0.00     0.00     0.00     0.00 
+</Cp>
+</BensonTotal> 
+</Benson>
+<Benson MoleculeName='hydrogen'>
+<BensonTotal>
+<HeatOfFormation>    0.0000 </HeatOfFormation>
+<Entropy>    0.0000</Entropy>
+<Cp>
+    0.00     0.00     0.00     0.00     0.00     0.00     0.00 
+</Cp>
+</BensonTotal> 
+</Benson>
+<Benson MoleculeName='oxygen-radical'>
+<BensonTotal>
+<HeatOfFormation>    0.0000 </HeatOfFormation>
+<Entropy>    0.0000</Entropy>
+<Cp>
+    0.00     0.00     0.00     0.00     0.00     0.00     0.00 
+</Cp>
+</BensonTotal> 
+</Benson>
+<Benson MoleculeName='oxygen'>
+<BensonTotal>
+<HeatOfFormation>    0.0000 </HeatOfFormation>
+<Entropy>    0.0000</Entropy>
+<Cp>
+    0.00     0.00     0.00     0.00     0.00     0.00     0.00 
+</Cp>
+</BensonTotal> 
+</Benson>
+<Benson MoleculeName='hydroxyl-radical'>
+<BensonTotal>
+<HeatOfFormation>    0.0000 </HeatOfFormation>
+<Entropy>    0.0000</Entropy>
+<Cp>
+    0.00     0.00     0.00     0.00     0.00     0.00     0.00 
+</Cp>
+</BensonTotal> 
+</Benson>
+<Benson MoleculeName='peroxyl-radical'>
+<BensonAtom valence='8043002' index='0'>
+</BensonAtom>
+<BensonTotal>
+<HeatOfFormation>    0.0000 </HeatOfFormation>
+<Entropy>    0.0000</Entropy>
+<Cp>
+    0.00     0.00     0.00     0.00     0.00     0.00     0.00 
+</Cp>
+</BensonTotal> 
+</Benson>
+<Benson MoleculeName='water'>
+<BensonAtom valence='8043002' index='0'>
+<BensonAtomValues>
+<HeatOfFormation>-57800.0000 </HeatOfFormation>
+<Entropy>   45.1000</Entropy>
+<Cp>
+    8.00     8.40     9.20     9.90    11.20    12.30    15.05 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonTotal>
+<HeatOfFormation>-57800.0000 </HeatOfFormation>
+<Entropy>   45.1000</Entropy>
+<Cp>
+    8.00     8.40     9.20     9.90    11.20    12.30    15.05 
+</Cp>
+</BensonTotal> 
+</Benson>
+<Benson MoleculeName='hydrogen-peroxide'>
+<BensonAtom valence='8043002' index='0'>
+<BensonAtomValues>
+<HeatOfFormation>-16299.9990 </HeatOfFormation>
+<Entropy>   28.8500</Entropy>
+<Cp>
+    5.20     5.80     6.30     6.70     7.20     7.50     8.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonAtom valence='8043002' index='1'>
+<BensonAtomValues>
+<HeatOfFormation>-16299.9990 </HeatOfFormation>
+<Entropy>   28.8500</Entropy>
+<Cp>
+    5.20     5.80     6.30     6.70     7.20     7.50     8.20 
+</Cp>
+</BensonAtomValues> 
+</BensonAtom>
+<BensonTotal>
+<HeatOfFormation>-32599.9980 </HeatOfFormation>
+<Entropy>   57.7000</Entropy>
+<Cp>
+   10.40    11.60    12.60    13.40    14.40    15.00    16.40 
+</Cp>
+</BensonTotal> 
+</Benson>
+</ThermoData>

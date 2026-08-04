@@ -65,7 +65,10 @@ export class ThermodynamicDefinitionRootComponent extends BaseSubclassComponent 
              key !== 'dataset:twodmollabel' &&
              key !== 'dataset:structuredef' &&
              key !== 'dataset:speciespectype' &&
-             key !== 'dataset:jthermometaatominfo'
+             key !== 'dataset:jthermometaatominfo' &&
+             key !== 'dataset:vibrationmodelabel' &&
+             key !== 'dataset:vibrationsymmetry' &&
+             key !== 'dataset:vibrationalfrequency'
     );
   }
 }

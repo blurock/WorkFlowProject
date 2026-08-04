@@ -1,0 +1,50 @@
+BasicLowTemperatureSideRxnsQOOH: Side Reactions starting from QOOH
+oxygen,hydrogen-radical
+%%% ----------------------------------------------------
+%%%  (setup)
+%%%  Type I: HAbstraction
+%%% ----------------------------------------------------
+H-Abstraction-Oxygen-Tertiary,\
+H-Abstraction-Oxygen-Secondary,\
+H-Abstraction-Oxygen-Primary\
+:oxygen
+%%% ----------------------------------------------------
+%%%  (setup)
+%%%  Type X:  Initial addition of O2 to the radical formed
+%%% ----------------------------------------------------
+Primary-Carbon-Radical-(R.+O2-->RO2.),\
+Secondary-Carbon-Radical-(R.+O2-->RO2.),\
+Tertiary-Carbon-Radical-(R.+O2-->RO2.)\
+:oxygen
+%%% ----------------------------------------------------
+%%%  (setup)
+%%%  Type XII: RO2 Isomerization
+%%% ----------------------------------------------------
+RO2-Isomerization-5RingPrimary,\
+RO2-Isomerization-5RingSecondary,\
+RO2-Isomerization-5RingTertiary,\
+RO2-Isomerization-6RingPrimary,\
+RO2-Isomerization-6RingSecondary,\
+RO2-Isomerization-6RingTertiary,\
+RO2-Isomerization-7RingPrimary,\
+RO2-Isomerization-7RingSecondary,\
+RO2-Isomerization-7RingTertiary,\
+RO2-Isomerization-8RingPrimary,\
+RO2-Isomerization-8RingSecondary,\
+RO2-Isomerization-8RingTertiary
+%%% ----------------------------------------------------
+%%% Type XX: QOOH = Olefin + HO2
+%%% Type XXI: QOOH = olefin + carbonyl + OH
+%%% ----------------------------------------------------
+BetaHPeroxyToOlefin-HHHH,\
+BetaHPeroxyToOlefin-RHHH,\
+BetaHPeroxyToOlefin-RRHH,\
+BetaHPeroxyToOlefin-HHRH,\
+BetaHPeroxyToOlefin-RHRH,\
+BetaHPeroxyToOlefin-RRRH,\
+BetaHPeroxyToOlefin-HHRR,\
+BetaHPeroxyToOlefin-RHRR,\
+BetaHPeroxyToOlefin-RRRR,\
+OlefinCarbonylFromPeroxy-HH,\
+OlefinCarbonylFromPeroxy-RH,\
+OlefinCarbonylFromPeroxy-RR

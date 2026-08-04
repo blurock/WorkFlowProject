@@ -1,0 +1,34 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2*6 = 24
+%%%-------------------------------------------------------------------
+CyclicEther-3Ring-(hh)\
+  (hh)(q)(-cco-)c(qq)c(qqq) hydroxyl-radical = water hcoc(q)c(qq) general-carbon-radical
+- ID 25075
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13              2 4 2 2 4 2 2 4 2 2 2 2 2
+14 15                                      2
+15 14 5                                    2 4
+1 2 7 3 4 6 9 10                           2 2 2 2 2 2 2
+8 11 12 13                                 2 2 2
+>  <ForwardRxn>
+Standard   19.0e+7 1.61  -3.5E+01  24; 
+>  <ReverseRxn>
+Standard 1.00e-30   0.00   0.000E+00  24; 
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2*6 = 12
+%%%-------------------------------------------------------------------
+CyclicEther-3Ring-(rh)\
+  (rh)(q)(-cco-)c(qq)c(qqq) hydroxyl-radical = water rcoc(q)c(qq) general-carbon-radical
+- ID 25076
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12 13              2 4 2 2 4 2 2 4 2 2 2 2 2
+14 15                                      2
+15 14 5                                    2 4
+1 2 7 3 4 6 9 10                           2 2 2 2 2 2 2
+8 11 12 13                                 2 2 2
+>  <ForwardRxn>
+Standard  19.0e+7  1.61  -3.5E+01  12; 
+>  <ReverseRxn>
+Standard 1.00e-30   0.00   0.000E+00  12; 
+$$$$

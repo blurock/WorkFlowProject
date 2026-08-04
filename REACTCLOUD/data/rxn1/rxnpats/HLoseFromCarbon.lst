@@ -1,0 +1,60 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: (3*2) = 6
+%%%-------------------------------------------------------------------
+HLossDecomposition-(hhh)\
+     methane = methane-carbon-radical hydrogen-radical
+- ID 70501
+- Correspondences
+1 2 3 4 5     2 2 2 4
+1 3 4 5      2 2 2
+2            
+>  <ForwardRxn>
+Standard 3.972e+19  -0.95  1.032e+05 6; From nc7h16 = h+c7h15-1
+>  <ReverseRxn>
+Standard 1.000e+14   0.00  0.000     6; From Westbrook type I
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: (2) = 2
+%%%-------------------------------------------------------------------
+HLossDecomposition-(rhh)\
+     primary-carbon-hydrogen-bond = primary-carbon-radical hydrogen-radical
+- ID 70502
+- Correspondences
+1 2 3 4 5     4 2 2 2
+1 3 4 5      2 2 2
+2            
+>  <ForwardRxn>
+Standard 3.972e+19  -0.95  1.032e+05 6; From nc7h16 = h+c7h15-1
+>  <ReverseRxn>
+Standard 1.000e+14   0.00  0.000     6; From Westbrook type I
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: (2) = 2
+%%%-------------------------------------------------------------------
+HLossDecomposition-(rrh)\
+     secondary-carbon-hydrogen-bond = secondary-carbon-radical hydrogen-radical
+- ID 70503
+- Correspondences
+1 2 3 4 5     4 2 2 2
+1 3 4 5      2 2 2
+2            
+>  <ForwardRxn>
+Standard 3.972e+19  -0.95  1.032e+05 6; From nc7h16 = h+c7h15-1
+>  <ReverseRxn>
+Standard 1.000e+14   0.00  0.000     6; From Westbrook type I
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: (3*2) = 6
+%%%-------------------------------------------------------------------
+HLossDecomposition-(rrr)\
+     tertiary-carbon-hydrogen-bond = tertiary-carbon-radical hydrogen-radical
+- ID 70504
+- Correspondences
+1 2 3 4 5     4 2 2 2
+1 3 4 5      2 2 2
+2            
+>  <ForwardRxn>
+Standard 3.972e+19  -0.95  1.032e+05 6; From nc7h16 = h+c7h15-1
+>  <ReverseRxn>
+Standard 1.000e+14   0.00  0.000     6; From Westbrook type I
+$$$$

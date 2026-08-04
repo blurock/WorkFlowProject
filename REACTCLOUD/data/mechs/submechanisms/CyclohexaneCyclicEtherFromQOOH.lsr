@@ -1,0 +1,162 @@
+2ary Level Side Reaction:  Generation of Cyclic Ether from QOOH
+oxygen,hydroxyl-radical
+%%% ----------------------------------------------------
+H-Abstraction-Oxygen-Tertiary,\
+H-Abstraction-Oxygen-Secondary,\
+H-Abstraction-Oxygen-Primary:\
+oxygen
+%%% ----------------------------------------------------
+Primary-Carbon-Radical-(R.+O2-->RO2.),\
+Secondary-Carbon-Radical-(R.+O2-->RO2.),\
+Tertiary-Carbon-Radical-(R.+O2-->RO2.)\
+:oxygen
+%%% ----------------------------------------------------
+%%%  Type XII: RO2 Isomerization
+%%%    Intramolecular H abstraction
+%%% ----------------------------------------------------
+RO2IsomerizationCyclohexane-7RingSecondary,\
+RO2IsomerizationCyclohexane-6RingSecondary,\
+RO2IsomerizationCyclohexane-5RingSecondary,\
+RO2IsomerizationCyclohexane-7RingSecondary,\
+RO2IsomerizationCyclohexane-6RingTertiary,\
+RO2IsomerizationCyclohexane-5RingTertiary
+%%% ----------------------------------------------------
+cyclohexane-13-cyclicetherformation-HH,\
+cyclohexane-13-cyclicetherformation-RH,\
+cyclohexane-13-cyclicetherformation-HR,\
+cyclohexane-13-cyclicetherformation-RR,\
+cyclohexane-14-cyclicetherformation-HH,\
+cyclohexane-14-cyclicetherformation-RH,\
+cyclohexane-14-cyclicetherformation-HR,\
+cyclohexane-14-cyclicetherformation-RR
+%%% ----------------------------------------------------
+CyclicEther-3Ring-(hh),\
+CyclicEther-3Ring-(rh),\
+CyclicEther-4Ring-(h),\
+CyclicEther-4Ring-(r),\
+CyclicEther-5Ring-(h),\
+CyclicEther-5Ring-(r),\
+CyclicEther-6Ring-(h),\
+CyclicEther-6Ring-(r)\
+:hydroxyl-radical
+%%% ----------------------------------------------------
+%%% OlefinToAldehydeDecomp
+%%%        Through the addition of a hydroxyl radical to the double
+%%%        bond, the alkene decomposes to an aldehyde/ketone and a radical
+%%% BetaOlefineDecom
+%%         The reduction of the alkene to 
+%%% ----------------------------------------------------
+KetoneRadicalDecomp-HHH,\
+KetoneRadicalDecomp-RHH,\
+KetoneRadicalDecomp-RRH,\
+KetoneRadicalDecomp-RRR,\
+OlefinToAldehydeDecomp-(hh)(hh),\
+OlefinToAldehydeDecomp-(rh)(hh),\
+OlefinToAldehydeDecomp-(rr)(hh),\
+OlefinToAldehydeDecomp-(hh)(rh),\
+OlefinToAldehydeDecomp-(rh)(rh),\
+OlefinToAldehydeDecomp-(rr)(rh),\
+OlefinToAldehydeDecomp-(hh)(rr),\
+OlefinToAldehydeDecomp-(rh)(rr),\
+OlefinToAldehydeDecomp-(rr)(rr),\
+KetoneDecompToAlkene-Alkyl-(hh)(hh),\
+KetoneDecompToAlkene-Alkyl-(rh)(hh),\
+KetoneDecompToAlkene-Alkyl-(rr)(hh),\
+KetoneDecompToAlkene-Alkyl-(hh)(rh),\
+KetoneDecompToAlkene-Alkyl-(rh)(rh),\
+KetoneDecompToAlkene-Alkyl-(rr)(rh),\
+KetoneDecompToAlkene-Alkyl-(hh)(rr),\
+KetoneDecompToAlkene-Alkyl-(rh)(rr),\
+KetoneDecompToAlkene-Alkyl-(rr)(rr),\
+KeteneFormationRadicalDecomp-(hh)(hhh),\
+KeteneFormationRadicalDecomp-(hh)(rhh),\
+KeteneFormationRadicalDecomp-(hh)(rrh),\
+KeteneFormationRadicalDecomp-(hh)(rrr),\
+KeteneFormationRadicalDecomp-(rh)(hhh),\
+KeteneFormationRadicalDecomp-(rh)(rhh),\
+KeteneFormationRadicalDecomp-(rh)(rrh),\
+KeteneFormationRadicalDecomp-(rh)(rrr),\
+KeteneFormationRadicalDecomp-(rr)(hhh),\
+KeteneFormationRadicalDecomp-(rr)(rhh),\
+KeteneFormationRadicalDecomp-(rr)(rrh),\
+KeteneFormationRadicalDecomp-(rr)(rrr)\
+:hydroxyl-radical,oxygen,hydrogen-radical,methyl-radical,oxygen-radical,\
+methoxy-radical,methylperoxy-radical,peroxyl-radical
+%%% ----------------------------------------------------
+%%% Dibutanal decompostion:
+%%%    The dibutanal formed from OlefinToAldehydeDecomp
+
+%%% ----------------------------------------------------
+KetoneRadicalDecomp-HHH,\
+KetoneRadicalDecomp-RHH,\
+KetoneRadicalDecomp-RRH,\
+KetoneRadicalDecomp-RRR,\
+OlefinToAldehydeDecomp-(hh)(hh),\
+OlefinToAldehydeDecomp-(rh)(hh),\
+OlefinToAldehydeDecomp-(rr)(hh),\
+OlefinToAldehydeDecomp-(hh)(rh),\
+OlefinToAldehydeDecomp-(rh)(rh),\
+OlefinToAldehydeDecomp-(rr)(rh),\
+OlefinToAldehydeDecomp-(hh)(rr),\
+OlefinToAldehydeDecomp-(rh)(rr),\
+OlefinToAldehydeDecomp-(rr)(rr),\
+KetoneDecompToAlkene-Alkyl-(hh)(hh),\
+KetoneDecompToAlkene-Alkyl-(rh)(hh),\
+KetoneDecompToAlkene-Alkyl-(rr)(hh),\
+KetoneDecompToAlkene-Alkyl-(hh)(rh),\
+KetoneDecompToAlkene-Alkyl-(rh)(rh),\
+KetoneDecompToAlkene-Alkyl-(rr)(rh),\
+KetoneDecompToAlkene-Alkyl-(hh)(rr),\
+KetoneDecompToAlkene-Alkyl-(rh)(rr),\
+KetoneDecompToAlkene-Alkyl-(rr)(rr),\
+KeteneFormationRadicalDecomp-(hh)(hhh),\
+KeteneFormationRadicalDecomp-(hh)(rhh),\
+KeteneFormationRadicalDecomp-(hh)(rrh),\
+KeteneFormationRadicalDecomp-(hh)(rrr),\
+KeteneFormationRadicalDecomp-(rh)(hhh),\
+KeteneFormationRadicalDecomp-(rh)(rhh),\
+KeteneFormationRadicalDecomp-(rh)(rrh),\
+KeteneFormationRadicalDecomp-(rh)(rrr),\
+KeteneFormationRadicalDecomp-(rr)(hhh),\
+KeteneFormationRadicalDecomp-(rr)(rhh),\
+KeteneFormationRadicalDecomp-(rr)(rrh),\
+KeteneFormationRadicalDecomp-(rr)(rrr)
+%%% ----------------------------------------------------
+%%% Dibutanal decompostion:
+%%%    The dibutanal formed from OlefinToAldehydeDecomp
+
+%%% ----------------------------------------------------
+KetoneRadicalDecomp-HHH,\
+KetoneRadicalDecomp-RHH,\
+KetoneRadicalDecomp-RRH,\
+KetoneRadicalDecomp-RRR,\
+OlefinToAldehydeDecomp-(hh)(hh),\
+OlefinToAldehydeDecomp-(rh)(hh),\
+OlefinToAldehydeDecomp-(rr)(hh),\
+OlefinToAldehydeDecomp-(hh)(rh),\
+OlefinToAldehydeDecomp-(rh)(rh),\
+OlefinToAldehydeDecomp-(rr)(rh),\
+OlefinToAldehydeDecomp-(hh)(rr),\
+OlefinToAldehydeDecomp-(rh)(rr),\
+OlefinToAldehydeDecomp-(rr)(rr),\
+KetoneDecompToAlkene-Alkyl-(hh)(hh),\
+KetoneDecompToAlkene-Alkyl-(rh)(hh),\
+KetoneDecompToAlkene-Alkyl-(rr)(hh),\
+KetoneDecompToAlkene-Alkyl-(hh)(rh),\
+KetoneDecompToAlkene-Alkyl-(rh)(rh),\
+KetoneDecompToAlkene-Alkyl-(rr)(rh),\
+KetoneDecompToAlkene-Alkyl-(hh)(rr),\
+KetoneDecompToAlkene-Alkyl-(rh)(rr),\
+KetoneDecompToAlkene-Alkyl-(rr)(rr),\
+KeteneFormationRadicalDecomp-(hh)(hhh),\
+KeteneFormationRadicalDecomp-(hh)(rhh),\
+KeteneFormationRadicalDecomp-(hh)(rrh),\
+KeteneFormationRadicalDecomp-(hh)(rrr),\
+KeteneFormationRadicalDecomp-(rh)(hhh),\
+KeteneFormationRadicalDecomp-(rh)(rhh),\
+KeteneFormationRadicalDecomp-(rh)(rrh),\
+KeteneFormationRadicalDecomp-(rh)(rrr),\
+KeteneFormationRadicalDecomp-(rr)(hhh),\
+KeteneFormationRadicalDecomp-(rr)(rhh),\
+KeteneFormationRadicalDecomp-(rr)(rrh),\
+KeteneFormationRadicalDecomp-(rr)(rrr)

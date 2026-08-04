@@ -1,0 +1,148 @@
+Structures for storing properties
+0 PropertyStructures
+%% Value
+%%  The Basic unit of a property.  The property is stored as a
+%%  character created by the WriteBinXXXX function of the property
+%%  being stored.
+%%  Confidence --
+%%  An arbitrary integer value giving an indication
+%%  of how good this particular value is;  It is to be compared with
+%%  other values in the vector of Value structures in Property.
+%%  Reference --
+%%  A string character giving the reference for this particular value
+%%  Text --
+%%  A text string giving more information about the property value
+%%  Type --
+%%  The source of the value, experimental (PROP_VALUE_EXP), calculated
+%%  (PROP_VALUE_CALC) or translated from another value
+%%  (PROP_VALUE_TRANS)
+%%
+   GenPropValue 100 genpropvalue
+      0 The general source type of this particular value
+        INT SrcType Create
+      1 The confidence of this particular value (compared with others)
+        INT Confidence Create
+      2 The number of bytes needed to store the value
+        INT NumberOfBytes Create
+      3 The set of bytes representing the value
+        CHAR Value Pointer Create Array=NumberOfBytes
+      4 A text value for the lterature reference
+        STRING Reference Pointer Create
+      5 A text value concerning this particular value
+        STRING Text Pointer Create
+      DONE
+%% PropertyValues
+%%   The set of properties of a given type for a given object.  Having
+%%   the possibility for many values of the same property allows 
+%%   choice and updating as to which is the best.  The Confidence
+%%   value in the GenPropValue structure orders the values.
+%%   Type - 
+%%   This is the type of property  refering to the PropertyType in the
+%%   list of properties.
+%%   Text -
+%%   This is space for a text explanation of the properties of this 
+%%   particular object
+%%
+   PropertyValues 101 propertyvalues
+      0 The number of Allocated Values
+        INT NumberOfAllocatedValues Create
+      1 The number of different values for this property
+        INT NumberOfValues Create
+      2 The set of property values
+        GenPropValue Values Pointer Create Array=NumberOfValues
+      3 The property type (refering to the PropertyType structure)
+        INT Type Create
+      4 A string text explanation of the property
+        STRING Text Pointer Create
+      DONE
+%% SetOfPropertyValues
+%%  There is one PropertyValues structure for each value type.  
+%%  This structure keeps the set of all types of values
+%%  and is stored within the object.
+   SetOfPropertyValues 103 setofpropertyvalues
+      0 The number of property values stored.
+         INT NumberOfProperties Create
+      1 The set of property values
+        PropertyValues Properties Pointer Create Array=NumberOfProperties
+      DONE
+%% PropertyType
+%% Each property has associated with it a set of standard functions
+%% to generalize it implementation.  This simplifies a given
+%% property's implementation.
+%% - ReadBinPValue, WriteBinPValue
+%%    This stores and reads the bytes within the GenPropValue structure
+%%    ReadBinValue(VOID Element, CHAR *bytes, INT numbytes)
+%%    WriteBinValue(VOID Element, CHAR *bytes, INT numbytes)
+%% - PrintSingleValue
+%%    A single property is printed to a print string.  This
+%%    text string can go over several lines
+%%      INT PrintSingleValue(FILE *file, CHAR *prefix, GenPropValue *value)
+%% - PrintOnLine
+%%   This is a print function which limits the output
+%%   to a certain number of fields (the minimum is 
+%%   given by MinimumFieldLength - a value for the 
+%%   field length with default to this.
+%%      CHAR *PrintOnLine(GenPropValue *value, INT fieldsize, INT *bufferleft, CHAR *out)
+%% - Text
+%%   A text explanation of the property value
+%% - TranslateString
+%%   A string in a predefined form specified by the function
+%%   is read in with this function
+%%      void TranslateString(VOID Element, PrintString *string)
+%% - CalculateValue
+%%   A default method to calculate the value of the property
+%%    (if possible)
+%%     GenPropValue *CalculateValue(VOID Element, BindStructure *bind)
+%%
+   PropertyType 105 propertytype
+      0 The default function to calculate the property value
+        FUNCTION CalculateValue Pointer Create Return=GenPropValue
+      1 Free the data structure
+        FUNCTION FreeValue Create Return=void
+      1 To translate the value from bytes
+        FUNCTION ReadBinValue Create Return=INT
+      2 To translate the value into bytes
+        FUNCTION WriteBinValue Create Return=void
+      3 Translate a ASCII version to the value
+        FUNCTION TranslateString Create Return=void
+      4 Print out the property value
+        FUNCTION PrintSingleValue Create Return=void
+      5 Print out the property value on one line
+        FUNCTION ValueOnLine Pointer Create Return=CHAR
+      6 The minimum size of the one line field
+        INT MinimumFieldLength Create
+      7 A text string explaining property
+        STRING Text Pointer Create
+      DONE
+%% SetOfPropertyTypes
+%%  The set of property types
+%%
+   SetOfPropertyTypes 106 setofpropertytypes
+      0 The number of property types specified
+        INT NumberOfPropertyTypes Create
+      1 The set of property types
+        PropertyType Types Pointer Create Array=NumberOfPropertyTypes
+      DONE
+%% ValueTypeIntVector
+%%  A special default property value consisting of a vector of
+%%  integers.  A set of standard routines are associated with
+%%  this type.
+%%
+   ValueTypeIntVector 108 valuetypeintvector
+      0 The number of values in the vector
+        INT NumberOfValues Create
+      1 The set of integer values
+        INT Values Pointer Create Array=NumberOfValues
+      DONE
+%% ValueTypeFltVector
+%%  A special default property value consisting of a vector of
+%%  floats.  A set of standard routines are associated with
+%%  this type.
+%%
+   ValueTypeFltVector 108 valuetypeFltvector
+      0 The number of values in the vector
+        INT NumberOfValues Create
+      1 The set of integer values
+        FLOAT Values Pointer Create Array=NumberOfValues
+      DONE
+DONE

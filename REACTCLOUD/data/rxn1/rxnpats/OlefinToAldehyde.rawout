@@ -1,0 +1,1710 @@
+/mnt/data/local/Software/react/data/rxn/rxnpats
+/usr/local/Software/react/tmp ~/react/data/rxn/rxnpats 
+-----------------Chemistry Database ------------------
+-----------------Version 0    --------------------
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+main>> Mol
+Command:Mol
+Mol>> Parameters
+Command:Parameters
+Parameters>> RootMolName
+Command:RootMolName
+RootMolName>> Input:RootMolName
+Command:Input:RootMolName
+Input:RootMolName>> Set Value: RootMolName to StandardMeta
+StandardMeta
+RootMolName>> Quit
+Parameters>> Quit
+Mol>> MetaAtoms
+Command:MetaAtoms
+MetaAtoms>> Read
+Command:Read
+Set Of     3 MolFile Meta Atoms (    0:MasterMetaAtom)
+MetaAtoms:    0::(         R,  320 -> [ (    6,    1) (    6,    2)  ]
+MetaAtoms:    1::(         Q,  221 -> [ (    1,    1) (    6,    1)  ]
+MetaAtoms:    2::(         X,  382 -> [ (    9,    1) (   35,    1) (   17,    1)  ]
+MetaAtoms>> Quit
+Mol>> Quit
+main>> CreateOpenClose
+Command:CreateOpenClose
+CreateOpenClose>> Start
+Command:Start
+
+0:No Keys for Reactions
+
+CreateOpenClose>> Quit
+main>> DbaseOps
+Command:DbaseOps
+DbaseOps>> RxnPatterns
+Command:RxnPatterns
+RxnPatterns>> Keys
+Command:Keys
+Keys>> Define
+Command:Define
+Keys>> Write
+Command:Write
+Keys>> Quit
+RxnPatterns>> Quit
+DbaseOps>> Quit
+main>> DbaseOps
+Command:DbaseOps
+DbaseOps>> Parameters
+Command:Parameters
+Parameters>> RootRxnName
+Command:RootRxnName
+RootRxnName>> Input:RootRxnName
+Command:Input:RootRxnName
+Input:RootRxnName>> Set Value: RootRxnName to rxnpats/read
+rxnpats/read
+RootRxnName>> Quit
+Parameters>> Quit
+DbaseOps>> RxnPatterns
+Command:RxnPatterns
+RxnPatterns>> Read
+Command:Read
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+~
+Reactant Molfile: :MolFile 10506209 :  6 Atoms :  5 Bonds : olefin-(hh)(hh)
+~
+                  :Atom     0:     2.000:     0.000:     0.000: 6   :0.0     :         1
+                  :Atom     1:     3.000:     0.000:     0.000: 6   :0.0     :         2
+                  :Atom     2:     1.690:     0.537:     0.000: 1   :0.0     :         3
+                  :Atom     3:     1.690:    -0.537:     0.000: 1   :0.0     :         4
+                  :Atom     4:     3.310:    -0.537:     0.000: 1   :0.0     :         5
+                  :Atom     5:     3.310:     0.537:     0.000: 1   :0.0     :         6
+~
+                  :  Double Bond :  0 :  1   :  4
+                  :  Single Bond :  0 :  2   :  2
+                  :  Single Bond :  0 :  3   :  2
+                  :  Single Bond :  1 :  4   :  2
+                  :  Single Bond :  1 :  5   :  2
+~
+Bond Parameter:          4
+~
+Reactant Molfile: :MolFile 20102000 :  2 Atoms :  1 Bonds : hydroxyl-radical
+~
+                  :Atom     0:    -0.323:     0.705:     0.000: 1   :0.0     :         7
+                  :Atom     1:     0.161:     0.438:     0.000: 8   :0.0     :         8
+~
+                  :  Single Bond :  0 :  1   :  4
+~
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+~
+Product Molfile: :MolFile 10304101 :  4 Atoms :  3 Bonds : (h)(h)c(o)
+~
+                 :Atom     0:     0.000:     0.000:     0.000: 6   :0.0     :         1
+                 :Atom     1:     0.161:     0.438:     0.000: 8   :0.0     :         8
+                 :Atom     2:     1.545:     0.288:     0.000: 1   :0.0     :         3
+                 :Atom     3:     1.545:    -0.288:     0.000: 1   :0.0     :         4
+~
+                 :  Double Bond :  0 :  1   :  4
+                 :  Single Bond :  0 :  2   :  2
+                 :  Single Bond :  0 :  3   :  2
+~
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          4
+~
+Product Molfile: :MolFile 20304101 :  4 Atoms :  3 Bonds : methane-carbon-radical
+~
+                 :Atom     0:     0.161:     0.438:     0.000: 6   :0.0     :         2
+                 :Atom     1:     0.161:     0.438:     0.000: 1   :0.0     :         5
+                 :Atom     2:     0.161:     0.438:     0.000: 1   :0.0     :         6
+                 :Atom     3:     0.161:     0.438:     0.000: 1   :0.0     :         7
+~
+                 :  Single Bond :  0 :  1   :  2
+                 :  Single Bond :  0 :  2   :  2
+                 :  Single Bond :  0 :  3   :  4
+~
+Add Changed Bonds:      olefin-(hh)(hh)          0          0          4
+Add Changed Bonds:      olefin-(hh)(hh)          1          0          2
+Add Changed Bonds:      olefin-(hh)(hh)          2          0          2
+Add Changed Bonds:      olefin-(hh)(hh)          3          0          2
+Add Changed Bonds:      olefin-(hh)(hh)          4          0          2
+Add Changed Bonds:     hydroxyl-radical          0          0          4
+Add Changed Bonds:           (h)(h)c(o)          0          1        104
+Add Changed Bonds:           (h)(h)c(o)          1          1        102
+Add Changed Bonds:           (h)(h)c(o)          2          1        102
+Add Changed Bonds: methane-carbon-radical          0          1        102
+Add Changed Bonds: methane-carbon-radical          1          1        102
+Add Changed Bonds: methane-carbon-radical          2          1        104
+RxnCorrSet: :Reaction Correspondences 3201 
+            : 8 Matched Atoms
+            :    0 [10506209     0]  [10304101     0] 
+            :    1 [10506209     1]  [20304101     0] 
+            :    2 [10506209     2]  [10304101     2] 
+            :    3 [10506209     3]  [10304101     3] 
+            :    4 [10506209     4]  [20304101     1] 
+            :    5 [10506209     5]  [20304101     2] 
+            :    6 [20102000     0]  [20304101     3] 
+            :    7 [20102000     1]  [10304101     1] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10506209     0]  [10304101     0])---([10506209     1]  [20304101     0])
+            :    1 ([20102000     0]  [20304101     3])---([20102000     1]  [10304101     1])
+            :    2 ([10506209     0]  [10304101     0])---([20102000     1]  [10304101     1])
+            :    3 ([10506209     1]  [20304101     0])---([20102000     0]  [20304101     3])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+~
+Reactant Molfile: :MolFile 10506210 :  6 Atoms :  5 Bonds : olefin-(rh)(hh)
+~
+                  :Atom     0:     2.000:     0.000:     0.000: 6   :0.0     :         1
+                  :Atom     1:     3.000:     0.000:     0.000: 6   :0.0     :         2
+                  :Atom     2:     1.690:     0.537:     0.000:320   :0.0     :         3
+                  :Atom     3:     1.690:    -0.537:     0.000: 1   :0.0     :         4
+                  :Atom     4:     3.310:    -0.537:     0.000: 1   :0.0     :         5
+                  :Atom     5:     3.310:     0.537:     0.000: 1   :0.0     :         6
+~
+                  :  Double Bond :  0 :  1   :  4
+                  :  Single Bond :  0 :  2   :  2
+                  :  Single Bond :  0 :  3   :  2
+                  :  Single Bond :  1 :  4   :  2
+                  :  Single Bond :  1 :  5   :  2
+~
+Bond Parameter:          4
+~
+Reactant Molfile: :MolFile 20102000 :  2 Atoms :  1 Bonds : hydroxyl-radical
+~
+                  :Atom     0:    -0.323:     0.705:     0.000: 1   :0.0     :         7
+                  :Atom     1:     0.161:     0.438:     0.000: 8   :0.0     :         8
+~
+                  :  Single Bond :  0 :  1   :  4
+~
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+~
+Product Molfile: :MolFile 10304102 :  4 Atoms :  3 Bonds : (r)(h)c(o)
+~
+                 :Atom     0:     0.000:     0.000:     0.000: 6   :0.0     :         1
+                 :Atom     1:     0.161:     0.438:     0.000: 8   :0.0     :         8
+                 :Atom     2:     1.545:     0.288:     0.000:320   :0.0     :         3
+                 :Atom     3:     1.545:    -0.288:     0.000: 1   :0.0     :         4
+~
+                 :  Double Bond :  0 :  1   :  4
+                 :  Single Bond :  0 :  2   :  2
+                 :  Single Bond :  0 :  3   :  2
+~
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          4
+~
+Product Molfile: :MolFile 20304101 :  4 Atoms :  3 Bonds : methane-carbon-radical
+~
+                 :Atom     0:     0.161:     0.438:     0.000: 6   :0.0     :         2
+                 :Atom     1:     0.161:     0.438:     0.000: 1   :0.0     :         5
+                 :Atom     2:     0.161:     0.438:     0.000: 1   :0.0     :         6
+                 :Atom     3:     0.161:     0.438:     0.000: 1   :0.0     :         7
+~
+                 :  Single Bond :  0 :  1   :  2
+                 :  Single Bond :  0 :  2   :  2
+                 :  Single Bond :  0 :  3   :  4
+~
+Add Changed Bonds:      olefin-(rh)(hh)          0          0          4
+Add Changed Bonds:      olefin-(rh)(hh)          1          0          2
+Add Changed Bonds:      olefin-(rh)(hh)          2          0          2
+Add Changed Bonds:      olefin-(rh)(hh)          3          0          2
+Add Changed Bonds:      olefin-(rh)(hh)          4          0          2
+Add Changed Bonds:     hydroxyl-radical          0          0          4
+Add Changed Bonds:           (r)(h)c(o)          0          1        104
+Add Changed Bonds:           (r)(h)c(o)          1          1        102
+Add Changed Bonds:           (r)(h)c(o)          2          1        102
+Add Changed Bonds: methane-carbon-radical          0          1        102
+Add Changed Bonds: methane-carbon-radical          1          1        102
+Add Changed Bonds: methane-carbon-radical          2          1        104
+RxnCorrSet: :Reaction Correspondences 3202 
+            : 8 Matched Atoms
+            :    0 [10506210     0]  [10304102     0] 
+            :    1 [10506210     1]  [20304101     0] 
+            :    2 [10506210     2]  [10304102     2] 
+            :    3 [10506210     3]  [10304102     3] 
+            :    4 [10506210     4]  [20304101     1] 
+            :    5 [10506210     5]  [20304101     2] 
+            :    6 [20102000     0]  [20304101     3] 
+            :    7 [20102000     1]  [10304102     1] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10506210     0]  [10304102     0])---([10506210     1]  [20304101     0])
+            :    1 ([20102000     0]  [20304101     3])---([20102000     1]  [10304102     1])
+            :    2 ([10506210     0]  [10304102     0])---([20102000     1]  [10304102     1])
+            :    3 ([10506210     1]  [20304101     0])---([20102000     0]  [20304101     3])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+~
+Reactant Molfile: :MolFile 10506212 :  6 Atoms :  5 Bonds : olefin-(rr)(hh)
+~
+                  :Atom     0:     2.000:     0.000:     0.000: 6   :0.0     :         1
+                  :Atom     1:     3.000:     0.000:     0.000: 6   :0.0     :         2
+                  :Atom     2:     1.690:     0.537:     0.000:320   :0.0     :         3
+                  :Atom     3:     1.690:    -0.537:     0.000:320   :0.0     :         4
+                  :Atom     4:     3.310:    -0.537:     0.000: 1   :0.0     :         5
+                  :Atom     5:     3.310:     0.537:     0.000: 1   :0.0     :         6
+~
+                  :  Double Bond :  0 :  1   :  4
+                  :  Single Bond :  0 :  2   :  2
+                  :  Single Bond :  0 :  3   :  2
+                  :  Single Bond :  1 :  4   :  2
+                  :  Single Bond :  1 :  5   :  2
+~
+Bond Parameter:          4
+~
+Reactant Molfile: :MolFile 20102000 :  2 Atoms :  1 Bonds : hydroxyl-radical
+~
+                  :Atom     0:    -0.323:     0.705:     0.000: 1   :0.0     :         7
+                  :Atom     1:     0.161:     0.438:     0.000: 8   :0.0     :         8
+~
+                  :  Single Bond :  0 :  1   :  4
+~
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+~
+Product Molfile: :MolFile 10304103 :  4 Atoms :  3 Bonds : (r)(r)c(o)
+~
+                 :Atom     0:     0.000:     0.000:     0.000: 6   :0.0     :         1
+                 :Atom     1:     0.161:     0.438:     0.000: 8   :0.0     :         8
+                 :Atom     2:     1.545:     0.288:     0.000:320   :0.0     :         3
+                 :Atom     3:     1.545:    -0.288:     0.000:320   :0.0     :         4
+~
+                 :  Double Bond :  0 :  1   :  4
+                 :  Single Bond :  0 :  2   :  2
+                 :  Single Bond :  0 :  3   :  2
+~
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          4
+~
+Product Molfile: :MolFile 20304101 :  4 Atoms :  3 Bonds : methane-carbon-radical
+~
+                 :Atom     0:     0.161:     0.438:     0.000: 6   :0.0     :         2
+                 :Atom     1:     0.161:     0.438:     0.000: 1   :0.0     :         5
+                 :Atom     2:     0.161:     0.438:     0.000: 1   :0.0     :         6
+                 :Atom     3:     0.161:     0.438:     0.000: 1   :0.0     :         7
+~
+                 :  Single Bond :  0 :  1   :  2
+                 :  Single Bond :  0 :  2   :  2
+                 :  Single Bond :  0 :  3   :  4
+~
+Add Changed Bonds:      olefin-(rr)(hh)          0          0          4
+Add Changed Bonds:      olefin-(rr)(hh)          1          0          2
+Add Changed Bonds:      olefin-(rr)(hh)          2          0          2
+Add Changed Bonds:      olefin-(rr)(hh)          3          0          2
+Add Changed Bonds:      olefin-(rr)(hh)          4          0          2
+Add Changed Bonds:     hydroxyl-radical          0          0          4
+Add Changed Bonds:           (r)(r)c(o)          0          1        104
+Add Changed Bonds:           (r)(r)c(o)          1          1        102
+Add Changed Bonds:           (r)(r)c(o)          2          1        102
+Add Changed Bonds: methane-carbon-radical          0          1        102
+Add Changed Bonds: methane-carbon-radical          1          1        102
+Add Changed Bonds: methane-carbon-radical          2          1        104
+RxnCorrSet: :Reaction Correspondences 3203 
+            : 8 Matched Atoms
+            :    0 [10506212     0]  [10304103     0] 
+            :    1 [10506212     1]  [20304101     0] 
+            :    2 [10506212     2]  [10304103     2] 
+            :    3 [10506212     3]  [10304103     3] 
+            :    4 [10506212     4]  [20304101     1] 
+            :    5 [10506212     5]  [20304101     2] 
+            :    6 [20102000     0]  [20304101     3] 
+            :    7 [20102000     1]  [10304103     1] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10506212     0]  [10304103     0])---([10506212     1]  [20304101     0])
+            :    1 ([20102000     0]  [20304101     3])---([20102000     1]  [10304103     1])
+            :    2 ([10506212     0]  [10304103     0])---([20102000     1]  [10304103     1])
+            :    3 ([10506212     1]  [20304101     0])---([20102000     0]  [20304101     3])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+~
+Reactant Molfile: :MolFile 10506210 :  6 Atoms :  5 Bonds : olefin-(rh)(hh)
+~
+                  :Atom     0:     2.000:     0.000:     0.000: 6   :0.0     :         1
+                  :Atom     1:     3.000:     0.000:     0.000: 6   :0.0     :         2
+                  :Atom     2:     1.690:     0.537:     0.000:320   :0.0     :         5
+                  :Atom     3:     1.690:    -0.537:     0.000: 1   :0.0     :         6
+                  :Atom     4:     3.310:    -0.537:     0.000: 1   :0.0     :         3
+                  :Atom     5:     3.310:     0.537:     0.000: 1   :0.0     :         4
+~
+                  :  Double Bond :  0 :  1   :  4
+                  :  Single Bond :  0 :  2   :  2
+                  :  Single Bond :  0 :  3   :  2
+                  :  Single Bond :  1 :  4   :  2
+                  :  Single Bond :  1 :  5   :  2
+~
+Bond Parameter:          4
+~
+Reactant Molfile: :MolFile 20102000 :  2 Atoms :  1 Bonds : hydroxyl-radical
+~
+                  :Atom     0:    -0.323:     0.705:     0.000: 1   :0.0     :         7
+                  :Atom     1:     0.161:     0.438:     0.000: 8   :0.0     :         8
+~
+                  :  Single Bond :  0 :  1   :  4
+~
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+~
+Product Molfile: :MolFile 10304101 :  4 Atoms :  3 Bonds : (h)(h)c(o)
+~
+                 :Atom     0:     0.000:     0.000:     0.000: 6   :0.0     :         1
+                 :Atom     1:     0.161:     0.438:     0.000: 8   :0.0     :         8
+                 :Atom     2:     1.545:     0.288:     0.000: 1   :0.0     :         3
+                 :Atom     3:     1.545:    -0.288:     0.000: 1   :0.0     :         4
+~
+                 :  Double Bond :  0 :  1   :  4
+                 :  Single Bond :  0 :  2   :  2
+                 :  Single Bond :  0 :  3   :  2
+~
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          4
+~
+Product Molfile: :MolFile 20304102 :  4 Atoms :  3 Bonds : primary-carbon-radical
+~
+                 :Atom     0:     0.161:     0.438:     0.000: 6   :0.0     :         2
+                 :Atom     1:     0.161:     0.438:     0.000:320   :0.0     :         5
+                 :Atom     2:     0.161:     0.438:     0.000: 1   :0.0     :         6
+                 :Atom     3:     0.161:     0.438:     0.000: 1   :0.0     :         7
+~
+                 :  Single Bond :  0 :  1   :  2
+                 :  Single Bond :  0 :  2   :  2
+                 :  Single Bond :  0 :  3   :  4
+~
+Add Changed Bonds:      olefin-(rh)(hh)          0          0          4
+Add Changed Bonds:      olefin-(rh)(hh)          1          0          2
+Add Changed Bonds:      olefin-(rh)(hh)          2          0          2
+Add Changed Bonds:      olefin-(rh)(hh)          3          0          2
+Add Changed Bonds:      olefin-(rh)(hh)          4          0          2
+Add Changed Bonds:     hydroxyl-radical          0          0          4
+Add Changed Bonds:           (h)(h)c(o)          0          1        104
+Add Changed Bonds:           (h)(h)c(o)          1          1        102
+Add Changed Bonds:           (h)(h)c(o)          2          1        102
+Add Changed Bonds: primary-carbon-radical          0          1        102
+Add Changed Bonds: primary-carbon-radical          1          1        102
+Add Changed Bonds: primary-carbon-radical          2          1        104
+RxnCorrSet: :Reaction Correspondences 3204 
+            : 8 Matched Atoms
+            :    0 [10506210     0]  [10304101     0] 
+            :    1 [10506210     1]  [20304102     0] 
+            :    2 [10506210     4]  [10304101     2] 
+            :    3 [10506210     5]  [10304101     3] 
+            :    4 [10506210     2]  [20304102     1] 
+            :    5 [10506210     3]  [20304102     2] 
+            :    6 [20102000     0]  [20304102     3] 
+            :    7 [20102000     1]  [10304101     1] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10506210     0]  [10304101     0])---([10506210     1]  [20304102     0])
+            :    1 ([20102000     0]  [20304102     3])---([20102000     1]  [10304101     1])
+            :    2 ([10506210     0]  [10304101     0])---([20102000     1]  [10304101     1])
+            :    3 ([10506210     1]  [20304102     0])---([20102000     0]  [20304102     3])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+~
+Reactant Molfile: :MolFile 10506211 :  6 Atoms :  5 Bonds : olefin-(rh)(rh)
+~
+                  :Atom     0:     2.000:     0.000:     0.000: 6   :0.0     :         1
+                  :Atom     1:     3.000:     0.000:     0.000: 6   :0.0     :         2
+                  :Atom     2:     1.690:     0.537:     0.000:320   :0.0     :         3
+                  :Atom     3:     1.690:    -0.537:     0.000: 1   :0.0     :         4
+                  :Atom     4:     3.310:    -0.537:     0.000:320   :0.0     :         5
+                  :Atom     5:     3.310:     0.537:     0.000: 1   :0.0     :         6
+~
+                  :  Double Bond :  0 :  1   :  4
+                  :  Single Bond :  0 :  2   :  2
+                  :  Single Bond :  0 :  3   :  2
+                  :  Single Bond :  1 :  4   :  2
+                  :  Single Bond :  1 :  5   :  2
+~
+Bond Parameter:          4
+~
+Reactant Molfile: :MolFile 20102000 :  2 Atoms :  1 Bonds : hydroxyl-radical
+~
+                  :Atom     0:    -0.323:     0.705:     0.000: 1   :0.0     :         7
+                  :Atom     1:     0.161:     0.438:     0.000: 8   :0.0     :         8
+~
+                  :  Single Bond :  0 :  1   :  4
+~
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+~
+Product Molfile: :MolFile 10304102 :  4 Atoms :  3 Bonds : (r)(h)c(o)
+~
+                 :Atom     0:     0.000:     0.000:     0.000: 6   :0.0     :         1
+                 :Atom     1:     0.161:     0.438:     0.000: 8   :0.0     :         8
+                 :Atom     2:     1.545:     0.288:     0.000:320   :0.0     :         3
+                 :Atom     3:     1.545:    -0.288:     0.000: 1   :0.0     :         4
+~
+                 :  Double Bond :  0 :  1   :  4
+                 :  Single Bond :  0 :  2   :  2
+                 :  Single Bond :  0 :  3   :  2
+~
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          4
+~
+Product Molfile: :MolFile 20304102 :  4 Atoms :  3 Bonds : primary-carbon-radical
+~
+                 :Atom     0:     0.161:     0.438:     0.000: 6   :0.0     :         2
+                 :Atom     1:     0.161:     0.438:     0.000:320   :0.0     :         5
+                 :Atom     2:     0.161:     0.438:     0.000: 1   :0.0     :         6
+                 :Atom     3:     0.161:     0.438:     0.000: 1   :0.0     :         7
+~
+                 :  Single Bond :  0 :  1   :  2
+                 :  Single Bond :  0 :  2   :  2
+                 :  Single Bond :  0 :  3   :  4
+~
+Add Changed Bonds:      olefin-(rh)(rh)          0          0          4
+Add Changed Bonds:      olefin-(rh)(rh)          1          0          2
+Add Changed Bonds:      olefin-(rh)(rh)          2          0          2
+Add Changed Bonds:      olefin-(rh)(rh)          3          0          2
+Add Changed Bonds:      olefin-(rh)(rh)          4          0          2
+Add Changed Bonds:     hydroxyl-radical          0          0          4
+Add Changed Bonds:           (r)(h)c(o)          0          1        104
+Add Changed Bonds:           (r)(h)c(o)          1          1        102
+Add Changed Bonds:           (r)(h)c(o)          2          1        102
+Add Changed Bonds: primary-carbon-radical          0          1        102
+Add Changed Bonds: primary-carbon-radical          1          1        102
+Add Changed Bonds: primary-carbon-radical          2          1        104
+RxnCorrSet: :Reaction Correspondences 3205 
+            : 8 Matched Atoms
+            :    0 [10506211     0]  [10304102     0] 
+            :    1 [10506211     1]  [20304102     0] 
+            :    2 [10506211     2]  [10304102     2] 
+            :    3 [10506211     3]  [10304102     3] 
+            :    4 [10506211     4]  [20304102     1] 
+            :    5 [10506211     5]  [20304102     2] 
+            :    6 [20102000     0]  [20304102     3] 
+            :    7 [20102000     1]  [10304102     1] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10506211     0]  [10304102     0])---([10506211     1]  [20304102     0])
+            :    1 ([20102000     0]  [20304102     3])---([20102000     1]  [10304102     1])
+            :    2 ([10506211     0]  [10304102     0])---([20102000     1]  [10304102     1])
+            :    3 ([10506211     1]  [20304102     0])---([20102000     0]  [20304102     3])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+~
+Reactant Molfile: :MolFile 10506213 :  6 Atoms :  5 Bonds : olefin-(rr)(rh)
+~
+                  :Atom     0:     2.000:     0.000:     0.000: 6   :0.0     :         1
+                  :Atom     1:     3.000:     0.000:     0.000: 6   :0.0     :         2
+                  :Atom     2:     1.690:     0.537:     0.000:320   :0.0     :         3
+                  :Atom     3:     1.690:    -0.537:     0.000:320   :0.0     :         4
+                  :Atom     4:     3.310:    -0.537:     0.000:320   :0.0     :         5
+                  :Atom     5:     3.310:     0.537:     0.000: 1   :0.0     :         6
+~
+                  :  Double Bond :  0 :  1   :  4
+                  :  Single Bond :  0 :  2   :  2
+                  :  Single Bond :  0 :  3   :  2
+                  :  Single Bond :  1 :  4   :  2
+                  :  Single Bond :  1 :  5   :  2
+~
+Bond Parameter:          4
+~
+Reactant Molfile: :MolFile 20102000 :  2 Atoms :  1 Bonds : hydroxyl-radical
+~
+                  :Atom     0:    -0.323:     0.705:     0.000: 1   :0.0     :         7
+                  :Atom     1:     0.161:     0.438:     0.000: 8   :0.0     :         8
+~
+                  :  Single Bond :  0 :  1   :  4
+~
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+~
+Product Molfile: :MolFile 10304103 :  4 Atoms :  3 Bonds : (r)(r)c(o)
+~
+                 :Atom     0:     0.000:     0.000:     0.000: 6   :0.0     :         1
+                 :Atom     1:     0.161:     0.438:     0.000: 8   :0.0     :         8
+                 :Atom     2:     1.545:     0.288:     0.000:320   :0.0     :         3
+                 :Atom     3:     1.545:    -0.288:     0.000:320   :0.0     :         4
+~
+                 :  Double Bond :  0 :  1   :  4
+                 :  Single Bond :  0 :  2   :  2
+                 :  Single Bond :  0 :  3   :  2
+~
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          4
+~
+Product Molfile: :MolFile 20304102 :  4 Atoms :  3 Bonds : primary-carbon-radical
+~
+                 :Atom     0:     0.161:     0.438:     0.000: 6   :0.0     :         2
+                 :Atom     1:     0.161:     0.438:     0.000:320   :0.0     :         5
+                 :Atom     2:     0.161:     0.438:     0.000: 1   :0.0     :         6
+                 :Atom     3:     0.161:     0.438:     0.000: 1   :0.0     :         7
+~
+                 :  Single Bond :  0 :  1   :  2
+                 :  Single Bond :  0 :  2   :  2
+                 :  Single Bond :  0 :  3   :  4
+~
+Add Changed Bonds:      olefin-(rr)(rh)          0          0          4
+Add Changed Bonds:      olefin-(rr)(rh)          1          0          2
+Add Changed Bonds:      olefin-(rr)(rh)          2          0          2
+Add Changed Bonds:      olefin-(rr)(rh)          3          0          2
+Add Changed Bonds:      olefin-(rr)(rh)          4          0          2
+Add Changed Bonds:     hydroxyl-radical          0          0          4
+Add Changed Bonds:           (r)(r)c(o)          0          1        104
+Add Changed Bonds:           (r)(r)c(o)          1          1        102
+Add Changed Bonds:           (r)(r)c(o)          2          1        102
+Add Changed Bonds: primary-carbon-radical          0          1        102
+Add Changed Bonds: primary-carbon-radical          1          1        102
+Add Changed Bonds: primary-carbon-radical          2          1        104
+RxnCorrSet: :Reaction Correspondences 3206 
+            : 8 Matched Atoms
+            :    0 [10506213     0]  [10304103     0] 
+            :    1 [10506213     1]  [20304102     0] 
+            :    2 [10506213     2]  [10304103     2] 
+            :    3 [10506213     3]  [10304103     3] 
+            :    4 [10506213     4]  [20304102     1] 
+            :    5 [10506213     5]  [20304102     2] 
+            :    6 [20102000     0]  [20304102     3] 
+            :    7 [20102000     1]  [10304103     1] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10506213     0]  [10304103     0])---([10506213     1]  [20304102     0])
+            :    1 ([20102000     0]  [20304102     3])---([20102000     1]  [10304103     1])
+            :    2 ([10506213     0]  [10304103     0])---([20102000     1]  [10304103     1])
+            :    3 ([10506213     1]  [20304102     0])---([20102000     0]  [20304102     3])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+~
+Reactant Molfile: :MolFile 10506212 :  6 Atoms :  5 Bonds : olefin-(rr)(hh)
+~
+                  :Atom     0:     2.000:     0.000:     0.000: 6   :0.0     :         1
+                  :Atom     1:     3.000:     0.000:     0.000: 6   :0.0     :         2
+                  :Atom     2:     1.690:     0.537:     0.000:320   :0.0     :         5
+                  :Atom     3:     1.690:    -0.537:     0.000:320   :0.0     :         6
+                  :Atom     4:     3.310:    -0.537:     0.000: 1   :0.0     :         3
+                  :Atom     5:     3.310:     0.537:     0.000: 1   :0.0     :         4
+~
+                  :  Double Bond :  0 :  1   :  4
+                  :  Single Bond :  0 :  2   :  2
+                  :  Single Bond :  0 :  3   :  2
+                  :  Single Bond :  1 :  4   :  2
+                  :  Single Bond :  1 :  5   :  2
+~
+Bond Parameter:          4
+~
+Reactant Molfile: :MolFile 20102000 :  2 Atoms :  1 Bonds : hydroxyl-radical
+~
+                  :Atom     0:    -0.323:     0.705:     0.000: 1   :0.0     :         7
+                  :Atom     1:     0.161:     0.438:     0.000: 8   :0.0     :         8
+~
+                  :  Single Bond :  0 :  1   :  4
+~
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+~
+Product Molfile: :MolFile 10304101 :  4 Atoms :  3 Bonds : (h)(h)c(o)
+~
+                 :Atom     0:     0.000:     0.000:     0.000: 6   :0.0     :         1
+                 :Atom     1:     0.161:     0.438:     0.000: 8   :0.0     :         8
+                 :Atom     2:     1.545:     0.288:     0.000: 1   :0.0     :         3
+                 :Atom     3:     1.545:    -0.288:     0.000: 1   :0.0     :         4
+~
+                 :  Double Bond :  0 :  1   :  4
+                 :  Single Bond :  0 :  2   :  2
+                 :  Single Bond :  0 :  3   :  2
+~
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          4
+~
+Product Molfile: :MolFile 20304103 :  4 Atoms :  3 Bonds : secondary-carbon-radical
+~
+                 :Atom     0:     0.161:     0.438:     0.000: 6   :0.0     :         2
+                 :Atom     1:     0.161:     0.438:     0.000:320   :0.0     :         5
+                 :Atom     2:     0.161:     0.438:     0.000:320   :0.0     :         6
+                 :Atom     3:     0.161:     0.438:     0.000: 1   :0.0     :         7
+~
+                 :  Single Bond :  0 :  1   :  2
+                 :  Single Bond :  0 :  2   :  2
+                 :  Single Bond :  0 :  3   :  4
+~
+Add Changed Bonds:      olefin-(rr)(hh)          0          0          4
+Add Changed Bonds:      olefin-(rr)(hh)          1          0          2
+Add Changed Bonds:      olefin-(rr)(hh)          2          0          2
+Add Changed Bonds:      olefin-(rr)(hh)          3          0          2
+Add Changed Bonds:      olefin-(rr)(hh)          4          0          2
+Add Changed Bonds:     hydroxyl-radical          0          0          4
+Add Changed Bonds:           (h)(h)c(o)          0          1        104
+Add Changed Bonds:           (h)(h)c(o)          1          1        102
+Add Changed Bonds:           (h)(h)c(o)          2          1        102
+Add Changed Bonds: secondary-carbon-radical          0          1        102
+Add Changed Bonds: secondary-carbon-radical          1          1        102
+Add Changed Bonds: secondary-carbon-radical          2          1        104
+RxnCorrSet: :Reaction Correspondences 3207 
+            : 8 Matched Atoms
+            :    0 [10506212     0]  [10304101     0] 
+            :    1 [10506212     1]  [20304103     0] 
+            :    2 [10506212     4]  [10304101     2] 
+            :    3 [10506212     5]  [10304101     3] 
+            :    4 [10506212     2]  [20304103     1] 
+            :    5 [10506212     3]  [20304103     2] 
+            :    6 [20102000     0]  [20304103     3] 
+            :    7 [20102000     1]  [10304101     1] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10506212     0]  [10304101     0])---([10506212     1]  [20304103     0])
+            :    1 ([20102000     0]  [20304103     3])---([20102000     1]  [10304101     1])
+            :    2 ([10506212     0]  [10304101     0])---([20102000     1]  [10304101     1])
+            :    3 ([10506212     1]  [20304103     0])---([20102000     0]  [20304103     3])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+~
+Reactant Molfile: :MolFile 10506213 :  6 Atoms :  5 Bonds : olefin-(rr)(rh)
+~
+                  :Atom     0:     2.000:     0.000:     0.000: 6   :0.0     :         1
+                  :Atom     1:     3.000:     0.000:     0.000: 6   :0.0     :         2
+                  :Atom     2:     1.690:     0.537:     0.000:320   :0.0     :         5
+                  :Atom     3:     1.690:    -0.537:     0.000:320   :0.0     :         6
+                  :Atom     4:     3.310:    -0.537:     0.000:320   :0.0     :         3
+                  :Atom     5:     3.310:     0.537:     0.000: 1   :0.0     :         4
+~
+                  :  Double Bond :  0 :  1   :  4
+                  :  Single Bond :  0 :  2   :  2
+                  :  Single Bond :  0 :  3   :  2
+                  :  Single Bond :  1 :  4   :  2
+                  :  Single Bond :  1 :  5   :  2
+~
+Bond Parameter:          4
+~
+Reactant Molfile: :MolFile 20102000 :  2 Atoms :  1 Bonds : hydroxyl-radical
+~
+                  :Atom     0:    -0.323:     0.705:     0.000: 1   :0.0     :         7
+                  :Atom     1:     0.161:     0.438:     0.000: 8   :0.0     :         8
+~
+                  :  Single Bond :  0 :  1   :  4
+~
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+~
+Product Molfile: :MolFile 10304102 :  4 Atoms :  3 Bonds : (r)(h)c(o)
+~
+                 :Atom     0:     0.000:     0.000:     0.000: 6   :0.0     :         1
+                 :Atom     1:     0.161:     0.438:     0.000: 8   :0.0     :         8
+                 :Atom     2:     1.545:     0.288:     0.000:320   :0.0     :         3
+                 :Atom     3:     1.545:    -0.288:     0.000: 1   :0.0     :         4
+~
+                 :  Double Bond :  0 :  1   :  4
+                 :  Single Bond :  0 :  2   :  2
+                 :  Single Bond :  0 :  3   :  2
+~
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          4
+~
+Product Molfile: :MolFile 20304103 :  4 Atoms :  3 Bonds : secondary-carbon-radical
+~
+                 :Atom     0:     0.161:     0.438:     0.000: 6   :0.0     :         2
+                 :Atom     1:     0.161:     0.438:     0.000:320   :0.0     :         5
+                 :Atom     2:     0.161:     0.438:     0.000:320   :0.0     :         6
+                 :Atom     3:     0.161:     0.438:     0.000: 1   :0.0     :         7
+~
+                 :  Single Bond :  0 :  1   :  2
+                 :  Single Bond :  0 :  2   :  2
+                 :  Single Bond :  0 :  3   :  4
+~
+Add Changed Bonds:      olefin-(rr)(rh)          0          0          4
+Add Changed Bonds:      olefin-(rr)(rh)          1          0          2
+Add Changed Bonds:      olefin-(rr)(rh)          2          0          2
+Add Changed Bonds:      olefin-(rr)(rh)          3          0          2
+Add Changed Bonds:      olefin-(rr)(rh)          4          0          2
+Add Changed Bonds:     hydroxyl-radical          0          0          4
+Add Changed Bonds:           (r)(h)c(o)          0          1        104
+Add Changed Bonds:           (r)(h)c(o)          1          1        102
+Add Changed Bonds:           (r)(h)c(o)          2          1        102
+Add Changed Bonds: secondary-carbon-radical          0          1        102
+Add Changed Bonds: secondary-carbon-radical          1          1        102
+Add Changed Bonds: secondary-carbon-radical          2          1        104
+RxnCorrSet: :Reaction Correspondences 3208 
+            : 8 Matched Atoms
+            :    0 [10506213     0]  [10304102     0] 
+            :    1 [10506213     1]  [20304103     0] 
+            :    2 [10506213     4]  [10304102     2] 
+            :    3 [10506213     5]  [10304102     3] 
+            :    4 [10506213     2]  [20304103     1] 
+            :    5 [10506213     3]  [20304103     2] 
+            :    6 [20102000     0]  [20304103     3] 
+            :    7 [20102000     1]  [10304102     1] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10506213     0]  [10304102     0])---([10506213     1]  [20304103     0])
+            :    1 ([20102000     0]  [20304103     3])---([20102000     1]  [10304102     1])
+            :    2 ([10506213     0]  [10304102     0])---([20102000     1]  [10304102     1])
+            :    3 ([10506213     1]  [20304103     0])---([20102000     0]  [20304103     3])
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          2
+~
+Reactant Molfile: :MolFile 10506214 :  6 Atoms :  5 Bonds : olefin-(rr)(rr)
+~
+                  :Atom     0:     2.000:     0.000:     0.000: 6   :0.0     :         1
+                  :Atom     1:     3.000:     0.000:     0.000: 6   :0.0     :         2
+                  :Atom     2:     1.690:     0.537:     0.000:320   :0.0     :         5
+                  :Atom     3:     1.690:    -0.537:     0.000:320   :0.0     :         6
+                  :Atom     4:     3.310:    -0.537:     0.000:320   :0.0     :         3
+                  :Atom     5:     3.310:     0.537:     0.000:320   :0.0     :         4
+~
+                  :  Double Bond :  0 :  1   :  4
+                  :  Single Bond :  0 :  2   :  2
+                  :  Single Bond :  0 :  3   :  2
+                  :  Single Bond :  1 :  4   :  2
+                  :  Single Bond :  1 :  5   :  2
+~
+Bond Parameter:          4
+~
+Reactant Molfile: :MolFile 20102000 :  2 Atoms :  1 Bonds : hydroxyl-radical
+~
+                  :Atom     0:    -0.323:     0.705:     0.000: 1   :0.0     :         7
+                  :Atom     1:     0.161:     0.438:     0.000: 8   :0.0     :         8
+~
+                  :  Single Bond :  0 :  1   :  4
+~
+Bond Parameter:          4
+Bond Parameter:          2
+Bond Parameter:          2
+~
+Product Molfile: :MolFile 10304103 :  4 Atoms :  3 Bonds : (r)(r)c(o)
+~
+                 :Atom     0:     0.000:     0.000:     0.000: 6   :0.0     :         1
+                 :Atom     1:     0.161:     0.438:     0.000: 8   :0.0     :         8
+                 :Atom     2:     1.545:     0.288:     0.000:320   :0.0     :         3
+                 :Atom     3:     1.545:    -0.288:     0.000:320   :0.0     :         4
+~
+                 :  Double Bond :  0 :  1   :  4
+                 :  Single Bond :  0 :  2   :  2
+                 :  Single Bond :  0 :  3   :  2
+~
+Bond Parameter:          2
+Bond Parameter:          2
+Bond Parameter:          4
+~
+Product Molfile: :MolFile 20304103 :  4 Atoms :  3 Bonds : secondary-carbon-radical
+~
+                 :Atom     0:     0.161:     0.438:     0.000: 6   :0.0     :         2
+                 :Atom     1:     0.161:     0.438:     0.000:320   :0.0     :         5
+                 :Atom     2:     0.161:     0.438:     0.000:320   :0.0     :         6
+                 :Atom     3:     0.161:     0.438:     0.000: 1   :0.0     :         7
+~
+                 :  Single Bond :  0 :  1   :  2
+                 :  Single Bond :  0 :  2   :  2
+                 :  Single Bond :  0 :  3   :  4
+~
+Add Changed Bonds:      olefin-(rr)(rr)          0          0          4
+Add Changed Bonds:      olefin-(rr)(rr)          1          0          2
+Add Changed Bonds:      olefin-(rr)(rr)          2          0          2
+Add Changed Bonds:      olefin-(rr)(rr)          3          0          2
+Add Changed Bonds:      olefin-(rr)(rr)          4          0          2
+Add Changed Bonds:     hydroxyl-radical          0          0          4
+Add Changed Bonds:           (r)(r)c(o)          0          1        104
+Add Changed Bonds:           (r)(r)c(o)          1          1        102
+Add Changed Bonds:           (r)(r)c(o)          2          1        102
+Add Changed Bonds: secondary-carbon-radical          0          1        102
+Add Changed Bonds: secondary-carbon-radical          1          1        102
+Add Changed Bonds: secondary-carbon-radical          2          1        104
+RxnCorrSet: :Reaction Correspondences 3209 
+            : 8 Matched Atoms
+            :    0 [10506214     0]  [10304103     0] 
+            :    1 [10506214     1]  [20304103     0] 
+            :    2 [10506214     4]  [10304103     2] 
+            :    3 [10506214     5]  [10304103     3] 
+            :    4 [10506214     2]  [20304103     1] 
+            :    5 [10506214     3]  [20304103     2] 
+            :    6 [20102000     0]  [20304103     3] 
+            :    7 [20102000     1]  [10304103     1] 
+RxnCorrSet: : 0 Unmatched Atoms
+RxnCorrSet: :Reaction Bond Changes
+            :    0 ([10506214     0]  [10304103     0])---([10506214     1]  [20304103     0])
+            :    1 ([20102000     0]  [20304103     3])---([20102000     1]  [10304103     1])
+            :    2 ([10506214     0]  [10304103     0])---([20102000     1]  [10304103     1])
+            :    3 ([10506214     1]  [20304103     0])---([20102000     0]  [20304103     3])
+RxnPatterns>> Quit
+DbaseOps>> Quit
+main>> Rxn
+Command:Rxn
+Rxn>> Output
+Command:Output
+Output>> RxnPatterns
+Command:RxnPatterns
+RxnPatterns>> Print
+Command:Print
+RxnPatterns>> Quit
+Output>> Quit
+Rxn>> Quit
+main>> DbaseOps
+Command:DbaseOps
+DbaseOps>> RxnPatterns
+Command:RxnPatterns
+RxnPatterns>> Current
+Command:Current
+Current>> Store
+Command:Store
+InsertSearchKeys:
+(      3201,OlefinToAldehydeDecomp-(hh)(hh)): -127 12 0 0 
+(      3201,(null)): -127 12 0 0 
+(         0,OlefinToAldehydeDecomp-(hh)(hh)): 79 108 101 102 105 110 84 111 65 108 100 101 104 121 100 101 68 101 99 111 109 112 45 40 104 104 41 40 104 104 41 0 
+InsertSearchKeys:
+(      3202,OlefinToAldehydeDecomp-(rh)(hh)): -126 12 0 0 
+(      3202,(null)): -126 12 0 0 
+(         0,OlefinToAldehydeDecomp-(rh)(hh)): 79 108 101 102 105 110 84 111 65 108 100 101 104 121 100 101 68 101 99 111 109 112 45 40 114 104 41 40 104 104 41 0 
+InsertSearchKeys:
+(      3203,OlefinToAldehydeDecomp-(rr)(hh)): -125 12 0 0 
+(      3203,(null)): -125 12 0 0 
+(         0,OlefinToAldehydeDecomp-(rr)(hh)): 79 108 101 102 105 110 84 111 65 108 100 101 104 121 100 101 68 101 99 111 109 112 45 40 114 114 41 40 104 104 41 0 
+InsertSearchKeys:
+(      3204,OlefinToAldehydeDecomp-(hh)(rh)): -124 12 0 0 
+(      3204,(null)): -124 12 0 0 
+(         0,OlefinToAldehydeDecomp-(hh)(rh)): 79 108 101 102 105 110 84 111 65 108 100 101 104 121 100 101 68 101 99 111 109 112 45 40 104 104 41 40 114 104 41 0 
+InsertSearchKeys:
+(      3205,OlefinToAldehydeDecomp-(rh)(rh)): -123 12 0 0 
+(      3205,(null)): -123 12 0 0 
+(         0,OlefinToAldehydeDecomp-(rh)(rh)): 79 108 101 102 105 110 84 111 65 108 100 101 104 121 100 101 68 101 99 111 109 112 45 40 114 104 41 40 114 104 41 0 
+InsertSearchKeys:
+(      3206,OlefinToAldehydeDecomp-(rr)(rh)): -122 12 0 0 
+(      3206,(null)): -122 12 0 0 
+(         0,OlefinToAldehydeDecomp-(rr)(rh)): 79 108 101 102 105 110 84 111 65 108 100 101 104 121 100 101 68 101 99 111 109 112 45 40 114 114 41 40 114 104 41 0 
+InsertSearchKeys:
+(      3207,OlefinToAldehydeDecomp-(hh)(rr)): -121 12 0 0 
+(      3207,(null)): -121 12 0 0 
+(         0,OlefinToAldehydeDecomp-(hh)(rr)): 79 108 101 102 105 110 84 111 65 108 100 101 104 121 100 101 68 101 99 111 109 112 45 40 104 104 41 40 114 114 41 0 
+InsertSearchKeys:
+(      3208,OlefinToAldehydeDecomp-(rh)(rr)): -120 12 0 0 
+(      3208,(null)): -120 12 0 0 
+(         0,OlefinToAldehydeDecomp-(rh)(rr)): 79 108 101 102 105 110 84 111 65 108 100 101 104 121 100 101 68 101 99 111 109 112 45 40 114 104 41 40 114 114 41 0 
+InsertSearchKeys:
+(      3209,OlefinToAldehydeDecomp-(rr)(rr)): -119 12 0 0 
+(      3209,(null)): -119 12 0 0 
+(         0,OlefinToAldehydeDecomp-(rr)(rr)): 79 108 101 102 105 110 84 111 65 108 100 101 104 121 100 101 68 101 99 111 109 112 45 40 114 114 41 40 114 114 41 0 
+Current>> Quit
+RxnPatterns>> Keys
+Command:Keys
+Keys>> Define
+Command:Define
+Keys>> Fill
+Command:Fill
+InsertSearchKeys:
+(         0,(null)): 70 31 0 0 
+(      8006,(null)): 70 31 0 0 
+(         0,H-Alkenyl-Abs-Hydrogen-Radical-(rr)(r)): 72 45 65 108 107 101 110 121 108 45 65 98 115 45 72 121 100 114 111 103 101 110 45 82 97 100 105 99 97 108 45 40 114 114 41 40 114 41 0 
+InsertSearchKeys:
+(         0,(null)): 39 4 0 0 
+(      1063,(null)): 39 4 0 0 
+(         0,H-Abstraction-PeroxylRadical-Tertiary): 72 45 65 98 115 116 114 97 99 116 105 111 110 45 80 101 114 111 120 121 108 82 97 100 105 99 97 108 45 84 101 114 116 105 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): 59 4 0 0 
+(      1083,(null)): 59 4 0 0 
+(         0,H-Abstraction-EthylRadical-Tertiary): 72 45 65 98 115 116 114 97 99 116 105 111 110 45 69 116 104 121 108 82 97 100 105 99 97 108 45 84 101 114 116 105 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): -3 3 0 0 
+(      1021,(null)): -3 3 0 0 
+(         0,H-Abstraction-Hydroxyl-Radical-Primary): 72 45 65 98 115 116 114 97 99 116 105 111 110 45 72 121 100 114 111 120 121 108 45 82 97 100 105 99 97 108 45 80 114 105 109 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): -125 55 0 0 
+(     14211,(null)): -125 55 0 0 
+(         0,PeroxyFromHydrogenPeroxide-RHH): 80 101 114 111 120 121 70 114 111 109 72 121 100 114 111 103 101 110 80 101 114 111 120 105 100 101 45 82 72 72 0 
+InsertSearchKeys:
+(         0,(null)): -61 93 0 0 
+(     24003,(null)): -61 93 0 0 
+(         0,KetoHydroPeroxideDecompToAldRadical-HRR): 75 101 116 111 72 121 100 114 111 80 101 114 111 120 105 100 101 68 101 99 111 109 112 84 111 65 108 100 82 97 100 105 99 97 108 45 72 82 82 0 
+InsertSearchKeys:
+(         0,(null)): 66 51 0 0 
+(     13122,(null)): 66 51 0 0 
+(         0,ROOHFromPeroxy-RRH): 82 79 79 72 70 114 111 109 80 101 114 111 120 121 45 82 82 72 0 
+InsertSearchKeys:
+(         0,(null)): 117 56 0 0 
+(     14453,(null)): 117 56 0 0 
+(         0,SevenRing-(ooh)-h-isomerization): 83 101 118 101 110 82 105 110 103 45 40 111 111 104 41 45 104 45 105 115 111 109 101 114 105 122 97 116 105 111 110 0 
+InsertSearchKeys:
+(         0,(null)): 70 67 0 0 
+(     17222,(null)): 70 67 0 0 
+(         0,AlkoxyFromPeroxy-RRR): 65 108 107 111 120 121 70 114 111 109 80 101 114 111 120 121 45 82 82 82 0 
+InsertSearchKeys:
+(         0,(null)): 48 4 0 0 
+(      1072,(null)): 48 4 0 0 
+(         0,H-Abstraction-Methoxy-Secondary): 72 45 65 98 115 116 114 97 99 116 105 111 110 45 77 101 116 104 111 120 121 45 83 101 99 111 110 100 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): -119 21 3 0 
+(    202121,(null)): -119 21 3 0 
+(         0,BetaHPeroxyToOlefin-RHRH): 66 101 116 97 72 80 101 114 111 120 121 84 111 79 108 101 102 105 110 45 82 72 82 72 0 
+InsertSearchKeys:
+(         0,(null)): -51 91 0 0 
+(     23501,(null)): -51 91 0 0 
+(         0,OOQOOH-Isomerization-5Ring-Primary): 79 79 81 79 79 72 45 73 115 111 109 101 114 105 122 97 116 105 111 110 45 53 82 105 110 103 45 80 114 105 109 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): -52 93 0 0 
+(     24012,(null)): -52 93 0 0 
+(         0,KetoHydroPeroxideDecompToAldRadical-CHHRH): 75 101 116 111 72 121 100 114 111 80 101 114 111 120 105 100 101 68 101 99 111 109 112 84 111 65 108 100 82 97 100 105 99 97 108 45 67 72 72 82 72 0 
+InsertSearchKeys:
+(         0,(null)): 55 51 0 0 
+(     13111,(null)): 55 51 0 0 
+(         0,ROOHFromPeroxy-HHH): 82 79 79 72 70 114 111 109 80 101 114 111 120 121 45 72 72 72 0 
+InsertSearchKeys:
+(         0,(null)): 59 67 0 0 
+(     17211,(null)): 59 67 0 0 
+(         0,AlkoxyFromPeroxy-RHH): 65 108 107 111 120 121 70 114 111 109 80 101 114 111 120 121 45 82 72 72 0 
+InsertSearchKeys:
+(         0,(null)): 37 4 0 0 
+(      1061,(null)): 37 4 0 0 
+(         0,H-Abstraction-PeroxylRadical-Primary): 72 45 65 98 115 116 114 97 99 116 105 111 110 45 80 101 114 111 120 121 108 82 97 100 105 99 97 108 45 80 114 105 109 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): 68 31 0 0 
+(      8004,(null)): 68 31 0 0 
+(         0,H-Alkenyl-Abs-Hydrogen-Radical-(rh)(r)): 72 45 65 108 107 101 110 121 108 45 65 98 115 45 72 121 100 114 111 103 101 110 45 82 97 100 105 99 97 108 45 40 114 104 41 40 114 41 0 
+InsertSearchKeys:
+(         0,(null)): -63 93 0 0 
+(     24001,(null)): -63 93 0 0 
+(         0,KetoHydroPeroxideDecompToAldRadical-HHH): 75 101 116 111 72 121 100 114 111 80 101 114 111 120 105 100 101 68 101 99 111 109 112 84 111 65 108 100 82 97 100 105 99 97 108 45 72 72 72 0 
+InsertSearchKeys:
+(         0,(null)): 79 31 0 0 
+(      8015,(null)): 79 31 0 0 
+(         0,H-Alkenyl-Abs-Oxygen-Radical-(rr)(h)): 72 45 65 108 107 101 110 121 108 45 65 98 115 45 79 120 121 103 101 110 45 82 97 100 105 99 97 108 45 40 114 114 41 40 104 41 0 
+InsertSearchKeys:
+(         0,(null)): 96 31 0 0 
+(      8032,(null)): 96 31 0 0 
+(         0,H-Alkenyl-Abs-Methane-Carbon-Radical-(hh)(r)): 72 45 65 108 107 101 110 121 108 45 65 98 115 45 77 101 116 104 97 110 101 45 67 97 114 98 111 110 45 82 97 100 105 99 97 108 45 40 104 104 41 40 114 41 0 
+InsertSearchKeys:
+(         0,(null)): -67 11 0 0 
+(      3005,(null)): -67 11 0 0 
+(         0,H-Alkene-Add-Hydrogen-Radical-(rh)(rh)): 72 45 65 108 107 101 110 101 45 65 100 100 45 72 121 100 114 111 103 101 110 45 82 97 100 105 99 97 108 45 40 114 104 41 40 114 104 41 0 
+InsertSearchKeys:
+(         0,(null)): 115 56 0 0 
+(     14451,(null)): 115 56 0 0 
+(         0,FiveRing-(ooh)-h-isomerization): 70 105 118 101 82 105 110 103 45 40 111 111 104 41 45 104 45 105 115 111 109 101 114 105 122 97 116 105 111 110 0 
+InsertSearchKeys:
+(         0,(null)): 77 31 0 0 
+(      8013,(null)): 77 31 0 0 
+(         0,H-Alkenyl-Abs-Oxygen-Radical-(rh)(h)): 72 45 65 108 107 101 110 121 108 45 65 98 115 45 79 120 121 103 101 110 45 82 97 100 105 99 97 108 45 40 114 104 41 40 104 41 0 
+InsertSearchKeys:
+(         0,(null)): -65 11 0 0 
+(      3007,(null)): -65 11 0 0 
+(         0,H-Alkene-Add-Hydrogen-Radical-(rh)(rr)): 72 45 65 108 107 101 110 101 45 65 100 100 45 72 121 100 114 111 103 101 110 45 82 97 100 105 99 97 108 45 40 114 104 41 40 114 114 41 0 
+InsertSearchKeys:
+(         0,(null)): 9 4 0 0 
+(      1033,(null)): 9 4 0 0 
+(         0,H-Abstraction-Oxygen-Radical-Tertiary): 72 45 65 98 115 116 114 97 99 116 105 111 110 45 79 120 121 103 101 110 45 82 97 100 105 99 97 108 45 84 101 114 116 105 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): 30 82 0 0 
+(     21022,(null)): 30 82 0 0 
+(         0,OlefinCarbonylFromPeroxy-RR): 79 108 101 102 105 110 67 97 114 98 111 110 121 108 70 114 111 109 80 101 114 111 120 121 45 82 82 0 
+InsertSearchKeys:
+(         0,(null)): 49 -14 0 0 
+(     62001,(null)): 49 -14 0 0 
+(         0,KetoAldCRadDecomp-H-HH-HH): 75 101 116 111 65 108 100 67 82 97 100 68 101 99 111 109 112 45 72 45 72 72 45 72 72 0 
+InsertSearchKeys:
+(         0,(null)): 51 -14 0 0 
+(     62003,(null)): 51 -14 0 0 
+(         0,KetoAldCRadDecomp-H-RH-HH): 75 101 116 111 65 108 100 67 82 97 100 68 101 99 111 109 112 45 72 45 82 72 45 72 72 0 
+InsertSearchKeys:
+(         0,(null)): 60 -14 0 0 
+(     62012,(null)): 60 -14 0 0 
+(         0,KetoAldCRadDecomp-R-RR-RH): 75 101 116 111 65 108 100 67 82 97 100 68 101 99 111 109 112 45 82 45 82 82 45 82 72 0 
+InsertSearchKeys:
+(         0,(null)): 66 31 0 0 
+(      8002,(null)): 66 31 0 0 
+(         0,H-Alkenyl-Abs-Hydrogen-Radical-(hh)(r)): 72 45 65 108 107 101 110 121 108 45 65 98 115 45 72 121 100 114 111 103 101 110 45 82 97 100 105 99 97 108 45 40 104 104 41 40 114 41 0 
+InsertSearchKeys:
+(         0,(null)): 58 -14 0 0 
+(     62010,(null)): 58 -14 0 0 
+(         0,KetoAldCRadDecomp-R-RH-RH): 75 101 116 111 65 108 100 67 82 97 100 68 101 99 111 109 112 45 82 45 82 72 45 82 72 0 
+InsertSearchKeys:
+(         0,(null)): 62 -14 0 0 
+(     62014,(null)): 62 -14 0 0 
+(         0,KetoAldCRadDecomp-R-HH-RR): 75 101 116 111 65 108 100 67 82 97 100 68 101 99 111 109 112 45 82 45 72 72 45 82 82 0 
+InsertSearchKeys:
+(         0,(null)): -95 17 3 0 
+(    201121,(null)): -95 17 3 0 
+(         0,BetaHPeroxyToOlefin-HHRH): 66 101 116 97 72 80 101 114 111 120 121 84 111 79 108 101 102 105 110 45 72 72 82 72 0 
+InsertSearchKeys:
+(         0,(null)): -45 93 0 0 
+(     24019,(null)): -45 93 0 0 
+(         0,KetoHydroPeroxideDecompToAldRadical-CRRRR): 75 101 116 111 72 121 100 114 111 80 101 114 111 120 105 100 101 68 101 99 111 109 112 84 111 65 108 100 82 97 100 105 99 97 108 45 67 82 82 82 82 0 
+InsertSearchKeys:
+(         0,(null)): 75 -18 0 0 
+(     61003,(null)): 75 -18 0 0 
+(         0,KetoAldDecomp-OH-RRH): 75 101 116 111 65 108 100 68 101 99 111 109 112 45 79 72 45 82 82 72 0 
+InsertSearchKeys:
+(         0,(null)): -69 11 0 0 
+(      3003,(null)): -69 11 0 0 
+(         0,H-Alkene-Add-Hydrogen-Radical-(hh)(rh)): 72 45 65 108 107 101 110 101 45 65 100 100 45 72 121 100 114 111 103 101 110 45 82 97 100 105 99 97 108 45 40 104 104 41 40 114 104 41 0 
+InsertSearchKeys:
+(         0,(null)): 113 56 0 0 
+(     14449,(null)): 113 56 0 0 
+(         0,SevenRing-chain-h-isomerization): 83 101 118 101 110 82 105 110 103 45 99 104 97 105 110 45 104 45 105 115 111 109 101 114 105 122 97 116 105 111 110 0 
+InsertSearchKeys:
+(         0,(null)): 75 31 0 0 
+(      8011,(null)): 75 31 0 0 
+(         0,H-Alkenyl-Abs-Oxygen-Radical-(hh)(h)): 72 45 65 108 107 101 110 121 108 45 65 98 115 45 79 120 121 103 101 110 45 82 97 100 105 99 97 108 45 40 104 104 41 40 104 41 0 
+InsertSearchKeys:
+(         0,(null)): 50 92 0 0 
+(     23602,(null)): 50 92 0 0 
+(         0,OOQOOH-Isomerization-6Ring-Secondary): 79 79 81 79 79 72 45 73 115 111 109 101 114 105 122 97 116 105 111 110 45 54 82 105 110 103 45 83 101 99 111 110 100 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): 7 4 0 0 
+(      1031,(null)): 7 4 0 0 
+(         0,H-Abstraction-Oxygen-Radical-Primary): 72 45 65 98 115 116 114 97 99 116 105 111 110 45 79 120 121 103 101 110 45 82 97 100 105 99 97 108 45 80 114 105 109 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): 77 -18 0 0 
+(     61005,(null)): 77 -18 0 0 
+(         0,KetoAldDecomp-O2-HHH): 75 101 116 111 65 108 100 68 101 99 111 109 112 45 79 50 45 72 72 72 0 
+InsertSearchKeys:
+(         0,(null)): 79 -18 0 0 
+(     61007,(null)): 79 -18 0 0 
+(         0,KetoAldDecomp-O2-RRH): 75 101 116 111 65 108 100 68 101 99 111 109 112 45 79 50 45 82 82 72 0 
+InsertSearchKeys:
+(         0,(null)): 30 -10 0 0 
+(     63006,(null)): 30 -10 0 0 
+(         0,DiKetoAldDecomp-RRRH): 68 105 75 101 116 111 65 108 100 68 101 99 111 109 112 45 82 82 82 72 0 
+InsertSearchKeys:
+(         0,(null)): -114 55 0 0 
+(     14222,(null)): -114 55 0 0 
+(         0,PeroxyFromHydrogenPeroxide-RRR): 80 101 114 111 120 121 70 114 111 109 72 121 100 114 111 103 101 110 80 101 114 111 120 105 100 101 45 82 82 82 0 
+InsertSearchKeys:
+(         0,(null)): 32 -10 0 0 
+(     63008,(null)): 32 -10 0 0 
+(         0,DiKetoAldDecomp-RHHR): 68 105 75 101 116 111 65 108 100 68 101 99 111 109 112 45 82 72 72 82 0 
+InsertSearchKeys:
+(         0,(null)): 19 39 0 0 
+(     10003,(null)): 19 39 0 0 
+(         0,ethyl-radical(hh)(rhh)-oxidation-to-olefin): 101 116 104 121 108 45 114 97 100 105 99 97 108 40 104 104 41 40 114 104 104 41 45 111 120 105 100 97 116 105 111 110 45 116 111 45 111 108 101 102 105 110 0 
+InsertSearchKeys:
+(         0,(null)): 62 74 0 0 
+(     19006,(null)): 62 74 0 0 
+(         0,CyclicEtherFromQOOH-6Ring): 67 121 99 108 105 99 69 116 104 101 114 70 114 111 109 81 79 79 72 45 54 82 105 110 103 0 
+InsertSearchKeys:
+(         0,(null)): 56 -14 0 0 
+(     62008,(null)): 56 -14 0 0 
+(         0,KetoAldCRadDecomp-R-HH-RH): 75 101 116 111 65 108 100 67 82 97 100 68 101 99 111 109 112 45 82 45 72 72 45 82 72 0 
+InsertSearchKeys:
+(         0,(null)): -41 66 0 0 
+(     17111,(null)): -41 66 0 0 
+(         0,AlkoxyFromPeroxy-HHH): 65 108 107 111 120 121 70 114 111 109 80 101 114 111 120 121 45 72 72 72 0 
+InsertSearchKeys:
+(         0,(null)): -47 93 0 0 
+(     24017,(null)): -47 93 0 0 
+(         0,KetoHydroPeroxideDecompToAldRadical-CRRHH): 75 101 116 111 72 121 100 114 111 80 101 114 111 120 105 100 101 68 101 99 111 109 112 84 111 65 108 100 82 97 100 105 99 97 108 45 67 82 82 72 72 0 
+InsertSearchKeys:
+(         0,(null)): 90 31 0 0 
+(      8026,(null)): 90 31 0 0 
+(         0,H-Alkenyl-Abs-Hydroxyl-Radical-(rr)(r)): 72 45 65 108 107 101 110 121 108 45 65 98 115 45 72 121 100 114 111 120 121 108 45 82 97 100 105 99 97 108 45 40 114 114 41 40 114 41 0 
+InsertSearchKeys:
+(         0,(null)): 111 56 0 0 
+(     14447,(null)): 111 56 0 0 
+(         0,FiveRing-chain-h-isomerization): 70 105 118 101 82 105 110 103 45 99 104 97 105 110 45 104 45 105 115 111 109 101 114 105 122 97 116 105 111 110 0 
+InsertSearchKeys:
+(         0,(null)): 79 4 0 0 
+(      1103,(null)): 79 4 0 0 
+(         0,H-Abstraction-MethylPeroxyl-Tertiary): 72 45 65 98 115 116 114 97 99 116 105 111 110 45 77 101 116 104 121 108 80 101 114 111 120 121 108 45 84 101 114 116 105 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): -71 11 0 0 
+(      3001,(null)): -71 11 0 0 
+(         0,H-Alkene-Add-Hydrogen-Radical-(hh)(hh)): 72 45 65 108 107 101 110 101 45 65 100 100 45 72 121 100 114 111 103 101 110 45 82 97 100 105 99 97 108 45 40 104 104 41 40 104 104 41 0 
+InsertSearchKeys:
+(         0,(null)): 65 -14 0 0 
+(     62017,(null)): 65 -14 0 0 
+(         0,KetoAldCRadDecomp-H-RR-RR): 75 101 116 111 65 108 100 67 82 97 100 68 101 99 111 109 112 45 72 45 82 82 45 82 82 0 
+InsertSearchKeys:
+(         0,(null)): -58 93 0 0 
+(     24006,(null)): -58 93 0 0 
+(         0,KetoHydroPeroxideDecompToAldRadical-RRR): 75 101 116 111 72 121 100 114 111 80 101 114 111 120 105 100 101 68 101 99 111 109 112 84 111 65 108 100 82 97 100 105 99 97 108 45 82 82 82 0 
+InsertSearchKeys:
+(         0,(null)): 73 -18 0 0 
+(     61001,(null)): 73 -18 0 0 
+(         0,KetoAldDecomp-OH-HHH): 75 101 116 111 65 108 100 68 101 99 111 109 112 45 79 72 45 72 72 72 0 
+InsertSearchKeys:
+(         0,(null)): 28 -10 0 0 
+(     63004,(null)): 28 -10 0 0 
+(         0,DiKetoAldDecomp-RRHH): 68 105 75 101 116 111 65 108 100 68 101 99 111 109 112 45 82 82 72 72 0 
+InsertSearchKeys:
+(         0,(null)): 99 31 0 0 
+(      8035,(null)): 99 31 0 0 
+(         0,H-Alkenyl-Abs-Methane-Carbon-Radical-(rr)(h)): 72 45 65 108 107 101 110 121 108 45 65 98 115 45 77 101 116 104 97 110 101 45 67 97 114 98 111 110 45 82 97 100 105 99 97 108 45 40 114 114 41 40 104 41 0 
+InsertSearchKeys:
+(         0,(null)): 68 4 0 0 
+(      1092,(null)): 68 4 0 0 
+(         0,H-Abstraction-EthenylRadical-Secondary): 72 45 65 98 115 116 114 97 99 116 105 111 110 45 69 116 104 101 110 121 108 82 97 100 105 99 97 108 45 83 101 99 111 110 100 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): -28 7 0 0 
+(      2020,(null)): -28 7 0 0 
+(         0,Secondary-Carbon-Radical-(R.+O2-->RO2.)): 83 101 99 111 110 100 97 114 121 45 67 97 114 98 111 110 45 82 97 100 105 99 97 108 45 40 82 46 43 79 50 45 45 62 82 79 50 46 41 0 
+InsertSearchKeys:
+(         0,(null)): 17 39 0 0 
+(     10001,(null)): 17 39 0 0 
+(         0,ethyl-radical(hh)(hhh)-oxidation-to-olefin): 101 116 104 121 108 45 114 97 100 105 99 97 108 40 104 104 41 40 104 104 104 41 45 111 120 105 100 97 116 105 111 110 45 116 111 45 111 108 101 102 105 110 0 
+InsertSearchKeys:
+(         0,(null)): 60 74 0 0 
+(     19004,(null)): 60 74 0 0 
+(         0,CyclicEtherFromQOOH-4Ring): 67 121 99 108 105 99 69 116 104 101 114 70 114 111 109 81 79 79 72 45 52 82 105 110 103 0 
+InsertSearchKeys:
+(         0,(null)): 106 91 0 0 
+(     23402,(null)): 106 91 0 0 
+(         0,OOQOOH-Isomerization-4Ring-Secondary): 79 79 81 79 79 72 45 73 115 111 109 101 114 105 122 97 116 105 111 110 45 52 82 105 110 103 45 83 101 99 111 110 100 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): 99 -22 0 0 
+(     60003,(null)): 99 -22 0 0 
+(         0,KetoneRadicalDecomp-RRH): 75 101 116 111 110 101 82 97 100 105 99 97 108 68 101 99 111 109 112 45 82 82 72 0 
+InsertSearchKeys:
+(         0,(null)): 88 31 0 0 
+(      8024,(null)): 88 31 0 0 
+(         0,H-Alkenyl-Abs-Hydroxyl-Radical-(rh)(r)): 72 45 65 108 107 101 110 121 108 45 65 98 115 45 72 121 100 114 111 120 121 108 45 82 97 100 105 99 97 108 45 40 114 104 41 40 114 41 0 
+InsertSearchKeys:
+(         0,(null)): 57 4 0 0 
+(      1081,(null)): 57 4 0 0 
+(         0,H-Abstraction-EthylRadical-Primary): 72 45 65 98 115 116 114 97 99 116 105 111 110 45 69 116 104 121 108 82 97 100 105 99 97 108 45 80 114 105 109 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): 77 4 0 0 
+(      1101,(null)): 77 4 0 0 
+(         0,H-Abstraction-MethylPeroxyl-Primary): 72 45 65 98 115 116 114 97 99 116 105 111 110 45 77 101 116 104 121 108 80 101 114 111 120 121 108 45 80 114 105 109 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): 54 -14 0 0 
+(     62006,(null)): 54 -14 0 0 
+(         0,KetoAldCRadDecomp-R-RR-HH): 75 101 116 111 65 108 100 67 82 97 100 68 101 99 111 109 112 45 82 45 82 82 45 72 72 0 
+InsertSearchKeys:
+(         0,(null)): -90 51 0 0 
+(     13222,(null)): -90 51 0 0 
+(         0,ROOHFromPeroxy-RRR): 82 79 79 72 70 114 111 109 80 101 114 111 120 121 45 82 82 82 0 
+InsertSearchKeys:
+(         0,(null)): -2 3 0 0 
+(      1022,(null)): -2 3 0 0 
+(         0,H-Abstraction-Hydroxyl-Radical-Secondary): 72 45 65 98 115 116 114 97 99 116 105 111 110 45 72 121 100 114 111 120 121 108 45 82 97 100 105 99 97 108 45 83 101 99 111 110 100 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): -62 -126 1 0 
+(     99010,(null)): -62 -126 1 0 
+(         0,TwoAlkoxyFormation): 84 119 111 65 108 107 111 120 121 70 111 114 109 97 116 105 111 110 0 
+InsertSearchKeys:
+(         0,(null)): -60 93 0 0 
+(     24004,(null)): -60 93 0 0 
+(         0,KetoHydroPeroxideDecompToAldRadical-RHH): 75 101 116 111 72 121 100 114 111 80 101 114 111 120 105 100 101 68 101 99 111 109 112 84 111 65 108 100 82 97 100 105 99 97 108 45 82 72 72 0 
+InsertSearchKeys:
+(         0,(null)): 97 31 0 0 
+(      8033,(null)): 97 31 0 0 
+(         0,H-Alkenyl-Abs-Methane-Carbon-Radical-(rh)(h)): 72 45 65 108 107 101 110 121 108 45 65 98 115 45 77 101 116 104 97 110 101 45 67 97 114 98 111 110 45 82 97 100 105 99 97 108 45 40 114 104 41 40 104 41 0 
+InsertSearchKeys:
+(         0,(null)): 118 56 0 0 
+(     14454,(null)): 118 56 0 0 
+(         0,EightRing-(ooh)-h-isomerization): 69 105 103 104 116 82 105 110 103 45 40 111 111 104 41 45 104 45 105 115 111 109 101 114 105 122 97 116 105 111 110 0 
+InsertSearchKeys:
+(         0,(null)): -118 21 3 0 
+(    202122,(null)): -118 21 3 0 
+(         0,BetaHPeroxyToOlefin-RHRR): 66 101 116 97 72 80 101 114 111 120 121 84 111 79 108 101 102 105 110 45 82 72 82 82 0 
+InsertSearchKeys:
+(         0,(null)): 52 -14 0 0 
+(     62004,(null)): 52 -14 0 0 
+(         0,KetoAldCRadDecomp-R-RH-HH): 75 101 116 111 65 108 100 67 82 97 100 68 101 99 111 109 112 45 82 45 82 72 45 72 72 0 
+InsertSearchKeys:
+(         0,(null)): 63 -14 0 0 
+(     62015,(null)): 63 -14 0 0 
+(         0,KetoAldCRadDecomp-H-RH-RR): 75 101 116 111 65 108 100 67 82 97 100 68 101 99 111 109 112 45 72 45 82 72 45 82 82 0 
+InsertSearchKeys:
+(         0,(null)): -18 21 3 0 
+(    202222,(null)): -18 21 3 0 
+(         0,BetaHPeroxyToOlefin-RRRR): 66 101 116 97 72 80 101 114 111 120 121 84 111 79 108 101 102 105 110 45 82 82 82 82 0 
+InsertSearchKeys:
+(         0,(null)): 80 -18 0 0 
+(     61008,(null)): 80 -18 0 0 
+(         0,KetoAldDecomp-O2-RRR): 75 101 116 111 65 108 100 68 101 99 111 109 112 45 79 50 45 82 82 82 0 
+InsertSearchKeys:
+(         0,(null)): 56 51 0 0 
+(     13112,(null)): 56 51 0 0 
+(         0,ROOHFromPeroxy-RHH): 82 79 79 72 70 114 111 109 80 101 114 111 120 121 45 82 72 72 0 
+InsertSearchKeys:
+(         0,(null)): 86 31 0 0 
+(      8022,(null)): 86 31 0 0 
+(         0,H-Alkenyl-Abs-Hydroxyl-Radical-(hh)(r)): 72 45 65 108 107 101 110 121 108 45 65 98 115 45 72 121 100 114 111 120 121 108 45 82 97 100 105 99 97 108 45 40 104 104 41 40 114 41 0 
+InsertSearchKeys:
+(         0,(null)): 18 4 0 0 
+(      1042,(null)): 18 4 0 0 
+(         0,H-Abstraction-Oxygen-Secondary): 72 45 65 98 115 116 114 97 99 116 105 111 110 45 79 120 121 103 101 110 45 83 101 99 111 110 100 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): 38 4 0 0 
+(      1062,(null)): 38 4 0 0 
+(         0,H-Abstraction-PeroxylRadical-Secondary): 72 45 65 98 115 116 114 97 99 116 105 111 110 45 80 101 114 111 120 121 108 82 97 100 105 99 97 108 45 83 101 99 111 110 100 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): 24 39 0 0 
+(     10008,(null)): 24 39 0 0 
+(         0,ethyl-radical(rh)(rrh)-oxidation-to-olefin): 101 116 104 121 108 45 114 97 100 105 99 97 108 40 114 104 41 40 114 114 104 41 45 111 120 105 100 97 116 105 111 110 45 116 111 45 111 108 101 102 105 110 0 
+InsertSearchKeys:
+(         0,(null)): -29 21 3 0 
+(    202211,(null)): -29 21 3 0 
+(         0,BetaHPeroxyToOlefin-RRHH): 66 101 116 97 72 80 101 114 111 120 121 84 111 79 108 101 102 105 110 45 82 82 72 72 0 
+InsertSearchKeys:
+(         0,(null)): -62 93 0 0 
+(     24002,(null)): -62 93 0 0 
+(         0,KetoHydroPeroxideDecompToAldRadical-HRH): 75 101 116 111 72 121 100 114 111 80 101 114 111 120 105 100 101 68 101 99 111 109 112 84 111 65 108 100 82 97 100 105 99 97 108 45 72 82 72 0 
+InsertSearchKeys:
+(         0,(null)): 69 31 0 0 
+(      8005,(null)): 69 31 0 0 
+(         0,H-Alkenyl-Abs-Hydrogen-Radical-(rr)(h)): 72 45 65 108 107 101 110 121 108 45 65 98 115 45 72 121 100 114 111 103 101 110 45 82 97 100 105 99 97 108 45 40 114 114 41 40 104 41 0 
+InsertSearchKeys:
+(         0,(null)): 95 31 0 0 
+(      8031,(null)): 95 31 0 0 
+(         0,H-Alkenyl-Abs-Methane-Carbon-Radical-(hh)(h)): 72 45 65 108 107 101 110 121 108 45 65 98 115 45 77 101 116 104 97 110 101 45 67 97 114 98 111 110 45 82 97 100 105 99 97 108 45 40 104 104 41 40 104 41 0 
+InsertSearchKeys:
+(         0,(null)): 116 56 0 0 
+(     14452,(null)): 116 56 0 0 
+(         0,SixRing-(ooh)-h-isomerization): 83 105 120 82 105 110 103 45 40 111 111 104 41 45 104 45 105 115 111 109 101 114 105 122 97 116 105 111 110 0 
+InsertSearchKeys:
+(         0,(null)): 69 67 0 0 
+(     17221,(null)): 69 67 0 0 
+(         0,AlkoxyFromPeroxy-RRH): 65 108 107 111 120 121 70 114 111 109 80 101 114 111 120 121 45 82 82 72 0 
+InsertSearchKeys:
+(         0,(null)): 50 -14 0 0 
+(     62002,(null)): 50 -14 0 0 
+(         0,KetoAldCRadDecomp-R-HH-HH): 75 101 116 111 65 108 100 67 82 97 100 68 101 99 111 109 112 45 82 45 72 72 45 72 72 0 
+InsertSearchKeys:
+(         0,(null)): 61 -14 0 0 
+(     62013,(null)): 61 -14 0 0 
+(         0,KetoAldCRadDecomp-H-HH-RR): 75 101 116 111 65 108 100 67 82 97 100 68 101 99 111 109 112 45 72 45 72 72 45 82 82 0 
+InsertSearchKeys:
+(         0,(null)): -60 11 0 0 
+(      3012,(null)): -60 11 0 0 
+(         0,Intramolecular-1-5-QOOH-Formation): 73 110 116 114 97 109 111 108 101 99 117 108 97 114 45 49 45 53 45 81 79 79 72 45 70 111 114 109 97 116 105 111 110 0 
+InsertSearchKeys:
+(         0,(null)): 78 -18 0 0 
+(     61006,(null)): 78 -18 0 0 
+(         0,KetoAldDecomp-O2-RHH): 75 101 116 111 65 108 100 68 101 99 111 109 112 45 79 50 45 82 72 72 0 
+InsertSearchKeys:
+(         0,(null)): 26 -10 0 0 
+(     63002,(null)): 26 -10 0 0 
+(         0,DiKetoAldDecomp-RHHH): 68 105 75 101 116 111 65 108 100 68 101 99 111 109 112 45 82 72 72 72 0 
+InsertSearchKeys:
+(         0,(null)): 33 -10 0 0 
+(     63009,(null)): 33 -10 0 0 
+(         0,DiKetoAldDecomp-HRHR): 68 105 75 101 116 111 65 108 100 68 101 99 111 109 112 45 72 82 72 82 0 
+InsertSearchKeys:
+(         0,(null)): 67 31 0 0 
+(      8003,(null)): 67 31 0 0 
+(         0,H-Alkenyl-Abs-Hydrogen-Radical-(rh)(h)): 72 45 65 108 107 101 110 121 108 45 65 98 115 45 72 121 100 114 111 103 101 110 45 82 97 100 105 99 97 108 45 40 114 104 41 40 104 41 0 
+InsertSearchKeys:
+(         0,(null)): 22 39 0 0 
+(     10006,(null)): 22 39 0 0 
+(         0,ethyl-radical(hh)(rrh)-oxidation-to-olefin): 101 116 104 121 108 45 114 97 100 105 99 97 108 40 104 104 41 40 114 114 104 41 45 111 120 105 100 97 116 105 111 110 45 116 111 45 111 108 101 102 105 110 0 
+InsertSearchKeys:
+(         0,(null)): 59 -14 0 0 
+(     62011,(null)): 59 -14 0 0 
+(         0,KetoAldCRadDecomp-H-RR-RH): 75 101 116 111 65 108 100 67 82 97 100 68 101 99 111 109 112 45 72 45 82 82 45 82 72 0 
+InsertSearchKeys:
+(         0,(null)): -64 93 0 0 
+(     24000,(null)): -64 93 0 0 
+(         0,KetoHydroPeroxideDecomposition): 75 101 116 111 72 121 100 114 111 80 101 114 111 120 105 100 101 68 101 99 111 109 112 111 115 105 116 105 111 110 0 
+InsertSearchKeys:
+(         0,(null)): 34 -10 0 0 
+(     63010,(null)): 34 -10 0 0 
+(         0,DiKetoAldDecomp-RRHR): 68 105 75 101 116 111 65 108 100 68 101 99 111 109 112 45 82 82 72 82 0 
+InsertSearchKeys:
+(         0,(null)): 31 -10 0 0 
+(     63007,(null)): 31 -10 0 0 
+(         0,DiKetoAldDecomp-HHHR): 68 105 75 101 116 111 65 108 100 68 101 99 111 109 112 45 72 72 72 82 0 
+InsertSearchKeys:
+(         0,(null)): 35 -10 0 0 
+(     63011,(null)): 35 -10 0 0 
+(         0,DiKetoAldDecomp-HRRR): 68 105 75 101 116 111 65 108 100 68 101 99 111 109 112 45 72 82 82 82 0 
+InsertSearchKeys:
+(         0,(null)): 114 56 0 0 
+(     14450,(null)): 114 56 0 0 
+(         0,EightRing-chain-h-isomerization): 69 105 103 104 116 82 105 110 103 45 99 104 97 105 110 45 104 45 105 115 111 109 101 114 105 122 97 116 105 111 110 0 
+InsertSearchKeys:
+(         0,(null)): 0 0 0 0 
+(         0,(null)): 0 0 0 0 
+(         0,$$$$): 36 36 36 36 0 
+InsertSearchKeys:
+(         0,(null)): 30 12 0 0 
+(      3102,(null)): 30 12 0 0 
+(         0,BetaOlefinDecomp(qq)(q)(rh)(hhh)): 66 101 116 97 79 108 101 102 105 110 68 101 99 111 109 112 40 113 113 41 40 113 41 40 114 104 41 40 104 104 104 41 0 
+InsertSearchKeys:
+(         0,(null)): -105 17 3 0 
+(    201111,(null)): -105 17 3 0 
+(         0,BetaHPeroxyToOlefin-HHHH): 66 101 116 97 72 80 101 114 111 120 121 84 111 79 108 101 102 105 110 45 72 72 72 72 0 
+InsertSearchKeys:
+(         0,(null)): 29 82 0 0 
+(     21021,(null)): 29 82 0 0 
+(         0,OlefinCarbonylFromPeroxy-RH): 79 108 101 102 105 110 67 97 114 98 111 110 121 108 70 114 111 109 80 101 114 111 120 121 45 82 72 0 
+InsertSearchKeys:
+(         0,(null)): 32 12 0 0 
+(      3104,(null)): 32 12 0 0 
+(         0,BetaOlefinDecomp(qq)(q)(hh)(rhh)): 66 101 116 97 79 108 101 102 105 110 68 101 99 111 109 112 40 113 113 41 40 113 41 40 104 104 41 40 114 104 104 41 0 
+InsertSearchKeys:
+(         0,(null)): 34 12 0 0 
+(      3106,(null)): 34 12 0 0 
+(         0,BetaOlefinDecomp(qq)(q)(rr)(rhh)): 66 101 116 97 79 108 101 102 105 110 68 101 99 111 109 112 40 113 113 41 40 113 41 40 114 114 41 40 114 104 104 41 0 
+InsertSearchKeys:
+(         0,(null)): 36 12 0 0 
+(      3108,(null)): 36 12 0 0 
+(         0,BetaOlefinDecomp(qq)(q)(rh)(rrh)): 66 101 116 97 79 108 101 102 105 110 68 101 99 111 109 112 40 113 113 41 40 113 41 40 114 104 41 40 114 114 104 41 0 
+InsertSearchKeys:
+(         0,(null)): 65 31 0 0 
+(      8001,(null)): 65 31 0 0 
+(         0,H-Alkenyl-Abs-Hydrogen-Radical-(hh)(h)): 72 45 65 108 107 101 110 121 108 45 65 98 115 45 72 121 100 114 111 103 101 110 45 82 97 100 105 99 97 108 45 40 104 104 41 40 104 41 0 
+InsertSearchKeys:
+(         0,(null)): 20 39 0 0 
+(     10004,(null)): 20 39 0 0 
+(         0,ethyl-radical(rr)(hhh)-oxidation-to-olefin): 101 116 104 121 108 45 114 97 100 105 99 97 108 40 114 114 41 40 104 104 104 41 45 111 120 105 100 97 116 105 111 110 45 116 111 45 111 108 101 102 105 110 0 
+InsertSearchKeys:
+(         0,(null)): -49 93 0 0 
+(     24015,(null)): -49 93 0 0 
+(         0,KetoHydroPeroxideDecompToAldRadical-CRHRH): 75 101 116 111 72 121 100 114 111 80 101 114 111 120 105 100 101 68 101 99 111 109 112 84 111 65 108 100 82 97 100 105 99 97 108 45 67 82 72 82 72 0 
+InsertSearchKeys:
+(         0,(null)): 37 12 0 0 
+(      3109,(null)): 37 12 0 0 
+(         0,BetaOlefinDecomp(qq)(q)(rr)(rrh)): 66 101 116 97 79 108 101 102 105 110 68 101 99 111 109 112 40 113 113 41 40 113 41 40 114 114 41 40 114 114 104 41 0 
+InsertSearchKeys:
+(         0,(null)): 38 12 0 0 
+(      3110,(null)): 38 12 0 0 
+(         0,BetaOlefinDecomp(qq)(q)(hh)(rrr)): 66 101 116 97 79 108 101 102 105 110 68 101 99 111 109 112 40 113 113 41 40 113 41 40 104 104 41 40 114 114 114 41 0 
+InsertSearchKeys:
+(         0,(null)): 29 -10 0 0 
+(     63005,(null)): 29 -10 0 0 
+(         0,DiKetoAldDecomp-HRRH): 68 105 75 101 116 111 65 108 100 68 101 99 111 109 112 45 72 82 82 72 0 
+InsertSearchKeys:
+(         0,(null)): 39 12 0 0 
+(      3111,(null)): 39 12 0 0 
+(         0,BetaOlefinDecomp(qq)(q)(rh)(rrr)): 66 101 116 97 79 108 101 102 105 110 68 101 99 111 109 112 40 113 113 41 40 113 41 40 114 104 41 40 114 114 114 41 0 
+InsertSearchKeys:
+(         0,(null)): 112 56 0 0 
+(     14448,(null)): 112 56 0 0 
+(         0,SixRing-chain-h-isomerization): 83 105 120 82 105 110 103 45 99 104 97 105 110 45 104 45 105 115 111 109 101 114 105 122 97 116 105 111 110 0 
+InsertSearchKeys:
+(         0,(null)): 40 12 0 0 
+(      3112,(null)): 40 12 0 0 
+(         0,BetaOlefinDecomp(qq)(q)(rr)(rrr)): 66 101 116 97 79 108 101 102 105 110 68 101 99 111 109 112 40 113 113 41 40 113 41 40 114 114 41 40 114 114 114 41 0 
+InsertSearchKeys:
+(         0,(null)): 35 12 0 0 
+(      3107,(null)): 35 12 0 0 
+(         0,BetaOlefinDecomp(qq)(q)(hh)(rrh)): 66 101 116 97 79 108 101 102 105 110 68 101 99 111 109 112 40 113 113 41 40 113 41 40 104 104 41 40 114 114 104 41 0 
+InsertSearchKeys:
+(         0,(null)): -127 12 0 0 
+(      3201,(null)): -127 12 0 0 
+(         0,OlefinToAldehydeDecomp-(hh)(hh)): 79 108 101 102 105 110 84 111 65 108 100 101 104 121 100 101 68 101 99 111 109 112 45 40 104 104 41 40 104 104 41 0 
+InsertSearchKeys:
+(         0,(null)): -50 91 0 0 
+(     23502,(null)): -50 91 0 0 
+(         0,OOQOOH-Isomerization-5Ring-Secondary): 79 79 81 79 79 72 45 73 115 111 109 101 114 105 122 97 116 105 111 110 45 53 82 105 110 103 45 83 101 99 111 110 100 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): -64 11 0 0 
+(      3008,(null)): -64 11 0 0 
+(         0,H-Alkene-Add-Hydrogen-Radical-(rr)(rr)): 72 45 65 108 107 101 110 101 45 65 100 100 45 72 121 100 114 111 103 101 110 45 82 97 100 105 99 97 108 45 40 114 114 41 40 114 114 41 0 
+InsertSearchKeys:
+(         0,(null)): 80 31 0 0 
+(      8016,(null)): 80 31 0 0 
+(         0,H-Alkenyl-Abs-Oxygen-Radical-(rr)(r)): 72 45 65 108 107 101 110 121 108 45 65 98 115 45 79 120 121 103 101 110 45 82 97 100 105 99 97 108 45 40 114 114 41 40 114 41 0 
+InsertSearchKeys:
+(         0,(null)): 49 4 0 0 
+(      1073,(null)): 49 4 0 0 
+(         0,H-Abstraction-Methoxy-Tertiary): 72 45 65 98 115 116 114 97 99 116 105 111 110 45 77 101 116 104 111 120 121 45 84 101 114 116 105 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): 69 4 0 0 
+(      1093,(null)): 69 4 0 0 
+(         0,H-Abstraction-EthenylRadical-Tertiary): 72 45 65 98 115 116 114 97 99 116 105 111 110 45 69 116 104 101 110 121 108 82 97 100 105 99 97 108 45 84 101 114 116 105 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): 18 39 0 0 
+(     10002,(null)): 18 39 0 0 
+(         0,ethyl-radical(rh)(hhh)-oxidation-to-olefin): 101 116 104 121 108 45 114 97 100 105 99 97 108 40 114 104 41 40 104 104 104 41 45 111 120 105 100 97 116 105 111 110 45 116 111 45 111 108 101 102 105 110 0 
+InsertSearchKeys:
+(         0,(null)): -115 55 0 0 
+(     14221,(null)): -115 55 0 0 
+(         0,PeroxyFromHydrogenPeroxide-RRH): 80 101 114 111 120 121 70 114 111 109 72 121 100 114 111 103 101 110 80 101 114 111 120 105 100 101 45 82 82 72 0 
+InsertSearchKeys:
+(         0,(null)): 61 74 0 0 
+(     19005,(null)): 61 74 0 0 
+(         0,CyclicEtherFromQOOH-5Ring): 67 121 99 108 105 99 69 116 104 101 114 70 114 111 109 81 79 79 72 45 53 82 105 110 103 0 
+InsertSearchKeys:
+(         0,(null)): -51 93 0 0 
+(     24013,(null)): -51 93 0 0 
+(         0,KetoHydroPeroxideDecompToAldRadical-CHHRR): 75 101 116 111 72 121 100 114 111 80 101 114 111 120 105 100 101 68 101 99 111 109 112 84 111 65 108 100 82 97 100 105 99 97 108 45 67 72 72 82 82 0 
+InsertSearchKeys:
+(         0,(null)): 100 31 0 0 
+(      8036,(null)): 100 31 0 0 
+(         0,H-Alkenyl-Abs-Methane-Carbon-Radical-(rr)(r)): 72 45 65 108 107 101 110 121 108 45 65 98 115 45 77 101 116 104 97 110 101 45 67 97 114 98 111 110 45 82 97 100 105 99 97 108 45 40 114 114 41 40 114 41 0 
+InsertSearchKeys:
+(         0,(null)): 89 31 0 0 
+(      8025,(null)): 89 31 0 0 
+(         0,H-Alkenyl-Abs-Hydroxyl-Radical-(rr)(h)): 72 45 65 108 107 101 110 121 108 45 65 98 115 45 72 121 100 114 111 120 121 108 45 82 97 100 105 99 97 108 45 40 114 114 41 40 104 41 0 
+InsertSearchKeys:
+(         0,(null)): 58 4 0 0 
+(      1082,(null)): 58 4 0 0 
+(         0,H-Abstraction-EthylRadical-Secondary): 72 45 65 98 115 116 114 97 99 116 105 111 110 45 69 116 104 121 108 82 97 100 105 99 97 108 45 83 101 99 111 110 100 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): -38 7 0 0 
+(      2010,(null)): -38 7 0 0 
+(         0,Primary-Carbon-Radical-(R.+O2-->RO2.)): 80 114 105 109 97 114 121 45 67 97 114 98 111 110 45 82 97 100 105 99 97 108 45 40 82 46 43 79 50 45 45 62 82 79 50 46 41 0 
+InsertSearchKeys:
+(         0,(null)): 97 -22 0 0 
+(     60001,(null)): 97 -22 0 0 
+(         0,KetoneRadicalDecomp-HHH): 75 101 116 111 110 101 82 97 100 105 99 97 108 68 101 99 111 109 112 45 72 72 72 0 
+InsertSearchKeys:
+(         0,(null)): 31 55 0 0 
+(     14111,(null)): 31 55 0 0 
+(         0,PeroxyFromHydrogenPeroxide-HHH): 80 101 114 111 120 121 70 114 111 109 72 121 100 114 111 103 101 110 80 101 114 111 120 105 100 101 45 72 72 72 0 
+InsertSearchKeys:
+(         0,(null)): -66 11 0 0 
+(      3006,(null)): -66 11 0 0 
+(         0,H-Alkene-Add-Hydrogen-Radical-(rr)(rh)): 72 45 65 108 107 101 110 101 45 65 100 100 45 72 121 100 114 111 103 101 110 45 82 97 100 105 99 97 108 45 40 114 114 41 40 114 104 41 0 
+InsertSearchKeys:
+(         0,(null)): 27 -10 0 0 
+(     63003,(null)): 27 -10 0 0 
+(         0,DiKetoAldDecomp-HRHH): 68 105 75 101 116 111 65 108 100 68 101 99 111 109 112 45 72 82 72 72 0 
+InsertSearchKeys:
+(         0,(null)): 78 31 0 0 
+(      8014,(null)): 78 31 0 0 
+(         0,H-Alkenyl-Abs-Oxygen-Radical-(rh)(r)): 72 45 65 108 107 101 110 121 108 45 65 98 115 45 79 120 121 103 101 110 45 82 97 100 105 99 97 108 45 40 114 104 41 40 114 41 0 
+InsertSearchKeys:
+(         0,(null)): 47 4 0 0 
+(      1071,(null)): 47 4 0 0 
+(         0,H-Abstraction-Methoxy-Primary): 72 45 65 98 115 116 114 97 99 116 105 111 110 45 77 101 116 104 111 120 121 45 80 114 105 109 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): 67 4 0 0 
+(      1091,(null)): 67 4 0 0 
+(         0,H-Abstraction-EthenylRadical-Primary): 72 45 65 98 115 116 114 97 99 116 105 111 110 45 69 116 104 101 110 121 108 82 97 100 105 99 97 108 45 80 114 105 109 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): 59 74 0 0 
+(     19003,(null)): 59 74 0 0 
+(         0,CyclicEtherFromQOOH-3Ring): 67 121 99 108 105 99 69 116 104 101 114 70 114 111 109 81 79 79 72 45 51 82 105 110 103 0 
+InsertSearchKeys:
+(         0,(null)): 105 91 0 0 
+(     23401,(null)): 105 91 0 0 
+(         0,OOQOOH-Isomerization-4Ring-Primary): 79 79 81 79 79 72 45 73 115 111 109 101 114 105 122 97 116 105 111 110 45 52 82 105 110 103 45 80 114 105 109 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): -53 93 0 0 
+(     24011,(null)): -53 93 0 0 
+(         0,KetoHydroPeroxideDecompToAldRadical-CHHHH): 75 101 116 111 72 121 100 114 111 80 101 114 111 120 105 100 101 68 101 99 111 109 112 84 111 65 108 100 82 97 100 105 99 97 108 45 67 72 72 72 72 0 
+InsertSearchKeys:
+(         0,(null)): 98 31 0 0 
+(      8034,(null)): 98 31 0 0 
+(         0,H-Alkenyl-Abs-Methane-Carbon-Radical-(rh)(r)): 72 45 65 108 107 101 110 121 108 45 65 98 115 45 77 101 116 104 97 110 101 45 67 97 114 98 111 110 45 82 97 100 105 99 97 108 45 40 114 104 41 40 114 41 0 
+InsertSearchKeys:
+(         0,(null)): 25 -10 0 0 
+(     63001,(null)): 25 -10 0 0 
+(         0,DiKetoAldDecomp-HHHH): 68 105 75 101 116 111 65 108 100 68 101 99 111 109 112 45 72 72 72 72 0 
+InsertSearchKeys:
+(         0,(null)): 87 31 0 0 
+(      8023,(null)): 87 31 0 0 
+(         0,H-Alkenyl-Abs-Hydroxyl-Radical-(rh)(h)): 72 45 65 108 107 101 110 121 108 45 65 98 115 45 72 121 100 114 111 120 121 108 45 82 97 100 105 99 97 108 45 40 114 104 41 40 104 41 0 
+InsertSearchKeys:
+(         0,(null)): 33 12 0 0 
+(      3105,(null)): 33 12 0 0 
+(         0,BetaOlefinDecomp(qq)(q)(rh)(rhh)): 66 101 116 97 79 108 101 102 105 110 68 101 99 111 109 112 40 113 113 41 40 113 41 40 114 104 41 40 114 104 104 41 0 
+InsertSearchKeys:
+(         0,(null)): 19 4 0 0 
+(      1043,(null)): 19 4 0 0 
+(         0,H-Abstraction-Oxygen-Tertiary): 72 45 65 98 115 116 114 97 99 116 105 111 110 45 79 120 121 103 101 110 45 84 101 114 116 105 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): 25 39 0 0 
+(     10009,(null)): 25 39 0 0 
+(         0,ethyl-radical(rr)(rrh)-oxidation-to-olefin): 101 116 104 121 108 45 114 97 100 105 99 97 108 40 114 114 41 40 114 114 104 41 45 111 120 105 100 97 116 105 111 110 45 116 111 45 111 108 101 102 105 110 0 
+InsertSearchKeys:
+(         0,(null)): -94 17 3 0 
+(    201122,(null)): -94 17 3 0 
+(         0,BetaHPeroxyToOlefin-HHRR): 66 101 116 97 72 80 101 114 111 120 121 84 111 79 108 101 102 105 110 45 72 72 82 82 0 
+InsertSearchKeys:
+(         0,(null)): -68 11 0 0 
+(      3004,(null)): -68 11 0 0 
+(         0,H-Alkene-Add-Hydrogen-Radical-(rr)(hh)): 72 45 65 108 107 101 110 101 45 65 100 100 45 72 121 100 114 111 103 101 110 45 82 97 100 105 99 97 108 45 40 114 114 41 40 104 104 41 0 
+InsertSearchKeys:
+(         0,(null)): 76 -18 0 0 
+(     61004,(null)): 76 -18 0 0 
+(         0,KetoAldDecomp-OH-RRR): 75 101 116 111 65 108 100 68 101 99 111 109 112 45 79 72 45 82 82 82 0 
+InsertSearchKeys:
+(         0,(null)): 76 31 0 0 
+(      8012,(null)): 76 31 0 0 
+(         0,H-Alkenyl-Abs-Oxygen-Radical-(hh)(r)): 72 45 65 108 107 101 110 121 108 45 65 98 115 45 79 120 121 103 101 110 45 82 97 100 105 99 97 108 45 40 104 104 41 40 114 41 0 
+InsertSearchKeys:
+(         0,(null)): 31 12 0 0 
+(      3103,(null)): 31 12 0 0 
+(         0,BetaOlefinDecomp(qq)(q)(rr)(hhh)): 66 101 116 97 79 108 101 102 105 110 68 101 99 111 109 112 40 113 113 41 40 113 41 40 114 114 41 40 104 104 104 41 0 
+InsertSearchKeys:
+(         0,(null)): 8 4 0 0 
+(      1032,(null)): 8 4 0 0 
+(         0,H-Abstraction-Oxygen-Radical-Secondary): 72 45 65 98 115 116 114 97 99 116 105 111 110 45 79 120 121 103 101 110 45 82 97 100 105 99 97 108 45 83 101 99 111 110 100 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): -126 12 0 0 
+(      3202,(null)): -126 12 0 0 
+(         0,OlefinToAldehydeDecomp-(rh)(hh)): 79 108 101 102 105 110 84 111 65 108 100 101 104 121 100 101 68 101 99 111 109 112 45 40 114 104 41 40 104 104 41 0 
+InsertSearchKeys:
+(         0,(null)): -125 12 0 0 
+(      3203,(null)): -125 12 0 0 
+(         0,OlefinToAldehydeDecomp-(rr)(hh)): 79 108 101 102 105 110 84 111 65 108 100 101 104 121 100 101 68 101 99 111 109 112 45 40 114 114 41 40 104 104 41 0 
+InsertSearchKeys:
+(         0,(null)): -124 12 0 0 
+(      3204,(null)): -124 12 0 0 
+(         0,OlefinToAldehydeDecomp-(hh)(rh)): 79 108 101 102 105 110 84 111 65 108 100 101 104 121 100 101 68 101 99 111 109 112 45 40 104 104 41 40 114 104 41 0 
+InsertSearchKeys:
+(         0,(null)): -59 11 0 0 
+(      3013,(null)): -59 11 0 0 
+(         0,Intramolecular-1-6-QOOH-Formation): 73 110 116 114 97 109 111 108 101 99 117 108 97 114 45 49 45 54 45 81 79 79 72 45 70 111 114 109 97 116 105 111 110 0 
+InsertSearchKeys:
+(         0,(null)): -19 21 3 0 
+(    202221,(null)): -19 21 3 0 
+(         0,BetaHPeroxyToOlefin-RRRH): 66 101 116 97 72 80 101 114 111 120 121 84 111 79 108 101 102 105 110 45 82 82 82 72 0 
+InsertSearchKeys:
+(         0,(null)): 85 31 0 0 
+(      8021,(null)): 85 31 0 0 
+(         0,H-Alkenyl-Abs-Hydroxyl-Radical-(hh)(h)): 72 45 65 108 107 101 110 121 108 45 65 98 115 45 72 121 100 114 111 120 121 108 45 82 97 100 105 99 97 108 45 40 104 104 41 40 104 41 0 
+InsertSearchKeys:
+(         0,(null)): 57 -14 0 0 
+(     62009,(null)): 57 -14 0 0 
+(         0,KetoAldCRadDecomp-H-RH-RH): 75 101 116 111 65 108 100 67 82 97 100 68 101 99 111 109 112 45 72 45 82 72 45 82 72 0 
+InsertSearchKeys:
+(         0,(null)): 17 4 0 0 
+(      1041,(null)): 17 4 0 0 
+(         0,H-Abstraction-Oxygen-Primary): 72 45 65 98 115 116 114 97 99 116 105 111 110 45 79 120 121 103 101 110 45 80 114 105 109 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): 23 39 0 0 
+(     10007,(null)): 23 39 0 0 
+(         0,ethyl-radical(rr)(rhh)-oxidation-to-olefin): 101 116 104 121 108 45 114 97 100 105 99 97 108 40 114 114 41 40 114 104 104 41 45 111 120 105 100 97 116 105 111 110 45 116 111 45 111 108 101 102 105 110 0 
+InsertSearchKeys:
+(         0,(null)): -46 93 0 0 
+(     24018,(null)): -46 93 0 0 
+(         0,KetoHydroPeroxideDecompToAldRadical-CRRRH): 75 101 116 111 72 121 100 114 111 80 101 114 111 120 105 100 101 68 101 99 111 109 112 84 111 65 108 100 82 97 100 105 99 97 108 45 67 82 82 82 72 0 
+InsertSearchKeys:
+(         0,(null)): -70 11 0 0 
+(      3002,(null)): -70 11 0 0 
+(         0,H-Alkene-Add-Hydrogen-Radical-(rh)(hh)): 72 45 65 108 107 101 110 101 45 65 100 100 45 72 121 100 114 111 103 101 110 45 82 97 100 105 99 97 108 45 40 114 104 41 40 104 104 41 0 
+InsertSearchKeys:
+(         0,(null)): 74 -18 0 0 
+(     61002,(null)): 74 -18 0 0 
+(         0,KetoAldDecomp-OH-RHH): 75 101 116 111 65 108 100 68 101 99 111 109 112 45 79 72 45 82 72 72 0 
+InsertSearchKeys:
+(         0,(null)): 49 92 0 0 
+(     23601,(null)): 49 92 0 0 
+(         0,OOQOOH-Isomerization-6Ring-Primary): 79 79 81 79 79 72 45 73 115 111 109 101 114 105 122 97 116 105 111 110 45 54 82 105 110 103 45 80 114 105 109 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): 127 21 3 0 
+(    202111,(null)): 127 21 3 0 
+(         0,BetaHPeroxyToOlefin-RHHH): 66 101 116 97 72 80 101 114 111 120 121 84 111 79 108 101 102 105 110 45 82 72 72 72 0 
+InsertSearchKeys:
+(         0,(null)): 66 -14 0 0 
+(     62018,(null)): 66 -14 0 0 
+(         0,KetoAldCRadDecomp-R-RR-RR): 75 101 116 111 65 108 100 67 82 97 100 68 101 99 111 109 112 45 82 45 82 82 45 82 82 0 
+InsertSearchKeys:
+(         0,(null)): 29 12 0 0 
+(      3101,(null)): 29 12 0 0 
+(         0,BetaOlefinDecomp(qq)(q)(hh)(hhh)): 66 101 116 97 79 108 101 102 105 110 68 101 99 111 109 112 40 113 113 41 40 113 41 40 104 104 41 40 104 104 104 41 0 
+InsertSearchKeys:
+(         0,(null)): -123 12 0 0 
+(      3205,(null)): -123 12 0 0 
+(         0,OlefinToAldehydeDecomp-(rh)(rh)): 79 108 101 102 105 110 84 111 65 108 100 101 104 121 100 101 68 101 99 111 109 112 45 40 114 104 41 40 114 104 41 0 
+InsertSearchKeys:
+(         0,(null)): -61 11 0 0 
+(      3011,(null)): -61 11 0 0 
+(         0,Intramolecular-1-4-QOOH-Formation): 73 110 116 114 97 109 111 108 101 99 117 108 97 114 45 49 45 52 45 81 79 79 72 45 70 111 114 109 97 116 105 111 110 0 
+InsertSearchKeys:
+(         0,(null)): 100 -22 0 0 
+(     60004,(null)): 100 -22 0 0 
+(         0,KetoneRadicalDecomp-RRR): 75 101 116 111 110 101 82 97 100 105 99 97 108 68 101 99 111 109 112 45 82 82 82 0 
+InsertSearchKeys:
+(         0,(null)): 55 -14 0 0 
+(     62007,(null)): 55 -14 0 0 
+(         0,KetoAldCRadDecomp-H-HH-RH): 75 101 116 111 65 108 100 67 82 97 100 68 101 99 111 109 112 45 72 45 72 72 45 82 72 0 
+InsertSearchKeys:
+(         0,(null)): -122 12 0 0 
+(      3206,(null)): -122 12 0 0 
+(         0,OlefinToAldehydeDecomp-(rr)(rh)): 79 108 101 102 105 110 84 111 65 108 100 101 104 121 100 101 68 101 99 111 109 112 45 40 114 114 41 40 114 104 41 0 
+InsertSearchKeys:
+(         0,(null)): -120 12 0 0 
+(      3208,(null)): -120 12 0 0 
+(         0,OlefinToAldehydeDecomp-(rh)(rr)): 79 108 101 102 105 110 84 111 65 108 100 101 104 121 100 101 68 101 99 111 109 112 45 40 114 104 41 40 114 114 41 0 
+InsertSearchKeys:
+(         0,(null)): 21 39 0 0 
+(     10005,(null)): 21 39 0 0 
+(         0,ethyl-radical(rh)(rhh)-oxidation-to-olefin): 101 116 104 121 108 45 114 97 100 105 99 97 108 40 114 104 41 40 114 104 104 41 45 111 120 105 100 97 116 105 111 110 45 116 111 45 111 108 101 102 105 110 0 
+InsertSearchKeys:
+(         0,(null)): 19 82 0 0 
+(     21011,(null)): 19 82 0 0 
+(         0,OlefinCarbonylFromPeroxy-HH): 79 108 101 102 105 110 67 97 114 98 111 110 121 108 70 114 111 109 80 101 114 111 120 121 45 72 72 0 
+InsertSearchKeys:
+(         0,(null)): -48 93 0 0 
+(     24016,(null)): -48 93 0 0 
+(         0,KetoHydroPeroxideDecompToAldRadical-CRHRR): 75 101 116 111 72 121 100 114 111 80 101 114 111 120 105 100 101 68 101 99 111 109 112 84 111 65 108 100 82 97 100 105 99 97 108 45 67 82 72 82 82 0 
+InsertSearchKeys:
+(         0,(null)): -119 12 0 0 
+(      3209,(null)): -119 12 0 0 
+(         0,OlefinToAldehydeDecomp-(rr)(rr)): 79 108 101 102 105 110 84 111 65 108 100 101 104 121 100 101 68 101 99 111 109 112 45 40 114 114 41 40 114 114 41 0 
+InsertSearchKeys:
+(         0,(null)): 78 4 0 0 
+(      1102,(null)): 78 4 0 0 
+(         0,H-Abstraction-MethylPeroxyl-Secondary): 72 45 65 98 115 116 114 97 99 116 105 111 110 45 77 101 116 104 121 108 80 101 114 111 120 121 108 45 83 101 99 111 110 100 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): -18 7 0 0 
+(      2030,(null)): -18 7 0 0 
+(         0,Tertiary-Carbon-Radical-(R.+O2-->RO2.)): 84 101 114 116 105 97 114 121 45 67 97 114 98 111 110 45 82 97 100 105 99 97 108 45 40 82 46 43 79 50 45 45 62 82 79 50 46 41 0 
+InsertSearchKeys:
+(         0,(null)): 64 -14 0 0 
+(     62016,(null)): 64 -14 0 0 
+(         0,KetoAldCRadDecomp-R-RH-RR): 75 101 116 111 65 108 100 67 82 97 100 68 101 99 111 109 112 45 82 45 82 72 45 82 82 0 
+InsertSearchKeys:
+(         0,(null)): -1 3 0 0 
+(      1023,(null)): -1 3 0 0 
+(         0,H-Abstraction-Hydroxyl-Radical-Tertiary): 72 45 65 98 115 116 114 97 99 116 105 111 110 45 72 121 100 114 111 120 121 108 45 82 97 100 105 99 97 108 45 84 101 114 116 105 97 114 121 0 
+InsertSearchKeys:
+(         0,(null)): -59 93 0 0 
+(     24005,(null)): -59 93 0 0 
+(         0,KetoHydroPeroxideDecompToAldRadical-RRH): 75 101 116 111 72 121 100 114 111 80 101 114 111 120 105 100 101 68 101 99 111 109 112 84 111 65 108 100 82 97 100 105 99 97 108 45 82 82 72 0 
+InsertSearchKeys:
+(         0,(null)): 36 -10 0 0 
+(     63012,(null)): 36 -10 0 0 
+(         0,DiKetoAldDecomp-RRRR): 68 105 75 101 116 111 65 108 100 68 101 99 111 109 112 45 82 82 82 82 0 
+InsertSearchKeys:
+(         0,(null)): -121 12 0 0 
+(      3207,(null)): -121 12 0 0 
+(         0,OlefinToAldehydeDecomp-(hh)(rr)): 79 108 101 102 105 110 84 111 65 108 100 101 104 121 100 101 68 101 99 111 109 112 45 40 104 104 41 40 114 114 41 0 
+InsertSearchKeys:
+(         0,(null)): 98 -22 0 0 
+(     60002,(null)): 98 -22 0 0 
+(         0,KetoneRadicalDecomp-RHH): 75 101 116 111 110 101 82 97 100 105 99 97 108 68 101 99 111 109 112 45 82 72 72 0 
+InsertSearchKeys:
+(         0,(null)): 53 -14 0 0 
+(     62005,(null)): 53 -14 0 0 
+(         0,KetoAldCRadDecomp-H-RR-HH): 75 101 116 111 65 108 100 67 82 97 100 68 101 99 111 109 112 45 72 45 82 82 45 72 72 0 
+InsertSearchKeys:
+(         0,(null)): -50 93 0 0 
+(     24014,(null)): -50 93 0 0 
+(         0,KetoHydroPeroxideDecompToAldRadical-CRHHH): 75 101 116 111 72 121 100 114 111 80 101 114 111 120 105 100 101 68 101 99 111 109 112 84 111 65 108 100 82 97 100 105 99 97 108 45 67 82 72 72 72 0 
+Keys>> Write
+Command:Write
+Keys>> Quit
+RxnPatterns>> Quit
+DbaseOps>> Quit
+main>> Quit
+~/react/data/rxn/rxnpats 

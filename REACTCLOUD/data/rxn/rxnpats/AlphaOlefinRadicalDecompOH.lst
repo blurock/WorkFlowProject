@@ -1,0 +1,290 @@
+%%%-------------------------------------------------------------------
+%%% 
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1*2 = 4
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompOH-(hh)(h)(hh) \
+     alphaolefin-radical(hh)(h)(hh) hydroxyl-radical = olefin-(hh)(hh) (h)(h)c(o) 
+- ID 43201
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 2
+10 9                 4
+1 2 4 5 6 10         2 2 2 2 4
+3 9 7 8              4 2 2
+>  <ForwardRxn>
+Standard 1.5e+13 0.0 0.0 4; aC3H5 + OH = C2H4 + HCHO ; Tsang, J. Phys. Chem. Ref Data, 20, 221 (1991)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   4; Set to zero  (need to calculate)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*2 = 2
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompOH-(rh)(h)(hh) \
+     alphaolefin-radical(rh)(h)(hh) hydroxyl-radical = olefin-(rh)(hh) (h)(h)c(o) 
+- ID 43202
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 2
+10 9                 4
+1 2 4 5 6 10         2 2 2 2 4
+3 9 7 8              4 2 2
+>  <ForwardRxn>
+Standard 1.5e+13 0.0 0.0 2; aC3H5 + OH = C2H4 + HCHO ;  Tsang, J. Phys. Chem. Ref Data, 20, 221 (1991)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   2; Set to zero  (need to calculate)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1*2 = 4
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompOH-(rr)(h)(hh) \
+     alphaolefin-radical(rr)(h)(hh) hydroxyl-radical = olefin-(rr)(hh) (h)(h)c(o) 
+- ID 43203
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 2
+10 9                 4
+1 2 4 5 6 10         2 2 2 2 4
+3 9 7 8              4 2 2
+>  <ForwardRxn>
+Standard 1.5e+13 0.0 0.0 4; aC3H5 + OH = C2H4 + HCHO ;  Tsang, J. Phys. Chem. Ref Data, 20, 221 (1991)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   4; Set to zero  (need to calculate)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1*2 = 4
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompOH-(hh)(r)(hh) \
+     alphaolefin-radical(hh)(r)(hh) hydroxyl-radical = olefin-(rh)(hh) (h)(h)c(o) 
+- ID 43204
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 2
+10 9                 4
+2 1 6 10 4 5         2 2 4 2 2
+3 9 7 8              4 2 2
+>  <ForwardRxn>
+Standard 1.5e+13 0.0 0.0 4; aC3H5 + OH = C2H4 + HCHO ; Tsang, J. Phys. Chem. Ref Data, 20, 221 (1991)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   4; Set to zero  (need to calculate)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*2 = 2
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompOH-(rh)(r)(hh) \
+     alphaolefin-radical(rh)(r)(hh) hydroxyl-radical = olefin-(rh)(rh) (h)(h)c(o) 
+- ID 43205
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 2
+10 9                 4
+1 2 4 5 6 10         2 2 2 2 4
+3 9 7 8              4 2 2
+>  <ForwardRxn>
+Standard 1.5e+13 0.0 0.0 2; aC3H5 + OH = C2H4 + HCHO ;  Tsang, J. Phys. Chem. Ref Data, 20, 221 (1991)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   2; Set to zero  (need to calculate)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1*2 = 4
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompOH-(rr)(r)(hh) \
+     alphaolefin-radical(rr)(r)(hh) hydroxyl-radical = olefin-(rr)(rh) (h)(h)c(o) 
+- ID 43206
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 2
+10 9                 4
+1 2 4 5 6 10         2 2 2 2 4
+3 9 7 8              4 2 2
+>  <ForwardRxn>
+Standard 1.5e+13 0.0 0.0 4; aC3H5 + OH = C2H4 + HCHO ;  Tsang, J. Phys. Chem. Ref Data, 20, 221 (1991)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   4; Set to zero  (need to calculate)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1*1 = 2
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompOH-(hh)(h)(rh) \
+     alphaolefin-radical(hh)(h)(rh) hydroxyl-radical = olefin-(hh)(hh) (r)(h)c(o) 
+- ID 43207
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 2
+10 9                 4
+1 2 4 5 6 10         2 2 2 2 4
+3 9 7 8              4 2 2
+>  <ForwardRxn>
+Standard 1.5e+13 0.0 0.0 2; aC3H5 + OH = C2H4 + HCHO ;  Tsang, J. Phys. Chem. Ref Data, 20, 221 (1991)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   2; Set to zero  (need to calculate)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*1 = 1
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompOH-(rh)(h)(rh) \
+     alphaolefin-radical(rh)(h)(rh) hydroxyl-radical = olefin-(rh)(hh) (r)(h)c(o) 
+- ID 43208
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 2
+10 9                 4
+1 2 4 5 6 10         2 2 2 2 4
+3 9 7 8              4 2 2
+>  <ForwardRxn>
+Standard 1.5e+13 0.0 0.0 1; aC3H5 + OH = C2H4 + HCHO ;  Tsang, J. Phys. Chem. Ref Data, 20, 221 (1991)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Set to zero  (need to calculate)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1*1 = 2
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompOH-(rr)(h)(rh) \
+     alphaolefin-radical(rr)(h)(rh) hydroxyl-radical = olefin-(rr)(hh) (r)(h)c(o) 
+- ID 43209
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 2
+10 9                 4
+1 2 4 5 6 10         2 2 2 2 4
+3 9 7 8              4 2 2
+>  <ForwardRxn>
+Standard 1.5e+13 0.0 0.0 2; aC3H5 + OH = C2H4 + HCHO ;  Tsang, J. Phys. Chem. Ref Data, 20, 221 (1991)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   2; Set to zero  (need to calculate)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1*1 = 2
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompOH-(hh)(r)(rh) \
+     alphaolefin-radical(hh)(r)(rh) hydroxyl-radical = olefin-(rh)(hh) (r)(h)c(o) 
+- ID 43210
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 2
+10 9                 4
+2 1 6 10 4 5         2 2 4 2 2
+3 9 7 8              4 2 2
+>  <ForwardRxn>
+Standard 1.5e+13 0.0 0.0 2; aC3H5 + OH = C2H4 + HCHO ;  Tsang, J. Phys. Chem. Ref Data, 20, 221 (1991)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   2; Set to zero  (need to calculate)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*1 = 1
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompOH-(rh)(r)(rh) \
+     alphaolefin-radical(rh)(r)(rh) hydroxyl-radical = olefin-(rh)(rh) (r)(h)c(o) 
+- ID 43211
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 2
+10 9                 4
+1 2 4 5 6 10         2 2 2 2 4
+3 9 7 8              4 2 2
+>  <ForwardRxn>
+Standard 1.5e+13 0.0 0.0 1; aC3H5 + OH = C2H4 + HCHO ;  Tsang, J. Phys. Chem. Ref Data, 20, 221 (1991)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Set to zero  (need to calculate)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1*1 = 2
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompOH-(rr)(r)(rh) \
+     alphaolefin-radical(rr)(r)(rh) hydroxyl-radical = olefin-(rr)(rh) (r)(h)c(o) 
+- ID 43212
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 2
+10 9                 4
+1 2 4 5 6 10         2 2 2 2 4
+3 9 7 8              4 2 2
+>  <ForwardRxn>
+Standard 1.5e+13 0.0 0.0 2; aC3H5 + OH = C2H4 + HCHO ;  Tsang, J. Phys. Chem. Ref Data, 20, 221 (1991)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   2; Set to zero  (need to calculate)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1*2 = 4
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompOH-(hh)(h)(rr) \
+     alphaolefin-radical(hh)(h)(rr) hydroxyl-radical = olefin-(hh)(hh) (r)(r)c(o) 
+- ID 43213
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 2
+10 9                 4
+1 2 4 5 6 10         2 2 2 2 4
+3 9 7 8              4 2 2
+>  <ForwardRxn>
+Standard 1.5e+13 0.0 0.0 4; aC3H5 + OH = C2H4 + HCHO ;  Tsang, J. Phys. Chem. Ref Data, 20, 221 (1991)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   4; Set to zero  (need to calculate)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*2 = 2
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompOH-(rh)(h)(rr) \
+     alphaolefin-radical(rh)(h)(rr) hydroxyl-radical = olefin-(rh)(hh) (r)(r)c(o) 
+- ID 43214
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 2
+10 9                 4
+1 2 4 5 6 10         2 2 2 2 4
+3 9 7 8              4 2 2
+>  <ForwardRxn>
+Standard 1.5e+13 0.0 0.0 2; aC3H5 + OH = C2H4 + HCHO ;  Tsang, J. Phys. Chem. Ref Data, 20, 221 (1991)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   2; Set to zero  (need to calculate)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1*2 = 4
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompOH-(rr)(h)(rr) \
+     alphaolefin-radical(rr)(h)(rr) hydroxyl-radical = olefin-(rr)(hh) (r)(r)c(o) 
+- ID 43215
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 2
+10 9                 4
+1 2 4 5 6 10         2 2 2 2 4
+3 9 7 8              4 2 2
+>  <ForwardRxn>
+Standard 1.5e+13 0.0 0.0 4; aC3H5 + OH = C2H4 + HCHO ;  Tsang, J. Phys. Chem. Ref Data, 20, 221 (1991)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   4; Set to zero  (need to calculate)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1*2 = 4
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompOH-(hh)(r)(rr) \
+     alphaolefin-radical(hh)(r)(rr) hydroxyl-radical = olefin-(rh)(hh) (r)(r)c(o) 
+- ID 43216
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 2
+10 9                 4
+2 1 6 10 4 5         2 2 4 2 2
+3 9 7 8              4 2 2
+>  <ForwardRxn>
+Standard 1.5e+13 0.0 0.0 4; aC3H5 + OH = C2H4 + HCHO ;  Tsang, J. Phys. Chem. Ref Data, 20, 221 (1991)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   4; Set to zero  (need to calculate)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 1*1*2 = 2
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompOH-(rh)(r)(rr) \
+     alphaolefin-radical(rh)(r)(rr) hydroxyl-radical = olefin-(rh)(rh) (r)(r)c(o) 
+- ID 43217
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 2
+10 9                 4
+1 2 4 5 6 10         2 2 2 2 4
+3 9 7 8              4 2 2
+>  <ForwardRxn>
+Standard 1.5e+13 0.0 0.0 2; aC3H5 + OH = C2H4 + HCHO ;  Tsang, J. Phys. Chem. Ref Data, 20, 221 (1991)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   2; Set to zero  (need to calculate)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry 2*1*2 = 4
+%%%-------------------------------------------------------------------
+AlphaOlefinRadicalDecompOH-(rr)(r)(rr) \
+     alphaolefin-radical(rr)(r)(rr) hydroxyl-radical = olefin-(rr)(rh) (r)(r)c(o) 
+- ID 43218
+- Correspondences
+1 2 3 4 5 6 7 8      2 4 2 2 2 2 2
+10 9                 4
+1 2 4 5 6 10         2 2 2 2 4
+3 9 7 8              4 2 2
+>  <ForwardRxn>
+Standard 1.5e+13 0.0 0.0 4; aC3H5 + OH = C2H4 + HCHO ;  Tsang, J. Phys. Chem. Ref Data, 20, 221 (1991)
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   4; Set to zero  (need to calculate)
+$$$$

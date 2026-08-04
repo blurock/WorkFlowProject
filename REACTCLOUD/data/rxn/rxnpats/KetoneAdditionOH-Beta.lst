@@ -1,0 +1,16 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 6*2 = 12
+%%%-------------------------------------------------------------------
+KetoneAdditionOH-Alpha-(h)(hh)\
+   c(qqq)coc(h)c(hh) hydroxyl-radical  = c(qqq)coc(hh) (h)(h)c(o)
+- ID 72811
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11     2 4 2 2 2 2 2 2 2 2
+12 13                       4
+2 13 3 9 10 11 12           4 2 2 2 2 2
+1 4 5 8 7 6                 2 2 2 2 2
+>  <ForwardRxn>
+Standard   1.530E+08  1.53  8.775E+03 12;  Curran, et. al.;   ic3h7coc2h3+oh = ch3cho+ic3h7co
+>  <ReverseRxn>
+Standard   1.013E+03  2.76  2.841E+04 12;  Curran, et. al.;   ic3h7coc2h3+oh = ch3cho+ic3h7co
+$$$$

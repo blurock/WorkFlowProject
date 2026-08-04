@@ -1,0 +1,43 @@
+######################################################
+# This is a file of definitions for the Makefile     #
+######################################################
+
+######################################################
+# Directory Definitions                              #
+######################################################
+
+BACKUPDIR  = $(CCROOT)/backup
+MYLIBDIR   = $(CCROOT)/lib
+BINDIR     = $(CCROOT)/bin
+MAINDIR    = ./$(PROGNAME)
+OSNAME     = $(shell uname -s)
+
+######################################################
+# Library Definitions                                #
+######################################################
+
+LIBNAME    = lib$(PROGNAME).a
+LIBFILE    = $(MYLIBDIR)/$(LIBNAME)
+
+ifeq ($(OSNAME),Darwin)
+EXTRAINCLUDES  =
+EXTRASYSTEMLIBS = -L/opt/homebrew/opt/gdbm/lib -L/opt/local/lib
+else
+EXTRAINCLUDES  = -I/usr/include/tirpc
+EXTRASYSTEMLIBS = -ltirpc
+endif
+# for solaris
+#EXTRASYSTEMLIBS = -lnsl
+######################################################
+# Compiler Type Definitions                          #
+######################################################
+CREATESTRUCT    = $(CCROOT)/bin/createstructures
+CC              = gcc
+#CCOPTIONS       = -g -DCOMDIR='"/home/blurock/react/command"'
+CCOPTIONS       = -g -std=gnu89 -fcommon -Wno-implicit-int -Wno-error=incompatible-pointer-types -Wno-error=implicit-function-declaration $(EXTRAINCLUDES)
+#CCOPTIONS       = -O
+RANLIB          = ranlib
+
+
+
+

@@ -1,0 +1,89 @@
+Structures for Spectrum
+6 Spectrum
+%%% The following are the structures for a general spectrum
+%%% There are two formulations of a spectrum...
+%%%      1. Spectrum Pairs (Spectrum)
+%%%               A Spectrum element consists of a set of pairs of 
+%%%                     'frequency' and 'peak height'
+%%%      2. Spectrum Ranges (SpectrumStandard)
+%%%               A fixed set of frequency ranges and within each 
+%%%               range is a peak.
+%%%
+     SpectrumPair 0 spectrumpair
+         0 Frequency of Point
+           FLOAT Frequency Create
+         1 Peak Height
+           FLOAT PeakHeight Create
+         DONE
+     Spectrum 1 spectrum
+         0 Number of Points in Spectrum
+           INT NumberOfPoints Create
+         1 Set of Points
+           SpectrumPair Points Pointer Create Array=NumberOfPoints
+         DONE
+%%% This is preliminary information about the set of points in the
+%%%        spectrum.  This information is used to set up the intervals
+%%%        for the standard spectrum
+     SpectrumSetData 2 spectrumsetdata
+         0 Largest Frequency
+           FLOAT LargestSetFrequency Create
+         1 Smallest Frequency
+           FLOAT SmallestSetFrequency Create
+         2 Largest Height
+           FLOAT LargestSetHeight Create
+         3 Smallest Height
+           FLOAT SmallestSetHeight Create
+         4 Minimum Allowed Interval
+           FLOAT Interval Create
+         DONE
+%%% This is defining information of a spectrum.
+     SpectrumSetStandard 3 spectrumsetstandard
+         0 Begin Frequency
+           FLOAT BeginFrequency Create
+         1 End Frequency
+           FLOAT EndFrequency Create
+         2 Number of Intervals
+           INT NumberOfIntervals Create
+         3 Interval Size
+           FLOAT Interval Create
+         DONE
+%%% This is the spectrum.  A vector where each element represents an
+%%% interval.  The value of the FLOAT vector element is the peak height.
+     SpectrumStandard 5 spectrumstandard
+         0 Number of Frequencies
+            INT NumberOfFrequencies Create
+         1 Set of Heights
+            FLOAT Heights Pointer Create Array=NumberOfFrequencies
+         DONE
+     SpectrumName 4 spectrumname
+         DONE
+     SpectrumSetOrder 4 spectrumsetorder
+         0 NumberOfSpectrum
+           INT NumberOfSpectra Create
+         1 Ordered List of Names
+           SpectrumName Names Pointer Create Array=NumberOfSpectra
+         DONE
+     SpectrumStandardSet 6 spectrumstandardset
+         0 NumberOfSpectra
+           INT NumberOfSpectra Create
+         1 Standard Spectrum
+           SpectrumStandard Standard Pointer Create Array=NumberOfSpectra
+         2 The Difference Spectra
+           SpectrumStandard Difference Pointer Create Array=NumberOfSpectra
+         DONE
+     SpectrumSet 5 spectrumset
+         0 Number Of Spectra 
+           INT NumberOfSpectra Create
+         1 The set of Spectra
+           Spectrum Spectra Pointer Create Array=NumberOfSpectra
+         2 Data about the set of spectra 
+           SpectrumSetData Data Pointer Create
+         3 Definitions of the Standard Spectrum
+           SpectrumSetStandard Standard Pointer Create
+         4 Set of Standard Spectra
+           SpectrumStandardSet Standards Pointer Create
+         5 Ordering of Names
+           SpectrumSetOrder Order Pointer Create
+         DONE
+DONE
+

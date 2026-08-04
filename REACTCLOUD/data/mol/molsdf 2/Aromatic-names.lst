@@ -1,0 +1,46 @@
+1 Aromatic
+benzene
+- AlternativeNames CHEMKIN A1
+- AlternativeNames Short A1
+toluene
+- AlternativeNames CHEMKIN A1CH3
+- AlternativeNames Short A1CH3
+phenylethane
+- AlternativeNames CHEMKIN A1C2H5
+- AlternativeNames Short A1C2H5
+phenylpropane
+- AlternativeNames CHEMKIN A1C3H7
+- AlternativeNames Short A1C3H8
+phenylethene
+- AlternativeNames CHEMKIN A1C2H3
+- AlternativeNames Short A1C2H
+phenylethyne
+- AlternativeNames CHEMKIN A1C2H
+- AlternativeNames Short A1C2H
+phenylmethanol
+- AlternativeNames CHEMKIN A1COH
+- AlternativeNames Short A1COH
+phenylaldehyde
+- AlternativeNames CHEMKIN A1CHO
+- AlternativeNames Short A1CHO
+phenylaldhyde-radical
+- AlternativeNames CHEMKIN A1CO
+- AlternativeNames Short A1CO
+phenylmethyl-radical
+- AlternativeNames CHEMKIN A1CH2
+- AlternativeNames Short A1CH2
+phenyl-1-ethyl-radical
+- AlternativeNames CHEMKIN A1CHCH3
+- AlternativeNames Short A1CHCH3
+phenyl-2-ethyl-radical
+- AlternativeNames CHEMKIN A1CH2CH2
+- AlternativeNames Short A1CH2CH2
+phenyl-1-ethenyl-radical
+- AlternativeNames CHEMKIN A1CCH2
+- AlternativeNames Short A1CCH2
+phenyl-2-ethenyl-radical
+- AlternativeNames CHEMKIN A1CHCH
+- AlternativeNames Short A1CHCH
+phenyl-radical
+- AlternativeNames CHEMKIN A1-
+- AlternativeNames Short A1-

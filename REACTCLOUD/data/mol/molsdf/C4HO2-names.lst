@@ -1,0 +1,143 @@
+1 C4HO2
+1-hydroperoxybutane
+- AlternativeNames CHEMKIN pc4h9o2h
+- AlternativeNames Short pc4h9o2h
+- AlternativeNames Formula C4H10O2
+2-hydroperoxybutane
+- AlternativeNames CHEMKIN sc4h9o2h
+- AlternativeNames Short sc4h9o2h
+- AlternativeNames Formula C4H10O2
+1-hydroperoxy-2-methylpropane
+- AlternativeNames CHEMKIN ic4h9o2h
+- AlternativeNames Short sc4h9o2h
+- AlternativeNames Formula C4H10O2
+2-hydroperoxy-2-methylpropane
+- AlternativeNames CHEMKIN tc4h9o2h
+- AlternativeNames Short sc4h9o2h
+- AlternativeNames Formula C4H10O2
+1-butylperoxy-radical
+- AlternativeNames CHEMKIN pc4h9o2
+- AlternativeNames Formula C4H9O2
+2-butylperoxy-radical
+- AlternativeNames CHEMKIN sc4h9o2
+- AlternativeNames Formula C4H9O2
+1-butyl-1-hydroperoxy-radical
+- AlternativeNames CHEMKIN c4h8ooh1-1
+- AlternativeNames Formula C4H9O2
+2-butyl-1-hydroperoxy-radical
+- AlternativeNames CHEMKIN c4h8ooh1-2
+- AlternativeNames Formula C4H9O2
+3-butyl-1-hydroperoxy-radical
+- AlternativeNames CHEMKIN c4h8ooh1-3
+- AlternativeNames Formula C4H9O2
+4-butyl-1-hydroperoxy-radical
+- AlternativeNames CHEMKIN c4h8ooh1-4
+- AlternativeNames Formula C4H9O2
+1-butyl-2-hydroperoxy-radical
+- AlternativeNames CHEMKIN c4h8ooh2-1
+- AlternativeNames Formula C4H9O2
+2-butyl-2-hydroperoxy-radical
+- AlternativeNames CHEMKIN c4h8ooh2-2
+- AlternativeNames Formula C4H9O2
+3-butyl-2-hydroperoxy-radical
+- AlternativeNames CHEMKIN c4h8ooh2-3
+- AlternativeNames Formula C4H9O2
+4-butyl-2-hydroperoxy-radical
+- AlternativeNames CHEMKIN c4h8ooh2-4
+- AlternativeNames Formula C4H9O2
+propan-2-methyl-2-peroxy-radical
+- AlternativeNames CHEMKIN t-c4h9o2
+- AlternativeNames Short   t-c4h9o2
+- AlternativeNames Formula C4H9O2
+propan-2-methyl-1-peroxy-radical
+- AlternativeNames CHEMKIN i-c4h9o2
+- AlternativeNames Short   i-c4h9o2
+- AlternativeNames Formula C4H9O2
+prop-1-yl-2-hydroperoxy-2-methyl-radical
+- AlternativeNames CHEMKIN tc4h8o2h-i
+- AlternativeNames Short   tc4h8o2h-i
+- AlternativeNames Formula C4H9O2
+prop-2-yl-1-hydroperoxy-2-methyl-radical
+- AlternativeNames CHEMKIN ic4h8o2h-t
+- AlternativeNames Short   ic4h8o2h-t
+- AlternativeNames Formula C4H9O2
+prop-3-yl-1-hydroperoxy-2-methyl-radical
+- AlternativeNames CHEMKIN ic4h8o2h-i
+- AlternativeNames Short   ic4h8o2h-i
+- AlternativeNames Formula C4H9O2
+prop-2-en-2-methyl-1-peroxy-radical
+- AlternativeNames CHEMKIN iC4H7O2-3
+- AlternativeNames Short   iC4H7O2-3
+- AlternativeNames Formula C4H7O2
+but-2-en-1-peroxy-radical
+- AlternativeNames CHEMKIN 2-C4H7OO-1
+- AlternativeNames Short   2-C4H7OO-1
+- AlternativeNames Formula C4H7O2
+but-3-en-2-peroxy-radical
+- AlternativeNames CHEMKIN 1-C4H7OO-3
+- AlternativeNames Short   1-C4H7OO-3
+- AlternativeNames Formula C4H7O2
+1,2-dibutanal
+- AlternativeNames CHEMKIN diket12
+- AlternativeNames Short diket12
+- AlternativeNames Formula C4H6O2
+1,3-dibutanal
+- AlternativeNames CHEMKIN diket13
+- AlternativeNames Short diket13
+- AlternativeNames Formula C4H6O2
+1,4-dibutanal
+- AlternativeNames CHEMKIN diket14
+- AlternativeNames Short diket14
+- AlternativeNames Formula C4H6O2
+2,3-dibutanal
+- AlternativeNames CHEMKIN diket23
+- AlternativeNames Short diket23
+- AlternativeNames Formula C4H6O2
+1,2-dibutanal-1-yl
+- AlternativeNames CHEMKIN diket1r12
+- AlternativeNames Short diket1r12
+- AlternativeNames Formula C4H5O2
+1,2-dibutanal-3-yl
+- AlternativeNames CHEMKIN diket3r12
+- AlternativeNames Short diket3r12
+- AlternativeNames Formula C4H5O2
+1,2-dibutanal-4-yl
+- AlternativeNames CHEMKIN diket4r12
+- AlternativeNames Short diket4r12
+- AlternativeNames Formula C4H5O2
+1,3-dibutanal-1-yl
+- AlternativeNames CHEMKIN diket1r13
+- AlternativeNames Short diket1r13
+- AlternativeNames Formula C4H5O2
+1,3-dibutanal-2-yl
+- AlternativeNames CHEMKIN diket2r13
+- AlternativeNames Short diket2r13
+- AlternativeNames Formula C4H5O2
+1,3-dibutanal-4-yl
+- AlternativeNames CHEMKIN diket4r13
+- AlternativeNames Short diket4r13
+- AlternativeNames Formula C4H5O2
+1,4-dibutanal-1-yl
+- AlternativeNames CHEMKIN diket1r14
+- AlternativeNames Short diket1r14
+- AlternativeNames Formula C4H5O2
+1,4-dibutanal-3-yl
+- AlternativeNames CHEMKIN diket3r14
+- AlternativeNames Short diket3r14
+- AlternativeNames Formula C4H5O2
+2,3-dibutanal-1-yl
+- AlternativeNames CHEMKIN diket1r23
+- AlternativeNames Short diket1r23
+- AlternativeNames Formula C4H5O2
+2-oxy-2-propanal-radical
+- AlternativeNames CHEMKIN tc3h6ocho
+- AlternativeNames Short tc3h6ocho
+- AlternativeNames Formula C4H7O2
+2-methylprop-2-enyl-1-hydroperoxide
+- AlternativeNames CHEMKIN ic4h7ooh
+- AlternativeNames Short ic4h7ooh
+- AlternativeNames Formula C4H8O2
+2-methyl-2-hydroxypropanal
+- AlternativeNames CHEMKIN tc3h6ohcho
+- AlternativeNames Short tc3h6ohcho
+- AlternativeNames Formula C4H8O2

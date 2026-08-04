@@ -1,0 +1,11 @@
+Example Database
+0 example
+
+    Example1 100 example
+      0 The number of elements
+         INT NumberOfIntegers Create
+      1 The set of integers
+         INT Integers Pointer Create Array=NumberOfIntegers
+      DONE
+DONE
+

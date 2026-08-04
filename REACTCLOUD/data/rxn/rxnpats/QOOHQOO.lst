@@ -1,0 +1,108 @@
+%%%-------------------------------------------------------------------
+%%% The symmetries are changed to be 'per group' and not
+%%% 'per hydrogen'
+%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
+OOQOOH-Isomerization-5Ring-Primary \
+c(h)(h)(coo.)(ooh) = oc(h)(cooh) hydroxyl-radical
+- ID 23501
+- Correspondences
+1 2 3 4 5 6 7 8 9      4 2 4 2 2 2 2 2
+1 2 3 6 7 8 9          4 2 2 2 2 2
+5 4                    2
+>  <ForwardRxn>
+Standard 2.980e+12 0.0 26700 2; 'per group' Type XXIII (x2) Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 9.93100E+02    2.126   44522  1; Calc Rev 1-OOH-HEPO2-2=1-O-HEPOOH-2+OH    
+$$$$
+%%%-------------------------------------------------------------------
+OOQOOH-Isomerization-5Ring-Secondary \
+c(h)(r)(coo.)(ooh) = oc(r)(cooh) hydroxyl-radical
+- ID 23502
+- Correspondences
+1 2 3 4 5 6 7 8 9      4 2 4 2 2 2 2 2
+1 2 3 6 7 8 9          4 2 2 2 2 2
+5 4                    2
+>  <ForwardRxn>
+Standard 1.49e+12 0.0 24900 1;  'per group' Type XXIII  Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  2.56742E+02    2.313  46398   1;  From LUND: 3-OOH-HEPO2-2=3-O-HEPOOH-2+OH    
+$$$$
+%%%-------------------------------------------------------------------
+OOQOOH-Isomerization-6Ring-Primary \
+c(h)(h)(ccoo.)(ooh) = oc(h)(ccooh) hydroxyl-radical
+- ID 23601
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     4 2 4 2 2 2 2 2 2
+2 6 7 8 3 1 9 10         2 2 2 2 2 4 2
+5 4                      2
+>  <ForwardRxn>
+Standard 2.48e+11 0.0 20900 2;  'per group' Type XXIII (x2) Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard 3.02203E+02  1.971  43075  1;  From LUND;  1-OOH-HEPO2-3=1-O-HEPOOH-3+OH  
+$$$$
+%%%-------------------------------------------------------------------
+OOQOOH-Isomerization-6Ring-Secondary \
+c(h)(r)(ccoo.)(ooh) = oc(r)(ccooh) hydroxyl-radical
+- ID 23602
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     4 2 4 2 2 2 2 2 2
+2 6 7 8 3 1 9 10         2 2 2 2 2 4 2
+5 4                      2
+>  <ForwardRxn>
+Standard 1.24e+11 0.0 19150 1 ;  'per group' Type XXIII Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  8.06018E+01    2.140   44890 1; From LUND: 3-OOH-HEPO2-1=3-O-HEPOOH-1+OH    
+$$$$
+%%%-------------------------------------------------------------------
+OOQOOH-Isomerization-7Ring-Primary \
+(h)(h)(cccoo.)cooh = oc(h)(cccooh) hydroxyl-radical
+- ID 23701
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11     4 2 4 2 2 2 2 2 2 2
+2 6 7 8 9 3 1 10 11         2 2 2 2 2 2 4 2
+5 4                         2
+>  <ForwardRxn>
+Standard 2.06e+10 0.0 18100 2;  'per group' Type XXIII (x2) Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  2.51023E+01    1.971    40275   1; From LUND: 1-OOH-HEPO2-4=1-O-HEPOOH-4+OH   
+$$$$
+%%%-------------------------------------------------------------------
+OOQOOH-Isomerization-7Ring-Secondary \
+(h)(r)(cccoo.)cooh = oc(r)(cccooh) hydroxyl-radical
+- ID 23702
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11     4 2 4 2 2 2 2 2 2 2
+2 6 7 8 9 3 1 10 11         2 2 2 2 2 2 4 2
+5 4                         2
+>  <ForwardRxn>
+Standard 1.03e+10 0.0 16350 1;  'per group' Type XXIII Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  9.64834E+00    2.143   41970  1; From LUND:  3-OOH-HEPO2-6=3-O-HEPOOH-6+OH    
+$$$$
+%%%-------------------------------------------------------------------
+OOQOOH-Isomerization-8Ring-Primary \
+(h)(h)(ccccoo.)cooh = oc(h)(ccccooh) hydroxyl-radical
+- ID 23801
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12    4 2 4 2 2 2 2 2 2 2 2
+2 6 7 8 9 10 3 1 11 12        2 2 2 2 2 2 2 4 2
+5 4                           2
+>  <ForwardRxn>
+Standard 1.72000e+09      0.0    20913 2;  'per group' Type XXIII (x2) Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard   2.09592E+00    1.971   43075 1; From LUND:  1-OOH-HEPO2-5=1-O-HEPOOH-5+OH    
+$$$$
+%%%-------------------------------------------------------------------
+OOQOOH-Isomerization-8Ring-Secondary \
+(h)(r)(ccccoo.)cooh = oc(r)(ccccooh) hydroxyl-radical
+- ID 23802
+- Correspondences
+1 2 3 4 5 6 7 8 9 10 11 12    4 2 4 2 2 2 2 2 2 2 2
+2 6 7 8 9 10 3 1 11 12        2 2 2 2 2 2 2 4 2
+5 4                           2
+>  <ForwardRxn>
+Standard 0.8600e+09     0.0   19150 1; 'per group' Type XXIII  Combustion and Flame, 114:149-177 (1998)
+>  <ReverseRxn>
+Standard  8.05589E-01    2.143   44770 1; From LUND: 2-OOH-HEPO2-6=2-O-HEPOOH-6+OH    
+$$$$

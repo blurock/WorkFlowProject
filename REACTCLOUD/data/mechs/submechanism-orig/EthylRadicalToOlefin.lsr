@@ -1,0 +1,18 @@
+EthylRadicalToOlefin: Olefin Formation by H abstraction by oxygen from radical
+oxygen
+%%% ----------------------------------------------------
+H-Abstraction-Oxygen-Tertiary,\
+H-Abstraction-Oxygen-Secondary,\
+H-Abstraction-Oxygen-Primary,\
+:oxygen
+%%% ----------------------------------------------------
+ethyl-radical(hh)(hhh)-oxidation-to-olefin,\
+ethyl-radical(rh)(hhh)-oxidation-to-olefin,\
+ethyl-radical(hh)(rhh)-oxidation-to-olefin,\
+ethyl-radical(rr)(hhh)-oxidation-to-olefin,\
+ethyl-radical(rh)(rhh)-oxidation-to-olefin,\
+ethyl-radical(hh)(rrh)-oxidation-to-olefin,\
+ethyl-radical(rr)(rhh)-oxidation-to-olefin,\
+ethyl-radical(rh)(rrh)-oxidation-to-olefin,\
+ethyl-radical(rr)(rrh)-oxidation-to-olefin
+:oxygen

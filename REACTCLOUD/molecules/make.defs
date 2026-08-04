@@ -1,0 +1,36 @@
+###############################################################
+# Program specific definitions
+#   PROGNAME    - The name of the program and the directory
+#   STD_LIBRARIES   - The available libraries to use
+#   ALL_PROGS       - Those progs to be compiled
+#   ALL_SOURCES     - The list of source files
+#   ALL_OBJECTS     - The list of object files
+#   STR_STRUCTURES  - The structures definitions for simple structures
+#   SYS_STRUCTURES  - The structure definitions for system structures
+###############################################################
+PROGNAME   = molecules
+
+STD_LIBRARIES            = \
+           -l$(LIBBASIS)   \
+           -l$(GRAPHLIB)
+
+ALL_PROGS = prog
+
+STR_STRUCTURES =
+SYS_STRUCTURES =
+
+ALL_SOURCES = \
+       mollist.c mol1.c molgrph.c molgrph1.c molgrph2.c \
+       mol0.c atmprps.c atominf.c valence.c\
+       bond.c charge.c mat.c electron.c
+
+ALL_OBJECTS = \
+       mollist.o mol1.o molgrph.o molgrph1.o molgrph2.o \
+       mol0.o atmprps.o atominf.o valence.o\
+       bond.o charge.o mat.o electron.o
+
+prog: $(ALL_OBJECTS)
+	$(AR) rv $(LIBFILE) $(ALL_OBJECTS)
+	$(AR) ts $(LIBFILE)
+
+

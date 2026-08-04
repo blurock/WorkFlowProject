@@ -1,0 +1,33 @@
+###############################################################
+# Program specific definitions
+#   PROGNAME    - The name of the program and the directory
+#   STD_LIBRARIES   - The available libraries to use
+#   ALL_PROGS       - Those progs to be compiled
+#   ALL_SOURCES     - The list of source files
+#   ALL_OBJECTS     - The list of object files
+#   STR_STRUCTURES  - The structures definitions for simple structures
+#   SYS_STRUCTURES  - The structure definitions for system structures
+###############################################################
+PROGNAME   = graphs
+
+STD_LIBRARIES            = \
+           -l$(LIBBASIS)   \
+           -l$(COMLIB)
+
+ALL_PROGS = prog
+
+STR_STRUCTURES =
+SYS_STRUCTURES =
+
+ALL_SOURCES = \
+       graph0.c graph1.c graph2.c graph3.c \
+       subgraph.c pairset.c
+
+ALL_OBJECTS = \
+       graph0.o graph1.o graph2.o graph3.o \
+       subgraph.o pairset.o
+
+prog: $(ALL_OBJECTS)
+	$(AR) rv $(LIBFILE) $(ALL_OBJECTS)
+	$(AR) ts $(LIBFILE)
+

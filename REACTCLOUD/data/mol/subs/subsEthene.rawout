@@ -1,0 +1,319 @@
+~/git/copilot-worktrees/react/blurock-studious-fortnight/tmp ~/git/copilot-worktrees/react/blurock-studious-fortnight/data/mol/subs 
+-----------------Chemistry Database ------------------
+-----------------Version 0    --------------------
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+yywrap
+main>> Mol
+Command:Mol
+Mol>> Parameters
+Command:Parameters
+Parameters>> RootMolName
+Command:RootMolName
+RootMolName>> Input:RootMolName
+Command:Input:RootMolName
+Input:RootMolName>> Set Value: RootMolName to StandardMeta
+StandardMeta
+RootMolName>> Quit
+Parameters>> Quit
+Mol>> MetaAtoms
+Command:MetaAtoms
+MetaAtoms>> Read
+Command:Read
+Set Of     3 MolFile Meta Atoms (    0:MasterMetaAtom)
+MetaAtoms:    0::(         R,  320 -> [ (    6,    1)  ]
+MetaAtoms:    1::(         Q,  221 -> [ (    1,    1) (    6,    1) (    6,    2)  ]
+MetaAtoms:    2::(         X,  382 -> [ (    9,    1) (   35,    1) (   17,    1)  ]
+MetaAtoms>> Quit
+Mol>> Quit
+main>> CreateOpenClose
+Command:CreateOpenClose
+CreateOpenClose>> Start
+Command:Start
+
+0:No Keys for Reactions
+
+
+0:No Keys for ReactionPatterns
+
+CreateOpenClose>> Quit
+main>> DbaseOps
+Command:DbaseOps
+DbaseOps>> SubStructures
+Command:SubStructures
+SubStructures>> Keys
+Command:Keys
+Keys>> Define
+Command:Define
+Keys>> Write
+Command:Write
+Keys>> Quit
+SubStructures>> Quit
+DbaseOps>> Quit
+main>> Mol
+Command:Mol
+Mol>> Parameters
+Command:Parameters
+Parameters>> RootMolName
+Command:RootMolName
+RootMolName>> Input:RootMolName
+Command:Input:RootMolName
+Input:RootMolName>> Set Value: RootMolName to subs/subsEthene
+subs/subsEthene
+RootMolName>> Quit
+Parameters>> Quit
+Mol>> Read
+Command:Read
+Read>> SubStructures
+Command:SubStructures
+SubStructures>> SDF
+Command:SDF
+Read SDF Molecule: olefin
+Read SDF Molecule: olefin-(hh)(hh)
+Read SDF Molecule: olefin-(rh)(hh)
+Read SDF Molecule: olefin-(rh)(rh)
+Read SDF Molecule: olefin-(rr)(hh)
+Read SDF Molecule: olefin-(rr)(rh)
+Read SDF Molecule: olefin-(rr)(rr)
+Read SDF Molecule: olefin-(qq)(qq)
+SubStructures>> Quit
+Read>> Quit
+Mol>> Calculations
+Command:Calculations
+Calculations>> SubStructures
+Command:SubStructures
+SubStructures>> SemiEmpirical
+Command:SemiEmpirical
+SubStructures>> Quit
+Calculations>> Quit
+Mol>> Output
+Command:Output
+Output>> SubStructures
+Command:SubStructures
+SubStructures>> Print
+Command:Print
+SubStructures>> Quit
+Output>> Quit
+Mol>> Quit
+main>> DbaseOps
+Command:DbaseOps
+DbaseOps>> SubStructures
+Command:SubStructures
+SubStructures>> Current
+Command:Current
+Current>> Store
+Command:Store
+Store:          1:olefin
+New ID:   10102200
+Store:          2:olefin-(hh)(hh)
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+New ID:   10506209
+Store:          3:olefin-(rh)(hh)
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Equivalence: olefin-(hh)(hh) olefin-(rh)(hh)     0
+New ID:   10506210
+Store:          4:olefin-(rh)(rh)
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Equivalence: olefin-(hh)(hh) olefin-(rh)(rh)     0
+Equivalence: olefin-(rh)(hh) olefin-(rh)(rh)     0
+New ID:   10506211
+Store:          5:olefin-(rr)(hh)
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Equivalence: olefin-(hh)(hh) olefin-(rr)(hh)     0
+Equivalence: olefin-(rh)(hh) olefin-(rr)(hh)     0
+Equivalence: olefin-(rh)(rh) olefin-(rr)(hh)     0
+New ID:   10506212
+Store:          6:olefin-(rr)(rh)
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Equivalence: olefin-(hh)(hh) olefin-(rr)(rh)     0
+Equivalence: olefin-(rh)(hh) olefin-(rr)(rh)     0
+Equivalence: olefin-(rh)(rh) olefin-(rr)(rh)     0
+Equivalence: olefin-(rr)(hh) olefin-(rr)(rh)     0
+New ID:   10506213
+Store:          7:olefin-(rr)(rr)
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Equivalence: olefin-(hh)(hh) olefin-(rr)(rr)     0
+Equivalence: olefin-(rh)(hh) olefin-(rr)(rr)     0
+Equivalence: olefin-(rh)(rh) olefin-(rr)(rr)     0
+Equivalence: olefin-(rr)(hh) olefin-(rr)(rr)     0
+Equivalence: olefin-(rr)(rh) olefin-(rr)(rr)     0
+New ID:   10506214
+Store:          8:olefin-(qq)(qq)
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Search Key Element Not Found
+The object within the classification was not found
+Equivalence: olefin-(hh)(hh) olefin-(qq)(qq)     0
+Equivalence: olefin-(rh)(hh) olefin-(qq)(qq)     0
+Equivalence: olefin-(rh)(rh) olefin-(qq)(qq)     0
+Equivalence: olefin-(rr)(hh) olefin-(qq)(qq)     0
+Equivalence: olefin-(rr)(rh) olefin-(qq)(qq)     0
+Equivalence: olefin-(rr)(rr) olefin-(qq)(qq)     0
+New ID:   10506215
+Current>> Quit
+SubStructures>> Keys
+Command:Keys
+Keys>> Define
+Command:Define
+Keys>> Fill
+Command:Fill
+Keys>> Write
+Command:Write
+Keys>> Quit
+SubStructures>> Misc
+Command:Misc
+Misc>> PrintList
+Command:PrintList
+  20102100: -->carbonmonoxide<--
+  10506204: -->ethane-(rr)(hh)<--
+  10102200: -->olefin<--
+  20102000: -->hydroxyl-radical<--
+  20001000: -->hydrogen-radical<--
+  10001000: -->oxygen-atom<--
+  10506202: -->ethane-(hh)(rh)<--
+  10506215: -->olefin-(qq)(qq)<--
+  20203000: -->peroxyl-radical<--
+  10203000: -->water<--
+  10506200: -->ethane-(hh)(hh)<--
+  10506213: -->olefin-(rr)(rh)<--
+  10506211: -->olefin-(rh)(rh)<--
+  10102001: -->hydrogen<--
+  10506214: -->olefin-(rr)(rr)<--
+  10506209: -->olefin-(hh)(hh)<--
+  10506212: -->olefin-(rr)(hh)<--
+  10506207: -->ethane-(rh)(rr)<--
+  10304000: -->hydrogen-peroxide<--
+  10506210: -->olefin-(rh)(hh)<--
+  10506205: -->ethane-(hh)(rr)<--
+  10102000: -->oxygen<--
+  10506208: -->ethane-(rr)(rr)<--
+  20001001: -->oxygen-radical<--
+  10506203: -->ethane-(rh)(rh)<--
+  10506206: -->ethane-(rr)(rh)<--
+  10506201: -->ethane-(rh)(hh)<--
+Misc>> Quit
+SubStructures>> Quit
+DbaseOps>> Quit
+main>> Quit
+~/git/copilot-worktrees/react/blurock-studious-fortnight/data/mol/subs 

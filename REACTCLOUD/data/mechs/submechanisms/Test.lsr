@@ -1,0 +1,26 @@
+BasicLowTemperatureV3: Basic Low Temperature Scheme (Version 3)
+oxygen,hydroxyl-radical,oxygen-radical
+%%% ----------------------------------------------------
+%%%    Type I: (minimum)
+%%%    Only oxygen H-Abstraction (the rest done by HAbstractionBySimpleRadical submechanism)
+%%%    More extensive comments on last stages.
+%%% ----------------------------------------------------
+H-Abstraction-Oxygen-Secondary:oxygen
+%%% ----------------------------------------------------
+%%%  Type X: 
+%%%    Initial addition of O2 to the radical formed
+%%% ----------------------------------------------------
+Secondary-Carbon-Radical-(R.+O2-->RO2.):oxygen
+%%% ----------------------------------------------------
+%%%  Type XII: RO2 Isomerization
+%%%    Intramolecular H abstraction
+%%% ----------------------------------------------------
+RO2IsomerizationCyclohexane-7RingSecondary
+%%% ----------------------------------------------------
+%%%  Type XXII: 
+%%%    Initial addition of O2 to QOOH
+%%% ----------------------------------------------------
+Activated-Secondary-Carbon-Radical-(R.+O2-->RO2.):oxygen
+%%% ----------------------------------------------------
+OOQOOH-IsomerizationCyclohexane-7-Ring-H
+%%%OOQOOH-Isomerization-7Ring-Secondary

@@ -1,0 +1,144 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+AlkOHOODecomposition-(hh)(hh)\
+   ooc(hh)c(hh)oh   = (h)(h)c(o) (h)(h)c(o) hydroxyl-radical
+- ID 3030
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     4 2 4 2 2 2 2 2 4
+1 9 5 6                  2 2 2
+2 3 7 8                  2 2 2
+4 10                     4
+>  <ForwardRxn>
+Standard 2.88e+8   1.00  27000 4; From Come Propene
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Set to zero because of three products
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1 = 2
+%%%-------------------------------------------------------------------
+AlkOHOODecomposition-(hh)(rh)\
+   ooc(hh)c(rh)oh   = (h)(h)c(o) (r)(h)c(o) hydroxyl-radical
+- ID 3031
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     4 2 4 2 2 2 2 2 4
+1 9 5 6                  2 2 2
+2 3 7 8                  2 2 2
+4 10                     4
+>  <ForwardRxn>
+Standard 2.88e+8   1.00  27000 2; From Come Propene
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Set to zero because of three products
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+AlkOHOODecomposition-(hh)(rr)\
+   ooc(hh)c(hh)oh   = (h)(h)c(o) (r)(r)c(o) hydroxyl-radical
+- ID 3032
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     4 2 4 2 2 2 2 2 4
+1 9 5 6                  2 2 2
+2 3 7 8                  2 2 2
+4 10                     4
+>  <ForwardRxn>
+Standard 2.88e+8   1.00  27000 4; From Come Propene
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Set to zero because of three products
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2 = 2
+%%%-------------------------------------------------------------------
+AlkOHOODecomposition-(rh)(hh)\
+   ooc(rh)c(hh)oh   = (r)(h)c(o) (h)(h)c(o) hydroxyl-radical
+- ID 3033
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     4 2 4 2 2 2 2 2 4
+1 9 5 6                  2 2 2
+2 3 7 8                  2 2 2
+4 10                     4
+>  <ForwardRxn>
+Standard 2.88e+8   1.00  27000 2; From Come Propene
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Set to zero because of three products
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*1 = 1
+%%%-------------------------------------------------------------------
+AlkOHOODecomposition-(rh)(rh)\
+   ooc(rh)c(rh)oh   = (r)(h)c(o) (r)(h)c(o) hydroxyl-radical
+- ID 3034
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     4 2 4 2 2 2 2 2 4
+1 9 5 6                  2 2 2
+2 3 7 8                  2 2 2
+4 10                     4
+>  <ForwardRxn>
+Standard 2.88e+8   1.00  27000 1; From Come Propene
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Set to zero because of three products
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1*2 = 2
+%%%-------------------------------------------------------------------
+AlkOHOODecomposition-(rh)(rr)\
+   ooc(rh)c(hh)oh   = (r)(h)c(o) (r)(r)c(o) hydroxyl-radical
+- ID 3035
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     4 2 4 2 2 2 2 2 4
+1 9 5 6                  2 2 2
+2 3 7 8                  2 2 2
+4 10                     4
+>  <ForwardRxn>
+Standard 2.88e+8   1.00  27000 2; From Come Propene
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Set to zero because of three products
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 2
+%%%-------------------------------------------------------------------
+AlkOHOODecomposition-(rr)(hh)\
+   ooc(rr)c(hh)oh   = (r)(r)c(o) (h)(h)c(o) hydroxyl-radical
+- ID 3036
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     4 2 4 2 2 2 2 2 4
+1 9 5 6                  2 2 2
+2 3 7 8                  2 2 2
+4 10                     4
+>  <ForwardRxn>
+Standard 2.88e+8   1.00  27000 4; From Come Propene
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Set to zero because of three products
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*1 = 1
+%%%-------------------------------------------------------------------
+AlkOHOODecomposition-(rr)(rh)\
+   ooc(rr)c(rh)oh   = (r)(r)c(o) (r)(h)c(o) hydroxyl-radical
+- ID 3037
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     4 2 4 2 2 2 2 2 4
+1 9 5 6                  2 2 2
+2 3 7 8                  2 2 2
+4 10                     4
+>  <ForwardRxn>
+Standard 2.88e+8   1.00  27000 2; From Come Propene
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Set to zero because of three products
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 2*2 = 4
+%%%-------------------------------------------------------------------
+AlkOHOODecomposition-(rr)(rr)\
+   ooc(rr)c(hh)oh   = (r)(r)c(o) (r)(r)c(o) hydroxyl-radical
+- ID 3038
+- Correspondences
+1 2 3 4 5 6 7 8 9 10     4 2 4 2 2 2 2 2 4
+1 9 5 6                  2 2 2
+2 3 7 8                  2 2 2
+4 10                     4
+>  <ForwardRxn>
+Standard 2.88e+8   1.00  27000 4; From Come Propene
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Set to zero because of three products
+$$$$

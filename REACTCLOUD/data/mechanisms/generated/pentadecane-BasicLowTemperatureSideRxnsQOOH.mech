@@ -1,0 +1,148 @@
+CLASSCOEFFICIENTS
+H-Abstraction-Oxygen-Primary             =      4.1700e+12     0.0000     204.92     6.5375e+10     0.3130      -2.52
+H-Abstraction-Oxygen-Secondary           =      1.0000e+13     0.0000     199.06     1.3265e+11     0.2420       8.67
+Primary-Carbon-Radical-(R.+O2-->RO2.)    =      4.5200e+12     0.0000       0.00     2.6570e+20    -1.6700     148.04
+Secondary-Carbon-Radical-(R.+O2-->RO2.)  =      7.5400e+12     0.0000       0.00     1.3570e+23    -2.3600     157.54
+RO2-Isomerization-5RingPrimary           =      8.9400e+12     0.0000     124.21     2.7040e+13    -0.5400      70.80
+RO2-Isomerization-5RingSecondary         =      5.9600e+12     0.0000     116.68     5.6790e+11    -0.1400      73.81
+RO2-Isomerization-6RingPrimary           =      7.4200e+11     0.0000      99.95     2.2550e+12    -0.5400      46.55
+RO2-Isomerization-6RingSecondary         =      4.9600e+11     0.0000      92.63     4.7340e+10    -0.1400      49.77
+RO2-Isomerization-7RingPrimary           =      6.1800e+10     0.0000      88.24     1.8780e+11    -0.5400      34.84
+RO2-Isomerization-7RingSecondary         =      4.1200e+10     0.0000      80.92     3.9420e+09    -0.1400      38.06
+RO2-Isomerization-8RingPrimary           =      5.1600e+09     0.0000      99.95     1.5650e+10    -0.5400      46.55
+RO2-Isomerization-8RingSecondary         =      3.4400e+09     0.0000      92.63     1.9420e+08    -0.0700      49.47
+OlefinCarbonylFromPeroxy-HH              =      5.0000e+13     0.0000     106.64     9.9999e-41     0.0000       0.00
+OlefinCarbonylFromPeroxy-RH              =      5.0000e+13     0.0000     106.64     9.9999e-41     0.0000       0.00
+BetaHPeroxyToOlefin-HHRH                 =      3.1737e+21    -2.5440      80.48     1.0000e+11     0.0000      46.00
+BetaHPeroxyToOlefin-RHHH                 =      4.3586e+19    -1.9750      78.74     1.0000e+11     0.0000      52.28
+BetaHPeroxyToOlefin-RHRH                 =      3.2760e+20    -2.3340      79.07     1.0000e+11     0.0000      46.00
+END
+CLASSEQUIVALENT
+END
+REACTIONCLASS  = H-Abstraction-Oxygen-Primary
+    6 {pentadecane} + {oxygen} = {peroxyl-radical} + {PP19}
+END
+REACTIONCLASS  = H-Abstraction-Oxygen-Secondary
+    4 {pentadecane} + {oxygen} = {peroxyl-radical} + {PP13}
+    4 {pentadecane} + {oxygen} = {peroxyl-radical} + {PP15}
+    4 {pentadecane} + {oxygen} = {peroxyl-radical} + {PP16}
+    4 {pentadecane} + {oxygen} = {peroxyl-radical} + {PP17}
+    2 {pentadecane} + {oxygen} = {peroxyl-radical} + {PP18}
+    4 {pentadecane} + {oxygen} = {peroxyl-radical} + {PP14}
+    4 {pentadecane} + {oxygen} = {peroxyl-radical} + {PP12}
+END
+REACTIONCLASS  = Primary-Carbon-Radical-(R.+O2-->RO2.)
+    1 {PP19} + {oxygen} = {PP20}
+END
+REACTIONCLASS  = Secondary-Carbon-Radical-(R.+O2-->RO2.)
+    1 {PP12} + {oxygen} = {PP21}
+    1 {PP13} + {oxygen} = {PP22}
+    1 {PP14} + {oxygen} = {PP23}
+    1 {PP15} + {oxygen} = {PP24}
+    1 {PP16} + {oxygen} = {PP25}
+    1 {PP17} + {oxygen} = {PP26}
+    1 {PP18} + {oxygen} = {PP27}
+END
+REACTIONCLASS  = RO2-Isomerization-5RingPrimary
+    1 {PP21} = {PP28}
+END
+REACTIONCLASS  = RO2-Isomerization-5RingSecondary
+    1 {PP26} = {PP39}
+    1 {PP20} = {PP29}
+    1 {PP21} = {PP30}
+    1 {PP22} = {PP31}
+    1 {PP22} = {PP32}
+    1 {PP23} = {PP33}
+    1 {PP23} = {PP34}
+    1 {PP24} = {PP35}
+    1 {PP24} = {PP36}
+    1 {PP25} = {PP37}
+    1 {PP25} = {PP38}
+    1 {PP26} = {PP40}
+    2 {PP27} = {PP41}
+END
+REACTIONCLASS  = RO2-Isomerization-6RingPrimary
+    1 {PP22} = {PP42}
+END
+REACTIONCLASS  = RO2-Isomerization-6RingSecondary
+    1 {PP20} = {PP43}
+    1 {PP21} = {PP44}
+    1 {PP22} = {PP45}
+    1 {PP23} = {PP46}
+    1 {PP23} = {PP47}
+    1 {PP24} = {PP48}
+    1 {PP25} = {PP50}
+    1 {PP25} = {PP51}
+    1 {PP26} = {PP52}
+    1 {PP26} = {PP53}
+    2 {PP27} = {PP54}
+    1 {PP24} = {PP49}
+END
+REACTIONCLASS  = RO2-Isomerization-7RingPrimary
+    1 {PP23} = {PP55}
+END
+REACTIONCLASS  = RO2-Isomerization-7RingSecondary
+    1 {PP22} = {PP58}
+    1 {PP20} = {PP56}
+    1 {PP21} = {PP57}
+    1 {PP23} = {PP59}
+    1 {PP24} = {PP60}
+    1 {PP24} = {PP61}
+    1 {PP25} = {PP62}
+    1 {PP25} = {PP63}
+    1 {PP26} = {PP64}
+    1 {PP26} = {PP65}
+    2 {PP27} = {PP66}
+END
+REACTIONCLASS  = RO2-Isomerization-8RingPrimary
+    1 {PP24} = {PP67}
+END
+REACTIONCLASS  = RO2-Isomerization-8RingSecondary
+    1 {PP20} = {PP68}
+    1 {PP21} = {PP69}
+    1 {PP22} = {PP70}
+    1 {PP23} = {PP71}
+    1 {PP24} = {PP72}
+    1 {PP25} = {PP74}
+    1 {PP26} = {PP75}
+    1 {PP26} = {PP76}
+    2 {PP27} = {PP77}
+    1 {PP25} = {PP73}
+END
+REACTIONCLASS  = OlefinCarbonylFromPeroxy-HH
+    1 {PP43} = {aldehyde} + {PP86} + {hydroxyl-radical}
+END
+REACTIONCLASS  = OlefinCarbonylFromPeroxy-RH
+    1 {PP54} = {hydroxyl-radical} + {1-heptene} + {PP110}
+    1 {PP42} = {hydroxyl-radical} + {ethene} + {PP88}
+    1 {PP44} = {hydroxyl-radical} + {ethanal} + {PP90}
+    1 {PP45} = {hydroxyl-radical} + {propanal} + {PP92}
+    1 {PP46} = {hydroxyl-radical} + {propene} + {PP94}
+    1 {PP47} = {hydroxyl-radical} + {1-butanal} + {PP96}
+    1 {PP48} = {hydroxyl-radical} + {1-butene} + {PP98}
+    1 {PP49} = {hydroxyl-radical} + {PP99} + {1-decene}
+    1 {PP50} = {hydroxyl-radical} + {1-pentene} + {PP102}
+    1 {PP51} = {hydroxyl-radical} + {PP103} + {1-nonene}
+    1 {PP52} = {hydroxyl-radical} + {1-hexene} + {PP106}
+    1 {PP53} = {hydroxyl-radical} + {PP107} + {1-octene}
+END
+REACTIONCLASS  = BetaHPeroxyToOlefin-HHRH
+    1 {PP28} = {PP78} + {peroxyl-radical}
+END
+REACTIONCLASS  = BetaHPeroxyToOlefin-RHHH
+    1 {PP29} = {PP78} + {peroxyl-radical}
+END
+REACTIONCLASS  = BetaHPeroxyToOlefin-RHRH
+    1 {PP31} = {peroxyl-radical} + {PP79}
+    1 {PP32} = {peroxyl-radical} + {PP80}
+    1 {PP33} = {peroxyl-radical} + {PP80}
+    1 {PP34} = {peroxyl-radical} + {PP81}
+    1 {PP35} = {peroxyl-radical} + {PP81}
+    1 {PP36} = {peroxyl-radical} + {PP82}
+    1 {PP37} = {peroxyl-radical} + {PP82}
+    1 {PP38} = {peroxyl-radical} + {PP83}
+    1 {PP39} = {peroxyl-radical} + {PP83}
+    1 {PP41} = {peroxyl-radical} + {PP84}
+    1 {PP40} = {peroxyl-radical} + {PP84}
+    1 {PP30} = {peroxyl-radical} + {PP79}
+END

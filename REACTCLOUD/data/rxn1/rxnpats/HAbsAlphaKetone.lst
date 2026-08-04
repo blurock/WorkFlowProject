@@ -1,0 +1,108 @@
+%%%-------------------------------------------------------------------
+%%%   Symmetry (2*1) = 2
+%%%-------------------------------------------------------------------
+H-Abstraction-AlphaToKetone-(h)(hh)\
+     c(hhh)hc(o) + hydroxyl-radical = .c(h)(h)co(h) + water 
+- ID 3401
+- Correspondences
+1 2 3 4 5 6 7    2 2 2 2 2 4
+8 9              2
+3 1 2 4 5 6      2 2 2 2 2
+9 8 7            2 4
+
+>  <ForwardRxn>
+Standard 8.450E+11 0.0 -2.280E+02 2; Westbrook heptane mechanism (longest chains)
+
+>  <ReverseRxn>
+Standard 1.633E+13 -0.23 2.864E+04 1; Westbrook heptane mechanism (longest chains)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry (2*1) = 2
+%%%-------------------------------------------------------------------
+H-Abstraction-AlphaToKetone-(r)(hh)\
+     c(hhh)rc(o) + hydroxyl-radical = .c(h)(h)co(r) + water 
+- ID 3402
+- Correspondences
+1 2 3 4 5 6 7    2 2 2 2 2 4
+8 9              2
+3 1 2 4 5 6      2 2 2 2 2
+9 8 7            2 4
+
+>  <ForwardRxn>
+Standard 8.450E+11 0.0 -2.280E+02 2; Westbrook heptane mechanism (longest chains)
+
+>  <ReverseRxn>
+Standard 1.633E+13 -0.23 2.864E+04 1; Westbrook heptane mechanism (longest chains)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry (1*1) = 1
+%%%-------------------------------------------------------------------
+H-Abstraction-AlphaToKetone-(h)(rh)\
+     c(rhh)hc(o) + hydroxyl-radical = .c(r)(h)co(h) + water 
+- ID 3403
+- Correspondences
+1 2 3 4 5 6 7    2 2 2 2 2 4
+8 9              2
+3 1 2 4 5 6      2 2 2 2 2
+9 8 7            2 4
+
+>  <ForwardRxn>
+Standard 8.450E+11 0.0 -2.280E+02 1; Westbrook heptane mechanism (longest chains)
+
+>  <ReverseRxn>
+Standard 1.633E+13 -0.23 2.864E+04 1; Westbrook heptane mechanism (longest chains)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry (1*1) = 1
+%%%-------------------------------------------------------------------
+H-Abstraction-AlphaToKetone-(r)(rh)\
+     c(rhh)rc(o) + hydroxyl-radical = .c(r)(h)co(r) + water 
+- ID 3404
+- Correspondences
+1 2 3 4 5 6 7    2 2 2 2 2 4
+8 9              2
+3 1 2 4 5 6      2 2 2 2 2
+9 8 7            2 4
+
+>  <ForwardRxn>
+Standard 8.450E+11 0.0 -2.280E+02 1; Westbrook heptane mechanism (longest chains)
+
+>  <ReverseRxn>
+Standard 1.633E+13 -0.23 2.864E+04 1; Westbrook heptane mechanism (longest chains)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry (2*1) = 2
+%%%-------------------------------------------------------------------
+H-Abstraction-AlphaToKetone-(h)(rr)\
+     c(rrh)hc(o) + hydroxyl-radical = .c(r)(r)co(h) + water 
+- ID 3405
+- Correspondences
+1 2 3 4 5 6 7    2 2 2 2 2 4
+8 9              2
+3 1 2 4 5 6      2 2 2 2 2
+9 8 7            2 4
+
+>  <ForwardRxn>
+Standard 8.450E+11 0.0 -2.280E+02 2; Westbrook heptane mechanism (longest chains)
+
+>  <ReverseRxn>
+Standard 1.633E+13 -0.23 2.864E+04 1; Westbrook heptane mechanism (longest chains)
+$$$$
+%%%-------------------------------------------------------------------
+%%%   Symmetry (2*1) = 2
+%%%-------------------------------------------------------------------
+H-Abstraction-AlphaToKetone-(r)(rr)\
+     c(rrh)rc(o) + hydroxyl-radical = .c(r)(r)co(r) + water 
+- ID 3406
+- Correspondences
+1 2 3 4 5 6 7    2 2 2 2 2 4
+8 9              2
+3 1 2 4 5 6      2 2 2 2 2
+9 8 7            2 4
+
+>  <ForwardRxn>
+Standard 8.450E+11 0.0 -2.280E+02 2; Westbrook heptane mechanism (longest chains)
+
+>  <ReverseRxn>
+Standard 1.633E+13 -0.23 2.864E+04 1; Westbrook heptane mechanism (longest chains)
+$$$$

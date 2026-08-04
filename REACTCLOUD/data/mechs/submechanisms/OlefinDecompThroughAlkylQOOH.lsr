@@ -1,0 +1,127 @@
+OlefinDecompThroughAlkylQOOH: Olefin Decomp - Peroxy Addition to Alkyl
+%%% ----------------------------------------------------
+oxygen,hydrogen-radical,oxygen-radical,hydroxyl-radical,\
+methyl-radical,peroxyl-radical
+%%% ----------------------------------------------------
+%%% Step 1      TypeI: H-Abstraction
+H-Abstraction-Oxygen-Radical-Primary,\
+H-Abstraction-Oxygen-Radical-Secondary,\
+H-Abstraction-Oxygen-Radical-Tertiary,\
+:oxygen
+%%% ----------------------------------------------------
+%%% This is the production of the Alkene starting point
+%%% ----------------------------------------------------
+HLoss-ethyl-radical(hh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rhh)-to-olefin,\
+HLoss-ethyl-radical(rr)(hhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(rhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rrh)-to-olefin,\
+HLoss-ethyl-radical(rr)(rhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(rrh)-to-olefin,\
+HLoss-ethyl-radical(rr)(rrh)-to-olefin
+%%% ----------------------------------------------------
+%%% Alkene Decomp Step I:      TypeI: H-Abstraction
+H-Abstraction-Hydrogen-Radical-Primary,\
+H-Abstraction-Hydrogen-Radical-Secondary,\
+H-Abstraction-Hydrogen-Radical-Tertiary,\
+H-Abstraction-Oxygen-Radical-Primary,\
+H-Abstraction-Oxygen-Radical-Secondary,\
+H-Abstraction-Oxygen-Radical-Tertiary,\
+H-Abstraction-Hydroxyl-Radical-Primary,\
+H-Abstraction-Hydroxyl-Radical-Secondary,\
+H-Abstraction-Hydroxyl-Radical-Tertiary,\
+H-Abstraction-Methyl-Primary,\
+H-Abstraction-Methyl-Secondary,\
+H-Abstraction-Methyl-Tertiary,\
+H-Abstraction-PeroxylRadical-Primary,\
+H-Abstraction-PeroxylRadical-Secondary,\
+H-Abstraction-PeroxylRadical-Tertiary,\
+H-Abstraction-Oxygen-Tertiary,\
+H-Abstraction-Oxygen-Secondary,\
+H-Abstraction-Oxygen-Primary\
+:hydrogen-radical,oxygen-radical,hydroxyl-radical,\
+methyl-radical,peroxyl-radical,oxygen
+%%% ----------------------------------------------------
+%%% ----------------------------------------------------
+Activated-Primary-Carbon-Radical-(R.+O2-->RO2.),\
+Activated-Secondary-Carbon-Radical-(R.+O2-->RO2.),\
+Activated-Tertiary-Carbon-Radical-(R.+O2-->RO2.)\
+:oxygen
+%%% ----------------------------------------------------
+%%% Intramolecular-1-5-QOOH-Formation:
+%%%       Formation of radical beta to peroxyl group
+%%% ----------------------------------------------------
+Intramolecular-1-5-QOOH-Formation
+%%% ----------------------------------------------------
+%%% OlefinCarbonylFromPeroxy:
+%%%      By breaking the Carbon-Carbon bond at the peroxyl and
+%%%      losing a hydroxyl, an olefin and an aldehyde/ketone are formed.
+%%% ----------------------------------------------------
+OlefinCarbonylFromPeroxy-HH,\
+OlefinCarbonylFromPeroxy-RH,\
+OlefinCarbonylFromPeroxy-RR
+%%% ----------------------------------------------------
+%%% These are just to reduce the molecule size, especially
+%%% for the case with two functional groups on one molecule
+%%% Decomp:
+%%%      Straight Carbon-Carbon decomposition
+%%% OlefinToAldehydeDecomp:
+%%%      Decomposition of an alkene through hydroxyl addition
+%%% ----------------------------------------------------
+Decomp-(rhh)(hhh),\
+Decomp-(rhh)(rhh),\
+Decomp-(rrh)(hhh),\
+Decomp-(rrr)(hhh),\
+Decomp-(rrh)(rhh),\
+Decomp-(rrr)(rhh),\
+Decomp-(rrr)(rrh),\
+Decomp-(rrr)(rrr),\
+OlefinToAldehydeDecomp-(hh)(hh),\
+OlefinToAldehydeDecomp-(rh)(hh),\
+OlefinToAldehydeDecomp-(rr)(hh),\
+OlefinToAldehydeDecomp-(hh)(rh),\
+OlefinToAldehydeDecomp-(rh)(rh),\
+OlefinToAldehydeDecomp-(rr)(rh),\
+OlefinToAldehydeDecomp-(hh)(rr),\
+OlefinToAldehydeDecomp-(rh)(rr),\
+OlefinToAldehydeDecomp-(rr)(rr)\
+:hydroxyl-radical
+%%% ----------------------------------------------------
+%%% ----------------------------------------------------
+PropylRadicalToEthene-(hh)(hh)(hhh),\
+PropylRadicalToEthene-(rh)(hh)(hhh),\
+PropylRadicalToEthene-(rr)(hh)(hhh),\
+PropylRadicalToEthene-(hh)(rh)(hhh),\
+PropylRadicalToEthene-(rh)(rh)(hhh),\
+PropylRadicalToEthene-(rr)(rh)(hhh),\
+PropylRadicalToEthene-(hh)(rr)(hhh),\
+PropylRadicalToEthene-(rh)(rr)(hhh),\
+PropylRadicalToEthene-(rr)(rr)(hhh),\
+PropylRadicalToEthene-(hh)(hh)(rhh),\
+PropylRadicalToEthene-(rh)(hh)(rhh),\
+PropylRadicalToEthene-(rr)(hh)(rhh),\
+PropylRadicalToEthene-(hh)(rh)(rhh),\
+PropylRadicalToEthene-(rh)(rh)(rhh),\
+PropylRadicalToEthene-(rr)(rh)(rhh),\
+PropylRadicalToEthene-(hh)(rr)(rhh),\
+PropylRadicalToEthene-(rh)(rr)(rhh),\
+PropylRadicalToEthene-(rr)(rr)(rhh),\
+PropylRadicalToEthene-(hh)(hh)(rrh),\
+PropylRadicalToEthene-(rh)(hh)(rrh),\
+PropylRadicalToEthene-(rr)(hh)(rrh),\
+PropylRadicalToEthene-(hh)(rh)(rrh),\
+PropylRadicalToEthene-(rh)(rh)(rrh),\
+PropylRadicalToEthene-(rr)(rh)(rrh),\
+PropylRadicalToEthene-(hh)(rr)(rrh),\
+PropylRadicalToEthene-(rh)(rr)(rrh),\
+PropylRadicalToEthene-(rr)(rr)(rrh),\
+PropylRadicalToEthene-(hh)(hh)(rrr),\
+PropylRadicalToEthene-(rh)(hh)(rrr),\
+PropylRadicalToEthene-(rr)(hh)(rrr),\
+PropylRadicalToEthene-(hh)(rh)(rrr),\
+PropylRadicalToEthene-(rh)(rh)(rrr),\
+PropylRadicalToEthene-(rr)(rh)(rrr),\
+PropylRadicalToEthene-(hh)(rr)(rrr),\
+PropylRadicalToEthene-(rh)(rr)(rrr),\
+PropylRadicalToEthene-(rr)(rr)(rrr)

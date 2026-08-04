@@ -14,6 +14,7 @@ import info.esblurock.reaction.core.ontology.base.constants.OntologyObjectLabels
 import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
 import info.esblurock.reaction.core.ontology.base.dataset.annotations.BaseAnnotationObjects;
 import info.esblurock.reaction.core.ontology.base.utilities.GenericSimpleQueries;
+import info.esblurock.reaction.core.ontology.base.utilities.JsonObjectUtilities;
 import info.esblurock.reaction.core.ontology.base.utilities.OntologyUtilityRoutines;
 
 public class CollectionSetUtilities {
@@ -55,8 +56,13 @@ public class CollectionSetUtilities {
         return datasets;
     }
 
-    private static void collectionDatasetInfo(String collection, JsonArray datasets) {
-        List<String> names = GenericSimpleQueries.listOfSubClasses(collection, false);
+    private static void collectionDatasetInfo(String collectiontype, JsonArray datasets) {
+        String choices = DatasetOntologyParseBase.getAnnotationObject(collectiontype,
+                AnnotationObjectsLabels.isDefinedBy);
+        System.out.println("Choices: " + choices);
+
+        List<String> names = GenericSimpleQueries.listOfSubClasses(choices, false);
+        System.out.println("Names: " + names);
         for (String name : names) {
             JsonObject json = createcCollectionDatasetInfoElement(name);
             datasets.add(json);
@@ -78,10 +84,18 @@ public class CollectionSetUtilities {
     }
 
     private static JsonObject createcCollectionDatasetInfoElement(String name) {
-        BaseAnnotationObjects annotations = DatasetOntologyParseBase.getAnnotationStructureFromIDObject(name);
-        JsonObject json = annotations.toJsonObject();
+
         String catalog = OntologyUtilityRoutines.exactlyOnePropertySingle(name, OntologyObjectLabels.catalog);
+        System.out.println("catalog: " + catalog);
+
+        BaseAnnotationObjects annotations = DatasetOntologyParseBase.getAnnotationStructureFromIDObject(catalog);
+        JsonObject json = annotations.toJsonObject();
+
+        System.out.println("Annotations: " + JsonObjectUtilities.toString(json));
         json.addProperty(OntologyObjectLabels.catalog, catalog);
+        String dataset = OntologyUtilityRoutines.exactlyOnePropertySingle(name, OntologyObjectLabels.derivedFrom);
+        System.out.println("dataset: " + dataset);
+        json.addProperty(OntologyObjectLabels.derivedFrom, dataset);
         return json;
     }
 

@@ -1,0 +1,59 @@
+WaddingtonDecomposition: Olefin Decomposition through O2 and OH addition
+oxygen
+%%% ----------------------------------------------------
+H-Abstraction-Oxygen-Tertiary,\
+H-Abstraction-Oxygen-Secondary,\
+H-Abstraction-Oxygen-Primary\
+:oxygen
+%%% ----------------------------------------------------
+HLoss-ethyl-radical(hh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rhh)-to-olefin,\
+HLoss-ethyl-radical(rr)(hhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(rhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rrh)-to-olefin,\
+HLoss-ethyl-radical(rr)(rhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(rrh)-to-olefin,\
+HLoss-ethyl-radical(rr)(rrh)-to-olefin
+%%% ----------------------------------------------------
+%%% Alkene-Add-Hydroxyl-Radical:
+%%%                   Addition of hydroxyl to double bond
+%%% ----------------------------------------------------
+Alkene-Add-Hydroxyl-Radical-(hh)(hh),\
+Alkene-Add-Hydroxyl-Radical-(rh)(hh),\
+Alkene-Add-Hydroxyl-Radical-(rr)(hh),\
+Alkene-Add-Hydroxyl-Radical-(hh)(rh),\
+Alkene-Add-Hydroxyl-Radical-(rh)(rh),\
+Alkene-Add-Hydroxyl-Radical-(rr)(rh),\
+Alkene-Add-Hydroxyl-Radical-(hh)(rr),\
+Alkene-Add-Hydroxyl-Radical-(rh)(rr),\
+Alkene-Add-Hydroxyl-Radical-(rr)(rr)\
+:hydroxyl-radical
+%%% ----------------------------------------------------
+%%% O2-AdditionToCCOH:
+%%%       Addition of the radical alpha to hydroxyl group
+%%% ----------------------------------------------------
+O2-AdditionToCCOH-(hh)(hh),\
+O2-AdditionToCCOH-(hh)(rh),\
+O2-AdditionToCCOH-(hh)(rr),\
+O2-AdditionToCCOH-(rh)(hh),\
+O2-AdditionToCCOH-(rh)(rh),\
+O2-AdditionToCCOH-(rh)(rr),\
+O2-AdditionToCCOH-(rr)(hh),\
+O2-AdditionToCCOH-(rr)(rh),\
+O2-AdditionToCCOH-(rr)(rr)\
+:oxygen
+%%% ----------------------------------------------------
+%%% AlkOHOODecomposition:
+%%%            Single step decomposition to two 
+%%%            aldehyde/ketones and a hydroxyl radical
+%%% ----------------------------------------------------
+AlkOHOODecomposition-(hh)(hh),\
+AlkOHOODecomposition-(hh)(rh),\
+AlkOHOODecomposition-(hh)(rr),\
+AlkOHOODecomposition-(rh)(hh),\
+AlkOHOODecomposition-(rh)(rh),\
+AlkOHOODecomposition-(rh)(rr),\
+AlkOHOODecomposition-(rr)(hh),\
+AlkOHOODecomposition-(rr)(rh),\
+AlkOHOODecomposition-(rr)(rr)
