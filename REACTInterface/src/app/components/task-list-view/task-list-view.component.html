@@ -1,0 +1,69 @@
+<div class="task-view-container">
+  <!-- Task Header Banner -->
+  <mat-card class="task-banner-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar color="primary" class="task-avatar-icon">{{ task.icon }}</mat-icon>
+      <mat-card-title class="banner-title">{{ task.title }}</mat-card-title>
+      <mat-card-subtitle class="banner-subtitle">Input Template: <code>{{ task.inpFile }}</code></mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="banner-description">
+      <p>{{ task.description }}</p>
+    </mat-card-content>
+
+    <mat-card-actions class="banner-actions">
+      <button mat-raised-button color="primary" (click)="loadTaskData()" [disabled]="isLoading">
+        <mat-icon>play_arrow</mat-icon> Run Task API
+      </button>
+      <span class="spacer"></span>
+      <span class="item-count-badge" *ngIf="items.length > 0">
+        {{ items.length }} Items Loaded
+      </span>
+    </mat-card-actions>
+
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate" color="accent"></mat-progress-bar>
+  </mat-card>
+
+  <!-- Error Message Alert -->
+  <mat-card class="error-card" *ngIf="errorMessage && !isLoading">
+    <mat-card-content class="error-content">
+      <mat-icon color="warn">error</mat-icon>
+      <span>{{ errorMessage }}</span>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Scrollable List Container -->
+  <mat-card class="list-card">
+    <mat-card-header>
+      <mat-card-title>Catalog Items</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="scrollable-list-area">
+      <!-- Empty State -->
+      <div class="empty-state" *ngIf="!isLoading && items.length === 0 && hasExecuted">
+        <mat-icon class="empty-icon">inbox</mat-icon>
+        <p>No catalog items found in the API response matching line pattern <code>: --></code>.</p>
+      </div>
+
+      <!-- Initial Loading State -->
+      <div class="empty-state" *ngIf="isLoading">
+        <mat-icon class="empty-icon spinning">sync</mat-icon>
+        <p>Executing REACTCLOUD task and parsing catalog lines...</p>
+      </div>
+
+      <!-- Parsed Items Action List -->
+      <mat-action-list *ngIf="!isLoading && items.length > 0" class="catalog-action-list">
+        <button
+          mat-list-item
+          *ngFor="let item of items"
+          (click)="onItemClick(item)"
+          [class.selected-item]="selectedItem?.id === item.id"
+          class="catalog-item-button">
+          <mat-icon matListItemIcon color="primary">label</mat-icon>
+          <div matListItemTitle class="item-name">{{ item.name }}</div>
+          <div matListItemLine class="item-id-line">ID: #{{ item.id }}</div>
+        </button>
+      </mat-action-list>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -58,6 +58,8 @@ static const char *status_text(int status)
         return "OK";
     case 400:
         return "Bad Request";
+    case 401:
+        return "Unauthorized";
     case 404:
         return "Not Found";
     case 405:
@@ -99,6 +101,9 @@ static int send_response(int fd, int status, const char *content_type, const cha
         "HTTP/1.1 %d %s\r\n"
         "Content-Type: %s\r\n"
         "Content-Length: %zu\r\n"
+        "Access-Control-Allow-Origin: *\r\n"
+        "Access-Control-Allow-Headers: Content-Type, Authorization, X-Goog-Authenticated-User-Email\r\n"
+        "Access-Control-Allow-Methods: GET, POST, OPTIONS\r\n"
         "Connection: close\r\n"
         "\r\n",
         status,
@@ -1161,6 +1166,21 @@ static int handle_run_input_request(int client_fd, const char *body)
     return status;
 }
 
+static int is_authenticated(char *request_headers)
+{
+    char *auth = find_header_value(request_headers, "Authorization");
+    if (auth != NULL && *auth != '\0') {
+        if (strncasecmp(auth, "Bearer ", 7) == 0 && strlen(auth) > 7) {
+            return 1;
+        }
+    }
+    char *goog_email = find_header_value(request_headers, "X-Goog-Authenticated-User-Email");
+    if (goog_email != NULL && *goog_email != '\0') {
+        return 1;
+    }
+    return 0;
+}
+
 static int handle_request(int client_fd)
 {
     char *request = NULL;
@@ -1183,7 +1203,9 @@ static int handle_request(int client_fd)
     body = request + header_end;
     (void) request_length;
 
-    if (strcmp(method, "GET") == 0 && strcmp(path, "/health") == 0) {
+    if (strcmp(method, "OPTIONS") == 0) {
+        result = send_response(client_fd, 200, "text/plain", "");
+    } else if (strcmp(method, "GET") == 0 && strcmp(path, "/health") == 0) {
         result = send_response(client_fd, 200, "application/json", "{\"status\":\"ok\",\"service\":\"chemdb\"}");
     } else if (strcmp(method, "GET") == 0 && strcmp(path, "/") == 0) {
         result = send_response(
@@ -1192,12 +1214,20 @@ static int handle_request(int client_fd)
             "application/json",
             "{\"service\":\"chemdb\",\"endpoints\":[\"GET /health\",\"POST /api/run\",\"POST /api/run-input\"],"
             "\"examples\":{\"run\":{\"args\":[\"--help\"]},\"runInput\":{\"inputFile\":\"PrintRxnPatternsList.inp\",\"root\":\"job1\"}}}");
-    } else if (strcmp(method, "POST") == 0 && strcmp(path, "/api/run") == 0) {
-        result = handle_run_request(client_fd, body);
-    } else if (strcmp(method, "POST") == 0 && strcmp(path, "/api/run-input") == 0) {
-        result = handle_run_input_request(client_fd, body);
-    } else if (strcmp(method, "GET") != 0 && strcmp(method, "POST") != 0) {
-        result = send_response(client_fd, 405, "application/json", "{\"error\":\"Only GET and POST are supported.\"}");
+    } else if (strcmp(method, "POST") == 0 && (strcmp(path, "/api/run") == 0 || strcmp(path, "/api/run-input") == 0)) {
+        if (!is_authenticated(request)) {
+            result = send_response(
+                client_fd,
+                401,
+                "application/json",
+                "{\"error\":\"Authentication required. Please provide a valid Authorization Bearer token.\"}");
+        } else if (strcmp(path, "/api/run") == 0) {
+            result = handle_run_request(client_fd, body);
+        } else {
+            result = handle_run_input_request(client_fd, body);
+        }
+    } else if (strcmp(method, "GET") != 0 && strcmp(method, "POST") != 0 && strcmp(method, "OPTIONS") != 0) {
+        result = send_response(client_fd, 405, "application/json", "{\"error\":\"Method not allowed.\"}");
     } else {
         result = send_response(client_fd, 404, "application/json", "{\"error\":\"Endpoint not found.\"}");
     }

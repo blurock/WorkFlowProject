@@ -1,6 +1,6 @@
 *** Description
 
-This is a description of the first phase of making an interface for the cloud version of the molecules database (REACTCLOUD), Make an implmentation plan.
+This is a description of the first phase of making an interface for the cloud version of the molecules database (REACTCLOUD), Make an implmentation plan. The interface will be a new project call REACTInterface.
 In this first phase, we are concerned with:
 1. Create a angular material design interface to run REACTCLOUD on a Google Cloud Run container.
 2. Having a secure interface, using a user login (this will happen automatically using the google cloud console)

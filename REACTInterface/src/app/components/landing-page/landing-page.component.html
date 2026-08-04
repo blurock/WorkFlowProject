@@ -1,0 +1,89 @@
+<div class="landing-container">
+  <!-- Top Navigation Banner -->
+  <mat-toolbar color="primary" class="landing-toolbar">
+    <div class="brand">
+      <mat-icon class="brand-icon">science</mat-icon>
+      <span class="brand-title">REACTInterface</span>
+      <span class="brand-subtitle">Cloud Molecule Engine</span>
+    </div>
+    <span class="toolbar-spacer"></span>
+    <button *ngIf="!authService.isAuthenticated()" mat-raised-button color="accent" (click)="onLogin()">
+      <mat-icon>login</mat-icon> Sign In
+    </button>
+    <button *ngIf="authService.isAuthenticated()" mat-raised-button color="accent" (click)="goToDashboard()">
+      <mat-icon>dashboard</mat-icon> Open Dashboard
+    </button>
+  </mat-toolbar>
+
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">Cloud-Native Chemical Database & Kinetics System</h1>
+      <p class="hero-description">
+        REACTCLOUD provides high-performance molecular structure generation, reaction pattern querying,
+        and Benson group thermodynamic estimation hosted on Google Cloud Run.
+      </p>
+
+      <div class="action-card" *ngIf="!authService.isAuthenticated()">
+        <mat-card class="login-card">
+          <mat-card-header>
+            <mat-card-title>Secure Portal Access</mat-card-title>
+            <mat-card-subtitle>Sign in to query database catalogs and manage REACT tasks</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-actions>
+            <button mat-flat-button color="primary" class="login-btn" (click)="onLogin()">
+              <mat-icon>account_circle</mat-icon> Sign In with Cloud Account
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature Grid -->
+  <div class="features-section">
+    <h2 class="section-title">Core Capabilities</h2>
+
+    <div class="features-grid">
+      <mat-card class="feature-card">
+        <mat-card-header>
+          <mat-icon mat-card-avatar color="primary">science</mat-icon>
+          <mat-card-title>Molecules Database</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Explore molecular structures in SDF format with standard meta-atom representations and database graph operations.</p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="feature-card">
+        <mat-card-header>
+          <mat-icon mat-card-avatar color="primary">schema</mat-icon>
+          <mat-card-title>Reaction Patterns</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Query elementary reaction mechanism patterns, radical decomposition templates, and kinetic rule catalogs.</p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="feature-card">
+        <mat-card-header>
+          <mat-icon mat-card-avatar color="primary">grain</mat-icon>
+          <mat-card-title>Sub-Structures</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Analyze structural fragments, functional groups, and molecular connectivity patterns across sets.</p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="feature-card">
+        <mat-card-header>
+          <mat-icon mat-card-avatar color="primary">thermostat</mat-icon>
+          <mat-card-title>Benson Thermodynamics</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Calculate molar heat capacities, enthalpies, and entropies using automated Benson group additivity rules.</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

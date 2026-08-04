@@ -1,0 +1,121 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f8fafc;
+}
+
+.dashboard-toolbar {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .brand-icon {
+      font-size: 26px;
+      width: 26px;
+      height: 26px;
+    }
+
+    .brand-title {
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .brand-badge {
+      background: rgba(255, 255, 255, 0.2);
+      font-size: 12px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      margin-left: 6px;
+    }
+  }
+
+  .toolbar-spacer {
+    flex: 1 1 auto;
+  }
+
+  .user-profile {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: 12px;
+    font-size: 14px;
+
+    .user-avatar {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
+
+.sidenav-container {
+  flex: 1;
+
+  .dashboard-sidenav {
+    width: 280px;
+    background: #ffffff;
+    border-right: 1px solid #e2e8f0;
+
+    .sidenav-header {
+      padding: 20px 16px 12px;
+      border-bottom: 1px solid #f1f5f9;
+
+      h3 {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #0f172a;
+      }
+
+      p {
+        margin: 4px 0 0;
+        font-size: 0.8rem;
+        color: #64748b;
+      }
+    }
+
+    .task-nav-list {
+      padding-top: 8px;
+
+      .task-nav-item {
+        margin: 4px 8px;
+        border-radius: 8px;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+          background-color: #f1f5f9;
+        }
+
+        &.active-task {
+          background-color: #e0f2fe;
+
+          .task-nav-title {
+            font-weight: 700;
+            color: #0284c7;
+          }
+        }
+
+        .task-nav-title {
+          font-size: 0.95rem;
+          color: #334155;
+        }
+      }
+    }
+  }
+
+  .dashboard-main-content {
+    background-color: #f8fafc;
+
+    .content-wrapper {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+  }
+}
