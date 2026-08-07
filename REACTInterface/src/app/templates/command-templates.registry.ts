@@ -1,0 +1,122 @@
+/**
+ * Angular Static Template Registry (Option A: Client-Side Templates)
+ *
+ * Provides static template generator functions for catalog listing and parameterized
+ * item lookup commands without relying on backend disk file templates or temp files.
+ */
+export class CommandTemplatesRegistry {
+
+  // Catalog Task Templates
+
+  public static moleculesCatalog(): string[] {
+    return [
+      "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
+      "MetaAtoms", "Read", "Quit", "Quit",
+      "CreateOpenClose", "Start", "Quit",
+      "DbaseOps", "Molecules", "Misc", "PrintList", "Quit", "Quit", "Quit", "Quit"
+    ];
+  }
+
+  public static rxnPatternsCatalog(): string[] {
+    return [
+      "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
+      "MetaAtoms", "Read", "Quit", "Quit",
+      "CreateOpenClose", "Start", "Quit",
+      "DbaseOps", "RxnPatterns", "Misc", "PrintList", "Quit", "Quit", "Quit", "Quit"
+    ];
+  }
+
+  public static substructuresCatalog(): string[] {
+    return [
+      "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
+      "MetaAtoms", "Read", "Quit", "Quit",
+      "CreateOpenClose", "Start", "Quit",
+      "DbaseOps", "SubStructures", "Misc", "PrintList", "Quit", "Quit", "Quit", "Quit"
+    ];
+  }
+
+  public static bensonCatalog(): string[] {
+    return [
+      "CreateOpenClose", "Start", "Quit",
+      "DbaseOps", "Benson", "Print", "Quit", "Quit", "Quit"
+    ];
+  }
+
+  // Parameterized Detail Templates (Unmodified static command sequences matching .inp files)
+
+  public static printMoleculeDetail(_moleculeRootName?: string): string[] {
+    return [
+      "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
+      "MetaAtoms", "Read", "Quit", "Quit",
+      "CreateOpenClose", "Start", "Quit",
+      "Mol", "Parameters", "MolDirectory", "Input", ".", "Quit",
+      "RootMolName", "Input", "molecule", "Quit", "Quit", "Quit",
+      "DbaseOps", "Parameters", "DBDataDirectory", "Input", ".", "Quit", "Quit",
+      "Molecules", "Parameters", "DBDataMolRoot", "Input", "xxx", "Quit", "Quit",
+      "Current", "Help", "ReadInCurrent", "Quit", "Quit", "Quit",
+      "Mol", "Output", "Molecules", "Print", "Quit", "Quit", "Quit", "Quit"
+    ];
+  }
+
+  public static printRxnPatternDetail(_patternName?: string): string[] {
+    return [
+      "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
+      "MetaAtoms", "Read", "Quit", "Quit",
+      "CreateOpenClose", "Start", "Quit",
+      "Rxn", "Read", "Parameters", "RxnDirectory", "Input", ".", "Quit",
+      "RootRxnName", "Input", "xxx", "Quit", "Quit", "Quit", "Quit",
+      "DbaseOps", "Parameters", "DBDataDirectory", "Input", ".", "Quit", "Quit",
+      "RxnPatterns", "Parameters", "DBDataRxnRoot", "Input", "xxx", "Quit", "Quit",
+      "Current", "ReadInCurrent", "Quit", "Quit", "Quit",
+      "Rxn", "Output", "RxnPatterns", "Print", "Quit", "Quit", "Quit", "Quit"
+    ];
+  }
+
+  public static printSubstructureDetail(_substructureName?: string): string[] {
+    return [
+      "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
+      "MetaAtoms", "Read", "Quit", "Quit",
+      "CreateOpenClose", "Start", "Quit",
+      "Mol", "Parameters", "MolDirectory", "Input", "xx", "Quit",
+      "RootMolName", "Input", "molecule", "Quit", "Quit", "Quit",
+      "DbaseOps", "Parameters", "DBDataDirectory", "Input", ".", "Quit", "Quit",
+      "SubStructures", "Parameters", "DBDataMolRoot", "Input", "xxx", "Quit", "Quit",
+      "Current", "ReadInCurrent", "Quit", "Quit", "Quit",
+      "Mol", "Output", "SubStructures", "Print", "Quit", "Quit", "Quit", "Quit"
+    ];
+  }
+
+  /**
+   * Helper mapping task ID to static catalog template generator
+   */
+  public static getCatalogCommands(taskId: string): string[] {
+    switch (taskId) {
+      case 'molecules':
+        return this.moleculesCatalog();
+      case 'rxn-patterns':
+        return this.rxnPatternsCatalog();
+      case 'substructures':
+        return this.substructuresCatalog();
+      case 'benson-groups':
+        return this.bensonCatalog();
+      default:
+        return this.moleculesCatalog();
+    }
+  }
+
+  /**
+   * Helper mapping task ID + item name to parameterized detail command array generator
+   */
+  public static getItemDetailCommands(taskId: string, itemName: string): string[] {
+    switch (taskId) {
+      case 'molecules':
+        return this.printMoleculeDetail(itemName);
+      case 'rxn-patterns':
+        return this.printRxnPatternDetail(itemName);
+      case 'substructures':
+        return this.printSubstructureDetail(itemName);
+      default:
+        return ["CreateOpenClose", "Start", "Quit", "DbaseOps", "Quit", "Quit"];
+    }
+  }
+}

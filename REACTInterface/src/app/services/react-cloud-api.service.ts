@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
+import { CommandTemplatesRegistry } from '../templates/command-templates.registry';
 
 export interface CatalogItem {
   id: string;
@@ -18,6 +19,13 @@ export interface CatalogTask {
 
 export interface ApiRunInputResponse {
   inputFile: string;
+  root: string;
+  exitCode: number;
+  output: string;
+  error?: string;
+}
+
+export interface ApiRunCommandsResponse {
   root: string;
   exitCode: number;
   output: string;
@@ -63,6 +71,9 @@ export class ReactCloudApiService {
 
   constructor(private http: HttpClient) {}
 
+  /**
+   * Legacy file-based template execution (/api/run-input)
+   */
   public runInputTask(inpFile: string, rootName: string = 'job1'): Observable<CatalogItem[]> {
     const payload = {
       inputFile: inpFile,
@@ -80,10 +91,50 @@ export class ReactCloudApiService {
   }
 
   /**
-   * Parses output stdout by isolating lines containing ': -->'
-   * Line format: " 24018: -->KetoHydroPeroxideDecompToAldRadical-CRRRH<--"
-   * The first line containing ': -->' is the start of the list.
-   * The last line containing ': -->' is the end of the list.
+   * New Option A Stateless Memory-Piped execution (/api/run-commands)
+   */
+  public runCommands(commands: string[], rootName: string = 'job1', targetItem?: string, taskId?: string): Observable<ApiRunCommandsResponse> {
+    const payload: any = {
+      commands: commands,
+      root: rootName
+    };
+    if (targetItem) {
+      payload.targetItem = targetItem;
+    }
+    if (taskId) {
+      payload.taskId = taskId;
+    }
+
+    return this.http.post<ApiRunCommandsResponse>(`${this.baseUrl}/api/run-commands`, payload);
+  }
+
+  /**
+   * Run catalog task using Angular CommandTemplatesRegistry (Stateless memory-piped)
+   */
+  public runCatalogTaskWithRegistry(taskId: string, rootName: string = 'job1'): Observable<CatalogItem[]> {
+    const commands = CommandTemplatesRegistry.getCatalogCommands(taskId);
+    return this.runCommands(commands, rootName, undefined, taskId).pipe(
+      map(response => {
+        if (response.output) {
+          return this.parseCatalogOutput(response.output);
+        }
+        return [];
+      })
+    );
+  }
+
+  /**
+   * Parameterized lookup: fetch item detail output using CommandTemplatesRegistry (Stateless memory-piped)
+   */
+  public fetchItemDetails(taskId: string, itemName: string, rootName: string = 'job1'): Observable<string> {
+    const commands = CommandTemplatesRegistry.getItemDetailCommands(taskId, itemName);
+    return this.runCommands(commands, rootName, itemName, taskId).pipe(
+      map(response => response.output || 'No output returned.')
+    );
+  }
+
+  /**
+   * Parses output stdout by isolating lines containing ': -->' or ':-->'
    */
   public parseCatalogOutput(output: string): CatalogItem[] {
     if (!output) return [];

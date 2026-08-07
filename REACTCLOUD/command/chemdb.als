@@ -1,10 +1,10 @@
-ROOT                   /Users/edwardblurock/git/copilot-worktrees/react/blurock-studious-fortnight/
-DATA                   /Users/edwardblurock/git/copilot-worktrees/react/blurock-studious-fortnight//data
-DBDIRECTORY            /Users/edwardblurock/git/copilot-worktrees/react/blurock-studious-fortnight//data/DB
-MOLDIR                 /Users/edwardblurock/git/copilot-worktrees/react/blurock-studious-fortnight//data/mol
-RXNDIR                 /Users/edwardblurock/git/copilot-worktrees/react/blurock-studious-fortnight//data/rxn
-PERFDIR                /Users/edwardblurock/git/copilot-worktrees/react/blurock-studious-fortnight//data/mech
-TABLEDIR               /Users/edwardblurock/git/copilot-worktrees/react/blurock-studious-fortnight//data/tables
+ROOT                   /Users/edwardblurock/git/WorkFlowProject/REACTCLOUD
+DATA                   /Users/edwardblurock/git/WorkFlowProject/REACTCLOUD/data
+DBDIRECTORY            /Users/edwardblurock/git/WorkFlowProject/REACTCLOUD/data/DB
+MOLDIR                 /Users/edwardblurock/git/WorkFlowProject/REACTCLOUD/data/mol
+RXNDIR                 /Users/edwardblurock/git/WorkFlowProject/REACTCLOUD/data/rxn
+PERFDIR                /Users/edwardblurock/git/WorkFlowProject/REACTCLOUD/data/mech
+TABLEDIR               /Users/edwardblurock/git/WorkFlowProject/REACTCLOUD/data/tables
 
 MOLECULEROOT           mol/molecule
 REACTIONROOT           rxn/reaction

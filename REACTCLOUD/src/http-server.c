@@ -944,6 +944,280 @@ static int run_chem_template(const char *root, const char *input_file_path, char
     return capture_child_output(child, pipefd[0], output, exit_code);
 }
 
+static int parse_commands_array(const char *body, char **commands, int *command_count, int max_cmds)
+{
+    const char *cmds_key = strstr(body, "\"commands\"");
+    const char *cursor;
+    int count = 0;
+
+    if (cmds_key == NULL) {
+        return -1;
+    }
+
+    cursor = strchr(cmds_key, ':');
+    if (cursor == NULL) {
+        return -1;
+    }
+    ++cursor;
+    skip_whitespace(&cursor);
+
+    if (*cursor != '[') {
+        return -1;
+    }
+    ++cursor;
+
+    for (;;) {
+        skip_whitespace(&cursor);
+
+        if (*cursor == ']') {
+            ++cursor;
+            break;
+        }
+
+        if (count >= max_cmds) {
+            return -1;
+        }
+
+        commands[count] = parse_json_string(&cursor);
+        if (commands[count] == NULL) {
+            return -1;
+        }
+        ++count;
+
+        skip_whitespace(&cursor);
+        if (*cursor == ',') {
+            ++cursor;
+            continue;
+        }
+        if (*cursor == ']') {
+            ++cursor;
+            break;
+        }
+        return -1;
+    }
+
+    *command_count = count;
+    return count > 0 ? 0 : -1;
+}
+
+static int prepare_context_file(const char *tmp_dir, const char *target_item, const char *task_id)
+{
+    char mol_path[MAX_PATH_LENGTH];
+    char rxn_path[MAX_PATH_LENGTH];
+    char content[1024];
+
+    if (target_item == NULL || *target_item == '\0') {
+        return 0;
+    }
+
+    if (task_id != NULL && strstr(task_id, "rxn") != NULL) {
+        if (snprintf(rxn_path, sizeof(rxn_path), "%s/xxx.rxn", tmp_dir) >= (int) sizeof(rxn_path)) {
+            return -1;
+        }
+        snprintf(content, sizeof(content), "RxnPatternList\n%s\n", target_item);
+        return write_text_file(rxn_path, content);
+    } else {
+        if (snprintf(mol_path, sizeof(mol_path), "%s/xxx.mol", tmp_dir) >= (int) sizeof(mol_path)) {
+            return -1;
+        }
+        snprintf(content, sizeof(content), "%s\n", target_item);
+        return write_text_file(mol_path, content);
+    }
+}
+
+static int run_chem_commands(const char *root, char **commands, int command_count, const char *target_item, const char *task_id, char **output, int *exit_code)
+{
+    const char *reactroot = reactroot_env();
+    char runchem_path[MAX_PATH_LENGTH];
+    char tmp_dir[MAX_PATH_LENGTH];
+    int stdin_pipe[2];
+    int out_pipe[2];
+    pid_t child;
+    char *argv[3];
+    int i;
+    size_t total_buf_len = 0;
+    char *input_buffer = NULL;
+    char *cursor = NULL;
+
+    if (snprintf(runchem_path, sizeof(runchem_path), "%s/bin/runchem.sh", reactroot) >= (int) sizeof(runchem_path) ||
+        snprintf(tmp_dir, sizeof(tmp_dir), "%s/tmp", reactroot) >= (int) sizeof(tmp_dir)) {
+        return -1;
+    }
+
+    ensure_directory_exists(tmp_dir);
+    if (prepare_context_file(tmp_dir, target_item, task_id) != 0) {
+        return -1;
+    }
+
+    for (i = 0; i < command_count; ++i) {
+        total_buf_len += strlen(commands[i]) + 1;
+    }
+
+    input_buffer = (char *) malloc(total_buf_len + 1);
+    if (input_buffer == NULL) {
+        return -1;
+    }
+
+    cursor = input_buffer;
+    for (i = 0; i < command_count; ++i) {
+        size_t len = strlen(commands[i]);
+        memcpy(cursor, commands[i], len);
+        cursor += len;
+        *cursor++ = '\n';
+    }
+    *cursor = '\0';
+
+    if (pipe(stdin_pipe) != 0) {
+        free(input_buffer);
+        return -1;
+    }
+    if (pipe(out_pipe) != 0) {
+        close(stdin_pipe[0]);
+        close(stdin_pipe[1]);
+        free(input_buffer);
+        return -1;
+    }
+
+    argv[0] = runchem_path;
+    argv[1] = (char *) root;
+    argv[2] = NULL;
+
+    child = fork();
+    if (child < 0) {
+        close(stdin_pipe[0]);
+        close(stdin_pipe[1]);
+        close(out_pipe[0]);
+        close(out_pipe[1]);
+        free(input_buffer);
+        return -1;
+    }
+
+    if (child == 0) {
+        dup2(stdin_pipe[0], STDIN_FILENO);
+        dup2(out_pipe[1], STDOUT_FILENO);
+        dup2(out_pipe[1], STDERR_FILENO);
+        close(stdin_pipe[0]);
+        close(stdin_pipe[1]);
+        close(out_pipe[0]);
+        close(out_pipe[1]);
+        chdir(tmp_dir);
+        execv(runchem_path, argv);
+        perror("execv");
+        _exit(127);
+    }
+
+    close(stdin_pipe[0]);
+    close(out_pipe[1]);
+
+    if (total_buf_len > 0) {
+        send_all(stdin_pipe[1], input_buffer, total_buf_len);
+    }
+    close(stdin_pipe[1]);
+    free(input_buffer);
+
+    int res = capture_child_output(child, out_pipe[0], output, exit_code);
+    if (res == 0 && root != NULL) {
+        char out_file_path[MAX_PATH_LENGTH];
+        char *file_content = NULL;
+        if (snprintf(out_file_path, sizeof(out_file_path), "%s/%s.out", tmp_dir, root) < (int) sizeof(out_file_path)) {
+            if (read_text_file(out_file_path, &file_content) == 0 && file_content != NULL) {
+                size_t combined_len = strlen(*output) + strlen(file_content) + 64;
+                char *combined = (char *) malloc(combined_len);
+                if (combined != NULL) {
+                    snprintf(combined, combined_len, "%s\n--- Output File (%s.out) ---\n%s", *output, root, file_content);
+                    free(*output);
+                    *output = combined;
+                }
+                free(file_content);
+            }
+        }
+    }
+
+    return res;
+}
+
+static int handle_run_commands_request(int client_fd, const char *body)
+{
+    char *commands[MAX_ARGS * 4];
+    int command_count = 0;
+    char *root = NULL;
+    char *target_item = NULL;
+    char *task_id = NULL;
+    char *command_output = NULL;
+    char *escaped_output = NULL;
+    char *response = NULL;
+    int exit_code = 1;
+    int status;
+    int i;
+
+    for (i = 0; i < MAX_ARGS * 4; ++i) {
+        commands[i] = NULL;
+    }
+
+    status = parse_commands_array(body, commands, &command_count, MAX_ARGS * 4);
+    if (status != 0 || command_count == 0) {
+        return send_response(
+            client_fd,
+            400,
+            "application/json",
+            "{\"error\":\"Request body must be JSON with a non-empty commands array, for example {\\\"commands\\\":[\\\"CreateOpenClose\\\",\\\"Start\\\",\\\"Quit\\\"]}.\"}");
+    }
+
+    status = parse_json_field_string(body, "root", &root);
+    if (status < 0) {
+        free_args(commands, command_count);
+        return send_response(client_fd, 400, "application/json", "{\"error\":\"Invalid root value.\"}");
+    }
+    if (root == NULL) {
+        root = strdup("api");
+    }
+    if (!is_safe_root(root)) {
+        free(root);
+        free_args(commands, command_count);
+        return send_response(client_fd, 400, "application/json", "{\"error\":\"root must use letters, numbers, underscore, or dash.\"}");
+    }
+
+    parse_json_field_string(body, "targetItem", &target_item);
+    parse_json_field_string(body, "taskId", &task_id);
+
+    if (run_chem_commands(root, commands, command_count, target_item, task_id, &command_output, &exit_code) != 0) {
+        if (target_item) free(target_item);
+        if (task_id) free(task_id);
+        free(root);
+        free_args(commands, command_count);
+        return send_response(client_fd, 500, "application/json", "{\"error\":\"Unable to execute commands stream.\"}");
+    }
+
+    if (target_item) free(target_item);
+    if (task_id) free(task_id);
+
+    escaped_output = json_escape(command_output);
+    free(command_output);
+    free_args(commands, command_count);
+
+    if (escaped_output == NULL) {
+        free(root);
+        return send_response(client_fd, 500, "application/json", "{\"error\":\"Unable to encode output.\"}");
+    }
+
+    response = build_json_message(
+        "{\"root\":\"%s\",\"exitCode\":%d,\"output\":\"%s\"}",
+        root,
+        exit_code,
+        escaped_output);
+
+    free(root);
+    free(escaped_output);
+
+    if (response == NULL) {
+        return send_response(client_fd, 500, "application/json", "{\"error\":\"Unable to build response.\"}");
+    }
+
+    status = send_response(client_fd, 200, "application/json", response);
+    free(response);
+    return status;
+}
+
 static int create_server_socket(int port)
 {
     int server_fd;
@@ -1212,9 +1486,9 @@ static int handle_request(int client_fd)
             client_fd,
             200,
             "application/json",
-            "{\"service\":\"chemdb\",\"endpoints\":[\"GET /health\",\"POST /api/run\",\"POST /api/run-input\"],"
-            "\"examples\":{\"run\":{\"args\":[\"--help\"]},\"runInput\":{\"inputFile\":\"PrintRxnPatternsList.inp\",\"root\":\"job1\"}}}");
-    } else if (strcmp(method, "POST") == 0 && (strcmp(path, "/api/run") == 0 || strcmp(path, "/api/run-input") == 0)) {
+            "{\"service\":\"chemdb\",\"endpoints\":[\"GET /health\",\"POST /api/run\",\"POST /api/run-input\",\"POST /api/run-commands\"],"
+            "\"examples\":{\"run\":{\"args\":[\"--help\"]},\"runInput\":{\"inputFile\":\"PrintRxnPatternsList.inp\",\"root\":\"job1\"},\"runCommands\":{\"commands\":[\"CreateOpenClose\",\"Start\",\"Quit\"]}}}");
+    } else if (strcmp(method, "POST") == 0 && (strcmp(path, "/api/run") == 0 || strcmp(path, "/api/run-input") == 0 || strcmp(path, "/api/run-commands") == 0)) {
         if (!is_authenticated(request)) {
             result = send_response(
                 client_fd,
@@ -1223,8 +1497,10 @@ static int handle_request(int client_fd)
                 "{\"error\":\"Authentication required. Please provide a valid Authorization Bearer token.\"}");
         } else if (strcmp(path, "/api/run") == 0) {
             result = handle_run_request(client_fd, body);
-        } else {
+        } else if (strcmp(path, "/api/run-input") == 0) {
             result = handle_run_input_request(client_fd, body);
+        } else {
+            result = handle_run_commands_request(client_fd, body);
         }
     } else if (strcmp(method, "GET") != 0 && strcmp(method, "POST") != 0 && strcmp(method, "OPTIONS") != 0) {
         result = send_response(client_fd, 405, "application/json", "{\"error\":\"Method not allowed.\"}");

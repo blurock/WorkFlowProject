@@ -4,7 +4,7 @@
     <mat-card-header>
       <mat-icon mat-card-avatar color="primary" class="task-avatar-icon">{{ task.icon }}</mat-icon>
       <mat-card-title class="banner-title">{{ task.title }}</mat-card-title>
-      <mat-card-subtitle class="banner-subtitle">Input Template: <code>{{ task.inpFile }}</code></mat-card-subtitle>
+      <mat-card-subtitle class="banner-subtitle">Execution Mode: <code>Stateless Client-Side Registry (POST /api/run-commands)</code></mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content class="banner-description">
@@ -13,7 +13,7 @@
 
     <mat-card-actions class="banner-actions">
       <button mat-raised-button color="primary" (click)="loadTaskData()" [disabled]="isLoading">
-        <mat-icon>play_arrow</mat-icon> Run Task API
+        <mat-icon>play_arrow</mat-icon> Run Task API (Registry)
       </button>
       <span class="spacer"></span>
       <span class="item-count-badge" *ngIf="items.length > 0">
@@ -32,38 +32,256 @@
     </mat-card-content>
   </mat-card>
 
-  <!-- Scrollable List Container -->
-  <mat-card class="list-card">
-    <mat-card-header>
-      <mat-card-title>Catalog Items</mat-card-title>
-    </mat-card-header>
+  <!-- Multi-Tab View Layout -->
+  <mat-tab-group [(selectedIndex)]="selectedTabIndex" class="task-tab-group" animationDuration="200ms">
+    
+    <!-- Tab 1: Catalog Molecules List -->
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="tab-icon">format_list_bulleted</mat-icon>
+        <span>Molecules List</span>
+      </ng-template>
 
-    <mat-card-content class="scrollable-list-area">
-      <!-- Empty State -->
-      <div class="empty-state" *ngIf="!isLoading && items.length === 0 && hasExecuted">
-        <mat-icon class="empty-icon">inbox</mat-icon>
-        <p>No catalog items found in the API response matching line pattern <code>: --></code>.</p>
+      <div class="tab-content-area">
+        <mat-card class="list-card">
+          <mat-card-header>
+            <mat-card-title>Catalog Items</mat-card-title>
+            <mat-card-subtitle>Click any item to view detailed section cards in the Molecule Information tab</mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content class="scrollable-list-area">
+            <!-- Empty State -->
+            <div class="empty-state" *ngIf="!isLoading && items.length === 0 && hasExecuted">
+              <mat-icon class="empty-icon">inbox</mat-icon>
+              <p>No catalog items found matching line pattern <code>: --></code>.</p>
+            </div>
+
+            <!-- Initial Loading State -->
+            <div class="empty-state" *ngIf="isLoading">
+              <mat-icon class="empty-icon spinning">sync</mat-icon>
+              <p>Piping client-side template commands into REACTCLOUD STDIN...</p>
+            </div>
+
+            <!-- Parsed Items Action List -->
+            <mat-action-list *ngIf="!isLoading && items.length > 0" class="catalog-action-list">
+              <button
+                mat-list-item
+                *ngFor="let item of items"
+                (click)="onItemClick(item)"
+                [class.selected-item]="selectedItem?.id === item.id"
+                class="catalog-item-button">
+                <mat-icon matListItemIcon color="primary">label</mat-icon>
+                <div matListItemTitle class="item-name">{{ item.name }}</div>
+                <div matListItemLine class="item-id-line">ID: #{{ item.id }}</div>
+                <mat-icon class="arrow-right-icon">chevron_right</mat-icon>
+              </button>
+            </mat-action-list>
+          </mat-card-content>
+        </mat-card>
       </div>
+    </mat-tab>
 
-      <!-- Initial Loading State -->
-      <div class="empty-state" *ngIf="isLoading">
-        <mat-icon class="empty-icon spinning">sync</mat-icon>
-        <p>Executing REACTCLOUD task and parsing catalog lines...</p>
+    <!-- Tab 2: Molecule Information Cards -->
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="tab-icon">find_in_page</mat-icon>
+        <span>{{ selectedItem ? selectedItem.name : 'Molecule Information' }}</span>
+      </ng-template>
+
+      <div class="tab-content-area">
+        <!-- Top Toolbar Header for Selected Molecule -->
+        <mat-card class="detail-header-card" *ngIf="selectedItem !== null">
+          <div class="detail-header-toolbar">
+            <div class="detail-title-group">
+              <mat-icon class="header-mol-icon" color="accent">science</mat-icon>
+              <div>
+                <h2 class="detail-mol-title">{{ selectedItem.name }}</h2>
+                <span class="detail-mol-id">ID: #{{ selectedItem.id }}</span>
+              </div>
+            </div>
+
+            <div class="detail-actions-group">
+              <button mat-stroked-button (click)="backToCatalogTab()">
+                <mat-icon>arrow_back</mat-icon> Back to List
+              </button>
+              <button mat-stroked-button (click)="toggleAllSections(true)">
+                <mat-icon>unfold_more</mat-icon> Expand All
+              </button>
+              <button mat-stroked-button (click)="toggleAllSections(false)">
+                <mat-icon>unfold_less</mat-icon> Collapse All
+              </button>
+              <button mat-flat-button color="primary" (click)="copyFullOutput()">
+                <mat-icon>content_copy</mat-icon> Copy Full Output
+              </button>
+            </div>
+          </div>
+          <mat-progress-bar *ngIf="isDetailLoading" mode="indeterminate" color="primary"></mat-progress-bar>
+        </mat-card>
+
+        <!-- Empty / Unselected State -->
+        <mat-card class="empty-detail-card" *ngIf="selectedItem === null && !isDetailLoading">
+          <mat-card-content class="empty-state">
+            <mat-icon class="empty-icon">find_in_page</mat-icon>
+            <h3>No Molecule Selected</h3>
+            <p>Please select a molecule from the <strong>Molecules List</strong> tab to inspect its detailed section cards.</p>
+            <button mat-raised-button color="primary" (click)="backToCatalogTab()">
+              <mat-icon>arrow_back</mat-icon> Go to Molecules List
+            </button>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Section Cards Grid -->
+        <div class="sections-grid-container" *ngIf="selectedItem !== null && !isDetailLoading">
+          <div class="sections-count-bar">
+            <span>Showing {{ moleculeSections.length }} Data Sections (Delimited by <code>~</code>)</span>
+          </div>
+
+          <div class="sections-grid">
+            <mat-card class="section-card" *ngFor="let section of moleculeSections" [class.collapsed]="!section.isExpanded">
+              <mat-card-header class="section-card-header">
+                <mat-icon mat-card-avatar color="accent" class="section-avatar-icon">{{ section.icon }}</mat-icon>
+                <mat-card-title class="section-card-title">{{ section.title }}</mat-card-title>
+                <mat-card-subtitle>Section #{{ section.id }}</mat-card-subtitle>
+
+                <div class="section-header-actions">
+                  <button mat-icon-button (click)="copySectionContent(section)" matTooltip="Copy section content">
+                    <mat-icon>content_copy</mat-icon>
+                  </button>
+                  <button mat-icon-button (click)="toggleSection(section)" [matTooltip]="section.isExpanded ? 'Collapse section' : 'Expand section'">
+                    <mat-icon>{{ section.isExpanded ? 'expand_less' : 'expand_more' }}</mat-icon>
+                  </button>
+                </div>
+              </mat-card-header>
+
+              <mat-card-content class="section-card-content" *ngIf="section.isExpanded">
+                <!-- MatTable rendering for Electronic Properties & Shells -->
+                <ng-container *ngIf="section.electronicTableData && section.electronicTableData.length > 0">
+                  <div class="table-responsive-wrapper">
+                    <table mat-table [dataSource]="section.electronicTableData" class="electronic-properties-table mat-elevation-z1">
+                      
+                      <!-- Atom Number (new) Column -->
+                      <ng-container matColumnDef="atomIndex">
+                        <th mat-header-cell *matHeaderCellDef class="table-header-cell"> Atom # </th>
+                        <td mat-cell *matCellDef="let row" class="table-body-cell atom-idx-cell">
+                          <span class="atom-badge">#{{ row.atomIndex }}</span>
+                        </td>
+                      </ng-container>
+
+                      <!-- Atomic Number Column -->
+                      <ng-container matColumnDef="atomicNumber">
+                        <th mat-header-cell *matHeaderCellDef class="table-header-cell"> Atomic Number </th>
+                        <td mat-cell *matCellDef="let row" class="table-body-cell">
+                          <strong>{{ row.atomicNumber }}</strong>
+                        </td>
+                      </ng-container>
+
+                      <!-- Charge Column -->
+                      <ng-container matColumnDef="charge">
+                        <th mat-header-cell *matHeaderCellDef class="table-header-cell"> Charge </th>
+                        <td mat-cell *matCellDef="let row" class="table-body-cell" [class.negative-val]="row.charge.startsWith('-')" [class.positive-val]="!row.charge.startsWith('-') && row.charge !== '0.000'">
+                          <code>{{ row.charge }}</code>
+                        </td>
+                      </ng-container>
+
+                      <!-- Number of Electrons Column -->
+                      <ng-container matColumnDef="nElectrons">
+                        <th mat-header-cell *matHeaderCellDef class="table-header-cell"> Number of Electrons </th>
+                        <td mat-cell *matCellDef="let row" class="table-body-cell">
+                          <code>{{ row.nElectrons }}</code>
+                        </td>
+                      </ng-container>
+
+                      <!-- Occupied Shells Column -->
+                      <ng-container matColumnDef="shells">
+                        <th mat-header-cell *matHeaderCellDef class="table-header-cell"> Occupied Shells </th>
+                        <td mat-cell *matCellDef="let row" class="table-body-cell">
+                          <div class="shell-chips-container">
+                            <span class="shell-badge" *ngFor="let shell of row.shells">{{ shell }}</span>
+                          </div>
+                        </td>
+                      </ng-container>
+
+                      <tr mat-header-row *matHeaderRowDef="electronicDisplayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: electronicDisplayedColumns;"></tr>
+                    </table>
+                  </div>
+                </ng-container>
+
+                <!-- MatTable rendering for Charge & Radii -->
+                <ng-container *ngIf="section.chargeTableData && section.chargeTableData.length > 0">
+                  <div class="table-responsive-wrapper">
+                    <table mat-table [dataSource]="section.chargeTableData" class="electronic-properties-table mat-elevation-z1">
+                      
+                      <!-- Atom Number (new) Column -->
+                      <ng-container matColumnDef="atomIndex">
+                        <th mat-header-cell *matHeaderCellDef class="table-header-cell"> Atom # </th>
+                        <td mat-cell *matCellDef="let row" class="table-body-cell atom-idx-cell">
+                          <span class="atom-badge">#{{ row.atomIndex }}</span>
+                        </td>
+                      </ng-container>
+
+                      <!-- Radius Column -->
+                      <ng-container matColumnDef="radius">
+                        <th mat-header-cell *matHeaderCellDef class="table-header-cell"> Radius </th>
+                        <td mat-cell *matCellDef="let row" class="table-body-cell">
+                          <code>{{ row.radius }}</code>
+                        </td>
+                      </ng-container>
+
+                      <!-- Electronegativity Column -->
+                      <ng-container matColumnDef="electronegativity">
+                        <th mat-header-cell *matHeaderCellDef class="table-header-cell"> Electronegativity </th>
+                        <td mat-cell *matCellDef="let row" class="table-body-cell">
+                          <code>{{ row.electronegativity }}</code>
+                        </td>
+                      </ng-container>
+
+                      <!-- Screening Factor Column -->
+                      <ng-container matColumnDef="screening">
+                        <th mat-header-cell *matHeaderCellDef class="table-header-cell"> Screening Factor </th>
+                        <td mat-cell *matCellDef="let row" class="table-body-cell">
+                          <code>{{ row.screening }}</code>
+                        </td>
+                      </ng-container>
+
+                      <!-- Effective Charge Column -->
+                      <ng-container matColumnDef="effectiveCharge">
+                        <th mat-header-cell *matHeaderCellDef class="table-header-cell"> Effective Charge </th>
+                        <td mat-cell *matCellDef="let row" class="table-body-cell">
+                          <code>{{ row.effectiveCharge }}</code>
+                        </td>
+                      </ng-container>
+
+                      <!-- Residual Charge Column -->
+                      <ng-container matColumnDef="residualCharge">
+                        <th mat-header-cell *matHeaderCellDef class="table-header-cell"> Residual Charge </th>
+                        <td mat-cell *matCellDef="let row" class="table-body-cell">
+                          <code>{{ row.residualCharge }}</code>
+                        </td>
+                      </ng-container>
+
+                      <!-- Beta Column -->
+                      <ng-container matColumnDef="beta">
+                        <th mat-header-cell *matHeaderCellDef class="table-header-cell"> Beta </th>
+                        <td mat-cell *matCellDef="let row" class="table-body-cell">
+                          <code>{{ row.beta }}</code>
+                        </td>
+                      </ng-container>
+
+                      <tr mat-header-row *matHeaderRowDef="chargeDisplayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: chargeDisplayedColumns;"></tr>
+                    </table>
+                  </div>
+                </ng-container>
+
+                <ng-container *ngIf="(!section.electronicTableData || section.electronicTableData.length === 0) && (!section.chargeTableData || section.chargeTableData.length === 0)">
+                  <pre class="section-code-block">{{ section.content }}</pre>
+                </ng-container>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
       </div>
-
-      <!-- Parsed Items Action List -->
-      <mat-action-list *ngIf="!isLoading && items.length > 0" class="catalog-action-list">
-        <button
-          mat-list-item
-          *ngFor="let item of items"
-          (click)="onItemClick(item)"
-          [class.selected-item]="selectedItem?.id === item.id"
-          class="catalog-item-button">
-          <mat-icon matListItemIcon color="primary">label</mat-icon>
-          <div matListItemTitle class="item-name">{{ item.name }}</div>
-          <div matListItemLine class="item-id-line">ID: #{{ item.id }}</div>
-        </button>
-      </mat-action-list>
-    </mat-card-content>
-  </mat-card>
+    </mat-tab>
+  </mat-tab-group>
 </div>
