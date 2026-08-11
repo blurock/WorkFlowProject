@@ -142,7 +142,6 @@
             [item]="selectedItem"
             [sections]="moleculeSections"
             [rawOutput]="itemDetailOutput"
-            [ketcherSafeUrl]="ketcherSafeUrl"
             [sdfContent]="currentSdfContent"
             (toggleAll)="toggleAllSections($event)"
             (copyOutput)="copyFullOutput()"
@@ -155,7 +154,6 @@
             [item]="selectedItem"
             [sections]="moleculeSections"
             [rawOutput]="itemDetailOutput"
-            [ketcherSafeUrl]="ketcherSafeUrl"
             [sdfContent]="currentSdfContent"
             (toggleAll)="toggleAllSections($event)"
             (copyOutput)="copyFullOutput()"
@@ -168,7 +166,6 @@
             [item]="selectedItem"
             [sections]="moleculeSections"
             [rawOutput]="itemDetailOutput"
-            [ketcherSafeUrl]="ketcherSafeUrl"
             [sdfContent]="currentSdfContent"
             (toggleAll)="toggleAllSections($event)"
             (copyOutput)="copyFullOutput()"
@@ -186,13 +183,23 @@
             (backToList)="backToCatalogTab()">
           </app-benson-group-detail>
 
+          <!-- Mechanisms Task Detail View -->
+          <app-benson-group-detail
+            *ngSwitchCase="'mechanisms'"
+            [item]="selectedItem"
+            [sections]="moleculeSections"
+            [rawOutput]="itemDetailOutput"
+            (toggleAll)="toggleAllSections($event)"
+            (copyOutput)="copyFullOutput()"
+            (backToList)="backToCatalogTab()">
+          </app-benson-group-detail>
+
           <!-- Fallback / Default Detail View -->
           <app-molecule-detail
             *ngSwitchDefault
             [item]="selectedItem"
             [sections]="moleculeSections"
             [rawOutput]="itemDetailOutput"
-            [ketcherSafeUrl]="ketcherSafeUrl"
             [sdfContent]="currentSdfContent"
             (toggleAll)="toggleAllSections($event)"
             (copyOutput)="copyFullOutput()"

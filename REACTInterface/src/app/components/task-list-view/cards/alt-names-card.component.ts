@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTableModule } from '@angular/material/table';
 import { BaseSectionCardComponent } from './base-section-card.component';
+import { AltNameRow } from '../../../models/task-list.models';
 
 @Component({
   selector: 'app-alt-names-card',
@@ -26,12 +27,16 @@ import { BaseSectionCardComponent } from './base-section-card.component';
         </div>
       </mat-card-header>
       <mat-card-content *ngIf="section.isExpanded" class="section-card-content">
-        <div class="alt-names-container mb-3" *ngIf="section.altNamesData && section.altNamesData.length > 0">
-          <div class="alt-name-item" *ngFor="let alt of section.altNamesData">
+        <div class="alt-names-container mb-3" *ngIf="altNames && altNames.length > 0">
+          <div class="alt-name-item" *ngFor="let alt of altNames">
             <span class="alt-name-text">{{ alt.name }}</span>
             <span class="alt-type-tag">({{ alt.type }})</span>
           </div>
         </div>
+
+        <ng-container *ngIf="!altNames || altNames.length === 0">
+          <pre class="section-code-block">{{ section.content }}</pre>
+        </ng-container>
       </mat-card-content>
     </mat-card>
   `,
@@ -39,5 +44,41 @@ import { BaseSectionCardComponent } from './base-section-card.component';
   styles: [':host { display: block; width: 100%; }']
 })
 export class AltNamesCardComponent extends BaseSectionCardComponent {
-  public readonly displayedColumns: string[] = ['name', 'type'];
+  public get altNames(): AltNameRow[] {
+    if (this.section?.altNamesData && this.section.altNamesData.length > 0) {
+      return this.section.altNamesData;
+    }
+    if (this.section?.content) {
+      const lines = this.section.content.split(/\r?\n/);
+      return AltNamesCardComponent.parseAltNames(lines);
+    }
+    return [];
+  }
+
+  public static parseAltNames(lines: string[]): AltNameRow[] {
+    const results: AltNameRow[] = [];
+    let currentType = '';
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+      if (!line || line.includes('Alternative Names')) continue;
+
+      if (line.includes(';')) {
+        const parts = line.split(';')[0].trim().split(/\s+/);
+        if (parts.length >= 2) {
+          currentType = parts.slice(1).join(' ').toUpperCase();
+        } else if (parts.length === 1) {
+          currentType = parts[0].toUpperCase();
+        }
+      } else if (currentType && line.length > 0) {
+        results.push({
+          name: line.trim(),
+          type: currentType
+        });
+        currentType = '';
+      }
+    }
+
+    return results;
+  }
 }

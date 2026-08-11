@@ -1,78 +1,48 @@
-import { Component, Input, ViewChild, ElementRef, OnChanges, SimpleChanges, HostListener } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SafeResourceUrl } from '@angular/platform-browser';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { BaseCatalogDetailComponent } from './base-catalog-detail.component';
 
 import { TextSectionCardComponent } from '../cards/text-section-card.component';
 import { ReactionRateCardComponent } from '../cards/reaction-rate-card.component';
 import { AtomCorrespondencesCardComponent } from '../cards/atom-correspondences-card.component';
+import { KetcherViewerComponent } from '../../ketcher-viewer/ketcher-viewer.component';
 
 @Component({
   selector: 'app-rxn-pattern-detail',
   standalone: true,
   imports: [
     CommonModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTooltipModule,
     TextSectionCardComponent,
     ReactionRateCardComponent,
-    AtomCorrespondencesCardComponent
+    AtomCorrespondencesCardComponent,
+    KetcherViewerComponent
   ],
   template: `
     <div class="molecule-info-split-container">
       <!-- Left Column: Ketcher 2D Viewer -->
       <div class="ketcher-panel-column">
-        <mat-card class="ketcher-card">
-          <mat-card-header class="ketcher-card-header">
-            <mat-icon mat-card-avatar color="primary">hub</mat-icon>
-            <mat-card-title>2D Chemical Structure / Reaction</mat-card-title>
-            <mat-card-subtitle>Ketcher Interactive Viewer</mat-card-subtitle>
-            <div class="ketcher-header-actions">
-              <button mat-icon-button (click)="onTriggerLayout()" matTooltip="Clean & Auto-Arrange 2D Layout">
-                <mat-icon>auto_awesome</mat-icon>
-              </button>
-              <button mat-icon-button (click)="onReloadStructure()" matTooltip="Reload reaction in Ketcher">
-                <mat-icon>refresh</mat-icon>
-              </button>
-            </div>
-          </mat-card-header>
-          <mat-card-content class="ketcher-card-content">
-            <iframe
-              #ketcherIframe
-              [src]="ketcherSafeUrl"
-              class="ketcher-iframe"
-              (load)="onKetcherIframeLoad()"
-              title="Ketcher Chemical Structure Editor"
-            ></iframe>
-          </mat-card-content>
-        </mat-card>
+        <app-ketcher-viewer [molfile]="sdfContent" title="2D Chemical Structure / Reaction"></app-ketcher-viewer>
       </div>
 
       <!-- Right Column: Sections Grid -->
       <div class="sections-grid-column">
         <div class="sections-grid">
           <ng-container *ngFor="let section of sections">
-            <!-- Reaction Rate Parameters -->
+            <!-- Section 2 & 3: Reaction Rate Parameters -->
             <app-reaction-rate-card
-              *ngIf="section.reactionRateData && section.reactionRateData.length > 0"
+              *ngIf="section.title.includes('Reaction Rate') || section.title.includes('Section 2')"
               [section]="section">
             </app-reaction-rate-card>
 
-            <!-- Atom Correspondences & Bond Changes -->
+            <!-- Section 5: Atom Correspondences & Bond Changes -->
             <app-atom-correspondences-card
-              *ngIf="(section.matchedAtomsData && section.matchedAtomsData.length > 0) || (section.bondChangesData && section.bondChangesData.length > 0)"
+              *ngIf="section.title.includes('Section 5') || section.title.includes('Correspondences')"
               [section]="section">
             </app-atom-correspondences-card>
 
             <!-- Generic Text / Code Block -->
             <app-text-section-card
-              *ngIf="(!section.reactionRateData || section.reactionRateData.length === 0) && (!section.matchedAtomsData || section.matchedAtomsData.length === 0) && (!section.bondChangesData || section.bondChangesData.length === 0)"
+              *ngIf="!section.title.includes('Reaction Rate') && !section.title.includes('Section 2') && !section.title.includes('Section 5') && !section.title.includes('Correspondences')"
               [section]="section">
             </app-text-section-card>
           </ng-container>
@@ -83,66 +53,6 @@ import { AtomCorrespondencesCardComponent } from '../cards/atom-correspondences-
   styleUrls: ['../task-list-view.component.scss'],
   styles: [':host { display: block; width: 100%; }']
 })
-export class RxnPatternDetailComponent extends BaseCatalogDetailComponent implements OnChanges {
-  @Input({ required: true }) ketcherSafeUrl!: SafeResourceUrl;
+export class RxnPatternDetailComponent extends BaseCatalogDetailComponent {
   @Input() sdfContent: string | null = null;
-  @ViewChild('ketcherIframe') ketcherIframe!: ElementRef<HTMLIFrameElement>;
-
-  private isKetcherLoaded: boolean = false;
-
-  @HostListener('window:message', ['$event'])
-  onWindowMessage(event: MessageEvent): void {
-    if (event.data?.eventType === 'init' || event.data === 'ketcher-ready') {
-      this.isKetcherLoaded = true;
-      if (this.sdfContent) {
-        this.sendSdfToKetcher(this.sdfContent);
-      }
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['sdfContent'] && this.sdfContent) {
-      if (this.isKetcherLoaded) {
-        this.sendSdfToKetcher(this.sdfContent);
-      } else {
-        setTimeout(() => {
-          if (this.sdfContent) {
-            this.sendSdfToKetcher(this.sdfContent);
-          }
-        }, 500);
-      }
-    }
-  }
-
-  public onKetcherIframeLoad(): void {
-    setTimeout(() => {
-      if (this.sdfContent) {
-        this.sendSdfToKetcher(this.sdfContent);
-      }
-    }, 400);
-  }
-
-  public onTriggerLayout(): void {
-    if (this.ketcherIframe?.nativeElement?.contentWindow) {
-      this.ketcherIframe.nativeElement.contentWindow.postMessage({
-        eventType: 'LAYOUT_STRUCTURE'
-      }, '*');
-    }
-  }
-
-  public onReloadStructure(): void {
-    if (this.sdfContent) {
-      this.sendSdfToKetcher(this.sdfContent);
-    }
-  }
-
-  private sendSdfToKetcher(sdf: string | null): void {
-    if (!sdf) return;
-    if (this.ketcherIframe?.nativeElement?.contentWindow) {
-      this.ketcherIframe.nativeElement.contentWindow.postMessage({
-        eventType: 'SET_STRUCTURE',
-        molfile: sdf
-      }, '*');
-    }
-  }
 }

@@ -65,6 +65,22 @@ export interface BensonGroupTableData {
   rows: BensonGroupRow[];
 }
 
+export interface MechCoefficientRow {
+  rxnClass: string;
+  fwdA: string;
+  fwdN: string;
+  fwdEa: string;
+  revA: string;
+  revN: string;
+  revEa: string;
+}
+
+export interface MechFileData {
+  coefficients: MechCoefficientRow[];
+  classEquivalentsText: string;
+  reactionClassesText: string;
+}
+
 export interface MoleculeSection {
   id: number;
   title: string;
@@ -78,4 +94,5 @@ export interface MoleculeSection {
   bondChangesData?: BondChangeRow[];
   reactionRateData?: ReactionRateRow[];
   bensonGroupTableData?: BensonGroupTableData;
+  mechFileData?: MechFileData;
 }

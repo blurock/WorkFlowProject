@@ -66,6 +66,13 @@ export class ReactCloudApiService {
       inpFile: 'PrintBensonList.inp',
       description: 'Retrieve catalog of Benson thermodynamic group contributions',
       icon: 'thermostat'
+    },
+    {
+      id: 'mechanisms',
+      title: 'Mechanisms List',
+      inpFile: 'PrintMechanismList.inp',
+      description: 'Retrieve catalog of reaction mechanisms from REACT database',
+      icon: 'account_tree'
     }
   ];
 

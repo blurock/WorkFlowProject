@@ -1000,11 +1000,13 @@ static int parse_commands_array(const char *body, char **commands, int *command_
     return count > 0 ? 0 : -1;
 }
 
-static int prepare_context_file(const char *tmp_dir, const char *target_item, const char *task_id)
+static int prepare_context_file(const char *tmp_dir, const char *target_item, const char *task_id, const char *root)
 {
     const char *reactroot = reactroot_env();
     char mol_path[MAX_PATH_LENGTH];
     char rxn_path[MAX_PATH_LENGTH];
+    char mech_lst_path[MAX_PATH_LENGTH];
+    char tables_mech_lst_path[MAX_PATH_LENGTH];
     char benson_lst_path[MAX_PATH_LENGTH];
     char benson_tables_dir[MAX_PATH_LENGTH];
     char content[1024];
@@ -1021,6 +1023,20 @@ static int prepare_context_file(const char *tmp_dir, const char *target_item, co
     }
 
     if (target_item == NULL || *target_item == '\0') {
+        return 0;
+    }
+
+    if (task_id != NULL && (strstr(task_id, "mech") != NULL || strcmp(task_id, "mechanisms") == 0)) {
+        const char *lst_name = (root != NULL && *root != '\0') ? root : target_item;
+        snprintf(content, sizeof(content), "%s\n", target_item);
+
+        snprintf(mech_lst_path, sizeof(mech_lst_path), "%s/%s.lst", tmp_dir, lst_name);
+        write_text_file(mech_lst_path, content);
+
+        snprintf(benson_tables_dir, sizeof(benson_tables_dir), "%s/data/tables", reactroot);
+        ensure_directory_exists(benson_tables_dir);
+        snprintf(tables_mech_lst_path, sizeof(tables_mech_lst_path), "%s/data/tables/%s.lst", reactroot, lst_name);
+        write_text_file(tables_mech_lst_path, content);
         return 0;
     }
 
@@ -1060,12 +1076,14 @@ static int run_chem_commands(const char *root, char **commands, int command_coun
 
     ensure_directory_exists(tmp_dir);
     if (root != NULL) {
-        char old_out[MAX_PATH_LENGTH];
-        if (snprintf(old_out, sizeof(old_out), "%s/%s.out", tmp_dir, root) < (int) sizeof(old_out)) {
-            unlink(old_out);
-        }
+        char old_file[MAX_PATH_LENGTH];
+        if (snprintf(old_file, sizeof(old_file), "%s/%s.out", tmp_dir, root) < (int) sizeof(old_file)) unlink(old_file);
+        if (snprintf(old_file, sizeof(old_file), "%s/%s.mech", tmp_dir, root) < (int) sizeof(old_file)) unlink(old_file);
+        if (snprintf(old_file, sizeof(old_file), "%s/%s.sdf", tmp_dir, root) < (int) sizeof(old_file)) unlink(old_file);
+        if (snprintf(old_file, sizeof(old_file), "%s/%s.thm", tmp_dir, root) < (int) sizeof(old_file)) unlink(old_file);
+        if (snprintf(old_file, sizeof(old_file), "%s/%s.corrs", tmp_dir, root) < (int) sizeof(old_file)) unlink(old_file);
     }
-    if (prepare_context_file(tmp_dir, target_item, task_id) != 0) {
+    if (prepare_context_file(tmp_dir, target_item, task_id, root) != 0) {
         return -1;
     }
 
@@ -1136,19 +1154,91 @@ static int run_chem_commands(const char *root, char **commands, int command_coun
     free(input_buffer);
 
     int res = capture_child_output(child, out_pipe[0], output, exit_code);
-    if (res == 0) {
-        char out_file_path[MAX_PATH_LENGTH];
-        char *file_content = NULL;
-        if (root != NULL && snprintf(out_file_path, sizeof(out_file_path), "%s/%s.out", tmp_dir, root) < (int) sizeof(out_file_path)) {
-            if (read_text_file(out_file_path, &file_content) == 0 && file_content != NULL) {
-                size_t combined_len = strlen(*output) + strlen(file_content) + 64;
-                char *combined = (char *) malloc(combined_len);
+    if (res == 0 && root != NULL) {
+        char gen_file_path[MAX_PATH_LENGTH];
+        int is_mech_task = (task_id != NULL && (strstr(task_id, "mech") != NULL || strcmp(task_id, "mechanisms") == 0));
+
+        if (is_mech_task) {
+            char *mech_content = NULL;
+            char *sdf_content = NULL;
+            char *thm_content = NULL;
+            char *corrs_content = NULL;
+            char *out_content = NULL;
+
+            snprintf(gen_file_path, sizeof(gen_file_path), "%s/%s.mech", tmp_dir, root);
+            read_text_file(gen_file_path, &mech_content);
+
+            snprintf(gen_file_path, sizeof(gen_file_path), "%s/%s.sdf", tmp_dir, root);
+            read_text_file(gen_file_path, &sdf_content);
+
+            snprintf(gen_file_path, sizeof(gen_file_path), "%s/%s.thm", tmp_dir, root);
+            read_text_file(gen_file_path, &thm_content);
+
+            snprintf(gen_file_path, sizeof(gen_file_path), "%s/%s.corrs", tmp_dir, root);
+            read_text_file(gen_file_path, &corrs_content);
+
+            snprintf(gen_file_path, sizeof(gen_file_path), "%s/%s.out", tmp_dir, root);
+            read_text_file(gen_file_path, &out_content);
+
+            if (mech_content != NULL || sdf_content != NULL || thm_content != NULL || corrs_content != NULL) {
+                size_t total_len = 512;
+                if (mech_content) total_len += strlen(mech_content);
+                if (sdf_content) total_len += strlen(sdf_content);
+                if (thm_content) total_len += strlen(thm_content);
+                if (corrs_content) total_len += strlen(corrs_content);
+                if (out_content) total_len += strlen(out_content);
+                else if (*output) total_len += strlen(*output);
+
+                char *combined = (char *) calloc(1, total_len + 1);
                 if (combined != NULL) {
-                    snprintf(combined, combined_len, "%s\n--- Output File (%s.out) ---\n%s", *output, root, file_content);
+                    if (mech_content) {
+                        strcat(combined, "--- Mechanism Reactions ---\n");
+                        strcat(combined, mech_content);
+                        strcat(combined, "\n");
+                    }
+                    if (sdf_content) {
+                        strcat(combined, "--- Molecule Structures ---\n");
+                        strcat(combined, sdf_content);
+                        strcat(combined, "\n");
+                    }
+                    if (thm_content) {
+                        strcat(combined, "--- Molecule Thermodynamics ---\n");
+                        strcat(combined, thm_content);
+                        strcat(combined, "\n");
+                    }
+                    if (corrs_content) {
+                        strcat(combined, "--- Name Correspondences ---\n");
+                        strcat(combined, corrs_content);
+                        strcat(combined, "\n");
+                    }
+                    if (out_content) {
+                        strcat(combined, "--- Execution Log ---\n");
+                        strcat(combined, out_content);
+                    } else if (*output && **output) {
+                        strcat(combined, "--- Execution Log ---\n");
+                        strcat(combined, *output);
+                    }
                     free(*output);
                     *output = combined;
                 }
-                free(file_content);
+            }
+            if (mech_content) free(mech_content);
+            if (sdf_content) free(sdf_content);
+            if (thm_content) free(thm_content);
+            if (corrs_content) free(corrs_content);
+            if (out_content) free(out_content);
+        } else {
+            char *out_content = NULL;
+            snprintf(gen_file_path, sizeof(gen_file_path), "%s/%s.out", tmp_dir, root);
+            if (read_text_file(gen_file_path, &out_content) == 0 && out_content != NULL) {
+                size_t total_len = strlen(*output) + strlen(out_content) + 128;
+                char *combined = (char *) malloc(total_len);
+                if (combined != NULL) {
+                    snprintf(combined, total_len, "%s\n--- Output File (%s.out) ---\n%s", *output, root, out_content);
+                    free(*output);
+                    *output = combined;
+                }
+                free(out_content);
             }
         }
     }

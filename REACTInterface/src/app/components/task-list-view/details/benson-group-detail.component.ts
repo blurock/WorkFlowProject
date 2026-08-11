@@ -8,6 +8,7 @@ import { BaseCatalogDetailComponent } from './base-catalog-detail.component';
 
 import { TextSectionCardComponent } from '../cards/text-section-card.component';
 import { BensonGroupCardComponent } from '../cards/benson-group-card.component';
+import { MechReactionsCardComponent } from '../cards/mech-reactions-card.component';
 
 @Component({
   selector: 'app-benson-group-detail',
@@ -19,13 +20,20 @@ import { BensonGroupCardComponent } from '../cards/benson-group-card.component';
     MatIconModule,
     MatTooltipModule,
     TextSectionCardComponent,
-    BensonGroupCardComponent
+    BensonGroupCardComponent,
+    MechReactionsCardComponent
   ],
   template: `
     <div class="molecule-info-split-container">
       <div class="sections-grid-column">
         <div class="sections-grid benson-full-width">
           <ng-container *ngFor="let section of sections">
+            <!-- Mechanism Reactions Card -->
+            <app-mech-reactions-card
+              *ngIf="section.mechFileData"
+              [section]="section">
+            </app-mech-reactions-card>
+
             <!-- Benson Group Thermodynamic Table -->
             <app-benson-group-card
               *ngIf="section.bensonGroupTableData && section.bensonGroupTableData.rows && section.bensonGroupTableData.rows.length > 0"
@@ -34,7 +42,7 @@ import { BensonGroupCardComponent } from '../cards/benson-group-card.component';
 
             <!-- Generic Text / Code Block -->
             <app-text-section-card
-              *ngIf="!section.bensonGroupTableData || !section.bensonGroupTableData.rows || section.bensonGroupTableData.rows.length === 0"
+              *ngIf="!section.mechFileData && (!section.bensonGroupTableData || !section.bensonGroupTableData.rows || section.bensonGroupTableData.rows.length === 0)"
               [section]="section">
             </app-text-section-card>
           </ng-container>

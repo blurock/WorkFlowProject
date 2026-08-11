@@ -48,6 +48,13 @@ export class CommandTemplatesRegistry {
     ];
   }
 
+  public static mechanismsCatalog(): string[] {
+    return [
+      "CreateOpenClose", "Start", "Quit",
+      "DbaseOps", "Mechanisms", "List", "Quit", "Quit", "Quit"
+    ];
+  }
+
   // Parameterized Detail Templates (Unmodified static command sequences matching .inp files)
 
   public static printMoleculeDetail(_moleculeRootName?: string): string[] {
@@ -92,6 +99,14 @@ export class CommandTemplatesRegistry {
     ];
   }
 
+  public static printMechanismDetail(_mechanismName?: string): string[] {
+    return [
+      "CreateOpenClose", "Start", "Quit",
+      "DbaseOps", "Mechanisms", "Parameters", "MechDirectory", "Input", ".", "Quit", "Quit",
+      "Retrieve", "Print", "Quit", "Quit", "Quit"
+    ];
+  }
+
   /**
    * Helper mapping task ID to static catalog template generator
    */
@@ -105,6 +120,8 @@ export class CommandTemplatesRegistry {
         return this.substructuresCatalog();
       case 'benson-groups':
         return this.bensonCatalog();
+      case 'mechanisms':
+        return this.mechanismsCatalog();
       default:
         return this.moleculesCatalog();
     }
@@ -123,6 +140,8 @@ export class CommandTemplatesRegistry {
         return this.printSubstructureDetail(itemName);
       case 'benson-groups':
         return this.bensonCatalog();
+      case 'mechanisms':
+        return this.printMechanismDetail(itemName);
       default:
         return ["CreateOpenClose", "Start", "Quit", "DbaseOps", "Quit", "Quit"];
     }
