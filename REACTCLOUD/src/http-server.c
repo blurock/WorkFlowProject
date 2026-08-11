@@ -1002,9 +1002,23 @@ static int parse_commands_array(const char *body, char **commands, int *command_
 
 static int prepare_context_file(const char *tmp_dir, const char *target_item, const char *task_id)
 {
+    const char *reactroot = reactroot_env();
     char mol_path[MAX_PATH_LENGTH];
     char rxn_path[MAX_PATH_LENGTH];
+    char benson_lst_path[MAX_PATH_LENGTH];
+    char benson_tables_dir[MAX_PATH_LENGTH];
     char content[1024];
+
+    if (task_id != NULL && (strstr(task_id, "benson") != NULL || strcmp(task_id, "benson-groups") == 0)) {
+        const char *item = (target_item != NULL && *target_item != '\0') ? target_item : "TableA.1";
+        if (snprintf(benson_tables_dir, sizeof(benson_tables_dir), "%s/data/tables", reactroot) >= (int) sizeof(benson_tables_dir) ||
+            snprintf(benson_lst_path, sizeof(benson_lst_path), "%s/data/tables/BensonStandard.lst", reactroot) >= (int) sizeof(benson_lst_path)) {
+            return -1;
+        }
+        ensure_directory_exists(benson_tables_dir);
+        snprintf(content, sizeof(content), "BensonAtomKeys\n%s\n", item);
+        return write_text_file(benson_lst_path, content);
+    }
 
     if (target_item == NULL || *target_item == '\0') {
         return 0;
@@ -1045,6 +1059,12 @@ static int run_chem_commands(const char *root, char **commands, int command_coun
     }
 
     ensure_directory_exists(tmp_dir);
+    if (root != NULL) {
+        char old_out[MAX_PATH_LENGTH];
+        if (snprintf(old_out, sizeof(old_out), "%s/%s.out", tmp_dir, root) < (int) sizeof(old_out)) {
+            unlink(old_out);
+        }
+    }
     if (prepare_context_file(tmp_dir, target_item, task_id) != 0) {
         return -1;
     }
@@ -1116,10 +1136,10 @@ static int run_chem_commands(const char *root, char **commands, int command_coun
     free(input_buffer);
 
     int res = capture_child_output(child, out_pipe[0], output, exit_code);
-    if (res == 0 && root != NULL) {
+    if (res == 0) {
         char out_file_path[MAX_PATH_LENGTH];
         char *file_content = NULL;
-        if (snprintf(out_file_path, sizeof(out_file_path), "%s/%s.out", tmp_dir, root) < (int) sizeof(out_file_path)) {
+        if (root != NULL && snprintf(out_file_path, sizeof(out_file_path), "%s/%s.out", tmp_dir, root) < (int) sizeof(out_file_path)) {
             if (read_text_file(out_file_path, &file_content) == 0 && file_content != NULL) {
                 size_t combined_len = strlen(*output) + strlen(file_content) + 64;
                 char *combined = (char *) malloc(combined_len);

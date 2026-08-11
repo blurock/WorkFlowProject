@@ -113,9 +113,10 @@
     background-color: #f8fafc;
 
     .content-wrapper {
-      max-width: 1000px;
-      margin: 0 auto;
+      max-width: 100%;
+      width: 100%;
       padding: 24px;
+      box-sizing: border-box;
     }
   }
 }

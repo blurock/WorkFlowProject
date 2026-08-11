@@ -51,6 +51,7 @@ Quit
 
 Generate
 Quit
+Help
 Mechanisms
 Parameters
 RootMechName
@@ -62,8 +63,10 @@ Input
 .
 Quit
 Quit
-Store
+Help
 Print
+Help
+Store
 Quit
 Quit
 Quit

@@ -1,4 +1,4 @@
-~/git/copilot-worktrees/react/blurock-studious-fortnight/tmp ~/git/copilot-worktrees/react/blurock-studious-fortnight/data/mol/subs 
+~/git/WorkFlowProject/REACTCLOUD/tmp ~/git/WorkFlowProject/REACTCLOUD/data/mol/subs 
 -----------------Chemistry Database ------------------
 -----------------Version 0    --------------------
 yywrap
@@ -81,7 +81,7 @@ Read SDF Molecule: (rr)cc(h)c(h)o
 Read SDF Molecule: (rr)cc(r)c(h)o
 Read SDF Molecule: 
 Error in Reading SDF File
-Too many bonds or atoms detected: 1 1860447520
+Too many bonds or atoms detected: 1 1839703072
 SubStructures>> Quit
 Read>> Quit
 Mol>> Calculations
@@ -690,4 +690,4 @@ Misc>> Quit
 SubStructures>> Quit
 DbaseOps>> Quit
 main>> Quit
-~/git/copilot-worktrees/react/blurock-studious-fortnight/data/mol/subs 
+~/git/WorkFlowProject/REACTCLOUD/data/mol/subs 

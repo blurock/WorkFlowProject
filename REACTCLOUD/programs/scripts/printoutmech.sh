@@ -18,12 +18,16 @@ if(-f $TEMPLIST) then
 endif
 
 touch $TEMPLIST
-
+echo "List of mechanisms to print out"
 while($#argv > 1)
+    echo $1
     echo $1 >> $TEMPLIST
     shift
 end
+echo "done with list"
 
+cat $TEMPLIST
+echo "now the rest of the script"
 set REACTROOT = $1
 echo $REACTROOT
 

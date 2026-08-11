@@ -35,10 +35,16 @@ export class CommandTemplatesRegistry {
     ];
   }
 
-  public static bensonCatalog(): string[] {
+  public static bensonCatalog(rootName: string = 'job1'): string[] {
     return [
+      "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
+      "MetaAtoms", "Read", "Quit", "Quit",
       "CreateOpenClose", "Start", "Quit",
-      "DbaseOps", "Benson", "Print", "Quit", "Quit", "Quit"
+      "DbaseOps", "Benson", "Parameters", "TablesDataBensonRoot", "Input", "BensonStandard", "Quit", "Quit",
+      "ReadList", "Print", "Quit", "Quit",
+      "Tables", "Benson", "Parameters", "TablesDataBensonRoot", "Input", rootName, "Quit", "Quit",
+      "AtomTranslation", "Read", "Quit", "Quit",
+      "Benson", "BensonTables", "Print", "Quit", "Quit", "Quit", "Quit", "Quit", "Quit"
     ];
   }
 
@@ -58,7 +64,7 @@ export class CommandTemplatesRegistry {
     ];
   }
 
-  public static printRxnPatternDetail(_patternName?: string): string[] {
+  public static printRxnPatternDetail(_rxnPatternRootName?: string): string[] {
     return [
       "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
       "MetaAtoms", "Read", "Quit", "Quit",
@@ -72,12 +78,12 @@ export class CommandTemplatesRegistry {
     ];
   }
 
-  public static printSubstructureDetail(_substructureName?: string): string[] {
+  public static printSubstructureDetail(_substructureRootName?: string): string[] {
     return [
       "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
       "MetaAtoms", "Read", "Quit", "Quit",
       "CreateOpenClose", "Start", "Quit",
-      "Mol", "Parameters", "MolDirectory", "Input", "xx", "Quit",
+      "Mol", "Parameters", "MolDirectory", "Input", ".", "Quit",
       "RootMolName", "Input", "molecule", "Quit", "Quit", "Quit",
       "DbaseOps", "Parameters", "DBDataDirectory", "Input", ".", "Quit", "Quit",
       "SubStructures", "Parameters", "DBDataMolRoot", "Input", "xxx", "Quit", "Quit",
@@ -115,6 +121,8 @@ export class CommandTemplatesRegistry {
         return this.printRxnPatternDetail(itemName);
       case 'substructures':
         return this.printSubstructureDetail(itemName);
+      case 'benson-groups':
+        return this.bensonCatalog();
       default:
         return ["CreateOpenClose", "Start", "Quit", "DbaseOps", "Quit", "Quit"];
     }

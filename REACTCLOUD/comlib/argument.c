@@ -611,6 +611,8 @@ static BaseArgumentType *SearchForArgument(CommandMaster *commandmaster,
      INT count;
      
      set = GetArgInCommandInfo(name,commandmaster);
+     if(set == 0)
+          return(0);
 
      arg = set->Values;
      count = 0;
@@ -759,6 +761,8 @@ static BaseArgumentType *IsArgumentInCommand(CommandInfo *command,
      BaseArgumentType *arg;
      INT count;
      
+     if(command == 0)
+          return(0);
      set = command->Arguments;
      if(set == 0)
 	  arg = 0;

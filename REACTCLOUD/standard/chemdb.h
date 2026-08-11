@@ -124,6 +124,8 @@ extern INT IncrementMoleculeSet(MoleculeSet *molset);
 extern INT DBFindMolSubFromString(CHAR *name, MoleculeInfo *mol, 
 				  DataBaseInformation *dinfo);
 
+
+
  
 /*P  . . . PROTOTYPES . . . . . . . . . . . . . . . . . . . .  bensontables.c
 */

@@ -1492,19 +1492,47 @@ extern INT StoreSetOfMechanismsInDatabase(BindStructure *bind)
   DetailedMechanism *mechanism;
   INT i;
   
-  master = GetBoundStructure(bind,BIND_CHEMDBASE);
-  mechset = GetBoundStructure(bind,BIND_CURRENT_MECHANISMS);
-  
+  printf("DEBUG: Entering StoreSetOfMechanismsInDatabase\n");
+  if (bind == 0) {
+    printf("DEBUG: ERROR: bind structure is NULL!\n");
+    return(SYSTEM_ERROR_RETURN);
+  }
+
+  master = GetBoundStructure(bind, BIND_CHEMDBASE);
+  if (master == 0) {
+    printf("DEBUG: ERROR: ChemDBMaster structure (BIND_CHEMDBASE) is NULL!\n");
+    return(SYSTEM_ERROR_RETURN);
+  }
+
+  mechset = GetBoundStructure(bind, BIND_CURRENT_MECHANISMS);
+  if (mechset == 0) {
+    printf("DEBUG: ERROR: SetOfDetailedMechanisms structure (BIND_CURRENT_MECHANISMS) is NULL!\n");
+    return(SYSTEM_ERROR_RETURN);
+  }
+
+  printf("DEBUG: Found mechset with %d mechanisms\n", mechset->NumberOfMechanisms);
+
   mechanism = mechset->Mechanisms;
+  if (mechanism == 0) {
+    printf("DEBUG: ERROR: mechset->Mechanisms is NULL!\n");
+    return(SYSTEM_ERROR_RETURN);
+  }
+
   LOOPi(mechset->NumberOfMechanisms)
     {
-      mechanism->ID = 
-	mechanism->Reactions->NumberOfReactions*1000+
-	mechanism->Molecules->NumberOfMolecules;
-      printf("Mechanism to Store: %10d: %s\n",mechanism->ID,mechanism->Name);
-      StoreMechanismToDatabase(mechanism,master);
+      if (mechanism->Reactions != 0 && mechanism->Molecules != 0) {
+        mechanism->ID = 
+	  mechanism->Reactions->NumberOfReactions * 1000 +
+	  mechanism->Molecules->NumberOfMolecules;
+      } else {
+        printf("DEBUG: WARNING: mechanism->Reactions or mechanism->Molecules is NULL for mechanism index %d\n", i);
+        mechanism->ID = i;
+      }
+      printf("Mechanism to Store: %10d: %s\n", mechanism->ID, mechanism->Name ? mechanism->Name : "(null)");
+      StoreMechanismToDatabase(mechanism, master);
       mechanism++;
     }
+  printf("DEBUG: Exiting StoreSetOfMechanismsInDatabase cleanly\n");
   return(SYSTEM_NORMAL_RETURN);
 }
 /*F ret = StoreMechanismToDatabase(mechanism,master)
@@ -1521,16 +1549,33 @@ extern INT StoreSetOfMechanismsInDatabase(BindStructure *bind)
 extern INT StoreMechanismToDatabase(DetailedMechanism *mechanism,
 				    ChemDBMaster *master)
 {
-  DetailedMechanism *mech;
   DataBaseInformation *dinfo;
   DbaseKeyword *key;
      
-  dinfo = GetDataBaseInfoFromID(master->DatabaseInfo,MECHANISM_DATABASE);
+  printf("DEBUG: Entering StoreMechanismToDatabase for mechanism: %s\n", (mechanism && mechanism->Name) ? mechanism->Name : "(null)");
+  if (master == 0 || master->DatabaseInfo == 0) {
+    printf("DEBUG: ERROR: master or master->DatabaseInfo is NULL in StoreMechanismToDatabase!\n");
+    return(SYSTEM_ERROR_RETURN);
+  }
+
+  dinfo = GetDataBaseInfoFromID(master->DatabaseInfo, MECHANISM_DATABASE);
+  if (dinfo == 0) {
+    printf("DEBUG: ERROR: dinfo for MECHANISM_DATABASE is NULL!\n");
+    return(SYSTEM_ERROR_RETURN);
+  }
+
   key = ComputeMechanismKeyWord(mechanism);
-      
+  if (key == 0) {
+    printf("DEBUG: ERROR: ComputeMechanismKeyWord returned NULL!\n");
+    return(SYSTEM_ERROR_RETURN);
+  }
+  printf("DEBUG: Mechanism Keyword created: %s (Length: %d)\n", key->KeyWord ? key->KeyWord : "(null)", key->Size);
+
   StoreElement((VOID) mechanism,
-	       key,GDBM_REPLACE,
+	       key, GDBM_REPLACE,
 	       dinfo);
+  printf("DEBUG: StoreElement completed for %s\n", (mechanism && mechanism->Name) ? mechanism->Name : "(null)");
+
   FreeDbaseKeyword(key);
   Free(key);
   return(SYSTEM_NORMAL_RETURN);
@@ -1710,8 +1755,13 @@ static DbaseKeyword *ProduceKeywordFromName(char *name)
 {
   DbaseKeyword *key;
   
+  if (name == 0) {
+    printf("DEBUG: ERROR: ProduceKeywordFromName received NULL name!\n");
+    return 0;
+  }
+
   key = AllocateDbaseKeyword;
-  CreateDbaseKeyword(key,0,name,
-		     (INT) strlen(name)+1,name);
-  
+  CreateDbaseKeyword(key, 0, name,
+		     (INT) strlen(name) + 1, name);
+  return(key);
 } 

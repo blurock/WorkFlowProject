@@ -711,7 +711,7 @@ static INT PrintMolFilePreamble(FILE *file, MolFileMolecule *mol)
       fprintf(file,"%d\n",mol->ID);
       fprintf(file,"  -CPSS-  Generated\n");
       fprintf(file,"%s\n", mol->Name);
-      fprintf(file,"%3d%3d\n",mol->NAtoms,mol->NBonds);
+      fprintf(file,"%3d%3d  0  0  0  0  0  0  0  0999 V2000\n",mol->NAtoms,mol->NBonds);
     }
   else
     {

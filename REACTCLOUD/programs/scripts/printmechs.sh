@@ -12,6 +12,6 @@ set TEMPDIR         = $REACTROOT/tmp
 
 $CHEMPROG test < $INPPRINT >! $TEMPDIR/tmp.out
 grep ": --" $TEMPDIR/tmp.out
-#cat $TEMPDIR/tmp.out
+cat $TEMPDIR/tmp.out
 
-rm $TEMPDIR/tmp.out
+#rm $TEMPDIR/tmp.out

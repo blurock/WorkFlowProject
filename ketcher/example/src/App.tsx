@@ -10,14 +10,40 @@ import { safePostMessage } from './utils/safePostMessage';
 const getHiddenButtonsConfig = (): ButtonsConfig => {
   const searchParams = new URLSearchParams(window.location.search);
   const hiddenButtons = searchParams.get('hiddenControls');
+  const isReadOnly =
+    searchParams.get('readOnly') === 'true' ||
+    searchParams.get('viewOnly') === 'true';
 
-  if (!hiddenButtons) return {};
+  const config: Record<string, { hidden: boolean }> = {};
 
-  return hiddenButtons.split(',').reduce((acc, button) => {
-    if (button) acc[button] = { hidden: true };
+  if (hiddenButtons) {
+    hiddenButtons.split(',').forEach((button) => {
+      if (button) config[button] = { hidden: true };
+    });
+  }
 
-    return acc;
-  }, {} as { [val: string]: { hidden: boolean } });
+  if (isReadOnly) {
+    const editingControls = [
+      'bond',
+      'atom',
+      'period-table',
+      'sgroup',
+      'reaction-plus',
+      'arrows',
+      'reaction-mapping-tools',
+      'rgroup',
+      'shape',
+      'text',
+      'enhanced-stereo',
+      'create-monomer',
+      'templates',
+    ];
+    editingControls.forEach((btn) => {
+      config[btn] = { hidden: true };
+    });
+  }
+
+  return config as ButtonsConfig;
 };
 
 const App = () => {
@@ -78,7 +104,20 @@ const App = () => {
                 await ketcher.setMolecule(
                   event.data.molfile || event.data.smiles || '',
                 );
-              } catch (_) {}
+                if (event.data.doLayout !== false) {
+                  await ketcher.layout().catch(() => undefined);
+                }
+              } catch (err) {
+                console.error('Ketcher setMolecule error:', err);
+              }
+            }
+
+            if (event.data.eventType === 'LAYOUT_STRUCTURE') {
+              try {
+                await ketcher.layout();
+              } catch (err) {
+                console.error('Ketcher layout error:', err);
+              }
             }
           });
 

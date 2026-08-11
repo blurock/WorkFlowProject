@@ -100,7 +100,9 @@ extern void PrintPrettyMoleculeInfo(CHAR *prefix, FILE *file,
      
      fprintf(file,"%s:Mol %5d\n",prefix,molecule->ID);
      string = StringOfBlanks(strlen(prefix)+10);
-     PrintPrettyMolFile(string,file,molecule->Molfile);
+     fprintf(file,"~\n");
+     PrintMoleculeAsMolFile(file,molecule);
+     fprintf(file,"~\n");
      PrintPrettyMoleculeElectronic(string,file,molecule->Electronic);
      Free(string);
      string = AllocateString(PRINT_BUFFER_LENGTH);

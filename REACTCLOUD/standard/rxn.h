@@ -46,8 +46,6 @@ extern ReactionSet *FormCanonicalReactionSet(ReactionSet *set,
 /****************************************************************************/
 /* Routines from rxnprt.c   */
 /****************************************************************************/
-extern void PrintPrettyReactionSet(CHAR *prefix, FILE *file,
-				   ReactionSet *set);
 extern void PrintPrettyRxnCorrespondenceSet(CHAR *prefix, FILE *file,
 					    RxnCorrespondenceSet *set);
 extern void PrintPrettyRxnUnMatchedSet(CHAR *prefix, FILE *file,
@@ -63,8 +61,19 @@ extern CHAR *PrintStringReactionDataConstants(CHAR *out, INT *length,
 					      ReactionDataConstants *constants);
 extern void PrintPrettyReactionInfo(CHAR *prefix, FILE *file, 
 				    ReactionInfo *rxn,
-				    SetOfPropertyTypes *types);
+				    SetOfPropertyTypes *types,
+				    MoleculeSet *molecules,
+				    BindStructure *bind);
+extern void PrintPrettyReactionSet(CHAR *prefix, FILE *file,
+				   ReactionSet *set,
+				   MoleculeSet *molecules,
+				   BindStructure *bind);
+
 extern ReadInMoleculeSet *FindMoleculesInReactionSet(ReactionSet *set);
+extern INT readMoleculesFromListOfNames(INT nummols, CHAR *names[], BindStructure *bind);
+extern INT PrintRXNFromListOfNames(CHAR *rxnName, INT numReactants, INT numProducts, 
+                                  CHAR *names[], FILE *out, BindStructure *bind);
+
 
 /****************************************************************************/
 /* Routines from rxn0.c   */

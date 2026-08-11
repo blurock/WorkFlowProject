@@ -275,8 +275,14 @@ static INT MasterPrintRxns(ReactionSet *reactions,
      {
      FILE *out;
      CommandMaster *commandmaster;
+     MoleculeSet *molecules;
 
      commandmaster = GetBoundStructure(bind,BIND_COMMANDMASTER);
+     molecules = GetBoundStructure(bind,BIND_CURRENT_SUBSTRUCTURES);
+     if (molecules == 0 || molecules->NumberOfMolecules == 0) {
+       molecules = GetBoundStructure(bind,BIND_CURRENT_MOLECULES);
+     }
+
      out = OpenWriteFileFromCurrent("RxnOutDir","RxnOutName",
 				    REACTION_PRINT_OUT_SUFFIX,
 				    IGNORE,"Reaction Print Filename",
@@ -284,7 +290,7 @@ static INT MasterPrintRxns(ReactionSet *reactions,
      
      if(out != 0)
 	  {
-	  PrintPrettyReactionSet("",out,reactions);
+	  PrintPrettyReactionSet("",out,reactions,molecules,bind);
 	  fclose(out);
 	  }
      

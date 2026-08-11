@@ -1,0 +1,16 @@
+CLASSCOEFFICIENTS
+H-Abstraction-Hydroxyl-Radical-Primary   =      1.7500e+09     0.9700       6.65     1.0741e+08     1.4460      91.09
+H-Abstraction-Hydroxyl-Radical-Secondary =      2.3400e+07     1.6100      -0.15     5.7979e+05     2.0220     101.29
+FiveRing-chain-h-isomerization           =      3.2200e+11     0.1300      86.57     9.9999e-41     0.0000       0.00
+END
+CLASSEQUIVALENT
+END
+REACTIONCLASS  = H-Abstraction-Hydroxyl-Radical-Primary
+    6 {butane} + {hydroxyl-radical} = {1-butyl-radical} + {water}
+END
+REACTIONCLASS  = H-Abstraction-Hydroxyl-Radical-Secondary
+    4 {butane} + {hydroxyl-radical} = {water} + {2-butyl-radical}
+END
+REACTIONCLASS  = FiveRing-chain-h-isomerization
+    3 {1-butyl-radical} = {1-butyl-radical}
+END

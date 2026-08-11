@@ -4,7 +4,7 @@
 # Script to run a chain reaction on a specific molecule
 #
 # ---------------------------------------------------------------------------
-#set verbose on
+set verbose on
 
 if ( $#argv < 3 ) then
   echo "Usage: readmol.sh File"

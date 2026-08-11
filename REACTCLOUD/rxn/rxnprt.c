@@ -5,6 +5,7 @@
 #include "mol0.h"
 #include "rxn.h"
 
+
 static void StringRxnChangesParameters(CHAR *out, 
 				       RxnBondChanges *bond,
 				       MoleculeSet *molecules);
@@ -18,16 +19,74 @@ static void StringRxnAtomParameters(CHAR *out,
 				    RxnAtom *atom,
 				    MoleculeSet *molecules);
 
+
+static MoleculeInfo *FindMoleculeInSetByID(MoleculeSet *set, INT id)
+{
+  INT i;
+  MoleculeInfo *mol;
+  if (set == 0 || set->Molecules == 0) return 0;
+  mol = set->Molecules;
+  for (i = 0; i < set->NumberOfMolecules; i++) {
+    if (mol->ID == id) {
+      return mol;
+    }
+    mol++;
+  }
+  return 0;
+}
+
+extern void PrintReactionAsRxnFile(CHAR *prefix, FILE *file,
+                                   ReactionInfo *rxn,
+                                   MoleculeSet *molecules)
+{
+  INT i;
+  MoleculeInfo *mol;
+
+  if (rxn == 0) return;
+
+  fprintf(file, "~\n");
+  fprintf(file, "%s:Molecule / Reaction in $RXN form\n", prefix);
+  fprintf(file, "$RXN\n");
+  fprintf(file, "$MDL\n");
+  fprintf(file, "%s\n", rxn->Name ? rxn->Name : "Reaction Pattern");
+  fprintf(file, "  REACTCLOUD\n");
+  fprintf(file, "%3d%3d\n", rxn->NumberOfReactants, rxn->NumberOfProducts);
+
+  for (i = 0; i < rxn->NumberOfReactants; i++) {
+    fprintf(file, "$MOL\n");
+    mol = FindMoleculeInSetByID(molecules, rxn->Reactants[i]);
+    if (mol != 0) {
+      PrintMoleculeAsMolFile(file, mol);
+    } else {
+      fprintf(file, "%d\n  -REACTCLOUD-\n\n  0  0  0  0  0  0  0  0999 V2000\nM  END\n", rxn->Reactants[i]);
+    }
+  }
+
+  for (i = 0; i < rxn->NumberOfProducts; i++) {
+    fprintf(file, "$MOL\n");
+    mol = FindMoleculeInSetByID(molecules, rxn->Products[i]);
+    if (mol != 0) {
+      PrintMoleculeAsMolFile(file, mol);
+    } else {
+      fprintf(file, "%d\n  -REACTCLOUD-\n\n  0  0  0  0  0  0  0  0999 V2000\nM  END\n", rxn->Products[i]);
+    }
+  }
+}
+
 /***************************************************************************/
 /* Pretty Print Routines */
 /***************************************************************************/
 
 extern void PrintPrettyReactionInfo(CHAR *prefix, FILE *file, 
 				    ReactionInfo *rxn,
-				    SetOfPropertyTypes *types)
+				    SetOfPropertyTypes *types,
+				    MoleculeSet *molecules,
+				    BindStructure *bind)
      {
      CHAR *string;
      INT length;
+     CHAR **names;
+     INT nummols, i, idx;
      
      if(rxn == 0) 
 	  {
@@ -35,31 +94,50 @@ extern void PrintPrettyReactionInfo(CHAR *prefix, FILE *file,
 	  }
      else
 	  {
-	  if(rxn->Name != 0)
-	       fprintf(file,"%s\n",rxn->Name);
-	  fprintf(file,"%s:Rxn %5d (%5d Reactants, %5d Products)\n",
-		  prefix,rxn->ID,rxn->NumberOfReactants,rxn->NumberOfProducts);
-	  
-	  string = AllocateString(LINELENGTH);
-	  sprintf(string,"%s: Reactants ",prefix);
-	  PrintPrettyIntegerArray(string,file,rxn->Reactants,rxn->NumberOfReactants,6);
-	  sprintf(string,"%s: Products ",prefix);
-	  PrintPrettyIntegerArray(string,file,rxn->Products,rxn->NumberOfProducts,6);
-	  Free(string);
+	  nummols = rxn->NumberOfReactants + rxn->NumberOfProducts;
+	  if (nummols > 0 && bind != 0)
+	       {
+	       names = (CHAR **) Calloc(nummols, sizeof(CHAR *));
+	       idx = 0;
+	       for (i = 0; i < rxn->NumberOfReactants; i++) {
+		   names[idx] = AllocateString(32);
+		   sprintf(names[idx], "%d", rxn->Reactants[i]);
+		   idx++;
+	       }
+	       for (i = 0; i < rxn->NumberOfProducts; i++) {
+		   names[idx] = AllocateString(32);
+		   sprintf(names[idx], "%d", rxn->Products[i]);
+		   idx++;
+	       }
+
+	       PrintRXNFromListOfNames(rxn->Name, rxn->NumberOfReactants, rxn->NumberOfProducts, names, file, bind);
+
+	       for (i = 0; i < nummols; i++) {
+		   Free(names[i]);
+	       }
+	       Free(names);
+	       }
+	  else
+	       {
+	       PrintReactionAsRxnFile(prefix, file, rxn, molecules);
+	       }
 
 	  string = AllocateString(PRINT_BUFFER_LENGTH);
 	  length = PRINT_BUFFER_LENGTH;
-	  PrintStringAllPropertySets(string,&length,types,rxn->Properties,0);
-	  fprintf(file,"%s",string);
+	  if (types != 0)
+	       PrintStringAllPropertySets(string, &length, types, rxn->Properties, 0);
+	  fprintf(file, "%s", string);
 	  Free(string);
 	  fprintf(file,"~\n");
-	  fprintf(file,"Total Set of Atom Correspondences\n",prefix);
+	  fprintf(file,"%sTotal Set of Atom Correspondences\n",prefix);
 	  PrintPrettyRxnCorrespondenceSet(prefix,file,rxn->TotalCorr);
 	  }
      }
 
 extern void PrintPrettyReactionSet(CHAR *prefix, FILE *file,
-				   ReactionSet *set)
+				   ReactionSet *set,
+				   MoleculeSet *molecules,
+				   BindStructure *bind)
      {
      CHAR *string;
      ReactionInfo *rxn;
@@ -77,10 +155,12 @@ extern void PrintPrettyReactionSet(CHAR *prefix, FILE *file,
      rxn = set->Reactions;
      LOOPi(set->NumberOfReactions)
 	  {
-	  PrintPrettyReactionInfo(string,file,rxn++,set->PropertyTypes);
+	  PrintPrettyReactionInfo(string,file,rxn++,set->PropertyTypes,molecules,bind);
 	  fprintf(file,"\n");
 	  }
+     Free(string);
      }
+
 
 extern CHAR *PrintStringReactionDataConstants(CHAR *out, INT *length,
 					      CHAR *prefix,
@@ -118,20 +198,22 @@ extern void PrintPrettyRxnCorrespondenceSet(CHAR *prefix, FILE *file,
      fprintf(file,"%s:Reaction Correspondences %d \n",prefix, set->ID);
      
      string = StringOfBlanks(strlen(prefix));
-     fprintf(file,"%s: %d Matched Atoms\n",string,set->NumberOfCorrs);
+     fprintf(file,"%s: MatTable (%d Matched Atoms)\n",string,set->NumberOfCorrs);
+     fprintf(file,"%s: %-18s %-10s %-18s %-10s\n", string,
+	     "Reactant Molecule", "Index", "Product Molecule", "Index");
      corr = set->Corrs;
      LOOPi(set->NumberOfCorrs)
 	  {
-	  fprintf(file,"%s:%5d [%15d %5d]  [%15d %5d] \n",
-		  string,i,
-		  corr->Reactant->MoleculeNumber, corr->Reactant->AtomNumber,
-		  corr->Product->MoleculeNumber, corr->Product->AtomNumber);
+	  fprintf(file,"%s: %-18d %-10d %-18d %-10d\n",
+		  string,
+		  corr->Reactant->MoleculeNumber, corr->Reactant->ID,
+		  corr->Product->MoleculeNumber, corr->Product->ID);
 	  corr++;
 	  }
      PrintPrettyRxnUnMatchedSet(prefix,file,set->UnMatched);
      
      PrintPrettyRxnBondChanges(prefix,file,set->BondChanges);
-     
+     Free(string);
      }
 
 extern void PrintPrettyRxnUnMatchedSet(CHAR *prefix, FILE *file,
@@ -166,6 +248,7 @@ extern void PrintPrettyRxnBondChanges(CHAR *prefix, FILE *file,
      RxnAtomCorrespondence *atom1,*atom2;
      INT i;
      CHAR *string;
+     CHAR r1[32], r2[32], p1[32], p2[32];
      
      if(changes == 0)
 	  {
@@ -176,35 +259,40 @@ extern void PrintPrettyRxnBondChanges(CHAR *prefix, FILE *file,
      fprintf(file,"%s:Reaction Bond Changes\n",prefix);
      string = StringOfBlanks(strlen(prefix));
 
+     fprintf(file,"%s: %-17s   %-17s\n", string, "Reactant Bond.", "Product Bond");
+     fprintf(file,"%s: %-8s %-8s   %-8s %-8s\n", string, "Atom 1.", "Atom 2.", "Atom 1", "Atom 2.");
+
      bond = changes->Changes;
      LOOPi(changes->NumberBondChanges)
 	  {
 	  atom1 = bond->Atom1;
 	  atom2 = bond->Atom2;
 	  
-	  fprintf(file,"%s:%5d ",
-		  string,i);
-	  if(atom1 != 0)
-	       fprintf(file,"([%15d %5d]  [%15d %5d])",
-		       atom1->Reactant->MoleculeNumber, atom1->Reactant->AtomNumber,
-		       atom1->Product->MoleculeNumber, atom1->Product->AtomNumber);
+	  if(atom1 != 0 && atom1->Reactant != 0 && atom1->Reactant->MoleculeNumber >= 0)
+	       sprintf(r1, "%d", atom1->Reactant->ID);
 	  else
-	       fprintf(file,"(         UnMatched          )");
+	       sprintf(r1, ".");
 
-	  fprintf(file,"---");
-	  
-	  if(atom2 != 0)
-	       fprintf(file,"([%15d %5d]  [%15d %5d])",
-		       atom2->Reactant->MoleculeNumber, atom2->Reactant->AtomNumber,
-		       atom2->Product->MoleculeNumber, atom2->Product->AtomNumber);
+	  if(atom2 != 0 && atom2->Reactant != 0 && atom2->Reactant->MoleculeNumber >= 0)
+	       sprintf(r2, "%d", atom2->Reactant->ID);
 	  else
-	       fprintf(file,"(         UnMatched          )");
-          fprintf(file,"\n");
+	       sprintf(r2, ".");
+
+	  if(atom1 != 0 && atom1->Product != 0 && atom1->Product->MoleculeNumber >= 0)
+	       sprintf(p1, "%d", atom1->Product->ID);
+	  else
+	       sprintf(p1, ".");
+
+	  if(atom2 != 0 && atom2->Product != 0 && atom2->Product->MoleculeNumber >= 0)
+	       sprintf(p2, "%d", atom2->Product->ID);
+	  else
+	       sprintf(p2, ".");
+
+	  fprintf(file,"%s: %-8s %-8s   %-8s %-8s\n", string, r1, r2, p1, p2);
 	  
 	  bond++;
 	  }
      Free(string);
-     
      }
 
 extern void PrintReactionSetParameters(FILE *file,
