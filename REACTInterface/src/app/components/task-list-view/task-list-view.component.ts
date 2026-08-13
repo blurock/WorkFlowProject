@@ -15,6 +15,8 @@ import { map, catchError } from 'rxjs/operators';
 import { ReactCloudApiService, CatalogItem, CatalogTask } from '../../services/react-cloud-api.service';
 import { TaskOutputParserService } from '../../services/task-output-parser.service';
 import { ChemStructureParserService } from '../../services/chem-structure-parser.service';
+import { CatalogServiceRegistry } from '../../services/catalog/catalog-service-registry.service';
+import { MoleculesService } from '../../services/catalog/molecules.service';
 
 import type {
   AtomElectronicRow,
@@ -56,6 +58,9 @@ import { AtomCorrespondencesCardComponent } from './cards/atom-correspondences-c
 import { ReactionRateCardComponent } from './cards/reaction-rate-card.component';
 import { BensonGroupCardComponent } from './cards/benson-group-card.component';
 import { MechReactionsCardComponent } from './cards/mech-reactions-card.component';
+import { MechThermoCardComponent } from './cards/mech-thermo-card.component';
+import { MechStructuresCardComponent } from './cards/mech-structures-card.component';
+import { MechCorrsCardComponent } from './cards/mech-corrs-card.component';
 
 @Component({
   selector: 'app-task-list-view',
@@ -82,7 +87,10 @@ import { MechReactionsCardComponent } from './cards/mech-reactions-card.componen
     AtomCorrespondencesCardComponent,
     ReactionRateCardComponent,
     BensonGroupCardComponent,
-    MechReactionsCardComponent
+    MechReactionsCardComponent,
+    MechThermoCardComponent,
+    MechStructuresCardComponent,
+    MechCorrsCardComponent
   ],
   templateUrl: './task-list-view.component.html',
   styleUrls: ['./task-list-view.component.scss']
@@ -103,6 +111,8 @@ export class TaskListViewComponent implements OnChanges {
 
   constructor(
     private apiService: ReactCloudApiService,
+    private catalogServiceRegistry: CatalogServiceRegistry,
+    private moleculesService: MoleculesService,
     private taskOutputParser: TaskOutputParserService,
     private chemParser: ChemStructureParserService,
     private snackBar: MatSnackBar
@@ -125,7 +135,8 @@ export class TaskListViewComponent implements OnChanges {
     this.isLoading = true;
     this.errorMessage = null;
 
-    this.apiService.runCatalogTaskWithRegistry(this.task.id).subscribe({
+    const catalogService = this.catalogServiceRegistry.getServiceForTask(this.task.id);
+    catalogService.getCatalogList().subscribe({
       next: (parsedItems) => {
         this.items = (parsedItems || []).sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
         this.isLoading = false;
@@ -155,7 +166,8 @@ export class TaskListViewComponent implements OnChanges {
       duration: 2000
     });
 
-    this.apiService.fetchItemDetails(this.task.id, item.name).subscribe({
+    const catalogService = this.catalogServiceRegistry.getServiceForTask(this.task.id);
+    catalogService.getItemDetails(item.name).subscribe({
       next: (detailOutput) => {
         this.itemDetailOutput = detailOutput;
         this.currentSdfContent = this.chemParser.extractSdfContent(detailOutput);
@@ -190,7 +202,7 @@ export class TaskListViewComponent implements OnChanges {
       if (sdfMap.has(id)) {
         return of(sdfMap.get(id)!);
       }
-      return this.apiService.fetchItemDetails('molecules', id).pipe(
+      return this.moleculesService.getItemDetails(id).pipe(
         map(output => this.chemParser.extractSdfContent(output) || ''),
         catchError(() => of(''))
       );
@@ -200,7 +212,7 @@ export class TaskListViewComponent implements OnChanges {
       if (sdfMap.has(id)) {
         return of(sdfMap.get(id)!);
       }
-      return this.apiService.fetchItemDetails('molecules', id).pipe(
+      return this.moleculesService.getItemDetails(id).pipe(
         map(output => this.chemParser.extractSdfContent(output) || ''),
         catchError(() => of(''))
       );

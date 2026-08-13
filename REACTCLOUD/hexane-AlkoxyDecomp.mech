@@ -1,0 +1,22 @@
+CLASSCOEFFICIENTS
+H-Abstraction-Oxygen-Primary             =      4.1700e+12     0.0000     204.92     6.5375e+10     0.3130      -2.52
+H-Abstraction-Oxygen-Secondary           =      1.0000e+13     0.0000     199.06     1.3265e+11     0.2420       8.67
+Primary-Carbon-Radical-(R.+O2-->RO2.)    =      4.5200e+12     0.0000       0.00     2.6570e+20    -1.6700     148.04
+Secondary-Carbon-Radical-(R.+O2-->RO2.)  =      7.5400e+12     0.0000       0.00     1.3570e+23    -2.3600     157.54
+END
+CLASSEQUIVALENT
+END
+REACTIONCLASS  = H-Abstraction-Oxygen-Primary
+    6 {hexane} + {oxygen} = {peroxyl-radical} + {PP5}
+END
+REACTIONCLASS  = H-Abstraction-Oxygen-Secondary
+    4 {hexane} + {oxygen} = {PP2} + {peroxyl-radical}
+    4 {hexane} + {oxygen} = {peroxyl-radical} + {PP4}
+END
+REACTIONCLASS  = Primary-Carbon-Radical-(R.+O2-->RO2.)
+    1 {PP5} + {oxygen} = {PP6}
+END
+REACTIONCLASS  = Secondary-Carbon-Radical-(R.+O2-->RO2.)
+    1 {PP2} + {oxygen} = {PP7}
+    1 {PP4} + {oxygen} = {PP8}
+END

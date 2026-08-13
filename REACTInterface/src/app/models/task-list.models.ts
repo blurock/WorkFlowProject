@@ -75,10 +75,44 @@ export interface MechCoefficientRow {
   revEa: string;
 }
 
+export interface NameCorrespondence {
+  longName: string;
+  shortName: string;
+}
+
+export interface MechReactionItem {
+  multiplicity: string;
+  equation: string;
+  convertedEquation?: string;
+}
+
+export interface MechReactionClassGroup {
+  className: string;
+  reactions: MechReactionItem[];
+  isExpanded?: boolean;
+}
+
+export interface MechThermoBlock {
+  shortName: string;
+  longName: string;
+  rawBlock: string;
+  isExpanded?: boolean;
+}
+
+export interface MechSdfBlock {
+  moleculeName: string;
+  sdfContent: string;
+  isExpanded?: boolean;
+}
+
 export interface MechFileData {
   coefficients: MechCoefficientRow[];
   classEquivalentsText: string;
   reactionClassesText: string;
+  reactionClasses?: MechReactionClassGroup[];
+  correspondences?: NameCorrespondence[];
+  thermoBlocks?: MechThermoBlock[];
+  sdfBlocks?: MechSdfBlock[];
 }
 
 export interface MoleculeSection {
