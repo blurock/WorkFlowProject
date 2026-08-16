@@ -10,6 +10,7 @@
 
 #include <arpa/inet.h>
 #include <ctype.h>
+#include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <netinet/in.h>
@@ -516,6 +517,88 @@ static int parse_json_field_string(const char *body, const char *field_name, cha
 
     *value = parse_json_string(&cursor);
     return (*value == NULL) ? -1 : 0;
+}
+
+static int parse_json_field_string_array(const char *body, const char *field_name, char ***items, int *item_count)
+{
+    char pattern[128];
+    const char *field;
+    const char *cursor;
+    int count = 0;
+    int capacity = 64;
+    char **list;
+    int i;
+
+    if (snprintf(pattern, sizeof(pattern), "\"%s\"", field_name) >= (int) sizeof(pattern)) {
+        return -1;
+    }
+
+    field = strstr(body, pattern);
+    if (field == NULL) {
+        return 1;
+    }
+
+    cursor = strchr(field, ':');
+    if (cursor == NULL) {
+        return -1;
+    }
+    ++cursor;
+    skip_whitespace(&cursor);
+
+    if (*cursor != '[') {
+        return -1;
+    }
+    ++cursor;
+
+    list = (char **) malloc(capacity * sizeof(char *));
+    if (list == NULL) {
+        return -1;
+    }
+
+    for (;;) {
+        skip_whitespace(&cursor);
+
+        if (*cursor == ']') {
+            ++cursor;
+            break;
+        }
+
+        if (count >= capacity) {
+            capacity *= 2;
+            char **next_list = (char **) realloc(list, capacity * sizeof(char *));
+            if (next_list == NULL) {
+                for (i = 0; i < count; ++i) free(list[i]);
+                free(list);
+                return -1;
+            }
+            list = next_list;
+        }
+
+        list[count] = parse_json_string(&cursor);
+        if (list[count] == NULL) {
+            for (i = 0; i < count; ++i) free(list[i]);
+            free(list);
+            return -1;
+        }
+        ++count;
+
+        skip_whitespace(&cursor);
+        if (*cursor == ',') {
+            ++cursor;
+            continue;
+        }
+        if (*cursor == ']') {
+            ++cursor;
+            break;
+        }
+        for (i = 0; i < count; ++i) free(list[i]);
+        free(list);
+        return -1;
+    }
+
+    *items = list;
+    *item_count = count;
+    return 0;
 }
 
 static int parse_replacements_object(const char *body, Replacement *replacements, int *count)
@@ -1550,6 +1633,448 @@ static int handle_run_input_request(int client_fd, const char *body)
     return status;
 }
 
+static int handle_run_submechanism_request(int client_fd, const char *body)
+{
+    const char *reactroot = reactroot_env();
+    char *molecule = NULL;
+    char *supplement = NULL;
+    char *root_name = NULL;
+    char *run_root = NULL;
+    char initial_molecules[MAX_PATH_LENGTH];
+    char mech_name[MAX_PATH_LENGTH];
+    char lsr_src_path[MAX_PATH_LENGTH];
+    char lsr_dst_data_path[MAX_PATH_LENGTH];
+    char lsr_dst_tmp_path[MAX_PATH_LENGTH];
+    char template_path[MAX_PATH_LENGTH];
+    char temp_input_path[MAX_PATH_LENGTH];
+    char tmp_dir[MAX_PATH_LENGTH];
+    char *template_content = NULL;
+    char *step1_content = NULL;
+    char *prepared_input = NULL;
+    char *command_output = NULL;
+    char *escaped_output = NULL;
+    char *response = NULL;
+    int exit_code = 1;
+    int status;
+    int i;
+    struct stat st;
+
+    parse_json_field_string(body, "molecule", &molecule);
+    parse_json_field_string(body, "supplement", &supplement);
+    parse_json_field_string(body, "rootName", &root_name);
+    parse_json_field_string(body, "runRoot", &run_root);
+
+    if (molecule == NULL || *molecule == '\0' || root_name == NULL || *root_name == '\0') {
+        if (molecule) free(molecule);
+        if (supplement) free(supplement);
+        if (root_name) free(root_name);
+        if (run_root) free(run_root);
+        return send_response(client_fd, 400, "application/json",
+            "{\"error\":\"Request body must contain non-empty 'molecule' and 'rootName' fields.\"}");
+    }
+
+    if (run_root == NULL || *run_root == '\0') {
+        run_root = strdup("read");
+    }
+
+    if (supplement != NULL && *supplement != '\0') {
+        snprintf(initial_molecules, sizeof(initial_molecules), "%s,%s", molecule, supplement);
+    } else {
+        snprintf(initial_molecules, sizeof(initial_molecules), "%s", molecule);
+    }
+
+    snprintf(mech_name, sizeof(mech_name), "%s-%s", molecule, root_name);
+
+    lsr_src_path[0] = '\0';
+    const char *search_dirs[] = {
+        "%s/data/mechs/submechanisms/%s.lsr",
+        "%s/data/mechs/submechanisms/%s",
+        "%s/data/%s.lsr",
+        "%s/data/%s",
+        "%s/data/mechs/rxnpattests/%s.lsr",
+        "%s/data/runs/%s.lsr",
+        "%s/data/mechs/submechanism-orig/%s.lsr",
+        NULL
+    };
+
+    for (i = 0; search_dirs[i] != NULL; ++i) {
+        char test_path[MAX_PATH_LENGTH];
+        snprintf(test_path, sizeof(test_path), search_dirs[i], reactroot, root_name);
+        if (stat(test_path, &st) == 0 && S_ISREG(st.st_mode)) {
+            strncpy(lsr_src_path, test_path, sizeof(lsr_src_path) - 1);
+            break;
+        }
+    }
+
+    if (lsr_src_path[0] == '\0') {
+        free(molecule);
+        if (supplement) free(supplement);
+        free(root_name);
+        free(run_root);
+        return send_response(client_fd, 404, "application/json",
+            "{\"error\":\"Could not find path chain definition (.lsr) file for specified rootName.\"}");
+    }
+
+    snprintf(tmp_dir, sizeof(tmp_dir), "%s/tmp", reactroot);
+    ensure_directory_exists(tmp_dir);
+
+    snprintf(lsr_dst_data_path, sizeof(lsr_dst_data_path), "%s/data/%s.lsr", reactroot, run_root);
+    snprintf(lsr_dst_tmp_path, sizeof(lsr_dst_tmp_path), "%s/tmp/%s.lsr", reactroot, run_root);
+
+    char *lsr_content = NULL;
+    if (read_text_file(lsr_src_path, &lsr_content) == 0 && lsr_content != NULL) {
+        write_text_file(lsr_dst_data_path, lsr_content);
+        write_text_file(lsr_dst_tmp_path, lsr_content);
+        free(lsr_content);
+    }
+
+    snprintf(template_path, sizeof(template_path), "%s/programs/inputs/CallChain.inp", reactroot);
+    if (read_text_file(template_path, &template_content) != 0 || template_content == NULL) {
+        free(molecule);
+        if (supplement) free(supplement);
+        free(root_name);
+        free(run_root);
+        return send_response(client_fd, 404, "application/json",
+            "{\"error\":\"Template file CallChain.inp not found.\"}");
+    }
+
+    step1_content = replace_all_occurrences(template_content, "XXXXXXXXXX", initial_molecules);
+    free(template_content);
+    if (step1_content == NULL) {
+        free(molecule);
+        if (supplement) free(supplement);
+        free(root_name);
+        free(run_root);
+        return send_response(client_fd, 500, "application/json",
+            "{\"error\":\"Failed to substitute XXXXXXXXXX in CallChain.inp.\"}");
+    }
+
+    prepared_input = replace_all_occurrences(step1_content, "YYYYYYYYYY", mech_name);
+    free(step1_content);
+    if (prepared_input == NULL) {
+        free(molecule);
+        free(root_name);
+        free(run_root);
+        return send_response(client_fd, 500, "application/json",
+            "{\"error\":\"Failed to substitute YYYYYYYYYY in CallChain.inp.\"}");
+    }
+
+    snprintf(temp_input_path, sizeof(temp_input_path), "%s/tmp/%s.api.inp", reactroot, run_root);
+    if (write_text_file(temp_input_path, prepared_input) != 0) {
+        free(molecule);
+        free(root_name);
+        free(run_root);
+        free(prepared_input);
+        return send_response(client_fd, 500, "application/json",
+            "{\"error\":\"Failed to write temp input file.\"}");
+    }
+
+    free(prepared_input);
+
+    if (run_chem_template(run_root, temp_input_path, &command_output, &exit_code) != 0) {
+        unlink(temp_input_path);
+        free(molecule);
+        free(root_name);
+        free(run_root);
+        return send_response(client_fd, 500, "application/json",
+            "{\"error\":\"Execution of submechanism task failed.\"}");
+    }
+
+    unlink(temp_input_path);
+
+    char gen_file[MAX_PATH_LENGTH];
+    char *mech_content = NULL;
+    char *sdf_content = NULL;
+    char *thm_content = NULL;
+    char *corrs_content = NULL;
+
+    snprintf(gen_file, sizeof(gen_file), "%s/%s.mech", tmp_dir, mech_name);
+    read_text_file(gen_file, &mech_content);
+
+    snprintf(gen_file, sizeof(gen_file), "%s/%s.sdf", tmp_dir, mech_name);
+    read_text_file(gen_file, &sdf_content);
+
+    snprintf(gen_file, sizeof(gen_file), "%s/%s.thm", tmp_dir, mech_name);
+    read_text_file(gen_file, &thm_content);
+
+    snprintf(gen_file, sizeof(gen_file), "%s/%s.corrs", tmp_dir, mech_name);
+    read_text_file(gen_file, &corrs_content);
+
+    if (mech_content || sdf_content || thm_content || corrs_content) {
+        size_t total_len = 512 + (command_output ? strlen(command_output) : 0);
+        if (mech_content) total_len += strlen(mech_content);
+        if (sdf_content) total_len += strlen(sdf_content);
+        if (thm_content) total_len += strlen(thm_content);
+        if (corrs_content) total_len += strlen(corrs_content);
+
+        char *combined = (char *) calloc(1, total_len + 1);
+        if (combined != NULL) {
+            if (mech_content) {
+                strcat(combined, "--- Mechanism Reactions ---\n");
+                strcat(combined, mech_content);
+                strcat(combined, "\n");
+            }
+            if (sdf_content) {
+                strcat(combined, "--- Molecule Structures ---\n");
+                strcat(combined, sdf_content);
+                strcat(combined, "\n");
+            }
+            if (thm_content) {
+                strcat(combined, "--- Molecule Thermodynamics ---\n");
+                strcat(combined, thm_content);
+                strcat(combined, "\n");
+            }
+            if (corrs_content) {
+                strcat(combined, "--- Name Correspondences ---\n");
+                strcat(combined, corrs_content);
+                strcat(combined, "\n");
+            }
+            if (command_output && *command_output) {
+                strcat(combined, "--- Execution Log ---\n");
+                strcat(combined, command_output);
+            }
+            free(command_output);
+            command_output = combined;
+        }
+    }
+
+    if (mech_content) free(mech_content);
+    if (sdf_content) free(sdf_content);
+    if (thm_content) free(thm_content);
+    if (corrs_content) free(corrs_content);
+
+    escaped_output = json_escape(command_output ? command_output : "Execution completed.");
+    if (command_output) free(command_output);
+
+    response = build_json_message(
+        "{\"molecule\":\"%s\",\"rootName\":\"%s\",\"mechName\":\"%s\",\"exitCode\":%d,\"output\":\"%s\"}",
+        molecule, root_name, mech_name, exit_code, escaped_output ? escaped_output : "");
+
+    free(molecule);
+    if (supplement) free(supplement);
+    free(root_name);
+    free(run_root);
+    if (escaped_output) free(escaped_output);
+
+    if (response == NULL) {
+        return send_response(client_fd, 500, "application/json", "{\"error\":\"Unable to build response.\"}");
+    }
+
+    status = send_response(client_fd, 200, "application/json", response);
+    free(response);
+    return status;
+}
+
+static int handle_run_combine_submechanisms_request(int client_fd, const char *body)
+{
+    const char *reactroot = reactroot_env();
+    char *root_name = NULL;
+    char *mech_name = NULL;
+    char **submechanisms = NULL;
+    int submech_count = 0;
+    char temp_input_path[MAX_PATH_LENGTH];
+    char temp_lst_path[MAX_PATH_LENGTH];
+    char root_lst_path[MAX_PATH_LENGTH];
+    char tmp_dir[MAX_PATH_LENGTH];
+    char template_path[MAX_PATH_LENGTH];
+    char *template_content = NULL;
+    char *step1_content = NULL;
+    char *prepared_input = NULL;
+    char *command_output = NULL;
+    char *escaped_output = NULL;
+    char *response = NULL;
+    int exit_code = 1;
+    int status;
+    int i;
+    FILE *f_lst;
+
+    parse_json_field_string(body, "rootName", &root_name);
+    parse_json_field_string(body, "mechName", &mech_name);
+    parse_json_field_string_array(body, "submechanisms", &submechanisms, &submech_count);
+
+    if (root_name == NULL || *root_name == '\0') {
+        root_name = strdup("CombineJob");
+    }
+
+    if (mech_name == NULL || *mech_name == '\0' || submechanisms == NULL || submech_count <= 0) {
+        if (root_name) free(root_name);
+        if (mech_name) free(mech_name);
+        if (submechanisms) {
+            for (i = 0; i < submech_count; ++i) free(submechanisms[i]);
+            free(submechanisms);
+        }
+        return send_response(client_fd, 400, "application/json",
+            "{\"error\":\"Request body must contain non-empty 'mechName' and non-empty 'submechanisms' list.\"}");
+    }
+
+    snprintf(tmp_dir, sizeof(tmp_dir), "%s/tmp", reactroot);
+    ensure_directory_exists(tmp_dir);
+
+    snprintf(temp_lst_path, sizeof(temp_lst_path), "%s/tmp/%s.lst", reactroot, root_name);
+    f_lst = fopen(temp_lst_path, "w");
+    if (f_lst == NULL) {
+        free(root_name);
+        free(mech_name);
+        for (i = 0; i < submech_count; ++i) free(submechanisms[i]);
+        free(submechanisms);
+        return send_response(client_fd, 500, "application/json",
+            "{\"error\":\"Unable to create ROOTNAME.lst in tmp directory.\"}");
+    }
+
+    for (i = 0; i < submech_count; ++i) {
+        fprintf(f_lst, "%s\n", submechanisms[i]);
+    }
+    fclose(f_lst);
+
+    snprintf(root_lst_path, sizeof(root_lst_path), "%s/%s.lst", reactroot, root_name);
+    f_lst = fopen(root_lst_path, "w");
+    if (f_lst != NULL) {
+        for (i = 0; i < submech_count; ++i) {
+            fprintf(f_lst, "%s\n", submechanisms[i]);
+        }
+        fclose(f_lst);
+    }
+
+    snprintf(template_path, sizeof(template_path), "%s/programs/inputs/CombineMechanisms.inp", reactroot);
+    if (read_text_file(template_path, &template_content) != 0 || template_content == NULL) {
+        free(root_name);
+        free(mech_name);
+        for (i = 0; i < submech_count; ++i) free(submechanisms[i]);
+        free(submechanisms);
+        return send_response(client_fd, 404, "application/json",
+            "{\"error\":\"Template file CombineMechanisms.inp not found.\"}");
+    }
+
+    step1_content = replace_all_occurrences(template_content, "XXXXXXXXXX", root_name);
+    free(template_content);
+    if (step1_content == NULL) {
+        free(root_name);
+        free(mech_name);
+        for (i = 0; i < submech_count; ++i) free(submechanisms[i]);
+        free(submechanisms);
+        return send_response(client_fd, 500, "application/json",
+            "{\"error\":\"Failed to substitute XXXXXXXXXX in CombineMechanisms.inp.\"}");
+    }
+
+    prepared_input = replace_all_occurrences(step1_content, "YYYYYYYYYY", mech_name);
+    free(step1_content);
+    if (prepared_input == NULL) {
+        free(root_name);
+        free(mech_name);
+        for (i = 0; i < submech_count; ++i) free(submechanisms[i]);
+        free(submechanisms);
+        return send_response(client_fd, 500, "application/json",
+            "{\"error\":\"Failed to substitute YYYYYYYYYY in CombineMechanisms.inp.\"}");
+    }
+
+    snprintf(temp_input_path, sizeof(temp_input_path), "%s/tmp/%s.combine.api.inp", reactroot, root_name);
+    if (write_text_file(temp_input_path, prepared_input) != 0) {
+        free(root_name);
+        free(mech_name);
+        for (i = 0; i < submech_count; ++i) free(submechanisms[i]);
+        free(submechanisms);
+        free(prepared_input);
+        return send_response(client_fd, 500, "application/json",
+            "{\"error\":\"Failed to write temp input file.\"}");
+    }
+
+    free(prepared_input);
+
+    if (run_chem_template("read", temp_input_path, &command_output, &exit_code) != 0) {
+        unlink(temp_input_path);
+        free(root_name);
+        free(mech_name);
+        for (i = 0; i < submech_count; ++i) free(submechanisms[i]);
+        free(submechanisms);
+        return send_response(client_fd, 500, "application/json",
+            "{\"error\":\"Execution of combine submechanisms task failed.\"}");
+    }
+
+    unlink(temp_input_path);
+
+    char gen_file[MAX_PATH_LENGTH];
+    char *mech_content = NULL;
+    char *sdf_content = NULL;
+    char *thm_content = NULL;
+    char *corrs_content = NULL;
+
+    snprintf(gen_file, sizeof(gen_file), "%s/%s.mech", tmp_dir, mech_name);
+    read_text_file(gen_file, &mech_content);
+
+    snprintf(gen_file, sizeof(gen_file), "%s/%s.sdf", tmp_dir, mech_name);
+    read_text_file(gen_file, &sdf_content);
+
+    snprintf(gen_file, sizeof(gen_file), "%s/%s.thm", tmp_dir, mech_name);
+    read_text_file(gen_file, &thm_content);
+
+    snprintf(gen_file, sizeof(gen_file), "%s/%s.corrs", tmp_dir, mech_name);
+    read_text_file(gen_file, &corrs_content);
+
+    if (mech_content || sdf_content || thm_content || corrs_content) {
+        size_t total_len = 512 + (command_output ? strlen(command_output) : 0);
+        if (mech_content) total_len += strlen(mech_content);
+        if (sdf_content) total_len += strlen(sdf_content);
+        if (thm_content) total_len += strlen(thm_content);
+        if (corrs_content) total_len += strlen(corrs_content);
+
+        char *combined = (char *) calloc(1, total_len + 1);
+        if (combined != NULL) {
+            if (mech_content) {
+                strcat(combined, "--- Combined Mechanism Reactions (.mech) ---\n");
+                strcat(combined, mech_content);
+                strcat(combined, "\n");
+            }
+            if (sdf_content) {
+                strcat(combined, "--- Combined Molecule Structures (.sdf) ---\n");
+                strcat(combined, sdf_content);
+                strcat(combined, "\n");
+            }
+            if (thm_content) {
+                strcat(combined, "--- Combined Molecule Thermodynamics (.thm) ---\n");
+                strcat(combined, thm_content);
+                strcat(combined, "\n");
+            }
+            if (corrs_content) {
+                strcat(combined, "--- Combined Name Correspondences (.corrs) ---\n");
+                strcat(combined, corrs_content);
+                strcat(combined, "\n");
+            }
+            if (command_output && *command_output) {
+                strcat(combined, "--- Execution Log ---\n");
+                strcat(combined, command_output);
+            }
+            free(command_output);
+            command_output = combined;
+        }
+    }
+
+    if (mech_content) free(mech_content);
+    if (sdf_content) free(sdf_content);
+    if (thm_content) free(thm_content);
+    if (corrs_content) free(corrs_content);
+
+    escaped_output = json_escape(command_output ? command_output : "Combine execution completed.");
+    if (command_output) free(command_output);
+
+    response = build_json_message(
+        "{\"rootName\":\"%s\",\"mechName\":\"%s\",\"count\":%d,\"exitCode\":%d,\"output\":\"%s\"}",
+        root_name, mech_name, submech_count, exit_code, escaped_output ? escaped_output : "");
+
+    free(root_name);
+    free(mech_name);
+    for (i = 0; i < submech_count; ++i) free(submechanisms[i]);
+    free(submechanisms);
+    if (escaped_output) free(escaped_output);
+
+    if (response == NULL) {
+        return send_response(client_fd, 500, "application/json", "{\"error\":\"Unable to build response.\"}");
+    }
+
+    status = send_response(client_fd, 200, "application/json", response);
+    free(response);
+    return status;
+}
+
 static int is_authenticated(char *request_headers)
 {
     char *auth = find_header_value(request_headers, "Authorization");
@@ -1563,6 +2088,93 @@ static int is_authenticated(char *request_headers)
         return 1;
     }
     return 0;
+}
+
+static int compare_strings(const void *a, const void *b) {
+    return strcmp(*(const char **)a, *(const char **)b);
+}
+
+static int handle_list_submechanism_paths_request(int client_fd)
+{
+    const char *reactroot = reactroot_env();
+    char dir_path[MAX_PATH_LENGTH];
+    DIR *dir;
+    struct dirent *entry;
+    struct stat st;
+    char **names = NULL;
+    int count = 0;
+    int capacity = 64;
+    int i;
+
+    snprintf(dir_path, sizeof(dir_path), "%s/data/mechs/submechanisms", reactroot);
+
+    dir = opendir(dir_path);
+    if (dir == NULL) {
+        return send_response(client_fd, 500, "application/json", "{\"error\":\"Unable to open submechanisms directory.\"}");
+    }
+
+    names = (char **) malloc(capacity * sizeof(char *));
+    if (names == NULL) {
+        closedir(dir);
+        return send_response(client_fd, 500, "application/json", "{\"error\":\"Out of memory.\"}");
+    }
+
+    while ((entry = readdir(dir)) != NULL) {
+        size_t len = strlen(entry->d_name);
+        if (len < 5) continue;
+        if (entry->d_name[0] == '#' || entry->d_name[len - 1] == '~') continue;
+        if (strcmp(entry->d_name + len - 4, ".lsr") != 0) continue;
+
+        char full_path[MAX_PATH_LENGTH];
+        snprintf(full_path, sizeof(full_path), "%s/%s", dir_path, entry->d_name);
+        if (stat(full_path, &st) == 0 && S_ISREG(st.st_mode)) {
+            char root_name[MAX_PATH_LENGTH];
+            strncpy(root_name, entry->d_name, len - 4);
+            root_name[len - 4] = '\0';
+
+            if (count >= capacity) {
+                capacity *= 2;
+                char **next = (char **) realloc(names, capacity * sizeof(char *));
+                if (next == NULL) break;
+                names = next;
+            }
+            names[count++] = strdup(root_name);
+        }
+    }
+    closedir(dir);
+
+    qsort(names, count, sizeof(char *), compare_strings);
+
+    size_t json_capacity = 1024;
+    for (i = 0; i < count; ++i) {
+        json_capacity += strlen(names[i]) + 10;
+    }
+
+    char *json_buf = (char *) malloc(json_capacity);
+    if (json_buf == NULL) {
+        for (i = 0; i < count; ++i) free(names[i]);
+        free(names);
+        return send_response(client_fd, 500, "application/json", "{\"error\":\"Out of memory.\"}");
+    }
+
+    strcpy(json_buf, "[");
+    for (i = 0; i < count; ++i) {
+        char *escaped = json_escape(names[i]);
+        if (i > 0) strcat(json_buf, ",");
+        strcat(json_buf, "\"");
+        if (escaped) {
+            strcat(json_buf, escaped);
+            free(escaped);
+        }
+        strcat(json_buf, "\"");
+        free(names[i]);
+    }
+    strcat(json_buf, "]");
+    free(names);
+
+    int status = send_response(client_fd, 200, "application/json", json_buf);
+    free(json_buf);
+    return status;
 }
 
 static int handle_request(int client_fd)
@@ -1591,14 +2203,24 @@ static int handle_request(int client_fd)
         result = send_response(client_fd, 200, "text/plain", "");
     } else if (strcmp(method, "GET") == 0 && strcmp(path, "/health") == 0) {
         result = send_response(client_fd, 200, "application/json", "{\"status\":\"ok\",\"service\":\"chemdb\"}");
+    } else if (strcmp(method, "GET") == 0 && (strcmp(path, "/api/submechanisms") == 0 || strcmp(path, "/api/submechanism-paths") == 0)) {
+        if (!is_authenticated(request)) {
+            result = send_response(
+                client_fd,
+                401,
+                "application/json",
+                "{\"error\":\"Authentication required. Please provide a valid Authorization Bearer token.\"}");
+        } else {
+            result = handle_list_submechanism_paths_request(client_fd);
+        }
     } else if (strcmp(method, "GET") == 0 && strcmp(path, "/") == 0) {
         result = send_response(
             client_fd,
             200,
             "application/json",
-            "{\"service\":\"chemdb\",\"endpoints\":[\"GET /health\",\"POST /api/run\",\"POST /api/run-input\",\"POST /api/run-commands\"],"
-            "\"examples\":{\"run\":{\"args\":[\"--help\"]},\"runInput\":{\"inputFile\":\"PrintRxnPatternsList.inp\",\"root\":\"job1\"},\"runCommands\":{\"commands\":[\"CreateOpenClose\",\"Start\",\"Quit\"]}}}");
-    } else if (strcmp(method, "POST") == 0 && (strcmp(path, "/api/run") == 0 || strcmp(path, "/api/run-input") == 0 || strcmp(path, "/api/run-commands") == 0)) {
+            "{\"service\":\"chemdb\",\"endpoints\":[\"GET /health\",\"GET /api/submechanisms\",\"POST /api/run\",\"POST /api/run-input\",\"POST /api/run-commands\",\"POST /api/run-submechanism\",\"POST /api/run-combine-submechanisms\"],"
+            "\"examples\":{\"run\":{\"args\":[\"--help\"]},\"runInput\":{\"inputFile\":\"PrintRxnPatternsList.inp\",\"root\":\"job1\"},\"runCommands\":{\"commands\":[\"CreateOpenClose\",\"Start\",\"Quit\"]},\"runSubmechanism\":{\"molecule\":\"propane\",\"rootName\":\"BasicLowTemp\"},\"runCombineSubmechanisms\":{\"rootName\":\"job1\",\"mechName\":\"CombinedMech\",\"submechanisms\":[\"propane-BasicLowTemp\"]}}}");
+    } else if (strcmp(method, "POST") == 0 && (strcmp(path, "/api/run") == 0 || strcmp(path, "/api/run-input") == 0 || strcmp(path, "/api/run-commands") == 0 || strcmp(path, "/api/run-submechanism") == 0 || strcmp(path, "/api/run-combine-submechanisms") == 0)) {
         if (!is_authenticated(request)) {
             result = send_response(
                 client_fd,
@@ -1609,6 +2231,10 @@ static int handle_request(int client_fd)
             result = handle_run_request(client_fd, body);
         } else if (strcmp(path, "/api/run-input") == 0) {
             result = handle_run_input_request(client_fd, body);
+        } else if (strcmp(path, "/api/run-submechanism") == 0) {
+            result = handle_run_submechanism_request(client_fd, body);
+        } else if (strcmp(path, "/api/run-combine-submechanisms") == 0) {
+            result = handle_run_combine_submechanisms_request(client_fd, body);
         } else {
             result = handle_run_commands_request(client_fd, body);
         }

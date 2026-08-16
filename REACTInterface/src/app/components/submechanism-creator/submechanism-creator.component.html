@@ -1,0 +1,291 @@
+<div class="submech-container">
+  <!-- Task Header Banner -->
+  <mat-card class="submech-banner-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar color="accent" class="submech-avatar-icon">alt_route</mat-icon>
+      <mat-card-title class="banner-title">Submechanism from Path</mat-card-title>
+      <mat-card-subtitle class="banner-subtitle">
+        Script: <code>runchain.sh</code> &bull; Input Template: <code>CallChain.inp</code> &bull; Category: <strong>Create & Generate</strong>
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="banner-description">
+      <p>
+        Generates a complete chemical reaction submechanism for a target molecule by substituting the molecule name and pathway root into the REACT chain generator pipeline.
+      </p>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Error Alert -->
+  <mat-card class="error-card" *ngIf="errorMessage && !isLoading">
+    <mat-card-content class="error-content">
+      <mat-icon color="warn">error</mat-icon>
+      <span>{{ errorMessage }}</span>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Main Multi-Tab Workspace -->
+  <mat-tab-group [(selectedIndex)]="selectedTabIndex" class="submech-tab-group" animationDuration="200ms">
+    
+    <!-- Tab 0: Task Inputs & Config -->
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="tab-icon">tune</mat-icon>
+        <span>Task Inputs</span>
+      </ng-template>
+
+      <div class="tab-content-area">
+        <mat-card class="input-form-card">
+          <mat-card-header>
+            <mat-card-title>Submechanism Parameters</mat-card-title>
+            <mat-card-subtitle>Define input molecule and pathway root name (.lsr file)</mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content class="form-content">
+            <div class="row g-3">
+              <!-- Target Molecule (MOLECULE) Field -->
+              <div class="col-12 col-md-6">
+                <mat-form-field appearance="outline" class="w-100 large-form-field">
+                  <mat-label>Target Molecule (MOLECULE)</mat-label>
+                  <input
+                    matInput
+                    [ngModel]="molecule"
+                    (ngModelChange)="onMoleculeInputChange($event)"
+                    [matAutocomplete]="autoMol"
+                    placeholder="Type or search molecule (e.g. 2,2,4-trimethylpentane)..."
+                    required />
+                  <mat-icon matSuffix color="primary">science</mat-icon>
+
+                  <mat-autocomplete #autoMol="matAutocomplete" (optionSelected)="onMoleculeSelected($event)">
+                    <mat-option *ngFor="let item of filteredMolecules" [value]="item.name" class="large-option">
+                      <mat-icon color="primary" class="option-icon">science</mat-icon>
+                      <span class="option-name">{{ item.name }}</span>
+                      <span class="option-id" *ngIf="item.id">#{{ item.id }}</span>
+                    </mat-option>
+                  </mat-autocomplete>
+
+                  <mat-hint>
+                    <span class="validation-badge valid" *ngIf="isMoleculeInDatabase(molecule)">
+                      <mat-icon>check_circle</mat-icon> Registered in REACT Database
+                    </span>
+                    <span class="validation-badge invalid" *ngIf="molecule && !isMoleculeInDatabase(molecule)">
+                      <mat-icon>warning</mat-icon> Not found in Database catalog
+                    </span>
+                    <span *ngIf="!molecule">Primary reactant molecule present in REACT database</span>
+                  </mat-hint>
+                </mat-form-field>
+              </div>
+
+              <!-- Mechanism Path (ROOTNAME) Field -->
+              <div class="col-12 col-md-6">
+                <mat-form-field appearance="outline" class="w-100 large-form-field">
+                  <mat-label>Mechanism Path (ROOTNAME)</mat-label>
+                  <input
+                    matInput
+                    [ngModel]="rootName"
+                    (ngModelChange)="onPathInputChange($event)"
+                    [matAutocomplete]="autoPath"
+                    placeholder="Type or select path root (e.g. AlphaHHydroPeroxylIsomerization)..."
+                    required />
+                  <mat-icon matSuffix color="primary">alt_route</mat-icon>
+
+                  <mat-autocomplete #autoPath="matAutocomplete" (optionSelected)="onPathSelected($event)">
+                    <mat-option *ngFor="let p of filteredPaths" [value]="p" class="large-option">
+                      <mat-icon color="accent" class="option-icon">alt_route</mat-icon>
+                      <span class="option-name">{{ p }}</span>
+                    </mat-option>
+                  </mat-autocomplete>
+
+                  <mat-hint>
+                    <span class="validation-badge valid" *ngIf="isPathInDatabase(rootName)">
+                      <mat-icon>check_circle</mat-icon> Valid Path Chain (.lsr)
+                    </span>
+                    <span class="validation-badge invalid" *ngIf="rootName && !isPathInDatabase(rootName)">
+                      <mat-icon>warning</mat-icon> Path file not found in submechanisms
+                    </span>
+                    <span *ngIf="!rootName">Root name of path definition file (ROOTNAME.lsr)</span>
+                  </mat-hint>
+                </mat-form-field>
+              </div>
+
+              <!-- Explicit Target Mechanism Name (MECHNAME) Field -->
+              <div class="col-12 col-md-6">
+                <mat-form-field appearance="outline" class="w-100 large-form-field">
+                  <mat-label>Target Mechanism Name (MECHNAME)</mat-label>
+                  <input
+                    matInput
+                    [(ngModel)]="mechName"
+                    placeholder="Enter mechanism name (e.g. propane-BasicLowTemp)..."
+                    required />
+                  <mat-icon matSuffix color="accent" title="Target name of mechanism saved in database">account_tree</mat-icon>
+                  <button mat-icon-button matSuffix (click)="updateMechName()" title="Reset to default [MOLECULE]-[ROOTNAME]">
+                    <mat-icon>refresh</mat-icon>
+                  </button>
+                  <mat-hint>Name of created mechanism stored in database (.mech, .thm, .sdf)</mat-hint>
+                </mat-form-field>
+              </div>
+
+              <!-- Supplementary Molecule Input Field -->
+              <div class="col-12 col-md-6">
+                <mat-form-field appearance="outline" class="w-100 large-form-field">
+                  <mat-label>Supplementary Species (InitialMolecules)</mat-label>
+                  <input
+                    matInput
+                    [(ngModel)]="supplement"
+                    placeholder="e.g. oxygen, hydrogen-peroxide..." />
+                  <mat-icon matSuffix color="primary">invert_colors</mat-icon>
+                  <mat-hint>Additional reactant species (comma-delimited: {{ getFullInitialMolecules() }})</mat-hint>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <!-- Preset Suppressed/Supplementary Molecules Chips -->
+            <div class="preset-paths-section">
+              <label class="presets-label">Common Supplementary Species:</label>
+              <mat-chip-set class="preset-chips">
+                <mat-chip
+                  *ngFor="let supp of presetSupplements"
+                  (click)="selectPresetSupplement(supp)"
+                  [class.active-preset]="supplement === supp"
+                  class="preset-chip">
+                  <mat-icon matChipAvatar color="primary">add</mat-icon>
+                  {{ supp }}
+                </mat-chip>
+              </mat-chip-set>
+            </div>
+
+            <!-- Preset Paths Selection Chips -->
+            <div class="preset-paths-section">
+              <label class="presets-label">Common Submechanism Pathway Presets:</label>
+              <mat-chip-set class="preset-chips">
+                <mat-chip
+                  *ngFor="let path of presetPaths"
+                  (click)="selectPresetPath(path)"
+                  [class.active-preset]="rootName === path"
+                  class="preset-chip">
+                  <mat-icon matChipAvatar color="primary">scatter_plot</mat-icon>
+                  {{ path }}
+                </mat-chip>
+              </mat-chip-set>
+            </div>
+          </mat-card-content>
+
+          <mat-card-actions class="form-actions">
+            <button
+              mat-raised-button
+              color="accent"
+              class="execute-btn"
+              (click)="executeSubmechanismTask()"
+              [disabled]="isLoading">
+              <mat-icon *ngIf="!isLoading">play_arrow</mat-icon>
+              <mat-icon *ngIf="isLoading" class="spinning">sync</mat-icon>
+              <span>{{ isLoading ? 'Generating Submechanism...' : 'Generate Submechanism (' + mechName + ')' }}</span>
+            </button>
+          </mat-card-actions>
+
+          <mat-progress-bar *ngIf="isLoading" mode="indeterminate" color="accent"></mat-progress-bar>
+        </mat-card>
+      </div>
+    </mat-tab>
+
+    <!-- Tab 1: Database Mechanism Details -->
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="tab-icon">account_tree</mat-icon>
+        <span>{{ mechName ? mechName : 'Mechanism Details' }}</span>
+      </ng-template>
+
+      <div class="tab-content-area">
+        <!-- Detail Top Toolbar -->
+        <mat-card class="detail-header-card" *ngIf="mechName">
+          <div class="detail-header-toolbar">
+            <div class="detail-title-group">
+              <mat-icon class="header-mol-icon" color="accent">account_tree</mat-icon>
+              <div>
+                <h2 class="detail-mol-title">{{ mechName }}</h2>
+                <span class="detail-mol-id">Submechanism (MOLECULE: {{ molecule }}, ROOTNAME: {{ rootName }})</span>
+              </div>
+            </div>
+
+            <div class="detail-actions-group">
+              <button mat-stroked-button (click)="selectedTabIndex = 0">
+                <mat-icon>arrow_back</mat-icon> Back to Inputs
+              </button>
+              <button mat-stroked-button (click)="toggleAllSections(true)">
+                <mat-icon>unfold_more</mat-icon> Expand All
+              </button>
+              <button mat-stroked-button (click)="toggleAllSections(false)">
+                <mat-icon>unfold_less</mat-icon> Collapse All
+              </button>
+              <button mat-stroked-button (click)="selectedTabIndex = 2" color="accent">
+                <mat-icon>terminal</mat-icon> View Raw STDOUT
+              </button>
+              <button mat-flat-button color="primary" (click)="copyFullOutput()">
+                <mat-icon>content_copy</mat-icon> Copy Full Output
+              </button>
+            </div>
+          </div>
+          <mat-progress-bar *ngIf="isDetailLoading" mode="indeterminate" color="primary"></mat-progress-bar>
+        </mat-card>
+
+        <!-- Unexecuted / Empty State -->
+        <mat-card class="empty-detail-card" *ngIf="!itemDetailOutput && !isDetailLoading">
+          <mat-card-content class="empty-state">
+            <mat-icon class="empty-icon">alt_route</mat-icon>
+            <h3>No Submechanism Generated Yet</h3>
+            <p>Define <strong>MOLECULE</strong> and <strong>ROOTNAME</strong> in the Task Inputs tab and click <strong>Generate Submechanism</strong>.</p>
+            <button mat-raised-button color="primary" (click)="selectedTabIndex = 0">
+              <mat-icon>tune</mat-icon> Go to Task Inputs
+            </button>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Database Detail View Section Cards -->
+        <div *ngIf="itemDetailOutput && !isDetailLoading">
+          <app-benson-group-detail
+            [item]="selectedItem!"
+            [sections]="moleculeSections"
+            [rawOutput]="itemDetailOutput"
+            (toggleAll)="toggleAllSections($event)"
+            (copyOutput)="copyFullOutput()"
+            (backToList)="selectedTabIndex = 0">
+          </app-benson-group-detail>
+        </div>
+      </div>
+    </mat-tab>
+
+    <!-- Tab 2: Raw ASCII Output Log -->
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="tab-icon">terminal</mat-icon>
+        <span>Raw Execution Log</span>
+      </ng-template>
+
+      <div class="tab-content-area">
+        <mat-card class="raw-output-card" *ngIf="itemDetailOutput || executionLog">
+          <mat-card-header class="raw-output-card-header">
+            <mat-icon mat-card-avatar color="primary">terminal</mat-icon>
+            <mat-card-title>Raw ASCII STDOUT Output: {{ mechName }}</mat-card-title>
+            <mat-card-subtitle>Execution log and output from REACTCLOUD runchemprg process</mat-card-subtitle>
+            <div class="raw-header-actions">
+              <button mat-flat-button color="primary" (click)="copyFullOutput()">
+                <mat-icon>content_copy</mat-icon> Copy Output
+              </button>
+            </div>
+          </mat-card-header>
+          <mat-card-content class="raw-output-card-content">
+            <pre class="raw-ascii-code-block">{{ itemDetailOutput || executionLog }}</pre>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="empty-detail-card" *ngIf="!itemDetailOutput && !executionLog">
+          <mat-card-content class="empty-state">
+            <mat-icon class="empty-icon">terminal</mat-icon>
+            <h3>No Output Available</h3>
+            <p>Execute the task to view the execution log.</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

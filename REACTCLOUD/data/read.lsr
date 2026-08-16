@@ -1,5 +1,5 @@
-AlkoxylDecomp: 
-hydrogen-peroxide
+The Standard Combustion Chain
+NONE
 %%% ----------------------------------------------------
 H-Abstraction-Oxygen-Tertiary,\
 H-Abstraction-Oxygen-Secondary,\
@@ -11,15 +11,11 @@ Secondary-Carbon-Radical-(R.+O2-->RO2.),\
 Tertiary-Carbon-Radical-(R.+O2-->RO2.)\
 :oxygen
 %%% ----------------------------------------------------
-PeroxyFromHydrogenPeroxide-HHH,\
-PeroxyFromHydrogenPeroxide-RHH,\
-PeroxyFromHydrogenPeroxide-RRH,\
-PeroxyFromHydrogenPeroxide-RRR:\
-hydrogen-peroxide
+Intramolecular-1-4-QOOH-Formation,\
+Intramolecular-1-5-QOOH-Formation,\
+Intramolecular-1-6-QOOH-Formation
 %%% ----------------------------------------------------
-AlkoxyFromPeroxy-HHH,\
-AlkoxyFromPeroxy-RHH,\
-AlkoxyFromPeroxy-RRH,\
-AlkoxyFromPeroxy-RRR
-%%% ----------------------------------------------------
-AlkoxyDecomp
+FiveRing-(ooh)-h-isomerization,\
+SixRing-(ooh)-h-isomerization,\
+SevenRing-(ooh)-h-isomerization,\
+EightRing-(ooh)-h-isomerization

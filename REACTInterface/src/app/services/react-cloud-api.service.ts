@@ -32,6 +32,24 @@ export interface ApiRunCommandsResponse {
   error?: string;
 }
 
+export interface ApiRunSubmechanismResponse {
+  molecule: string;
+  rootName: string;
+  mechName: string;
+  exitCode: number;
+  output: string;
+  error?: string;
+}
+
+export interface ApiRunCombineSubmechanismResponse {
+  rootName: string;
+  mechName: string;
+  count: number;
+  exitCode: number;
+  output: string;
+  error?: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -128,6 +146,38 @@ export class ReactCloudApiService {
         return [];
       })
     );
+  }
+
+  /**
+   * Run submechanism from path task (/api/run-submechanism)
+   */
+  public runSubmechanismFromPath(molecule: string, rootName: string, supplement: string = '', runRoot: string = 'read'): Observable<ApiRunSubmechanismResponse> {
+    const payload = {
+      molecule: molecule,
+      supplement: supplement,
+      rootName: rootName,
+      runRoot: runRoot
+    };
+    return this.http.post<ApiRunSubmechanismResponse>(`${this.baseUrl}/api/run-submechanism`, payload);
+  }
+
+  /**
+   * Run combine submechanisms task (/api/run-combine-submechanisms)
+   */
+  public runCombineSubmechanisms(rootName: string, mechName: string, submechanisms: string[]): Observable<ApiRunCombineSubmechanismResponse> {
+    const payload = {
+      rootName: rootName,
+      mechName: mechName,
+      submechanisms: submechanisms
+    };
+    return this.http.post<ApiRunCombineSubmechanismResponse>(`${this.baseUrl}/api/run-combine-submechanisms`, payload);
+  }
+
+  /**
+   * Fetch available submechanism path root names (.lsr files in data/mechs/submechanisms)
+   */
+  public getSubmechanismPaths(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.baseUrl}/api/submechanisms`);
   }
 
   /**

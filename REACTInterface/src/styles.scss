@@ -17,3 +17,77 @@ html, body {
   background: #991b1b !important;
   color: #ffffff !important;
 }
+
+/* ==========================================================================
+   Global Custom Form Field & Autocomplete Sizing for Long Molecules & Paths
+   ========================================================================== */
+
+/* Make mat-form-field inputs noticeably larger, wider, and clearer */
+.large-form-field, .form-field {
+  width: 100% !important;
+
+  .mat-mdc-text-field-wrapper {
+    min-height: 60px !important;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+  }
+
+  .mat-mdc-form-field-flex {
+    align-items: center !important;
+  }
+
+  input.mat-mdc-input-element, textarea.mat-mdc-input-element {
+    font-size: 1.2rem !important;
+    font-weight: 500 !important;
+    color: #0f172a !important;
+  }
+
+  .mat-mdc-floating-label {
+    font-size: 1.1rem !important;
+  }
+
+  .mat-mdc-form-field-icon-suffix, .mat-mdc-form-field-icon-prefix {
+    font-size: 26px !important;
+  }
+
+  .mat-mdc-form-field-subscript-wrapper {
+    font-size: 0.9rem !important;
+  }
+}
+
+/* Autocomplete Panel Dropdown Option Panel Styling for Long Names */
+.mat-mdc-autocomplete-panel {
+  min-width: 450px !important;
+  max-width: 800px !important;
+
+  .mat-mdc-option {
+    min-height: 52px !important;
+    padding: 12px 20px !important;
+    font-size: 1.15rem !important;
+
+    .option-name {
+      font-weight: 500 !important;
+      font-size: 1.15rem !important;
+      word-break: break-word !important;
+      white-space: normal !important;
+    }
+
+    .option-icon {
+      margin-right: 12px !important;
+      font-size: 22px !important;
+    }
+  }
+}
+
+/* Chips Sizing & Multi-line Wrapping for Long Molecule & Pathway Names */
+.mat-mdc-chip-set, .mat-mdc-chip-grid {
+  mat-chip, mat-chip-option, mat-chip-row {
+    font-size: 1.05rem !important;
+    padding: 8px 16px !important;
+    min-height: 38px !important;
+    height: auto !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+    line-height: 1.4 !important;
+  }
+}

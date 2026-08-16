@@ -7,10 +7,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatCardModule } from '@angular/material/card';
 
 import { AuthService } from '../../services/auth.service';
-import { ReactCloudApiService, CatalogTask } from '../../services/react-cloud-api.service';
+import { TaskCategoryRegistry } from '../../services/task-category-registry.service';
+import { CatalogTask, TaskCategory } from '../../models/task-category.models';
 import { TaskListViewComponent } from '../task-list-view/task-list-view.component';
+import { SubmechanismCreatorComponent } from '../submechanism-creator/submechanism-creator.component';
+import { SubmechanismPathSetComponent } from '../submechanism-path-set/submechanism-path-set.component';
+import { CombineSubmechanismsComponent } from '../combine-submechanisms/combine-submechanisms.component';
 
 @Component({
   selector: 'app-task-dashboard',
@@ -23,25 +30,34 @@ import { TaskListViewComponent } from '../task-list-view/task-list-view.componen
     MatSidenavModule,
     MatListModule,
     MatChipsModule,
-    TaskListViewComponent
+    MatExpansionModule,
+    MatTooltipModule,
+    MatCardModule,
+    TaskListViewComponent,
+    SubmechanismCreatorComponent,
+    SubmechanismPathSetComponent,
+    CombineSubmechanismsComponent
   ],
   templateUrl: './task-dashboard.component.html',
   styleUrls: ['./task-dashboard.component.scss']
 })
 export class TaskDashboardComponent {
-  public tasks: CatalogTask[];
+  public categories: TaskCategory[];
+  public selectedCategory: TaskCategory;
   public selectedTask: CatalogTask;
 
   constructor(
     public authService: AuthService,
-    private apiService: ReactCloudApiService,
+    private categoryRegistry: TaskCategoryRegistry,
     private router: Router
   ) {
-    this.tasks = this.apiService.CATALOG_TASKS;
-    this.selectedTask = this.tasks[0];
+    this.categories = this.categoryRegistry.getAllCategories();
+    this.selectedCategory = this.categories[0];
+    this.selectedTask = this.categories[0].tasks[0];
   }
 
-  public selectTask(task: CatalogTask): void {
+  public selectTask(category: TaskCategory, task: CatalogTask): void {
+    this.selectedCategory = category;
     this.selectedTask = task;
   }
 

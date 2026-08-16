@@ -23,26 +23,112 @@
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav mode="side" opened class="dashboard-sidenav">
       <div class="sidenav-header">
-        <h3>Catalog Tasks</h3>
-        <p>Select a task to run the REACTCLOUD API</p>
+        <h3>REACT Workflows</h3>
+        <p>Explore catalog database or generate new mechanisms</p>
       </div>
 
-      <mat-nav-list class="task-nav-list">
-        <a
-          mat-list-item
-          *ngFor="let task of tasks"
-          (click)="selectTask(task)"
-          [class.active-task]="selectedTask.id === task.id"
-          class="task-nav-item">
-          <mat-icon matListItemIcon color="primary">{{ task.icon }}</mat-icon>
-          <div matListItemTitle class="task-nav-title">{{ task.title }}</div>
-        </a>
-      </mat-nav-list>
+      <!-- Accordion Categorized Task Panels -->
+      <mat-accordion multi class="category-accordion">
+        <mat-expansion-panel
+          *ngFor="let category of categories"
+          [expanded]="category.isExpanded"
+          class="category-panel">
+          <mat-expansion-panel-header class="category-header">
+            <mat-panel-title class="category-panel-title">
+              <mat-icon color="primary" class="category-icon">{{ category.icon }}</mat-icon>
+              <span class="category-name">{{ category.title }}</span>
+            </mat-panel-title>
+            <mat-panel-description class="category-panel-description">
+              <span
+                class="category-badge"
+                [class.badge-primary]="category.badgeColor === 'primary'"
+                [class.badge-accent]="category.badgeColor === 'accent'"
+                [class.badge-warn]="category.badgeColor === 'warn'">
+                {{ category.badge }}
+              </span>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <!-- Category Tasks Nav List -->
+          <mat-nav-list class="task-nav-list p-0">
+            <a
+              mat-list-item
+              *ngFor="let task of category.tasks"
+              (click)="selectTask(category, task)"
+              [class.active-task]="selectedTask.id === task.id"
+              class="task-nav-item">
+              <mat-icon matListItemIcon color="primary">{{ task.icon }}</mat-icon>
+              <div matListItemTitle class="task-nav-title">{{ task.title }}</div>
+            </a>
+          </mat-nav-list>
+        </mat-expansion-panel>
+      </mat-accordion>
     </mat-sidenav>
 
+    <!-- Main Content Panel Dispatcher -->
     <mat-sidenav-content class="dashboard-main-content">
       <div class="content-wrapper">
-        <app-task-list-view [task]="selectedTask"></app-task-list-view>
+
+        <!-- 1. Catalog View Tasks (Explore Data) -->
+        <ng-container *ngIf="selectedTask.type === 'catalog-view'">
+          <app-task-list-view [task]="$any(selectedTask)"></app-task-list-view>
+        </ng-container>
+
+        <!-- 2. Submechanism Creator Task -->
+        <ng-container *ngIf="selectedTask.type === 'submechanism-creator'">
+          <app-submechanism-creator></app-submechanism-creator>
+        </ng-container>
+
+        <!-- 3. Submechanism Path Set Task -->
+        <ng-container *ngIf="selectedTask.type === 'submechanism-path-set'">
+          <app-submechanism-path-set></app-submechanism-path-set>
+        </ng-container>
+
+        <!-- 4. Combine Submechanisms Task -->
+        <ng-container *ngIf="selectedTask.type === 'combine-submechanisms'">
+          <app-combine-submechanisms></app-combine-submechanisms>
+        </ng-container>
+
+        <!-- 3. Interactive Creator / Generator Tasks (Create & Generate) -->
+        <ng-container *ngIf="selectedTask.type === 'interactive-creator'">
+          <mat-card class="creator-placeholder-card mat-elevation-z2">
+            <mat-card-header class="creator-card-header">
+              <mat-icon mat-card-avatar color="accent" class="creator-avatar-icon">{{ selectedTask.icon }}</mat-icon>
+              <mat-card-title class="creator-card-title">{{ selectedTask.title }}</mat-card-title>
+              <mat-card-subtitle class="creator-card-subtitle">
+                Category: {{ selectedCategory.title }} &bull; Interactive Data Generator
+              </mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content class="creator-card-content">
+              <div class="creator-info-box">
+                <p class="creator-description">{{ selectedTask.description }}</p>
+                <div class="creator-features-list">
+                  <div class="feature-item">
+                    <mat-icon color="accent">check_circle</mat-icon>
+                    <span>Define reactant sets & stoichiometric conditions</span>
+                  </div>
+                  <div class="feature-item">
+                    <mat-icon color="accent">check_circle</mat-icon>
+                    <span>Apply elementary reaction rules & kinetics parameters</span>
+                  </div>
+                  <div class="feature-item">
+                    <mat-icon color="accent">check_circle</mat-icon>
+                    <span>Save generated mechanism files directly into REACT database</span>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+
+            <mat-card-actions class="creator-card-actions">
+              <button mat-raised-button color="accent" class="start-generator-btn">
+                <mat-icon>play_arrow</mat-icon>
+                <span>Launch {{ selectedTask.title }} Workspace</span>
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </ng-container>
+
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>

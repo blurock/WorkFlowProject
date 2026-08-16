@@ -1,0 +1,430 @@
+<div class="combine-submechanisms-container">
+
+  <!-- Header Card: Task Overview & Configuration -->
+  <mat-card class="header-card mat-elevation-z3">
+    <mat-card-header>
+      <mat-icon mat-card-avatar color="primary" class="header-icon">merge_type</mat-icon>
+      <mat-card-title class="header-title">Combine Submechanisms Task</mat-card-title>
+      <mat-card-subtitle class="header-subtitle">
+        Merge multiple submechanisms (50–100+) into a single unified reaction mechanism saved in REACT database
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="header-content mt-3">
+      <div class="row">
+        <!-- Root Job Identifier (ROOTNAME) -->
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-100 large-form-field">
+            <mat-label>Job Identifier (ROOTNAME)</mat-label>
+            <input matInput [(ngModel)]="rootName" placeholder="e.g. combine-job-123456" />
+            <mat-icon matSuffix title="Session-scoped identifier used for intermediate files (ROOTNAME.lst)">badge</mat-icon>
+            <mat-hint>Identifier for execution list ({{ rootName || 'job' }}.lst)</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <!-- Target Combined Mechanism Name (MECHNAME) -->
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-100 large-form-field">
+            <mat-label>Target Mechanism Name (MECHNAME)</mat-label>
+            <input matInput [(ngModel)]="mechName" placeholder="e.g. PropaneCombinedMech" required />
+            <mat-icon matSuffix color="primary">account_tree</mat-icon>
+            <mat-hint>Name of created mechanism stored in database (.mech, .thm, .sdf)</mat-hint>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Input Methods Panel: Add Submechanisms to List -->
+  <mat-card class="input-methods-card mat-elevation-z2 mt-3">
+    <mat-card-header>
+      <mat-icon mat-card-avatar color="accent">add_circle_outline</mat-icon>
+      <mat-card-title>Add Submechanisms to Combine List</mat-card-title>
+      <mat-card-subtitle>
+        Use Molecule & Path grid combinations, select directly from database, or import JSON array
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="input-methods-content mt-3">
+      <mat-tab-group animationDuration="200ms" class="input-methods-tabs">
+        
+        <!-- Tab Method 1: Molecules x Paths Cartesian Grid -->
+        <mat-tab>
+          <ng-template matTabLabel>
+            <mat-icon class="tab-icon">grid_on</mat-icon>
+            <span>Molecules & Paths Grid</span>
+          </ng-template>
+
+          <div class="cartesian-grid-panel p-3">
+            <div class="row">
+              <!-- Molecule List Box -->
+              <div class="col-md-6">
+                <div class="grid-box">
+                  <h4 class="grid-box-title">
+                    <mat-icon color="primary">science</mat-icon>
+                    <span>Molecules List ({{ selectedMolecules.length }})</span>
+                  </h4>
+
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Add Molecule</mat-label>
+                    <input
+                      matInput
+                      [(ngModel)]="moleculeInput"
+                      (ngModelChange)="filterMoleculesToAdd($event)"
+                      [matAutocomplete]="autoMol"
+                      placeholder="Type or select molecule (e.g. propane)"
+                      (keyup.enter)="addMoleculeToGrid()" />
+                    <mat-autocomplete #autoMol="matAutocomplete" (optionSelected)="addMoleculeToGrid($event.option.value)">
+                      <mat-option *ngFor="let item of filteredMoleculesToAdd" [value]="item.name">
+                        <span>{{ item.name }}</span>
+                      </mat-option>
+                    </mat-autocomplete>
+                    <button mat-icon-button matSuffix (click)="addMoleculeToGrid()" title="Add Molecule">
+                      <mat-icon color="primary">add</mat-icon>
+                    </button>
+                  </mat-form-field>
+
+                  <mat-chip-set class="grid-chip-set">
+                    <mat-chip
+                      *ngFor="let mol of selectedMolecules"
+                      (removed)="removeMoleculeFromGrid(mol)"
+                      color="primary"
+                      highlighted>
+                      {{ mol }}
+                      <button matChipRemove aria-label="Remove molecule">
+                        <mat-icon>cancel</mat-icon>
+                      </button>
+                    </mat-chip>
+                  </mat-chip-set>
+                </div>
+              </div>
+
+              <!-- Mechanism Paths Box -->
+              <div class="col-md-6">
+                <div class="grid-box">
+                  <h4 class="grid-box-title">
+                    <mat-icon color="accent">alt_route</mat-icon>
+                    <span>Mechanism Paths List ({{ selectedPaths.length }})</span>
+                  </h4>
+
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Add Mechanism Path (.lsr)</mat-label>
+                    <input
+                      matInput
+                      [(ngModel)]="pathInput"
+                      (ngModelChange)="filterPathsToAdd($event)"
+                      [matAutocomplete]="autoPath"
+                      placeholder="Type or select path (e.g. BasicLowTemp)"
+                      (keyup.enter)="addPathToGrid()" />
+                    <mat-autocomplete #autoPath="matAutocomplete" (optionSelected)="addPathToGrid($event.option.value)">
+                      <mat-option *ngFor="let path of filteredPathsToAdd" [value]="path">
+                        <span>{{ path }}</span>
+                      </mat-option>
+                    </mat-autocomplete>
+                    <button mat-icon-button matSuffix (click)="addPathToGrid()" title="Add Path">
+                      <mat-icon color="accent">add</mat-icon>
+                    </button>
+                  </mat-form-field>
+
+                  <mat-chip-set class="grid-chip-set">
+                    <mat-chip
+                      *ngFor="let p of selectedPaths"
+                      (removed)="removePathFromGrid(p)"
+                      color="accent"
+                      highlighted>
+                      {{ p }}
+                      <button matChipRemove aria-label="Remove path">
+                        <mat-icon>cancel</mat-icon>
+                      </button>
+                    </mat-chip>
+                  </mat-chip-set>
+                </div>
+              </div>
+            </div>
+
+            <!-- Generate Cartesian Grid Action -->
+            <div class="grid-action-row mt-3 text-end">
+              <span class="grid-calc-info me-3">
+                Calculated combinations: <strong>{{ selectedMolecules.length }} &times; {{ selectedPaths.length }} = {{ selectedMolecules.length * selectedPaths.length }} items</strong>
+              </span>
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="addCartesianCombinations()"
+                [disabled]="selectedMolecules.length === 0 || selectedPaths.length === 0">
+                <mat-icon>playlist_add</mat-icon>
+                <span>Add All Combinations to Combine List</span>
+              </button>
+            </div>
+          </div>
+        </mat-tab>
+
+        <!-- Tab Method 2: Direct Database Mechanism Selection -->
+        <mat-tab>
+          <ng-template matTabLabel>
+            <mat-icon class="tab-icon">storage</mat-icon>
+            <span>Database Mechanism Picker</span>
+          </ng-template>
+
+          <div class="database-picker-panel p-3">
+            <p class="picker-description">
+              Search existing catalog mechanisms registered in the REACT database and select specific mechanisms to combine.
+            </p>
+
+            <div class="row align-items-center">
+              <div class="col-md-9">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Select Database Mechanism</mat-label>
+                  <input
+                    matInput
+                    [(ngModel)]="dbMechInput"
+                    (ngModelChange)="filterDbMechanisms($event)"
+                    [matAutocomplete]="autoDb"
+                    placeholder="Search database mechanism by name..."
+                    (keyup.enter)="addDatabaseMechanism()" />
+                  <mat-autocomplete #autoDb="matAutocomplete" (optionSelected)="addDatabaseMechanism($event.option.value)">
+                    <mat-option *ngFor="let item of filteredDbMechanisms" [value]="item.name">
+                      <mat-icon color="primary">account_tree</mat-icon>
+                      <span>{{ item.name }}</span>
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3 text-end">
+                <button
+                  mat-raised-button
+                  color="accent"
+                  class="w-100 mb-3"
+                  (click)="addDatabaseMechanism()"
+                  [disabled]="!dbMechInput.trim()">
+                  <mat-icon>add</mat-icon>
+                  <span>Add to List</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+
+        <!-- Tab Method 3: JSON Import & Export -->
+        <mat-tab>
+          <ng-template matTabLabel>
+            <mat-icon class="tab-icon">code</mat-icon>
+            <span>JSON Import / Export</span>
+          </ng-template>
+
+          <div class="json-panel p-3">
+            <div class="row">
+              <div class="col-md-12">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>JSON Array of Submechanisms</mat-label>
+                  <textarea
+                    matInput
+                    [(ngModel)]="jsonInputText"
+                    rows="4"
+                    placeholder='["propane-BasicLowTemp", "propane-AlkeneFromRadical", "butane-BasicLowTemp"]'></textarea>
+                  <mat-hint>Paste a JSON string array containing 50 to 100+ submechanism names</mat-hint>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="json-actions text-end mt-2">
+              <button mat-button color="accent" class="me-2" (click)="exportJsonList()" [disabled]="combineList.length === 0">
+                <mat-icon>content_copy</mat-icon>
+                <span>Export Combine List JSON</span>
+              </button>
+              <button mat-raised-button color="primary" (click)="importJsonList()" [disabled]="!jsonInputText.trim()">
+                <mat-icon>file_upload</mat-icon>
+                <span>Import JSON List</span>
+              </button>
+            </div>
+          </div>
+        </mat-tab>
+
+      </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Master Combine Submechanisms List Card -->
+  <mat-card class="master-list-card mat-elevation-z3 mt-3">
+    <mat-card-header class="list-header">
+      <mat-icon mat-card-avatar color="primary">format_list_bulleted</mat-icon>
+      <mat-card-title class="d-flex align-items-center">
+        <span>Combine Submechanisms List</span>
+        <span class="count-badge ms-2">{{ combineList.length }} items</span>
+      </mat-card-title>
+      <mat-card-subtitle>
+        Verified submechanisms in database:
+        <span class="text-success font-weight-bold">{{ getVerifiedDatabaseCount() }}</span> |
+        Missing from database:
+        <span class="text-warning font-weight-bold">{{ getMissingDatabaseCount() }}</span>
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="list-content mt-3">
+      
+      <!-- List Controls & Filter -->
+      <div class="list-controls-bar d-flex align-items-center mb-3">
+        <mat-form-field appearance="outline" class="filter-field flex-grow-1 mb-0 me-3">
+          <mat-label>Filter combine list...</mat-label>
+          <input matInput [(ngModel)]="listSearchFilter" placeholder="Search submechanisms in list..." />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <button mat-stroked-button color="primary" class="me-2" (click)="validateCombineListAgainstDatabase()" title="Re-check database catalog">
+          <mat-icon>refresh</mat-icon>
+          <span>Validate DB</span>
+        </button>
+
+        <button mat-stroked-button color="warn" (click)="clearCombineList()" [disabled]="combineList.length === 0">
+          <mat-icon>delete_sweep</mat-icon>
+          <span>Clear All</span>
+        </button>
+      </div>
+
+      <!-- Warning Alert if Missing Items in DB -->
+      <div *ngIf="getMissingDatabaseCount() > 0" class="missing-db-alert p-2 px-3 mb-3 rounded d-flex align-items-center">
+        <mat-icon color="warn" class="me-2">warning</mat-icon>
+        <span>
+          <strong>Notice:</strong> {{ getMissingDatabaseCount() }} submechanism(s) in your list were not found in the database. You can generate them first or run combination directly.
+        </span>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="combineList.length === 0" class="empty-list-box text-center p-5 border rounded">
+        <mat-icon class="empty-icon color-muted">low_priority</mat-icon>
+        <p class="empty-title mt-2">Combine list is currently empty</p>
+        <p class="empty-subtitle text-muted">Use the input methods above to add submechanisms (50–100+ items supported)</p>
+      </div>
+
+      <!-- Scrolling Chips Grid of Combine Items -->
+      <div *ngIf="combineList.length > 0" class="combine-chips-container border rounded p-3">
+        <mat-chip-set>
+          <mat-chip
+            *ngFor="let item of getFilteredCombineList()"
+            (removed)="removeCombineItem(item.name)"
+            [class.chip-db-verified]="item.inDatabase === true"
+            [class.chip-db-missing]="item.inDatabase === false">
+
+            <mat-icon matChipAvatar *ngIf="item.inDatabase === true" class="text-success">check_circle</mat-icon>
+            <mat-icon matChipAvatar *ngIf="item.inDatabase === false" class="text-warning">help_outline</mat-icon>
+            
+            <span>{{ item.name }}</span>
+
+            <button matChipRemove [attr.aria-label]="'Remove ' + item.name">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+
+    </mat-card-content>
+
+    <mat-card-actions class="list-actions p-3 d-flex align-items-center justify-content-between">
+      <div class="action-summary">
+        Total submechanisms ready to combine: <strong>{{ combineList.length }}</strong>
+      </div>
+
+      <button
+        mat-raised-button
+        color="accent"
+        size="large"
+        class="run-combine-btn"
+        (click)="executeCombineTask()"
+        [disabled]="combineList.length === 0 || !mechName.trim() || isLoading">
+        <mat-icon>play_circle_filled</mat-icon>
+        <span>Execute Combine Submechanisms</span>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <!-- Execution Progress Indicator -->
+  <div *ngIf="isLoading" class="progress-bar-container mt-3 p-3 mat-elevation-z2 rounded bg-white">
+    <div class="d-flex align-items-center mb-2">
+      <mat-icon color="primary" class="spinning me-2">autorenew</mat-icon>
+      <span>Combining {{ combineList.length }} submechanisms into mechanism <strong>{{ mechName }}</strong>...</span>
+    </div>
+    <mat-progress-bar mode="indeterminate" color="accent"></mat-progress-bar>
+  </div>
+
+  <!-- Execution Error Banner -->
+  <div *ngIf="errorMessage && !isLoading" class="error-banner alert alert-danger mt-3 d-flex align-items-center">
+    <mat-icon class="me-2">error_outline</mat-icon>
+    <div>
+      <strong>Task Error:</strong> {{ errorMessage }}
+    </div>
+  </div>
+
+  <!-- Results View Tabs (Displayed Post-Execution) -->
+  <mat-card *ngIf="hasExecuted && !isLoading" class="results-card mat-elevation-z3 mt-4">
+    <mat-card-header>
+      <mat-icon mat-card-avatar color="primary">task_alt</mat-icon>
+      <mat-card-title>Combine Execution Results</mat-card-title>
+      <mat-card-subtitle>
+        Combined Mechanism: <strong>{{ mechName }}</strong> &bull; Submechanisms merged: <strong>{{ executionOutput?.count || combineList.length }}</strong>
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="results-content mt-3">
+      <mat-tab-group [(selectedIndex)]="selectedTabIndex" animationDuration="200ms">
+
+        <!-- Tab 1: Output Files & Execution Log -->
+        <mat-tab>
+          <ng-template matTabLabel>
+            <mat-icon class="tab-icon">description</mat-icon>
+            <span>Combined Files & Log</span>
+          </ng-template>
+
+          <div class="log-panel p-3">
+            <div class="log-actions text-end mb-2">
+              <button mat-stroked-button color="primary" (click)="copyOutputLog()">
+                <mat-icon>content_copy</mat-icon>
+                <span>Copy Output Log</span>
+              </button>
+            </div>
+
+            <pre class="log-output-box border rounded p-3">{{ itemDetailOutput || executionLog || 'No log output available.' }}</pre>
+          </div>
+        </mat-tab>
+
+        <!-- Tab 2: Combined Database Details & Structure View -->
+        <mat-tab>
+          <ng-template matTabLabel>
+            <mat-icon class="tab-icon">visibility</mat-icon>
+            <span>Database Catalog View</span>
+          </ng-template>
+
+          <div class="catalog-details-panel p-3">
+            <div *ngIf="isDetailLoading" class="p-4 text-center">
+              <mat-progress-bar mode="indeterminate" color="primary"></mat-progress-bar>
+              <p class="mt-2">Fetching combined mechanism details from database...</p>
+            </div>
+
+            <div *ngIf="!isDetailLoading && moleculeSections.length > 0">
+              <div class="expand-collapse-bar text-end mb-2">
+                <button mat-button color="primary" (click)="toggleAllSections(true)">
+                  <mat-icon>unfold_more</mat-icon> Expand All
+                </button>
+                <button mat-button (click)="toggleAllSections(false)">
+                  <mat-icon>unfold_less</mat-icon> Collapse All
+                </button>
+              </div>
+
+              <!-- Render Parsed Sections via BensonGroupDetailComponent -->
+              <app-benson-group-detail
+                *ngIf="selectedItem"
+                [item]="selectedItem"
+                [sections]="moleculeSections"
+                [rawOutput]="itemDetailOutput"
+                (toggleAll)="toggleAllSections($event)"
+                (copyOutput)="copyOutputLog()"
+                (backToList)="selectedTabIndex = 0">
+              </app-benson-group-detail>
+            </div>
+          </div>
+        </mat-tab>
+
+      </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+
+</div>
