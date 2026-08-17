@@ -7,12 +7,20 @@
       <span class="brand-subtitle">Cloud Molecule Engine</span>
     </div>
     <span class="toolbar-spacer"></span>
-    <button *ngIf="!authService.isAuthenticated()" mat-raised-button color="accent" (click)="onLogin()">
-      <mat-icon>login</mat-icon> Sign In
-    </button>
-    <button *ngIf="authService.isAuthenticated()" mat-raised-button color="accent" (click)="goToDashboard()">
-      <mat-icon>dashboard</mat-icon> Open Dashboard
-    </button>
+    
+    <!-- User Account Display / Logout -->
+    <div *ngIf="authService.isAuthenticated()" class="user-chip-container">
+      <span class="user-name-chip">
+        <mat-icon>account_circle</mat-icon>
+        {{ authService.currentUser()?.username }} ({{ authService.currentUser()?.email }})
+      </span>
+      <button mat-raised-button color="accent" (click)="goToDashboard()">
+        <mat-icon>dashboard</mat-icon> Open Dashboard
+      </button>
+      <button mat-icon-button color="warn" (click)="authService.logout()" matTooltip="Sign Out">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </div>
   </mat-toolbar>
 
   <!-- Hero Section -->
@@ -27,14 +35,57 @@
       <div class="action-card" *ngIf="!authService.isAuthenticated()">
         <mat-card class="login-card">
           <mat-card-header>
-            <mat-card-title>Secure Portal Access</mat-card-title>
-            <mat-card-subtitle>Sign in to query database catalogs and manage REACT tasks</mat-card-subtitle>
+            <mat-card-title>Multi-Tenant User Login</mat-card-title>
+            <mat-card-subtitle>Sign in with your Google Account or select a local profile to access isolated Cloud Storage databases</mat-card-subtitle>
           </mat-card-header>
-          <mat-card-actions>
-            <button mat-flat-button color="primary" class="login-btn" (click)="onLogin()">
-              <mat-icon>account_circle</mat-icon> Sign In with Cloud Account
-            </button>
-          </mat-card-actions>
+          
+          <mat-card-content class="login-options">
+            <!-- Google Sign-In Primary Button -->
+            <div class="google-login-box">
+              <button mat-flat-button color="accent" class="google-btn" (click)="onGoogleLogin()" [disabled]="isGoogleLoading">
+                <mat-icon>vpn_key</mat-icon>
+                <span>Sign in with Google Account</span>
+                <mat-spinner *ngIf="isGoogleLoading" diameter="20" class="btn-spinner"></mat-spinner>
+              </button>
+              <div *ngIf="authError" class="auth-error-msg">{{ authError }}</div>
+            </div>
+
+            <mat-divider class="login-divider"></mat-divider>
+
+            <!-- Dev / Local Preset Users -->
+            <p class="custom-login-label">Or test with local development profiles:</p>
+            <div class="preset-users">
+              <button mat-stroked-button color="primary" (click)="onLogin('Local User', 'user_default_local@reactcloud.org')">
+                <mat-icon>person</mat-icon> Default Local
+              </button>
+
+              <button mat-stroked-button color="primary" (click)="onLogin('Alice Scientist', 'alice@reactcloud.org')">
+                <mat-icon>face</mat-icon> Alice
+              </button>
+
+              <button mat-stroked-button color="primary" (click)="onLogin('Bob Engineer', 'bob@reactcloud.org')">
+                <mat-icon>face_3</mat-icon> Bob
+              </button>
+            </div>
+
+            <div class="custom-user-form">
+              <div class="input-row">
+                <mat-form-field appearance="outline" class="custom-field">
+                  <mat-label>User Name</mat-label>
+                  <input matInput [(ngModel)]="customUsername" placeholder="e.g. Dr. Edward">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="custom-field">
+                  <mat-label>Email Address</mat-label>
+                  <input matInput [(ngModel)]="customEmail" placeholder="e.g. edward@blurock.org">
+                </mat-form-field>
+
+                <button mat-raised-button color="primary" (click)="onCustomLogin()" [disabled]="!customEmail">
+                  <mat-icon>login</mat-icon> Custom Sign In
+                </button>
+              </div>
+            </div>
+          </mat-card-content>
         </mat-card>
       </div>
     </div>

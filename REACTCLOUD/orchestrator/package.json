@@ -1,0 +1,19 @@
+{
+  "name": "reactcloud-orchestrator",
+  "version": "1.0.0",
+  "description": "Backend Orchestrator for REACTCLOUD with Firebase Auth, Cloud Storage, and Ephemeral Execution",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "@google-cloud/firestore": "^7.10.0",
+    "@google-cloud/storage": "^7.12.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "firebase-admin": "^12.4.0"
+  }
+}

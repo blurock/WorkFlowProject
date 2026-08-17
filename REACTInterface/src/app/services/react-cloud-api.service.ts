@@ -54,7 +54,7 @@ export interface ApiRunCombineSubmechanismResponse {
   providedIn: 'root'
 })
 export class ReactCloudApiService {
-  private readonly baseUrl = 'http://localhost:8085';
+  private readonly baseUrl = 'https://reactcloud-315685320181.europe-west1.run.app';
 
   public readonly CATALOG_TASKS: CatalogTask[] = [
     {

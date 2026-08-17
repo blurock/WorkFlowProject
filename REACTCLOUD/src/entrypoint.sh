@@ -10,13 +10,17 @@ REACT_MODE="${REACT_MODE:-}"
 export REACTROOT CCROOT
 
 CHEMDB_BIN="$REACTROOT/bin/chemdb"
-HTTP_BIN="$REACTROOT/bin/http-server"
+ORCHESTRATOR_BIN="$REACTROOT/orchestrator/server.js"
 
 start_http() {
-    if [[ -n "$PORT" ]]; then
-        exec "$HTTP_BIN" --port "$PORT" "$@"
+    if [[ -f "$ORCHESTRATOR_BIN" ]]; then
+        exec node "$ORCHESTRATOR_BIN" "$@"
+    elif [[ -x "$HTTP_BIN" ]]; then
+        if [[ -n "$PORT" ]]; then
+            exec "$HTTP_BIN" --port "$PORT" "$@"
+        fi
+        exec "$HTTP_BIN" "$@"
     fi
-    exec "$HTTP_BIN" "$@"
 }
 
 start_cli() {
@@ -28,8 +32,8 @@ if [[ ! -x "$CHEMDB_BIN" ]]; then
     exit 1
 fi
 
-if [[ ! -x "$HTTP_BIN" ]]; then
-    echo "http-server binary not found at $HTTP_BIN" >&2
+if [[ ! -f "$ORCHESTRATOR_BIN" && ! -x "${HTTP_BIN:-}" ]]; then
+    echo "No http handler binary or orchestrator found at $REACTROOT" >&2
     exit 1
 fi
 
