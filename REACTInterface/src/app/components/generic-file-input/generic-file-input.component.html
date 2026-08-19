@@ -84,13 +84,121 @@
       </div>
     </div>
 
-    <!-- Step 3: Execution Terminal Output -->
+    <!-- Step 3: Execution Terminal Output & Molecule Viewer -->
     <div class="section-card terminal-card" *ngIf="taskOutput">
-      <div class="section-title">
-        <mat-icon>terminal</mat-icon>
-        <span>Task Execution Log</span>
+      <div class="terminal-header">
+        <div class="section-title">
+          <mat-icon>terminal</mat-icon>
+          <span>Task Execution Log</span>
+          <span class="molecule-count-chip" *ngIf="parsedMolecules.length > 0">
+            {{ parsedMolecules.length }} Molecule{{ parsedMolecules.length > 1 ? 's' : '' }} Parsed
+          </span>
+        </div>
+        <button mat-stroked-button color="primary" class="toggle-log-btn" (click)="showRawTerminalLog = !showRawTerminalLog">
+          <mat-icon>{{ showRawTerminalLog ? 'unfold_less' : 'unfold_more' }}</mat-icon>
+          <span>{{ showRawTerminalLog ? 'Hide Raw Log' : 'Show Full Raw Log' }}</span>
+        </button>
       </div>
-      <pre class="terminal-output">{{ taskOutput }}</pre>
+
+      <!-- Expandable Raw Terminal Log -->
+      <pre class="terminal-output" *ngIf="showRawTerminalLog">{{ taskOutput }}</pre>
+
+      <!-- Parsed Molecules Output Section -->
+      <div class="parsed-molecules-container" *ngIf="parsedMolecules.length > 0">
+        <div class="molecules-section-header">
+          <mat-icon class="section-icon">science</mat-icon>
+          <span class="section-heading">Parsed Molecules ({{ parsedMolecules.length }})</span>
+          <span class="section-subtext">Click a molecule name to view structure and details</span>
+        </div>
+
+        <!-- Molecules Selector List -->
+        <div class="molecule-names-list">
+          <button 
+            *ngFor="let mol of parsedMolecules" 
+            class="molecule-name-chip"
+            [class.active]="selectedMolecule?.index === mol.index"
+            (click)="selectMolecule(mol)">
+            <mat-icon class="mol-chip-icon">bubble_chart</mat-icon>
+            <span class="mol-index">#{{ mol.index }}</span>
+            <span class="mol-name">{{ mol.name }}</span>
+          </button>
+        </div>
+
+        <!-- Selected Molecule Details Card -->
+        <div class="molecule-detail-card" *ngIf="selectedMolecule">
+          <div class="detail-header">
+            <div class="detail-title-group">
+              <mat-icon class="detail-icon">hub</mat-icon>
+              <div>
+                <h3 class="detail-title">
+                  Molecule #{{ selectedMolecule.index }}: <code>{{ selectedMolecule.name }}</code>
+                </h3>
+                <div class="detail-badges" *ngIf="selectedMolecule.details">
+                  <span class="badge formula-badge" *ngIf="selectedMolecule.details.formula">
+                    Formula: {{ selectedMolecule.details.formula }}
+                  </span>
+                  <span class="badge count-badge" *ngIf="selectedMolecule.details.atomCount">
+                    {{ selectedMolecule.details.atomCount }} Atoms / {{ selectedMolecule.details.bondCount }} Bonds
+                  </span>
+                </div>
+              </div>
+            </div>
+            <button mat-icon-button (click)="selectedMolecule.isExpanded = !selectedMolecule.isExpanded" 
+                    [matTooltip]="selectedMolecule.isExpanded ? 'Collapse Details' : 'Expand Details'">
+              <mat-icon>{{ selectedMolecule.isExpanded ? 'expand_less' : 'expand_more' }}</mat-icon>
+            </button>
+          </div>
+
+          <div class="detail-body" *ngIf="selectedMolecule.isExpanded">
+            <!-- 2D Chemical Structure Viewer (Ketcher) -->
+            <div class="structure-viewer-wrapper" *ngIf="selectedMolecule.sdfContent">
+              <app-ketcher-viewer 
+                [molfile]="selectedMolecule.sdfContent" 
+                [title]="'2D Chemical Structure: ' + selectedMolecule.name">
+              </app-ketcher-viewer>
+            </div>
+
+            <!-- Electronic Charges & Atomic Parameters Table -->
+            <div class="electronic-table-wrapper" *ngIf="selectedMolecule.details && selectedMolecule.details.electronicTable.length > 0">
+              <div class="table-title">
+                <mat-icon>bolt</mat-icon>
+                <span>Electronic Charges & Atomic Parameters</span>
+              </div>
+              <table class="electronic-table">
+                <thead>
+                  <tr>
+                    <th>Atom #</th>
+                    <th>Element</th>
+                    <th>Atomic No.</th>
+                    <th>Net Charge</th>
+                    <th>No. Electrons</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of selectedMolecule.details.electronicTable">
+                    <td>#{{ row.atomIndex }}</td>
+                    <td><strong>{{ getElementSymbol(row.atomicNumber) }}</strong></td>
+                    <td>{{ row.atomicNumber }}</td>
+                    <td [class.positive-charge]="row.charge > 0" [class.negative-charge]="row.charge < 0">
+                      {{ row.charge > 0 ? '+' : '' }}{{ row.charge | number:'1.3-3' }}
+                    </td>
+                    <td>{{ row.numElectrons | number:'1.3-3' }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Molecule Output String Block -->
+            <div class="molecule-string-block">
+              <div class="block-title">
+                <mat-icon>description</mat-icon>
+                <span>Molecule Output ASCII Block ({{ getLineCount(selectedMolecule.rawString) }} lines)</span>
+              </div>
+              <pre class="molecule-raw-code">{{ selectedMolecule.rawString }}</pre>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

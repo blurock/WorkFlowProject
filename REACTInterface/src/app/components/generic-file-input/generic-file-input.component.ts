@@ -10,6 +10,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ReactCloudApiService } from '../../services/react-cloud-api.service';
+import { KetcherViewerComponent } from '../ketcher-viewer/ketcher-viewer.component';
 
 export interface FileSlotConfig {
   extension: string;          // e.g. '-names.lst', '.mol', '.sdf'
@@ -36,6 +37,30 @@ export interface SelectedFileItem {
   file: File | null;
   content: string | null;
   isValid: boolean;
+}
+
+export interface MoleculeElectronicData {
+  atomIndex: number;
+  atomicNumber: number;
+  charge: number;
+  numElectrons: number;
+}
+
+export interface MoleculeDetails {
+  atomCount: number;
+  bondCount: number;
+  formula: string;
+  electronicTable: MoleculeElectronicData[];
+}
+
+export interface ParsedMolecule {
+  index: number;
+  molHeaderLine: string;
+  name: string;
+  rawString: string;
+  sdfContent: string | null;
+  details: MoleculeDetails;
+  isExpanded: boolean;
 }
 
 export const GENERIC_TASK_CONFIGS: { [key: string]: GenericFileInputConfig } = {
@@ -80,7 +105,8 @@ export const GENERIC_TASK_CONFIGS: { [key: string]: GenericFileInputConfig } = {
     MatFormFieldModule,
     MatProgressBarModule,
     MatChipsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    KetcherViewerComponent
   ],
   templateUrl: './generic-file-input.component.html',
   styleUrls: ['./generic-file-input.component.scss']
@@ -96,6 +122,11 @@ export class GenericFileInputComponent implements OnInit {
   public statusMessage: string = '';
   public errorMessage: string = '';
   public taskOutput: string = '';
+
+  // Parsed Molecule Log State
+  public parsedMolecules: ParsedMolecule[] = [];
+  public selectedMolecule: ParsedMolecule | null = null;
+  public showRawTerminalLog: boolean = false;
 
   // Preview Modal state
   public previewingFile: SelectedFileItem | null = null;
@@ -154,6 +185,20 @@ export class GenericFileInputComponent implements OnInit {
       item.file = file;
       item.isValid = true;
 
+      // Extract root name from filename (e.g. C3HO-names.lst -> C3HO, propane.sdf -> propane)
+      let filename = file.name;
+      const lastDotIndex = filename.lastIndexOf('.');
+      if (lastDotIndex > 0) {
+        filename = filename.substring(0, lastDotIndex);
+      }
+      if (filename.endsWith('-names')) {
+        filename = filename.substring(0, filename.length - '-names'.length);
+      }
+      if (filename.trim()) {
+        this.rootName = filename.trim();
+        this.updateExpectedFilenames();
+      }
+
       // Read content for preview
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -178,6 +223,175 @@ export class GenericFileInputComponent implements OnInit {
     return this.fileItems.every(item => item.slot.required ? item.isValid : true);
   }
 
+  public parseMoleculesFromLog(logText: string): ParsedMolecule[] {
+    if (!logText) return [];
+
+    const lines = logText.split(/\r?\n/);
+    const molIndices: number[] = [];
+
+    for (let i = 0; i < lines.length; i++) {
+      if (lines[i].trim().startsWith(':Mol')) {
+        molIndices.push(i);
+      }
+    }
+
+    if (molIndices.length === 0) {
+      return [];
+    }
+
+    const parsedMolecules: ParsedMolecule[] = [];
+
+    for (let k = 0; k < molIndices.length; k++) {
+      const lineIdx = molIndices[k];
+      const nextLineIdx = (k + 1 < molIndices.length) ? molIndices[k + 1] : lines.length;
+
+      // Look for line beginning with ':Mol' and find name 4 lines later (lineIdx + 4)
+      const nameLineIdx = lineIdx + 4;
+      let name = '';
+      if (nameLineIdx < lines.length) {
+        name = lines[nameLineIdx].trim();
+      }
+
+      if (!name) {
+        name = `Molecule ${k + 1}`;
+      }
+
+      const blockLines = lines.slice(lineIdx, nextLineIdx);
+      const rawString = blockLines.join('\n');
+      const sdfContent = this.extractSdfFromBlock(blockLines, name);
+      const details = this.parseMoleculeDetails(rawString, sdfContent);
+
+      parsedMolecules.push({
+        index: k + 1,
+        molHeaderLine: lines[lineIdx].trim(),
+        name,
+        rawString,
+        sdfContent,
+        details,
+        isExpanded: true
+      });
+    }
+
+    return parsedMolecules;
+  }
+
+  private extractSdfFromBlock(lines: string[], molName: string): string | null {
+    let vIndex = -1;
+    let mEndIndex = -1;
+
+    for (let i = 0; i < lines.length; i++) {
+      if (lines[i].includes('V2000') || lines[i].includes('V3000')) {
+        vIndex = i;
+      }
+      if (lines[i].trim() === 'M  END' || lines[i].trim().startsWith('M END')) {
+        mEndIndex = i;
+        if (vIndex !== -1) break;
+      }
+    }
+
+    if (vIndex !== -1 && mEndIndex !== -1 && mEndIndex >= vIndex) {
+      // MDL V2000 format REQUIRES 3 header lines before line 4 (counts line)
+      const headerLines = [
+        molName || 'Molecule',
+        '  -CPSS-  Generated',
+        ''
+      ];
+      const countsAndBody = lines.slice(vIndex, mEndIndex + 1);
+      return [...headerLines, ...countsAndBody].join('\n');
+    }
+    return null;
+  }
+
+  public parseMoleculeDetails(rawString: string, sdfContent: string | null): MoleculeDetails {
+    const lines = rawString.split(/\r?\n/);
+    let atomCount = 0;
+    let bondCount = 0;
+    const elementCounts: { [elem: string]: number } = {};
+    const electronicTable: MoleculeElectronicData[] = [];
+
+    // 1. Parse SDF counts line and atom symbols
+    if (sdfContent) {
+      const sdfLines = sdfContent.split('\n');
+      if (sdfLines.length >= 4) {
+        const countsLine = sdfLines[3]; // Line 4 (index 3) is counts line in V2000
+        const aCount = parseInt(countsLine.substring(0, 3).trim(), 10);
+        const bCount = parseInt(countsLine.substring(3, 6).trim(), 10);
+        if (!isNaN(aCount)) atomCount = aCount;
+        if (!isNaN(bCount)) bondCount = bCount;
+
+        for (let i = 4; i < 4 + atomCount && i < sdfLines.length; i++) {
+          const atomLine = sdfLines[i];
+          if (atomLine.length >= 34) {
+            const symbol = atomLine.substring(30, 34).trim();
+            if (symbol) {
+              elementCounts[symbol] = (elementCounts[symbol] || 0) + 1;
+            }
+          }
+        }
+      }
+    }
+
+    const formula = Object.entries(elementCounts)
+      .map(([elem, count]) => count > 1 ? `${elem}${count}` : elem)
+      .join(' ');
+
+    // 2. Parse Electronic Charges & Parameters
+    let inElectronic = false;
+    let electronicIdx = 0;
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      if (line.includes('----- Electronic')) {
+        inElectronic = true;
+        continue;
+      }
+      if (inElectronic && line.trim() === '~') {
+        inElectronic = false;
+        continue;
+      }
+      if (inElectronic && line.startsWith(':')) {
+        const parts = line.substring(1).split(':').map(p => p.trim());
+        if (parts.length >= 3) {
+          const atNum = parseInt(parts[0], 10);
+          const chg = parseFloat(parts[1]);
+          const nElec = parseFloat(parts[2]);
+          if (!isNaN(atNum) && !isNaN(chg)) {
+            electronicIdx++;
+            electronicTable.push({
+              atomIndex: electronicIdx,
+              atomicNumber: atNum,
+              charge: chg,
+              numElectrons: nElec
+            });
+          }
+        }
+      }
+    }
+
+    return {
+      atomCount,
+      bondCount,
+      formula,
+      electronicTable
+    };
+  }
+
+  public getElementSymbol(atomicNumber: number): string {
+    const symbols: { [key: number]: string } = {
+      1: 'H', 2: 'He', 3: 'Li', 4: 'Be', 5: 'B', 6: 'C', 7: 'N', 8: 'O', 9: 'F', 10: 'Ne',
+      11: 'Na', 12: 'Mg', 13: 'Al', 14: 'Si', 15: 'P', 16: 'S', 17: 'Cl', 18: 'Ar', 35: 'Br', 53: 'I'
+    };
+    return symbols[atomicNumber] || `El(${atomicNumber})`;
+  }
+
+  public selectMolecule(mol: ParsedMolecule): void {
+    this.selectedMolecule = mol;
+  }
+
+  public getLineCount(text: string): number {
+    if (!text) return 0;
+    return text.split('\n').length;
+  }
+
   public async uploadAndExecute(): Promise<void> {
     if (!this.isFormValid()) return;
 
@@ -185,6 +399,8 @@ export class GenericFileInputComponent implements OnInit {
     this.statusMessage = 'Uploading file & persisting to Cloud Storage data directory...';
     this.errorMessage = '';
     this.taskOutput = '';
+    this.parsedMolecules = [];
+    this.selectedMolecule = null;
 
     try {
       // 1. Prepare files payload
@@ -232,6 +448,15 @@ export class GenericFileInputComponent implements OnInit {
       } else {
         this.statusMessage = 'Task completed.';
         this.taskOutput = 'Task finished successfully.';
+      }
+
+      // Parse output for molecule blocks
+      this.parsedMolecules = this.parseMoleculesFromLog(this.taskOutput);
+      if (this.parsedMolecules.length > 0) {
+        this.selectedMolecule = this.parsedMolecules[0];
+        this.showRawTerminalLog = false;
+      } else {
+        this.showRawTerminalLog = true;
       }
 
     } catch (err: any) {
