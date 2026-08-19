@@ -1,0 +1,128 @@
+<div class="generic-file-dialog">
+  <!-- Dialog Header -->
+  <div class="dialog-header">
+    <div class="title-group">
+      <mat-icon class="header-icon">cloud_upload</mat-icon>
+      <div>
+        <h2 mat-dialog-title>{{ config.taskTitle }}</h2>
+        <p class="subtitle">{{ config.description }}</p>
+      </div>
+    </div>
+    <button mat-icon-button class="close-btn" (click)="closeDialog()" *ngIf="dialogRef">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div mat-dialog-content class="dialog-body">
+    <!-- Progress Indicator -->
+    <mat-progress-bar *ngIf="isUploading || isExecuting" mode="indeterminate" class="task-progress"></mat-progress-bar>
+
+    <!-- Status Alerts -->
+    <div class="status-banner info" *ngIf="statusMessage && !errorMessage">
+      <mat-icon>info</mat-icon>
+      <span>{{ statusMessage }}</span>
+    </div>
+    <div class="status-banner error" *ngIf="errorMessage">
+      <mat-icon>error_outline</mat-icon>
+      <span>{{ errorMessage }}</span>
+    </div>
+
+    <!-- Step 1: ROOTNAME Input -->
+    <div class="section-card">
+      <div class="section-title">
+        <mat-icon>label</mat-icon>
+        <span>Dataset Root Name Identifier</span>
+      </div>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ config.rootNameLabel }}</mat-label>
+        <input matInput [(ngModel)]="rootName" (ngModelChange)="onRootNameChange()" placeholder="e.g. C3HO, propane, butane">
+        <mat-hint>All files in this dataset will be matched against ROOTNAME + extension.</mat-hint>
+      </mat-form-field>
+    </div>
+
+    <!-- Step 2: File Slots Selection & Preview -->
+    <div class="section-card">
+      <div class="section-title">
+        <mat-icon>folder_open</mat-icon>
+        <span>Required Dataset Files (Target Directory: <code>data/{{ config.targetDirectory }}</code>)</span>
+      </div>
+
+      <div class="slots-list">
+        <div class="file-slot-item" *ngFor="let item of fileItems">
+          <div class="slot-info">
+            <div class="slot-label">{{ item.slot.label }}</div>
+            <div class="expected-chip">
+              <span class="chip-label">Target File:</span>
+              <code>{{ item.expectedFilename }}</code>
+            </div>
+          </div>
+
+          <div class="slot-actions">
+            <!-- Hidden File Input -->
+            <input type="file" #fileInput [accept]="getAcceptFilter(item.slot.extension)" (change)="onFileSelected($event, item)" style="display: none">
+
+            <!-- Select File Button -->
+            <button mat-stroked-button color="primary" (click)="fileInput.click()" [disabled]="isUploading || isExecuting">
+              <mat-icon>{{ item.isValid ? 'check_circle' : 'upload_file' }}</mat-icon>
+              <span>{{ item.isValid ? 'Change File' : 'Browse Local File' }}</span>
+            </button>
+
+            <!-- Preview Eye Button -->
+            <button mat-icon-button color="accent" matTooltip="Preview file contents" 
+                    (click)="openPreview(item)" [disabled]="!item.content">
+              <mat-icon>visibility</mat-icon>
+            </button>
+          </div>
+
+          <!-- File Name Status -->
+          <div class="file-selected-status" *ngIf="item.file">
+            <mat-icon class="check-icon">description</mat-icon>
+            <span class="filename">{{ item.file.name }}</span>
+            <span class="filesize">({{ (item.file.size / 1024) | number:'1.0-1' }} KB)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: Execution Terminal Output -->
+    <div class="section-card terminal-card" *ngIf="taskOutput">
+      <div class="section-title">
+        <mat-icon>terminal</mat-icon>
+        <span>Task Execution Log</span>
+      </div>
+      <pre class="terminal-output">{{ taskOutput }}</pre>
+    </div>
+  </div>
+
+  <!-- Dialog Actions -->
+  <div mat-dialog-actions align="end" class="dialog-actions">
+    <button mat-button (click)="closeDialog()" *ngIf="dialogRef">Cancel</button>
+    <button mat-raised-button color="primary" class="execute-btn" 
+            (click)="uploadAndExecute()" 
+            [disabled]="!isFormValid() || isUploading || isExecuting">
+      <mat-icon>cloud_upload</mat-icon>
+      <span>Approve & Save to Cloud Storage</span>
+    </button>
+  </div>
+
+  <!-- File Preview Overlay Modal -->
+  <div class="preview-overlay" *ngIf="previewingFile">
+    <div class="preview-dialog">
+      <div class="preview-header">
+        <div class="preview-title">
+          <mat-icon>visibility</mat-icon>
+          <span>File Content Preview: <code>{{ previewingFile.file?.name }}</code></span>
+        </div>
+        <button mat-icon-button (click)="closePreview()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <div class="preview-body">
+        <pre class="code-preview">{{ previewingFile.content }}</pre>
+      </div>
+      <div class="preview-footer">
+        <button mat-raised-button color="primary" (click)="closePreview()">Close Preview</button>
+      </div>
+    </div>
+  </div>
+</div>

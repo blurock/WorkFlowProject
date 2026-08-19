@@ -328,3 +328,22 @@ extern BindStructure *StandardCommandBegin(int argc,
 					   CHAR *prettyname,
 					   INT version,
 					   INT numberbind);
+
+/**************************************************************************/
+/* files.c */
+/**************************************************************************/
+extern FILE *MasterOpenReadFile(CHAR *directory, CHAR *name, CHAR *suffix,
+				INT flag, CHAR *description, CommandMaster *commandmaster);
+extern FILE *MasterOpenWriteFile(CHAR *directory, CHAR *name, CHAR *suffix,
+				 INT flag, CHAR *description, CommandMaster *commandmaster);
+extern FILE *OpenReadFileFromCurrent(CHAR *directory, CHAR *name, CHAR *suffix,
+				     INT flag, CHAR *description, CommandMaster *commandmaster);
+extern FILE *OpenWriteFileFromCurrent(CHAR *directory, CHAR *name, CHAR *suffix,
+				      INT flag, CHAR *description, CommandMaster *commandmaster);
+extern int FClose(FILE *file);
+
+#ifndef fclose
+#define fclose(f) FClose(f)
+#endif
+
+

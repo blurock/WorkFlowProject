@@ -98,6 +98,18 @@ export class MechanismOutputParser extends BaseTaskOutputParser {
       }
     }
 
+    if (mechSections.length === 0 && rawOutput.trim().length > 0) {
+      const mechFileData = MechReactionsCardComponent.parseMechFileContent(rawOutput, correspondences);
+      mechSections.push({
+        id: 1,
+        title: 'Mechanism Reactions',
+        icon: 'account_tree',
+        content: rawOutput,
+        isExpanded: true,
+        mechFileData: mechFileData
+      });
+    }
+
     return mechSections;
   }
 

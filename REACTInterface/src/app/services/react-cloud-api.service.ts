@@ -23,6 +23,7 @@ export interface ApiRunInputResponse {
   exitCode: number;
   output: string;
   error?: string;
+  elapsedMs?: number;
 }
 
 export interface ApiRunCommandsResponse {
@@ -54,7 +55,7 @@ export interface ApiRunCombineSubmechanismResponse {
   providedIn: 'root'
 })
 export class ReactCloudApiService {
-  private readonly baseUrl = 'https://reactcloud-315685320181.europe-west1.run.app';
+  private readonly baseUrl = 'http://localhost:8085';
 
   public readonly CATALOG_TASKS: CatalogTask[] = [
     {
@@ -113,6 +114,26 @@ export class ReactCloudApiService {
         return [];
       })
     );
+  }
+
+  /**
+   * Upload dataset files to user data directory in Cloud Storage (/api/upload-data-files)
+   */
+  public uploadUserDataFiles(targetDir: string, files: { filename: string; content: string }[]): Observable<{ success: boolean; targetDir: string; files: any[] }> {
+    const payload = { targetDir, files };
+    return this.http.post<{ success: boolean; targetDir: string; files: any[] }>(`${this.baseUrl}/api/upload-data-files`, payload);
+  }
+
+  /**
+   * Run input file task with custom replacements map
+   */
+  public runInputTaskWithReplacements(inpFile: string, rootName: string, replacements: { [key: string]: string }): Observable<ApiRunInputResponse> {
+    const payload = {
+      inputFile: inpFile,
+      root: rootName,
+      replacements: replacements
+    };
+    return this.http.post<ApiRunInputResponse>(`${this.baseUrl}/api/run-input`, payload);
   }
 
   /**

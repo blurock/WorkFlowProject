@@ -89,6 +89,11 @@
           <app-combine-submechanisms></app-combine-submechanisms>
         </ng-container>
 
+        <!-- 5. Generic File Input Component Tasks -->
+        <ng-container *ngIf="selectedTask.type === 'generic-file-input'">
+          <app-generic-file-input [taskId]="selectedTask.id"></app-generic-file-input>
+        </ng-container>
+
         <!-- 3. Interactive Creator / Generator Tasks (Create & Generate) -->
         <ng-container *ngIf="selectedTask.type === 'interactive-creator'">
           <mat-card class="creator-placeholder-card mat-elevation-z2">

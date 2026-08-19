@@ -106,6 +106,22 @@ export class TaskCategoryRegistry {
           type: 'interactive-creator'
         },
         {
+          id: 'read-mol-properties',
+          title: 'Read Molecule Properties from File',
+          inpFile: 'ReadInMoleculeProperties.inp',
+          description: 'Input molecule properties file (ROOTNAME.lst) to data/mol/molsdf and read properties into database',
+          icon: 'upload_file',
+          type: 'generic-file-input'
+        },
+        {
+          id: 'read-sdf-molecules',
+          title: 'Read SDF Molecules',
+          inpFile: 'ReadMoleculesFromFile.inp',
+          description: 'Input SDF molecule structure file (ROOTNAME.sdf) to data/mol/molsdf and read structures into database',
+          icon: 'science',
+          type: 'generic-file-input'
+        },
+        {
           id: 'create-molecule',
           title: 'Molecule Creator & Editor',
           description: 'Draw 2D chemical structures in Ketcher and register in REACT database',

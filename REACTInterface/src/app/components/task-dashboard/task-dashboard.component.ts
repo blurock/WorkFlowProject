@@ -18,6 +18,7 @@ import { TaskListViewComponent } from '../task-list-view/task-list-view.componen
 import { SubmechanismCreatorComponent } from '../submechanism-creator/submechanism-creator.component';
 import { SubmechanismPathSetComponent } from '../submechanism-path-set/submechanism-path-set.component';
 import { CombineSubmechanismsComponent } from '../combine-submechanisms/combine-submechanisms.component';
+import { GenericFileInputComponent } from '../generic-file-input/generic-file-input.component';
 
 @Component({
   selector: 'app-task-dashboard',
@@ -36,7 +37,8 @@ import { CombineSubmechanismsComponent } from '../combine-submechanisms/combine-
     TaskListViewComponent,
     SubmechanismCreatorComponent,
     SubmechanismPathSetComponent,
-    CombineSubmechanismsComponent
+    CombineSubmechanismsComponent,
+    GenericFileInputComponent
   ],
   templateUrl: './task-dashboard.component.html',
   styleUrls: ['./task-dashboard.component.scss']

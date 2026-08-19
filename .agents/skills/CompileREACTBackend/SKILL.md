@@ -1,19 +1,22 @@
 ---
 name: Compile REACT Backend
-description: Instructions for compiling the REACT C backend libraries and chemdb executable when backend C code changes are made, and setting up the endpoint of the REACTCLOUD backend.
+description: Instructions for compiling the REACT C backend libraries and chemdb executable, running the local Node.js Orchestrator with user management, and deploying backend & frontend updates to Google Cloud.
 ---
 
-# Compile REACT Backend
+# Compile REACT Backend & Deploy Cloud Version
 
 ## Overview
 
-When modifications are made to the REACT / REACTCLOUD C backend codebase, only the `library` and `chemdb` targets need to be recompiled. Other Makefile targets (such as `clean`, `all`, `runsetup`, `database`) are not required for incremental code changes and should not be run.
+This guide details the complete process for:
+1. Recompiling REACT C libraries (`chemdb`) when backend changes are made.
+2. Running and testing the local Node.js Orchestrator service (`server.js`) with user management.
+3. Deploying updated backend containers to **Google Cloud Run** and frontend applications to **Firebase Hosting**.
 
 ---
 
 ## 1. Required Environment Variables
 
-Before running `make` or starting the backend endpoint, the following environment variables must be exported in the shell environment. Both point to the root directory of the REACT system (`REACTCLOUD`):
+Before running `make` or starting the local orchestrator server, export the absolute paths for `REACTROOT` and `CCROOT`:
 
 ```bash
 export REACTROOT=/Users/edwardblurock/git/WorkFlowProject/REACTCLOUD
@@ -28,64 +31,108 @@ export CCROOT=$PWD
 
 ---
 
-## 2. Compilation Workflow for Backend Changes
+## 2. Local C Backend Compilation Workflow
 
-When C source files or headers in any module directory (`comlib`, `molecules`, `rxn`, `chemdb`, etc.) are changed:
+When C source files or headers in any module directory (`comlib`, `molecules`, `rxn`, `chemdb`, etc.) are modified:
 
 1. Navigate to the `REACTCLOUD` directory:
    ```bash
    cd /Users/edwardblurock/git/WorkFlowProject/REACTCLOUD
    ```
 
-2. Set the environment variables and run the build:
+2. Perform incremental compilation:
    ```bash
-   export REACTROOT=/Users/edwardblurock/git/WorkFlowProject/REACTCLOUD
-   export CCROOT=/Users/edwardblurock/git/WorkFlowProject/REACTCLOUD
+   export REACTROOT=$PWD
+   export CCROOT=$PWD
    make library chemdb
    ```
 
----
-
-## 3. Makefile Targets Explanation
-
-- **`library`**: Recompiles modified source files across all subdirectories (`basis`, `comlib`, `datmat`, `dbase`, `graphs`, `molecules`, `molprops`, `naming`, `property`, `rxn`, `spectrum`, `gentrans`, `chemdb`, `statistics`, `cluster`, `structgen`) and updates their respective static library archives in `lib/`.
-- **`chemdb`**: Links all object files and static libraries into the main `chemdb` binary and copies the output to `bin/chemdb`.
-
-> **Note**: Avoid running `make clean` or `make all` during normal code updates, as that removes generated directories and header files.
+> **Note**: For code updates, run `make library chemdb`. Avoid running `make clean` or `make all` during incremental updates as `make clean` removes generated directories and `.dbf` database files.
 
 ---
 
-## 4. Setting Up the Endpoint of the REACTCLOUD Backend
+## 3. Running the Local Orchestrator & User Management
 
-When deploying or testing locally, the HTTP wrapper endpoint needs to be compiled and executed using `src/http-server.c` and `src/entrypoint.sh`.
+The Node.js Orchestrator server (`orchestrator/server.js`) manages user sessions, sandboxed job execution in `/tmp/reactcloud/users/{uid}/job_{jobId}/`, and GCS synchronization.
 
-### Step 4.1: Compile the HTTP Server
-If changes are made to `src/http-server.c` or after recompiling the backend:
+### Step 3.1: Start Local Orchestrator
 ```bash
-gcc -O2 -Wall -Wextra -o /Users/edwardblurock/git/WorkFlowProject/REACTCLOUD/bin/http-server /Users/edwardblurock/git/WorkFlowProject/REACTCLOUD/src/http-server.c
+cd /Users/edwardblurock/git/WorkFlowProject/REACTCLOUD/orchestrator
+npm install
+node server.js
+```
+The server will start on port `8085` (or `PORT` environment variable).
+
+### Step 3.2: User Management & Authentication Modes
+- **Firebase Auth (Google Sign-In)**: Accepts standard `Authorization: Bearer <ID_TOKEN>` headers from Firebase Auth.
+- **Dev User Preset Switcher**:
+  - `Bearer reactcloud-bearer-token-default` -> User UID: `user_default_local`
+  - `Bearer reactcloud-bearer-token-alice` -> User UID: `user_alice`
+  - `Bearer reactcloud-bearer-token-bob` -> User UID: `user_bob`
+  - `Bearer reactcloud-bearer-token-<custom_name>` -> User UID: `user_<custom_name>`
+
+### Step 3.3: Verify Local Orchestrator API
+```bash
+# Health Check
+curl http://localhost:8085/api/health
+
+# Execute Input Script for Default User
+curl -X POST http://localhost:8085/api/run-input \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer reactcloud-bearer-token-default" \
+  -d '{"inputFile":"PrintMoleculeList.inp","root":"ROOT"}'
 ```
 
-### Step 4.2: Launch the Local Endpoint
-Set the environment variables (including `PORT`, e.g., `8080` or `8081`) and run `entrypoint.sh` in `http` mode:
-```bash
-export REACTROOT=/Users/edwardblurock/git/WorkFlowProject/REACTCLOUD
-export CCROOT=/Users/edwardblurock/git/WorkFlowProject/REACTCLOUD
-export PORT=8081
-/Users/edwardblurock/git/WorkFlowProject/REACTCLOUD/src/entrypoint.sh http
-```
+---
 
-### Step 4.3: Verify the Endpoint
-- **Health Check (`GET /health`)**:
-  ```bash
-  curl -i http://localhost:8081/health
-  ```
-  Expected Response: `HTTP/1.1 200 OK` with `{"status":"ok","service":"chemdb"}`
+## 4. Updating and Deploying to Google Cloud
 
-- **Execute `chemdb` via API (`POST /api/run`)**:
-  ```bash
-  curl -i -X POST http://localhost:8081/api/run \
-    -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer test-token' \
-    -d '{"args":["--help"]}'
-  ```
-  Expected Response: `HTTP/1.1 200 OK` containing JSON output with `"exitCode"` and `"output"`.
+When changes are verified locally and ready for production, follow this two-step cloud update process.
+
+### Step 4.1: Deploy Backend Container to Google Cloud Run
+
+1. **Submit Build to Google Cloud Build**:
+   ```bash
+   cd /Users/edwardblurock/git/WorkFlowProject/REACTCLOUD
+   gcloud builds submit --tag gcr.io/blurock-database/reactcloud:latest
+   ```
+
+2. **Deploy Built Image to Cloud Run**:
+   ```bash
+   gcloud run deploy reactcloud \
+     --image gcr.io/blurock-database/reactcloud:latest \
+     --platform managed \
+     --region europe-west1 \
+     --allow-unauthenticated \
+     --memory 1Gi \
+     --cpu 1
+   ```
+
+3. **Verify Cloud Run Backend**:
+   - Live URL: `https://reactcloud-315685320181.europe-west1.run.app`
+   - Test Health: `curl https://reactcloud-315685320181.europe-west1.run.app/api/health`
+
+### Step 4.2: Deploy Frontend to Firebase Hosting
+
+1. **Build Production Angular App**:
+   ```bash
+   cd /Users/edwardblurock/git/WorkFlowProject/REACTInterface
+   npm run build
+   ```
+
+2. **Deploy to Firebase Hosting**:
+   ```bash
+   npx -y firebase-tools@latest deploy --only hosting
+   ```
+
+3. **Verify Live Application**:
+   - Production URL: `https://blurock-database.web.app`
+
+---
+
+## 5. Local vs Cloud Service Switching in Frontend
+
+In `REACTInterface`, switch the backend API service endpoint in `src/app/services/react-cloud-api.service.ts`:
+
+- **Local Backend**: `private readonly baseUrl = 'http://localhost:8085';`
+- **Cloud Run Production**: `private readonly baseUrl = 'https://reactcloud-315685320181.europe-west1.run.app';`

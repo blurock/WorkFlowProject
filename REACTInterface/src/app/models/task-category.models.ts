@@ -4,7 +4,7 @@ export interface CatalogTask {
   inpFile?: string;
   description: string;
   icon: string;
-  type: 'catalog-view' | 'interactive-creator' | 'submechanism-creator' | 'submechanism-path-set' | 'combine-submechanisms';
+  type: 'catalog-view' | 'interactive-creator' | 'submechanism-creator' | 'submechanism-path-set' | 'combine-submechanisms' | 'generic-file-input';
 }
 
 export interface TaskCategory {

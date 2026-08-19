@@ -102,7 +102,8 @@ export class CommandTemplatesRegistry {
   public static printMechanismDetail(_mechanismName?: string): string[] {
     return [
       "CreateOpenClose", "Start", "Quit",
-      "DbaseOps", "Mechanisms", "Parameters", "MechDirectory", "Input", ".", "Quit", "Quit",
+      "DbaseOps", "Mechanisms", "Parameters", "MechDirectory", "Input", ".", "Quit",
+      "RootMechName", "Input", "xxx", "Quit", "Quit",
       "Retrieve", "Print", "Quit", "Quit", "Quit"
     ];
   }

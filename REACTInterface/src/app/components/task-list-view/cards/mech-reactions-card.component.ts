@@ -369,6 +369,41 @@ export class MechReactionsCardComponent extends BaseSectionCardComponent {
     classEquivalentsText = nonHeaderEquivLines.length > 0 ? equivLines.join('\n').trim() : '';
     reactionClassesText = rxnClassLines.join('\n').trim();
 
+    // Fallback: parse standard Chemkin reaction lines (e.g. C3H8 + O2 = I-C3H7 + HO2 ...) if no REACTIONCLASS blocks found
+    if (reactionClasses.length === 0 && coefficients.length === 0) {
+      const standardGroup: MechReactionClassGroup = {
+        className: 'Elementary Mechanism Reactions',
+        reactions: [],
+        isExpanded: true
+      };
+
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed || trimmed.startsWith('---') || trimmed.startsWith('main>>') || trimmed.startsWith('Command:') || trimmed.startsWith('yywrap') || trimmed.startsWith('-----------------')) continue;
+        if (trimmed.includes('=') || trimmed.includes('=>') || trimmed.includes('->')) {
+          const parts = trimmed.split(/\s+/);
+          const eqTokens: string[] = [];
+          for (const token of parts) {
+            if (/^[0-9eE.+-]+$/.test(token) && eqTokens.some(t => t.includes('=') || t.includes('=>') || t.includes('->'))) {
+              break;
+            }
+            eqTokens.push(token);
+          }
+          const cleanEq = eqTokens.join(' ');
+          const convertedEq = correspondences ? MechReactionsCardComponent.convertEquation(cleanEq, correspondences) : undefined;
+          standardGroup.reactions.push({
+            multiplicity: '1',
+            equation: cleanEq,
+            convertedEquation: convertedEq
+          });
+        }
+      }
+
+      if (standardGroup.reactions.length > 0) {
+        reactionClasses.push(standardGroup);
+      }
+    }
+
     return { coefficients, classEquivalentsText, reactionClassesText, reactionClasses, correspondences };
   }
 }

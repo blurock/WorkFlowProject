@@ -96,21 +96,41 @@ export class KetcherViewerComponent implements OnChanges {
   }
 
   public triggerKetcherLayout(): void {
-    if (this.ketcherIframe?.nativeElement?.contentWindow) {
-      this.ketcherIframe.nativeElement.contentWindow.postMessage({
-        eventType: 'LAYOUT_STRUCTURE'
-      }, '*');
-      this.snackBar.open('Auto-arranging 2D chemical structure layout...', 'Dismiss', { duration: 1500 });
+    try {
+      const iframeWin = this.ketcherIframe?.nativeElement?.contentWindow;
+      if (iframeWin) {
+        iframeWin.postMessage({
+          eventType: 'LAYOUT_STRUCTURE'
+        }, '*');
+        this.snackBar.open('Auto-arranging 2D layout...', 'Dismiss', { duration: 1500 });
+      }
+    } catch (err) {
+      console.warn('[KetcherViewer] postMessage layout error:', err);
     }
   }
 
   public sendSdfToKetcher(sdfContent: string): void {
     if (!sdfContent) return;
-    if (this.ketcherIframe?.nativeElement?.contentWindow) {
-      this.ketcherIframe.nativeElement.contentWindow.postMessage({
-        eventType: 'SET_STRUCTURE',
-        molfile: sdfContent
-      }, '*');
-    }
+
+    const sendMessage = (): void => {
+      try {
+        const iframeWin = this.ketcherIframe?.nativeElement?.contentWindow;
+        if (iframeWin) {
+          iframeWin.postMessage({
+            eventType: 'SET_STRUCTURE',
+            molfile: sdfContent,
+            doLayout: true
+          }, '*');
+        }
+      } catch (err) {
+        console.warn('[KetcherViewer] postMessage error:', err);
+      }
+    };
+
+    // Immediate attempt + progressive retries while iframe finishes initializing
+    sendMessage();
+    setTimeout(() => sendMessage(), 300);
+    setTimeout(() => sendMessage(), 800);
+    setTimeout(() => sendMessage(), 1500);
   }
 }

@@ -57,11 +57,11 @@ async function authenticateUser(req, res, next) {
     // Check for dev token fallback
     if (token.startsWith('reactcloud-bearer-token') || token === 'demo-token') {
       const match = token.match(/reactcloud-bearer-token-(.+)/);
-      const userSlug = match && match[1] ? match[1].replace(/[^a-zA-Z0-9_-]/g, '_') : 'user_default_local';
+      const rawSlug = match && match[1] ? match[1].replace(/[^a-zA-Z0-9_-]/g, '_') : 'default';
       req.user = {
-        uid: userSlug.startsWith('user_') ? userSlug : `user_${userSlug}`,
-        email: `${userSlug}@reactcloud.org`,
-        name: `REACT User (${userSlug})`
+        uid: rawSlug,
+        email: `${rawSlug}@reactcloud.org`,
+        name: `REACT User (${rawSlug})`
       };
       return next();
     }
@@ -88,7 +88,7 @@ async function authenticateUser(req, res, next) {
     email: 'anon@reactcloud.org',
     name: 'Anonymous User'
   };
-  next();
+  return next();
 }
 
 /**
@@ -130,27 +130,37 @@ async function hydrateUserWorkspace(uid, workspaceDir) {
     const gcsPath = `users/${uid}/databases/${dbFile}`;
     try {
       const file = bucket.file(gcsPath);
-      const [exists] = await file.exists();
+      let [exists] = await file.exists();
+      const seedPath = path.join(REACTROOT, 'data', 'DB', dbFile);
 
       if (exists) {
         await file.download({ destination: cachedPath });
         console.log(`[GCS Sync] Downloaded ${dbFile} from ${gcsPath}`);
+
+        // Check if downloaded DB file is uninitialized/empty (< 20KB while seed is > 30KB)
+        if (fs.existsSync(cachedPath) && fs.existsSync(seedPath)) {
+          const stats = fs.statSync(cachedPath);
+          const seedStats = fs.statSync(seedPath);
+          if (stats.size < 20000 && seedStats.size > 30000) {
+            console.log(`[GCS Re-Seed] DB file ${dbFile} was uninitialized (${stats.size} bytes). Re-seeding from system default (${seedPath})`);
+            fs.copyFileSync(seedPath, cachedPath);
+            bucket.upload(cachedPath, { destination: gcsPath }).then(() => {
+              console.log(`[GCS Re-Seed Uploaded] ${dbFile} uploaded to ${gcsPath}`);
+            }).catch((err) => {
+              console.warn(`[GCS Upload Warning] ${dbFile}: ${err.message}`);
+            });
+          }
+        }
       } else {
-        const seedPath = path.join(REACTROOT, 'data', 'DB', dbFile);
+        // Does not exist in GCS yet: Initialize from system default seed and upload to Cloud Storage for this user
         if (fs.existsSync(seedPath)) {
           fs.copyFileSync(seedPath, cachedPath);
-          console.log(`[GCS Seed] Initialized ${dbFile} from system default seed`);
-        }
-      }
-
-      // Check if downloaded DB file is uninitialized/empty (< 100KB for Molecules.dbf) and re-seed if needed
-      const seedPath = path.join(REACTROOT, 'data', 'DB', dbFile);
-      if (fs.existsSync(cachedPath)) {
-        const stats = fs.statSync(cachedPath);
-        if (dbFile === 'Molecules.dbf' && stats.size < 100000 && fs.existsSync(seedPath)) {
-          console.log(`[GCS Re-Seed] DB file ${dbFile} was empty (${stats.size} bytes). Re-seeding from system default (${seedPath})`);
-          fs.copyFileSync(seedPath, cachedPath);
-          bucket.upload(cachedPath, { destination: gcsPath }).catch(() => {});
+          console.log(`[GCS Seed] Initialized ${dbFile} for user ${uid} from system default seed`);
+          bucket.upload(cachedPath, { destination: gcsPath }).then(() => {
+            console.log(`[GCS Seed Uploaded] ${dbFile} uploaded to ${gcsPath}`);
+          }).catch((err) => {
+            console.warn(`[GCS Upload Warning] ${dbFile}: ${err.message}`);
+          });
         }
       }
 
@@ -158,9 +168,31 @@ async function hydrateUserWorkspace(uid, workspaceDir) {
         fs.copyFileSync(cachedPath, localPath);
       }
     } catch (err) {
-      console.warn(`[GCS Sync Warning] Failed to download ${dbFile}: ${err.message}`);
+      console.warn(`[GCS Sync Warning] Failed to sync ${dbFile}: ${err.message}`);
     }
   }));
+
+  // 4. Overlay user custom data files from session cache (/tmp/reactcloud/users/{uid}/cache/data/)
+  const userCacheDataDir = path.join(userCacheDir, 'data');
+  if (fs.existsSync(userCacheDataDir)) {
+    const copyRecursive = (src, dest) => {
+      if (fs.statSync(src).isDirectory()) {
+        if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
+        for (const child of fs.readdirSync(src)) {
+          copyRecursive(path.join(src, child), path.join(dest, child));
+        }
+      } else {
+        if (!fs.existsSync(path.dirname(dest))) fs.mkdirSync(path.dirname(dest), { recursive: true });
+        fs.copyFileSync(src, dest);
+      }
+    };
+    const workspaceDataDir = path.join(workspaceDir, 'data');
+    if (fs.existsSync(workspaceDataDir) && fs.lstatSync(workspaceDataDir).isSymbolicLink()) {
+      try { fs.unlinkSync(workspaceDataDir); } catch(e) {}
+      fs.mkdirSync(workspaceDataDir, { recursive: true });
+    }
+    copyRecursive(userCacheDataDir, workspaceDataDir);
+  }
 }
 
 /**
@@ -279,6 +311,62 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+app.post('/api/upload-data-files', authenticateUser, async (req, res) => {
+  const { targetDir, files } = req.body;
+  const uid = req.user.uid;
+
+  if (!targetDir || !files || !Array.isArray(files)) {
+    return res.status(400).json({ error: 'Invalid payload: targetDir and files array required' });
+  }
+
+  const userCacheDir = path.join('/tmp', 'reactcloud', 'users', uid, 'cache');
+  const userCacheTargetDir = path.join(userCacheDir, 'data', targetDir);
+  fs.mkdirSync(userCacheTargetDir, { recursive: true });
+
+  const bucket = storage.bucket(BUCKET_NAME);
+  const uploadedResults = [];
+
+  for (const f of files) {
+    if (!f.filename || f.content === undefined) continue;
+
+    const localPath = path.join(userCacheTargetDir, f.filename);
+    fs.writeFileSync(localPath, f.content);
+
+    const relGcsPath = `users/${uid}/data/${targetDir}/${f.filename}`;
+    try {
+      await bucket.upload(localPath, { destination: relGcsPath });
+      console.log(`[Data Upload] Saved ${f.filename} to Cloud Storage: ${relGcsPath}`);
+      uploadedResults.push({ filename: f.filename, gcsPath: `gs://${BUCKET_NAME}/${relGcsPath}` });
+    } catch (err) {
+      console.warn(`[GCS Data Upload Warning] ${f.filename}: ${err.message}`);
+      uploadedResults.push({ filename: f.filename, localOnly: true, warning: err.message });
+    }
+
+    // Auto-create matching companion .mol and .sdf files if missing to prevent chemdb RECOVER file missing errors
+    if (f.filename.endsWith('.lst')) {
+      const rootBase = f.filename.replace(/\.lst$/, '');
+      const companionMol = `${rootBase}.mol`;
+      const companionSdf = `${rootBase}.sdf`;
+      
+      const molLocalPath = path.join(userCacheTargetDir, companionMol);
+      if (!fs.existsSync(molLocalPath)) {
+        fs.writeFileSync(molLocalPath, `1 ${rootBase}\n`);
+        const molGcsPath = `users/${uid}/data/${targetDir}/${companionMol}`;
+        bucket.upload(molLocalPath, { destination: molGcsPath }).catch(() => {});
+      }
+
+      const sdfLocalPath = path.join(userCacheTargetDir, companionSdf);
+      if (!fs.existsSync(sdfLocalPath)) {
+        fs.writeFileSync(sdfLocalPath, `${rootBase}\n  -OEChem-\n\n  0  0  0     0  0  0  0  0  0999 V2000\nM  END\n$$$$\n`);
+        const sdfGcsPath = `users/${uid}/data/${targetDir}/${companionSdf}`;
+        bucket.upload(sdfLocalPath, { destination: sdfLocalPath }).catch(() => {});
+      }
+    }
+  }
+
+  return res.json({ success: true, targetDir, files: uploadedResults });
+});
+
 app.post('/api/run-input', authenticateUser, async (req, res) => {
   const { inputFile, root, replacements } = req.body;
   const uid = req.user.uid;
@@ -319,7 +407,7 @@ app.post('/api/run-input', authenticateUser, async (req, res) => {
 
     const child = spawn(CHEMDB_BIN, [root || 'test', '0', commandDir, staticFile], {
       cwd: workspaceDir,
-      env: { ...process.env, REACTROOT, CCROOT: REACTROOT }
+      env: { ...process.env, REACTROOT, CCROOT: REACTROOT, REACT_USER_ID: uid, GCS_BUCKET: BUCKET_NAME }
     });
 
     child.stdin.write(inpContent);
@@ -328,24 +416,42 @@ app.post('/api/run-input', authenticateUser, async (req, res) => {
     child.stdout.on('data', data => { stdout += data.toString(); });
     child.stderr.on('data', data => { stderr += data.toString(); });
 
-    child.on('close', async exitCode => {
+    child.on('close', exitCode => {
       const elapsed = Date.now() - startTime;
       console.log(`[Job Complete] ${jobId} finished in ${elapsed}ms with exit code ${exitCode}`);
 
-      // List queries are read-only -> skip re-uploading 40MB DBs back to GCS
-      const isReadOnly = inputFile.startsWith('Print') || inputFile.includes('List');
-      await persistUserWorkspace(uid, workspaceDir, jobId, isReadOnly);
-      cleanupWorkspace(workspaceDir);
+      // Read any generated .ans or .out detail output files (e.g. MASTER.ans, molecule.ans)
+      let combinedOutput = stdout;
+      try {
+        const detailFiles = fs.readdirSync(workspaceDir).filter(f => f.endsWith('.ans') || f.endsWith('.out'));
+        for (const df of detailFiles) {
+          if (df === 'run.inp' || df === 'test.inp') continue;
+          const dfPath = path.join(workspaceDir, df);
+          const dfContent = fs.readFileSync(dfPath, 'utf8');
+          if (dfContent && dfContent.trim()) {
+            combinedOutput += `\n${dfContent}`;
+          }
+        }
+      } catch (e) {
+        console.warn(`[Detail File Read Warning] ${e.message}`);
+      }
 
-      return res.json({
+      // Return HTTP response immediately for sub-second UI response
+      res.json({
         jobId,
         inputFile,
         root: root || 'ROOT',
         exitCode,
-        output: stdout,
+        output: combinedOutput,
         error: stderr,
         elapsedMs: elapsed
       });
+
+      // Async background persistence & cleanup
+      const isReadOnly = inputFile.startsWith('Print') || inputFile.includes('List');
+      persistUserWorkspace(uid, workspaceDir, jobId, isReadOnly)
+        .catch(err => console.warn(`[GCS Persist Warning] ${err.message}`))
+        .finally(() => cleanupWorkspace(workspaceDir));
     });
   } catch (err) {
     cleanupWorkspace(workspaceDir);
@@ -369,6 +475,17 @@ app.post('/api/run-commands', authenticateUser, async (req, res) => {
     const jobInpFile = path.join(workspaceDir, 'run.inp');
     fs.writeFileSync(jobInpFile, commandText);
 
+    // If querying item details (e.g. 1-butanal, AlkoxyDecomp, or PropaneCombinedMech), create xxx.mol, xxx.rxn, xxx.lst, mech.lst, MASTER.lst, and ${targetItemName}.lst
+    const targetItemName = (req.body.targetItem || root || '').trim();
+    if (targetItemName && targetItemName !== 'test' && targetItemName !== 'job1') {
+      fs.writeFileSync(path.join(workspaceDir, 'xxx.mol'), `${targetItemName}\n`);
+      fs.writeFileSync(path.join(workspaceDir, 'xxx.rxn'), `RxnPatternList\n${targetItemName}\n`);
+      fs.writeFileSync(path.join(workspaceDir, 'xxx.lst'), `${targetItemName}\n`);
+      fs.writeFileSync(path.join(workspaceDir, 'mech.lst'), `${targetItemName}\n`);
+      fs.writeFileSync(path.join(workspaceDir, 'MASTER.lst'), `${targetItemName}\n`);
+      fs.writeFileSync(path.join(workspaceDir, `${targetItemName}.lst`), `${targetItemName}\n`);
+    }
+
     let stdout = '';
     let stderr = '';
 
@@ -377,7 +494,7 @@ app.post('/api/run-commands', authenticateUser, async (req, res) => {
 
     const child = spawn(CHEMDB_BIN, [root || 'test', '0', commandDir, staticFile], {
       cwd: workspaceDir,
-      env: { ...process.env, REACTROOT, CCROOT: REACTROOT }
+      env: { ...process.env, REACTROOT, CCROOT: REACTROOT, REACT_USER_ID: uid, GCS_BUCKET: BUCKET_NAME }
     });
 
     child.stdin.write(commandText);
@@ -386,22 +503,55 @@ app.post('/api/run-commands', authenticateUser, async (req, res) => {
     child.stdout.on('data', data => { stdout += data.toString(); });
     child.stderr.on('data', data => { stderr += data.toString(); });
 
-    child.on('close', async exitCode => {
+    child.on('close', exitCode => {
       const elapsed = Date.now() - startTime;
       console.log(`[Job Complete] ${jobId} finished in ${elapsed}ms`);
 
-      const isReadOnly = commandText.includes('Print') || !commandText.includes('Write');
-      await persistUserWorkspace(uid, workspaceDir, jobId, isReadOnly);
-      cleanupWorkspace(workspaceDir);
+      // Read any generated detail output files (.ans, .out, .mech, .sdf, .thm, .corrs)
+      let combinedOutput = '';
+      try {
+        const detailFiles = fs.readdirSync(workspaceDir).filter(f =>
+          f.endsWith('.ans') || f.endsWith('.out') || f.endsWith('.mech') || f.endsWith('.sdf') || f.endsWith('.thm') || f.endsWith('.corrs')
+        );
+        for (const df of detailFiles) {
+          if (df === 'run.inp' || df === 'test.inp' || df === 'mech.lst' || df === 'xxx.lst' || df === 'xxx.mol' || df === 'xxx.rxn') continue;
+          const dfPath = path.join(workspaceDir, df);
+          const dfContent = fs.readFileSync(dfPath, 'utf8');
+          if (dfContent && dfContent.trim()) {
+            let sectionTitle = '';
+            if (df.endsWith('.mech')) sectionTitle = 'Mechanism Reactions';
+            else if (df.endsWith('.thm')) sectionTitle = 'Molecule Thermodynamics';
+            else if (df.endsWith('.sdf')) sectionTitle = 'Molecule Structures';
+            else if (df.endsWith('.corrs')) sectionTitle = 'Name Correspondences';
 
-      return res.json({
+            if (sectionTitle) {
+              combinedOutput += `--- ${sectionTitle} ---\n` + dfContent + '\n\n';
+            } else {
+              combinedOutput += dfContent + '\n\n';
+            }
+          }
+        }
+      } catch (e) {
+        console.warn(`[Detail File Read Warning] ${e.message}`);
+      }
+
+      combinedOutput += `--- Execution Log ---\n` + stdout;
+
+      // Return HTTP response immediately for sub-second UI response
+      res.json({
         jobId,
         root: root || 'ROOT',
         exitCode,
-        output: stdout,
+        output: combinedOutput,
         error: stderr,
         elapsedMs: elapsed
       });
+
+      // Async background persistence & cleanup
+      const isReadOnly = commandText.includes('Print') || !commandText.includes('Write');
+      persistUserWorkspace(uid, workspaceDir, jobId, isReadOnly)
+        .catch(err => console.warn(`[GCS Persist Warning] ${err.message}`))
+        .finally(() => cleanupWorkspace(workspaceDir));
     });
   } catch (err) {
     cleanupWorkspace(workspaceDir);
