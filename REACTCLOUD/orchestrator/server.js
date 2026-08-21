@@ -548,7 +548,8 @@ app.post('/api/run-commands', authenticateUser, async (req, res) => {
       });
 
       // Async background persistence & cleanup
-      const isReadOnly = commandText.includes('Print') || !commandText.includes('Write');
+      const hasWriteOps = commandText.includes('Store') || commandText.includes('Write') || commandText.includes('Fill');
+      const isReadOnly = req.body.isReadOnly !== undefined ? Boolean(req.body.isReadOnly) : !hasWriteOps;
       persistUserWorkspace(uid, workspaceDir, jobId, isReadOnly)
         .catch(err => console.warn(`[GCS Persist Warning] ${err.message}`))
         .finally(() => cleanupWorkspace(workspaceDir));

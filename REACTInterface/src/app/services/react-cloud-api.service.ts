@@ -31,6 +31,7 @@ export interface ApiRunCommandsResponse {
   exitCode: number;
   output: string;
   error?: string;
+  elapsedMs?: number;
 }
 
 export interface ApiRunSubmechanismResponse {
@@ -168,6 +169,15 @@ export class ReactCloudApiService {
       })
     );
   }
+
+  /**
+   * Run generic task using CommandTemplatesRegistry (Stateless memory-piped)
+   */
+  public runTaskWithRegistry(taskId: string, rootName: string = 'job1'): Observable<ApiRunCommandsResponse> {
+    const commands = CommandTemplatesRegistry.getTaskCommands(taskId, rootName);
+    return this.runCommands(commands, rootName, undefined, taskId);
+  }
+
 
   /**
    * Run submechanism from path task (/api/run-submechanism)

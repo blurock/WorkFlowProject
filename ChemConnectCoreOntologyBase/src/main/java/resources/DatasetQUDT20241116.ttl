@@ -8685,7 +8685,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :DatasetCollectionsSetLabel rdf:type owl:Class ;
                             rdfs:subClassOf :StringNameLabel ;
                             <http://purl.org/dc/elements/1.1/type> :DatasetCollectionsSetLabel ;
-                            <http://purl.org/dc/terms/identifier> "dataset:datasetcollectionslabel" ;
+                            <http://purl.org/dc/terms/identifier> "dataset:datasetcollectionslabel"^^rdfs:Literal ;
                             rdfs:comment "This is the name of the collection of associated database collection. This holds the information, given the dataset type (class), to find the current collection to be used." ;
                             rdfs:label "Dataset Collection Label" ;
                             <http://www.w3.org/2004/02/skos/core#altLabel> "datasetcollectionslabel" .

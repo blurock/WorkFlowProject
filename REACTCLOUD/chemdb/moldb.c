@@ -128,33 +128,45 @@ extern INT StoreMoleculeSetToDatabase(MoleculeSet *set,
       DbaseKeyword *key;
       ChemDBMaster *master;
       
+      if(set == NULL || set->Molecules == NULL || set->NumberOfMolecules <= 0)
+	   {
+	   printf("StoreMoleculeSetToDatabase: No molecules in current set to store.\n");
+	   fflush(stdout);
+	   return(SYSTEM_NORMAL_RETURN);
+	   }
+      
       master = GetBoundStructure(bind,BIND_CHEMDBASE);
       dinfo = GetDataBaseInfoFromID(master->DatabaseInfo,dbflag);
       
       molecule = set->Molecules;
       LOOPi(set->NumberOfMolecules)
 	   {
-	   if(molecule->ID >= 0)
+	   if(molecule != NULL && molecule->ID >= 0 && molecule->Name != NULL)
 		{
 		printf("Store: %10d:%s\n",molecule->ID,molecule->Name);
 		fflush(stdout);
 		id =PutMoleculeInDatabaseClass(molecule,dbflag,bind);
 		molecule->ID = id;
-		molecule->Molfile->ID = id;
-		molecule->Electronic->ID = id;
-		molecule->Properties->ID = id;
+		if(molecule->Molfile != NULL)
+		     molecule->Molfile->ID = id;
+		if(molecule->Electronic != NULL)
+		     molecule->Electronic->ID = id;
+		if(molecule->Properties != NULL)
+		     molecule->Properties->ID = id;
 		
 		printf("New ID: %10d\n",id);
 		key = ComputeMoleculeKeyWord(molecule,dbflag,master);
 		
-		/*PrintPrettyDbaseKeyword(key);*/
-		StoreElement((VOID *) molecule,
-			     key,
-			     GDBM_REPLACE,
-			     dinfo);
-		InsertSearchKeys((VOID) molecule,key,dinfo->Keys);
-		FreeDbaseKeyword(key);
-		Free(key);
+		if(key != NULL)
+		     {
+		     StoreElement((VOID *) molecule,
+				  key,
+				  GDBM_REPLACE,
+				  dinfo);
+		     InsertSearchKeys((VOID) molecule,key,dinfo->Keys);
+		     FreeDbaseKeyword(key);
+		     Free(key);
+		     }
 		}
 	   
 	   molecule++;

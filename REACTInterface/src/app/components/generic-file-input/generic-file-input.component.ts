@@ -27,8 +27,8 @@ export interface GenericFileInputConfig {
   rootNameLabel: string;      // e.g. 'Molecule Dataset ROOTNAME'
   defaultRootName?: string;
   fileSlots: FileSlotConfig[];
-  inputTemplateFile: string;   // e.g. 'ReadInMoleculeProperties.inp'
-  placeholderReplacements?: { [key: string]: string }; // e.g. { 'XXXXX': '$ROOTNAME' }
+  inputTemplateFile?: string;   // Optional / legacy template file
+  placeholderReplacements?: { [key: string]: string }; // Optional / legacy replacements
 }
 
 export interface SelectedFileItem {
@@ -418,23 +418,12 @@ export class GenericFileInputComponent implements OnInit {
       const gcsPaths = uploadRes?.files?.map(f => f.gcsPath || f.filename).join(', ') || '';
       this.isUploading = false;
       this.isExecuting = true;
-      this.statusMessage = `Persisted to Cloud Storage (${gcsPaths})! Executing prerequisite task ${this.config.inputTemplateFile}...`;
+      this.statusMessage = `Persisted to Cloud Storage (${gcsPaths})! Executing task '${this.config.taskId}' via Command Templates Registry...`;
 
-      // 3. Build replacements map
-      const replacements: { [key: string]: string } = {};
-      if (this.config.placeholderReplacements) {
-        for (const [key, val] of Object.entries(this.config.placeholderReplacements)) {
-          replacements[key] = val.replace('$ROOTNAME', this.rootName.trim());
-        }
-      } else {
-        replacements['XXXXX'] = this.rootName.trim();
-      }
-
-      // 4. Run Input Task
-      const taskRes = await this.reactCloudApi.runInputTaskWithReplacements(
-        this.config.inputTemplateFile,
-        this.rootName.trim(),
-        replacements
+      // 3. Execute Task using CommandTemplatesRegistry (stateless memory-piped execution)
+      const taskRes = await this.reactCloudApi.runTaskWithRegistry(
+        this.config.taskId,
+        this.rootName.trim()
       ).toPromise();
 
       this.isExecuting = false;

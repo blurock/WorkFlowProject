@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
      BindStructureIntoMaster(molset,BIND_CURRENT_MOLECULES,bind);
 
      structset = InitializeMoleculeSet(inputtype,rootname);
-     BindStructureIntoMaster(molset,BIND_CURRENT_SUBSTRUCTURES,bind);
+     BindStructureIntoMaster(structset,BIND_CURRENT_SUBSTRUCTURES,bind);
 
      tables = InitializeSetOfTables(inputtype,rootname);
      BindStructureIntoMaster(tables,BIND_THERMO_TABLES,bind);

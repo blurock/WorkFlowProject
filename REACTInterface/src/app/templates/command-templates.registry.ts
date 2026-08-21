@@ -108,6 +108,61 @@ export class CommandTemplatesRegistry {
     ];
   }
 
+  // Generic File Input Task Templates
+
+  public static readMoleculeProperties(rootName: string = '22dimethylC3C4'): string[] {
+    return [
+      "CreateOpenClose", "Start", "Quit",
+      "DbaseOps", "Molecules", "Parameters", "DBDataMolRoot", "Input", `mol/molsdf/${rootName}`, "Quit", "Quit",
+      "Current", "ASCII", "Store", "Quit",
+      "Keys", "Read", "Fill", "Write", "Quit",
+      "Misc", "PrintList", "Quit", "Quit", "Quit",
+      "DbaseOps", "Molecules", "Current", "ReadInCurrent", "Quit", "Quit", "Quit",
+      "Mol", "Output", "Molecules", "Print", "Quit", "Quit", "Quit", "Quit", "Quit"
+    ];
+  }
+
+  public static readSdfMolecules(rootName: string = '22dimethylC3C4'): string[] {
+    return [
+      "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
+      "MetaAtoms", "Read", "Quit", "Quit",
+      "Mol", "Parameters", "MolOutName", "Input", rootName, "Quit",
+      "RootMolName", "Input", `molsdf/${rootName}`, "Quit", "Quit",
+      "Read", "Molecules", "SDF", "Quit", "Quit",
+      "Calculations", "Molecules", "SemiEmpirical", "Quit", "Quit",
+      "Output", "Molecules", "Print", "Quit", "Quit", "Quit",
+      "DbaseOps", "Molecules", "Current", "Store", "Quit",
+      "Keys", "Read", "Fill", "Write", "Quit", "Quit",
+      "Mol", "Output", "Molecules", "Print", "Quit", "Quit",
+      "Graph", "PrintGraph", "Quit", "Quit", "Quit",
+      "Quit", "Quit", "Quit"
+    ];
+  }
+
+  /**
+   * Helper mapping task ID + root name to generic task command array generator
+   */
+  public static getTaskCommands(taskId: string, rootName: string = '22dimethylC3C4'): string[] {
+    switch (taskId) {
+      case 'read-mol-properties':
+        return this.readMoleculeProperties(rootName);
+      case 'read-sdf-molecules':
+        return this.readSdfMolecules(rootName);
+      case 'molecules':
+        return this.moleculesCatalog();
+      case 'rxn-patterns':
+        return this.rxnPatternsCatalog();
+      case 'substructures':
+        return this.substructuresCatalog();
+      case 'benson-groups':
+        return this.bensonCatalog(rootName);
+      case 'mechanisms':
+        return this.mechanismsCatalog();
+      default:
+        return this.readMoleculeProperties(rootName);
+    }
+  }
+
   /**
    * Helper mapping task ID to static catalog template generator
    */
@@ -148,3 +203,4 @@ export class CommandTemplatesRegistry {
     }
   }
 }
+

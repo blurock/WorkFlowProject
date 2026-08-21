@@ -58,6 +58,7 @@ redo: rmchemdb $(PROGNAME)
 $(PROGNAME): $(ALL_OBJECTS) main.o
 	$(CC) -o $(PROGNAME) $(CCFLAGS) $(ALL_OBJECTS) main.o $(DEPLIBS)
 	cp $(PROGNAME) $(CCROOT)/bin/$(PROGNAME)
+	codesign -s - -f $(CCROOT)/bin/$(PROGNAME)
 
 str_form:
 	cd $(CCROOT); $(CREATESTRUCT) $(PROGNAME) Str

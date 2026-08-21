@@ -4,7 +4,7 @@
 # Script to Read in a molecule file to the database
 #
 # ---------------------------------------------------------------------------
-#set verbose on
+set verbose on
 
 if ( $#argv != 1 ) then
   echo "Usage: readmol.sh File"
