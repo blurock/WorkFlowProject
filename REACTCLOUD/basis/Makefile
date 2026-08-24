@@ -11,13 +11,13 @@ include ../etc/MakeDef.defs
 PROGNAME   = basis
 
 STD_LIBRARIES     = 
-HFILES            = basic.h dblink.h defines.h simple.h xdrrpc.h stopwatch.h
+HFILES            = basic.h dblink.h defines.h simple.h xdrrpc.h stopwatch.h cJSON.h
 ALL_PROGS         = library
 ALL_SOURCES = \
-             alloc.c linint.c keywrd.c fileio.c error.c stopwatch.c dbaselink.c
+             alloc.c linint.c keywrd.c fileio.c error.c stopwatch.c dbaselink.c cJSON.c
 
 ALL_OBJECTS = \
-             alloc.o linint.o keywrd.o fileio.o error.o stopwatch.o dbaselink.o
+             alloc.o linint.o keywrd.o fileio.o error.o stopwatch.o dbaselink.o cJSON.o
 #ALL_OBJECTS = \
 #             alloc.debug.o linint.o keywrd.o fileio.o error.o stopwatch.o dbaselink.o
 

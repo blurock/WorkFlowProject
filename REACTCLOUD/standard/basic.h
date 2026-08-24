@@ -8,6 +8,7 @@
 #include <string.h>
 #include <limits.h>
 #include "simple.h"
+#include "cJSON.h"
 
 extern INT NoStructureCode;
 
@@ -102,8 +103,17 @@ typedef struct ComRtn {
 #define PrintCommandReturn(str) printf("CommandReturn: %s\n",str->Command)
 #define WriteBinCommandReturn(str,file) WriteBin(str,CommandReturnSize,file)
 #define ReadBinCommandReturn(new,file) ReadBin(new,CommandReturnSize,file)
-#define WriteJSONCommandReturn(str,json_out) WriteJSON(str,CommandReturnSize,json_out)
-#define ReadJSONCommandReturn(new,json_in) ReadJSON(new,CommandReturnSize,json_in)
+#define WriteJSONCommandReturn(str) cJSON_CreateNull()
+#define ReadJSONCommandReturn(new,json_item) STRUCTURE_READ
+
+#define WriteJSONSTRING(str) ((str) ? cJSON_CreateString(str) : cJSON_CreateNull())
+#define ReadJSONSTRING(new,json_item) if(cJSON_IsString(json_item) && (json_item)->valuestring) strcpy(new,(json_item)->valuestring)
+
+#define WriteJSONNAME(ptr) ((*ptr) ? cJSON_CreateString(*ptr) : cJSON_CreateNull())
+#define ReadJSONNAME(new,json_item) if(cJSON_IsString(json_item) && (json_item)->valuestring) *(new) = CopyString((json_item)->valuestring)
+
+#define WriteJSONVOID(obj) cJSON_CreateNull()
+#define ReadJSONVOID(new,json_item) STRUCTURE_READ
 #define xdr_CommandReturn xdr_int
 
 
@@ -202,14 +212,5 @@ extern INT ReadBinNAME(CHAR **string, DbaseLinkedList *link);
 extern CHAR **AllocateNAME();
 extern INT ReadBinVOID(VOID *obj,DbaseLinkedList *link);
 extern void WriteBinVOID(VOID *obj,DbaseLinkedList *link);
-
-extern INT WriteJSON(void *element, INT size, CHAR **json_output);
-extern INT ReadJSON(void *element, INT size, CHAR **json_input);
-extern void WriteJSONSTRING(CHAR *string, CHAR **json_output);
-extern INT ReadJSONSTRING(CHAR *string, CHAR **json_input);
-extern void WriteJSONNAME(CHAR **string, CHAR **json_output);
-extern INT ReadJSONNAME(CHAR **string, CHAR **json_input);
-extern INT ReadJSONVOID(VOID *obj, CHAR **json_input);
-extern void WriteJSONVOID(VOID *obj, CHAR **json_output);
 
 #endif

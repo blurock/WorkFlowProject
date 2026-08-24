@@ -13,11 +13,11 @@
 #define ReadBinINT(new,file)\
           ReadBin(new,INTSize,file)
 
-#define WriteJSONINT(ptr,json_out)\
-          WriteJSON(ptr,INTSize,json_out)
+#define WriteJSONINT(ptr)\
+          cJSON_CreateNumber((double)*(ptr))
 
-#define ReadJSONINT(new,json_in)\
-          ReadJSON(new,INTSize,json_in)
+#define ReadJSONINT(new,json_item)\
+          if(cJSON_IsNumber(json_item)) *(new) = (int)(json_item)->valuedouble
 
 #define FLOATSize sizeof(FLOAT)
 #define AllocateFLOAT (FLOAT *) Malloc(FLOATSize)
@@ -34,11 +34,11 @@
 #define ReadBinFLOAT(new,file)\
           ReadBin(new,FLOATSize,file)
 
-#define WriteJSONFLOAT(ptr,json_out)\
-          WriteJSON(ptr,FLOATSize,json_out)
+#define WriteJSONFLOAT(ptr)\
+          cJSON_CreateNumber((double)*(ptr))
 
-#define ReadJSONFLOAT(new,json_in)\
-          ReadJSON(new,FLOATSize,json_in)
+#define ReadJSONFLOAT(new,json_item)\
+          if(cJSON_IsNumber(json_item)) *(new) = (FLOAT)(json_item)->valuedouble
 
 #define CHARSize sizeof(CHAR)
 #define AllocateCHAR (CHAR *) Malloc(CHARSize)
@@ -55,11 +55,11 @@
 #define ReadBinCHAR(new,file)\
           ReadBin(new,CHARSize,file)
 
-#define WriteJSONCHAR(ptr,json_out)\
-          WriteJSON(ptr,CHARSize,json_out)
+#define WriteJSONCHAR(ptr)\
+          cJSON_CreateString(ptr)
 
-#define ReadJSONCHAR(new,json_in)\
-          ReadJSON(new,CHARSize,json_in)
+#define ReadJSONCHAR(new,json_item)\
+          if(cJSON_IsString(json_item) && (json_item)->valuestring) *(new) = (json_item)->valuestring[0]
 
 #define BYTESize sizeof(BYTE)
 #define AllocateBYTE (BYTE *) Malloc(BYTESize)
@@ -76,11 +76,11 @@
 #define ReadBinBYTE(new,file)\
           ReadBin(new,BYTESize,file)
 
-#define WriteJSONBYTE(ptr,json_out)\
-          WriteJSON(ptr,BYTESize,json_out)
+#define WriteJSONBYTE(ptr)\
+          cJSON_CreateNumber((double)*(ptr))
 
-#define ReadJSONBYTE(new,json_in)\
-          ReadJSON(new,BYTESize,json_in)
+#define ReadJSONBYTE(new,json_item)\
+          if(cJSON_IsNumber(json_item)) *(new) = (BYTE)(json_item)->valuedouble
 
 #define FILESize sizeof(FILE)
 #define AllocateFILE (FILE *) Malloc(FILESize)
@@ -97,11 +97,11 @@
 #define ReadBinFILE(new,file)\
           ReadBin(new,FILESize,file)
 
-#define WriteJSONFILE(ptr,json_out)\
-          WriteJSON(ptr,FILESize,json_out)
+#define WriteJSONFILE(ptr)\
+          cJSON_CreateNumber((double)*(ptr))
 
-#define ReadJSONFILE(new,json_in)\
-          ReadJSON(new,FILESize,json_in)
+#define ReadJSONFILE(new,json_item)\
+          if(cJSON_IsNumber(json_item)) *(new) = (FILE)(json_item)->valuedouble
 
 #define FUNCTIONSize sizeof(FUNCTION)
 #define AllocateFUNCTION (FUNCTION *) Malloc(FUNCTIONSize)
@@ -118,10 +118,11 @@
 #define ReadBinFUNCTION(new,file)\
           ReadBin(new,FUNCTIONSize,file)
 
-#define WriteJSONFUNCTION(ptr,json_out)\
-          WriteJSON(ptr,FUNCTIONSize,json_out)
+#define WriteJSONFUNCTION(ptr)\
+          cJSON_CreateNumber((double)*(ptr))
 
-#define ReadJSONFUNCTION(new,json_in)\
-          ReadJSON(new,FUNCTIONSize,json_in)
+#define ReadJSONFUNCTION(new,json_item)\
+          if(cJSON_IsNumber(json_item)) *(new) = (FUNCTION)(json_item)->valuedouble
+
 
 
