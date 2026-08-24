@@ -19,6 +19,8 @@ static void OutputPrintRoutine(StructureSet *set, FILE *file);
 static void OutputFreeRoutine(StructureSet *set, FILE *file);
 static void OutputWriteBinRoutine(StructureSet *set, FILE *file);
 static void OutputReadBinRoutine(StructureSet *set, FILE *file);
+static void OutputWriteJSONRoutine(StructureSet *set, FILE *file);
+static void OutputReadJSONRoutine(StructureSet *set, FILE *file);
 static void OutputVarType(StructDefinition *structure,
 			  FILE *file, CHAR *blanks);
 static void    OutputCreateFuncName(StructureSet *set, FILE *file);
@@ -45,6 +47,8 @@ extern void OutputStructureSetdotC(StructureSet *set, FILE *file)
      OutputFreeRoutine(set,file);
      OutputWriteBinRoutine(set,file);
      OutputReadBinRoutine(set,file);
+     OutputWriteJSONRoutine(set,file);
+     OutputReadJSONRoutine(set,file);
      OutputXDRBinRoutine(set,file);
      OutputAllocRoutine(set,file);
 }
@@ -86,6 +90,22 @@ CHAR slash = 92;
 			 types->TypeName,
 			 slash);
 	       fprintf(file,"          ReadBin(new,%sSize,link);\n",
+			 types->TypeName);
+	       fprintf(file,"\n");
+
+	       fprintf(file,
+			"#define WriteJSON%s(ptr,json_out)%c\n",
+			 types->TypeName,
+			 slash);
+	       fprintf(file,"          WriteJSON(ptr,%sSize,json_out);\n",
+			 types->TypeName);
+	       fprintf(file,"\n");
+
+	       fprintf(file,
+			"#define ReadJSON%s(new,json_in)%c\n",
+			 types->TypeName,
+			 slash);
+	       fprintf(file,"          ReadJSON(new,%sSize,json_in);\n",
 			 types->TypeName);
 	       fprintf(file,"\n");
 	       }
@@ -276,6 +296,10 @@ CHAR *name;
      fprintf(file,"extern void WriteBin%s(%s *eleptr, DbaseLinkedList *file);\n",
 		   name,name);
      fprintf(file,"extern INT ReadBin%s(%s *eleptr, DbaseLinkedList *file);\n",
+		   name,name);
+     fprintf(file,"extern void WriteJSON%s(%s *eleptr, CHAR **json_output);\n",
+		   name,name);
+     fprintf(file,"extern INT ReadJSON%s(%s *eleptr, CHAR **json_input);\n",
 		   name,name);
      fprintf(file,"extern void xdr_%s(XDR *stream, char **eleptr);\n",
 		   name);
@@ -1045,3 +1069,228 @@ static void OutputXDRBinRoutine(StructureSet *set, FILE *file)
      fprintf(file,"}\n");
      Free(func);
      }
+
+static void OutputWriteJSONRoutine(StructureSet *set, FILE *file)
+     {
+     StructDefinition *structure;
+     INT i;
+     INT flag;
+     CHAR *func;
+
+     func = CopyString("WriteJSON");
+
+     fprintf(file,"extern void %s%s(%s *eleptr, CHAR **json_output)\n",
+	    func,
+	    set->StructureName,
+	    set->StructureName);
+
+     fprintf(file,"{\n");
+
+     structure = set->Structures;
+     flag = 0;
+     LOOPi(set->NumberOfStructures)
+	  {
+	  if(structure->Pointer == ON &&
+	     structure->Array != NULL)
+	       {
+	       fprintf(file,"%s *ptr%s;\n",
+			    structure->TypeName,
+			    structure->ElementName);
+	       flag = 1;
+	       }
+	  structure++;
+	  }
+     if(flag == 0)
+	  fprintf(file,"\n");
+     else
+	  fprintf(file,"INT i;\n\n");
+
+     fprintf(file,"     if(eleptr == 0)\n");
+     fprintf(file,"           {\n");
+     fprintf(file,"           WriteJSONINT(&(NoStructureCode),json_output);\n");
+     fprintf(file,"           return;\n");
+     fprintf(file,"           }\n");
+
+     fprintf(file,"     WriteJSONINT(&(eleptr->ID),json_output);\n");
+     fprintf(file,"     WriteJSONNAME(&(eleptr->Name),json_output);\n");
+
+     structure = set->Structures;
+     LOOPi(set->NumberOfStructures)
+	  {
+	  if(structure->Type != -1 &&
+	     structure->Type != TypeFUNCTION &&
+	     structure->Pointer == OFF)
+	       {
+	       fprintf(file,"     %s%s(&(eleptr->%s),json_output);\n",
+			    func,
+			    structure->TypeName,
+			    structure->ElementName);
+	       }
+	  structure++;
+	  }
+     fprintf(file,"\n");
+
+     structure = set->Structures;
+     LOOPi(set->NumberOfStructures)
+	  {
+	  if( structure->Pointer == ON &&
+	     structure->Type != TypeFUNCTION &&
+	      structure->Array == NULL)
+	       {
+	       fprintf(file,"     %s%s(eleptr->%s,json_output);\n",
+			    func,
+			    structure->TypeName,
+			    structure->ElementName);
+	       fprintf(file,"\n");
+	       }
+	  structure++;
+	  }
+
+     structure = set->Structures;
+     LOOPi(set->NumberOfStructures)
+	  {
+	  if( structure->Pointer == ON &&
+	     structure->Type != TypeFUNCTION &&
+	      structure->Array != NULL)
+	       {
+	       fprintf(file,"     if(eleptr->%s != 0)\n",
+			    structure->ElementName);
+	       fprintf(file,"          {\n");
+	       fprintf(file,"          ptr%s = eleptr->%s;\n",
+			    structure->ElementName,
+			    structure->ElementName);
+
+	       fprintf(file,"          LOOPi(eleptr->%s)\n",
+				       structure->Array);
+	       fprintf(file,"               %s%s(ptr%s++,json_output);\n",
+			    func,
+			    structure->TypeName,
+			    structure->ElementName);
+	       fprintf(file,"          }\n");
+	       fprintf(file,"\n");
+	       }
+	  structure++;
+	  }
+
+     fprintf(file,"}\n");
+     Free(func);
+
+     }
+
+static void OutputReadJSONRoutine(StructureSet *set, FILE *file)
+     {
+     StructDefinition *structure;
+     INT i;
+     INT flag;
+     CHAR *func;
+
+     func = CopyString("ReadJSON");
+
+     fprintf(file,"extern INT %s%s(%s *eleptr,CHAR **json_input)\n",
+	    func,
+	    set->StructureName,
+	    set->StructureName);
+
+     fprintf(file,"     {\n");
+
+     structure = set->Structures;
+     flag = 0;
+     LOOPi(set->NumberOfStructures)
+	  {
+	  if(structure->Pointer == ON &&
+	     structure->Type != TypeFUNCTION &&
+	     structure->Array != NULL)
+	       {
+	       fprintf(file,"%s *ptr%s;\n",
+			    structure->TypeName,
+			    structure->ElementName);
+	       flag = 1;
+	       }
+	  structure++;
+	  }
+     if(flag == 0)
+	  fprintf(file,"\n");
+     else
+	  fprintf(file,"INT i;\n\n");
+
+     fprintf(file,"     ReadJSONINT(&(eleptr->ID),json_input);\n");
+     fprintf(file,"     if(eleptr->ID == NO_STRUCTURE_CODE)\n");
+     fprintf(file,"            {\n");
+     fprintf(file,"             return(NO_STRUCTURE_CODE);\n");
+     fprintf(file,"            }\n");
+
+     fprintf(file,"     ReadJSONNAME(&(eleptr->Name),json_input);\n");
+
+     structure = set->Structures;
+     LOOPi(set->NumberOfStructures)
+	  {
+	  if(structure->Type != -1 &&
+	     structure->Type != TypeFUNCTION &&
+	     structure->Pointer == OFF)
+	       {
+	       fprintf(file,"     %s%s(&(eleptr->%s),json_input);\n",
+			    func,
+			    structure->TypeName,
+			    structure->ElementName);
+	       }
+	  structure++;
+	  }
+     fprintf(file,"\n");
+
+     structure = set->Structures;
+     LOOPi(set->NumberOfStructures)
+	  {
+	  if( structure->Pointer == ON &&
+	     structure->Type != TypeFUNCTION &&
+	      structure->Array == NULL)
+	       {
+	       fprintf(file,"     eleptr->%s = Allocate%s;\n",
+			    structure->ElementName,
+			    structure->TypeName);
+	       fprintf(file,"     if(%s%s(eleptr->%s,json_input) == NO_STRUCTURE_CODE)\n",
+			    func,
+			    structure->TypeName,
+			    structure->ElementName);
+	       fprintf(file,"           {\n");
+	       fprintf(file,"           Free(eleptr->%s);\n",
+		       structure->ElementName);
+	       fprintf(file,"           eleptr->%s = 0;\n",
+		       structure->ElementName);
+	       fprintf(file,"           }\n");
+	       fprintf(file,"\n");
+	       }
+	  structure++;
+	  }
+
+     structure = set->Structures;
+     LOOPi(set->NumberOfStructures)
+	  {
+	  if( structure->Pointer == ON &&
+	     structure->Type != TypeFUNCTION &&
+	      structure->Array != NULL)
+	       {
+	       fprintf(file,"          eleptr->%s = AllocArray%s",
+			    structure->ElementName,
+			    structure->TypeName);
+	       fprintf(file,"(eleptr->%s);\n",
+			    structure->Array);
+	       fprintf(file,"          ptr%s = eleptr->%s;\n",
+			    structure->ElementName,
+			    structure->ElementName);
+
+	       fprintf(file,"          LOOPi(eleptr->%s)\n",
+				       structure->Array);
+	       fprintf(file,"               %s%s(ptr%s++,json_input);\n",
+			    func,
+			    structure->TypeName,
+			    structure->ElementName);
+	       fprintf(file,"\n");
+	       }
+	  structure++;
+	  }
+
+     Free(func);
+     fprintf(file,"     return(STRUCTURE_READ);\n");
+     fprintf(file,"     }\n");
+     }
+

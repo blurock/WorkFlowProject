@@ -13,6 +13,12 @@
 #define ReadBinINT(new,file)\
           ReadBin(new,INTSize,file)
 
+#define WriteJSONINT(ptr,json_out)\
+          WriteJSON(ptr,INTSize,json_out)
+
+#define ReadJSONINT(new,json_in)\
+          ReadJSON(new,INTSize,json_in)
+
 #define FLOATSize sizeof(FLOAT)
 #define AllocateFLOAT (FLOAT *) Malloc(FLOATSize)
 #define AllocArrayFLOAT(n) (FLOAT *) Calloc(n,FLOATSize)
@@ -27,6 +33,12 @@
 
 #define ReadBinFLOAT(new,file)\
           ReadBin(new,FLOATSize,file)
+
+#define WriteJSONFLOAT(ptr,json_out)\
+          WriteJSON(ptr,FLOATSize,json_out)
+
+#define ReadJSONFLOAT(new,json_in)\
+          ReadJSON(new,FLOATSize,json_in)
 
 #define CHARSize sizeof(CHAR)
 #define AllocateCHAR (CHAR *) Malloc(CHARSize)
@@ -43,6 +55,12 @@
 #define ReadBinCHAR(new,file)\
           ReadBin(new,CHARSize,file)
 
+#define WriteJSONCHAR(ptr,json_out)\
+          WriteJSON(ptr,CHARSize,json_out)
+
+#define ReadJSONCHAR(new,json_in)\
+          ReadJSON(new,CHARSize,json_in)
+
 #define BYTESize sizeof(BYTE)
 #define AllocateBYTE (BYTE *) Malloc(BYTESize)
 #define AllocArrayBYTE(n) (BYTE *) Calloc(n,BYTESize)
@@ -57,6 +75,12 @@
 
 #define ReadBinBYTE(new,file)\
           ReadBin(new,BYTESize,file)
+
+#define WriteJSONBYTE(ptr,json_out)\
+          WriteJSON(ptr,BYTESize,json_out)
+
+#define ReadJSONBYTE(new,json_in)\
+          ReadJSON(new,BYTESize,json_in)
 
 #define FILESize sizeof(FILE)
 #define AllocateFILE (FILE *) Malloc(FILESize)
@@ -73,6 +97,12 @@
 #define ReadBinFILE(new,file)\
           ReadBin(new,FILESize,file)
 
+#define WriteJSONFILE(ptr,json_out)\
+          WriteJSON(ptr,FILESize,json_out)
+
+#define ReadJSONFILE(new,json_in)\
+          ReadJSON(new,FILESize,json_in)
+
 #define FUNCTIONSize sizeof(FUNCTION)
 #define AllocateFUNCTION (FUNCTION *) Malloc(FUNCTIONSize)
 #define AllocArrayFUNCTION(n) (FUNCTION *) Calloc(n,FUNCTIONSize)
@@ -87,4 +117,11 @@
 
 #define ReadBinFUNCTION(new,file)\
           ReadBin(new,FUNCTIONSize,file)
+
+#define WriteJSONFUNCTION(ptr,json_out)\
+          WriteJSON(ptr,FUNCTIONSize,json_out)
+
+#define ReadJSONFUNCTION(new,json_in)\
+          ReadJSON(new,FUNCTIONSize,json_in)
+
 

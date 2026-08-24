@@ -6,6 +6,10 @@
 # Directory Definitions                              #
 ######################################################
 
+REACTROOT ?= $(shell cd $(dir $(lastword $(MAKEFILE_LIST)))/.. && pwd)
+CCROOT    ?= $(REACTROOT)
+export REACTROOT CCROOT
+
 BACKUPDIR  = $(CCROOT)/backup
 MYLIBDIR   = $(CCROOT)/lib
 BINDIR     = $(CCROOT)/bin

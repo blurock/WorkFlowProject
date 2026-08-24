@@ -6,6 +6,9 @@
 # Directory Definitions                              #
 ######################################################
 SHELL         =/bin/bash
+REACTROOT     ?= $(shell pwd)
+CCROOT        ?= $(shell pwd)
+export REACTROOT CCROOT
 BACKUPDIR     = backup
 REACTLIBDIR   = lib
 BINDIR        = bin
