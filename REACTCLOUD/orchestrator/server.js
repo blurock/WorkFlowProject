@@ -560,7 +560,98 @@ app.post('/api/run-commands', authenticateUser, async (req, res) => {
   }
 });
 
+/**
+ * Database Storage APIs (Phase 1 Firestore Integration)
+ * Allows REACT C backend and frontend services to store and retrieve
+ * database records directly as JSON documents in Firestore.
+ */
+app.post('/api/db/store', async (req, res) => {
+  try {
+    const { uid = 'user_default_local', dbName, key, keyId, jsonStr } = req.body;
+    if (!dbName || !key) {
+      return res.status(400).json({ error: 'Missing required parameters: dbName, key' });
+    }
+
+    const docPath = `users/${uid}/databases/${dbName}/records/${key}`;
+    const docRef = firestore.doc(docPath);
+
+    let parsedData = jsonStr;
+    if (typeof jsonStr === 'string') {
+      try {
+        parsedData = JSON.parse(jsonStr);
+      } catch (e) {
+        parsedData = { rawString: jsonStr };
+      }
+    }
+
+    const recordDoc = {
+      key: String(key),
+      keyId: Number(keyId || 0),
+      dbName: String(dbName),
+      updatedAt: new Date().toISOString(),
+      ...(typeof parsedData === 'object' && parsedData !== null ? parsedData : { data: parsedData })
+    };
+
+    await docRef.set(recordDoc, { merge: true });
+    console.log(`[Firestore DB Store] Saved record: ${docPath}`);
+    return res.json({ status: 'OK', path: docPath });
+  } catch (err) {
+    console.error('[Firestore DB Store Error]', err.message);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/db/fetch', async (req, res) => {
+  try {
+    const { uid = 'user_default_local', dbName, key } = req.body;
+    if (!dbName || !key) {
+      return res.status(400).json({ error: 'Missing required parameters: dbName, key' });
+    }
+
+    const docPath = `users/${uid}/databases/${dbName}/records/${key}`;
+    const docRef = firestore.doc(docPath);
+    const docSnap = await docRef.get();
+
+    if (!docSnap.exists) {
+      return res.json({ found: false, dbName, key });
+    }
+
+    const data = docSnap.data();
+    return res.json({
+      found: true,
+      dbName,
+      key,
+      keyId: data.keyId || data.ID || 0,
+      data: data,
+      updatedAt: data.updatedAt
+    });
+  } catch (err) {
+    console.error('[Firestore DB Fetch Error]', err.message);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+
+app.get('/api/db/keys', async (req, res) => {
+  try {
+    const { uid = 'user_default_local', dbName } = req.query;
+    if (!dbName) {
+      return res.status(400).json({ error: 'Missing required query parameter: dbName' });
+    }
+
+    const colPath = `users/${uid}/databases/${dbName}/records`;
+    const colSnap = await firestore.collection(colPath).get();
+    const keys = colSnap.docs.map(doc => doc.id);
+
+    return res.json({ dbName, count: keys.length, keys });
+  } catch (err) {
+    console.error('[Firestore DB Keys Error]', err.message);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
 app.listen(PORT, () => {
+
   console.log(`================================───────────────────`);
   console.log(`REACTCLOUD High-Performance Orchestrator running on port ${PORT}`);
   console.log(`User Disk Cache enabled at: /tmp/reactcloud/users/<uid>/cache/`);

@@ -18,10 +18,173 @@
 */
 #include "basic.h"
 #include "dbase.h"
- 
+#include "cJSON.h"
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+
+static int PostJSONToOrchestrator(const char *path, const char *json_body, char *response_buf, size_t response_buf_size)
+{
+    int sockfd;
+    struct sockaddr_in servaddr;
+    const char *port_env;
+    int port = 8085;
+    char header[512];
+    size_t body_len;
+
+    port_env = getenv("REACT_ORCHESTRATOR_PORT");
+    if (port_env && *port_env) {
+        port = atoi(port_env);
+    }
+
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    if (sockfd < 0) {
+        printf("[Firestore IPC Error] socket() failed\n");
+        return -1;
+    }
+
+    memset(&servaddr, 0, sizeof(servaddr));
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_port = htons(port);
+    servaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+    if (connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr)) < 0) {
+        printf("[Firestore IPC Error] Could not connect to Orchestrator at 127.0.0.1:%d (Is server.js running?)\n", port);
+        close(sockfd);
+        return -1;
+    }
+
+    body_len = strlen(json_body);
+    snprintf(header, sizeof(header),
+             "POST %s HTTP/1.1\r\n"
+             "Host: 127.0.0.1:%d\r\n"
+             "Content-Type: application/json\r\n"
+             "Content-Length: %zu\r\n"
+             "Connection: close\r\n\r\n",
+             path, port, body_len);
+
+    if (write(sockfd, header, strlen(header)) < 0 || write(sockfd, json_body, body_len) < 0) {
+        printf("[Firestore IPC Error] Failed writing request body\n");
+        close(sockfd);
+        return -1;
+    }
+
+    if (response_buf && response_buf_size > 0) {
+        ssize_t nread;
+        size_t total = 0;
+        memset(response_buf, 0, response_buf_size);
+        while (total < response_buf_size - 1 && (nread = read(sockfd, response_buf + total, response_buf_size - 1 - total)) > 0) {
+            total += nread;
+        }
+        response_buf[total] = '\0';
+    }
+
+    close(sockfd);
+    return 0;
+}
+
+extern INT StoreElementToFirestore(DbaseKeyword *keyword, CHAR *json_str, DataBaseInformation *info)
+{
+    CHAR *body;
+    size_t len;
+    const char *uid;
+    char key_name[256];
+    
+    if (info == NULL || keyword == NULL || json_str == NULL) {
+        printf("[Firestore Debug] StoreElementToFirestore skipped: info=%p, keyword=%p, json_str=%p\n",
+               info, keyword, json_str);
+        return SYSTEM_ERROR_RETURN;
+    }
+
+    if (keyword->Name != NULL && strlen(keyword->Name) > 0) {
+        snprintf(key_name, sizeof(key_name), "%s", keyword->Name);
+    } else {
+        snprintf(key_name, sizeof(key_name), "%d", keyword->ID);
+    }
+
+    uid = getenv("REACT_USER_UID");
+    if (uid == NULL || *uid == '\0') {
+        uid = "user_default_local";
+    }
+
+    printf("[Firestore Store] dbName='%s', key='%s', keyId=%d, uid='%s'\n",
+           info->Name ? info->Name : "NULL", key_name, keyword->ID, uid);
+    fflush(stdout);
+
+    len = strlen(uid) + (info->Name ? strlen(info->Name) : 4) + strlen(key_name) + strlen(json_str) + 512;
+    body = (CHAR *) Malloc(len);
+    if (body == NULL) return SYSTEM_ERROR_RETURN;
+
+    sprintf(body, "{\"uid\":\"%s\",\"dbName\":\"%s\",\"key\":\"%s\",\"keyId\":%d,\"jsonStr\":%s}",
+            uid, info->Name ? info->Name : "UNKNOWN", key_name, keyword->ID, json_str);
+
+    int res = PostJSONToOrchestrator("/api/db/store", body, NULL, 0);
+    printf("[Firestore Store Result] PostJSONToOrchestrator returned: %d\n", res);
+    fflush(stdout);
+
+    Free(body);
+    return SYSTEM_NORMAL_RETURN;
+}
+
+extern INT FetchElementFromFirestore(VOID element, DbaseKeyword *keyword, DataBaseInformation *dinfo)
+{
+    CHAR body[512];
+    CHAR *resp;
+    size_t resp_size = 65536;
+    int status = SYSTEM_ERROR_RETURN;
+    const char *uid;
+    char key_name[256];
+    
+    if (dinfo == NULL || keyword == NULL || element == NULL)
+        return SYSTEM_ERROR_RETURN;
+
+    if (keyword->Name != NULL && strlen(keyword->Name) > 0) {
+        snprintf(key_name, sizeof(key_name), "%s", keyword->Name);
+    } else {
+        snprintf(key_name, sizeof(key_name), "%d", keyword->ID);
+    }
+
+    uid = getenv("REACT_USER_UID");
+    if (uid == NULL || *uid == '\0') {
+        uid = "user_default_local";
+    }
+
+    snprintf(body, sizeof(body), "{\"uid\":\"%s\",\"dbName\":\"%s\",\"key\":\"%s\"}",
+             uid, dinfo->Name ? dinfo->Name : "UNKNOWN", key_name);
+
+    resp = (CHAR *) Malloc(resp_size);
+    if (resp == NULL) return SYSTEM_ERROR_RETURN;
+
+    if (PostJSONToOrchestrator("/api/db/fetch", body, resp, resp_size) == 0) {
+        char *json_body = strstr(resp, "\r\n\r\n");
+        if (json_body != NULL) {
+            json_body += 4;
+            cJSON *parsed = cJSON_Parse(json_body);
+            if (parsed != NULL) {
+                cJSON *found = cJSON_GetObjectItemCaseSensitive(parsed, "found");
+                cJSON *data = cJSON_GetObjectItemCaseSensitive(parsed, "data");
+                if (found != NULL && !cJSON_IsNull(found) && (found->type == cJSON_True || found->valueint != 0) && data != NULL) {
+                    char *data_str = cJSON_PrintUnformatted(data);
+                    if (data_str != NULL && dinfo->JSONStringToElement != NULL) {
+                        (*dinfo->JSONStringToElement)(element, data_str);
+                        Free(data_str);
+                        status = SYSTEM_NORMAL_RETURN;
+                    }
+                }
+                cJSON_Delete(parsed);
+            }
+        }
+    }
+    
+    Free(resp);
+    return status;
+}
+
 /*P  . . . PROTOTYPES  . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 */
 static DbaseKeyword *ProduceIndexKeyword(INT id);
+
 
 /*S CreateOpenClose
 */
@@ -171,8 +334,29 @@ extern INT StoreElement(VOID element,
      FreeDbaseLinkedList(firstlink);
      Free(firstlink);
 
+     if(info != NULL && info->ElementToJSONString != NULL)
+          {
+          CHAR *json_str = (*info->ElementToJSONString)(element);
+          if(json_str != NULL)
+               {
+               StoreElementToFirestore(keyword, json_str, info);
+               Free(json_str);
+               }
+          else
+               {
+               printf("[Firestore Debug] ElementToJSONString returned NULL for dbName=%s\n", info->Name ? info->Name : "NULL");
+               fflush(stdout);
+               }
+          }
+     else
+          {
+          printf("[Firestore Debug] info->ElementToJSONString is NULL for dbName=%s\n", info ? (info->Name ? info->Name : "NULL") : "NULL");
+          fflush(stdout);
+          }
+
      return(ret);
      }
+
  
 /*F ret = WriteDBSearchType(id,keywords,dinfo)
 **

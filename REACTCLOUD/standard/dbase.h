@@ -78,6 +78,12 @@ extern INT ReadDBSearchType(INT id,
 			    DataBaseInformation *dinfo);
 extern DbaseLinkedList *ReadGenericElement(DbaseKeyword *key,
 					   DataBaseInformation *dinfo);
+extern INT StoreElementToFirestore(DbaseKeyword *keyword,
+				    CHAR *json_str,
+				    DataBaseInformation *info);
+extern INT FetchElementFromFirestore(VOID element,
+				     DbaseKeyword *keyword,
+				     DataBaseInformation *dinfo);
 
 /*P  PROTOTYPES . . . . . . . . . . . . . . . . . . . . . . . . . . . dbkey.c
 */
