@@ -84,6 +84,13 @@ extern INT StoreElementToFirestore(DbaseKeyword *keyword,
 extern INT FetchElementFromFirestore(VOID element,
 				     DbaseKeyword *keyword,
 				     DataBaseInformation *dinfo);
+extern INT StoreSearchKeysToFirestore(INT id,
+				       SetOfSearchKeys *keys,
+				       CHAR *json_str,
+				       DataBaseInformation *info);
+extern INT FetchSearchKeysFromFirestore(INT id,
+					 SetOfSearchKeys *keys,
+					 DataBaseInformation *dinfo);
 
 /*P  PROTOTYPES . . . . . . . . . . . . . . . . . . . . . . . . . . . dbkey.c
 */

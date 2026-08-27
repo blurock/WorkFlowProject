@@ -155,6 +155,13 @@ extern cJSON *cJSON_AddArrayToObject(cJSON * const object, const char * const na
 extern void *cJSON_malloc(size_t size);
 extern void cJSON_free(void *object);
 
+extern char *cJSON_Base64Encode(const unsigned char *src, size_t len);
+extern unsigned char *cJSON_Base64Decode(const char *src, size_t *out_len);
+extern int cJSON_IsASCIIBuffer(const char *buf, size_t size);
+extern cJSON *cJSON_CreateFromCharArray(const char *buf, size_t size);
+extern cJSON *cJSON_CreateFromDbaseKeyword(int size, const char *keyword_ptr);
+extern int cJSON_ReadToCharArray(cJSON *item, char **out_buf, int *out_size);
+
 #ifdef __cplusplus
 }
 #endif

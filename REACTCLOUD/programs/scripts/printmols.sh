@@ -12,7 +12,9 @@ set TEMPDIR         = $REACTROOT/tmp
 
 #echo $REACTROOT
 
+pushd $TEMPDIR
 $CHEMPROG test < $INPPRINT >! $TEMPDIR/tmp.out
 grep ": -->" $TEMPDIR/tmp.out
 rm $TEMPDIR/tmp.out
+popd
 echo "EndOfOutput"

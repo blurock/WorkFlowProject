@@ -136,6 +136,7 @@ int main(int argc, char *argv[])
 			       commandfunctions,
 			       source,
 			       bind);
+	 CloseChemDBFiles(bind);
        }
      else
        {

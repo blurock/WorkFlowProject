@@ -1081,8 +1081,10 @@ static void OutputWriteJSONRoutine(StructureSet *set, FILE *file)
     flag = 0;
     LOOPi(set->NumberOfStructures) {
         if (structure->Pointer == ON && structure->Type != TypeFUNCTION && structure->Array != NULL) {
-            fprintf(file, "     %s *ptr%s;\n", structure->TypeName, structure->ElementName);
-            flag = 1;
+            if (!(structure->Type == TypeCHAR || (strcmp(name, "DbaseKeyword") == 0 && strcmp(structure->ElementName, "KeyWord") == 0))) {
+                fprintf(file, "     %s *ptr%s;\n", structure->TypeName, structure->ElementName);
+                flag = 1;
+            }
         }
         structure++;
     }
@@ -1154,15 +1156,28 @@ static void OutputWriteJSONRoutine(StructureSet *set, FILE *file)
     structure = set->Structures;
     LOOPi(set->NumberOfStructures) {
         if (structure->Type != -1 && structure->Type != TypeFUNCTION && structure->Array != NULL) {
-            fprintf(file, "     if(eleptr->%s != NULL)\n", structure->ElementName);
-            fprintf(file, "          {\n");
-            fprintf(file, "          arr = cJSON_CreateArray();\n");
-            fprintf(file, "          ptr%s = eleptr->%s;\n", structure->ElementName, structure->ElementName);
-            fprintf(file, "          LOOPi(eleptr->%s)\n", structure->Array);
-            fprintf(file, "               cJSON_AddItemToArray(arr, WriteJSON%s(ptr%s++));\n",
-                    structure->TypeName, structure->ElementName);
-            fprintf(file, "          cJSON_AddItemToObject(obj, \"%s\", arr);\n", structure->ElementName);
-            fprintf(file, "          }\n");
+            if (strcmp(name, "DbaseKeyword") == 0 && strcmp(structure->ElementName, "KeyWord") == 0) {
+                fprintf(file, "     if(eleptr->KeyWord != NULL)\n");
+                fprintf(file, "          cJSON_AddItemToObject(obj, \"KeyWord\", cJSON_CreateFromDbaseKeyword(eleptr->Size, eleptr->KeyWord));\n");
+                fprintf(file, "     else\n");
+                fprintf(file, "          cJSON_AddNullToObject(obj, \"KeyWord\");\n");
+            } else if (structure->Type == TypeCHAR) {
+                fprintf(file, "     if(eleptr->%s != NULL)\n", structure->ElementName);
+                fprintf(file, "          cJSON_AddItemToObject(obj, \"%s\", cJSON_CreateFromCharArray(eleptr->%s, eleptr->%s));\n",
+                        structure->ElementName, structure->ElementName, structure->Array);
+                fprintf(file, "     else\n");
+                fprintf(file, "          cJSON_AddNullToObject(obj, \"%s\");\n", structure->ElementName);
+            } else {
+                fprintf(file, "     if(eleptr->%s != NULL)\n", structure->ElementName);
+                fprintf(file, "          {\n");
+                fprintf(file, "          arr = cJSON_CreateArray();\n");
+                fprintf(file, "          ptr%s = eleptr->%s;\n", structure->ElementName, structure->ElementName);
+                fprintf(file, "          LOOPi(eleptr->%s)\n", structure->Array);
+                fprintf(file, "               cJSON_AddItemToArray(arr, WriteJSON%s(ptr%s++));\n",
+                        structure->TypeName, structure->ElementName);
+                fprintf(file, "          cJSON_AddItemToObject(obj, \"%s\", arr);\n", structure->ElementName);
+                fprintf(file, "          }\n");
+            }
         }
         structure++;
     }
@@ -1220,8 +1235,10 @@ static void OutputReadJSONRoutine(StructureSet *set, FILE *file)
     flag = 0;
     LOOPi(set->NumberOfStructures) {
         if (structure->Pointer == ON && structure->Type != TypeFUNCTION && structure->Array != NULL) {
-            fprintf(file, "     %s *ptr%s;\n", structure->TypeName, structure->ElementName);
-            flag = 1;
+            if (structure->Type != TypeCHAR) {
+                fprintf(file, "     %s *ptr%s;\n", structure->TypeName, structure->ElementName);
+                flag = 1;
+            }
         }
         structure++;
     }
@@ -1282,17 +1299,25 @@ static void OutputReadJSONRoutine(StructureSet *set, FILE *file)
     LOOPi(set->NumberOfStructures) {
         if (structure->Type != -1 && structure->Type != TypeFUNCTION && structure->Array != NULL) {
             fprintf(file, "     item = cJSON_GetObjectItemCaseSensitive(json_obj, \"%s\");\n", structure->ElementName);
-            fprintf(file, "     if(cJSON_IsArray(item))\n");
-            fprintf(file, "          {\n");
-            fprintf(file, "          eleptr->%s = cJSON_GetArraySize(item);\n", structure->Array);
-            fprintf(file, "          eleptr->%s = AllocArray%s(eleptr->%s);\n",
-                    structure->ElementName, structure->TypeName, structure->Array);
-            fprintf(file, "          ptr%s = eleptr->%s;\n", structure->ElementName, structure->ElementName);
-            fprintf(file, "          cJSON_ArrayForEach(arr_item, item)\n");
-            fprintf(file, "               {\n");
-            fprintf(file, "               ReadJSON%s(ptr%s++, arr_item);\n", structure->TypeName, structure->ElementName);
-            fprintf(file, "               }\n");
-            fprintf(file, "          }\n");
+            if (structure->Type == TypeCHAR) {
+                fprintf(file, "     if(item != NULL && !cJSON_IsNull(item))\n");
+                fprintf(file, "          {\n");
+                fprintf(file, "          cJSON_ReadToCharArray(item, &eleptr->%s, &eleptr->%s);\n",
+                        structure->ElementName, structure->Array);
+                fprintf(file, "          }\n");
+            } else {
+                fprintf(file, "     if(cJSON_IsArray(item))\n");
+                fprintf(file, "          {\n");
+                fprintf(file, "          eleptr->%s = cJSON_GetArraySize(item);\n", structure->Array);
+                fprintf(file, "          eleptr->%s = AllocArray%s(eleptr->%s);\n",
+                        structure->ElementName, structure->TypeName, structure->Array);
+                fprintf(file, "          ptr%s = eleptr->%s;\n", structure->ElementName, structure->ElementName);
+                fprintf(file, "          cJSON_ArrayForEach(arr_item, item)\n");
+                fprintf(file, "               {\n");
+                fprintf(file, "               ReadJSON%s(ptr%s++, arr_item);\n", structure->TypeName, structure->ElementName);
+                fprintf(file, "               }\n");
+                fprintf(file, "          }\n");
+            }
         }
         structure++;
     }

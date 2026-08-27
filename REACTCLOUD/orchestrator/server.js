@@ -562,6 +562,70 @@ app.post('/api/run-commands', authenticateUser, async (req, res) => {
 
 /**
  * Database Storage APIs (Phase 1 Firestore Integration)
+ */
+function convertBytesObjectsToBlobs(val) {
+  if (val === null || val === undefined) return val;
+
+  if (typeof val === 'object') {
+    if (!Array.isArray(val) && val._type === 'bytes' && typeof val.base64 === 'string') {
+      try {
+        const buf = Buffer.from(val.base64, 'base64');
+        if (admin.firestore && admin.firestore.Blob) {
+          return admin.firestore.Blob.fromBuffer(buf);
+        } else if (Firestore.Blob) {
+          return Firestore.Blob.fromBuffer(buf);
+        }
+      } catch (e) {
+        console.warn('[Orchestrator Blob conversion failed]', e.message);
+      }
+    }
+
+    if (Array.isArray(val)) {
+      return val.map(convertBytesObjectsToBlobs);
+    }
+
+    const newObj = {};
+    for (const key of Object.keys(val)) {
+      newObj[key] = convertBytesObjectsToBlobs(val[key]);
+    }
+    return newObj;
+  }
+
+  return val;
+}
+
+function convertBlobsToBytesObjects(val) {
+  if (val === null || val === undefined) return val;
+
+  if (typeof val === 'object') {
+    if (val.constructor && val.constructor.name === 'Blob' && typeof val.toBase64 === 'function') {
+      return {
+        _type: 'bytes',
+        base64: val.toBase64()
+      };
+    }
+    if (val.toBase64 && typeof val.toBase64 === 'function') {
+      return {
+        _type: 'bytes',
+        base64: val.toBase64()
+      };
+    }
+
+    if (Array.isArray(val)) {
+      return val.map(convertBlobsToBytesObjects);
+    }
+
+    const newObj = {};
+    for (const key of Object.keys(val)) {
+      newObj[key] = convertBlobsToBytesObjects(val[key]);
+    }
+    return newObj;
+  }
+
+  return val;
+}
+
+/**
  * Allows REACT C backend and frontend services to store and retrieve
  * database records directly as JSON documents in Firestore.
  */
@@ -584,6 +648,8 @@ app.post('/api/db/store', async (req, res) => {
       }
     }
 
+    parsedData = convertBytesObjectsToBlobs(parsedData);
+
     const recordDoc = {
       key: String(key),
       keyId: Number(keyId || 0),
@@ -603,30 +669,128 @@ app.post('/api/db/store', async (req, res) => {
 
 app.post('/api/db/fetch', async (req, res) => {
   try {
-    const { uid = 'user_default_local', dbName, key } = req.body;
-    if (!dbName || !key) {
+    const { uid = 'user_default_local', dbName, type, key } = req.body;
+    if (!dbName || key === undefined || key === null) {
       return res.status(400).json({ error: 'Missing required parameters: dbName, key' });
     }
 
-    const docPath = `users/${uid}/databases/${dbName}/records/${key}`;
-    const docRef = firestore.doc(docPath);
-    const docSnap = await docRef.get();
+    const isInt = type === 'int' || (typeof key === 'number') || (type !== 'string' && !isNaN(key) && Number.isInteger(Number(key)));
+    const keyStr = String(key);
+    const keyNum = Number(key);
 
-    if (!docSnap.exists) {
-      return res.json({ found: false, dbName, key });
+    const colRef = firestore.collection(`users/${uid}/databases/${dbName}/records`);
+
+    let docData = null;
+
+    // 1. Direct document ID lookup
+    const directRef = colRef.doc(keyStr);
+    const directSnap = await directRef.get();
+    if (directSnap.exists) {
+      docData = directSnap.data();
+    } else {
+      // 2. Query collection based on type
+      if (isInt) {
+        let querySnap = await colRef.where('ID', '==', keyNum).get();
+        if (querySnap.empty) {
+          querySnap = await colRef.where('keyId', '==', keyNum).get();
+        }
+        if (!querySnap.empty) {
+          docData = querySnap.docs[0].data();
+        }
+      } else {
+        let querySnap = await colRef.where('Name', '==', keyStr).get();
+        if (querySnap.empty) {
+          querySnap = await colRef.where('key', '==', keyStr).get();
+        }
+        if (!querySnap.empty) {
+          docData = querySnap.docs[0].data();
+        }
+      }
     }
 
-    const data = docSnap.data();
+    if (!docData) {
+      return res.json({ found: false, dbName, key, type });
+    }
+
+    const data = convertBlobsToBytesObjects(docData);
     return res.json({
       found: true,
       dbName,
       key,
+      type,
       keyId: data.keyId || data.ID || 0,
       data: data,
       updatedAt: data.updatedAt
     });
   } catch (err) {
     console.error('[Firestore DB Fetch Error]', err.message);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+
+app.post('/api/db/storeSearchKeys', async (req, res) => {
+  try {
+    const { uid = 'user_default_local', dbName, keyId = 0, jsonStr } = req.body;
+    if (!dbName) {
+      return res.status(400).json({ error: 'Missing required parameter: dbName' });
+    }
+
+    const docPath = `users/${uid}/searchkeys/${dbName}`;
+    const docRef = firestore.doc(docPath);
+
+    let parsedData = jsonStr;
+    if (typeof jsonStr === 'string') {
+      try {
+        parsedData = JSON.parse(jsonStr);
+      } catch (e) {
+        parsedData = { rawString: jsonStr };
+      }
+    }
+
+    parsedData = convertBytesObjectsToBlobs(parsedData);
+
+    const searchKeysDoc = {
+      dbName: String(dbName),
+      updatedAt: new Date().toISOString(),
+      keyId: Number(keyId),
+      data: parsedData,
+      [`searchKeys_${keyId}`]: parsedData
+    };
+
+    await docRef.set(searchKeysDoc, { merge: true });
+    console.log(`[Firestore SearchKeys Store] Saved search keys doc: ${docPath}`);
+    return res.json({ status: 'OK', path: docPath });
+  } catch (err) {
+    console.error('[Firestore SearchKeys Store Error]', err.message);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/db/fetchSearchKeys', async (req, res) => {
+  try {
+    const { uid = 'user_default_local', dbName } = req.body;
+    if (!dbName) {
+      return res.status(400).json({ error: 'Missing required parameter: dbName' });
+    }
+
+    const docPath = `users/${uid}/searchkeys/${dbName}`;
+    const docRef = firestore.doc(docPath);
+    const docSnap = await docRef.get();
+
+    if (!docSnap.exists) {
+      return res.json({ found: false, dbName });
+    }
+
+    const data = convertBlobsToBytesObjects(docSnap.data());
+    return res.json({
+      found: true,
+      dbName,
+      data: data,
+      updatedAt: data.updatedAt
+    });
+  } catch (err) {
+    console.error('[Firestore SearchKeys Fetch Error]', err.message);
     return res.status(500).json({ error: err.message });
   }
 });

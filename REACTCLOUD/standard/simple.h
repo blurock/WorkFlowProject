@@ -56,7 +56,7 @@
           ReadBin(new,CHARSize,file)
 
 #define WriteJSONCHAR(ptr)\
-          cJSON_CreateString(ptr)
+          ((ptr) ? cJSON_CreateString((char[]){*(ptr), '\0'}) : cJSON_CreateNull())
 
 #define ReadJSONCHAR(new,json_item)\
           if(cJSON_IsString(json_item) && (json_item)->valuestring) *(new) = (json_item)->valuestring[0]

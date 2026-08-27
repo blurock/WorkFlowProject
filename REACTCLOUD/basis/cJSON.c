@@ -512,3 +512,205 @@ cJSON *cJSON_AddArrayToObject(cJSON * const object, const char * const name) {
     cJSON_Delete(array_item);
     return NULL;
 }
+
+char *cJSON_Base64Encode(const unsigned char *src, size_t len) {
+    static const char b64table[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    size_t out_len;
+    char *out;
+    size_t i, j;
+
+    if (!src || len == 0) return NULL;
+    out_len = 4 * ((len + 2) / 3);
+    out = (char *)cJSON_malloc(out_len + 1);
+    if (!out) return NULL;
+
+    for (i = 0, j = 0; i < len;) {
+        uint32_t octet_a = i < len ? src[i++] : 0;
+        uint32_t octet_b = i < len ? src[i++] : 0;
+        uint32_t octet_c = i < len ? src[i++] : 0;
+        uint32_t triple = (octet_a << 16) | (octet_b << 8) | octet_c;
+
+        out[j++] = b64table[(triple >> 18) & 0x3F];
+        out[j++] = b64table[(triple >> 12) & 0x3F];
+        out[j++] = (i > len + 1) ? '=' : b64table[(triple >> 6) & 0x3F];
+        out[j++] = (i > len) ? '=' : b64table[triple & 0x3F];
+    }
+    out[j] = '\0';
+    return out;
+}
+
+int cJSON_IsASCIIBuffer(const char *buf, size_t size) {
+    size_t i;
+    if (!buf || size == 0) return 0;
+    for (i = 0; i < size; i++) {
+        unsigned char c = (unsigned char)buf[i];
+        if (c == 0) break;
+        if (c < 9 || (c > 13 && c < 32) || c > 126) return 0;
+    }
+    return 1;
+}
+
+cJSON *cJSON_CreateFromCharArray(const char *buf, size_t size) {
+    if (!buf || size == 0) return cJSON_CreateNull();
+    if (cJSON_IsASCIIBuffer(buf, size)) {
+        size_t str_len = 0;
+        while (str_len < size && buf[str_len] != '\0') str_len++;
+        char *str = (char *)cJSON_malloc(str_len + 1);
+        if (str) {
+            memcpy(str, buf, str_len);
+            str[str_len] = '\0';
+            cJSON *item = cJSON_CreateString(str);
+            cJSON_free(str);
+            return item;
+        }
+    }
+    {
+        char *b64 = cJSON_Base64Encode((const unsigned char *)buf, size);
+        if (!b64) return cJSON_CreateNull();
+        cJSON *obj = cJSON_CreateObject();
+        cJSON_AddStringToObject(obj, "_type", "bytes");
+        cJSON_AddStringToObject(obj, "base64", b64);
+        cJSON_free(b64);
+        return obj;
+    }
+}
+
+cJSON *cJSON_CreateFromDbaseKeyword(int size, const char *keyword_ptr) {
+    if (!keyword_ptr || size <= 0) return cJSON_CreateNull();
+
+    if (cJSON_IsASCIIBuffer(keyword_ptr, (size_t)size)) {
+        size_t str_len = 0;
+        while (str_len < (size_t)size && keyword_ptr[str_len] != '\0') str_len++;
+        if (str_len > 0) {
+            char *str = (char *)cJSON_malloc(str_len + 1);
+            if (str) {
+                memcpy(str, keyword_ptr, str_len);
+                str[str_len] = '\0';
+                cJSON *item = cJSON_CreateString(str);
+                cJSON_free(str);
+                return item;
+            }
+        }
+    }
+
+    if (size == sizeof(int)) {
+        int val;
+        memcpy(&val, keyword_ptr, sizeof(int));
+        return cJSON_CreateNumber((double)val);
+    }
+
+    {
+        char *b64 = cJSON_Base64Encode((const unsigned char *)keyword_ptr, (size_t)size);
+        if (!b64) return cJSON_CreateNull();
+        cJSON *obj = cJSON_CreateObject();
+        cJSON_AddStringToObject(obj, "_type", "bytes");
+        cJSON_AddStringToObject(obj, "base64", b64);
+        cJSON_free(b64);
+        return obj;
+    }
+}
+
+
+static unsigned char b64index[256] = { 0 };
+static int b64init = 0;
+
+static void init_b64index(void) {
+    if (b64init) return;
+    memset(b64index, 0x80, sizeof(b64index));
+    {
+        const char *b64table = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+        int i;
+        for (i = 0; i < 64; i++) b64index[(unsigned char)b64table[i]] = (unsigned char)i;
+    }
+    b64init = 1;
+}
+
+unsigned char *cJSON_Base64Decode(const char *src, size_t *out_len) {
+    size_t len, alloc_len, out_idx, i;
+    unsigned char *out;
+    uint32_t buf = 0;
+    int bits = 0;
+
+    if (!src) return NULL;
+    len = strlen(src);
+    if (len == 0) return NULL;
+
+    init_b64index();
+
+    alloc_len = (len * 3) / 4 + 4;
+    out = (unsigned char *)cJSON_malloc(alloc_len);
+    if (!out) return NULL;
+
+    out_idx = 0;
+    for (i = 0; i < len; i++) {
+        unsigned char c = (unsigned char)src[i];
+        if (c == '=') break;
+        if (c > 127 || b64index[c] == 0x80) continue;
+
+        buf = (buf << 6) | b64index[c];
+        bits += 6;
+        if (bits >= 8) {
+            bits -= 8;
+            out[out_idx++] = (unsigned char)((buf >> bits) & 0xFF);
+        }
+    }
+
+    if (out_len) *out_len = out_idx;
+    return out;
+}
+
+int cJSON_ReadToCharArray(cJSON *item, char **out_buf, int *out_size) {
+    if (!item || !out_buf || !out_size) return 0;
+
+    if (cJSON_IsString(item) && item->valuestring != NULL) {
+        size_t len = strlen(item->valuestring) + 1;
+        char *buf = (char *)cJSON_malloc(len);
+        if (!buf) return 0;
+        memcpy(buf, item->valuestring, len);
+        *out_buf = buf;
+        *out_size = (int)len;
+        return 1;
+    }
+
+    if (cJSON_IsNumber(item)) {
+        int val = (int)item->valuedouble;
+        char *buf = (char *)cJSON_malloc(sizeof(int));
+        if (!buf) return 0;
+        memcpy(buf, &val, sizeof(int));
+        *out_buf = buf;
+        *out_size = (int)sizeof(int);
+        return 1;
+    }
+
+    if (cJSON_IsObject(item)) {
+        cJSON *b64_item = cJSON_GetObjectItemCaseSensitive(item, "base64");
+        if (cJSON_IsString(b64_item) && b64_item->valuestring != NULL) {
+            size_t dec_len = 0;
+            unsigned char *decoded = cJSON_Base64Decode(b64_item->valuestring, &dec_len);
+            if (decoded) {
+                *out_buf = (char *)decoded;
+                *out_size = (int)dec_len;
+                return 1;
+            }
+        }
+    }
+
+    if (cJSON_IsArray(item)) {
+        int count = cJSON_GetArraySize(item);
+        if (count <= 0) return 0;
+        char *buf = (char *)cJSON_malloc((size_t)count);
+        if (!buf) return 0;
+        int i = 0;
+        cJSON *arr_item;
+        cJSON_ArrayForEach(arr_item, item) {
+            if (cJSON_IsNumber(arr_item)) buf[i++] = (char)arr_item->valueint;
+            else if (cJSON_IsString(arr_item) && arr_item->valuestring) buf[i++] = arr_item->valuestring[0];
+            else buf[i++] = 0;
+        }
+        *out_buf = buf;
+        *out_size = count;
+        return 1;
+    }
+
+    return 0;
+}

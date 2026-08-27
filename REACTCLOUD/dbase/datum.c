@@ -129,29 +129,48 @@ extern INT StoreElementToFirestore(DbaseKeyword *keyword, CHAR *json_str, DataBa
 
 extern INT FetchElementFromFirestore(VOID element, DbaseKeyword *keyword, DataBaseInformation *dinfo)
 {
-    CHAR body[512];
+    CHAR body[1024];
     CHAR *resp;
     size_t resp_size = 65536;
     int status = SYSTEM_ERROR_RETURN;
     const char *uid;
-    char key_name[256];
+    int is_processed = 0;
     
     if (dinfo == NULL || keyword == NULL || element == NULL)
         return SYSTEM_ERROR_RETURN;
-
-    if (keyword->Name != NULL && strlen(keyword->Name) > 0) {
-        snprintf(key_name, sizeof(key_name), "%s", keyword->Name);
-    } else {
-        snprintf(key_name, sizeof(key_name), "%d", keyword->ID);
-    }
 
     uid = getenv("REACT_USER_UID");
     if (uid == NULL || *uid == '\0') {
         uid = "user_default_local";
     }
 
-    snprintf(body, sizeof(body), "{\"uid\":\"%s\",\"dbName\":\"%s\",\"key\":\"%s\"}",
-             uid, dinfo->Name ? dinfo->Name : "UNKNOWN", key_name);
+    if (keyword->KeyWord != NULL && keyword->Size > 0) {
+        if (keyword->Size == sizeof(int) && !cJSON_IsASCIIBuffer(keyword->KeyWord, (size_t)keyword->Size)) {
+            int key_val;
+            memcpy(&key_val, keyword->KeyWord, sizeof(int));
+            snprintf(body, sizeof(body), "{\"uid\":\"%s\",\"dbName\":\"%s\",\"type\":\"int\",\"key\":%d}",
+                     uid, dinfo->Name ? dinfo->Name : "UNKNOWN", key_val);
+            is_processed = 1;
+        } else {
+            snprintf(body, sizeof(body), "{\"uid\":\"%s\",\"dbName\":\"%s\",\"type\":\"string\",\"key\":\"%s\"}",
+                     uid, dinfo->Name ? dinfo->Name : "UNKNOWN", (char *)keyword->KeyWord);
+            is_processed = 1;
+        }
+    }
+
+
+
+
+
+    if (!is_processed) {
+        if (keyword->Name != NULL && strlen(keyword->Name) > 0) {
+            snprintf(body, sizeof(body), "{\"uid\":\"%s\",\"dbName\":\"%s\",\"type\":\"string\",\"key\":\"%s\"}",
+                     uid, dinfo->Name ? dinfo->Name : "UNKNOWN", keyword->Name);
+        } else {
+            snprintf(body, sizeof(body), "{\"uid\":\"%s\",\"dbName\":\"%s\",\"type\":\"int\",\"key\":%d}",
+                     uid, dinfo->Name ? dinfo->Name : "UNKNOWN", keyword->ID);
+        }
+    }
 
     resp = (CHAR *) Malloc(resp_size);
     if (resp == NULL) return SYSTEM_ERROR_RETURN;
@@ -168,7 +187,96 @@ extern INT FetchElementFromFirestore(VOID element, DbaseKeyword *keyword, DataBa
                     char *data_str = cJSON_PrintUnformatted(data);
                     if (data_str != NULL && dinfo->JSONStringToElement != NULL) {
                         (*dinfo->JSONStringToElement)(element, data_str);
-                        Free(data_str);
+                        cJSON_free(data_str);
+                        status = SYSTEM_NORMAL_RETURN;
+                    }
+                }
+                cJSON_Delete(parsed);
+            }
+        }
+    }
+    
+    Free(resp);
+    return status;
+}
+
+
+extern INT StoreSearchKeysToFirestore(INT id, SetOfSearchKeys *keys, CHAR *json_str, DataBaseInformation *info)
+{
+    CHAR *body;
+    size_t len;
+    const char *uid;
+    
+    if (info == NULL || keys == NULL || json_str == NULL) {
+        printf("[Firestore Debug] StoreSearchKeysToFirestore skipped: info=%p, keys=%p, json_str=%p\n",
+               info, keys, json_str);
+        return SYSTEM_ERROR_RETURN;
+    }
+
+    uid = getenv("REACT_USER_UID");
+    if (uid == NULL || *uid == '\0') {
+        uid = "user_default_local";
+    }
+
+    printf("[Firestore SearchKeys Store] dbName='%s', id=%d, uid='%s'\n",
+           info->Name ? info->Name : "NULL", id, uid);
+    fflush(stdout);
+
+    len = strlen(uid) + (info->Name ? strlen(info->Name) : 4) + strlen(json_str) + 512;
+    body = (CHAR *) Malloc(len);
+    if (body == NULL) return SYSTEM_ERROR_RETURN;
+
+    sprintf(body, "{\"uid\":\"%s\",\"dbName\":\"%s\",\"keyId\":%d,\"jsonStr\":%s}",
+            uid, info->Name ? info->Name : "UNKNOWN", id, json_str);
+
+    int res = PostJSONToOrchestrator("/api/db/storeSearchKeys", body, NULL, 0);
+    printf("[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: %d\n", res);
+    fflush(stdout);
+
+    Free(body);
+    return SYSTEM_NORMAL_RETURN;
+}
+
+extern INT FetchSearchKeysFromFirestore(INT id, SetOfSearchKeys *keys, DataBaseInformation *dinfo)
+{
+    CHAR body[512];
+    CHAR *resp;
+    size_t resp_size = 65536;
+    int status = SYSTEM_ERROR_RETURN;
+    const char *uid;
+    
+    if (dinfo == NULL || keys == NULL)
+        return SYSTEM_ERROR_RETURN;
+
+    uid = getenv("REACT_USER_UID");
+    if (uid == NULL || *uid == '\0') {
+        uid = "user_default_local";
+    }
+
+    snprintf(body, sizeof(body), "{\"uid\":\"%s\",\"dbName\":\"%s\",\"keyId\":%d}",
+             uid, dinfo->Name ? dinfo->Name : "UNKNOWN", id);
+
+    resp = (CHAR *) Malloc(resp_size);
+    if (resp == NULL) return SYSTEM_ERROR_RETURN;
+
+    if (PostJSONToOrchestrator("/api/db/fetchSearchKeys", body, resp, resp_size) == 0) {
+        char *json_body = strstr(resp, "\r\n\r\n");
+        if (json_body != NULL) {
+            json_body += 4;
+            cJSON *parsed = cJSON_Parse(json_body);
+            if (parsed != NULL) {
+                cJSON *found = cJSON_GetObjectItemCaseSensitive(parsed, "found");
+                cJSON *data = cJSON_GetObjectItemCaseSensitive(parsed, "data");
+                if (found != NULL && !cJSON_IsNull(found) && (found->type == cJSON_True || found->valueint != 0) && data != NULL) {
+                    char key_field[64];
+                    snprintf(key_field, sizeof(key_field), "searchKeys_%d", id);
+                    cJSON *searchKeysData = cJSON_GetObjectItemCaseSensitive(data, key_field);
+                    if (searchKeysData == NULL) searchKeysData = cJSON_GetObjectItemCaseSensitive(data, "data");
+                    if (searchKeysData == NULL) searchKeysData = data;
+                    char *data_str = cJSON_PrintUnformatted(searchKeysData);
+                    if (data_str != NULL) {
+                        ReadJSONSetOfSearchKeysFromString(keys, data_str);
+                        cJSON_free(data_str);
                         status = SYSTEM_NORMAL_RETURN;
                     }
                 }
@@ -286,7 +394,11 @@ extern INT OpenDataBase(DataBaseInformation *info)
 */
 extern INT CloseDataBase(DataBaseInformation *info)
      {
-     gdbm_close((GDBM_FILE) info->File);
+     if (info != NULL && info->File != NULL)
+	  {
+	  gdbm_close((GDBM_FILE) info->File);
+	  info->File = NULL;
+	  }
 
      return(SYSTEM_NORMAL_RETURN);
      }
@@ -340,7 +452,7 @@ extern INT StoreElement(VOID element,
           if(json_str != NULL)
                {
                StoreElementToFirestore(keyword, json_str, info);
-               Free(json_str);
+               cJSON_free(json_str);
                }
           else
                {
@@ -403,16 +515,38 @@ extern INT WriteDBSearchType(INT id,
      
      datset = MakeDatumElement(firstlink);
      
-     ret = gdbm_store((GDBM_FILE) dinfo->File,
+     if (dinfo != NULL && dinfo->File != NULL)
+          {
+          ret = gdbm_store((GDBM_FILE) dinfo->File,
 		      *key,
 		      *datset,
 		      (int) GDBM_REPLACE);
+          }
+     else
+          {
+          ret = SYSTEM_NORMAL_RETURN;
+          }
      
      Free(datset->dptr);
      Free(datset);
      Free(indexkey);
      FreeDbaseLinkedList(firstlink);
      Free(firstlink);
+
+     if (keys != NULL && dinfo != NULL)
+          {
+          CHAR *json_str = WriteJSONSetOfSearchKeysToString(keys);
+          if (json_str != NULL)
+               {
+               StoreSearchKeysToFirestore(id, keys, json_str, dinfo);
+               cJSON_free(json_str);
+               }
+          else
+               {
+               printf("[Firestore Debug] WriteJSONSetOfSearchKeysToString returned NULL for dbName=%s\n", dinfo->Name ? dinfo->Name : "NULL");
+               fflush(stdout);
+               }
+          }
 
      return(ret);
      }
@@ -437,16 +571,26 @@ extern INT FetchElement(VOID element,
 			DbaseKeyword *keyword,
 			DataBaseInformation *dinfo)
      {
+     INT ret;
+     
+     /* GDBM reference implementation
      datum key, datset;
      DbaseLinkedList *link;
-     INT ret;
      
      ret = SYSTEM_NORMAL_RETURN;
      key.dsize = keyword->Size;
      key.dptr  = keyword->KeyWord;
      
-     datset = gdbm_fetch((GDBM_FILE) dinfo->File,
+     if (dinfo != NULL && dinfo->File != NULL)
+	  {
+	  datset = gdbm_fetch((GDBM_FILE) dinfo->File,
 			key);
+	  }
+     else
+	  {
+	  datset.dsize = 0;
+	  datset.dptr = NULL;
+	  }
      
      if(datset.dsize != 0)
 	  {
@@ -463,13 +607,26 @@ extern INT FetchElement(VOID element,
 	  }
      else
 	  {
+	  ret = FetchElementFromFirestore(element, keyword, dinfo);
+	  if (ret != SYSTEM_NORMAL_RETURN)
+	       {
+	       Error(0,"Element Not Found");
+	       ret = SYSTEM_ERROR_RETURN;
+	       }
+	  }
+     */
+
+     ret = FetchElementFromFirestore(element, keyword, dinfo);
+     if (ret != SYSTEM_NORMAL_RETURN)
+	  {
 	  Error(0,"Element Not Found");
 	  ret = SYSTEM_ERROR_RETURN;
 	  }
      
-     
      return(ret);
      }
+
+
 
  
 /*F ret = ReadDBSearchType(id,keys,dinfo)
@@ -508,8 +665,16 @@ extern INT ReadDBSearchType(INT id,
      key.dsize = indexkey->Size;
      key.dptr  = indexkey->KeyWord;
      
-     datset = gdbm_fetch((GDBM_FILE) dinfo->File,
+     if (dinfo != NULL && dinfo->File != NULL)
+	  {
+	  datset = gdbm_fetch((GDBM_FILE) dinfo->File,
 			key);
+	  }
+     else
+	  {
+	  datset.dsize = 0;
+	  datset.dptr = NULL;
+	  }
      
      if(datset.dsize != 0)
 	  {
@@ -522,16 +687,34 @@ extern INT ReadDBSearchType(INT id,
 	  memcpy(link->Element,datset.dptr,(unsigned int) datset.dsize);
 	  ReadBinSetOfSearchKeys(keys,link);
 	  
+	  printf("[GDBM SearchKeys Read] dbName='%s', id=%d: ReadBinSetOfSearchKeys loaded %d keys from GDBM (datset.dsize=%d)\n",
+		 dinfo && dinfo->Name ? dinfo->Name : "NULL", id, keys ? keys->NumberOfKeys : -1, datset.dsize);
+	  fflush(stdout);
+
 	  FreeDbaseLinkedList(link);
 	  Free(link);
 	  }
      else
 	  {
-	  string = AllocateString(LINELENGTH);
-	  sprintf(string,"No Keys for %s\n",dinfo->Name);
-	  Error(0,string);
-	  Free(string);
-	  ret = SYSTEM_ERROR_RETURN;
+	  printf("[GDBM SearchKeys Read] dbName='%s', id=%d: GDBM key not found or empty (datset.dsize=0). Querying Firestore...\n",
+		 dinfo && dinfo->Name ? dinfo->Name : "NULL", id);
+	  fflush(stdout);
+
+	  ret = FetchSearchKeysFromFirestore(id, keys, dinfo);
+	  if (ret != SYSTEM_NORMAL_RETURN)
+	       {
+	       string = AllocateString(LINELENGTH);
+	       sprintf(string,"No Keys for %s\n",dinfo->Name);
+	       Error(0,string);
+	       Free(string);
+	       ret = SYSTEM_ERROR_RETURN;
+	       }
+	  else
+	       {
+	       printf("[Firestore SearchKeys Read] dbName='%s', id=%d: FetchSearchKeysFromFirestore loaded %d keys from Firestore\n",
+		      dinfo && dinfo->Name ? dinfo->Name : "NULL", id, keys ? keys->NumberOfKeys : -1);
+	       fflush(stdout);
+	       }
 	  }
      
      return(ret);
@@ -591,6 +774,20 @@ static DbaseKeyword *ProduceIndexKeyword(INT id)
 **  HEADERFILE
 **
 */
+static SetOfSearchKeys *GetFallbackSearchKeys(DataBaseInformation *info) {
+    SearchKeyInfo *keytype;
+    INT i;
+    if (info == NULL || info->Keys == NULL) return NULL;
+    keytype = info->Keys->KeyTypes;
+    LOOPi(info->Keys->NumberOfKeyTypes) {
+        if (keytype != NULL && keytype->Keys != NULL && keytype->Keys->NumberOfKeys > 0) {
+            return keytype->Keys;
+        }
+        keytype++;
+    }
+    return NULL;
+}
+
 extern INT FetchFirstElement(VOID element,
 			     DbaseKeyword *keyword,
 			     DataBaseInformation *info)
@@ -600,7 +797,15 @@ extern INT FetchFirstElement(VOID element,
      INT ret;
      
      ret = SYSTEM_NORMAL_RETURN;
-     key = gdbm_firstkey((GDBM_FILE) info->File);
+     if (info != NULL && info->File != NULL)
+	  {
+	  key = gdbm_firstkey((GDBM_FILE) info->File);
+	  }
+     else
+	  {
+	  key.dptr = 0;
+	  key.dsize = 0;
+	  }
 
      if(key.dptr != 0)
 	  {
@@ -624,13 +829,27 @@ extern INT FetchFirstElement(VOID element,
 	  
 	  FreeDbaseLinkedList(link);
 	  Free(link);
-	  }
-     else
-	  ret = SYSTEM_ERROR_RETURN;
-     
-     CreateDbaseKeyword(keyword,0,0,
+	  CreateDbaseKeyword(keyword,0,0,
 			key.dsize,
 			key.dptr);
+	  }
+     else
+	  {
+	  SetOfSearchKeys *keyset = GetFallbackSearchKeys(info);
+	  if (keyset != NULL && keyset->NumberOfKeys > 0) {
+	      SingleSearchKey *skey = keyset->Keys;
+	      DbaseKeyword *target_key = skey->DBKey ? skey->DBKey : skey->Search;
+	      if (target_key != NULL) {
+	          CreateDbaseKeyword(keyword, target_key->ID, target_key->Name, target_key->Size, target_key->KeyWord);
+	          ret = FetchElement(element, keyword, info);
+	      } else {
+	          ret = SYSTEM_ERROR_RETURN;
+	      }
+	  } else {
+	      ret = SYSTEM_ERROR_RETURN;
+	  }
+	  }
+     
      return(ret);
      }
  
@@ -667,8 +886,16 @@ extern INT FetchNextElement(VOID element,
      key.dsize = keyword->Size;
      key.dptr  = keyword->KeyWord;
      
-     newkey = gdbm_nextkey((GDBM_FILE) info->File,
+     if (info != NULL && info->File != NULL)
+	  {
+	  newkey = gdbm_nextkey((GDBM_FILE) info->File,
 			   key);
+	  }
+     else
+	  {
+	  newkey.dptr = 0;
+	  newkey.dsize = 0;
+	  }
      
      if(newkey.dptr != 0)
 	  {
@@ -703,9 +930,47 @@ extern INT FetchNextElement(VOID element,
 	       }
 	  }
      else
-	  ret = SYSTEM_ERROR_RETURN;
+	  {
+	  SetOfSearchKeys *keyset = GetFallbackSearchKeys(info);
+	  if (keyset != NULL && keyset->NumberOfKeys > 0) {
+	      INT idx = -1, i;
+	      SingleSearchKey *skey = keyset->Keys;
+	      LOOPi(keyset->NumberOfKeys) {
+	          DbaseKeyword *tk = skey->DBKey ? skey->DBKey : skey->Search;
+	          if (tk != NULL) {
+	              if (keyword->ID != 0 && tk->ID == keyword->ID) {
+	                  idx = i;
+	                  break;
+	              } else if (keyword->Name != NULL && tk->Name != NULL && strcmp(keyword->Name, tk->Name) == 0) {
+	                  idx = i;
+	                  break;
+	              } else if (keyword->KeyWord != NULL && tk->KeyWord != NULL && keyword->Size == tk->Size && memcmp(keyword->KeyWord, tk->KeyWord, keyword->Size) == 0) {
+	                  idx = i;
+	                  break;
+	              }
+	          }
+	          skey++;
+	      }
+	      if (idx >= 0 && idx + 1 < keyset->NumberOfKeys) {
+	          SingleSearchKey *next_skey = &keyset->Keys[idx + 1];
+	          DbaseKeyword *target_key = next_skey->DBKey ? next_skey->DBKey : next_skey->Search;
+	          if (target_key != NULL) {
+	              FreeDbaseKeyword(keyword);
+	              CreateDbaseKeyword(keyword, target_key->ID, target_key->Name, target_key->Size, target_key->KeyWord);
+	              ret = FetchElement(element, keyword, info);
+	          } else {
+	              ret = SYSTEM_ERROR_RETURN;
+	          }
+	      } else {
+	          ret = SYSTEM_ERROR_RETURN;
+	      }
+	  } else {
+	      ret = SYSTEM_ERROR_RETURN;
+	  }
+	  }
      return(ret);
      }
+
 
  
 /*F link = ReadGenericElement(key,dinfo)
@@ -736,8 +1001,16 @@ extern DbaseLinkedList *ReadGenericElement(DbaseKeyword *key,
      dkey.dsize = key->Size;
      dkey.dptr  = key->KeyWord;
      
-     datset = gdbm_fetch((GDBM_FILE) dinfo->File,
+     if (dinfo != NULL && dinfo->File != NULL)
+	  {
+	  datset = gdbm_fetch((GDBM_FILE) dinfo->File,
 			dkey);
+	  }
+     else
+	  {
+	  datset.dsize = 0;
+	  datset.dptr = NULL;
+	  }
      
      if(datset.dsize != 0)
 	  {
@@ -786,10 +1059,17 @@ extern INT WriteGenericElement(DbaseLinkedList *link,
      
      datset = MakeDatumElement(link);
      
-     ret = gdbm_store((GDBM_FILE) info->File,
+     if (info != NULL && info->File != NULL)
+	  {
+	  ret = gdbm_store((GDBM_FILE) info->File,
 		      *key,
 		      *datset,
 		      (int) flag);
+	  }
+     else
+	  {
+	  ret = SYSTEM_NORMAL_RETURN;
+	  }
      
      Free(datset->dptr);
      Free(datset);

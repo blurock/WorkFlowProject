@@ -235,10 +235,15 @@ extern INT CloseChemDBFiles(BindStructure *bind) {
 
   dbmaster = GetBoundStructure(bind, BIND_CHEMDBASE);
 
-  dinfo = dbmaster->DatabaseInfo->Databases;
-  LOOPi(dbmaster->DatabaseInfo->NumberOfDatabases) {
-    CloseDataBase(dinfo);
-    dinfo++;
+  if (dbmaster != NULL && dbmaster->DatabaseInfo != NULL && dbmaster->DatabaseInfo->Databases != NULL) {
+    dinfo = dbmaster->DatabaseInfo->Databases;
+    LOOPi(dbmaster->DatabaseInfo->NumberOfDatabases) {
+      if (dinfo->Keys != NULL) {
+        WriteAllDBSearchKeys(dinfo);
+      }
+      CloseDataBase(dinfo);
+      dinfo++;
+    }
   }
   return (SYSTEM_NORMAL_RETURN);
 }
