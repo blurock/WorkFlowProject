@@ -13,6 +13,7 @@
 /*I  . . . INCLUDES  . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 */
 #include "basic.h"
+#include "cJSON.h"
 #include "comlib.h"
 #include "graph.h"
 #include "mol0.h"
@@ -21,6 +22,7 @@
 #include "rxn.h"
 #include "gentrans.h"
 #include "chemdb.h"
+
 
 #include "chemdb/mech.c"
  
@@ -1620,35 +1622,16 @@ extern INT DBPrintAllMechanisms(BindStructure *bind)
 */
 static INT DBPrintAllMechs(BindStructure *bind, INT dbflag)
 {
-  DetailedMechanism *mechanism;
-  DbaseKeyword *keyword;
   DataBaseInformation *dinfo;
-  INT ret;
   ChemDBMaster *master;
      
   master = GetBoundStructure(bind,BIND_CHEMDBASE);
-     
-  mechanism = AllocateDetailedMechanism;
-  keyword = AllocateDbaseKeyword;
   dinfo = GetDataBaseInfoFromID(master->DatabaseInfo,dbflag);
      
-  ret = FetchFirstElement((VOID *) mechanism,keyword,dinfo);
-     
-  if(ret == SYSTEM_NORMAL_RETURN)
-    {
-      while(ret == SYSTEM_NORMAL_RETURN)
-	{
-	  printf("%10d: -->%s<--\n",mechanism->ID,mechanism->Name);
-	  ret = FetchNextElement((VOID *) mechanism,keyword,dinfo);;
-	}
-      Free(mechanism);
-      FreeDbaseKeyword(keyword);
-    }
-     
-  Free(keyword);
-	  
-  return(SYSTEM_NORMAL_RETURN);
+  return PrintDatabaseRecordSummaries(dinfo, "%10d: -->%s<--\n");
 }
+
+
 /*F ret = RetrieveMechanismsFromDatabase(bind)
 **
 **  DESCRIPTION

@@ -200,8 +200,85 @@ extern INT FetchElementFromFirestore(VOID element, DbaseKeyword *keyword, DataBa
     return status;
 }
 
+extern INT FetchDatabaseRecordSummaries(DataBaseInformation *dinfo, cJSON **out_records)
+{
+    CHAR body[512];
+    CHAR *resp;
+    size_t resp_size = 524288;
+    int status = SYSTEM_ERROR_RETURN;
+    const char *uid;
+
+    if (dinfo == NULL || out_records == NULL)
+        return SYSTEM_ERROR_RETURN;
+
+    *out_records = NULL;
+
+    uid = getenv("REACT_USER_UID");
+    if (uid == NULL || *uid == '\0') {
+        uid = "user_default_local";
+    }
+
+    snprintf(body, sizeof(body), "{\"uid\":\"%s\",\"dbName\":\"%s\",\"fields\":[\"ID\",\"Name\"]}",
+             uid, dinfo->Name ? dinfo->Name : "UNKNOWN");
+
+    resp = (CHAR *) Malloc(resp_size);
+    if (resp == NULL) return SYSTEM_ERROR_RETURN;
+
+    if (PostJSONToOrchestrator("/api/db/listSummary", body, resp, resp_size) == 0) {
+        char *json_body = strstr(resp, "\r\n\r\n");
+        if (json_body != NULL) {
+            json_body += 4;
+            cJSON *parsed = cJSON_Parse(json_body);
+            if (parsed != NULL) {
+                cJSON *found = cJSON_GetObjectItemCaseSensitive(parsed, "found");
+                cJSON *records = cJSON_GetObjectItemCaseSensitive(parsed, "records");
+                if (found != NULL && !cJSON_IsNull(found) && (found->type == cJSON_True || found->valueint != 0) && records != NULL && cJSON_IsArray(records)) {
+                    *out_records = parsed;
+                    status = SYSTEM_NORMAL_RETURN;
+                } else {
+                    cJSON_Delete(parsed);
+                }
+            }
+        }
+    }
+
+    Free(resp);
+    return status;
+}
+
+extern INT PrintDatabaseRecordSummaries(DataBaseInformation *dinfo, const char *fmt_str)
+{
+    cJSON *parsedObj = NULL;
+    int ret;
+
+    if (fmt_str == NULL) {
+        fmt_str = "%10d: -->%s<--\n";
+    }
+
+    ret = FetchDatabaseRecordSummaries(dinfo, &parsedObj);
+    if (ret == SYSTEM_NORMAL_RETURN && parsedObj != NULL) {
+        cJSON *records = cJSON_GetObjectItemCaseSensitive(parsedObj, "records");
+        if (records != NULL && cJSON_IsArray(records)) {
+            cJSON *item = NULL;
+            cJSON_ArrayForEach(item, records) {
+                cJSON *idObj = cJSON_GetObjectItemCaseSensitive(item, "ID");
+                cJSON *nameObj = cJSON_GetObjectItemCaseSensitive(item, "Name");
+                int idVal = idObj ? idObj->valueint : 0;
+                const char *nameVal = (nameObj && nameObj->valuestring) ? nameObj->valuestring : "";
+                printf(fmt_str, idVal, nameVal);
+            }
+        }
+        cJSON_Delete(parsedObj);
+    }
+
+    return ret;
+}
+
+
+
 
 extern INT StoreSearchKeysToFirestore(INT id, SetOfSearchKeys *keys, CHAR *json_str, DataBaseInformation *info)
+
 {
     CHAR *body;
     size_t len;

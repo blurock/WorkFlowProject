@@ -15,6 +15,7 @@
 /*I  . . . INCLUDES  . . . . . . . . . . . . . . . . . . . . . . . . . . . .
  */
 #include "basic.h"
+#include "cJSON.h"
 #include "comlib.h"
 #include "graph.h"
 #include "mol0.h"
@@ -23,6 +24,7 @@
 #include "rxn.h"
 #include "gentrans.h"
 #include "chemdb.h"
+
 
 /*P  . . . PROTOTYPES  . . . . . . . . . . . . . . . . . . . . . . . . . . .
  */
@@ -578,33 +580,17 @@ extern INT DBPrintAllSubstructures(BindStructure *bind) {
 **
 */
 static INT DBPrintAllMolSubs(BindStructure *bind, INT dbflag) {
-  MoleculeInfo *molecule;
-  DbaseKeyword *keyword;
   DataBaseInformation *dinfo;
-  INT ret;
   ChemDBMaster *master;
 
   master = GetBoundStructure(bind, BIND_CHEMDBASE);
-
-  molecule = AllocateMoleculeInfo;
-  keyword = AllocateDbaseKeyword;
   dinfo = GetDataBaseInfoFromID(master->DatabaseInfo, dbflag);
 
-  ret = FetchFirstElement((VOID *)molecule, keyword, dinfo);
-
-  if (ret == SYSTEM_NORMAL_RETURN) {
-    while (ret == SYSTEM_NORMAL_RETURN) {
-      printf("%10d: -->%s<--\n", molecule->ID, molecule->Name);
-      ret = FetchNextElement((VOID *)molecule, keyword, dinfo);
-    }
-    Free(molecule);
-    FreeDbaseKeyword(keyword);
-  }
-
-  Free(keyword);
-
-  return (SYSTEM_NORMAL_RETURN);
+  return PrintDatabaseRecordSummaries(dinfo, "%10d: -->%s<--\n");
 }
+
+
+
 /*S MoleculeSetFromDatabase
  */
 /*f molset = DetermineMoleculeSetFromASCII(asciimolset,dbflag,bind);

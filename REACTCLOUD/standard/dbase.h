@@ -91,6 +91,13 @@ extern INT StoreSearchKeysToFirestore(INT id,
 extern INT FetchSearchKeysFromFirestore(INT id,
 					 SetOfSearchKeys *keys,
 					 DataBaseInformation *dinfo);
+struct cJSON;
+extern INT FetchDatabaseRecordSummaries(DataBaseInformation *dinfo,
+					 struct cJSON **out_records);
+extern INT PrintDatabaseRecordSummaries(DataBaseInformation *dinfo,
+					 const char *fmt_str);
+
+
 
 /*P  PROTOTYPES . . . . . . . . . . . . . . . . . . . . . . . . . . . dbkey.c
 */

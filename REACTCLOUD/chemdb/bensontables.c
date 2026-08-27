@@ -13,6 +13,7 @@
 /*I  . . . INCLUDES  . . . . . . . . . . . . . . . . . . . . . . . . . . . .
  */
 #include "basic.h"
+#include "cJSON.h"
 #include "comlib.h"
 #include "graph.h"
 #include "mol0.h"
@@ -21,6 +22,7 @@
 #include "rxn.h"
 #include "gentrans.h"
 #include "chemdb.h"
+
 
 #include "chemdb/thermo.c"
 
@@ -403,126 +405,35 @@ ComputeBensonTable2ndOrderKey(BensonSecondOrderTable *thermo) {
 */
 extern INT PrintAllBensonTables(BindStructure *bind) {
   DataBaseInformation *dinfo;
-  BensonTables *btable;
-  DbaseKeyword *keyword;
-  INT ret;
   ChemDBMaster *master;
 
   master = GetBoundStructure(bind, BIND_CHEMDBASE);
   dinfo = GetDataBaseInfoFromID(master->DatabaseInfo, BENSON_TABLES_DATABASE);
 
-  keyword = AllocateDbaseKeyword;
-  btable = AllocateBensonTables;
-
-  ret = FetchFirstElement((VOID *)btable, keyword, dinfo);
-
-  if (ret == SYSTEM_NORMAL_RETURN) {
-    while (ret == SYSTEM_NORMAL_RETURN) {
-      if (btable->SecondOrder != 0)
-        printf(": --> %10d: %s\n", btable->SecondOrder->ID,
-               btable->SecondOrder->Name);
-      FreeBensonTables(btable);
-      ret = FetchNextElement((VOID *)btable, keyword, dinfo);
-    }
-    Free(btable);
-    FreeDbaseKeyword(keyword);
-  }
-  Free(keyword);
-
-  return (SYSTEM_NORMAL_RETURN);
+  return PrintDatabaseRecordSummaries(dinfo, ": --> %10d: %s\n");
 }
-/*F  ret = PrintAllBensonTables(bind)
-**
-**  DESCRIPTION
-**    bind: The bind structure
-**
-**    ret: SYSTEM_NORMAL_RETURN, SYSTEM_ERROR_RETURN
-**
-**  REMARKS
-**
-**  SEE ALSO
-**      Main Functions:
-**
-**  HEADERFILE
-**
-*/
+
 extern INT PrintAllBensonTrees(BindStructure *bind) {
   DataBaseInformation *dinfo;
-  BensonTables *btable;
-  DbaseKeyword *keyword;
-  INT ret;
   ChemDBMaster *master;
 
   master = GetBoundStructure(bind, BIND_CHEMDBASE);
   dinfo = GetDataBaseInfoFromID(master->DatabaseInfo, BENSON_TABLES_DATABASE);
 
-  keyword = AllocateDbaseKeyword;
-  btable = AllocateBensonTables;
-
-  ret = FetchFirstElement((VOID *)btable, keyword, dinfo);
-
-  if (ret == SYSTEM_NORMAL_RETURN) {
-    while (ret == SYSTEM_NORMAL_RETURN) {
-      if (btable->BensonTree != 0)
-        printf("%10d: %s\n", btable->BensonTree->ID, btable->BensonTree->Name);
-      FreeBensonTables(btable);
-      ret = FetchNextElement((VOID *)btable, keyword, dinfo);
-    }
-    Free(btable);
-    FreeDbaseKeyword(keyword);
-  }
-  Free(keyword);
-
-  return (SYSTEM_NORMAL_RETURN);
+  return PrintDatabaseRecordSummaries(dinfo, "%10d: %s\n");
 }
-/*F  ret = PrintAllChemkinValues(bind)
-**
-**  DESCRIPTION
-**    bind: The bind structure
-**
-**    ret: SYSTEM_NORMAL_RETURN, SYSTEM_ERROR_RETURN
-**
-**  REMARKS
-**
-**  SEE ALSO
-**      Main Functions:
-**
-**  HEADERFILE
-**
-*/
+
 extern INT PrintAllChemkinValues(BindStructure *bind) {
   DataBaseInformation *dinfo;
-  ChemkinThermoRead *value;
-  DbaseKeyword *keyword;
-  INT ret;
   ChemDBMaster *master;
-  ChemkinThermoRead *thermo;
-  CHAR *string;
 
   master = GetBoundStructure(bind, BIND_CHEMDBASE);
-  string = AllocateString(4 * 80 + 10);
-
   dinfo = GetDataBaseInfoFromID(master->DatabaseInfo, CHEMKIN_THERMO_DATABASE);
 
-  keyword = AllocateDbaseKeyword;
-  value = AllocateChemkinThermoRead;
-
-  ret = FetchFirstElement((VOID *)value, keyword, dinfo);
-
-  if (ret == SYSTEM_NORMAL_RETURN) {
-    while (ret == SYSTEM_NORMAL_RETURN) {
-      StringMoleculeStandardChemkinThermo(string, value);
-      printf("%s", string);
-      FreeChemkinThermoRead(value);
-      ret = FetchNextElement((VOID *)value, keyword, dinfo);
-    }
-    Free(value);
-    FreeDbaseKeyword(keyword);
-  }
-  Free(keyword);
-  Free(string);
-  return (SYSTEM_NORMAL_RETURN);
+  return PrintDatabaseRecordSummaries(dinfo, "%10d: %s\n");
 }
+
+
 
 /*S ReadFromLists
  */

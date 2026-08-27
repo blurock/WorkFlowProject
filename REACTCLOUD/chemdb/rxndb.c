@@ -15,6 +15,7 @@
 /*I  . . . INCLUDES  . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 */
 #include "basic.h"
+#include "cJSON.h"
 #include "comlib.h"
 #include "graph.h"
 #include "mol0.h"
@@ -23,6 +24,7 @@
 #include "rxn.h"
 #include "gentrans.h"
 #include "chemdb.h"
+
 
  
 /*P  . . . PROTOTYPES  . . . . . . . . . . . . . . . . . . . . . . . . . . . 
@@ -225,33 +227,14 @@ extern INT DBPrintAllRxnPatterns(BindStructure *bind)
 */
 static INT DBPrintAllRxns(BindStructure *bind, INT dbflag)
      {
-     ReactionInfo *reaction;
-     DbaseKeyword *keyword;
      DataBaseInformation *dinfo;
-     INT ret;
      ChemDBMaster *master;
      
      master = GetBoundStructure(bind,BIND_CHEMDBASE);
-     
-     reaction = AllocateReactionInfo;
-     keyword = AllocateDbaseKeyword;
      dinfo = GetDataBaseInfoFromID(master->DatabaseInfo,dbflag);
      
-     ret = FetchFirstElement((VOID *) reaction,keyword,dinfo);
-     
-     if(ret == SYSTEM_NORMAL_RETURN)
-	  {
-	  while(ret == SYSTEM_NORMAL_RETURN)
-	       {
-	       printf("%10d: -->%s<--\n",reaction->ID,reaction->Name);
-	       ret = FetchNextElement((VOID *) reaction,keyword,dinfo);;
-	       }
-	  Free(reaction);
-	  FreeDbaseKeyword(keyword);
-	  }
-     
-     Free(keyword);
-	  
-     return(SYSTEM_NORMAL_RETURN);
+     return PrintDatabaseRecordSummaries(dinfo, "%10d: -->%s<--\n");
      }
+
+
 

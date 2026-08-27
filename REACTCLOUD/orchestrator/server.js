@@ -728,6 +728,46 @@ app.post('/api/db/fetch', async (req, res) => {
   }
 });
 
+app.post('/api/db/listSummary', async (req, res) => {
+  try {
+    const { uid = 'user_default_local', dbName, fields = ['ID', 'Name'] } = req.body;
+    if (!dbName) {
+      return res.status(400).json({ error: 'Missing required parameter: dbName' });
+    }
+
+    const colRef = firestore.collection(`users/${uid}/databases/${dbName}/records`);
+    let querySnap;
+    if (Array.isArray(fields) && fields.length > 0) {
+      querySnap = await colRef.select(...fields).get();
+    } else {
+      querySnap = await colRef.select('ID', 'Name').get();
+    }
+
+    const records = [];
+    querySnap.forEach(doc => {
+      const d = doc.data();
+      const idVal = d.ID !== undefined ? d.ID : (d.keyId !== undefined ? d.keyId : Number(doc.id) || 0);
+      const nameVal = d.Name || d.key || doc.id;
+      records.push({
+        ID: Number(idVal),
+        Name: String(nameVal)
+      });
+    });
+
+    console.log(`[Firestore DB ListSummary] dbName='${dbName}', count=${records.length}, uid='${uid}'`);
+    return res.json({
+      found: true,
+      dbName,
+      count: records.length,
+      records: records
+    });
+  } catch (err) {
+    console.error('[Firestore DB ListSummary Error]', err.message);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+
 
 app.post('/api/db/storeSearchKeys', async (req, res) => {
   try {
