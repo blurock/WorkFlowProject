@@ -60,6 +60,10 @@ SetOfSearchKeyTypes 105 setofsearchkeytypes
           FUNCTION AllocateElement Create Return=VOID
         3 Routine to Free element
           FUNCTION FreeElement Create Return=void
+        9 Routine to convert element to JSONSTRING
+          FUNCTION ElementToJSONString Create Return=CHAR*
+        10 Routine to convert JSON string to element
+          FUNCTION JSONStringToElement Create Return=INT
         DONE
 
      DbaseMaster 100 dbasemaster

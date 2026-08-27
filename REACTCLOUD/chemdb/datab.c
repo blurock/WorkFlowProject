@@ -1,19 +1,19 @@
 /*  FILE     datab.c
-**  PACKAGE     REACTION    
+**  PACKAGE     REACTION
 **  AUTHOR   Edward S. Blurock
 **
 **  CONTENT
-**    The chemical database routines for the master structure and those 
+**    The chemical database routines for the master structure and those
 **    routines that are close to the basic database routines.
 **    The database is initialized, opened, etc.
 **
 **  REFERENCES
 **
-**  COPYRIGHT (C) 1995  REACTION Project / Edward S. Blurock 
+**  COPYRIGHT (C) 1995  REACTION Project / Edward S. Blurock
 */
- 
-/*I  . . . INCLUDES  . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
-*/
+
+/*I  . . . INCLUDES  . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+ */
 #include "basic.h"
 #include "comlib.h"
 #include "graph.h"
@@ -26,26 +26,25 @@
 
 #include "chemdb/chemdatab.c"
 
- 
-/*P  . . . PROTOTYPES  . . . . . . . . . . . . . . . . . . . . . . . . . . . 
-*/
+/*P  . . . PROTOTYPES  . . . . . . . . . . . . . . . . . . . . . . . . . . .
+ */
 static INT InitializeMoleculeDB(DataBaseInformation *dinfo,
-				ChemDBMaster *dbmaster);
+                                ChemDBMaster *dbmaster);
 static INT InitializeSubstructuresDB(DataBaseInformation *dinfo,
-				     ChemDBMaster *dbmaster);
+                                     ChemDBMaster *dbmaster);
 
 static INT InitializeBensonTablesDB(DataBaseInformation *dinfo,
-				     ChemDBMaster *dbmaster);
+                                    ChemDBMaster *dbmaster);
 static INT InitializeChemkinThermoDB(DataBaseInformation *dinfo,
-				     ChemDBMaster *dbmaster);
+                                     ChemDBMaster *dbmaster);
 static INT InitializeRxnPatternDB(DataBaseInformation *dinfo,
-				  ChemDBMaster *dbmaster);
+                                  ChemDBMaster *dbmaster);
 static INT InitializeReactionDB(DataBaseInformation *dinfo,
-				ChemDBMaster *dbmaster);
+                                ChemDBMaster *dbmaster);
 static INT InitializeReactionMechanismDB(DataBaseInformation *dinfo,
-					 ChemDBMaster *dbmaster);
+                                         ChemDBMaster *dbmaster);
 /*S Initialization
-*/
+ */
 /*F  ret = GetConstantsChemDB(bind) . . . . . . . . . . . . .  menu constants
 **
 **  DESCRIPTION
@@ -63,22 +62,21 @@ static INT InitializeReactionMechanismDB(DataBaseInformation *dinfo,
 **
 */
 
-extern INT GetConstantsChemDB(BindStructure *bind)
-     {
-     ChemDBMaster *dbmaster;
-     CommandMaster *commandmaster;
-     ChemDBConstants *constants;
-     
-     dbmaster = GetBoundStructure(bind,BIND_CHEMDBASE);
-     commandmaster = GetBoundStructure(bind,BIND_COMMANDMASTER);
+extern INT GetConstantsChemDB(BindStructure *bind) {
+  ChemDBMaster *dbmaster;
+  CommandMaster *commandmaster;
+  ChemDBConstants *constants;
 
-     constants = dbmaster->Constants; 
+  dbmaster = GetBoundStructure(bind, BIND_CHEMDBASE);
+  commandmaster = GetBoundStructure(bind, BIND_COMMANDMASTER);
 
-     constants->DBDirectory = GetCurrentStringArgument("DBDirectory",
-						       commandmaster);
-      return(SYSTEM_NORMAL_RETURN);
-    } 
- 
+  constants = dbmaster->Constants;
+
+  constants->DBDirectory =
+      GetCurrentStringArgument("DBDirectory", commandmaster);
+  return (SYSTEM_NORMAL_RETURN);
+}
+
 /*F  ret = (bind)
 **
 **  DESCRIPTION
@@ -89,39 +87,36 @@ extern INT GetConstantsChemDB(BindStructure *bind)
 **  REMARKS
 **
 **  SEE ALSO
-**      Main Functions: 
+**      Main Functions:
 **
 **  HEADERFILE
 **
 */
-extern INT InitializeAllDatabases(BindStructure *bind)
-     {
-     INT readkey;
-     CommandMaster *commandmaster;
+extern INT InitializeAllDatabases(BindStructure *bind) {
+  INT readkey;
+  CommandMaster *commandmaster;
 
-     commandmaster = GetBoundStructure(bind,BIND_COMMANDMASTER);
+  commandmaster = GetBoundStructure(bind, BIND_COMMANDMASTER);
 
-     InitializeChemDBInfo(bind);
+  InitializeChemDBInfo(bind);
 
-     OpenChemDBFiles(bind);
+  OpenChemDBFiles(bind);
 
-     DBResetMoleculeSearchKeys(bind);
-     DBResetReactionSearchKeys(bind);
-     DBResetSubstructureSearchKeys(bind);
-     DBResetRxnPatternSearchKeys(bind);
-     readkey = GetCurrentIntegerArgument("KeyRead",commandmaster);
-     
-     if(readkey != 0)
-	  {
-	  ReadMoleculeDBKeys(bind);
-	  ReadReactionDBKeys(bind);
-	  ReadSubStructureDBKeys(bind);
-	  ReadRxnPatternDBKeys(bind);
-	  }
+  DBResetMoleculeSearchKeys(bind);
+  DBResetReactionSearchKeys(bind);
+  DBResetSubstructureSearchKeys(bind);
+  DBResetRxnPatternSearchKeys(bind);
+  readkey = GetCurrentIntegerArgument("KeyRead", commandmaster);
 
-     return(SYSTEM_NORMAL_RETURN);
-     }
+  if (readkey != 0) {
+    ReadMoleculeDBKeys(bind);
+    ReadReactionDBKeys(bind);
+    ReadSubStructureDBKeys(bind);
+    ReadRxnPatternDBKeys(bind);
+  }
 
+  return (SYSTEM_NORMAL_RETURN);
+}
 
 /*F master = InitializeChemDBMaster(id,name)  . . . . . . . master initialize
 **
@@ -131,8 +126,8 @@ extern INT InitializeAllDatabases(BindStructure *bind)
 **    master: The allocated and initialized master structure
 **
 **  REMARKS
-**     This routine is usually called in the main routine to 
-**     initialize the master (bind) structure 
+**     This routine is usually called in the main routine to
+**     initialize the master (bind) structure
 **
 **  REFERENCES
 **
@@ -141,22 +136,19 @@ extern INT InitializeAllDatabases(BindStructure *bind)
 **  HEADERFILE
 **
 */
-extern ChemDBMaster *InitializeChemDBMaster(INT id, CHAR *name)
-     {
-     ChemDBMaster *dbmaster;
-     
-     dbmaster = AllocateChemDBMaster;
-     CreateChemDBMaster(dbmaster,id,name,
-			0,0);
-     
-     dbmaster->Constants = AllocateChemDBConstants;
-     CreateChemDBConstants(dbmaster->Constants,id,name,
-			   0,0,0,0,0,0,0);
-     return(dbmaster);
-     }
- 
+extern ChemDBMaster *InitializeChemDBMaster(INT id, CHAR *name) {
+  ChemDBMaster *dbmaster;
+
+  dbmaster = AllocateChemDBMaster;
+  CreateChemDBMaster(dbmaster, id, name, 0, 0);
+
+  dbmaster->Constants = AllocateChemDBConstants;
+  CreateChemDBConstants(dbmaster->Constants, id, name, 0, 0, 0, 0, 0, 0, 0);
+  return (dbmaster);
+}
+
 /*S StartingDatabase
-*/
+ */
 /*F  ret = CreateChemDBFiles(bind)  . . . . . . . . . . . . . .  create dbase
 **
 **  DESCRIPTION
@@ -173,24 +165,22 @@ extern ChemDBMaster *InitializeChemDBMaster(INT id, CHAR *name)
 **
 **  HEADERFILE
 **
-*/    
-extern INT CreateChemDBFiles(BindStructure *bind)
-     {
-     ChemDBMaster *dbmaster;
-     DataBaseInformation *dinfo;
-     INT i;
-     
-     InitializeChemDBInfo(bind);
-     dbmaster = GetBoundStructure(bind,BIND_CHEMDBASE);
-     dinfo = dbmaster->DatabaseInfo->Databases;
-     LOOPi(dbmaster->DatabaseInfo->NumberOfDatabases)
-	  {
-	  CreateDataBase(dinfo);
-	  dinfo++;
-	  }
-     return(SYSTEM_NORMAL_RETURN);
-     }
- 
+*/
+extern INT CreateChemDBFiles(BindStructure *bind) {
+  ChemDBMaster *dbmaster;
+  DataBaseInformation *dinfo;
+  INT i;
+
+  InitializeChemDBInfo(bind);
+  dbmaster = GetBoundStructure(bind, BIND_CHEMDBASE);
+  dinfo = dbmaster->DatabaseInfo->Databases;
+  LOOPi(dbmaster->DatabaseInfo->NumberOfDatabases) {
+    CreateDataBase(dinfo);
+    dinfo++;
+  }
+  return (SYSTEM_NORMAL_RETURN);
+}
+
 /*F  ret = OpenChemDBFiles(bind)  . . . . . . . . . . . . . . . .  open dbase
 **
 **  DESCRIPTION
@@ -208,23 +198,20 @@ extern INT CreateChemDBFiles(BindStructure *bind)
 **
 */
 
-extern INT OpenChemDBFiles(BindStructure *bind)
-     {
-     ChemDBMaster *dbmaster;
-     DataBaseInformation *dinfo;
-     INT i;
-     
-     dbmaster = GetBoundStructure(bind,BIND_CHEMDBASE);
-     dinfo = dbmaster->DatabaseInfo->Databases;
-     LOOPi(dbmaster->DatabaseInfo->NumberOfDatabases)
-	  {
-	  OpenDataBase(dinfo);
-	  dinfo++;
-	  }
-     return(SYSTEM_NORMAL_RETURN);
-     }
+extern INT OpenChemDBFiles(BindStructure *bind) {
+  ChemDBMaster *dbmaster;
+  DataBaseInformation *dinfo;
+  INT i;
 
- 
+  dbmaster = GetBoundStructure(bind, BIND_CHEMDBASE);
+  dinfo = dbmaster->DatabaseInfo->Databases;
+  LOOPi(dbmaster->DatabaseInfo->NumberOfDatabases) {
+    OpenDataBase(dinfo);
+    dinfo++;
+  }
+  return (SYSTEM_NORMAL_RETURN);
+}
+
 /*F  ret = CloseChemDBFiles(bind) . . . . . . . . . . . . . . . . close dbase
 **
 **  DESCRIPTION
@@ -241,37 +228,33 @@ extern INT OpenChemDBFiles(BindStructure *bind)
 **  HEADERFILE
 **
 */
-extern INT CloseChemDBFiles(BindStructure *bind) 
-     {
-     ChemDBMaster *dbmaster;
-     DataBaseInformation *dinfo;
-     INT i;
-     
-     dbmaster = GetBoundStructure(bind,BIND_CHEMDBASE);
+extern INT CloseChemDBFiles(BindStructure *bind) {
+  ChemDBMaster *dbmaster;
+  DataBaseInformation *dinfo;
+  INT i;
 
-     dinfo = dbmaster->DatabaseInfo->Databases;
-     LOOPi(dbmaster->DatabaseInfo->NumberOfDatabases)
-	  {
-	  CloseDataBase(dinfo);
-	  dinfo++;
-	  }
-     return(SYSTEM_NORMAL_RETURN);
-     }
+  dbmaster = GetBoundStructure(bind, BIND_CHEMDBASE);
 
+  dinfo = dbmaster->DatabaseInfo->Databases;
+  LOOPi(dbmaster->DatabaseInfo->NumberOfDatabases) {
+    CloseDataBase(dinfo);
+    dinfo++;
+  }
+  return (SYSTEM_NORMAL_RETURN);
+}
 
- 
 /*S DefineChemistryDatabase
     This set of routines sets up the definitions of the chemistry database.
-    This basically entails creating the DBMaster structure with the 
+    This basically entails creating the DBMaster structure with the
 */
-/*F  ret = InitializeChemDBInfo(bind) . . . . . . . . .  initialize database 
+/*F  ret = InitializeChemDBInfo(bind) . . . . . . . . .  initialize database
 **
 **  DESCRIPTION
 **    bind: The bind structure
 **    ret: SYSTEM_NORMAL_RETURN, SYSTEM_ERROR_RETURN
 **
 **   This is the initialization routine to setup all the databases
-**   
+**
 **  REMARKS
 **
 **  SEE ALSO
@@ -280,55 +263,40 @@ extern INT CloseChemDBFiles(BindStructure *bind)
 **  HEADERFILE
 **
 */
-extern INT InitializeChemDBInfo(BindStructure *bind)
-     {
-     DbaseMaster *db;
-     INT ret;
-     ChemDBMaster *dbmaster;
-     
-     GetConstantsChemDB(bind);
-     dbmaster = GetBoundStructure(bind,BIND_CHEMDBASE);
+extern INT InitializeChemDBInfo(BindStructure *bind) {
+  DbaseMaster *db;
+  INT ret;
+  ChemDBMaster *dbmaster;
 
-     db = dbmaster->DatabaseInfo = AllocateDbaseMaster;
-     CreateDbaseMaster(db,dbmaster->ID,dbmaster->Name,
-		       7,0);
-     
-     ret = InitializeMoleculeDB(db->Databases + 0,
-				dbmaster);
-     if(ret == SYSTEM_NORMAL_RETURN)
-	  {
-	  ret = InitializeSubstructuresDB(db->Databases + 1,
-					 dbmaster);
-	  if(ret == SYSTEM_NORMAL_RETURN)
-	       {
-	       ret = InitializeBensonTablesDB(db->Databases + 2,
-					      dbmaster);
-	       if(ret == SYSTEM_NORMAL_RETURN)
-		    {
-		    ret = InitializeChemkinThermoDB(db->Databases + 3,
-						    dbmaster);
-		    if(ret == SYSTEM_NORMAL_RETURN)
-			 {
-			 ret = InitializeReactionDB(db->Databases + 4,
-						    dbmaster);
-			 if(ret == SYSTEM_NORMAL_RETURN)
-			      {
-			      ret = InitializeRxnPatternDB(db->Databases + 5,
-							   dbmaster);
-			      if(ret == SYSTEM_NORMAL_RETURN)
-				   {
-				   ret = InitializeReactionMechanismDB(db->Databases + 6,
-								dbmaster);
-				   }
-			      }
-			 }
-		    }
-	       }
-	  }
-     
-     return(ret);
-     }
- 
+  GetConstantsChemDB(bind);
+  dbmaster = GetBoundStructure(bind, BIND_CHEMDBASE);
+
+  db = dbmaster->DatabaseInfo = AllocateDbaseMaster;
+  CreateDbaseMaster(db, dbmaster->ID, dbmaster->Name, 7, 0);
+
+  ret = InitializeMoleculeDB(db->Databases + 0, dbmaster);
+  if (ret == SYSTEM_NORMAL_RETURN) {
+    ret = InitializeSubstructuresDB(db->Databases + 1, dbmaster);
+    if (ret == SYSTEM_NORMAL_RETURN) {
+      ret = InitializeBensonTablesDB(db->Databases + 2, dbmaster);
+      if (ret == SYSTEM_NORMAL_RETURN) {
+        ret = InitializeChemkinThermoDB(db->Databases + 3, dbmaster);
+        if (ret == SYSTEM_NORMAL_RETURN) {
+          ret = InitializeReactionDB(db->Databases + 4, dbmaster);
+          if (ret == SYSTEM_NORMAL_RETURN) {
+            ret = InitializeRxnPatternDB(db->Databases + 5, dbmaster);
+            if (ret == SYSTEM_NORMAL_RETURN) {
+              ret = InitializeReactionMechanismDB(db->Databases + 6, dbmaster);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return (ret);
+}
+
 /*f  ret = InitializeMoleculeDB(dinfo,dbmaster)  . . . . . . molecule database
 **
 **  DESCRIPTION
@@ -339,25 +307,21 @@ extern INT InitializeChemDBInfo(BindStructure *bind)
 **
 */
 static INT InitializeMoleculeDB(DataBaseInformation *dinfo,
-				ChemDBMaster *dbmaster)
-     {
-     ChemDBConstants *constants;
-     
-     constants = dbmaster->Constants;
-     EliminateBlanks(constants->DBDirectory);
-     
-     CreateDataBaseInformation(dinfo,MOLECULE_DATABASE,
-			       "Molecules",
-			       "Molecules",
-			       constants->DBDirectory,
-			       WriteBinMoleculeInfo,
-			       ReadBinMoleculeInfo,
-			       0,
-			       0,AllocMoleculeInfo,FreeMoleculeInfo);
+                                ChemDBMaster *dbmaster) {
+  ChemDBConstants *constants;
 
-     return(SYSTEM_NORMAL_RETURN);
-     }
- 
+  constants = dbmaster->Constants;
+  EliminateBlanks(constants->DBDirectory);
+
+  CreateDataBaseInformation(dinfo, MOLECULE_DATABASE, "Molecules", "Molecules",
+                            constants->DBDirectory, WriteBinMoleculeInfo,
+                            ReadBinMoleculeInfo, 0, 0, AllocMoleculeInfo,
+                            FreeMoleculeInfo, WriteJSONMoleculeInfoToString,
+                            ReadJSONMoleculeInfoFromString);
+
+  return (SYSTEM_NORMAL_RETURN);
+}
+
 /*f  ret = InitializeSubstructuresDB(dinfo,dbmaster) . . Substructure database
 **
 **  DESCRIPTION
@@ -368,26 +332,23 @@ static INT InitializeMoleculeDB(DataBaseInformation *dinfo,
 **
 */
 static INT InitializeSubstructuresDB(DataBaseInformation *dinfo,
-				     ChemDBMaster *dbmaster)
+                                     ChemDBMaster *dbmaster)
 
-     {
-     ChemDBConstants *constants;
-     
-     constants = dbmaster->Constants;
-     
-     EliminateBlanks(constants->DBDirectory);
-     
-     CreateDataBaseInformation(dinfo,SUBSTRUCTURE_DATABASE,
-			       "Substructures",
-			       "SubStructures",
-			       constants->DBDirectory,
-			       WriteBinMoleculeInfo,
-			       ReadBinMoleculeInfo,
-			       0,
-			       0,AllocMoleculeInfo,FreeMoleculeInfo);
-     
-     return(SYSTEM_NORMAL_RETURN);
-     }
+{
+  ChemDBConstants *constants;
+
+  constants = dbmaster->Constants;
+
+  EliminateBlanks(constants->DBDirectory);
+
+  CreateDataBaseInformation(
+      dinfo, SUBSTRUCTURE_DATABASE, "Substructures", "SubStructures",
+      constants->DBDirectory, WriteBinMoleculeInfo, ReadBinMoleculeInfo, 0, 0,
+      AllocMoleculeInfo, FreeMoleculeInfo, WriteJSONMoleculeInfoToString,
+      ReadJSONMoleculeInfoFromString);
+
+  return (SYSTEM_NORMAL_RETURN);
+}
 /*f  ret = InitializeBensonTablesDB(dinfo,dbmaster) . . Substructure database
 **
 **  DESCRIPTION
@@ -398,26 +359,21 @@ static INT InitializeSubstructuresDB(DataBaseInformation *dinfo,
 **
 */
 static INT InitializeBensonTablesDB(DataBaseInformation *dinfo,
-				    ChemDBMaster *dbmaster)
-     {
-     ChemDBConstants *constants;
-     
-     constants = dbmaster->Constants;
-     
-     EliminateBlanks(constants->DBDirectory);
-     
-     CreateDataBaseInformation(dinfo,BENSON_TABLES_DATABASE,
-			       "BensonTables",
-			       "BensonTables",
-			       constants->DBDirectory,
-			       WriteBinBensonTables,
-			       ReadBinBensonTables,
-			       0,0,
-			       AllocBensonTables,
-			       FreeBensonTables);
-     
-     return(SYSTEM_NORMAL_RETURN);
-     }
+                                    ChemDBMaster *dbmaster) {
+  ChemDBConstants *constants;
+
+  constants = dbmaster->Constants;
+
+  EliminateBlanks(constants->DBDirectory);
+
+  CreateDataBaseInformation(
+      dinfo, BENSON_TABLES_DATABASE, "BensonTables", "BensonTables",
+      constants->DBDirectory, WriteBinBensonTables, ReadBinBensonTables, 0, 0,
+      AllocBensonTables, FreeBensonTables, WriteJSONBensonTablesToString,
+      ReadJSONBensonTablesFromString);
+
+  return (SYSTEM_NORMAL_RETURN);
+}
 /*f  ret = InitializeChemkinThermoDB(dinfo,dbmaster) . . Substructure database
 **
 **  DESCRIPTION
@@ -428,27 +384,22 @@ static INT InitializeBensonTablesDB(DataBaseInformation *dinfo,
 **
 */
 static INT InitializeChemkinThermoDB(DataBaseInformation *dinfo,
-				     ChemDBMaster *dbmaster)
-     {
-     ChemDBConstants *constants;
-     
-     constants = dbmaster->Constants;
-     
-     EliminateBlanks(constants->DBDirectory);
-     
-     CreateDataBaseInformation(dinfo,CHEMKIN_THERMO_DATABASE,
-			       "ChemkinThermo",
-			       "ChemkinThermo",
-			       constants->DBDirectory,
-			       WriteBinChemkinThermoRead,
-			       ReadBinChemkinThermoRead,
-			       0,
-			       0,
-			       AllocChemkinThermoRead,
-			       FreeChemkinThermoRead);
-     
-     return(SYSTEM_NORMAL_RETURN);
-     }
+                                     ChemDBMaster *dbmaster) {
+  ChemDBConstants *constants;
+
+  constants = dbmaster->Constants;
+
+  EliminateBlanks(constants->DBDirectory);
+
+  CreateDataBaseInformation(dinfo, CHEMKIN_THERMO_DATABASE, "ChemkinThermo",
+                            "ChemkinThermo", constants->DBDirectory,
+                            WriteBinChemkinThermoRead, ReadBinChemkinThermoRead,
+                            0, 0, AllocChemkinThermoRead, FreeChemkinThermoRead,
+                            WriteJSONChemkinThermoReadToString,
+                            ReadJSONChemkinThermoReadFromString);
+
+  return (SYSTEM_NORMAL_RETURN);
+}
 
 /*f  ret = InitializeReactionDB(dinfo,dbmaster)
 **
@@ -460,27 +411,21 @@ static INT InitializeChemkinThermoDB(DataBaseInformation *dinfo,
 **
 */
 static INT InitializeReactionDB(DataBaseInformation *dinfo,
-				     ChemDBMaster *dbmaster)
-     {
-     ChemDBConstants *constants;
-     
-     constants = dbmaster->Constants;
-     
-     EliminateBlanks(constants->DBDirectory);
-     
-     CreateDataBaseInformation(dinfo,REACTION_DATABASE,
-			       "Reactions",
-			       "Reactions",
-			       constants->DBDirectory,
-			       WriteBinReactionInfo,
-			       ReadBinReactionInfo,
-			       0,
-			       0,
-			       AllocReactionInfo,
-			       FreeReactionInfo);
-     
-     return(SYSTEM_NORMAL_RETURN);
-     }
+                                ChemDBMaster *dbmaster) {
+  ChemDBConstants *constants;
+
+  constants = dbmaster->Constants;
+
+  EliminateBlanks(constants->DBDirectory);
+
+  CreateDataBaseInformation(dinfo, REACTION_DATABASE, "Reactions", "Reactions",
+                            constants->DBDirectory, WriteBinReactionInfo,
+                            ReadBinReactionInfo, 0, 0, AllocReactionInfo,
+                            FreeReactionInfo, WriteJSONReactionInfoToString,
+                            ReadJSONReactionInfoFromString);
+
+  return (SYSTEM_NORMAL_RETURN);
+}
 
 /*f  ret = InitializeRxnPatternDB(dinfo,dbmaster)
 **
@@ -492,26 +437,20 @@ static INT InitializeReactionDB(DataBaseInformation *dinfo,
 **
 */
 static INT InitializeRxnPatternDB(DataBaseInformation *dinfo,
-				  ChemDBMaster *dbmaster)
-     {
-     ChemDBConstants *constants;
-     
-     constants = dbmaster->Constants;
-     
-     EliminateBlanks(constants->DBDirectory);
-     
-     CreateDataBaseInformation(dinfo,PATTERN_DATABASE,
-			       "ReactionPatterns",
-			       "ReactionPatterns",
-			       constants->DBDirectory,
-			       WriteBinReactionInfo,
-			       ReadBinReactionInfo,
-			       0,
-			       0,
-			       AllocReactionInfo,
-			       FreeReactionInfo);     
-     return(SYSTEM_NORMAL_RETURN);
-     }
+                                  ChemDBMaster *dbmaster) {
+  ChemDBConstants *constants;
+
+  constants = dbmaster->Constants;
+
+  EliminateBlanks(constants->DBDirectory);
+
+  CreateDataBaseInformation(
+      dinfo, PATTERN_DATABASE, "ReactionPatterns", "ReactionPatterns",
+      constants->DBDirectory, WriteBinReactionInfo, ReadBinReactionInfo, 0, 0,
+      AllocReactionInfo, FreeReactionInfo, WriteJSONReactionInfoToString,
+      ReadJSONReactionInfoFromString);
+  return (SYSTEM_NORMAL_RETURN);
+}
 /*f  ret = InitializeRxnPatternDB(dinfo,dbmaster)
 **
 **  DESCRIPTION
@@ -522,28 +461,18 @@ static INT InitializeRxnPatternDB(DataBaseInformation *dinfo,
 **
 */
 static INT InitializeReactionMechanismDB(DataBaseInformation *dinfo,
-					 ChemDBMaster *dbmaster)
-     {
-     ChemDBConstants *constants;
-     
-     constants = dbmaster->Constants;
-     
-     EliminateBlanks(constants->DBDirectory);
-     
-     CreateDataBaseInformation(dinfo,MECHANISM_DATABASE,
-			       "RxnMechanism",
-			       "RxnMechanism",
-			       constants->DBDirectory,
-			       WriteBinDetailedMechanism,
-			       ReadBinDetailedMechanism,
-			       0,
-			       0,
-			       AllocDetailedMechanism,
-			       FreeDetailedMechanism);     
-     return(SYSTEM_NORMAL_RETURN);
-     }
+                                         ChemDBMaster *dbmaster) {
+  ChemDBConstants *constants;
 
+  constants = dbmaster->Constants;
 
+  EliminateBlanks(constants->DBDirectory);
 
-
-
+  CreateDataBaseInformation(dinfo, MECHANISM_DATABASE, "RxnMechanism",
+                            "RxnMechanism", constants->DBDirectory,
+                            WriteBinDetailedMechanism, ReadBinDetailedMechanism,
+                            0, 0, AllocDetailedMechanism, FreeDetailedMechanism,
+                            WriteJSONDetailedMechanismToString,
+                            ReadJSONDetailedMechanismFromString);
+  return (SYSTEM_NORMAL_RETURN);
+}
