@@ -477,27 +477,14 @@ extern INT SearchKeyElement(INT id,
 			    DbaseKeyword *keyword,
 			    DataBaseInformation *dinfo)
      {
-     SearchKeyInfo *keytype;
      INT ret;
-     DbaseKeyword *dbkey;
+     (void)id;
 
-     if(id == -1)
-	  ret = FetchElement(element,keyword,dinfo);
-     else
+     ret = FetchElementFromFirestore(element, keyword, dinfo);
+     if (ret != SYSTEM_NORMAL_RETURN)
 	  {
-	  keytype = FindKeyTypeFromID(id,dinfo);
-	  if(keytype != 0)
-	       {
-	       dbkey = GetCorrespondingDBKey(keyword,keytype);
-	       if(dbkey != 0)
-		    {
-		    ret = FetchElement(element,dbkey,dinfo);
-		    }
-	       else
-		    ret = DBKeyError("Search Key Element Not Found");
-	       }
-	  else
-	       ret = DBKeyError("No Search Key Matches id");
+	  Error(0,"Element Not Found");
+	  ret = SYSTEM_ERROR_RETURN;
 	  }
      
      return(ret);
