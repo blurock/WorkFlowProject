@@ -835,6 +835,125 @@ app.post('/api/db/fetchSearchKeys', async (req, res) => {
   }
 });
 
+app.post('/api/db/findOrCreateObjectIDClass', async (req, res) => {
+  try {
+    const {
+      uid = 'user_default_local',
+      sessionId = 'default_session',
+      source = 'DATABASE',
+      classificationName,
+      objectIDs,
+      defaultClassData
+    } = req.body;
+
+    if (!classificationName || !Array.isArray(objectIDs)) {
+      return res.status(400).json({ error: 'Missing required parameters: classificationName, objectIDs array' });
+    }
+
+    const docKey = `doc_${objectIDs.join('_')}`;
+    const isDb = source === 'DATABASE' || source === 100 || source === '100' || source === 100;
+    const sourceDir = isDb ? 'database' : (sessionId || 'default_session');
+    const docPath = `users/${uid}/classifications/${sourceDir}/${classificationName}/${docKey}`;
+    const docRef = firestore.doc(docPath);
+    const docSnap = await docRef.get();
+
+    if (docSnap.exists) {
+      const rawData = docSnap.data();
+      const data = convertBlobsToBytesObjects(rawData.classData || rawData);
+      console.log(`[Firestore Classification Class Found] Path: ${docPath}`);
+      return res.json({
+        found: true,
+        docPath,
+        data: data
+      });
+    }
+
+    let parsedClassData = defaultClassData;
+    if (typeof defaultClassData === 'string') {
+      try {
+        parsedClassData = JSON.parse(defaultClassData);
+      } catch (e) {
+        parsedClassData = { rawString: defaultClassData };
+      }
+    }
+
+    parsedClassData = convertBytesObjectsToBlobs(parsedClassData);
+
+    const docPayload = {
+      classificationName: String(classificationName),
+      objectIDs: objectIDs.map(Number),
+      docKey,
+      updatedAt: new Date().toISOString(),
+      classData: parsedClassData,
+      ...(typeof parsedClassData === 'object' && parsedClassData !== null ? parsedClassData : {})
+    };
+
+    await docRef.set(docPayload, { merge: true });
+    console.log(`[Firestore Classification Class Created] Path: ${docPath}`);
+
+    const returnData = convertBlobsToBytesObjects(parsedClassData);
+    return res.json({
+      found: false,
+      created: true,
+      docPath,
+      data: returnData
+    });
+  } catch (err) {
+    console.error('[Firestore findOrCreateObjectIDClass Error]', err.message);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/db/storeObjectIDClass', async (req, res) => {
+  try {
+    const {
+      uid = 'user_default_local',
+      sessionId = 'default_session',
+      source = 'DATABASE',
+      classificationName,
+      objectIDs,
+      jsonStr
+    } = req.body;
+
+    if (!classificationName || !Array.isArray(objectIDs)) {
+      return res.status(400).json({ error: 'Missing required parameters: classificationName, objectIDs array' });
+    }
+
+    const docKey = `doc_${objectIDs.join('_')}`;
+    const isDb = source === 'DATABASE' || source === 100 || source === '100' || source === 100;
+    const sourceDir = isDb ? 'database' : (sessionId || 'default_session');
+    const docPath = `users/${uid}/classifications/${sourceDir}/${classificationName}/${docKey}`;
+    const docRef = firestore.doc(docPath);
+
+    let parsedClassData = jsonStr;
+    if (typeof jsonStr === 'string') {
+      try {
+        parsedClassData = JSON.parse(jsonStr);
+      } catch (e) {
+        parsedClassData = { rawString: jsonStr };
+      }
+    }
+
+    parsedClassData = convertBytesObjectsToBlobs(parsedClassData);
+
+    const docPayload = {
+      classificationName: String(classificationName),
+      objectIDs: objectIDs.map(Number),
+      docKey,
+      updatedAt: new Date().toISOString(),
+      classData: parsedClassData,
+      ...(typeof parsedClassData === 'object' && parsedClassData !== null ? parsedClassData : {})
+    };
+
+    await docRef.set(docPayload, { merge: true });
+    console.log(`[Firestore Store ObjectIDClass] Saved path: ${docPath}`);
+    return res.json({ status: 'OK', path: docPath });
+  } catch (err) {
+    console.error('[Firestore Store ObjectIDClass Error]', err.message);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
 
 app.get('/api/db/keys', async (req, res) => {
   try {

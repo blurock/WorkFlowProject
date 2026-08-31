@@ -171,6 +171,7 @@ extern INT PutMoleculeInDatabaseClass(MoleculeInfo *molecule,
      DbaseKeyword *key;
      ChemDBMaster *master;
      ObjectIDClass *class;
+     ObjectIDInfo *info;
      INT id,ret;
      
      master = GetBoundStructure(bind,BIND_CHEMDBASE);
@@ -197,6 +198,12 @@ extern INT PutMoleculeInDatabaseClass(MoleculeInfo *molecule,
 	    key = AllocateDbaseKeyword;
 	    (*(keytype->InsertKey))(molecule,key);
 	    id = AddIDKeyToClass(key,class);
+
+	    info = DetermineObjectIDInfo(classification->Description, (VOID) molecule);
+	    StoreObjectIDClassToFirestore(DATABASE_CLASSIFICATIONS, classification->Name, info, class);
+	    FreeObjectIDInfo(info);
+	    Free(info);
+
 	    WriteOutClassification(classid,bind);
 	  }
      else

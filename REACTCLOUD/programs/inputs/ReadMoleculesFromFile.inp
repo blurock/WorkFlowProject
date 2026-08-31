@@ -12,12 +12,14 @@ MetaAtoms
 Read
 Quit
 Quit
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Open up the data base
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 CreateOpenClose
 Start
 Quit
+
 DbaseOps
 Molecules
 Current
@@ -27,10 +29,9 @@ Keys
 Define
 Write
 Quit
-Help
 Quit
 Quit
-Help
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Read SDF into Mol and perform calculations
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -75,9 +76,9 @@ Read
 Fill
 Write
 Quit
-Help
 Quit
-Help
+Quit
+
 Mol
 Output
 Molecules
@@ -93,6 +94,4 @@ Quit
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% leave
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Quit
-Quit
 Quit

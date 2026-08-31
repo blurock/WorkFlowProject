@@ -21,6 +21,7 @@
 #include "rxn.h"
 #include "gentrans.h"
 #include "chemdb.h"
+#include "cJSON.h"
 
 #include "chemdb/objid.c"
 
@@ -59,6 +60,171 @@ static INT WriteTreeOfObjects(ObjectIDTreeNode *tree,
 static  SetOfObjectClassifications *GetSetOfObjectClassifications(INT source,
 								  BindStructure *bind);
 
+/*S FirestoreClassificationInterface
+*/
+extern ObjectIDClass *FetchOrCreateObjectIDClassFromFirestore(INT source,
+                                                               const CHAR *classificationName,
+                                                               ListOfTreeLevelDescriptions *descr,
+                                                               ObjectIDInfo *info)
+{
+    cJSON *bodyObj, *arrObj;
+    CHAR *json_body;
+    CHAR *resp_buf;
+    size_t resp_size = 131072;
+    ObjectIDClass *class = NULL;
+    const char *uid;
+    const char *session_id;
+    int i;
+
+    if (classificationName == NULL || info == NULL || descr == NULL)
+        return NULL;
+
+    uid = getenv("REACT_USER_UID");
+    if (uid == NULL || *uid == '\0') {
+        uid = "user_default_local";
+    }
+
+    session_id = getenv("REACT_SESSION_ID");
+    if (session_id == NULL || *session_id == '\0') {
+        session_id = "default_session";
+    }
+
+    printf("[Firestore Classification Read] name='%s', uid='%s', source='%s', docKey='doc",
+           classificationName, uid, (source == DATABASE_CLASSIFICATIONS) ? "DATABASE" : "LOCAL");
+    for (i = 0; i < info->NumberOfObjectIDs; i++) {
+        printf("_%d", info->ObjectIDs[i]);
+    }
+    printf("'\n");
+    fflush(stdout);
+
+    /* Build default empty ObjectIDClass */
+    class = AllocateObjectIDClass;
+    CreateObjectIDClass(class, info->ID, info->Name, info, 0, NULL);
+
+    /* Convert default class to JSON string */
+    CHAR *defaultClassStr = WriteJSONObjectIDClassToString(class);
+
+    bodyObj = cJSON_CreateObject();
+    cJSON_AddStringToObject(bodyObj, "uid", uid);
+    cJSON_AddStringToObject(bodyObj, "sessionId", session_id);
+    cJSON_AddStringToObject(bodyObj, "source", (source == DATABASE_CLASSIFICATIONS) ? "DATABASE" : "LOCAL");
+    cJSON_AddStringToObject(bodyObj, "classificationName", classificationName);
+
+    arrObj = cJSON_CreateArray();
+    for (i = 0; i < info->NumberOfObjectIDs; i++) {
+        cJSON_AddItemToArray(arrObj, cJSON_CreateNumber(info->ObjectIDs[i]));
+    }
+    cJSON_AddItemToObject(bodyObj, "objectIDs", arrObj);
+    if (defaultClassStr != NULL) {
+        cJSON_AddStringToObject(bodyObj, "defaultClassData", defaultClassStr);
+        cJSON_free(defaultClassStr);
+    }
+
+    json_body = cJSON_PrintUnformatted(bodyObj);
+    cJSON_Delete(bodyObj);
+
+    if (json_body == NULL)
+        return class;
+
+    resp_buf = (CHAR *) Malloc(resp_size);
+    if (resp_buf != NULL) {
+        if (PostJSONToOrchestrator("/api/db/findOrCreateObjectIDClass", json_body, resp_buf, resp_size) == 0) {
+            char *json_res = strstr(resp_buf, "\r\n\r\n");
+            if (json_res != NULL) {
+                json_res += 4;
+                cJSON *parsedRes = cJSON_Parse(json_res);
+                if (parsedRes != NULL) {
+                    cJSON *dataObj = cJSON_GetObjectItemCaseSensitive(parsedRes, "data");
+                    if (dataObj != NULL && !cJSON_IsNull(dataObj)) {
+                        char *dataStr = cJSON_PrintUnformatted(dataObj);
+                        if (dataStr != NULL) {
+                            ObjectIDClass *fetchedClass = AllocateObjectIDClass;
+                            if (ReadJSONObjectIDClassFromString(fetchedClass, dataStr) == STRUCTURE_READ) {
+                                FreeObjectIDClass(class);
+                                Free(class);
+                                class = fetchedClass;
+                            } else {
+                                FreeObjectIDClass(fetchedClass);
+                                Free(fetchedClass);
+                            }
+                            cJSON_free(dataStr);
+                        }
+                    }
+                    cJSON_Delete(parsedRes);
+                }
+            }
+        }
+        Free(resp_buf);
+    }
+    cJSON_free(json_body);
+
+    return class;
+}
+
+extern INT StoreObjectIDClassToFirestore(INT source,
+                                          const CHAR *classificationName,
+                                          ObjectIDInfo *info,
+                                          ObjectIDClass *class)
+{
+    cJSON *bodyObj, *arrObj;
+    CHAR *json_body;
+    CHAR *json_class_str;
+    const char *uid;
+    const char *session_id;
+    int i, res = SYSTEM_ERROR_RETURN;
+
+    if (classificationName == NULL || info == NULL || class == NULL)
+        return SYSTEM_ERROR_RETURN;
+
+    uid = getenv("REACT_USER_UID");
+    if (uid == NULL || *uid == '\0') {
+        uid = "user_default_local";
+    }
+
+    session_id = getenv("REACT_SESSION_ID");
+    if (session_id == NULL || *session_id == '\0') {
+        session_id = "default_session";
+    }
+
+    printf("[Firestore Classification Store] name='%s', uid='%s', source='%s', docKey='doc",
+           classificationName, uid, (source == DATABASE_CLASSIFICATIONS) ? "DATABASE" : "LOCAL");
+    for (i = 0; i < info->NumberOfObjectIDs; i++) {
+        printf("_%d", info->ObjectIDs[i]);
+    }
+    printf("'\n");
+    fflush(stdout);
+
+    json_class_str = WriteJSONObjectIDClassToString(class);
+    if (json_class_str == NULL)
+        return SYSTEM_ERROR_RETURN;
+
+    bodyObj = cJSON_CreateObject();
+    cJSON_AddStringToObject(bodyObj, "uid", uid);
+    cJSON_AddStringToObject(bodyObj, "sessionId", session_id);
+    cJSON_AddStringToObject(bodyObj, "source", (source == DATABASE_CLASSIFICATIONS) ? "DATABASE" : "LOCAL");
+    cJSON_AddStringToObject(bodyObj, "classificationName", classificationName);
+
+    arrObj = cJSON_CreateArray();
+    for (i = 0; i < info->NumberOfObjectIDs; i++) {
+        cJSON_AddItemToArray(arrObj, cJSON_CreateNumber(info->ObjectIDs[i]));
+    }
+    cJSON_AddItemToObject(bodyObj, "objectIDs", arrObj);
+    cJSON_AddStringToObject(bodyObj, "jsonStr", json_class_str);
+    cJSON_free(json_class_str);
+
+    json_body = cJSON_PrintUnformatted(bodyObj);
+    cJSON_Delete(bodyObj);
+
+    if (json_body != NULL) {
+        if (PostJSONToOrchestrator("/api/db/storeObjectIDClass", json_body, NULL, 0) == 0) {
+            res = SYSTEM_NORMAL_RETURN;
+        }
+        cJSON_free(json_body);
+    }
+
+    return res;
+}
+
 /*S DetermineObjectID
 */
  
@@ -96,15 +262,15 @@ extern INT DetermineObjectID(VOID object,
      ChemDBMaster *dbmaster;
      ObjectClassification *classification;
      ObjectIDClass *class;
+     ObjectIDInfo *info;
      INT id;
      
      dbmaster = GetBoundStructure(bind,BIND_CHEMDBASE);
 
      classification = FindClassification(classid,source,bind);
      
-     class = FindOrCreateObjectIDClass(object,
-				       classification->Description,
-				       classification->TreeOfObjects);
+     info = DetermineObjectIDInfo(classification->Description, object);
+     class = FetchOrCreateObjectIDClassFromFirestore(source, classification->Name, classification->Description, info);
      
      switch(source)
 	  {
@@ -116,6 +282,9 @@ extern INT DetermineObjectID(VOID object,
 	  break;
 	  }
      
+     FreeObjectIDInfo(info);
+     Free(info);
+
      return(id);
      }
      
@@ -488,137 +657,26 @@ static ObjectClassification *AddClassificationToSet(SetOfObjectClassifications *
 extern ObjectClassification *ReadInClassification(ObjectClassification *classification,
 						  BindStructure *bind)
      {
-     if(classification != 0)
-	  {
-	  classification->TreeOfObjects = ReadInTreeOfObjects(classification->ID,
-							      classification->Name,
-							      bind);
-	  }
-
      return(classification);
      }
  
-/*F ret = WriteOutClassification(set,classid,bind)
-**
-**  DESCRIPTION
-**    
-**
-**  REMARKS
-**
-**  REFERENCES
-**
-**  SEE ALSO
-**
-**  HEADERFILE
-**
-*/
 extern INT WriteOutClassification(INT classid,
 				  BindStructure *bind)
      {
-     INT ret;
-     ObjectClassification *classification;
-     
-     classification = FindClassification(classid,DATABASE_CLASSIFICATIONS,
-					 bind);
-     
-     if(classification != 0)
-	  ret = WriteTreeOfObjects(classification->TreeOfObjects,
-			     classification->ID,
-			     bind);
-	  
-     return(ret);
+     return(SYSTEM_NORMAL_RETURN);
      }
-/*f tree = ReadInTreeOfObjects(id,name,bind)
-**
-**  DESCRIPTION
-**    id   - the database id
-**    name - The tree name (used as keyword)
-**    bind - The bind structure
-**
-**    From the id and name a keyword is formed and the tree
-**    is read from the appropriate database.  If it is not in the
-**    database, then it is initialized.
-**
-**  REMARKS
-**
-*/
+
 static ObjectIDTreeNode *ReadInTreeOfObjects(INT id, CHAR *name,
 					     BindStructure *bind)
      {
-     ChemDBMaster *master;
-     DbaseKeyword *key;
-     DataBaseInformation *dinfo;
-     ObjectIDTreeNode *tree;
-     DbaseLinkedList *link;
-
-     master = GetBoundStructure(bind,BIND_CHEMDBASE);
-     dinfo = GetDataBaseInfoFromID(master->DatabaseInfo,id);
-     
-     key = AllocateDbaseKeyword;
-     CreateDbaseKeyword(key,id,name,
-			(INT) strlen(name)+1,name);
-     
-
-     link = ReadGenericElement(key,dinfo);
-     if(link != 0)
-	  {
-	  tree = AllocateObjectIDTreeNode;
-	  ReadBinObjectIDTreeNode(tree,link);
-	  FreeDbaseLinkedList(link);
-	  Free(link);
-	  }
-     else
-	  tree = InitializeObjectTree(id,name);
-     FreeDbaseKeyword(key);
-     Free(key);
-     
-     return(tree);
+     return InitializeObjectTree(id, name);
      }
  
-/*f ret = WriteTreeOfObjects(tree,id,bind)
-**
-**  DESCRIPTION
-**    tree  - The tree to write
-**    id    - The id of the tree and the database into which to write
-**    bind  - The bind structure
-**
-**    Write the tree of object descriptions into the appropriate database
-**    specified by id.
-**  REMARKS
-**
-*/
 static INT WriteTreeOfObjects(ObjectIDTreeNode *tree,
 			  INT id,
 			  BindStructure *bind)
      {
-     ChemDBMaster *master;
-     DbaseKeyword *key;
-     DataBaseInformation *dinfo;
-     DbaseLinkedList *firstlink;
-     INT ret;
-     
-     master = GetBoundStructure(bind,BIND_CHEMDBASE);
-     dinfo = GetDataBaseInfoFromID(master->DatabaseInfo,id);
-     
-     key = AllocateDbaseKeyword;
-     CreateDbaseKeyword(key,id,tree->Name,
-			(INT) strlen(tree->Name)+1,tree->Name);
-
-     firstlink = AllocateDbaseLinkedList;
-     CreateDbaseLinkedList(firstlink,key->ID,key->Name,
-			   LINKED_SIZE,
-			   0,0,0,0);
-     
-     WriteBinObjectIDTreeNode((VOID) tree, firstlink);
-     
-     ret = WriteGenericElement(firstlink,key,GDBM_REPLACE,dinfo);
-
-     FreeDbaseLinkedList(firstlink);
-     Free(firstlink);
-     FreeDbaseKeyword(key);
-     Free(key);
-     
-     return(ret);
+     return SYSTEM_NORMAL_RETURN;
      }
 
  
@@ -660,80 +718,26 @@ extern ObjectIDClass *FindOrCreateObjectIDClass(VOID object,
      info = DetermineObjectIDInfo(descr,object);
      
      class = FindObjectIDClass(tree,descr,info);
+
+     FreeObjectIDInfo(info);
+     Free(info);
      
      return(class);
      }
 
- 
-/*f info = DetermineObjectIDInfo(descr,object)
-**
-**  DESCRIPTION
-**     descr    - The description of the level ID's
-**     object   - The object
-**     info     - The list of level ID's for the object
-**
-**     This is a preliminary routine for searching through a ID tree. 
-**
-**     With each level of the ID tree is a given ID number (an integer).  
-**     These numbers are defined by ListOfTreeLevelDescriptions.  This 
-**     structure is looped through and the level ID's are determined for
-**     the given object - LevelIDFunc is called.
-**
-**  REMARKS
-**
-*/
-extern ObjectIDInfo *DetermineObjectIDInfo(ListOfTreeLevelDescriptions *descr,
-					   VOID object)
-     {
-     INT i,*id,idnum;
-     TreeLevelDescription *level;
-     ObjectIDInfo *info;
-     
-     info = AllocateObjectIDInfo;
-     CreateObjectIDInfo(info,descr->ID,descr->Name,
-			descr->NumberOfLevels,0);
-     
-     idnum = 0;
-     level = descr->Levels;
-     id = info->ObjectIDs;
-     LOOPi(descr->NumberOfLevels)
-	  {
-	  *id = (*(level->LevelIDFunc))(object);
-	  if(*id > level->MaxSize)
-	       *id = level->MaxSize;
-	  idnum += *id * level->IDMultFactor;
-	  id++;
-	  level++;
-	  }
-     info->ID = idnum;
-
-     return(info);
-     }
- 
-/*f class = FindObjectIDClass(tree,descr,info)
-**
-**  DESCRIPTION
-**    tree    - The top tree node
-**    descr   - The set of level ID descriptions
-**    info    - The level ID's of the object
-**    class   - The class to which the object belongs
-**
-**    This is the top level routine for finding the class of 
-**    a particular object.  This calls FindObjectIDClassLoop to traverse
-**    the ID tree.  ProduceClassPath is used to extend the tree when
-**    the branch for the object does not extend fully to a class.
-**
-**  REMARKS
-**
-*/
 static ObjectIDClass *FindObjectIDClass(ObjectIDTreeNode *tree,
 					ListOfTreeLevelDescriptions *descr,
 					ObjectIDInfo *info)
      {
-     ObjectIDClass *class;
-     
-     class = FindObjectIDClassLoop(0,descr,tree,info);
-     return(class);
+     const CHAR *name = "DB-Index-MoleculeIDs";
+     INT source = DATABASE_CLASSIFICATIONS;
+
+     if (tree != NULL && tree->Name != NULL && strlen(tree->Name) > 0)
+         name = tree->Name;
+     if (tree != NULL && tree->ID == LOCAL_CLASSIFICATIONS)
+         source = LOCAL_CLASSIFICATIONS;
+
+     return FetchOrCreateObjectIDClassFromFirestore(source, name, descr, info);
      }
 
  
@@ -899,6 +903,34 @@ static ObjectIDTreeNode *AddNodeToTree(ObjectIDTreeNode *tree,
 **  HEADERFILE
 **
 */
+extern ObjectIDInfo *DetermineObjectIDInfo(ListOfTreeLevelDescriptions *descr,
+					   VOID object)
+     {
+     INT i,*id,idnum;
+     TreeLevelDescription *level;
+     ObjectIDInfo *info;
+     
+     info = AllocateObjectIDInfo;
+     CreateObjectIDInfo(info,descr->ID,descr->Name,
+			descr->NumberOfLevels,0);
+     
+     idnum = 0;
+     level = descr->Levels;
+     id = info->ObjectIDs;
+     LOOPi(descr->NumberOfLevels)
+	  {
+	  *id = (*(level->LevelIDFunc))(object);
+	  if(*id > level->MaxSize)
+	       *id = level->MaxSize;
+	  idnum += *id * level->IDMultFactor;
+	  id++;
+	  level++;
+	  }
+     info->ID = idnum;
+
+     return(info);
+     }
+
 extern INT AddObjectToIDClass(VOID object,
 			      ObjectClassification *classification,
 			      BindStructure *bind)
@@ -908,15 +940,16 @@ extern INT AddObjectToIDClass(VOID object,
      ChemDBMaster *master;
      DataBaseInformation *dinfo;
      ObjectIDClass *class;
+     ObjectIDInfo *info;
      INT id;
+     INT source = DATABASE_CLASSIFICATIONS;
      
      master = GetBoundStructure(bind,BIND_CHEMDBASE);
      dinfo = GetDataBaseInfoFromID(master->DatabaseInfo,
 				   classification->Description->Database);
 
-     class = FindOrCreateObjectIDClass(object,
-				       classification->Description,
-				       classification->TreeOfObjects);
+     info = DetermineObjectIDInfo(classification->Description, object);
+     class = FetchOrCreateObjectIDClassFromFirestore(source, classification->Name, classification->Description, info);
 
      keytype = FindKeyTypeFromID(classification->Description->KeyType,
 				 dinfo);
@@ -924,6 +957,11 @@ extern INT AddObjectToIDClass(VOID object,
      (*(keytype->InsertKey))(object,key);
      id = AddIDKeyToClass(key,class);
      
+     StoreObjectIDClassToFirestore(source, classification->Name, info, class);
+
+     FreeObjectIDInfo(info);
+     Free(info);
+
      return(id);
      }
 

@@ -31,7 +31,7 @@
 static INT DBReadMolSubsFromList(BindStructure *bind, INT dbflag);
 static INT DBReadSDFMolSubs(BindStructure *bind, INT dbflag);
 static INT StoreMolFileInDataBase(MolFileMolecule *molmolf, INT dbflag,
-                                  ChemDBMaster *master);
+                                  BindStructure *bind);
 static DbaseKeyword *ComputeMoleculeKeyWord(MoleculeInfo *molecule, INT dbflag,
                                             ChemDBMaster *master);
 static INT DBPrintAllMolSubs(BindStructure *bind, INT dbflag);
@@ -269,7 +269,7 @@ static INT DBReadMolSubsFromList(BindStructure *bind, INT dbflag) {
                               "MolFile for molecule", commandmaster);
     if (file != 0) {
       ReadMFMol(file, molmolf, set->MetaAtoms);
-      StoreMolFileInDataBase(molmolf, dbflag, master);
+      StoreMolFileInDataBase(molmolf, dbflag, bind);
     }
     line = NextNonBlankLine(file, string);
     FreeMolFileMolecule(molmolf);
@@ -376,7 +376,7 @@ static INT DBReadSDFMolSubs(BindStructure *bind, INT dbflag) {
     while (done == 0) {
       done = ReadSDFMol(file, molmolf, metaatoms);
       if (done == 0) {
-        StoreMolFileInDataBase(molmolf, dbflag, master);
+        StoreMolFileInDataBase(molmolf, dbflag, bind);
         FreeMolFileMolecule(molmolf);
       }
     }
@@ -402,22 +402,20 @@ static INT DBReadSDFMolSubs(BindStructure *bind, INT dbflag) {
 **
 */
 static INT StoreMolFileInDataBase(MolFileMolecule *molmolf, INT dbflag,
-                                  ChemDBMaster *master) {
+                                  BindStructure *bind) {
   MoleculeInfo *molecule;
-  /*     MolFileMolecule *mol;*/
   DbaseKeyword *key;
   DataBaseInformation *dinfo;
+  ChemDBMaster *master;
+  INT id;
 
+  master = GetBoundStructure(bind, BIND_CHEMDBASE);
   molecule = AllocateMoleculeInfo;
   CreateMoleculeInfo(molecule, molmolf->ID, molmolf->Name, molmolf, 0, 0);
 
-  /*
-       mol = AddHydrogens(molecule->Molfile);
-       molecule->Electronic = ElectronicFromMolFile(mol);
-       Free(molecule->Molfile);
-       molecule->Molfile = mol;
-       ComputePolarizability(molecule);
-  */
+  id = PutMoleculeInDatabaseClass(molecule, dbflag, bind);
+  molecule->ID = id;
+  molmolf->ID = id;
 
   dinfo = GetDataBaseInfoFromID(master->DatabaseInfo, dbflag);
   key = ComputeMoleculeKeyWord(molecule, dbflag, master);

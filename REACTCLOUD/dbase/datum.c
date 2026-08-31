@@ -24,7 +24,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
-static int PostJSONToOrchestrator(const char *path, const char *json_body, char *response_buf, size_t response_buf_size)
+extern int PostJSONToOrchestrator(const char *path, const char *json_body, char *response_buf, size_t response_buf_size)
 {
     int sockfd;
     struct sockaddr_in servaddr;

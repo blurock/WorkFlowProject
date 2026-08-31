@@ -78,6 +78,7 @@ extern INT ReadDBSearchType(INT id,
 			    DataBaseInformation *dinfo);
 extern DbaseLinkedList *ReadGenericElement(DbaseKeyword *key,
 					   DataBaseInformation *dinfo);
+extern int PostJSONToOrchestrator(const char *path, const char *json_body, char *response_buf, size_t response_buf_size);
 extern INT StoreElementToFirestore(DbaseKeyword *keyword,
 				    CHAR *json_str,
 				    DataBaseInformation *info);

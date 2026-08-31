@@ -260,6 +260,14 @@ extern INT AddObjectToIDClass(VOID object,
 			      BindStructure *bind);
 extern INT WriteOutClassification(INT classid,
 				  BindStructure *bind);
+extern ObjectIDClass *FetchOrCreateObjectIDClassFromFirestore(INT source,
+                                                               const CHAR *classificationName,
+                                                               ListOfTreeLevelDescriptions *descr,
+                                                               ObjectIDInfo *info);
+extern INT StoreObjectIDClassToFirestore(INT source,
+                                          const CHAR *classificationName,
+                                          ObjectIDInfo *info,
+                                          ObjectIDClass *class);
 
 /*P  . . . PROTOTYPES  . . . . . . . . . . . . . . . . . . .objfindmol.c
 */
