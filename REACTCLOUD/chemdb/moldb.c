@@ -131,6 +131,14 @@ extern INT StoreMoleculeSetToDatabase(MoleculeSet *set, INT dbflag,
   }
 
   master = GetBoundStructure(bind, BIND_CHEMDBASE);
+  if (master == NULL || master->DatabaseInfo == NULL) {
+    InitializeChemDBInfo(bind);
+    master = GetBoundStructure(bind, BIND_CHEMDBASE);
+  }
+  if (master == NULL || master->DatabaseInfo == NULL) {
+    printf("StoreMoleculeSetToDatabase: ChemDBMaster database info not initialized.\n");
+    return (SYSTEM_ERROR_RETURN);
+  }
   dinfo = GetDataBaseInfoFromID(master->DatabaseInfo, dbflag);
 
   molecule = set->Molecules;
@@ -158,7 +166,6 @@ extern INT StoreMoleculeSetToDatabase(MoleculeSet *set, INT dbflag,
 
       if (key != NULL) {
         StoreElement((VOID *)molecule, key, GDBM_REPLACE, dinfo);
-        InsertSearchKeys((VOID)molecule, key, dinfo->Keys);
         FreeDbaseKeyword(key);
         Free(key);
       }

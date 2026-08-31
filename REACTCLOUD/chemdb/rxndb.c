@@ -129,8 +129,6 @@ extern INT StoreReactionSetToDatabase(ReactionSet *rxnset,
 	  StoreElement((VOID) reaction,
 		       key,GDBM_REPLACE,
 		       dinfo);
-	  InsertSearchKeys((VOID) reaction,
-			   key,dinfo->Keys);
 	  FreeDbaseKeyword(key);
 	  Free(key);
 	  reaction++;

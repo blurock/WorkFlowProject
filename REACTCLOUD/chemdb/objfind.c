@@ -343,13 +343,13 @@ static INT SearchForObjectInDatabase(ObjectIDClass *class,
      
      dinfo = GetDataBaseInfoFromID(dbmaster->DatabaseInfo,
 				   classification->Description->Database);
-     newobject = (*(dinfo->AllocateElement))();
      
      done = 0;
      count = 0;
      key = class->Keys;
      while(done == 0 && count < class->NumberOfKeys)
        {
+	 newobject = (*(dinfo->AllocateElement))();
 	 ret = SearchKeyElement(classification->Description->KeyType,
 				newobject,key,dinfo);
 	 if(ret == SYSTEM_NORMAL_RETURN)
@@ -363,6 +363,7 @@ static INT SearchForObjectInDatabase(ObjectIDClass *class,
 	   {
 	     printf("The object within the classification was not found\n");
 	   }
+	 Free(newobject);
 	 count++;
 	 key++;
        }
@@ -954,7 +955,16 @@ extern INT AddObjectToIDClass(VOID object,
      keytype = FindKeyTypeFromID(classification->Description->KeyType,
 				 dinfo);
      key = AllocateDbaseKeyword;
-     (*(keytype->InsertKey))(object,key);
+     if (keytype != NULL && keytype->InsertKey != NULL) {
+       (*(keytype->InsertKey))(object,key);
+     } else {
+       key->ID = 0;
+       key->Name = NULL;
+       key->Size = INTSize;
+       key->KeyWord = (VOID)AllocateINT;
+       id = class->ID + class->NumberOfKeys;
+       memcpy((char *)key->KeyWord, (char *)&(id), (unsigned int)key->Size);
+     }
      id = AddIDKeyToClass(key,class);
      
      StoreObjectIDClassToFirestore(source, classification->Name, info, class);

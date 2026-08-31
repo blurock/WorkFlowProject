@@ -148,7 +148,7 @@ extern INT ProduceDataBaseSearchKeys(DataBaseInformation *dinfo)
 		  strncmp(keyword->KeyWord,DBINDEXROOTNAME,DBINDEXROOTNAMESIZE) != 0)
 		  )
 		    {
-		    InsertSearchKeys(element,keyword,dinfo->Keys);
+		    /* InsertSearchKeys(element,keyword,dinfo->Keys); */
 		    (*(dinfo->FreeElement))(element);
 		    }
 	       ret = FetchNextElement(element,keyword,dinfo);
@@ -173,8 +173,6 @@ extern INT ProduceDataBaseSearchKeys(DataBaseInformation *dinfo)
 **  The database key is paired with all the search key pairs by a simple
 **  loop through all the key types and calling InsertSingleSearchKey.
 **
-**    
-**
 **  REMARKS
 **
 **  REFERENCES
@@ -188,28 +186,10 @@ extern void InsertSearchKeys(VOID element,
 			     DbaseKeyword *dbkey,
 			     SetOfSearchKeyTypes *keys)
      {
-     SearchKeyInfo *keytype;
-     INT i;
-     DbaseKeyword *ret,*newkey;
-
-     /*     printf("InsertSearchKeys:\n");
-     PrintPrettyDbaseKeyword(dbkey);
-     */
-     newkey = AllocateDbaseKeyword;
-     keytype = keys->KeyTypes;
-     LOOPi(keys->NumberOfKeyTypes)
-	  {
-	    (*(keytype->InsertKey))(element,newkey);
-	    /*PrintPrettyDbaseKeyword(newkey);*/
-	    ret = GetCorrespondingDBKey(dbkey,keytype);
-	  if(ret == 0)
-	    {
-	      InsertSingleSearchKey(element,dbkey,keytype);
-	    }
-	  FreeDbaseKeyword(newkey);
-	  keytype++;
-	  }
-     Free(newkey);
+     printf("[Debug Warning] InsertSearchKeys called unexpectedly!\n");
+     (void)element;
+     (void)dbkey;
+     (void)keys;
      }
 
  
@@ -373,7 +353,7 @@ extern INT ReadKeyIntoMemory(INT id, DataBaseInformation *dinfo)
      ret = SYSTEM_NORMAL_RETURN;
      
      keytype = FindKeyTypeFromID(id,dinfo);
-     if(keytype != 0)
+     if(keytype != 0 && keytype->Keys != 0)
 	  {
 	  newkeys = AllocateSetOfSearchKeys;
 	  ret = ReadDBSearchType(id,newkeys,dinfo);

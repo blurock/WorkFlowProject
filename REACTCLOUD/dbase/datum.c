@@ -508,27 +508,15 @@ extern INT StoreElement(VOID element,
 			INT flag,
 			DataBaseInformation *info)
      {
-     DbaseLinkedList *firstlink;
-     INT ret;
-     
-     firstlink = AllocateDbaseLinkedList;
-     CreateDbaseLinkedList(firstlink,keyword->ID,keyword->Name,
-			   LINKED_SIZE,
-			   0,0,0,0);
-     
-     (*info->WriteConversion)(element,firstlink);
-
-     ret = WriteGenericElement(firstlink,keyword,flag,info);
-     
-     FreeDbaseLinkedList(firstlink);
-     Free(firstlink);
+     INT ret = SYSTEM_NORMAL_RETURN;
+     (void)flag;
 
      if(info != NULL && info->ElementToJSONString != NULL)
           {
           CHAR *json_str = (*info->ElementToJSONString)(element);
           if(json_str != NULL)
                {
-               StoreElementToFirestore(keyword, json_str, info);
+               ret = StoreElementToFirestore(keyword, json_str, info);
                cJSON_free(json_str);
                }
           else

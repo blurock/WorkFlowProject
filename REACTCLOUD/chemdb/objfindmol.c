@@ -196,7 +196,11 @@ extern INT PutMoleculeInDatabaseClass(MoleculeInfo *molecule,
 	    keytype = FindKeyTypeFromID(classification->Description->KeyType,
 					dinfo);
 	    key = AllocateDbaseKeyword;
-	    (*(keytype->InsertKey))(molecule,key);
+	    if (keytype != NULL && keytype->InsertKey != NULL) {
+	      (*(keytype->InsertKey))(molecule,key);
+	    } else {
+	      ProduceMolIDKey(molecule->ID, key);
+	    }
 	    id = AddIDKeyToClass(key,class);
 
 	    info = DetermineObjectIDInfo(classification->Description, (VOID) molecule);

@@ -71,8 +71,6 @@ extern INT StoreCurrentBensonTables(BindStructure *bind) {
       key = ComputeBensonTable2ndOrderKey(single);
       StoreElement((VOID *)btable, key, GDBM_REPLACE, dinfo);
 
-      if (dinfo->Keys != 0)
-        InsertSearchKeys((VOID)btable, key, dinfo->Keys);
       FreeDbaseKeyword(key);
       Free(key);
       FreeBensonTables(btable);
@@ -125,8 +123,7 @@ extern INT StoreCurrentBensonTree(BindStructure *bind) {
   key = ComputeBensonTreeKey(name);
   StoreElement((VOID)btable, key, GDBM_REPLACE, dinfo);
 
-  if (dinfo->Keys != 0)
-    InsertSearchKeys((VOID)btable, key, dinfo->Keys);
+  /* InsertSearchKeys eliminated */
   FreeDbaseKeyword(key);
   Free(key);
   FreeBensonTables(btable);
@@ -168,8 +165,7 @@ extern INT StoreCurrentChemkin(BindStructure *bind) {
       key = ComputeChemkinValueKey(single);
       StoreElement((VOID *)single, key, GDBM_REPLACE, dinfo);
 
-      if (dinfo->Keys != 0)
-        InsertSearchKeys((VOID)single, key, dinfo->Keys);
+      /* InsertSearchKeys eliminated */
       FreeDbaseKeyword(key);
       Free(key);
     } else {

@@ -14,25 +14,6 @@ Quit
 Quit
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Open up the data base
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-CreateOpenClose
-Start
-Quit
-
-DbaseOps
-Molecules
-Current
-Store
-Quit
-Keys
-Define
-Write
-Quit
-Quit
-Quit
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Read SDF into Mol and perform calculations
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Mol
@@ -70,11 +51,6 @@ DbaseOps
 Molecules
 Current
 Store
-Quit
-Keys
-Read
-Fill
-Write
 Quit
 Quit
 Quit

@@ -7,6 +7,7 @@ extern DataBaseInformation *GetDataBaseInfoFromID(DbaseMaster *master,
      DataBaseInformation *done,*dinfo;
      INT cnt;
      
+     if (master == NULL) return NULL;
      dinfo = master->Databases;
      cnt = 0;
      done = 0;
