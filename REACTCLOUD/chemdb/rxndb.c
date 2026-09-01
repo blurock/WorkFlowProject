@@ -229,7 +229,15 @@ static INT DBPrintAllRxns(BindStructure *bind, INT dbflag)
      ChemDBMaster *master;
      
      master = GetBoundStructure(bind,BIND_CHEMDBASE);
-     dinfo = GetDataBaseInfoFromID(master->DatabaseInfo,dbflag);
+     if (master == NULL || master->DatabaseInfo == NULL) {
+       InitializeChemDBInfo(bind);
+       master = GetBoundStructure(bind, BIND_CHEMDBASE);
+     }
+     if (master != NULL && master->DatabaseInfo != NULL) {
+       dinfo = GetDataBaseInfoFromID(master->DatabaseInfo,dbflag);
+     } else {
+       dinfo = NULL;
+     }
      
      return PrintDatabaseRecordSummaries(dinfo, "%10d: -->%s<--\n");
      }

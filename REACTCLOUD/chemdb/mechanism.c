@@ -1626,7 +1626,11 @@ static INT DBPrintAllMechs(BindStructure *bind, INT dbflag)
   ChemDBMaster *master;
      
   master = GetBoundStructure(bind,BIND_CHEMDBASE);
-  dinfo = GetDataBaseInfoFromID(master->DatabaseInfo,dbflag);
+  if (master == NULL || master->DatabaseInfo == NULL) {
+    InitializeChemDBInfo(bind);
+    master = GetBoundStructure(bind, BIND_CHEMDBASE);
+  }
+  dinfo = (master != NULL && master->DatabaseInfo != NULL) ? GetDataBaseInfoFromID(master->DatabaseInfo,dbflag) : NULL;
      
   return PrintDatabaseRecordSummaries(dinfo, "%10d: -->%s<--\n");
 }

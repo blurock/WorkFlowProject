@@ -404,7 +404,11 @@ extern INT PrintAllBensonTables(BindStructure *bind) {
   ChemDBMaster *master;
 
   master = GetBoundStructure(bind, BIND_CHEMDBASE);
-  dinfo = GetDataBaseInfoFromID(master->DatabaseInfo, BENSON_TABLES_DATABASE);
+  if (master == NULL || master->DatabaseInfo == NULL) {
+    InitializeChemDBInfo(bind);
+    master = GetBoundStructure(bind, BIND_CHEMDBASE);
+  }
+  dinfo = (master != NULL && master->DatabaseInfo != NULL) ? GetDataBaseInfoFromID(master->DatabaseInfo, BENSON_TABLES_DATABASE) : NULL;
 
   return PrintDatabaseRecordSummaries(dinfo, ": --> %10d: %s\n");
 }
@@ -414,7 +418,11 @@ extern INT PrintAllBensonTrees(BindStructure *bind) {
   ChemDBMaster *master;
 
   master = GetBoundStructure(bind, BIND_CHEMDBASE);
-  dinfo = GetDataBaseInfoFromID(master->DatabaseInfo, BENSON_TABLES_DATABASE);
+  if (master == NULL || master->DatabaseInfo == NULL) {
+    InitializeChemDBInfo(bind);
+    master = GetBoundStructure(bind, BIND_CHEMDBASE);
+  }
+  dinfo = (master != NULL && master->DatabaseInfo != NULL) ? GetDataBaseInfoFromID(master->DatabaseInfo, BENSON_TABLES_DATABASE) : NULL;
 
   return PrintDatabaseRecordSummaries(dinfo, "%10d: %s\n");
 }
@@ -424,7 +432,11 @@ extern INT PrintAllChemkinValues(BindStructure *bind) {
   ChemDBMaster *master;
 
   master = GetBoundStructure(bind, BIND_CHEMDBASE);
-  dinfo = GetDataBaseInfoFromID(master->DatabaseInfo, CHEMKIN_THERMO_DATABASE);
+  if (master == NULL || master->DatabaseInfo == NULL) {
+    InitializeChemDBInfo(bind);
+    master = GetBoundStructure(bind, BIND_CHEMDBASE);
+  }
+  dinfo = (master != NULL && master->DatabaseInfo != NULL) ? GetDataBaseInfoFromID(master->DatabaseInfo, CHEMKIN_THERMO_DATABASE) : NULL;
 
   return PrintDatabaseRecordSummaries(dinfo, "%10d: %s\n");
 }
