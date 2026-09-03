@@ -17,6 +17,7 @@ endif
 #--------------------------------------------------------------------------
 set CHEMKIN        = $1
 set REFERENCE       = $REACTROOT/programs/inputs/ReadAndStoreChemkin.inp
+#set REFERENCE       = $REACTROOT/programs/inputs/ReadCheckChemkin.inp
 set CHEMPROG        = $REACTROOT/bin/runchem.sh
 set TEMPDIR         = $REACTROOT/tmp
 set TEMPFILE        = $REACTROOT/tmp/read.prg

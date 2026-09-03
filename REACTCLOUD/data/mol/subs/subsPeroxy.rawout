@@ -35,12 +35,14 @@ main>> CreateOpenClose
 Command:CreateOpenClose
 CreateOpenClose>> Start
 Command:Start
-
-0:No Keys for Reactions
-
-
-0:No Keys for ReactionPatterns
-
+[GDBM SearchKeys Read] dbName='Molecules', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Molecules', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[GDBM SearchKeys Read] dbName='Reactions', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Reactions', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[GDBM SearchKeys Read] dbName='ReactionPatterns', id=1: ReadBinSetOfSearchKeys loaded 850 keys from GDBM (datset.dsize=34029)
+[GDBM SearchKeys Read] dbName='ReactionPatterns', id=0: ReadBinSetOfSearchKeys loaded 850 keys from GDBM (datset.dsize=91349)
 CreateOpenClose>> Quit
 main>> DbaseOps
 Command:DbaseOps
@@ -52,6 +54,10 @@ Keys>> Define
 Command:Define
 Keys>> Write
 Command:Write
+[Firestore SearchKeys Store] dbName='Substructures', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Substructures', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
 Keys>> Quit
 SubStructures>> Quit
 DbaseOps>> Quit
@@ -140,218 +146,334 @@ Command:Current
 Current>> Store
 Command:Store
 Store:          1:(q)(q)(h)coo.
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_1_2'
+Equivalence: (h).cooh-r (q)(q)(h)coo.     0
+Equivalence:  r-.cooh-r (q)(q)(h)coo.     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_1_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_1_2'
 New ID:   20506102
+[Firestore Store] dbName='Substructures', key='20506102', keyId=20506102, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          2:(q)(q)(q)coo.
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Equivalence: (q)(q)(h)coo. (q)(q)(q)coo.     0
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_1_2'
+Equivalence: (h).cooh-r (q)(q)(q)coo.     0
+Equivalence:  r-.cooh-r (q)(q)(q)coo.     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_1_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_1_2'
 New ID:   20506103
+[Firestore Store] dbName='Substructures', key='20506103', keyId=20506103, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          3:(h)(h)(h)coo.
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_1_2'
+Equivalence: (h).cooh-r (h)(h)(h)coo.     0
+Equivalence:  r-.cooh-r (h)(h)(h)coo.     0
 Equivalence: (q)(q)(h)coo. (h)(h)(h)coo.     0
-Equivalence: (q)(q)(q)coo. (h)(h)(h)coo.     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_1_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_1_2'
 New ID:   20506104
+[Firestore Store] dbName='Substructures', key='20506104', keyId=20506104, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          4:(h)(h)(r)coo.
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_1_2'
+Equivalence: (h).cooh-r (h)(h)(r)coo.     0
+Equivalence:  r-.cooh-r (h)(h)(r)coo.     0
 Equivalence: (q)(q)(h)coo. (h)(h)(r)coo.     0
 Equivalence: (q)(q)(q)coo. (h)(h)(r)coo.     0
-Equivalence: (h)(h)(h)coo. (h)(h)(r)coo.     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_1_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_1_2'
 New ID:   20506105
+[Firestore Store] dbName='Substructures', key='20506105', keyId=20506105, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          5:(h)(r)(r)coo.
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_1_2'
+Equivalence: (h).cooh-r (h)(r)(r)coo.     0
+Equivalence:  r-.cooh-r (h)(r)(r)coo.     0
 Equivalence: (q)(q)(h)coo. (h)(r)(r)coo.     0
 Equivalence: (q)(q)(q)coo. (h)(r)(r)coo.     0
 Equivalence: (h)(h)(h)coo. (h)(r)(r)coo.     0
-Equivalence: (h)(h)(r)coo. (h)(r)(r)coo.     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_1_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_1_2'
 New ID:   20506106
+[Firestore Store] dbName='Substructures', key='20506106', keyId=20506106, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          6:(r)(r)(r)coo.
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_1_2'
+Equivalence: (h).cooh-r (r)(r)(r)coo.     0
+Equivalence:  r-.cooh-r (r)(r)(r)coo.     0
 Equivalence: (q)(q)(h)coo. (r)(r)(r)coo.     0
 Equivalence: (q)(q)(q)coo. (r)(r)(r)coo.     0
 Equivalence: (h)(h)(h)coo. (r)(r)(r)coo.     0
 Equivalence: (h)(h)(r)coo. (r)(r)(r)coo.     0
-Equivalence: (h)(r)(r)coo. (r)(r)(r)coo.     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_1_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_1_2'
 New ID:   20506107
+[Firestore Store] dbName='Substructures', key='20506107', keyId=20506107, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          7:(h)(h)(h)cooh
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_1_1'
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_1_1'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_1_1'
 New ID:   10607100
+[Firestore Store] dbName='Substructures', key='10607100', keyId=10607100, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          8:(h)(h)(r)cooh
-Equivalence: (h)(h)(h)cooh (h)(h)(r)cooh     0
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_1_1'
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_1_1'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_1_1'
 New ID:   10607101
+[Firestore Store] dbName='Substructures', key='10607101', keyId=10607101, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          9:(h)(r)(r)cooh
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_1_1'
 Equivalence: (h)(h)(h)cooh (h)(r)(r)cooh     0
-Equivalence: (h)(h)(r)cooh (h)(r)(r)cooh     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_1_1'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_1_1'
 New ID:   10607102
+[Firestore Store] dbName='Substructures', key='10607102', keyId=10607102, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         10:(r)(r)(r)cooh
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_1_1'
 Equivalence: (h)(h)(h)cooh (r)(r)(r)cooh     0
 Equivalence: (h)(h)(r)cooh (r)(r)(r)cooh     0
-Equivalence: (h)(r)(r)cooh (r)(r)(r)cooh     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_1_1'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_1_1'
 New ID:   10607103
+[Firestore Store] dbName='Substructures', key='10607103', keyId=10607103, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         11:c(q)(q)(h)(coo.)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_2_2'
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_2_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_2_2'
 New ID:   20607200
+[Firestore Store] dbName='Substructures', key='20607200', keyId=20607200, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         12:c(h)(q)(q)(ccoo.)
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_7_8_3_2'
+Equivalence: alphaolefin-radical(qq)(q)(hh) c(h)(q)(q)(ccoo.)     0
+Equivalence: alphaolefin-radical(qq)(q)(rh) c(h)(q)(q)(ccoo.)     0
+Equivalence: alphaolefin-radical(qq)(q)(rr) c(h)(q)(q)(ccoo.)     0
+Equivalence: alphaolefin-radical(hh)(h)(hh) c(h)(q)(q)(ccoo.)     0
+Equivalence: alphaolefin-radical(rh)(h)(hh) c(h)(q)(q)(ccoo.)     0
+Equivalence: alphaolefin-radical(rr)(h)(hh) c(h)(q)(q)(ccoo.)     0
+Equivalence: alphaolefin-radical(hh)(r)(hh) c(h)(q)(q)(ccoo.)     0
+Equivalence: alphaolefin-radical(rh)(r)(hh) c(h)(q)(q)(ccoo.)     0
+Equivalence: alphaolefin-radical(rr)(r)(hh) c(h)(q)(q)(ccoo.)     0
+Equivalence: alphaolefin-radical(hh)(h)(rh) c(h)(q)(q)(ccoo.)     0
+Equivalence: alphaolefin-radical(rh)(h)(rh) c(h)(q)(q)(ccoo.)     0
+Equivalence: alphaolefin-radical(rr)(h)(rh) c(h)(q)(q)(ccoo.)     0
+Equivalence: alphaolefin-radical(hh)(r)(rh) c(h)(q)(q)(ccoo.)     0
+Equivalence: alphaolefin-radical(rh)(r)(rh) c(h)(q)(q)(ccoo.)     0
+Equivalence: alphaolefin-radical(rr)(r)(rh) c(h)(q)(q)(ccoo.)     0
+Equivalence: alphaolefin-radical(hh)(h)(rr) c(h)(q)(q)(ccoo.)     0
+Equivalence: alphaolefin-radical(rh)(h)(rr) c(h)(q)(q)(ccoo.)     0
+Equivalence: alphaolefin-radical(rr)(h)(rr) c(h)(q)(q)(ccoo.)     0
+Equivalence: alphaolefin-radical(hh)(r)(rr) c(h)(q)(q)(ccoo.)     0
+Equivalence: alphaolefin-radical(rh)(r)(rr) c(h)(q)(q)(ccoo.)     0
+Equivalence: alphaolefin-radical(rr)(r)(rr) c(h)(q)(q)(ccoo.)     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_7_8_3_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_7_8_3_2'
 New ID:   20708321
+[Firestore Store] dbName='Substructures', key='20708321', keyId=20708321, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         13:c(h)(q)(q)(cccoo.)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_4_2'
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_4_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_4_2'
 New ID:   20809400
+[Firestore Store] dbName='Substructures', key='20809400', keyId=20809400, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         14:.c(q)(q)(cooh)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_2_2'
 Equivalence: c(q)(q)(h)(coo.) .c(q)(q)(cooh)     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_2_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_2_2'
 New ID:   20607201
+[Firestore Store] dbName='Substructures', key='20607201', keyId=20607201, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         15:.c(q)(q)(ccooh)
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_7_8_3_2'
+Equivalence: alphaolefin-radical(qq)(q)(hh) .c(q)(q)(ccooh)     0
+Equivalence: alphaolefin-radical(qq)(q)(rh) .c(q)(q)(ccooh)     0
+Equivalence: alphaolefin-radical(qq)(q)(rr) .c(q)(q)(ccooh)     0
+Equivalence: alphaolefin-radical(hh)(h)(hh) .c(q)(q)(ccooh)     0
+Equivalence: alphaolefin-radical(rh)(h)(hh) .c(q)(q)(ccooh)     0
+Equivalence: alphaolefin-radical(rr)(h)(hh) .c(q)(q)(ccooh)     0
+Equivalence: alphaolefin-radical(hh)(r)(hh) .c(q)(q)(ccooh)     0
+Equivalence: alphaolefin-radical(rh)(r)(hh) .c(q)(q)(ccooh)     0
+Equivalence: alphaolefin-radical(rr)(r)(hh) .c(q)(q)(ccooh)     0
+Equivalence: alphaolefin-radical(hh)(h)(rh) .c(q)(q)(ccooh)     0
+Equivalence: alphaolefin-radical(rh)(h)(rh) .c(q)(q)(ccooh)     0
+Equivalence: alphaolefin-radical(rr)(h)(rh) .c(q)(q)(ccooh)     0
+Equivalence: alphaolefin-radical(hh)(r)(rh) .c(q)(q)(ccooh)     0
+Equivalence: alphaolefin-radical(rh)(r)(rh) .c(q)(q)(ccooh)     0
+Equivalence: alphaolefin-radical(rr)(r)(rh) .c(q)(q)(ccooh)     0
+Equivalence: alphaolefin-radical(hh)(h)(rr) .c(q)(q)(ccooh)     0
+Equivalence: alphaolefin-radical(rh)(h)(rr) .c(q)(q)(ccooh)     0
+Equivalence: alphaolefin-radical(rr)(h)(rr) .c(q)(q)(ccooh)     0
+Equivalence: alphaolefin-radical(hh)(r)(rr) .c(q)(q)(ccooh)     0
+Equivalence: alphaolefin-radical(rh)(r)(rr) .c(q)(q)(ccooh)     0
+Equivalence: alphaolefin-radical(rr)(r)(rr) .c(q)(q)(ccooh)     0
 Equivalence: c(h)(q)(q)(ccoo.) .c(q)(q)(ccooh)     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_7_8_3_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_7_8_3_2'
 New ID:   20708322
+[Firestore Store] dbName='Substructures', key='20708322', keyId=20708322, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         16:.c(q)(q)(cccooh)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_4_2'
 Equivalence: c(h)(q)(q)(cccoo.) .c(q)(q)(cccooh)     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_4_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_4_2'
 New ID:   20809401
+[Firestore Store] dbName='Substructures', key='20809401', keyId=20809401, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         17:.c(q)(q)(ccccooh)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_5_2'
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_5_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_5_2'
 New ID:   20910500
+[Firestore Store] dbName='Substructures', key='20910500', keyId=20910500, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         18:c2q5ooh
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_2_1'
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_2_1'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_2_1'
 New ID:   10910200
+[Firestore Store] dbName='Substructures', key='10910200', keyId=10910200, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         19:.c(h)(h)c(h)(h)(ooh)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_2_2'
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_2_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_2_2'
 New ID:   20809200
+[Firestore Store] dbName='Substructures', key='20809200', keyId=20809200, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         20:.c(r)(h)c(h)(h)(ooh)
-Equivalence: .c(h)(h)c(h)(h)(ooh) .c(r)(h)c(h)(h)(ooh)     0
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_2_2'
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_2_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_2_2'
 New ID:   20809201
+[Firestore Store] dbName='Substructures', key='20809201', keyId=20809201, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         21:.c(r)(r)c(h)(h)(ooh)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_2_2'
 Equivalence: .c(h)(h)c(h)(h)(ooh) .c(r)(r)c(h)(h)(ooh)     0
-Equivalence: .c(r)(h)c(h)(h)(ooh) .c(r)(r)c(h)(h)(ooh)     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_2_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_2_2'
 New ID:   20809202
+[Firestore Store] dbName='Substructures', key='20809202', keyId=20809202, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         22:.c(h)(h)c(r)(h)(ooh)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_2_2'
 Equivalence: .c(h)(h)c(h)(h)(ooh) .c(h)(h)c(r)(h)(ooh)     0
 Equivalence: .c(r)(h)c(h)(h)(ooh) .c(h)(h)c(r)(h)(ooh)     0
-Equivalence: .c(r)(r)c(h)(h)(ooh) .c(h)(h)c(r)(h)(ooh)     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_2_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_2_2'
 New ID:   20809203
+[Firestore Store] dbName='Substructures', key='20809203', keyId=20809203, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         23:.c(r)(h)c(r)(h)(ooh)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_2_2'
 Equivalence: .c(h)(h)c(h)(h)(ooh) .c(r)(h)c(r)(h)(ooh)     0
 Equivalence: .c(r)(h)c(h)(h)(ooh) .c(r)(h)c(r)(h)(ooh)     0
 Equivalence: .c(r)(r)c(h)(h)(ooh) .c(r)(h)c(r)(h)(ooh)     0
-Equivalence: .c(h)(h)c(r)(h)(ooh) .c(r)(h)c(r)(h)(ooh)     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_2_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_2_2'
 New ID:   20809204
+[Firestore Store] dbName='Substructures', key='20809204', keyId=20809204, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         24:.c(r)(r)c(r)(h)(ooh)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_2_2'
 Equivalence: .c(h)(h)c(h)(h)(ooh) .c(r)(r)c(r)(h)(ooh)     0
 Equivalence: .c(r)(h)c(h)(h)(ooh) .c(r)(r)c(r)(h)(ooh)     0
 Equivalence: .c(r)(r)c(h)(h)(ooh) .c(r)(r)c(r)(h)(ooh)     0
 Equivalence: .c(h)(h)c(r)(h)(ooh) .c(r)(r)c(r)(h)(ooh)     0
-Equivalence: .c(r)(h)c(r)(h)(ooh) .c(r)(r)c(r)(h)(ooh)     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_2_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_2_2'
 New ID:   20809205
+[Firestore Store] dbName='Substructures', key='20809205', keyId=20809205, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         25:.c(h)(h)c(r)(r)(ooh)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_2_2'
 Equivalence: .c(h)(h)c(h)(h)(ooh) .c(h)(h)c(r)(r)(ooh)     0
 Equivalence: .c(r)(h)c(h)(h)(ooh) .c(h)(h)c(r)(r)(ooh)     0
 Equivalence: .c(r)(r)c(h)(h)(ooh) .c(h)(h)c(r)(r)(ooh)     0
 Equivalence: .c(h)(h)c(r)(h)(ooh) .c(h)(h)c(r)(r)(ooh)     0
 Equivalence: .c(r)(h)c(r)(h)(ooh) .c(h)(h)c(r)(r)(ooh)     0
-Equivalence: .c(r)(r)c(r)(h)(ooh) .c(h)(h)c(r)(r)(ooh)     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_2_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_2_2'
 New ID:   20809206
+[Firestore Store] dbName='Substructures', key='20809206', keyId=20809206, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         26:.c(r)(h)c(r)(r)(ooh)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_2_2'
 Equivalence: .c(h)(h)c(h)(h)(ooh) .c(r)(h)c(r)(r)(ooh)     0
 Equivalence: .c(r)(h)c(h)(h)(ooh) .c(r)(h)c(r)(r)(ooh)     0
 Equivalence: .c(r)(r)c(h)(h)(ooh) .c(r)(h)c(r)(r)(ooh)     0
 Equivalence: .c(h)(h)c(r)(h)(ooh) .c(r)(h)c(r)(r)(ooh)     0
 Equivalence: .c(r)(h)c(r)(h)(ooh) .c(r)(h)c(r)(r)(ooh)     0
 Equivalence: .c(r)(r)c(r)(h)(ooh) .c(r)(h)c(r)(r)(ooh)     0
-Equivalence: .c(h)(h)c(r)(r)(ooh) .c(r)(h)c(r)(r)(ooh)     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_2_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_2_2'
 New ID:   20809207
+[Firestore Store] dbName='Substructures', key='20809207', keyId=20809207, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         27:.c(r)(r)c(r)(r)(ooh)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_2_2'
 Equivalence: .c(h)(h)c(h)(h)(ooh) .c(r)(r)c(r)(r)(ooh)     0
 Equivalence: .c(r)(h)c(h)(h)(ooh) .c(r)(r)c(r)(r)(ooh)     0
 Equivalence: .c(r)(r)c(h)(h)(ooh) .c(r)(r)c(r)(r)(ooh)     0
@@ -359,199 +481,218 @@ Equivalence: .c(h)(h)c(r)(h)(ooh) .c(r)(r)c(r)(r)(ooh)     0
 Equivalence: .c(r)(h)c(r)(h)(ooh) .c(r)(r)c(r)(r)(ooh)     0
 Equivalence: .c(r)(r)c(r)(h)(ooh) .c(r)(r)c(r)(r)(ooh)     0
 Equivalence: .c(h)(h)c(r)(r)(ooh) .c(r)(r)c(r)(r)(ooh)     0
-Equivalence: .c(r)(h)c(r)(r)(ooh) .c(r)(r)c(r)(r)(ooh)     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_2_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_8_9_2_2'
 New ID:   20809208
+[Firestore Store] dbName='Substructures', key='20809208', keyId=20809208, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         28:c(h)(h)(h)(ooh)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_1_1'
 Equivalence: (h)(h)(h)cooh c(h)(h)(h)(ooh)     6
 Equivalence: (h)(h)(r)cooh c(h)(h)(h)(ooh)     0
 Equivalence: (h)(r)(r)cooh c(h)(h)(h)(ooh)     0
 Equivalence: (r)(r)(r)cooh c(h)(h)(h)(ooh)     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_1_1'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_1_1'
 New ID:   10607104
+[Firestore Store] dbName='Substructures', key='', keyId=10607104, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         29:c(r)(h)(h)(ooh)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_1_1'
 Equivalence: (h)(h)(h)cooh c(r)(h)(h)(ooh)     0
 Equivalence: (h)(h)(r)cooh c(r)(h)(h)(ooh)     2
 Equivalence: (h)(r)(r)cooh c(r)(h)(h)(ooh)     0
 Equivalence: (r)(r)(r)cooh c(r)(h)(h)(ooh)     0
-Equivalence: c(h)(h)(h)(ooh) c(r)(h)(h)(ooh)     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_1_1'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_1_1'
 New ID:   10607105
+[Firestore Store] dbName='Substructures', key='10607105', keyId=10607105, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         30:c(r)(r)(h)(ooh)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_1_1'
 Equivalence: (h)(h)(h)cooh c(r)(r)(h)(ooh)     0
 Equivalence: (h)(h)(r)cooh c(r)(r)(h)(ooh)     0
 Equivalence: (h)(r)(r)cooh c(r)(r)(h)(ooh)     2
 Equivalence: (r)(r)(r)cooh c(r)(r)(h)(ooh)     0
-Equivalence: c(h)(h)(h)(ooh) c(r)(r)(h)(ooh)     0
-Equivalence: c(r)(h)(h)(ooh) c(r)(r)(h)(ooh)     0
+
+0:Element Not Found
+The object within the classification was not found
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_1_1'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_1_1'
 New ID:   10607106
+[Firestore Store] dbName='Substructures', key='10607106', keyId=10607106, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         31:c(r)(r)(r)(ooh)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_1_1'
 Equivalence: (h)(h)(h)cooh c(r)(r)(r)(ooh)     0
 Equivalence: (h)(h)(r)cooh c(r)(r)(r)(ooh)     0
 Equivalence: (h)(r)(r)cooh c(r)(r)(r)(ooh)     0
 Equivalence: (r)(r)(r)cooh c(r)(r)(r)(ooh)     6
-Equivalence: c(h)(h)(h)(ooh) c(r)(r)(r)(ooh)     0
+
+0:Element Not Found
+The object within the classification was not found
 Equivalence: c(r)(h)(h)(ooh) c(r)(r)(r)(ooh)     0
-Equivalence: c(r)(r)(h)(ooh) c(r)(r)(r)(ooh)     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_1_1'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_1_1'
 New ID:   10607107
+[Firestore Store] dbName='Substructures', key='10607107', keyId=10607107, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         32:c(h)(h)(h)(o.)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_4_5_1_2'
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_4_5_1_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_4_5_1_2'
 New ID:   20405100
+[Firestore Store] dbName='Substructures', key='20405100', keyId=20405100, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         33:c(r)(h)(h)(o.)
-Equivalence: c(h)(h)(h)(o.) c(r)(h)(h)(o.)     0
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_4_5_1_2'
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_4_5_1_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_4_5_1_2'
 New ID:   20405101
+[Firestore Store] dbName='Substructures', key='20405101', keyId=20405101, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         34:c(r)(r)(h)(o.)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_4_5_1_2'
 Equivalence: c(h)(h)(h)(o.) c(r)(r)(h)(o.)     0
-Equivalence: c(r)(h)(h)(o.) c(r)(r)(h)(o.)     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_4_5_1_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_4_5_1_2'
 New ID:   20405102
+[Firestore Store] dbName='Substructures', key='20405102', keyId=20405102, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         35:c(q)(q)(q)(o.)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_4_5_1_2'
 Equivalence: c(h)(h)(h)(o.) c(q)(q)(q)(o.)     0
 Equivalence: c(r)(h)(h)(o.) c(q)(q)(q)(o.)     0
-Equivalence: c(r)(r)(h)(o.) c(q)(q)(q)(o.)     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_4_5_1_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_4_5_1_2'
 New ID:   20405103
+[Firestore Store] dbName='Substructures', key='20405103', keyId=20405103, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         36:c(r)(r)(r)(o.)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_4_5_1_2'
 Equivalence: c(h)(h)(h)(o.) c(r)(r)(r)(o.)     0
 Equivalence: c(r)(h)(h)(o.) c(r)(r)(r)(o.)     0
 Equivalence: c(r)(r)(h)(o.) c(r)(r)(r)(o.)     0
-Equivalence: c(q)(q)(q)(o.) c(r)(r)(r)(o.)     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_4_5_1_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_4_5_1_2'
 New ID:   20405104
+[Firestore Store] dbName='Substructures', key='20405104', keyId=20405104, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         37:.ccc(h)(h)(ooh)
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_7_8_3_2'
+Equivalence: alphaolefin-radical(qq)(q)(hh) .ccc(h)(h)(ooh)     0
+Equivalence: alphaolefin-radical(qq)(q)(rh) .ccc(h)(h)(ooh)     0
+Equivalence: alphaolefin-radical(qq)(q)(rr) .ccc(h)(h)(ooh)     0
+Equivalence: alphaolefin-radical(hh)(h)(hh) .ccc(h)(h)(ooh)     0
+Equivalence: alphaolefin-radical(rh)(h)(hh) .ccc(h)(h)(ooh)     0
+Equivalence: alphaolefin-radical(rr)(h)(hh) .ccc(h)(h)(ooh)     0
+Equivalence: alphaolefin-radical(hh)(r)(hh) .ccc(h)(h)(ooh)     0
+Equivalence: alphaolefin-radical(rh)(r)(hh) .ccc(h)(h)(ooh)     0
+Equivalence: alphaolefin-radical(rr)(r)(hh) .ccc(h)(h)(ooh)     0
+Equivalence: alphaolefin-radical(hh)(h)(rh) .ccc(h)(h)(ooh)     0
+Equivalence: alphaolefin-radical(rh)(h)(rh) .ccc(h)(h)(ooh)     0
+Equivalence: alphaolefin-radical(rr)(h)(rh) .ccc(h)(h)(ooh)     0
+Equivalence: alphaolefin-radical(hh)(r)(rh) .ccc(h)(h)(ooh)     0
+Equivalence: alphaolefin-radical(rh)(r)(rh) .ccc(h)(h)(ooh)     0
+Equivalence: alphaolefin-radical(rr)(r)(rh) .ccc(h)(h)(ooh)     0
+Equivalence: alphaolefin-radical(hh)(h)(rr) .ccc(h)(h)(ooh)     0
+Equivalence: alphaolefin-radical(rh)(h)(rr) .ccc(h)(h)(ooh)     0
+Equivalence: alphaolefin-radical(rr)(h)(rr) .ccc(h)(h)(ooh)     0
+Equivalence: alphaolefin-radical(hh)(r)(rr) .ccc(h)(h)(ooh)     0
+Equivalence: alphaolefin-radical(rh)(r)(rr) .ccc(h)(h)(ooh)     0
+Equivalence: alphaolefin-radical(rr)(r)(rr) .ccc(h)(h)(ooh)     0
 Equivalence: c(h)(q)(q)(ccoo.) .ccc(h)(h)(ooh)     0
 Equivalence: .c(q)(q)(ccooh) .ccc(h)(h)(ooh)     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_7_8_3_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_7_8_3_2'
 New ID:   20708323
+[Firestore Store] dbName='Substructures', key='20708323', keyId=20708323, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         38:.ccc(r)(h)(ooh)
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_7_8_3_2'
+Equivalence: alphaolefin-radical(qq)(q)(hh) .ccc(r)(h)(ooh)     0
+Equivalence: alphaolefin-radical(qq)(q)(rh) .ccc(r)(h)(ooh)     0
+Equivalence: alphaolefin-radical(qq)(q)(rr) .ccc(r)(h)(ooh)     0
+Equivalence: alphaolefin-radical(hh)(h)(hh) .ccc(r)(h)(ooh)     0
+Equivalence: alphaolefin-radical(rh)(h)(hh) .ccc(r)(h)(ooh)     0
+Equivalence: alphaolefin-radical(rr)(h)(hh) .ccc(r)(h)(ooh)     0
+Equivalence: alphaolefin-radical(hh)(r)(hh) .ccc(r)(h)(ooh)     0
+Equivalence: alphaolefin-radical(rh)(r)(hh) .ccc(r)(h)(ooh)     0
+Equivalence: alphaolefin-radical(rr)(r)(hh) .ccc(r)(h)(ooh)     0
+Equivalence: alphaolefin-radical(hh)(h)(rh) .ccc(r)(h)(ooh)     0
+Equivalence: alphaolefin-radical(rh)(h)(rh) .ccc(r)(h)(ooh)     0
+Equivalence: alphaolefin-radical(rr)(h)(rh) .ccc(r)(h)(ooh)     0
+Equivalence: alphaolefin-radical(hh)(r)(rh) .ccc(r)(h)(ooh)     0
+Equivalence: alphaolefin-radical(rh)(r)(rh) .ccc(r)(h)(ooh)     0
+Equivalence: alphaolefin-radical(rr)(r)(rh) .ccc(r)(h)(ooh)     0
+Equivalence: alphaolefin-radical(hh)(h)(rr) .ccc(r)(h)(ooh)     0
+Equivalence: alphaolefin-radical(rh)(h)(rr) .ccc(r)(h)(ooh)     0
+Equivalence: alphaolefin-radical(rr)(h)(rr) .ccc(r)(h)(ooh)     0
+Equivalence: alphaolefin-radical(hh)(r)(rr) .ccc(r)(h)(ooh)     0
+Equivalence: alphaolefin-radical(rh)(r)(rr) .ccc(r)(h)(ooh)     0
+Equivalence: alphaolefin-radical(rr)(r)(rr) .ccc(r)(h)(ooh)     0
 Equivalence: c(h)(q)(q)(ccoo.) .ccc(r)(h)(ooh)     0
 Equivalence: .c(q)(q)(ccooh) .ccc(r)(h)(ooh)     0
-Equivalence: .ccc(h)(h)(ooh) .ccc(r)(h)(ooh)     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_7_8_3_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_7_8_3_2'
 New ID:   20708324
+[Firestore Store] dbName='Substructures', key='20708324', keyId=20708324, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         39:.ccc(r)(r)(ooh)
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_7_8_3_2'
+Equivalence: alphaolefin-radical(qq)(q)(hh) .ccc(r)(r)(ooh)     0
+Equivalence: alphaolefin-radical(qq)(q)(rh) .ccc(r)(r)(ooh)     0
+Equivalence: alphaolefin-radical(qq)(q)(rr) .ccc(r)(r)(ooh)     0
+Equivalence: alphaolefin-radical(hh)(h)(hh) .ccc(r)(r)(ooh)     0
+Equivalence: alphaolefin-radical(rh)(h)(hh) .ccc(r)(r)(ooh)     0
+Equivalence: alphaolefin-radical(rr)(h)(hh) .ccc(r)(r)(ooh)     0
+Equivalence: alphaolefin-radical(hh)(r)(hh) .ccc(r)(r)(ooh)     0
+Equivalence: alphaolefin-radical(rh)(r)(hh) .ccc(r)(r)(ooh)     0
+Equivalence: alphaolefin-radical(rr)(r)(hh) .ccc(r)(r)(ooh)     0
+Equivalence: alphaolefin-radical(hh)(h)(rh) .ccc(r)(r)(ooh)     0
+Equivalence: alphaolefin-radical(rh)(h)(rh) .ccc(r)(r)(ooh)     0
+Equivalence: alphaolefin-radical(rr)(h)(rh) .ccc(r)(r)(ooh)     0
+Equivalence: alphaolefin-radical(hh)(r)(rh) .ccc(r)(r)(ooh)     0
+Equivalence: alphaolefin-radical(rh)(r)(rh) .ccc(r)(r)(ooh)     0
+Equivalence: alphaolefin-radical(rr)(r)(rh) .ccc(r)(r)(ooh)     0
+Equivalence: alphaolefin-radical(hh)(h)(rr) .ccc(r)(r)(ooh)     0
+Equivalence: alphaolefin-radical(rh)(h)(rr) .ccc(r)(r)(ooh)     0
+Equivalence: alphaolefin-radical(rr)(h)(rr) .ccc(r)(r)(ooh)     0
+Equivalence: alphaolefin-radical(hh)(r)(rr) .ccc(r)(r)(ooh)     0
+Equivalence: alphaolefin-radical(rh)(r)(rr) .ccc(r)(r)(ooh)     0
+Equivalence: alphaolefin-radical(rr)(r)(rr) .ccc(r)(r)(ooh)     0
 Equivalence: c(h)(q)(q)(ccoo.) .ccc(r)(r)(ooh)     0
 Equivalence: .c(q)(q)(ccooh) .ccc(r)(r)(ooh)     0
 Equivalence: .ccc(h)(h)(ooh) .ccc(r)(r)(ooh)     0
-Equivalence: .ccc(r)(h)(ooh) .ccc(r)(r)(ooh)     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_7_8_3_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_7_8_3_2'
 New ID:   20708325
+[Firestore Store] dbName='Substructures', key='20708325', keyId=20708325, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Current>> Quit
 SubStructures>> Keys
 Command:Keys
@@ -561,194 +702,206 @@ Keys>> Fill
 Command:Fill
 Keys>> Write
 Command:Write
+[Firestore SearchKeys Store] dbName='Substructures', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Substructures', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
 Keys>> Quit
 SubStructures>> Misc
 Command:Misc
 Misc>> PrintList
 Command:PrintList
-  20809319: -->.c(rh)coc(hhh)<--
-  20708320: -->alphaolefin-radical(rr)(r)(rr)<--
-  20506210: -->.c(h)(h)co(r)<--
-  20809304: -->co(h)c(rr)c.(hh)<--
-  20708305: -->alphaolefin-radical(rr)(h)(hh)<--
-  10607207: -->c(rrr)rc(o)<--
-  10102200: -->olefin<--
-  11112406: -->betaolefin(qq)(q)(hh)(rrh)<--
-  20102000: -->hydroxyl-radical<--
-  20708318: -->alphaolefin-radical(hh)(r)(rr)<--
-  20809317: -->co(r)c(rr)c.(rr)<--
-  20506208: -->.c(r)(h)co(h)<--
-  20809302: -->co(h)c(rh)c.(hh)<--
-  20708303: -->alphaolefin-radical(hh)(h)(hh)<--
-  10809315: -->co(r)c(rr)co(r)<--
-  10607205: -->c(rrh)rc(o)<--
-  11112404: -->betaolefin(qq)(q)(rh)(rhh)<--
-  10506215: -->olefin-(qq)(qq)<--
-  20708316: -->alphaolefin-radical(rh)(h)(rr)<--
-  20506206: -->c(rrr).c(o)<--
-  10506200: -->ethane-(hh)(hh)<--
-  20708301: -->alphaolefin-radical(qq)(q)(rh)<--
-  20809300: -->co(h)c(hh)c.(hh)<--
-  10809313: -->co(r)c(rh)co(r)<--
-  20809202: -->.c(r)(r)c(h)(h)(ooh)<--
-  10607106: -->c(r)(r)(h)(ooh)<--
-  10607203: -->c(rhh)rc(o)<--
-  10506213: -->olefin-(rr)(rh)<--
-  20708314: -->alphaolefin-radical(rr)(r)(rh)<--
-  10304103: -->(r)(r)c(o)<--
-  20506106: -->(h)(r)(r)coo.<--
-  10809311: -->co(r)c(hh)co(r)<--
-  20809200: -->.c(h)(h)c(h)(h)(ooh)<--
-  20809316: -->co(h)c(rr)c.(rr)<--
-  20607201: -->.c(q)(q)(cooh)<--
-  20203300: -->alphaolefin-radical<--
-  10607201: -->c(hhh)rc(o)<--
-  10607104: -->c(h)(h)(h)(ooh)<--
-  10506211: -->olefin-(rh)(rh)<--
-  20708312: -->alphaolefin-radical(hh)(r)(rh)<--
-  10607103: -->(r)(r)(r)cooh<--
-  20809329: -->.c(rr)coc(rrr)<--
-  10304101: -->(h)(h)c(o)<--
-  10304400: -->betaolefin<--
-  10809309: -->co(r)c(rr)co(h)<--
-  20506104: -->(h)(h)(h)coo.<--
-  10102001: -->hydrogen<--
-  20809314: -->co(h)c(rh)c.(rr)<--
-  10506209: -->olefin-(hh)(hh)<--
-  20708310: -->alphaolefin-radical(rh)(h)(rh)<--
-  10607101: -->(h)(h)(r)cooh<--
-  20809327: -->.c(hh)coc(rrr)<--
-  20506102: -->(q)(q)(h)coo.<--
-  10809307: -->co(r)c(rh)co(h)<--
-  11112401: -->betaolefin(qq)(q)(rh)(hhh)<--
-  20809312: -->co(h)c(hh)c.(rr)<--
-  10506207: -->ethane-(rh)(rr)<--
-  20708308: -->alphaolefin-radical(rr)(r)(hh)<--
-  20506203: -->c(hhh).c(o)<--
-  10304000: -->hydrogen-peroxide<--
-  20809325: -->.c(rh)coc(rrh)<--
-  20809400: -->c(h)(q)(q)(cccoo.)<--
-  20506100: -->(h).cooh-r<--
-  10809305: -->co(r)c(hh)co(h)<--
-  20809310: -->co(h)c(rr)c.(rh)<--
-  10506205: -->ethane-(hh)(rr)<--
-  20506201: -->.c(r)(h)co(q)<--
-  20809207: -->.c(r)(h)c(r)(r)(ooh)<--
-  20809323: -->.c(rr)coc(rhh)<--
-  20506500: -->.ccccc(h)<--
-  20405103: -->c(q)(q)(q)(o.)<--
-  20708324: -->.ccc(r)(h)(ooh)<--
-  10809303: -->alphaolefin-(qq)(q)(rrr)<--
-  20203101: -->(r).c(o)<--
-  20809308: -->co(h)c(rh)c.(rh)<--
-  20001001: -->oxygen-radical<--
-  10506203: -->ethane-(rh)(rh)<--
-  20809205: -->.c(r)(r)c(r)(h)(ooh)<--
-  11112410: -->betaolefin(qq)(q)(rh)(rrr)<--
-  20809321: -->.c(hh)coc(rhh)<--
-  20708322: -->.c(q)(q)(ccooh)<--
-  20405101: -->c(r)(h)(h)(o.)<--
-  20405400: -->.cccc(h)<--
-  10809301: -->alphaolefin-(qq)(q)(rhh)<--
-  20506212: -->.c(r)(r)co(r)<--
-  20809306: -->co(h)c(hh)c.(rh)<--
-  10203300: -->alphaolefin<--
-  10506201: -->ethane-(rh)(hh)<--
-  11112408: -->betaolefin(qq)(q)(rr)(rrh)<--
-  10809304: -->co(h)c(hh)co(h)<--
-  20102100: -->carbonmonoxide<--
-  20809309: -->co(r)c(rh)c.(rh)<--
-  10506204: -->ethane-(rr)(hh)<--
-  20506200: -->.c(h)(h)co(q)<--
-  11112411: -->betaolefin(qq)(q)(rr)(rrr)<--
-  20809322: -->.c(rh)coc(rhh)<--
-  20809206: -->.c(h)(h)c(r)(r)(ooh)<--
-  20405102: -->c(r)(r)(h)(o.)<--
-  20708323: -->.ccc(h)(h)(ooh)<--
-  10809302: -->alphaolefin-(qq)(q)(rrh)<--
-  20203100: -->(h).c(o)<--
-  20809307: -->co(r)c(hh)c.(rh)<--
-  20001000: -->hydrogen-radical<--
   10001000: -->oxygen-atom<--
-  10506202: -->ethane-(hh)(rh)<--
-  20809204: -->.c(r)(h)c(r)(h)(ooh)<--
-  11112409: -->betaolefin(qq)(q)(hh)(rrr)<--
-  20809320: -->.c(rr)coc(hhh)<--
-  20708321: -->c(h)(q)(q)(ccoo.)<--
-  20405100: -->c(h)(h)(h)(o.)<--
-  10809300: -->alphaolefin-(qq)(q)(hhh)<--
-  20506211: -->.c(r)(h)co(r)<--
-  20203000: -->peroxyl-radical<--
-  20809305: -->co(r)c(rr)c.(hh)<--
-  10203000: -->water<--
-  20708306: -->alphaolefin-radical(hh)(r)(hh)<--
-  11112407: -->betaolefin(qq)(q)(rh)(rrh)<--
-  20809318: -->.c(hh)coc(hhh)<--
-  20708319: -->alphaolefin-radical(rh)(r)(rr)<--
-  20506209: -->.c(r)(r)co(h)<--
-  20809303: -->co(r)c(rh)c.(hh)<--
-  20708304: -->alphaolefin-radical(rh)(h)(hh)<--
-  10607206: -->c(rrr)hc(o)<--
-  11112405: -->betaolefin(qq)(q)(rr)(rhh)<--
-  20708317: -->alphaolefin-radical(rr)(h)(rr)<--
-  10910200: -->c2q5ooh<--
-  20506207: -->.c(h)(h)co(h)<--
-  20809301: -->co(r)c(hh)c.(hh)<--
-  20708302: -->alphaolefin-radical(qq)(q)(rr)<--
-  10809314: -->co(h)c(rr)co(r)<--
-  20809203: -->.c(h)(h)c(r)(h)(ooh)<--
-  10607107: -->c(r)(r)(r)(ooh)<--
-  10607204: -->c(rrh)hc(o)<--
-  11112403: -->betaolefin(qq)(q)(hh)(rhh)<--
-  10506214: -->olefin-(rr)(rr)<--
-  20708315: -->alphaolefin-radical(hh)(h)(rr)<--
-  20506205: -->c(rrh).c(o)<--
-  20506107: -->(r)(r)(r)coo.<--
-  20708300: -->alphaolefin-radical(qq)(q)(hh)<--
-  20809201: -->.c(r)(h)c(h)(h)(ooh)<--
-  10809312: -->co(h)c(rh)co(r)<--
-  10607105: -->c(r)(h)(h)(ooh)<--
-  10607202: -->c(rhh)hc(o)<--
-  10506212: -->olefin-(rr)(hh)<--
-  20708313: -->alphaolefin-radical(rh)(r)(rh)<--
-  10304102: -->(r)(h)c(o)<--
-  20506105: -->(h)(h)(r)coo.<--
-  10809310: -->co(h)c(hh)co(r)<--
-  20910500: -->.c(q)(q)(ccccooh)<--
-  20809315: -->co(r)c(rh)c.(rr)<--
-  20607200: -->c(q)(q)(h)(coo.)<--
-  10607200: -->c(hhh)hc(o)<--
-  10506210: -->olefin-(rh)(hh)<--
-  20708311: -->alphaolefin-radical(rr)(h)(rh)<--
-  10607102: -->(h)(r)(r)cooh<--
-  20809328: -->.c(rh)coc(rrr)<--
-  10304100: -->general-aldehydeketone<--
-  20506103: -->(q)(q)(q)coo.<--
-  10809308: -->co(h)c(rr)co(h)<--
   10102000: -->oxygen<--
-  11112402: -->betaolefin(qq)(q)(rr)(hhh)<--
-  20809313: -->co(r)c(hh)c.(rr)<--
+  10102001: -->hydrogen<--
+  10102200: -->olefin<--
+  10203000: -->water<--
+  10203300: -->alphaolefin<--
+  10304001: -->hydrogen-peroxide<--
+  10304100: -->general-aldehydeketone<--
+  10304101: -->(h)(h)c(o)<--
+  10304102: -->(r)(h)c(o)<--
+  10304103: -->(r)(r)c(o)<--
+  10304400: -->betaolefin<--
+  10506200: -->olefin-(hh)(hh)<--
+  10506201: -->olefin-(rh)(hh)<--
+  10506202: -->ethane-(hh)(rh)<--
+  10506203: -->olefin-(rh)(rh)<--
+  10506204: -->olefin-(rr)(hh)<--
+  10506205: -->ethane-(hh)(rr)<--
+  10506206: -->olefin-(rr)(rh)<--
+  10506207: -->ethane-(rh)(rr)<--
+  10506208: -->olefin-(rr)(rr)<--
+  10506209: -->olefin-(qq)(qq)<--
   10607100: -->(h)(h)(h)cooh<--
-  10506208: -->ethane-(rr)(rr)<--
-  20708309: -->alphaolefin-radical(hh)(h)(rh)<--
-  20708700: -->.ccccccc(h)<--
-  20809326: -->.c(rr)coc(rrh)<--
-  20506204: -->c(rhh).c(o)<--
-  20809401: -->.c(q)(q)(cccooh)<--
-  20506101: -->r-.cooh-r<--
+  10607101: -->(h)(h)(r)cooh<--
+  10607102: -->(h)(r)(r)cooh<--
+  10607103: -->(r)(r)(r)cooh<--
+  10607105: -->c(r)(h)(h)(ooh)<--
+  10607106: -->c(r)(r)(h)(ooh)<--
+  10607107: -->c(r)(r)(r)(ooh)<--
+  10607200: -->c(hhh)hc(o)<--
+  10607201: -->c(hhh)rc(o)<--
+  10607202: -->c(rhh)hc(o)<--
+  10607203: -->c(rhh)rc(o)<--
+  10607204: -->c(rrh)hc(o)<--
+  10607205: -->c(rrh)rc(o)<--
+  10607206: -->c(rrr)hc(o)<--
+  10607207: -->c(rrr)rc(o)<--
+  10809300: -->alphaolefin-(qq)(q)(hhh)<--
+  10809301: -->alphaolefin-(qq)(q)(rhh)<--
+  10809302: -->alphaolefin-(qq)(q)(rrh)<--
+  10809303: -->alphaolefin-(qq)(q)(rrr)<--
+  10809304: -->co(h)c(hh)co(h)<--
+  10809305: -->co(r)c(hh)co(h)<--
   10809306: -->co(h)c(rh)co(h)<--
+  10809307: -->co(r)c(rh)co(h)<--
+  10809308: -->co(h)c(rr)co(h)<--
+  10809309: -->co(r)c(rr)co(h)<--
+  10809310: -->co(h)c(hh)co(r)<--
+  10809311: -->co(r)c(hh)co(r)<--
+  10809312: -->co(h)c(rh)co(r)<--
+  10809313: -->co(r)c(rh)co(r)<--
+  10809314: -->co(h)c(rr)co(r)<--
+  10809315: -->co(r)c(rr)co(r)<--
+  10910200: -->c2q5ooh<--
   11112400: -->betaolefin(qq)(q)(hh)(hhh)<--
-  20809311: -->co(r)c(rr)c.(rh)<--
-  10506206: -->ethane-(rr)(rh)<--
-  20708307: -->alphaolefin-radical(rh)(r)(hh)<--
-  20506202: -->.c(r)(r)co(q)<--
-  20809208: -->.c(r)(r)c(r)(r)(ooh)<--
-  20809324: -->.c(hh)coc(rrh)<--
-  20708325: -->.ccc(r)(r)(ooh)<--
-  20607600: -->.cccccc(h)<--
+  11112401: -->betaolefin(qq)(q)(rh)(hhh)<--
+  11112402: -->betaolefin(qq)(q)(rr)(hhh)<--
+  11112403: -->betaolefin(qq)(q)(hh)(rhh)<--
+  11112404: -->betaolefin(qq)(q)(rh)(rhh)<--
+  11112405: -->betaolefin(qq)(q)(rr)(rhh)<--
+  11112406: -->betaolefin(qq)(q)(hh)(rrh)<--
+  11112407: -->betaolefin(qq)(q)(rh)(rrh)<--
+  11112408: -->betaolefin(qq)(q)(rr)(rrh)<--
+  11112409: -->betaolefin(qq)(q)(hh)(rrr)<--
+  11112410: -->betaolefin(qq)(q)(rh)(rrr)<--
+  11112411: -->betaolefin(qq)(q)(rr)(rrr)<--
+  20001000: -->hydrogen-radical<--
+  20001001: -->oxygen-radical<--
+  20102000: -->hydroxyl-radical<--
+  20102100: -->carbonmonoxide<--
+  20203000: -->peroxyl-radical<--
+  20203100: -->(h).c(o)<--
+  20203101: -->(r).c(o)<--
+  20203300: -->alphaolefin-radical<--
+  20405100: -->c(h)(h)(h)(o.)<--
+  20405101: -->c(r)(h)(h)(o.)<--
+  20405102: -->c(r)(r)(h)(o.)<--
+  20405103: -->c(q)(q)(q)(o.)<--
   20405104: -->c(r)(r)(r)(o.)<--
+  20405400: -->.cccc(h)<--
+  20506100: -->(h).cooh-r<--
+  20506101: -->r-.cooh-r<--
+  20506102: -->(q)(q)(h)coo.<--
+  20506103: -->(q)(q)(q)coo.<--
+  20506104: -->(h)(h)(h)coo.<--
+  20506105: -->(h)(h)(r)coo.<--
+  20506106: -->(h)(r)(r)coo.<--
+  20506107: -->(r)(r)(r)coo.<--
+  20506200: -->.c(h)(h)co(q)<--
+  20506201: -->.c(r)(h)co(q)<--
+  20506202: -->.c(r)(r)co(q)<--
+  20506203: -->c(hhh).c(o)<--
+  20506204: -->c(rhh).c(o)<--
+  20506205: -->c(rrh).c(o)<--
+  20506206: -->c(rrr).c(o)<--
+  20506207: -->.c(h)(h)co(h)<--
+  20506208: -->.c(r)(h)co(h)<--
+  20506209: -->.c(r)(r)co(h)<--
+  20506210: -->.c(h)(h)co(r)<--
+  20506211: -->.c(r)(h)co(r)<--
+  20506212: -->.c(r)(r)co(r)<--
+  20506500: -->.ccccc(h)<--
+  20607200: -->c(q)(q)(h)(coo.)<--
+  20607201: -->.c(q)(q)(cooh)<--
+  20607600: -->.cccccc(h)<--
+  20708300: -->alphaolefin-radical(qq)(q)(hh)<--
+  20708301: -->alphaolefin-radical(qq)(q)(rh)<--
+  20708302: -->alphaolefin-radical(qq)(q)(rr)<--
+  20708303: -->alphaolefin-radical(hh)(h)(hh)<--
+  20708304: -->alphaolefin-radical(rh)(h)(hh)<--
+  20708305: -->alphaolefin-radical(rr)(h)(hh)<--
+  20708306: -->alphaolefin-radical(hh)(r)(hh)<--
+  20708307: -->alphaolefin-radical(rh)(r)(hh)<--
+  20708308: -->alphaolefin-radical(rr)(r)(hh)<--
+  20708309: -->alphaolefin-radical(hh)(h)(rh)<--
+  20708310: -->alphaolefin-radical(rh)(h)(rh)<--
+  20708311: -->alphaolefin-radical(rr)(h)(rh)<--
+  20708312: -->alphaolefin-radical(hh)(r)(rh)<--
+  20708313: -->alphaolefin-radical(rh)(r)(rh)<--
+  20708314: -->alphaolefin-radical(rr)(r)(rh)<--
+  20708315: -->alphaolefin-radical(hh)(h)(rr)<--
+  20708316: -->alphaolefin-radical(rh)(h)(rr)<--
+  20708317: -->alphaolefin-radical(rr)(h)(rr)<--
+  20708318: -->alphaolefin-radical(hh)(r)(rr)<--
+  20708319: -->alphaolefin-radical(rh)(r)(rr)<--
+  20708320: -->alphaolefin-radical(rr)(r)(rr)<--
+  20708321: -->c(h)(q)(q)(ccoo.)<--
+  20708322: -->.c(q)(q)(ccooh)<--
+  20708323: -->.ccc(h)(h)(ooh)<--
+  20708324: -->.ccc(r)(h)(ooh)<--
+  20708700: -->.ccccccc(h)<--
+  20809200: -->.c(h)(h)c(h)(h)(ooh)<--
+  20809201: -->.c(r)(h)c(h)(h)(ooh)<--
+  20809202: -->.c(r)(r)c(h)(h)(ooh)<--
+  20809203: -->.c(h)(h)c(r)(h)(ooh)<--
+  20809204: -->.c(r)(h)c(r)(h)(ooh)<--
+  20809205: -->.c(r)(r)c(r)(h)(ooh)<--
+  20809206: -->.c(h)(h)c(r)(r)(ooh)<--
+  20809207: -->.c(r)(h)c(r)(r)(ooh)<--
+  20809208: -->.c(r)(r)c(r)(r)(ooh)<--
+  20809300: -->co(h)c(hh)c.(hh)<--
+  20809301: -->co(r)c(hh)c.(hh)<--
+  20809302: -->co(h)c(rh)c.(hh)<--
+  20809303: -->co(r)c(rh)c.(hh)<--
+  20809304: -->co(h)c(rr)c.(hh)<--
+  20809305: -->co(r)c(rr)c.(hh)<--
+  20809306: -->co(h)c(hh)c.(rh)<--
+  20809307: -->co(r)c(hh)c.(rh)<--
+  20809308: -->co(h)c(rh)c.(rh)<--
+  20809309: -->co(r)c(rh)c.(rh)<--
+  20809310: -->co(h)c(rr)c.(rh)<--
+  20809311: -->co(r)c(rr)c.(rh)<--
+  20809312: -->co(h)c(hh)c.(rr)<--
+  20809313: -->co(r)c(hh)c.(rr)<--
+  20809314: -->co(h)c(rh)c.(rr)<--
+  20809315: -->co(r)c(rh)c.(rr)<--
+  20809316: -->co(h)c(rr)c.(rr)<--
+  20809317: -->co(r)c(rr)c.(rr)<--
+  20809318: -->.c(hh)coc(hhh)<--
+  20809319: -->.c(rh)coc(hhh)<--
+  20809320: -->.c(rr)coc(hhh)<--
+  20809321: -->.c(hh)coc(rhh)<--
+  20809322: -->.c(rh)coc(rhh)<--
+  20809323: -->.c(rr)coc(rhh)<--
+  20809324: -->.c(hh)coc(rrh)<--
+  20809325: -->.c(rh)coc(rrh)<--
+  20809326: -->.c(rr)coc(rrh)<--
+  20809327: -->.c(hh)coc(rrr)<--
+  20809328: -->.c(rh)coc(rrr)<--
+  20809329: -->.c(rr)coc(rrr)<--
+  20809400: -->c(h)(q)(q)(cccoo.)<--
+  20809401: -->.c(q)(q)(cccooh)<--
+  20910500: -->.c(q)(q)(ccccooh)<--
 Misc>> Quit
 SubStructures>> Quit
 DbaseOps>> Quit
 main>> Quit
+[Firestore SearchKeys Store] dbName='Molecules', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Molecules', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Substructures', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Substructures', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Reactions', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Reactions', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='ReactionPatterns', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='ReactionPatterns', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
 ~/git/WorkFlowProject/REACTCLOUD/data/mol/subs 

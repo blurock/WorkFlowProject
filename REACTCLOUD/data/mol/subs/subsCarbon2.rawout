@@ -35,12 +35,14 @@ main>> CreateOpenClose
 Command:CreateOpenClose
 CreateOpenClose>> Start
 Command:Start
-
-0:No Keys for Reactions
-
-
-0:No Keys for ReactionPatterns
-
+[GDBM SearchKeys Read] dbName='Molecules', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Molecules', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[GDBM SearchKeys Read] dbName='Reactions', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Reactions', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[GDBM SearchKeys Read] dbName='ReactionPatterns', id=1: ReadBinSetOfSearchKeys loaded 850 keys from GDBM (datset.dsize=34029)
+[GDBM SearchKeys Read] dbName='ReactionPatterns', id=0: ReadBinSetOfSearchKeys loaded 850 keys from GDBM (datset.dsize=91349)
 CreateOpenClose>> Quit
 main>> DbaseOps
 Command:DbaseOps
@@ -52,6 +54,10 @@ Keys>> Define
 Command:Define
 Keys>> Write
 Command:Write
+[Firestore SearchKeys Store] dbName='Substructures', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Substructures', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
 Keys>> Quit
 SubStructures>> Quit
 DbaseOps>> Quit
@@ -110,50 +116,102 @@ Command:Current
 Current>> Store
 Command:Store
 Store:          1:ethane-(hh)(hh)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
 New ID:   10506200
+[Firestore Store] dbName='Substructures', key='10506200', keyId=10506200, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          2:ethane-(rh)(hh)
-Equivalence: ethane-(hh)(hh) ethane-(rh)(hh)     0
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
 New ID:   10506201
+[Firestore Store] dbName='Substructures', key='10506201', keyId=10506201, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          3:ethane-(hh)(rh)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
 Equivalence: ethane-(hh)(hh) ethane-(hh)(rh)     0
-Equivalence: ethane-(rh)(hh) ethane-(hh)(rh)     2
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
 New ID:   10506202
+[Firestore Store] dbName='Substructures', key='10506202', keyId=10506202, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          4:ethane-(rh)(rh)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
 Equivalence: ethane-(hh)(hh) ethane-(rh)(rh)     0
 Equivalence: ethane-(rh)(hh) ethane-(rh)(rh)     0
-Equivalence: ethane-(hh)(rh) ethane-(rh)(rh)     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
 New ID:   10506203
+[Firestore Store] dbName='Substructures', key='10506203', keyId=10506203, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          5:ethane-(rr)(hh)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
 Equivalence: ethane-(hh)(hh) ethane-(rr)(hh)     0
 Equivalence: ethane-(rh)(hh) ethane-(rr)(hh)     0
 Equivalence: ethane-(hh)(rh) ethane-(rr)(hh)     0
-Equivalence: ethane-(rh)(rh) ethane-(rr)(hh)     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
 New ID:   10506204
+[Firestore Store] dbName='Substructures', key='10506204', keyId=10506204, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          6:ethane-(hh)(rr)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
 Equivalence: ethane-(hh)(hh) ethane-(hh)(rr)     0
 Equivalence: ethane-(rh)(hh) ethane-(hh)(rr)     0
 Equivalence: ethane-(hh)(rh) ethane-(hh)(rr)     0
 Equivalence: ethane-(rh)(rh) ethane-(hh)(rr)     0
-Equivalence: ethane-(rr)(hh) ethane-(hh)(rr)     4
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
 New ID:   10506205
+[Firestore Store] dbName='Substructures', key='10506205', keyId=10506205, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          7:ethane-(rr)(rh)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
 Equivalence: ethane-(hh)(hh) ethane-(rr)(rh)     0
 Equivalence: ethane-(rh)(hh) ethane-(rr)(rh)     0
 Equivalence: ethane-(hh)(rh) ethane-(rr)(rh)     0
 Equivalence: ethane-(rh)(rh) ethane-(rr)(rh)     0
 Equivalence: ethane-(rr)(hh) ethane-(rr)(rh)     0
-Equivalence: ethane-(hh)(rr) ethane-(rr)(rh)     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
 New ID:   10506206
+[Firestore Store] dbName='Substructures', key='10506206', keyId=10506206, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          8:ethane-(rh)(rr)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
 Equivalence: ethane-(hh)(hh) ethane-(rh)(rr)     0
 Equivalence: ethane-(rh)(hh) ethane-(rh)(rr)     0
 Equivalence: ethane-(hh)(rh) ethane-(rh)(rr)     0
 Equivalence: ethane-(rh)(rh) ethane-(rh)(rr)     0
 Equivalence: ethane-(rr)(hh) ethane-(rh)(rr)     0
 Equivalence: ethane-(hh)(rr) ethane-(rh)(rr)     0
-Equivalence: ethane-(rr)(rh) ethane-(rh)(rr)     2
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
 New ID:   10506207
+[Firestore Store] dbName='Substructures', key='10506207', keyId=10506207, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          9:ethane-(rr)(rr)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
 Equivalence: ethane-(hh)(hh) ethane-(rr)(rr)     0
 Equivalence: ethane-(rh)(hh) ethane-(rr)(rr)     0
 Equivalence: ethane-(hh)(rh) ethane-(rr)(rr)     0
@@ -161,8 +219,11 @@ Equivalence: ethane-(rh)(rh) ethane-(rr)(rr)     0
 Equivalence: ethane-(rr)(hh) ethane-(rr)(rr)     0
 Equivalence: ethane-(hh)(rr) ethane-(rr)(rr)     0
 Equivalence: ethane-(rr)(rh) ethane-(rr)(rr)     0
-Equivalence: ethane-(rh)(rr) ethane-(rr)(rr)     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
 New ID:   10506208
+[Firestore Store] dbName='Substructures', key='10506208', keyId=10506208, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Current>> Quit
 SubStructures>> Keys
 Command:Keys
@@ -172,32 +233,51 @@ Keys>> Fill
 Command:Fill
 Keys>> Write
 Command:Write
+[Firestore SearchKeys Store] dbName='Substructures', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Substructures', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
 Keys>> Quit
 SubStructures>> Misc
 Command:Misc
 Misc>> PrintList
 Command:PrintList
-  20102100: -->carbonmonoxide<--
-  10506204: -->ethane-(rr)(hh)<--
-  20102000: -->hydroxyl-radical<--
-  20001000: -->hydrogen-radical<--
   10001000: -->oxygen-atom<--
-  10506202: -->ethane-(hh)(rh)<--
-  20203000: -->peroxyl-radical<--
-  10203000: -->water<--
-  10506200: -->ethane-(hh)(hh)<--
-  10102001: -->hydrogen<--
-  10506207: -->ethane-(rh)(rr)<--
-  10304000: -->hydrogen-peroxide<--
-  10506205: -->ethane-(hh)(rr)<--
   10102000: -->oxygen<--
-  10506208: -->ethane-(rr)(rr)<--
-  20001001: -->oxygen-radical<--
-  10506203: -->ethane-(rh)(rh)<--
-  10506206: -->ethane-(rr)(rh)<--
+  10102001: -->hydrogen<--
+  10203000: -->water<--
+  10304001: -->hydrogen-peroxide<--
+  10506200: -->ethane-(hh)(hh)<--
   10506201: -->ethane-(rh)(hh)<--
+  10506202: -->ethane-(hh)(rh)<--
+  10506203: -->ethane-(rh)(rh)<--
+  10506204: -->ethane-(rr)(hh)<--
+  10506205: -->ethane-(hh)(rr)<--
+  10506206: -->ethane-(rr)(rh)<--
+  10506207: -->ethane-(rh)(rr)<--
+  20001000: -->hydrogen-radical<--
+  20001001: -->oxygen-radical<--
+  20102000: -->hydroxyl-radical<--
+  20102100: -->carbonmonoxide<--
+  20203000: -->peroxyl-radical<--
 Misc>> Quit
 SubStructures>> Quit
 DbaseOps>> Quit
 main>> Quit
+[Firestore SearchKeys Store] dbName='Molecules', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Molecules', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Substructures', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Substructures', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Reactions', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Reactions', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='ReactionPatterns', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='ReactionPatterns', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
 ~/git/WorkFlowProject/REACTCLOUD/data/mol/subs 

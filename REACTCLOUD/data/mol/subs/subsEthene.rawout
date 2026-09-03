@@ -35,12 +35,14 @@ main>> CreateOpenClose
 Command:CreateOpenClose
 CreateOpenClose>> Start
 Command:Start
-
-0:No Keys for Reactions
-
-
-0:No Keys for ReactionPatterns
-
+[GDBM SearchKeys Read] dbName='Molecules', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Molecules', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[GDBM SearchKeys Read] dbName='Reactions', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Reactions', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[GDBM SearchKeys Read] dbName='ReactionPatterns', id=1: ReadBinSetOfSearchKeys loaded 850 keys from GDBM (datset.dsize=34029)
+[GDBM SearchKeys Read] dbName='ReactionPatterns', id=0: ReadBinSetOfSearchKeys loaded 850 keys from GDBM (datset.dsize=91349)
 CreateOpenClose>> Quit
 main>> DbaseOps
 Command:DbaseOps
@@ -52,6 +54,10 @@ Keys>> Define
 Command:Define
 Keys>> Write
 Command:Write
+[Firestore SearchKeys Store] dbName='Substructures', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Substructures', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
 Keys>> Quit
 SubStructures>> Quit
 DbaseOps>> Quit
@@ -109,168 +115,108 @@ Command:Current
 Current>> Store
 Command:Store
 Store:          1:olefin
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_1_2_2_1'
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_1_2_2_1'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_1_2_2_1'
 New ID:   10102200
+[Firestore Store] dbName='Substructures', key='10102200', keyId=10102200, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          2:olefin-(hh)(hh)
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-New ID:   10506209
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
+Equivalence: ethane-(hh)(hh) olefin-(hh)(hh)     8
+Found in database: 10506200
+New ID:   10506200
+[Firestore Store] dbName='Substructures', key='10506200', keyId=10506200, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          3:olefin-(rh)(hh)
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Equivalence: olefin-(hh)(hh) olefin-(rh)(hh)     0
-New ID:   10506210
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
+Equivalence: ethane-(hh)(hh) olefin-(rh)(hh)     0
+Equivalence: ethane-(rh)(hh) olefin-(rh)(hh)     2
+Found in database: 10506201
+New ID:   10506201
+[Firestore Store] dbName='Substructures', key='10506201', keyId=10506201, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          4:olefin-(rh)(rh)
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
 Equivalence: olefin-(hh)(hh) olefin-(rh)(rh)     0
 Equivalence: olefin-(rh)(hh) olefin-(rh)(rh)     0
-New ID:   10506211
+Equivalence: ethane-(hh)(rh) olefin-(rh)(rh)     0
+Equivalence: ethane-(rh)(rh) olefin-(rh)(rh)     2
+Found in database: 10506203
+New ID:   10506203
+[Firestore Store] dbName='Substructures', key='10506203', keyId=10506203, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          5:olefin-(rr)(hh)
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
 Equivalence: olefin-(hh)(hh) olefin-(rr)(hh)     0
 Equivalence: olefin-(rh)(hh) olefin-(rr)(hh)     0
+Equivalence: ethane-(hh)(rh) olefin-(rr)(hh)     0
 Equivalence: olefin-(rh)(rh) olefin-(rr)(hh)     0
-New ID:   10506212
+Equivalence: ethane-(rr)(hh) olefin-(rr)(hh)     4
+Found in database: 10506204
+New ID:   10506204
+[Firestore Store] dbName='Substructures', key='10506204', keyId=10506204, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          6:olefin-(rr)(rh)
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
 Equivalence: olefin-(hh)(hh) olefin-(rr)(rh)     0
 Equivalence: olefin-(rh)(hh) olefin-(rr)(rh)     0
+Equivalence: ethane-(hh)(rh) olefin-(rr)(rh)     0
 Equivalence: olefin-(rh)(rh) olefin-(rr)(rh)     0
 Equivalence: olefin-(rr)(hh) olefin-(rr)(rh)     0
-New ID:   10506213
+Equivalence: ethane-(hh)(rr) olefin-(rr)(rh)     0
+Equivalence: ethane-(rr)(rh) olefin-(rr)(rh)     2
+Found in database: 10506206
+New ID:   10506206
+[Firestore Store] dbName='Substructures', key='10506206', keyId=10506206, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          7:olefin-(rr)(rr)
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
 Equivalence: olefin-(hh)(hh) olefin-(rr)(rr)     0
 Equivalence: olefin-(rh)(hh) olefin-(rr)(rr)     0
+Equivalence: ethane-(hh)(rh) olefin-(rr)(rr)     0
 Equivalence: olefin-(rh)(rh) olefin-(rr)(rr)     0
 Equivalence: olefin-(rr)(hh) olefin-(rr)(rr)     0
+Equivalence: ethane-(hh)(rr) olefin-(rr)(rr)     0
 Equivalence: olefin-(rr)(rh) olefin-(rr)(rr)     0
-New ID:   10506214
+Equivalence: ethane-(rh)(rr) olefin-(rr)(rr)     0
+Equivalence: ethane-(rr)(rr) olefin-(rr)(rr)     8
+Found in database: 10506208
+New ID:   10506208
+[Firestore Store] dbName='Substructures', key='10506208', keyId=10506208, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          8:olefin-(qq)(qq)
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
 Equivalence: olefin-(hh)(hh) olefin-(qq)(qq)     0
 Equivalence: olefin-(rh)(hh) olefin-(qq)(qq)     0
+Equivalence: ethane-(hh)(rh) olefin-(qq)(qq)     0
 Equivalence: olefin-(rh)(rh) olefin-(qq)(qq)     0
 Equivalence: olefin-(rr)(hh) olefin-(qq)(qq)     0
+Equivalence: ethane-(hh)(rr) olefin-(qq)(qq)     0
 Equivalence: olefin-(rr)(rh) olefin-(qq)(qq)     0
+Equivalence: ethane-(rh)(rr) olefin-(qq)(qq)     0
 Equivalence: olefin-(rr)(rr) olefin-(qq)(qq)     0
-New ID:   10506215
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_2_1'
+New ID:   10506209
+[Firestore Store] dbName='Substructures', key='10506209', keyId=10506209, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Current>> Quit
 SubStructures>> Keys
 Command:Keys
@@ -280,40 +226,53 @@ Keys>> Fill
 Command:Fill
 Keys>> Write
 Command:Write
+[Firestore SearchKeys Store] dbName='Substructures', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Substructures', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
 Keys>> Quit
 SubStructures>> Misc
 Command:Misc
 Misc>> PrintList
 Command:PrintList
-  20102100: -->carbonmonoxide<--
-  10506204: -->ethane-(rr)(hh)<--
-  10102200: -->olefin<--
-  20102000: -->hydroxyl-radical<--
-  20001000: -->hydrogen-radical<--
   10001000: -->oxygen-atom<--
-  10506202: -->ethane-(hh)(rh)<--
-  10506215: -->olefin-(qq)(qq)<--
-  20203000: -->peroxyl-radical<--
-  10203000: -->water<--
-  10506200: -->ethane-(hh)(hh)<--
-  10506213: -->olefin-(rr)(rh)<--
-  10506211: -->olefin-(rh)(rh)<--
-  10102001: -->hydrogen<--
-  10506214: -->olefin-(rr)(rr)<--
-  10506209: -->olefin-(hh)(hh)<--
-  10506212: -->olefin-(rr)(hh)<--
-  10506207: -->ethane-(rh)(rr)<--
-  10304000: -->hydrogen-peroxide<--
-  10506210: -->olefin-(rh)(hh)<--
-  10506205: -->ethane-(hh)(rr)<--
   10102000: -->oxygen<--
-  10506208: -->ethane-(rr)(rr)<--
+  10102001: -->hydrogen<--
+  10102200: -->olefin<--
+  10203000: -->water<--
+  10304001: -->hydrogen-peroxide<--
+  10506200: -->olefin-(hh)(hh)<--
+  10506201: -->olefin-(rh)(hh)<--
+  10506202: -->ethane-(hh)(rh)<--
+  10506203: -->olefin-(rh)(rh)<--
+  10506204: -->olefin-(rr)(hh)<--
+  10506205: -->ethane-(hh)(rr)<--
+  10506206: -->olefin-(rr)(rh)<--
+  10506207: -->ethane-(rh)(rr)<--
+  10506208: -->olefin-(rr)(rr)<--
+  20001000: -->hydrogen-radical<--
   20001001: -->oxygen-radical<--
-  10506203: -->ethane-(rh)(rh)<--
-  10506206: -->ethane-(rr)(rh)<--
-  10506201: -->ethane-(rh)(hh)<--
+  20102000: -->hydroxyl-radical<--
+  20102100: -->carbonmonoxide<--
+  20203000: -->peroxyl-radical<--
 Misc>> Quit
 SubStructures>> Quit
 DbaseOps>> Quit
 main>> Quit
+[Firestore SearchKeys Store] dbName='Molecules', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Molecules', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Substructures', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Substructures', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Reactions', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Reactions', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='ReactionPatterns', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='ReactionPatterns', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
 ~/git/WorkFlowProject/REACTCLOUD/data/mol/subs 

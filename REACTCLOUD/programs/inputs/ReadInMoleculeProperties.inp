@@ -1,11 +1,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Open up the data base
+%%% 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 CreateOpenClose
-Start
+Initialize
 Quit
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 DbaseOps
 Molecules
@@ -18,30 +16,6 @@ Quit
 Current
 ASCII
 Store
-Quit
-Keys
-Read
-Fill
-Write
-Quit
-Misc
-PrintList
-Quit
-Quit
-Quit
-DbaseOps
-Molecules
-Current
-ReadInCurrent
-Quit
-Quit
-Quit
-Mol
-Output
-Molecules
-Print
-Quit
-Quit
 Quit
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% leave

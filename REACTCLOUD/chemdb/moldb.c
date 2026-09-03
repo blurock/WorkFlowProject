@@ -25,7 +25,6 @@
 #include "gentrans.h"
 #include "chemdb.h"
 
-
 /*P  . . . PROTOTYPES  . . . . . . . . . . . . . . . . . . . . . . . . . . .
  */
 static INT DBReadMolSubsFromList(BindStructure *bind, INT dbflag);
@@ -136,7 +135,8 @@ extern INT StoreMoleculeSetToDatabase(MoleculeSet *set, INT dbflag,
     master = GetBoundStructure(bind, BIND_CHEMDBASE);
   }
   if (master == NULL || master->DatabaseInfo == NULL) {
-    printf("StoreMoleculeSetToDatabase: ChemDBMaster database info not initialized.\n");
+    printf("StoreMoleculeSetToDatabase: ChemDBMaster database info not "
+           "initialized.\n");
     return (SYSTEM_ERROR_RETURN);
   }
   dinfo = GetDataBaseInfoFromID(master->DatabaseInfo, dbflag);
@@ -145,13 +145,6 @@ extern INT StoreMoleculeSetToDatabase(MoleculeSet *set, INT dbflag,
   LOOPi(set->NumberOfMolecules) {
     if (molecule != NULL && molecule->ID >= 0 && molecule->Name != NULL) {
       printf("Store: %10d:%s\n", molecule->ID, molecule->Name);
-
-      jsonstr = WriteJSONMoleculeInfoToString(molecule);
-      if (jsonstr != NULL) {
-        printf("%s\n", jsonstr);
-        Free(jsonstr);
-      }
-
       id = PutMoleculeInDatabaseClass(molecule, dbflag, bind);
       molecule->ID = id;
       if (molecule->Molfile != NULL)
@@ -601,8 +594,6 @@ static INT DBPrintAllMolSubs(BindStructure *bind, INT dbflag) {
 
   return PrintDatabaseRecordSummaries(dinfo, "%10d: -->%s<--\n");
 }
-
-
 
 /*S MoleculeSetFromDatabase
  */

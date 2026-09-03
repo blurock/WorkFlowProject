@@ -35,15 +35,16 @@ main>> CreateOpenClose
 Command:CreateOpenClose
 CreateOpenClose>> Start
 Command:Start
-
-0:No Keys for Reactions
-
-
-0:No Keys for Substructures
-
-
-0:No Keys for ReactionPatterns
-
+[GDBM SearchKeys Read] dbName='Molecules', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Molecules', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[GDBM SearchKeys Read] dbName='Reactions', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Reactions', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: GDBM key not found or empty (datset.dsize=0). Querying Firestore...
+[Firestore SearchKeys Read] dbName='Substructures', id=1: FetchSearchKeysFromFirestore loaded 0 keys from Firestore
+[GDBM SearchKeys Read] dbName='Substructures', id=0: GDBM key not found or empty (datset.dsize=0). Querying Firestore...
+[Firestore SearchKeys Read] dbName='Substructures', id=0: FetchSearchKeysFromFirestore loaded 0 keys from Firestore
+[GDBM SearchKeys Read] dbName='ReactionPatterns', id=1: ReadBinSetOfSearchKeys loaded 850 keys from GDBM (datset.dsize=34029)
+[GDBM SearchKeys Read] dbName='ReactionPatterns', id=0: ReadBinSetOfSearchKeys loaded 850 keys from GDBM (datset.dsize=91349)
 CreateOpenClose>> Quit
 main>> DbaseOps
 Command:DbaseOps
@@ -55,6 +56,10 @@ Keys>> Define
 Command:Define
 Keys>> Write
 Command:Write
+[Firestore SearchKeys Store] dbName='Substructures', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Substructures', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
 Keys>> Quit
 SubStructures>> Quit
 DbaseOps>> Quit
@@ -114,27 +119,100 @@ Command:Current
 Current>> Store
 Command:Store
 Store:          1:hydrogen-radical
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_0_1_0_2'
+Equivalence: hydrogen-radical hydrogen-radical     1
+Found in database: 20001000
 New ID:   20001000
+[Firestore Store] dbName='Substructures', key='20001000', keyId=20001000, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          2:oxygen-radical
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_0_1_0_2'
 Equivalence: hydrogen-radical oxygen-radical     0
+Equivalence: oxygen-radical oxygen-radical     1
+Found in database: 20001001
 New ID:   20001001
+[Firestore Store] dbName='Substructures', key='20001001', keyId=20001001, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          3:oxygen-atom
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_0_1_0_1'
+Equivalence: oxygen-atom oxygen-atom     1
+Found in database: 10001000
 New ID:   10001000
+[Firestore Store] dbName='Substructures', key='10001000', keyId=10001000, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          4:oxygen
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_1_2_0_1'
+Equivalence:     oxygen     oxygen     2
+Found in database: 10102000
 New ID:   10102000
+[Firestore Store] dbName='Substructures', key='10102000', keyId=10102000, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          5:hydrogen
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_1_2_0_1'
 Equivalence:     oxygen   hydrogen     0
+Equivalence:   hydrogen   hydrogen     2
+Found in database: 10102001
 New ID:   10102001
+[Firestore Store] dbName='Substructures', key='10102001', keyId=10102001, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          6:hydroxyl-radical
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_1_2_0_2'
+Equivalence: hydroxyl-radical hydroxyl-radical     1
+Found in database: 20102000
 New ID:   20102000
+[Firestore Store] dbName='Substructures', key='20102000', keyId=20102000, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          7:peroxyl-radical
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_2_3_0_2'
+Equivalence: peroxyl-radical peroxyl-radical     1
+Found in database: 20203000
 New ID:   20203000
+[Firestore Store] dbName='Substructures', key='20203000', keyId=20203000, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          8:water
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_2_3_0_1'
+Equivalence:      water      water     2
+Found in database: 10203000
 New ID:   10203000
+[Firestore Store] dbName='Substructures', key='10203000', keyId=10203000, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          9:hydrogen-peroxide
-New ID:   10304000
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_3_4_0_1'
+
+0:Element Not Found
+The object within the classification was not found
+Equivalence: hydrogen-peroxide hydrogen-peroxide     2
+Found in database: 10304001
+New ID:   10304001
+[Firestore Store] dbName='Substructures', key='10304001', keyId=10304001, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         10:carbonmonoxide
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_1_2_1_2'
+Equivalence: carbonmonoxide carbonmonoxide     1
+Found in database: 20102100
 New ID:   20102100
+[Firestore Store] dbName='Substructures', key='20102100', keyId=20102100, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Current>> Quit
 SubStructures>> Keys
 Command:Keys
@@ -144,23 +222,43 @@ Keys>> Fill
 Command:Fill
 Keys>> Write
 Command:Write
+[Firestore SearchKeys Store] dbName='Substructures', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Substructures', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
 Keys>> Quit
 SubStructures>> Misc
 Command:Misc
 Misc>> PrintList
 Command:PrintList
-  20102100: -->carbonmonoxide<--
-  20102000: -->hydroxyl-radical<--
-  20001000: -->hydrogen-radical<--
   10001000: -->oxygen-atom<--
-  20203000: -->peroxyl-radical<--
-  10203000: -->water<--
-  10102001: -->hydrogen<--
-  10304000: -->hydrogen-peroxide<--
   10102000: -->oxygen<--
+  10102001: -->hydrogen<--
+  10203000: -->water<--
+  10304001: -->hydrogen-peroxide<--
+  20001000: -->hydrogen-radical<--
   20001001: -->oxygen-radical<--
+  20102000: -->hydroxyl-radical<--
+  20102100: -->carbonmonoxide<--
+  20203000: -->peroxyl-radical<--
 Misc>> Quit
 SubStructures>> Quit
 DbaseOps>> Quit
 main>> Quit
+[Firestore SearchKeys Store] dbName='Molecules', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Molecules', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Substructures', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Substructures', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Reactions', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Reactions', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='ReactionPatterns', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='ReactionPatterns', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
 ~/git/WorkFlowProject/REACTCLOUD/data/mol/subs 

@@ -195,6 +195,8 @@ static INT InterpretFirstLine(CHAR *string, ChemkinThermoRead *thermo) {
     thermo->Species = AllocateString(19);
     IsolateString(string,namefield,1,18);
     IsolateNextWord(namefield,thermo->Species,' ',18);
+    thermo->Name = CopyString(thermo->Species);
+    EliminateBlanks(thermo->Name);
     thermo->AtomicSet = ReadAtomicSet(string);
 	  
 	  phase = (CHAR) *(string + 45);

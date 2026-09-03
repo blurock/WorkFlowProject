@@ -859,7 +859,9 @@ app.post('/api/db/findOrCreateObjectIDClass', async (req, res) => {
 
     if (docSnap.exists) {
       const rawData = docSnap.data();
-      const data = convertBlobsToBytesObjects(rawData.classData || rawData);
+      const { classData, classificationName, docKey, updatedAt, ...cleanData } = rawData;
+      const targetObj = classData || (Object.keys(cleanData).length > 0 ? cleanData : rawData);
+      const data = convertBlobsToBytesObjects(targetObj);
       console.log(`[Firestore Classification Class Found] Path: ${docPath}`);
       return res.json({
         found: true,
@@ -884,7 +886,6 @@ app.post('/api/db/findOrCreateObjectIDClass', async (req, res) => {
       objectIDs: objectIDs.map(Number),
       docKey,
       updatedAt: new Date().toISOString(),
-      classData: parsedClassData,
       ...(typeof parsedClassData === 'object' && parsedClassData !== null ? parsedClassData : {})
     };
 
@@ -941,7 +942,6 @@ app.post('/api/db/storeObjectIDClass', async (req, res) => {
       objectIDs: objectIDs.map(Number),
       docKey,
       updatedAt: new Date().toISOString(),
-      classData: parsedClassData,
       ...(typeof parsedClassData === 'object' && parsedClassData !== null ? parsedClassData : {})
     };
 

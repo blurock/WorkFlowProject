@@ -35,12 +35,14 @@ main>> CreateOpenClose
 Command:CreateOpenClose
 CreateOpenClose>> Start
 Command:Start
-
-0:No Keys for Reactions
-
-
-0:No Keys for ReactionPatterns
-
+[GDBM SearchKeys Read] dbName='Molecules', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Molecules', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[GDBM SearchKeys Read] dbName='Reactions', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Reactions', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[GDBM SearchKeys Read] dbName='ReactionPatterns', id=1: ReadBinSetOfSearchKeys loaded 850 keys from GDBM (datset.dsize=34029)
+[GDBM SearchKeys Read] dbName='ReactionPatterns', id=0: ReadBinSetOfSearchKeys loaded 850 keys from GDBM (datset.dsize=91349)
 CreateOpenClose>> Quit
 main>> DbaseOps
 Command:DbaseOps
@@ -52,6 +54,10 @@ Keys>> Define
 Command:Define
 Keys>> Write
 Command:Write
+[Firestore SearchKeys Store] dbName='Substructures', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Substructures', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
 Keys>> Quit
 SubStructures>> Quit
 DbaseOps>> Quit
@@ -105,13 +111,41 @@ Command:Current
 Current>> Store
 Command:Store
 Store:          1:.cccc(h)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_4_5_4_2'
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_4_5_4_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_4_5_4_2'
 New ID:   20405400
+[Firestore Store] dbName='Substructures', key='20405400', keyId=20405400, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          2:.ccccc(h)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_5_2'
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_5_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_5_6_5_2'
 New ID:   20506500
+[Firestore Store] dbName='Substructures', key='20506500', keyId=20506500, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          3:.cccccc(h)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_6_2'
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_6_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_6_7_6_2'
 New ID:   20607600
+[Firestore Store] dbName='Substructures', key='20607600', keyId=20607600, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          4:.ccccccc(h)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_7_8_7_2'
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_7_8_7_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_7_8_7_2'
 New ID:   20708700
+[Firestore Store] dbName='Substructures', key='20708700', keyId=20708700, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Current>> Quit
 SubStructures>> Keys
 Command:Keys
@@ -121,84 +155,97 @@ Keys>> Fill
 Command:Fill
 Keys>> Write
 Command:Write
+[Firestore SearchKeys Store] dbName='Substructures', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Substructures', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
 Keys>> Quit
 SubStructures>> Misc
 Command:Misc
 Misc>> PrintList
 Command:PrintList
-  20708320: -->alphaolefin-radical(rr)(r)(rr)<--
-  20102100: -->carbonmonoxide<--
-  10506204: -->ethane-(rr)(hh)<--
-  20708305: -->alphaolefin-radical(rr)(h)(hh)<--
-  11112411: -->betaolefin(qq)(q)(rr)(rrr)<--
-  10102200: -->olefin<--
-  11112406: -->betaolefin(qq)(q)(hh)(rrh)<--
-  20102000: -->hydroxyl-radical<--
-  10809302: -->alphaolefin-(qq)(q)(rrh)<--
-  20708318: -->alphaolefin-radical(hh)(r)(rr)<--
-  20001000: -->hydrogen-radical<--
   10001000: -->oxygen-atom<--
-  10506202: -->ethane-(hh)(rh)<--
-  20708303: -->alphaolefin-radical(hh)(h)(hh)<--
-  11112409: -->betaolefin(qq)(q)(hh)(rrr)<--
-  11112404: -->betaolefin(qq)(q)(rh)(rhh)<--
-  10506215: -->olefin-(qq)(qq)<--
-  10809300: -->alphaolefin-(qq)(q)(hhh)<--
-  20708316: -->alphaolefin-radical(rh)(h)(rr)<--
-  20203000: -->peroxyl-radical<--
-  10203000: -->water<--
-  20708306: -->alphaolefin-radical(hh)(r)(hh)<--
-  10506200: -->ethane-(hh)(hh)<--
-  20708301: -->alphaolefin-radical(qq)(q)(rh)<--
-  11112407: -->betaolefin(qq)(q)(rh)(rrh)<--
-  20708319: -->alphaolefin-radical(rh)(r)(rr)<--
-  10506213: -->olefin-(rr)(rh)<--
-  20708314: -->alphaolefin-radical(rr)(r)(rh)<--
-  20708304: -->alphaolefin-radical(rh)(h)(hh)<--
-  11112405: -->betaolefin(qq)(q)(rr)(rhh)<--
-  20708317: -->alphaolefin-radical(rr)(h)(rr)<--
-  20203300: -->alphaolefin-radical<--
-  10506211: -->olefin-(rh)(rh)<--
-  20708312: -->alphaolefin-radical(hh)(r)(rh)<--
-  20708302: -->alphaolefin-radical(qq)(q)(rr)<--
-  10304400: -->betaolefin<--
-  10102001: -->hydrogen<--
-  10506214: -->olefin-(rr)(rr)<--
-  20708315: -->alphaolefin-radical(hh)(h)(rr)<--
-  11112403: -->betaolefin(qq)(q)(hh)(rhh)<--
-  10506209: -->olefin-(hh)(hh)<--
-  20708310: -->alphaolefin-radical(rh)(h)(rh)<--
-  20708300: -->alphaolefin-radical(qq)(q)(hh)<--
-  11112401: -->betaolefin(qq)(q)(rh)(hhh)<--
-  10506212: -->olefin-(rr)(hh)<--
-  20708313: -->alphaolefin-radical(rh)(r)(rh)<--
-  10506207: -->ethane-(rh)(rr)<--
-  20708308: -->alphaolefin-radical(rr)(r)(hh)<--
-  10304000: -->hydrogen-peroxide<--
-  10506210: -->olefin-(rh)(hh)<--
-  20708311: -->alphaolefin-radical(rr)(h)(rh)<--
-  10506205: -->ethane-(hh)(rr)<--
-  20506500: -->.ccccc(h)<--
   10102000: -->oxygen<--
-  11112402: -->betaolefin(qq)(q)(rr)(hhh)<--
-  10809303: -->alphaolefin-(qq)(q)(rrr)<--
-  10506208: -->ethane-(rr)(rr)<--
-  20708309: -->alphaolefin-radical(hh)(h)(rh)<--
-  20708700: -->.ccccccc(h)<--
-  20001001: -->oxygen-radical<--
-  10506203: -->ethane-(rh)(rh)<--
-  11112410: -->betaolefin(qq)(q)(rh)(rrr)<--
-  11112400: -->betaolefin(qq)(q)(hh)(hhh)<--
-  20405400: -->.cccc(h)<--
-  10809301: -->alphaolefin-(qq)(q)(rhh)<--
-  10506206: -->ethane-(rr)(rh)<--
-  20708307: -->alphaolefin-radical(rh)(r)(hh)<--
+  10102001: -->hydrogen<--
+  10102200: -->olefin<--
+  10203000: -->water<--
   10203300: -->alphaolefin<--
-  10506201: -->ethane-(rh)(hh)<--
-  20607600: -->.cccccc(h)<--
+  10304001: -->hydrogen-peroxide<--
+  10304400: -->betaolefin<--
+  10506200: -->olefin-(hh)(hh)<--
+  10506201: -->olefin-(rh)(hh)<--
+  10506202: -->ethane-(hh)(rh)<--
+  10506203: -->olefin-(rh)(rh)<--
+  10506204: -->olefin-(rr)(hh)<--
+  10506205: -->ethane-(hh)(rr)<--
+  10506206: -->olefin-(rr)(rh)<--
+  10506207: -->ethane-(rh)(rr)<--
+  10506208: -->olefin-(rr)(rr)<--
+  10506209: -->olefin-(qq)(qq)<--
+  10809300: -->alphaolefin-(qq)(q)(hhh)<--
+  10809301: -->alphaolefin-(qq)(q)(rhh)<--
+  10809302: -->alphaolefin-(qq)(q)(rrh)<--
+  10809303: -->alphaolefin-(qq)(q)(rrr)<--
+  11112400: -->betaolefin(qq)(q)(hh)(hhh)<--
+  11112401: -->betaolefin(qq)(q)(rh)(hhh)<--
+  11112402: -->betaolefin(qq)(q)(rr)(hhh)<--
+  11112403: -->betaolefin(qq)(q)(hh)(rhh)<--
+  11112404: -->betaolefin(qq)(q)(rh)(rhh)<--
+  11112405: -->betaolefin(qq)(q)(rr)(rhh)<--
+  11112406: -->betaolefin(qq)(q)(hh)(rrh)<--
+  11112407: -->betaolefin(qq)(q)(rh)(rrh)<--
   11112408: -->betaolefin(qq)(q)(rr)(rrh)<--
+  11112409: -->betaolefin(qq)(q)(hh)(rrr)<--
+  11112410: -->betaolefin(qq)(q)(rh)(rrr)<--
+  11112411: -->betaolefin(qq)(q)(rr)(rrr)<--
+  20001000: -->hydrogen-radical<--
+  20001001: -->oxygen-radical<--
+  20102000: -->hydroxyl-radical<--
+  20102100: -->carbonmonoxide<--
+  20203000: -->peroxyl-radical<--
+  20203300: -->alphaolefin-radical<--
+  20405400: -->.cccc(h)<--
+  20506500: -->.ccccc(h)<--
+  20607600: -->.cccccc(h)<--
+  20708300: -->alphaolefin-radical(qq)(q)(hh)<--
+  20708301: -->alphaolefin-radical(qq)(q)(rh)<--
+  20708302: -->alphaolefin-radical(qq)(q)(rr)<--
+  20708303: -->alphaolefin-radical(hh)(h)(hh)<--
+  20708304: -->alphaolefin-radical(rh)(h)(hh)<--
+  20708305: -->alphaolefin-radical(rr)(h)(hh)<--
+  20708306: -->alphaolefin-radical(hh)(r)(hh)<--
+  20708307: -->alphaolefin-radical(rh)(r)(hh)<--
+  20708308: -->alphaolefin-radical(rr)(r)(hh)<--
+  20708309: -->alphaolefin-radical(hh)(h)(rh)<--
+  20708310: -->alphaolefin-radical(rh)(h)(rh)<--
+  20708311: -->alphaolefin-radical(rr)(h)(rh)<--
+  20708312: -->alphaolefin-radical(hh)(r)(rh)<--
+  20708313: -->alphaolefin-radical(rh)(r)(rh)<--
+  20708314: -->alphaolefin-radical(rr)(r)(rh)<--
+  20708315: -->alphaolefin-radical(hh)(h)(rr)<--
+  20708316: -->alphaolefin-radical(rh)(h)(rr)<--
+  20708317: -->alphaolefin-radical(rr)(h)(rr)<--
+  20708318: -->alphaolefin-radical(hh)(r)(rr)<--
+  20708319: -->alphaolefin-radical(rh)(r)(rr)<--
+  20708320: -->alphaolefin-radical(rr)(r)(rr)<--
 Misc>> Quit
 SubStructures>> Quit
 DbaseOps>> Quit
 main>> Quit
+[Firestore SearchKeys Store] dbName='Molecules', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Molecules', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Substructures', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Substructures', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Reactions', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Reactions', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='ReactionPatterns', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='ReactionPatterns', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
 ~/git/WorkFlowProject/REACTCLOUD/data/mol/subs 

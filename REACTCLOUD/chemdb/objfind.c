@@ -210,10 +210,10 @@ extern INT StoreObjectIDClassToFirestore(INT source,
     }
     cJSON_AddItemToObject(bodyObj, "objectIDs", arrObj);
     cJSON_AddStringToObject(bodyObj, "jsonStr", json_class_str);
-    cJSON_free(json_class_str);
 
     json_body = cJSON_PrintUnformatted(bodyObj);
     cJSON_Delete(bodyObj);
+    cJSON_free(json_class_str);
 
     if (json_body != NULL) {
         if (PostJSONToOrchestrator("/api/db/storeObjectIDClass", json_body, NULL, 0) == 0) {

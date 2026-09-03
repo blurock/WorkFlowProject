@@ -350,53 +350,59 @@ static void SetUpChemkinThermoValues(PropertyType *chemkin)
 static void TranslatePropChemkinThermoRead(GenPropValue *value, CHAR *string,
 					   BindStructure *bind)
      {
-     ChemkinThermoRead *chemkin;
-     CHAR *rest,*word,*name,*data;
-     
-     word = AllocateString(LINELENGTH);
-     
-     rest = IsolateNextWord(string,word,BLANK,LINELENGTH);
-     name = CopyString(word);
-     rest = IsolateNextWord(rest,word,';',LINELENGTH);
-     data = CopyString(word);
-     EliminateBlanks(data);
-     
-     chemkin = AllocateChemkinThermoRead;
-     CreateChemkinThermoRead(chemkin,-1,data,0,0,0,0,0,0,0);
-     chemkin->Species = CopyString(data);
-     
-     ProduceChemkinGenPropValue(value,chemkin);
-     
-     rest = IsolateNextWord(rest,word,';',LINELENGTH);
-     value->Reference = CopyString(word);
-     rest = IsolateNextWord(rest,word,';',LINELENGTH);
-     value->Text = CopyString(word);
+     (void)bind;
+     if(string != NULL && *string == '{')
+          {
+          ReadJSONGenPropValueFromString(value, string);
+          }
+     else
+          {
+          ChemkinThermoRead *chemkin;
+          CHAR *rest,*word,*name,*data;
+          
+          word = AllocateString(LINELENGTH);
+          
+          rest = IsolateNextWord(string,word,BLANK,LINELENGTH);
+          name = CopyString(word);
+          rest = IsolateNextWord(rest,word,';',LINELENGTH);
+          data = CopyString(word);
+          EliminateBlanks(data);
+          
+          chemkin = AllocateChemkinThermoRead;
+          CreateChemkinThermoRead(chemkin,-1,data,0,0,0,0,0,0,0);
+          chemkin->Species = CopyString(data);
+          
+          ProduceChemkinGenPropValue(value,chemkin);
+          
+          rest = IsolateNextWord(rest,word,';',LINELENGTH);
+          value->Reference = CopyString(word);
+          rest = IsolateNextWord(rest,word,';',LINELENGTH);
+          value->Text = CopyString(word);
 
-     Free(data);
-     Free(word);
-     FreeChemkinThermoRead(chemkin);
-     Free(chemkin);
+          Free(name);
+          Free(data);
+          Free(word);
+          FreeChemkinThermoRead(chemkin);
+          Free(chemkin);
+          }
      }
 
 extern void ProduceChemkinGenPropValue(GenPropValue *value,
 				       ChemkinThermoRead *chemkin)
      {
-     DbaseLinkedList *link,*newlink;
-     
-     link = AllocateDbaseLinkedList;
-     CreateDbaseLinkedList(link,chemkin->ID,chemkin->Name,
-			   CHEMKIN_LINKED_LIST_SIZE,CHEMKIN_LINKED_LIST_SIZE,
-			   0,0,0);
-     link->Size = 0;
-     WriteBinChemkinThermoRead(chemkin,link);
-     newlink = LinkedListToSingle(link);
-     
-     CreateGenPropValue(value,CHEMKIN_READTHERMO_PROPERTY,"Chemkin", PROP_VALUE_EXP,0,
-			newlink->Size,newlink->Element,0,0);
-     FreeDbaseLinkedList(link);
-     Free(link);
-     FreeDbaseLinkedList(newlink);
-     Free(newlink);
+     CHAR *jsonstr;
+     INT size;
+
+     jsonstr = WriteJSONChemkinThermoReadToString(chemkin);
+     size = (jsonstr != NULL) ? (INT)strlen(jsonstr) + 1 : 0;
+
+     CreateGenPropValue(value, CHEMKIN_READTHERMO_PROPERTY, "Chemkin", PROP_VALUE_EXP, 0,
+                        size, jsonstr, 0, 0);
+
+     if(jsonstr != NULL)
+          {
+          cJSON_free(jsonstr);
+          }
      }
 
 static CHAR *OnLineChemkinThermoRead(GenPropValue *value,
@@ -405,17 +411,16 @@ static CHAR *OnLineChemkinThermoRead(GenPropValue *value,
 					   CHAR *out,
 					   BindStructure *bind)
      {
-     DbaseLinkedList *link;
      ChemkinThermoRead *chemkin;
      CHAR *string;
-     
-     chemkin = AllocateChemkinThermoRead;
+     (void)fieldsize;
+     (void)bind;
 
-     link = AllocateDbaseLinkedList;
-     CreateDbaseLinkedList(link,0,0,
-			   value->NumberOfBytes,value->NumberOfBytes,
-			   0,value->Value,0);
-     ReadBinChemkinThermoRead(chemkin,link);
+     chemkin = AllocateChemkinThermoRead;
+     if(value != NULL && value->Value != NULL && strlen(value->Value) > 0)
+          {
+          ReadJSONChemkinThermoReadFromString(chemkin, value->Value);
+          }
      
      string = AllocateString(PRINT_BUFFER_LENGTH);
      StringMoleculeStandardChemkinThermo(string,chemkin);
@@ -423,8 +428,6 @@ static CHAR *OnLineChemkinThermoRead(GenPropValue *value,
      out = PrintStringString(out,bufferleft,string);
      
      Free(string);
-     FreeDbaseLinkedList(link);
-     Free(link);
      FreeChemkinThermoRead(chemkin);
      Free(chemkin);
      

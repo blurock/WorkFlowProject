@@ -247,6 +247,12 @@ extern INT FillInChemkinInCurrent(BindStructure *bind) {
             ProduceChemkinGenPropValue(chemvalue, fullchemkin);
             chemvalue->Reference = CopyString(bind->Name);
             AddValueToPropertyValues(chemvalue, chemvalues);
+
+            CHAR *jsonstr = WriteJSONMoleculeInfoToString(mol);
+            if (jsonstr != NULL) {
+              printf("Molecule '%s' JSON after Chemkin Fill:\n%s\n", mol->Name, jsonstr);
+              Free(jsonstr);
+            }
           }
         } else {
           printf("CHEMKIN type not found for '%s'\n", mol->Name);
@@ -335,10 +341,12 @@ extern INT PrintChemkinNameCorrespondences(BindStructure *bind) {
 */
 extern DbaseKeyword *ComputeChemkinValueKey(ChemkinThermoRead *thermo) {
   DbaseKeyword *key;
+  CHAR *keyname;
 
+  keyname = (thermo->Name != NULL && strlen(thermo->Name) > 0) ? thermo->Name : thermo->Species;
   key = AllocateDbaseKeyword;
-  CreateDbaseKeyword(key, CHEMKIN_THERMO_DATABASE, thermo->Name,
-                     (INT)strlen(thermo->Species) + 1, thermo->Species);
+  CreateDbaseKeyword(key, CHEMKIN_THERMO_DATABASE, keyname,
+                     (INT)strlen(keyname) + 1, keyname);
   return (key);
 }
 /*F  key = ComputeBensonTreeKey(thermo,name)

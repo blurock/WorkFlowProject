@@ -90,6 +90,8 @@ extern INT StoreElementToFirestore(DbaseKeyword *keyword, CHAR *json_str, DataBa
     size_t len;
     const char *uid;
     char key_name[256];
+    int key_id;
+    int is_processed = 0;
     
     if (info == NULL || keyword == NULL || json_str == NULL) {
         printf("[Firestore Debug] StoreElementToFirestore skipped: info=%p, keyword=%p, json_str=%p\n",
@@ -97,10 +99,27 @@ extern INT StoreElementToFirestore(DbaseKeyword *keyword, CHAR *json_str, DataBa
         return SYSTEM_ERROR_RETURN;
     }
 
-    if (keyword->Name != NULL && strlen(keyword->Name) > 0) {
-        snprintf(key_name, sizeof(key_name), "%s", keyword->Name);
-    } else {
-        snprintf(key_name, sizeof(key_name), "%d", keyword->ID);
+    key_id = keyword->ID;
+
+    if (keyword->KeyWord != NULL && keyword->Size > 0) {
+        if (keyword->Size == sizeof(int) && !cJSON_IsASCIIBuffer(keyword->KeyWord, (size_t)keyword->Size)) {
+            int key_val;
+            memcpy(&key_val, keyword->KeyWord, sizeof(int));
+            snprintf(key_name, sizeof(key_name), "%d", key_val);
+            key_id = key_val;
+            is_processed = 1;
+        } else {
+            snprintf(key_name, sizeof(key_name), "%s", (char *)keyword->KeyWord);
+            is_processed = 1;
+        }
+    }
+
+    if (!is_processed) {
+        if (keyword->Name != NULL && strlen(keyword->Name) > 0) {
+            snprintf(key_name, sizeof(key_name), "%s", keyword->Name);
+        } else {
+            snprintf(key_name, sizeof(key_name), "%d", keyword->ID);
+        }
     }
 
     uid = getenv("REACT_USER_UID");
@@ -109,7 +128,7 @@ extern INT StoreElementToFirestore(DbaseKeyword *keyword, CHAR *json_str, DataBa
     }
 
     printf("[Firestore Store] dbName='%s', key='%s', keyId=%d, uid='%s'\n",
-           info->Name ? info->Name : "NULL", key_name, keyword->ID, uid);
+           info->Name ? info->Name : "NULL", key_name, key_id, uid);
     fflush(stdout);
 
     len = strlen(uid) + (info->Name ? strlen(info->Name) : 4) + strlen(key_name) + strlen(json_str) + 512;
@@ -117,7 +136,7 @@ extern INT StoreElementToFirestore(DbaseKeyword *keyword, CHAR *json_str, DataBa
     if (body == NULL) return SYSTEM_ERROR_RETURN;
 
     sprintf(body, "{\"uid\":\"%s\",\"dbName\":\"%s\",\"key\":\"%s\",\"keyId\":%d,\"jsonStr\":%s}",
-            uid, info->Name ? info->Name : "UNKNOWN", key_name, keyword->ID, json_str);
+            uid, info->Name ? info->Name : "UNKNOWN", key_name, key_id, json_str);
 
     int res = PostJSONToOrchestrator("/api/db/store", body, NULL, 0);
     printf("[Firestore Store Result] PostJSONToOrchestrator returned: %d\n", res);

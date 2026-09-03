@@ -35,12 +35,14 @@ main>> CreateOpenClose
 Command:CreateOpenClose
 CreateOpenClose>> Start
 Command:Start
-
-0:No Keys for Reactions
-
-
-0:No Keys for ReactionPatterns
-
+[GDBM SearchKeys Read] dbName='Molecules', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Molecules', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[GDBM SearchKeys Read] dbName='Reactions', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Reactions', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[GDBM SearchKeys Read] dbName='ReactionPatterns', id=1: ReadBinSetOfSearchKeys loaded 850 keys from GDBM (datset.dsize=34029)
+[GDBM SearchKeys Read] dbName='ReactionPatterns', id=0: ReadBinSetOfSearchKeys loaded 850 keys from GDBM (datset.dsize=91349)
 CreateOpenClose>> Quit
 main>> DbaseOps
 Command:DbaseOps
@@ -52,6 +54,10 @@ Keys>> Define
 Command:Define
 Keys>> Write
 Command:Write
+[Firestore SearchKeys Store] dbName='Substructures', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Substructures', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
 Keys>> Quit
 SubStructures>> Quit
 DbaseOps>> Quit
@@ -119,824 +125,489 @@ Command:Current
 Current>> Store
 Command:Store
 Store:          1:peroxypropene-radical-(hh)(h)(hh)
-Search Key Element Not Found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+Equivalence: c(h)(h)(ccoo.)(ooh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: c(h)(r)(ccoo.)(ooh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(hh)(hhh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(hh)(hhh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(hh)(hhh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(rh)(hhh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(rh)(hhh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(rh)(hhh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(rr)(hhh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(rr)(hhh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(rr)(hhh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(hh)(rhh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(hh)(rhh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(hh)(rhh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(rh)(rhh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(rh)(rhh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(rh)(rhh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(rr)(rhh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(rr)(rhh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(rr)(rhh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(hh)(rrh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(hh)(rrh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(hh)(rrh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(rh)(rrh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(rh)(rrh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(rh)(rrh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(rr)(rrh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(rr)(rrh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(rr)(rrh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(hh)(rrr) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(hh)(rrr) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(hh)(rrr) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(rh)(rrr) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(rh)(rrr) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(rh)(rrr) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(rr)(rrr) peroxypropene-radical-(hh)(h)(hh)     0
+
+0:Element Not Found
 The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-New ID:   20910343
+Equivalence: propyl-radical-(rr)(rr)(rrr) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(hh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rh) peroxypropene-radical-(hh)(h)(hh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rr) peroxypropene-radical-(hh)(h)(hh)     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+New ID:   20910341
+[Firestore Store] dbName='Substructures', key='20910341', keyId=20910341, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          2:peroxypropene-radical-(rh)(h)(hh)
-Search Key Element Not Found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+Equivalence: c(h)(h)(ccoo.)(ooh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: c(h)(r)(ccoo.)(ooh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(hh)(hhh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(hh)(hhh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(hh)(hhh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(rh)(hhh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(rh)(hhh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(rh)(hhh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(rr)(hhh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(rr)(hhh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(rr)(hhh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(hh)(rhh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(hh)(rhh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(hh)(rhh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(rh)(rhh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(rh)(rhh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(rh)(rhh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(rr)(rhh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(rr)(rhh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(rr)(rhh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(hh)(rrh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(hh)(rrh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(hh)(rrh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(rh)(rrh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(rh)(rrh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(rh)(rrh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(rr)(rrh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(rr)(rrh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(rr)(rrh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(hh)(rrr) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(hh)(rrr) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(hh)(rrr) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(rh)(rrr) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(rh)(rrr) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(rh)(rrr) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(rr)(rrr) peroxypropene-radical-(rh)(h)(hh)     0
+
+0:Element Not Found
 The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Equivalence: peroxypropene-radical-(hh)(h)(hh) peroxypropene-radical-(rh)(h)(hh)     0
-New ID:   20910344
+Equivalence: propyl-radical-(rr)(rr)(rrr) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(hh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rh) peroxypropene-radical-(rh)(h)(hh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rr) peroxypropene-radical-(rh)(h)(hh)     0
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+New ID:   20910342
+[Firestore Store] dbName='Substructures', key='20910342', keyId=20910342, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          3:peroxypropene-radical-(rr)(h)(hh)
-Search Key Element Not Found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+Equivalence: c(h)(h)(ccoo.)(ooh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: c(h)(r)(ccoo.)(ooh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(hh)(hhh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(hh)(hhh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(hh)(hhh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(rh)(hhh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(rh)(hhh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(rh)(hhh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(rr)(hhh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(rr)(hhh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(rr)(hhh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(hh)(rhh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(hh)(rhh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(hh)(rhh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(rh)(rhh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(rh)(rhh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(rh)(rhh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(rr)(rhh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(rr)(rhh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(rr)(rhh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(hh)(rrh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(hh)(rrh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(hh)(rrh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(rh)(rrh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(rh)(rrh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(rh)(rrh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(rr)(rrh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(rr)(rrh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(rr)(rrh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(hh)(rrr) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(hh)(rrr) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(hh)(rrr) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(rh)(rrr) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(rh)(rh)(rrr) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(rr)(rh)(rrr) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: propyl-radical-(hh)(rr)(rrr) peroxypropene-radical-(rr)(h)(hh)     0
+
+0:Element Not Found
 The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+Equivalence: propyl-radical-(rr)(rr)(rrr) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(hh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rh) peroxypropene-radical-(rr)(h)(hh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rr) peroxypropene-radical-(rr)(h)(hh)     0
 Equivalence: peroxypropene-radical-(hh)(h)(hh) peroxypropene-radical-(rr)(h)(hh)     0
-Equivalence: peroxypropene-radical-(rh)(h)(hh) peroxypropene-radical-(rr)(h)(hh)     0
-New ID:   20910345
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+New ID:   20910343
+[Firestore Store] dbName='Substructures', key='20910343', keyId=20910343, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          4:peroxypropene-radical-(hh)(r)(hh)
-Search Key Element Not Found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+Equivalence: c(h)(h)(ccoo.)(ooh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: c(h)(r)(ccoo.)(ooh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(hh)(hhh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(hh)(hhh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(hh)(hhh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(rh)(hhh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(rh)(hhh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(rh)(hhh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(rr)(hhh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(rr)(hhh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(rr)(hhh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(hh)(rhh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(hh)(rhh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(hh)(rhh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(rh)(rhh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(rh)(rhh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(rh)(rhh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(rr)(rhh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(rr)(rhh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(rr)(rhh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(hh)(rrh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(hh)(rrh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(hh)(rrh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(rh)(rrh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(rh)(rrh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(rh)(rrh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(rr)(rrh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(rr)(rrh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(rr)(rrh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(hh)(rrr) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(hh)(rrr) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(hh)(rrr) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(rh)(rrr) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(rh)(rrr) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(rh)(rrr) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(rr)(rrr) peroxypropene-radical-(hh)(r)(hh)     0
+
+0:Element Not Found
 The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+Equivalence: propyl-radical-(rr)(rr)(rrr) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(hh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rh) peroxypropene-radical-(hh)(r)(hh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rr) peroxypropene-radical-(hh)(r)(hh)     0
 Equivalence: peroxypropene-radical-(hh)(h)(hh) peroxypropene-radical-(hh)(r)(hh)     0
 Equivalence: peroxypropene-radical-(rh)(h)(hh) peroxypropene-radical-(hh)(r)(hh)     0
-Equivalence: peroxypropene-radical-(rr)(h)(hh) peroxypropene-radical-(hh)(r)(hh)     0
-New ID:   20910346
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+New ID:   20910344
+[Firestore Store] dbName='Substructures', key='20910344', keyId=20910344, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          5:peroxypropene-radical-(rh)(r)(hh)
-Search Key Element Not Found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+Equivalence: c(h)(h)(ccoo.)(ooh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: c(h)(r)(ccoo.)(ooh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(hh)(hhh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(hh)(hhh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(hh)(hhh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(rh)(hhh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(rh)(hhh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(rh)(hhh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(rr)(hhh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(rr)(hhh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(rr)(hhh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(hh)(rhh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(hh)(rhh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(hh)(rhh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(rh)(rhh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(rh)(rhh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(rh)(rhh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(rr)(rhh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(rr)(rhh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(rr)(rhh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(hh)(rrh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(hh)(rrh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(hh)(rrh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(rh)(rrh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(rh)(rrh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(rh)(rrh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(rr)(rrh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(rr)(rrh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(rr)(rrh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(hh)(rrr) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(hh)(rrr) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(hh)(rrr) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(rh)(rrr) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(rh)(rrr) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(rh)(rrr) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(rr)(rrr) peroxypropene-radical-(rh)(r)(hh)     0
+
+0:Element Not Found
 The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+Equivalence: propyl-radical-(rr)(rr)(rrr) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(hh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rh) peroxypropene-radical-(rh)(r)(hh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rr) peroxypropene-radical-(rh)(r)(hh)     0
 Equivalence: peroxypropene-radical-(hh)(h)(hh) peroxypropene-radical-(rh)(r)(hh)     0
 Equivalence: peroxypropene-radical-(rh)(h)(hh) peroxypropene-radical-(rh)(r)(hh)     0
 Equivalence: peroxypropene-radical-(rr)(h)(hh) peroxypropene-radical-(rh)(r)(hh)     0
-Equivalence: peroxypropene-radical-(hh)(r)(hh) peroxypropene-radical-(rh)(r)(hh)     0
-New ID:   20910347
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+New ID:   20910345
+[Firestore Store] dbName='Substructures', key='20910345', keyId=20910345, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          6:peroxypropene-radical-(rr)(r)(hh)
-Search Key Element Not Found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+Equivalence: c(h)(h)(ccoo.)(ooh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: c(h)(r)(ccoo.)(ooh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(hh)(hhh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(hh)(hhh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(hh)(hhh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(rh)(hhh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(rh)(hhh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(rh)(hhh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(rr)(hhh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(rr)(hhh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(rr)(hhh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(hh)(rhh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(hh)(rhh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(hh)(rhh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(rh)(rhh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(rh)(rhh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(rh)(rhh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(rr)(rhh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(rr)(rhh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(rr)(rhh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(hh)(rrh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(hh)(rrh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(hh)(rrh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(rh)(rrh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(rh)(rrh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(rh)(rrh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(rr)(rrh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(rr)(rrh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(rr)(rrh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(hh)(rrr) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(hh)(rrr) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(hh)(rrr) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(rh)(rrr) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(rh)(rh)(rrr) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(rr)(rh)(rrr) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: propyl-radical-(hh)(rr)(rrr) peroxypropene-radical-(rr)(r)(hh)     0
+
+0:Element Not Found
 The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+Equivalence: propyl-radical-(rr)(rr)(rrr) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(hh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rh) peroxypropene-radical-(rr)(r)(hh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rr) peroxypropene-radical-(rr)(r)(hh)     0
 Equivalence: peroxypropene-radical-(hh)(h)(hh) peroxypropene-radical-(rr)(r)(hh)     0
 Equivalence: peroxypropene-radical-(rh)(h)(hh) peroxypropene-radical-(rr)(r)(hh)     0
 Equivalence: peroxypropene-radical-(rr)(h)(hh) peroxypropene-radical-(rr)(r)(hh)     0
 Equivalence: peroxypropene-radical-(hh)(r)(hh) peroxypropene-radical-(rr)(r)(hh)     0
-Equivalence: peroxypropene-radical-(rh)(r)(hh) peroxypropene-radical-(rr)(r)(hh)     0
-New ID:   20910348
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+New ID:   20910346
+[Firestore Store] dbName='Substructures', key='20910346', keyId=20910346, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          7:peroxypropene-radical-(hh)(h)(rh)
-Search Key Element Not Found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+Equivalence: c(h)(h)(ccoo.)(ooh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: c(h)(r)(ccoo.)(ooh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(hh)(hhh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(hh)(hhh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(hh)(hhh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(rh)(hhh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(rh)(hhh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(rh)(hhh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(rr)(hhh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(rr)(hhh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(rr)(hhh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(hh)(rhh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(hh)(rhh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(hh)(rhh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(rh)(rhh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(rh)(rhh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(rh)(rhh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(rr)(rhh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(rr)(rhh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(rr)(rhh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(hh)(rrh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(hh)(rrh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(hh)(rrh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(rh)(rrh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(rh)(rrh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(rh)(rrh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(rr)(rrh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(rr)(rrh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(rr)(rrh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(hh)(rrr) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(hh)(rrr) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(hh)(rrr) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(rh)(rrr) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(rh)(rrr) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(rh)(rrr) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(rr)(rrr) peroxypropene-radical-(hh)(h)(rh)     0
+
+0:Element Not Found
 The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+Equivalence: propyl-radical-(rr)(rr)(rrr) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(hh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rh) peroxypropene-radical-(hh)(h)(rh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rr) peroxypropene-radical-(hh)(h)(rh)     0
 Equivalence: peroxypropene-radical-(hh)(h)(hh) peroxypropene-radical-(hh)(h)(rh)     0
 Equivalence: peroxypropene-radical-(rh)(h)(hh) peroxypropene-radical-(hh)(h)(rh)     0
 Equivalence: peroxypropene-radical-(rr)(h)(hh) peroxypropene-radical-(hh)(h)(rh)     0
 Equivalence: peroxypropene-radical-(hh)(r)(hh) peroxypropene-radical-(hh)(h)(rh)     0
 Equivalence: peroxypropene-radical-(rh)(r)(hh) peroxypropene-radical-(hh)(h)(rh)     0
-Equivalence: peroxypropene-radical-(rr)(r)(hh) peroxypropene-radical-(hh)(h)(rh)     0
-New ID:   20910349
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+New ID:   20910347
+[Firestore Store] dbName='Substructures', key='20910347', keyId=20910347, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          8:peroxypropene-radical-(rh)(h)(rh)
-Search Key Element Not Found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+Equivalence: c(h)(h)(ccoo.)(ooh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: c(h)(r)(ccoo.)(ooh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(hh)(hhh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(hh)(hhh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(hh)(hhh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(rh)(hhh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(rh)(hhh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(rh)(hhh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(rr)(hhh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(rr)(hhh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(rr)(hhh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(hh)(rhh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(hh)(rhh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(hh)(rhh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(rh)(rhh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(rh)(rhh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(rh)(rhh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(rr)(rhh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(rr)(rhh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(rr)(rhh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(hh)(rrh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(hh)(rrh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(hh)(rrh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(rh)(rrh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(rh)(rrh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(rh)(rrh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(rr)(rrh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(rr)(rrh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(rr)(rrh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(hh)(rrr) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(hh)(rrr) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(hh)(rrr) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(rh)(rrr) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(rh)(rrr) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(rh)(rrr) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(rr)(rrr) peroxypropene-radical-(rh)(h)(rh)     0
+
+0:Element Not Found
 The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+Equivalence: propyl-radical-(rr)(rr)(rrr) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(hh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rh) peroxypropene-radical-(rh)(h)(rh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rr) peroxypropene-radical-(rh)(h)(rh)     0
 Equivalence: peroxypropene-radical-(hh)(h)(hh) peroxypropene-radical-(rh)(h)(rh)     0
 Equivalence: peroxypropene-radical-(rh)(h)(hh) peroxypropene-radical-(rh)(h)(rh)     0
 Equivalence: peroxypropene-radical-(rr)(h)(hh) peroxypropene-radical-(rh)(h)(rh)     0
 Equivalence: peroxypropene-radical-(hh)(r)(hh) peroxypropene-radical-(rh)(h)(rh)     0
 Equivalence: peroxypropene-radical-(rh)(r)(hh) peroxypropene-radical-(rh)(h)(rh)     0
 Equivalence: peroxypropene-radical-(rr)(r)(hh) peroxypropene-radical-(rh)(h)(rh)     0
-Equivalence: peroxypropene-radical-(hh)(h)(rh) peroxypropene-radical-(rh)(h)(rh)     0
-New ID:   20910350
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+New ID:   20910348
+[Firestore Store] dbName='Substructures', key='20910348', keyId=20910348, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:          9:peroxypropene-radical-(rr)(h)(rh)
-Search Key Element Not Found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+Equivalence: c(h)(h)(ccoo.)(ooh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: c(h)(r)(ccoo.)(ooh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(hh)(hhh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(hh)(hhh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(hh)(hhh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(rh)(hhh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(rh)(hhh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(rh)(hhh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(rr)(hhh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(rr)(hhh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(rr)(hhh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(hh)(rhh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(hh)(rhh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(hh)(rhh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(rh)(rhh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(rh)(rhh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(rh)(rhh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(rr)(rhh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(rr)(rhh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(rr)(rhh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(hh)(rrh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(hh)(rrh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(hh)(rrh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(rh)(rrh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(rh)(rrh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(rh)(rrh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(rr)(rrh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(rr)(rrh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(rr)(rrh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(hh)(rrr) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(hh)(rrr) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(hh)(rrr) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(rh)(rrr) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(rh)(rh)(rrr) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(rr)(rh)(rrr) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: propyl-radical-(hh)(rr)(rrr) peroxypropene-radical-(rr)(h)(rh)     0
+
+0:Element Not Found
 The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+Equivalence: propyl-radical-(rr)(rr)(rrr) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(hh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rh) peroxypropene-radical-(rr)(h)(rh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rr) peroxypropene-radical-(rr)(h)(rh)     0
 Equivalence: peroxypropene-radical-(hh)(h)(hh) peroxypropene-radical-(rr)(h)(rh)     0
 Equivalence: peroxypropene-radical-(rh)(h)(hh) peroxypropene-radical-(rr)(h)(rh)     0
 Equivalence: peroxypropene-radical-(rr)(h)(hh) peroxypropene-radical-(rr)(h)(rh)     0
@@ -945,94 +616,58 @@ Equivalence: peroxypropene-radical-(rh)(r)(hh) peroxypropene-radical-(rr)(h)(rh)
 Equivalence: peroxypropene-radical-(rr)(r)(hh) peroxypropene-radical-(rr)(h)(rh)     0
 Equivalence: peroxypropene-radical-(hh)(h)(rh) peroxypropene-radical-(rr)(h)(rh)     0
 Equivalence: peroxypropene-radical-(rh)(h)(rh) peroxypropene-radical-(rr)(h)(rh)     0
-New ID:   20910351
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+New ID:   20910349
+[Firestore Store] dbName='Substructures', key='20910349', keyId=20910349, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         10:peroxypropene-radical-(hh)(r)(rh)
-Search Key Element Not Found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+Equivalence: c(h)(h)(ccoo.)(ooh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: c(h)(r)(ccoo.)(ooh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(hh)(hhh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(hh)(hhh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(hh)(hhh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(rh)(hhh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(rh)(hhh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(rh)(hhh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(rr)(hhh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(rr)(hhh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(rr)(hhh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(hh)(rhh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(hh)(rhh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(hh)(rhh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(rh)(rhh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(rh)(rhh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(rh)(rhh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(rr)(rhh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(rr)(rhh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(rr)(rhh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(hh)(rrh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(hh)(rrh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(hh)(rrh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(rh)(rrh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(rh)(rrh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(rh)(rrh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(rr)(rrh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(rr)(rrh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(rr)(rrh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(hh)(rrr) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(hh)(rrr) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(hh)(rrr) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(rh)(rrr) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(rh)(rrr) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(rh)(rrr) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(rr)(rrr) peroxypropene-radical-(hh)(r)(rh)     0
+
+0:Element Not Found
 The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+Equivalence: propyl-radical-(rr)(rr)(rrr) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(hh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rh) peroxypropene-radical-(hh)(r)(rh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rr) peroxypropene-radical-(hh)(r)(rh)     0
 Equivalence: peroxypropene-radical-(hh)(h)(hh) peroxypropene-radical-(hh)(r)(rh)     0
 Equivalence: peroxypropene-radical-(rh)(h)(hh) peroxypropene-radical-(hh)(r)(rh)     0
 Equivalence: peroxypropene-radical-(rr)(h)(hh) peroxypropene-radical-(hh)(r)(rh)     0
@@ -1041,95 +676,58 @@ Equivalence: peroxypropene-radical-(rh)(r)(hh) peroxypropene-radical-(hh)(r)(rh)
 Equivalence: peroxypropene-radical-(rr)(r)(hh) peroxypropene-radical-(hh)(r)(rh)     0
 Equivalence: peroxypropene-radical-(hh)(h)(rh) peroxypropene-radical-(hh)(r)(rh)     0
 Equivalence: peroxypropene-radical-(rh)(h)(rh) peroxypropene-radical-(hh)(r)(rh)     0
-Equivalence: peroxypropene-radical-(rr)(h)(rh) peroxypropene-radical-(hh)(r)(rh)     0
-New ID:   20910352
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+New ID:   20910350
+[Firestore Store] dbName='Substructures', key='20910350', keyId=20910350, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         11:peroxypropene-radical-(rh)(r)(rh)
-Search Key Element Not Found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+Equivalence: c(h)(h)(ccoo.)(ooh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: c(h)(r)(ccoo.)(ooh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(hh)(hhh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(hh)(hhh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(hh)(hhh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(rh)(hhh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(rh)(hhh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(rh)(hhh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(rr)(hhh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(rr)(hhh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(rr)(hhh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(hh)(rhh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(hh)(rhh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(hh)(rhh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(rh)(rhh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(rh)(rhh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(rh)(rhh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(rr)(rhh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(rr)(rhh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(rr)(rhh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(hh)(rrh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(hh)(rrh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(hh)(rrh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(rh)(rrh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(rh)(rrh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(rh)(rrh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(rr)(rrh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(rr)(rrh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(rr)(rrh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(hh)(rrr) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(hh)(rrr) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(hh)(rrr) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(rh)(rrr) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(rh)(rrr) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(rh)(rrr) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(rr)(rrr) peroxypropene-radical-(rh)(r)(rh)     0
+
+0:Element Not Found
 The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+Equivalence: propyl-radical-(rr)(rr)(rrr) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(hh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rh) peroxypropene-radical-(rh)(r)(rh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rr) peroxypropene-radical-(rh)(r)(rh)     0
 Equivalence: peroxypropene-radical-(hh)(h)(hh) peroxypropene-radical-(rh)(r)(rh)     0
 Equivalence: peroxypropene-radical-(rh)(h)(hh) peroxypropene-radical-(rh)(r)(rh)     0
 Equivalence: peroxypropene-radical-(rr)(h)(hh) peroxypropene-radical-(rh)(r)(rh)     0
@@ -1139,95 +737,58 @@ Equivalence: peroxypropene-radical-(rr)(r)(hh) peroxypropene-radical-(rh)(r)(rh)
 Equivalence: peroxypropene-radical-(hh)(h)(rh) peroxypropene-radical-(rh)(r)(rh)     0
 Equivalence: peroxypropene-radical-(rh)(h)(rh) peroxypropene-radical-(rh)(r)(rh)     0
 Equivalence: peroxypropene-radical-(rr)(h)(rh) peroxypropene-radical-(rh)(r)(rh)     0
-Equivalence: peroxypropene-radical-(hh)(r)(rh) peroxypropene-radical-(rh)(r)(rh)     0
-New ID:   20910353
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+New ID:   20910351
+[Firestore Store] dbName='Substructures', key='20910351', keyId=20910351, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         12:peroxypropene-radical-(rr)(r)(rh)
-Search Key Element Not Found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+Equivalence: c(h)(h)(ccoo.)(ooh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: c(h)(r)(ccoo.)(ooh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(hh)(hhh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(hh)(hhh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(hh)(hhh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(rh)(hhh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(rh)(hhh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(rh)(hhh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(rr)(hhh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(rr)(hhh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(rr)(hhh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(hh)(rhh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(hh)(rhh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(hh)(rhh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(rh)(rhh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(rh)(rhh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(rh)(rhh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(rr)(rhh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(rr)(rhh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(rr)(rhh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(hh)(rrh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(hh)(rrh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(hh)(rrh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(rh)(rrh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(rh)(rrh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(rh)(rrh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(rr)(rrh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(rr)(rrh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(rr)(rrh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(hh)(rrr) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(hh)(rrr) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(hh)(rrr) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(rh)(rrr) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(rh)(rh)(rrr) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(rr)(rh)(rrr) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: propyl-radical-(hh)(rr)(rrr) peroxypropene-radical-(rr)(r)(rh)     0
+
+0:Element Not Found
 The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+Equivalence: propyl-radical-(rr)(rr)(rrr) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(hh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rh) peroxypropene-radical-(rr)(r)(rh)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rr) peroxypropene-radical-(rr)(r)(rh)     0
 Equivalence: peroxypropene-radical-(hh)(h)(hh) peroxypropene-radical-(rr)(r)(rh)     0
 Equivalence: peroxypropene-radical-(rh)(h)(hh) peroxypropene-radical-(rr)(r)(rh)     0
 Equivalence: peroxypropene-radical-(rr)(h)(hh) peroxypropene-radical-(rr)(r)(rh)     0
@@ -1238,95 +799,58 @@ Equivalence: peroxypropene-radical-(hh)(h)(rh) peroxypropene-radical-(rr)(r)(rh)
 Equivalence: peroxypropene-radical-(rh)(h)(rh) peroxypropene-radical-(rr)(r)(rh)     0
 Equivalence: peroxypropene-radical-(rr)(h)(rh) peroxypropene-radical-(rr)(r)(rh)     0
 Equivalence: peroxypropene-radical-(hh)(r)(rh) peroxypropene-radical-(rr)(r)(rh)     0
-Equivalence: peroxypropene-radical-(rh)(r)(rh) peroxypropene-radical-(rr)(r)(rh)     0
-New ID:   20910354
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+New ID:   20910352
+[Firestore Store] dbName='Substructures', key='20910352', keyId=20910352, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         13:peroxypropene-radical-(hh)(h)(rr)
-Search Key Element Not Found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+Equivalence: c(h)(h)(ccoo.)(ooh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: c(h)(r)(ccoo.)(ooh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(hh)(hhh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(hh)(hhh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(hh)(hhh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(rh)(hhh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(rh)(hhh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(rh)(hhh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(rr)(hhh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(rr)(hhh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(rr)(hhh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(hh)(rhh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(hh)(rhh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(hh)(rhh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(rh)(rhh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(rh)(rhh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(rh)(rhh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(rr)(rhh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(rr)(rhh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(rr)(rhh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(hh)(rrh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(hh)(rrh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(hh)(rrh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(rh)(rrh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(rh)(rrh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(rh)(rrh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(rr)(rrh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(rr)(rrh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(rr)(rrh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(hh)(rrr) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(hh)(rrr) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(hh)(rrr) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(rh)(rrr) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(rh)(rrr) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(rh)(rrr) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(rr)(rrr) peroxypropene-radical-(hh)(h)(rr)     0
+
+0:Element Not Found
 The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+Equivalence: propyl-radical-(rr)(rr)(rrr) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(hh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rh) peroxypropene-radical-(hh)(h)(rr)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rr) peroxypropene-radical-(hh)(h)(rr)     0
 Equivalence: peroxypropene-radical-(hh)(h)(hh) peroxypropene-radical-(hh)(h)(rr)     0
 Equivalence: peroxypropene-radical-(rh)(h)(hh) peroxypropene-radical-(hh)(h)(rr)     0
 Equivalence: peroxypropene-radical-(rr)(h)(hh) peroxypropene-radical-(hh)(h)(rr)     0
@@ -1338,95 +862,58 @@ Equivalence: peroxypropene-radical-(rh)(h)(rh) peroxypropene-radical-(hh)(h)(rr)
 Equivalence: peroxypropene-radical-(rr)(h)(rh) peroxypropene-radical-(hh)(h)(rr)     0
 Equivalence: peroxypropene-radical-(hh)(r)(rh) peroxypropene-radical-(hh)(h)(rr)     0
 Equivalence: peroxypropene-radical-(rh)(r)(rh) peroxypropene-radical-(hh)(h)(rr)     0
-Equivalence: peroxypropene-radical-(rr)(r)(rh) peroxypropene-radical-(hh)(h)(rr)     0
-New ID:   20910355
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+New ID:   20910353
+[Firestore Store] dbName='Substructures', key='20910353', keyId=20910353, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         14:peroxypropene-radical-(rh)(h)(rr)
-Search Key Element Not Found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+Equivalence: c(h)(h)(ccoo.)(ooh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: c(h)(r)(ccoo.)(ooh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(hh)(hhh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(hh)(hhh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(hh)(hhh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(rh)(hhh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(rh)(hhh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(rh)(hhh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(rr)(hhh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(rr)(hhh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(rr)(hhh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(hh)(rhh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(hh)(rhh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(hh)(rhh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(rh)(rhh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(rh)(rhh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(rh)(rhh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(rr)(rhh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(rr)(rhh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(rr)(rhh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(hh)(rrh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(hh)(rrh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(hh)(rrh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(rh)(rrh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(rh)(rrh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(rh)(rrh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(rr)(rrh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(rr)(rrh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(rr)(rrh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(hh)(rrr) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(hh)(rrr) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(hh)(rrr) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(rh)(rrr) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(rh)(rrr) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(rh)(rrr) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(rr)(rrr) peroxypropene-radical-(rh)(h)(rr)     0
+
+0:Element Not Found
 The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+Equivalence: propyl-radical-(rr)(rr)(rrr) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(hh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rh) peroxypropene-radical-(rh)(h)(rr)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rr) peroxypropene-radical-(rh)(h)(rr)     0
 Equivalence: peroxypropene-radical-(hh)(h)(hh) peroxypropene-radical-(rh)(h)(rr)     0
 Equivalence: peroxypropene-radical-(rh)(h)(hh) peroxypropene-radical-(rh)(h)(rr)     0
 Equivalence: peroxypropene-radical-(rr)(h)(hh) peroxypropene-radical-(rh)(h)(rr)     0
@@ -1439,95 +926,58 @@ Equivalence: peroxypropene-radical-(rr)(h)(rh) peroxypropene-radical-(rh)(h)(rr)
 Equivalence: peroxypropene-radical-(hh)(r)(rh) peroxypropene-radical-(rh)(h)(rr)     0
 Equivalence: peroxypropene-radical-(rh)(r)(rh) peroxypropene-radical-(rh)(h)(rr)     0
 Equivalence: peroxypropene-radical-(rr)(r)(rh) peroxypropene-radical-(rh)(h)(rr)     0
-Equivalence: peroxypropene-radical-(hh)(h)(rr) peroxypropene-radical-(rh)(h)(rr)     0
-New ID:   20910356
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+New ID:   20910354
+[Firestore Store] dbName='Substructures', key='20910354', keyId=20910354, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         15:peroxypropene-radical-(rr)(h)(rr)
-Search Key Element Not Found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+Equivalence: c(h)(h)(ccoo.)(ooh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: c(h)(r)(ccoo.)(ooh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(hh)(hhh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(hh)(hhh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(hh)(hhh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(rh)(hhh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(rh)(hhh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(rh)(hhh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(rr)(hhh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(rr)(hhh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(rr)(hhh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(hh)(rhh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(hh)(rhh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(hh)(rhh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(rh)(rhh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(rh)(rhh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(rh)(rhh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(rr)(rhh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(rr)(rhh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(rr)(rhh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(hh)(rrh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(hh)(rrh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(hh)(rrh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(rh)(rrh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(rh)(rrh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(rh)(rrh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(rr)(rrh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(rr)(rrh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(rr)(rrh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(hh)(rrr) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(hh)(rrr) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(hh)(rrr) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(rh)(rrr) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(rh)(rh)(rrr) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(rr)(rh)(rrr) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: propyl-radical-(hh)(rr)(rrr) peroxypropene-radical-(rr)(h)(rr)     0
+
+0:Element Not Found
 The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+Equivalence: propyl-radical-(rr)(rr)(rrr) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(hh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rh) peroxypropene-radical-(rr)(h)(rr)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rr) peroxypropene-radical-(rr)(h)(rr)     0
 Equivalence: peroxypropene-radical-(hh)(h)(hh) peroxypropene-radical-(rr)(h)(rr)     0
 Equivalence: peroxypropene-radical-(rh)(h)(hh) peroxypropene-radical-(rr)(h)(rr)     0
 Equivalence: peroxypropene-radical-(rr)(h)(hh) peroxypropene-radical-(rr)(h)(rr)     0
@@ -1541,95 +991,58 @@ Equivalence: peroxypropene-radical-(hh)(r)(rh) peroxypropene-radical-(rr)(h)(rr)
 Equivalence: peroxypropene-radical-(rh)(r)(rh) peroxypropene-radical-(rr)(h)(rr)     0
 Equivalence: peroxypropene-radical-(rr)(r)(rh) peroxypropene-radical-(rr)(h)(rr)     0
 Equivalence: peroxypropene-radical-(hh)(h)(rr) peroxypropene-radical-(rr)(h)(rr)     0
-Equivalence: peroxypropene-radical-(rh)(h)(rr) peroxypropene-radical-(rr)(h)(rr)     0
-New ID:   20910357
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+New ID:   20910355
+[Firestore Store] dbName='Substructures', key='20910355', keyId=20910355, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         16:peroxypropene-radical-(hh)(r)(rr)
-Search Key Element Not Found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+Equivalence: c(h)(h)(ccoo.)(ooh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: c(h)(r)(ccoo.)(ooh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(hh)(hhh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(hh)(hhh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(hh)(hhh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(rh)(hhh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(rh)(hhh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(rh)(hhh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(rr)(hhh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(rr)(hhh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(rr)(hhh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(hh)(rhh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(hh)(rhh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(hh)(rhh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(rh)(rhh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(rh)(rhh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(rh)(rhh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(rr)(rhh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(rr)(rhh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(rr)(rhh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(hh)(rrh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(hh)(rrh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(hh)(rrh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(rh)(rrh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(rh)(rrh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(rh)(rrh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(rr)(rrh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(rr)(rrh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(rr)(rrh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(hh)(rrr) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(hh)(rrr) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(hh)(rrr) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(rh)(rrr) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(rh)(rrr) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(rh)(rrr) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(rr)(rrr) peroxypropene-radical-(hh)(r)(rr)     0
+
+0:Element Not Found
 The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+Equivalence: propyl-radical-(rr)(rr)(rrr) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(hh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rh) peroxypropene-radical-(hh)(r)(rr)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rr) peroxypropene-radical-(hh)(r)(rr)     0
 Equivalence: peroxypropene-radical-(hh)(h)(hh) peroxypropene-radical-(hh)(r)(rr)     0
 Equivalence: peroxypropene-radical-(rh)(h)(hh) peroxypropene-radical-(hh)(r)(rr)     0
 Equivalence: peroxypropene-radical-(rr)(h)(hh) peroxypropene-radical-(hh)(r)(rr)     0
@@ -1644,95 +1057,58 @@ Equivalence: peroxypropene-radical-(rh)(r)(rh) peroxypropene-radical-(hh)(r)(rr)
 Equivalence: peroxypropene-radical-(rr)(r)(rh) peroxypropene-radical-(hh)(r)(rr)     0
 Equivalence: peroxypropene-radical-(hh)(h)(rr) peroxypropene-radical-(hh)(r)(rr)     0
 Equivalence: peroxypropene-radical-(rh)(h)(rr) peroxypropene-radical-(hh)(r)(rr)     0
-Equivalence: peroxypropene-radical-(rr)(h)(rr) peroxypropene-radical-(hh)(r)(rr)     0
-New ID:   20910358
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+New ID:   20910356
+[Firestore Store] dbName='Substructures', key='20910356', keyId=20910356, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         17:peroxypropene-radical-(rh)(r)(rr)
-Search Key Element Not Found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+Equivalence: c(h)(h)(ccoo.)(ooh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: c(h)(r)(ccoo.)(ooh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(hh)(hhh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(hh)(hhh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(hh)(hhh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(rh)(hhh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(rh)(hhh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(rh)(hhh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(rr)(hhh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(rr)(hhh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(rr)(hhh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(hh)(rhh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(hh)(rhh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(hh)(rhh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(rh)(rhh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(rh)(rhh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(rh)(rhh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(rr)(rhh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(rr)(rhh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(rr)(rhh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(hh)(rrh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(hh)(rrh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(hh)(rrh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(rh)(rrh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(rh)(rrh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(rh)(rrh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(rr)(rrh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(rr)(rrh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(rr)(rrh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(hh)(rrr) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(hh)(rrr) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(hh)(rrr) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(rh)(rrr) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(rh)(rrr) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(rh)(rrr) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(rr)(rrr) peroxypropene-radical-(rh)(r)(rr)     0
+
+0:Element Not Found
 The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+Equivalence: propyl-radical-(rr)(rr)(rrr) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(hh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rh) peroxypropene-radical-(rh)(r)(rr)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rr) peroxypropene-radical-(rh)(r)(rr)     0
 Equivalence: peroxypropene-radical-(hh)(h)(hh) peroxypropene-radical-(rh)(r)(rr)     0
 Equivalence: peroxypropene-radical-(rh)(h)(hh) peroxypropene-radical-(rh)(r)(rr)     0
 Equivalence: peroxypropene-radical-(rr)(h)(hh) peroxypropene-radical-(rh)(r)(rr)     0
@@ -1748,95 +1124,58 @@ Equivalence: peroxypropene-radical-(rr)(r)(rh) peroxypropene-radical-(rh)(r)(rr)
 Equivalence: peroxypropene-radical-(hh)(h)(rr) peroxypropene-radical-(rh)(r)(rr)     0
 Equivalence: peroxypropene-radical-(rh)(h)(rr) peroxypropene-radical-(rh)(r)(rr)     0
 Equivalence: peroxypropene-radical-(rr)(h)(rr) peroxypropene-radical-(rh)(r)(rr)     0
-Equivalence: peroxypropene-radical-(hh)(r)(rr) peroxypropene-radical-(rh)(r)(rr)     0
-New ID:   20910359
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+New ID:   20910357
+[Firestore Store] dbName='Substructures', key='20910357', keyId=20910357, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Store:         18:peroxypropene-radical-(rr)(r)(rr)
-Search Key Element Not Found
+[GDBM SearchKeys Read] dbName='Substructures', id=1: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=29)
+[GDBM SearchKeys Read] dbName='Substructures', id=0: ReadBinSetOfSearchKeys loaded 0 keys from GDBM (datset.dsize=31)
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+Equivalence: c(h)(h)(ccoo.)(ooh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: c(h)(r)(ccoo.)(ooh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(hh)(hhh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(hh)(hhh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(hh)(hhh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(rh)(hhh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(rh)(hhh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(rh)(hhh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(rr)(hhh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(rr)(hhh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(rr)(hhh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(hh)(rhh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(hh)(rhh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(hh)(rhh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(rh)(rhh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(rh)(rhh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(rh)(rhh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(rr)(rhh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(rr)(rhh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(rr)(rhh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(hh)(rrh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(hh)(rrh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(hh)(rrh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(rh)(rrh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(rh)(rrh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(rh)(rrh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(rr)(rrh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(rr)(rrh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(rr)(rrh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(hh)(rrr) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(hh)(rrr) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(hh)(rrr) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(rh)(rrr) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(rh)(rh)(rrr) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(rr)(rh)(rrr) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: propyl-radical-(hh)(rr)(rrr) peroxypropene-radical-(rr)(r)(rr)     0
+
+0:Element Not Found
 The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
-Search Key Element Not Found
-The object within the classification was not found
+Equivalence: propyl-radical-(rr)(rr)(rrr) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(hh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rh) peroxypropene-radical-(rr)(r)(rr)     0
+Equivalence: alphaolefinOO-radical(qq)(q)(rr) peroxypropene-radical-(rr)(r)(rr)     0
 Equivalence: peroxypropene-radical-(hh)(h)(hh) peroxypropene-radical-(rr)(r)(rr)     0
 Equivalence: peroxypropene-radical-(rh)(h)(hh) peroxypropene-radical-(rr)(r)(rr)     0
 Equivalence: peroxypropene-radical-(rr)(h)(hh) peroxypropene-radical-(rr)(r)(rr)     0
@@ -1853,8 +1192,11 @@ Equivalence: peroxypropene-radical-(hh)(h)(rr) peroxypropene-radical-(rr)(r)(rr)
 Equivalence: peroxypropene-radical-(rh)(h)(rr) peroxypropene-radical-(rr)(r)(rr)     0
 Equivalence: peroxypropene-radical-(rr)(h)(rr) peroxypropene-radical-(rr)(r)(rr)     0
 Equivalence: peroxypropene-radical-(hh)(r)(rr) peroxypropene-radical-(rr)(r)(rr)     0
-Equivalence: peroxypropene-radical-(rh)(r)(rr) peroxypropene-radical-(rr)(r)(rr)     0
-New ID:   20910360
+[Firestore Classification Read] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+[Firestore Classification Store] name='DB-Index-SubStructureIDs', uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1', source='DATABASE', docKey='doc_9_10_3_2'
+New ID:   20910358
+[Firestore Store] dbName='Substructures', key='20910358', keyId=20910358, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore Store Result] PostJSONToOrchestrator returned: 0
 Current>> Quit
 SubStructures>> Keys
 Command:Keys
@@ -1864,580 +1206,533 @@ Keys>> Fill
 Command:Fill
 Keys>> Write
 Command:Write
+[Firestore SearchKeys Store] dbName='Substructures', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Substructures', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
 Keys>> Quit
 SubStructures>> Misc
 Command:Misc
 Misc>> PrintList
 Command:PrintList
-  20809319: -->.c(rh)coc(hhh)<--
-  20708320: -->alphaolefin-radical(rr)(r)(rr)<--
-  11112300: -->oc(q)c(h)(h)c(h)(h)(ooh)<--
-  11011310: -->propyl-(rrh)(rr)(hhh)<--
-  20708212: -->c(hh)c(rh)oh<--
-  20607222: -->ethyl-radical-(rr)(rrr)<--
-  10607309: -->propyne-(rh)(hh)<--
-  20506210: -->.c(h)(h)co(r)<--
-  20910214: -->.ooccoh-(rr)(hh)<--
-  10708201: -->ethane-(rhh)(hhh)<--
-  20708352: -->propenyl-radical-(rr)(r)(rr)<--
-  20708351: -->propenyl-radical-(rh)(r)(rr)<--
-  20910329: -->propyl-radical-(rh)(rr)(rrh)<--
-  10102200: -->olefin<--
-  11112406: -->betaolefin(qq)(q)(hh)(rrh)<--
-  20102000: -->hydroxyl-radical<--
-  20708318: -->alphaolefin-radical(hh)(r)(rr)<--
-  20809317: -->co(r)c(rr)c.(rr)<--
-  11011308: -->propyl-(hhh)(rr)(hhh)<--
-  20607220: -->ethyl-radical-(hh)(rrr)<--
-  20708210: -->c(rh)c(hh)oh<--
-  20506208: -->.c(r)(h)co(h)<--
-  20708401: -->oc(r)(cccoo)<--
-  20910212: -->.ooccoh-(rh)(rh)<--
-  20405218: -->alkenyl-(rr)(h)<--
-  21011317: -->oc.c(r)(r)c(r)(r)(ooh)<--
-  20708349: -->propenyl-radical-(rr)(h)(rr)<--
-  10607205: -->c(rrh)rc(o)<--
-  11112404: -->betaolefin(qq)(q)(rh)(rhh)<--
-  10506215: -->olefin-(qq)(qq)<--
-  20708316: -->alphaolefin-radical(rh)(h)(rr)<--
-  20910327: -->propyl-radical-(rr)(rh)(rrh)<--
-  20708208: -->oc.c(r)(r)(ooh)<--
-  11011306: -->propyl-(rrh)(rh)(hhh)<--
-  20607218: -->ethyl-radical-(rh)(rrh)<--
-  20203201: -->ethyne-radical-(r)<--
-  20506206: -->c(rrr).c(o)<--
-  20809408: -->.c(h)(h)(cccooh)<--
-  10606300: -->(q)(q)(-ccco-)<--
-  20910601: -->.c(ooh)ccccc(h)<--
-  10607313: -->propyne-(rr)(rr)<--
-  20607301: -->oc(r)(ccoo)<--
-  21112500: -->(h)(h)(ccccoo.)cooh<--
-  21011315: -->oc.c(h)(h)c(r)(r)(ooh)<--
-  20708347: -->propenyl-radical-(hh)(h)(rr)<--
-  10607203: -->c(rhh)rc(o)<--
-  20910325: -->propyl-radical-(hh)(rh)(rrh)<--
-  10506213: -->olefin-(rr)(rh)<--
-  20708314: -->alphaolefin-radical(rr)(r)(rh)<--
-  10405201: -->ketene-(rh)<--
-  20708206: -->oc.c(h)(h)(ooh)<--
-  10405103: -->secondary-carbon-hydrogen-bond<--
-  20607216: -->ethyl-radical-(rr)(rhh)<--
-  10304103: -->(r)(r)c(o)<--
-  20809406: -->c(r)(h)(r)(cccoo.)<--
-  11011304: -->propyl-(hhh)(rh)(hhh)<--
-  20506106: -->(h)(r)(r)coo.<--
-  10607311: -->propyne-(rh)(rh)<--
-  10505200: -->(q)(q)(-cco-)<--
-  20304104: -->tertiary-carbon-radical<--
-  21011313: -->oc.c(r)(h)c(r)(h)(ooh)<--
-  20708345: -->propenyl-radical-(rh)(r)(rh)<--
-  10607201: -->c(hhh)rc(o)<--
-  20910323: -->propyl-radical-(rh)(hh)(rrh)<--
-  10506211: -->olefin-(rh)(rh)<--
-  20708312: -->alphaolefin-radical(hh)(r)(rh)<--
-  10506103: -->c(r)(r)(r)(oh)<--
-  20708204: -->oc(h)c(r)(r)(oo)<--
-  20809329: -->.c(rr)coc(rrr)<--
-  10405101: -->methane<--
-  10304101: -->(h)(h)c(o)<--
-  20809404: -->c(r)(r)(h)(cccoo.)<--
-  20607214: -->ethyl-radical-(hh)(rhh)<--
-  10304400: -->betaolefin<--
-  20506104: -->(h)(h)(h)coo.<--
-  11011320: -->propyl-(rrr)(rr)(rhh)<--
-  10102001: -->hydrogen<--
-  20304102: -->primary-carbon-radical<--
-  21011311: -->oc.c(r)(r)c(h)(h)(ooh)<--
-  20910340: -->alphaolefinOO-radical(qq)(q)(hh)<--
-  20910321: -->propyl-radical-(rr)(rr)(rhh)<--
-  10708309: -->(rr)cc(r)c(h)o<--
-  10506209: -->olefin-(hh)(hh)<--
-  20708310: -->alphaolefin-radical(rh)(h)(rh)<--
-  20809211: -->c(h)(h)(coo.)(ooh)<--
-  20708202: -->oc(h)c(r)(h)(oo)<--
-  20809327: -->.c(hh)coc(rrr)<--
-  11112308: -->oc(q)c(r)(r)c(r)(r)(ooh)<--
-  20607212: -->ethyl-radical-(rh)(hhh)<--
-  20809402: -->c(h)(h)(h)(cccoo.)<--
-  10506101: -->c(r)(h)(h)(oh)<--
-  20506102: -->(q)(q)(h)coo.<--
-  10809307: -->co(r)c(rh)co(h)<--
-  11011318: -->propyl-(rhh)(rr)(rhh)<--
-  10708307: -->(rh)cc(r)c(h)o<--
-  10910500: -->oc(h)(ccccooh)<--
-  21011309: -->oc.c(h)(h)c(h)(h)(ooh)<--
-  10708209: -->ethane-(rrr)(rrr)<--
-  20910338: -->propyl-radical-(rh)(rr)(rrr)<--
-  20708343: -->propenyl-radical-(rr)(h)(rh)<--
-  10506207: -->ethane-(rh)(rr)<--
-  20708308: -->alphaolefin-radical(rr)(r)(hh)<--
-  20809209: -->c(h)(h)(coo.)(ooh)<--
-  10304000: -->hydrogen-peroxide<--
-  20809325: -->.c(rh)coc(rrh)<--
-  20607210: -->.c(r)(r)(cooh)<--
-  11112306: -->oc(q)c(h)(h)c(r)(r)(ooh)<--
-  20809400: -->c(h)(q)(q)(cccoo.)<--
-  20708200: -->oc(h)c(h)(h)(oo)<--
-  20506100: -->(h).cooh-r<--
-  10809305: -->co(r)c(hh)co(h)<--
-  11011316: -->propyl-(rrh)(rh)(rhh)<--
-  10708305: -->(hh)cc(r)c(h)o<--
-  20708358: -->propenyl-radical-(h)(r)(rrr)<--
-  21011307: -->oc(q)c(r)(h)c(r)(r)(oo)<--
-  10708207: -->ethane-(rrr)(rhh)<--
-  20910336: -->propyl-radical-(rr)(rh)(rrr)<--
-  20708360: -->propenyl-radical-(h)(h)(rhh)<--
-  10506205: -->ethane-(hh)(rr)<--
-  20708362: -->propenyl-radical-(r)(r)(rhh)<--
-  20809207: -->.c(r)(h)c(r)(r)(ooh)<--
-  20910508: -->.c(r)(h)(ccccooh)<--
-  20809323: -->.c(rr)coc(rhh)<--
-  20708324: -->.ccc(r)(h)(ooh)<--
-  20607208: -->.c(h)(h)(cooh)<--
-  11112304: -->oc(q)c(r)(h)c(r)(h)(ooh)<--
-  21011400: -->(h)(h)(cccooh)cooh<--
-  20910335: -->propyl-radical-(rh)(rh)(rrr)<--
-  10809303: -->alphaolefin-(qq)(q)(rrr)<--
-  20506214: -->oc(r)(coo)<--
-  11011314: -->propyl-(rrr)(hh)(rhh)<--
-  20708356: -->propenyl-radical-(h)(r)(rhh)<--
-  10708205: -->ethane-(rrh)(rhh)<--
-  20708364: -->propenyl-radical-(r)(h)(rrh)<--
-  20102201: -->ethyne-radical-general<--
-  10607301: -->propyne-(h)(rhh)<--
-  10506203: -->ethane-(rh)(rh)<--
-  10607303: -->propyne-(h)(rrr)<--
-  20809205: -->.c(r)(r)c(r)(h)(ooh)<--
-  11112410: -->betaolefin(qq)(q)(rh)(rrr)<--
-  20809321: -->.c(hh)coc(rhh)<--
-  20708322: -->.c(q)(q)(ccooh)<--
-  11112302: -->oc(q)c(r)(r)c(h)(h)(ooh)<--
-  20910300: -->c(h)(h)(ccoo.)(ooh)<--
-  20910333: -->propyl-radical-(rr)(hh)(rrr)<--
-  10809301: -->alphaolefin-(qq)(q)(rhh)<--
-  20506212: -->.c(r)(r)co(r)<--
-  11011312: -->propyl-(rhh)(hh)(rhh)<--
-  20910216: -->.ooccoh-(rr)(rr)<--
-  10708203: -->ethane-(rrr)(hhh)<--
-  20708354: -->propenyl-radical-(r)(h)(hhh)<--
-  10607305: -->propyne-(r)(rhh)<--
-  10203300: -->alphaolefin<--
-  10506201: -->ethane-(rh)(hh)<--
-  10607307: -->propyne-(r)(rrr)<--
-  20910331: -->propyl-radical-(hh)(hh)(rrr)<--
-  11112408: -->betaolefin(qq)(q)(rr)(rrh)<--
-  20405207: -->ethenyl-(hh)(h)<--
-  11011329: -->propyl-(rrr)(rr)(rrr)<--
-  21011306: -->oc(q)c(h)(h)c(r)(r)(oo)<--
-  20708338: -->propenyl-radical-(hh)(r)(hh)<--
-  20910316: -->propyl-radical-(hh)(rh)(rhh)<--
-  20708403: -->.cccc(ooh)(h)<--
-  20809304: -->co(h)c(rr)c.(hh)<--
-  20708305: -->alphaolefin-radical(rr)(h)(hh)<--
-  20910507: -->.c(h)(h)(ccccooh)<--
-  20708370: -->propenyl-radical-(rh)(hhh)<--
-  20607207: -->c(r)(r)(r)(coo.)<--
-  10304202: -->ethyne-(r)(r)<--
-  10607207: -->c(rrr)rc(o)<--
-  10809400: -->oc(h)(cccooh)<--
-  20405205: -->alkenyl-(rr)(h)<--
-  20910348: -->peroxypropene-radical-(rr)(r)(hh)<--
-  10708302: -->oc(h)(ccooh)<--
-  21011304: -->oc(q)c(r)(h)c(r)(h)(oo)<--
-  20708336: -->propenyl-radical-(rh)(h)(hh)<--
-  20809410: -->.c(r)(r)(cccooh)<--
-  20910314: -->propyl-radical-(rh)(hh)(rhh)<--
-  20809302: -->co(h)c(rh)c.(hh)<--
-  20708303: -->alphaolefin-radical(hh)(h)(hh)<--
-  10809315: -->co(r)c(rr)co(r)<--
-  20910505: -->c(r)(h)(r)(ccccoo.)<--
-  10607108: -->oc(h)(cooh)<--
-  20607205: -->c(h)(h)(r)(coo.)<--
-  21011700: -->.ccccccc(ooh)(h)<--
-  11011326: -->propyl-(rrr)(rr)(rrh)<--
-  20910206: -->ooc(hh)c(rr)oh<--
-  20405203: -->alkenyl-(rh)(h)<--
-  20708368: -->propenyl-radical-(r)(r)(rrr)<--
-  10304200: -->ethyne-(h)(h)<--
-  10708300: -->oc(h)(ccooh)<--
-  10607300: -->propyne-(h)(hhh)<--
-  20708334: -->.c(r)(r)(ccooh)<--
-  21011302: -->oc(q)c(r)(r)c(h)(h)(oo)<--
-  20910312: -->propyl-radical-(rr)(rr)(hhh)<--
-  11011324: -->propyl-(rrr)(hh)(rrh)<--
-  10506200: -->ethane-(hh)(hh)<--
-  20708301: -->alphaolefin-radical(qq)(q)(rh)<--
-  20809300: -->co(h)c(hh)c.(hh)<--
-  10809313: -->co(r)c(rh)co(r)<--
-  20809202: -->.c(r)(r)c(h)(h)(ooh)<--
-  10607106: -->c(r)(r)(h)(ooh)<--
-  20607203: -->c(r)(h)(h)(coo.)<--
-  20910503: -->c(r)(r)(h)(ccccoo.)<--
-  10809205: -->oc(r)c(r)(r)(ooh)<--
-  20405201: -->alkenyl-(hh)(h)<--
-  20910204: -->ooc(rh)c(rh)oh<--
-  20708366: -->propenyl-radical-(h)(h)(rrr)<--
-  20910344: -->peroxypropene-radical-(rh)(h)(hh)<--
-  20910346: -->peroxypropene-radical-(hh)(r)(hh)<--
-  20708332: -->.c(h)(h)(ccooh)<--
-  21011300: -->oc(q)c(h)(h)c(h)(h)(oo)<--
-  20910310: -->propyl-radical-(hh)(rr)(hhh)<--
-  11011322: -->propyl-(rrh)(rh)(rrh)<--
-  20910202: -->ooc(rr)c(hh)oh<--
-  10809311: -->co(r)c(hh)co(r)<--
-  20809200: -->.c(h)(h)c(h)(h)(ooh)<--
-  20910501: -->c(h)(h)(h)(ccccoo.)<--
-  20809316: -->co(h)c(rr)c.(rr)<--
-  20607201: -->.c(q)(q)(cooh)<--
-  20203300: -->alphaolefin-radical<--
-  10607104: -->c(h)(h)(h)(ooh)<--
-  10809203: -->oc(r)c(h)(h)(ooh)<--
-  10607103: -->(r)(r)(r)cooh<--
-  20910342: -->alphaolefinOO-radical(qq)(q)(rr)<--
-  20708330: -->c(r)(h)(r)(ccoo.)<--
-  20910211: -->.ooccoh-(rr)(hh)<--
-  20910308: -->propyl-radical-(rh)(rh)(hhh)<--
-  20708222: -->.ccoh-(rh)(rr)<--
-  20910200: -->ooc(hh)c(hh)oh<--
-  10809309: -->co(r)c(rr)co(h)<--
-  20405217: -->alkenyl-(rh)(r)<--
-  10809201: -->oc(h)c(r)(h)(ooh)<--
-  20809314: -->co(h)c(rh)c.(rr)<--
-  20708380: -->propenyl-radical-(rr)(rrr)<--
-  10607101: -->(h)(h)(r)cooh<--
-  20910358: -->peroxypropene-radical-(hh)(r)(rr)<--
-  20910209: -->.ooccoh-(hh)(hh)<--
-  20708328: -->c(r)(r)(h)(ccoo.)<--
-  20405215: -->alkenyl-(hh)(r)<--
-  20910306: -->propyl-radical-(rr)(hh)(hhh)<--
-  20708220: -->.ccoh-(rr)(hh)<--
-  11112401: -->betaolefin(qq)(q)(rh)(hhh)<--
-  20809312: -->co(h)c(hh)c.(rr)<--
-  11011303: -->propyl-(rrr)(hh)(hhh)<--
-  20708378: -->propenyl-radical-(hh)(rrr)<--
-  20910356: -->peroxypropene-radical-(rh)(h)(rr)<--
-  20506203: -->c(hhh).c(o)<--
-  21011402: -->(h)(r)(cccoo.)cooh<--
-  20405213: -->alkenyl-(qq)(q)<--
-  20708326: -->c(h)(h)(h)(ccoo.)<--
-  20304201: -->ketenyl-(r)<--
-  20910304: -->propyl-radical-(hh)(hh)(hhh)<--
-  20708218: -->.ccoh-(hh)(hh)<--
-  20809310: -->co(h)c(rr)c.(rh)<--
-  11011301: -->propyl-(rhh)(hh)(hhh)<--
-  20708376: -->propenyl-radical-(rh)(rrh)<--
-  20809501: -->.c(ooh)cccc(h)<--
-  20910354: -->peroxypropene-radical-(rr)(r)(rh)<--
-  20506201: -->.c(r)(h)co(q)<--
-  20405211: -->ethenyl-(rr)(r)<--
-  20506500: -->.ccccc(h)<--
-  20405103: -->c(q)(q)(q)(o.)<--
-  20910302: -->c(h)(h)(ccoo.)(ooh)<--
-  20304101: -->methane-carbon-radical<--
-  20708216: -->c(rh)c(rr)oh<--
-  20203101: -->(r).c(o)<--
-  20708342: -->propenyl-radical-(rh)(h)(rh)<--
-  20809308: -->co(h)c(rh)c.(rh)<--
-  20001001: -->oxygen-radical<--
-  20708374: -->propenyl-radical-(rr)(rhh)<--
-  20910352: -->peroxypropene-radical-(hh)(r)(rh)<--
-  20708225: -->.ccoh-(rr)(rr)<--
-  20405209: -->ethenyl-(rh)(r)<--
-  20405101: -->c(r)(h)(h)(o.)<--
-  20708214: -->c(rr)c(rh)oh<--
-  20405400: -->.cccc(h)<--
-  20708340: -->propenyl-radical-(rr)(r)(hh)<--
-  20910318: -->propyl-radical-(rr)(rh)(rhh)<--
-  20809306: -->co(h)c(hh)c.(rh)<--
-  20708372: -->propenyl-radical-(hh)(rhh)<--
-  20910350: -->peroxypropene-radical-(rh)(h)(rh)<--
-  10607209: -->oc(h)(cooh)<--
-  10809402: -->oc(h)(cccooh)<--
-  20708361: -->propenyl-radical-(r)(h)(rhh)<--
-  10809304: -->co(h)c(hh)co(h)<--
-  20506215: -->oc.(cooh)<--
-  10708304: -->(hh)cc(h)c(h)o<--
-  20708357: -->propenyl-radical-(h)(r)(rrh)<--
-  10708206: -->ethane-(rrh)(rrh)<--
-  20708363: -->propenyl-radical-(h)(h)(rrh)<--
-  10606500: -->(-ccccco-)<--
-  10607302: -->propyne-(h)(rrh)<--
-  10506204: -->ethane-(rr)(hh)<--
-  10607304: -->propyne-(r)(hhh)<--
-  20809206: -->.c(h)(h)c(r)(r)(ooh)<--
-  11112411: -->betaolefin(qq)(q)(rr)(rrr)<--
-  20809322: -->.c(rh)coc(rhh)<--
-  20708323: -->.ccc(h)(h)(ooh)<--
-  11112303: -->oc(q)c(h)(h)c(r)(h)(ooh)<--
-  20910301: -->c(h)(r)(ccoo.)(ooh)<--
-  20910334: -->propyl-radical-(hh)(rh)(rrr)<--
-  11011313: -->propyl-(rrh)(hh)(rhh)<--
-  10809302: -->alphaolefin-(qq)(q)(rrh)<--
-  20506213: -->oc(h)(coo)<--
-  10607306: -->propyne-(r)(rrh)<--
-  20708355: -->propenyl-radical-(h)(r)(hhh)<--
-  10708204: -->ethane-(rhh)(rhh)<--
-  10607308: -->propyne-(hh)(hh)<--
   10001000: -->oxygen-atom<--
-  10506202: -->ethane-(hh)(rh)<--
-  20809204: -->.c(r)(h)c(r)(h)(ooh)<--
-  11112409: -->betaolefin(qq)(q)(hh)(rrr)<--
-  20809320: -->.c(rr)coc(hhh)<--
-  20708321: -->c(h)(q)(q)(ccoo.)<--
-  11112301: -->oc(q)c(r)(h)c(h)(h)(ooh)<--
-  10505400: -->(-cccco-)<--
-  20910332: -->propyl-radical-(rh)(hh)(rrr)<--
-  11011311: -->propyl-(rrr)(rr)(hhh)<--
-  10809300: -->alphaolefin-(qq)(q)(hhh)<--
-  20506211: -->.c(r)(h)co(r)<--
-  20708213: -->c(rh)c(rh)oh<--
-  20910215: -->.ooccoh-(rr)(rh)<--
-  10203000: -->water<--
-  10708202: -->ethane-(rrh)(hhh)<--
-  20708353: -->propenyl-radical-(h)(h)(hhh)<--
-  20910330: -->propyl-radical-(rr)(rr)(rrh)<--
-  11112407: -->betaolefin(qq)(q)(rh)(rrh)<--
-  20809318: -->.c(hh)coc(hhh)<--
-  20708319: -->alphaolefin-radical(rh)(r)(rr)<--
-  11011309: -->propyl-(rhh)(rr)(hhh)<--
-  20708211: -->c(rr)c(hh)oh<--
-  20607221: -->ethyl-radical-(rh)(rrr)<--
-  20506209: -->.c(r)(r)co(h)<--
-  20910213: -->.ooccoh-(rh)(rr)<--
-  10708200: -->ethane-(hhh)(hhh)<--
-  20405219: -->alkenyl-(rr)(r)<--
-  20708350: -->propenyl-radical-(hh)(r)(rr)<--
-  10607206: -->c(rrr)hc(o)<--
-  11112405: -->betaolefin(qq)(q)(rr)(rhh)<--
-  20910328: -->propyl-radical-(hh)(rr)(rrh)<--
-  20708317: -->alphaolefin-radical(rr)(h)(rr)<--
-  11011307: -->propyl-(rrr)(rh)(hhh)<--
-  20708209: -->c(hh)c(hh)oh<--
-  20607219: -->ethyl-radical-(rr)(rrh)<--
-  10910200: -->c2q5ooh<--
-  20506207: -->.c(h)(h)co(h)<--
-  20809409: -->.c(r)(h)(cccooh)<--
-  20708400: -->oc(h)(cccoo)<--
-  20910360: -->peroxypropene-radical-(rr)(r)(rr)<--
-  21112501: -->(h)(r)(ccccoo.)cooh<--
-  21011316: -->oc.c(r)(h)c(r)(r)(ooh)<--
-  20708348: -->propenyl-radical-(rh)(h)(rr)<--
-  10607204: -->c(rrh)hc(o)<--
-  11112403: -->betaolefin(qq)(q)(hh)(rhh)<--
-  10506214: -->olefin-(rr)(rr)<--
-  20708315: -->alphaolefin-radical(hh)(h)(rr)<--
-  10405202: -->ketene-(rr)<--
-  20708207: -->oc.c(r)(h)(ooh)<--
-  20910326: -->propyl-radical-(rh)(rh)(rrh)<--
-  20607217: -->ethyl-radical-(hh)(rrh)<--
-  11011305: -->propyl-(rhh)(rh)(hhh)<--
-  20506205: -->c(rrh).c(o)<--
-  20809407: -->c(r)(r)(r)(cccoo.)<--
-  20506107: -->(r)(r)(r)coo.<--
-  20910600: -->.cccccc(ooh)(h)<--
-  20203200: -->ethyne-radical-(h)<--
-  20607300: -->oc(h)(ccoo)<--
-  10607312: -->propyne-(rr)(rh)<--
-  21011314: -->oc.c(r)(r)c(r)(h)(ooh)<--
-  20708346: -->propenyl-radical-(rr)(r)(rh)<--
-  10607202: -->c(rhh)hc(o)<--
-  20910324: -->propyl-radical-(rr)(hh)(rrh)<--
-  10506212: -->olefin-(rr)(hh)<--
-  20708313: -->alphaolefin-radical(rh)(r)(rh)<--
-  10405200: -->ketene-(hh)<--
-  20708205: -->oc(r)c(r)(r)(oo)<--
-  10405102: -->primary-carbon-hydrogen-bond<--
-  20607215: -->ethyl-radical-(rh)(rhh)<--
-  10304102: -->(r)(h)c(o)<--
-  20809405: -->c(h)(h)(r)(cccoo.)<--
-  11011321: -->propyl-(rrh)(hh)(rrh)<--
-  20506105: -->(h)(h)(r)coo.<--
-  10607310: -->propyne-(rr)(hh)<--
-  20304103: -->secondary-carbon-radical<--
-  21011312: -->oc.c(h)(h)c(r)(h)(ooh)<--
-  20910341: -->alphaolefinOO-radical(qq)(q)(rh)<--
-  10607200: -->c(hhh)hc(o)<--
-  20910322: -->propyl-radical-(hh)(hh)(rrh)<--
-  10506210: -->olefin-(rh)(hh)<--
-  20708311: -->alphaolefin-radical(rr)(h)(rh)<--
-  20809212: -->c(h)(r)(coo.)(ooh)<--
-  20708203: -->oc(r)c(r)(h)(oo)<--
-  20809328: -->.c(rh)coc(rrr)<--
-  20607213: -->ethyl-radical-(rr)(hhh)<--
-  10304100: -->general-aldehydeketone<--
-  20809403: -->c(r)(h)(h)(cccoo.)<--
-  10405100: -->general-carbon-hydrogen-bond<--
-  20506103: -->(q)(q)(q)coo.<--
-  10809308: -->co(h)c(rr)co(h)<--
-  10506102: -->c(r)(r)(h)(oh)<--
   10102000: -->oxygen<--
-  11011319: -->propyl-(rrh)(rr)(rhh)<--
-  21011310: -->oc.c(r)(h)c(h)(h)(ooh)<--
-  20910339: -->propyl-radical-(rr)(rr)(rrr)<--
-  20910320: -->propyl-radical-(rh)(rr)(rhh)<--
-  10708308: -->(rr)cc(h)c(h)o<--
-  10506208: -->ethane-(rr)(rr)<--
-  20708309: -->alphaolefin-radical(hh)(h)(rh)<--
-  20809210: -->c(h)(r)(coo.)(ooh)<--
-  20708201: -->oc(r)c(h)(h)(oo)<--
-  20809326: -->.c(rr)coc(rrh)<--
-  20607211: -->ethyl-radical-(hh)(hhh)<--
-  11112307: -->oc(q)c(r)(h)c(r)(r)(ooh)<--
-  20809401: -->.c(q)(q)(cccooh)<--
-  10506100: -->c(h)(h)(h)(oh)<--
-  20506101: -->r-.cooh-r<--
-  20102200: -->ethyl-radical-general<--
-  10809306: -->co(h)c(rh)co(h)<--
-  11011317: -->propyl-(rrr)(rh)(rhh)<--
-  10708306: -->(rh)cc(h)c(h)o<--
-  21011308: -->oc(q)c(r)(r)c(r)(r)(oo)<--
-  10708208: -->ethane-(rrr)(rrh)<--
-  20910337: -->propyl-radical-(hh)(rr)(rrr)<--
-  20708344: -->propenyl-radical-(hh)(r)(rh)<--
-  10506206: -->ethane-(rr)(rh)<--
-  20708307: -->alphaolefin-radical(rh)(r)(hh)<--
-  20809208: -->.c(r)(r)c(r)(r)(ooh)<--
-  20910509: -->.c(r)(r)(ccccooh)<--
-  20809324: -->.c(hh)coc(rrh)<--
-  11112305: -->oc(q)c(r)(r)c(r)(h)(ooh)<--
-  20607209: -->.c(r)(h)(cooh)<--
-  11011315: -->propyl-(rhh)(rh)(rhh)<--
-  20708359: -->propenyl-radical-(r)(r)(hhh)<--
-  20304200: -->ketenyl-(h)<--
-  20708217: -->c(rr)c(rr)oh<--
-  20102100: -->carbonmonoxide<--
-  20809309: -->co(r)c(rh)c.(rh)<--
-  11011300: -->propyl-(hhh)(hh)(hhh)<--
-  20708375: -->propenyl-radical-(hh)(rrh)<--
-  20809500: -->.ccccc(ooh)(h)<--
-  20910353: -->peroxypropene-radical-(rh)(r)(rh)<--
-  20506200: -->.c(h)(h)co(q)<--
-  20405210: -->ethenyl-(rr)(h)<--
-  20405102: -->c(r)(r)(h)(o.)<--
-  20708215: -->c(hh)c(rr)oh<--
-  20304100: -->general-carbon-radical<--
-  20708341: -->propenyl-radical-(hh)(h)(rh)<--
-  20203100: -->(h).c(o)<--
-  20910319: -->propyl-radical-(hh)(rr)(rhh)<--
-  10808500: -->(q)(q)(-ccccco-)<--
-  20809307: -->co(r)c(hh)c.(rh)<--
-  20001000: -->hydrogen-radical<--
-  20708373: -->propenyl-radical-(rh)(rhh)<--
-  20910351: -->peroxypropene-radical-(rr)(h)(rh)<--
-  10607210: -->oc(r)cooh<--
-  10809403: -->oc(r)(cccooh)<--
-  20405208: -->ethenyl-(rh)(h)<--
-  20708224: -->.ccoh-(rr)(rh)<--
-  20405100: -->c(h)(h)(h)(o.)<--
-  20708339: -->propenyl-radical-(rh)(r)(hh)<--
-  20910317: -->propyl-radical-(rh)(rh)(rhh)<--
-  20203000: -->peroxyl-radical<--
-  20809305: -->co(r)c(rr)c.(hh)<--
-  20708306: -->alphaolefin-radical(hh)(r)(hh)<--
-  20708404: -->.c(ooh)ccc(h)<--
-  10707400: -->(q)(q)(-cccco-)<--
-  20708371: -->propenyl-radical-(rr)(hhh)<--
-  20910349: -->peroxypropene-radical-(hh)(h)(rh)<--
-  10607208: -->oc(r)(cooh)<--
-  10809401: -->oc(r)(cccooh)<--
-  20405206: -->alkenyl-(rr)(r)<--
-  11011328: -->propyl-(rrr)(rh)(rrr)<--
-  10708303: -->oc(r)(ccooh)<--
-  21011305: -->oc(q)c(r)(r)c(r)(h)(oo)<--
-  20708337: -->propenyl-radical-(rr)(h)(hh)<--
-  20910315: -->propyl-radical-(rr)(hh)(rhh)<--
-  20708402: -->oc.(cccooh)<--
-  20809303: -->co(r)c(rh)c.(hh)<--
-  20708304: -->alphaolefin-radical(rh)(h)(hh)<--
-  21011701: -->.c(ooh)cccccc(h)<--
-  20910506: -->c(r)(r)(r)(ccccoo.)<--
-  11011327: -->propyl-(rrr)(hh)(rrr)<--
-  20607206: -->c(r)(h)(r)(coo.)<--
-  20910207: -->ooc(rh)c(rr)oh<--
-  20708369: -->propenyl-radical-(hh)(hhh)<--
-  10304201: -->ethyne-(r)(h)<--
-  20405204: -->alkenyl-(rh)(r)<--
-  20910347: -->peroxypropene-radical-(rh)(r)(hh)<--
-  10708301: -->oc(r)(ccooh)<--
-  21011303: -->oc(q)c(h)(h)c(r)(h)(oo)<--
-  20708335: -->propenyl-radical-(hh)(h)(hh)<--
-  20910313: -->propyl-radical-(hh)(hh)(rhh)<--
-  11011325: -->propyl-(rrr)(rh)(rrh)<--
-  20809301: -->co(r)c(hh)c.(hh)<--
-  20708302: -->alphaolefin-radical(qq)(q)(rr)<--
-  10809314: -->co(h)c(rr)co(r)<--
-  20809203: -->.c(h)(h)c(r)(h)(ooh)<--
-  10607107: -->c(r)(r)(r)(ooh)<--
-  20607204: -->c(r)(r)(h)(coo.)<--
-  20910504: -->c(h)(h)(r)(ccccoo.)<--
-  20607302: -->oc.(ccooh)<--
-  20910205: -->ooc(rr)c(rh)oh<--
-  20405202: -->alkenyl-(hh)(r)<--
-  20708367: -->propenyl-radical-(r)(h)(rrr)<--
-  20910345: -->peroxypropene-radical-(rr)(h)(hh)<--
-  10405104: -->tertiary-carbon-hydrogen-bond<--
-  20708333: -->.c(r)(h)(ccooh)<--
-  21011301: -->oc(q)c(r)(h)c(h)(h)(oo)<--
-  20910311: -->propyl-radical-(rh)(rr)(hhh)<--
-  11011323: -->propyl-(rrh)(rr)(rrh)<--
-  20910203: -->ooc(hh)c(rh)oh<--
-  20708300: -->alphaolefin-radical(qq)(q)(hh)<--
-  20809201: -->.c(r)(h)c(h)(h)(ooh)<--
-  10809312: -->co(h)c(rh)co(r)<--
-  10607105: -->c(r)(h)(h)(ooh)<--
-  20607202: -->c(h)(h)(h)(coo.)<--
-  20910502: -->c(r)(h)(h)(ccccoo.)<--
-  10809204: -->oc(r)c(r)(h)(ooh)<--
-  20708365: -->propenyl-radical-(r)(r)(rrh)<--
-  20405200: -->alkenyl-(qq)(q)<--
-  20910343: -->peroxypropene-radical-(hh)(h)(hh)<--
-  20708331: -->c(r)(r)(r)(ccoo.)<--
-  10404300: -->(-ccco-)<--
-  20910309: -->propyl-radical-(rr)(rh)(hhh)<--
-  20708223: -->.ccoh-(rr)(hh)<--
-  20910201: -->ooc(rh)c(hh)oh<--
-  10809310: -->co(h)c(hh)co(r)<--
-  20910500: -->.c(q)(q)(ccccooh)<--
-  20809315: -->co(r)c(rh)c.(rr)<--
-  20607200: -->c(q)(q)(h)(coo.)<--
-  10809202: -->oc(h)c(r)(r)(ooh)<--
-  10607102: -->(h)(r)(r)cooh<--
-  20910359: -->peroxypropene-radical-(rh)(r)(rr)<--
-  20910210: -->.ooccoh-(rh)(hh)<--
-  20708329: -->c(h)(h)(r)(ccoo.)<--
-  20405216: -->alkenyl-(rh)(h)<--
-  20910307: -->propyl-radical-(hh)(rh)(hhh)<--
-  20708221: -->.ccoh-(rh)(rh)<--
+  10102001: -->hydrogen<--
+  10102200: -->olefin<--
+  10203000: -->water<--
+  10203300: -->alphaolefin<--
   10303200: -->(-cco-)<--
-  11112402: -->betaolefin(qq)(q)(rr)(hhh)<--
-  20809313: -->co(r)c(hh)c.(rr)<--
-  10910501: -->oc(r)(ccccooh)<--
-  10809200: -->oc(h)c(h)(h)(ooh)<--
-  20708379: -->propenyl-radical-(rh)(rrr)<--
+  10304001: -->hydrogen-peroxide<--
+  10304100: -->general-aldehydeketone<--
+  10304101: -->(h)(h)c(o)<--
+  10304102: -->(r)(h)c(o)<--
+  10304103: -->(r)(r)c(o)<--
+  10304200: -->ethyne-(h)(h)<--
+  10304201: -->ethyne-(r)(h)<--
+  10304202: -->ethyne-(r)(r)<--
+  10304400: -->betaolefin<--
+  10404300: -->(-ccco-)<--
+  10405100: -->general-carbon-hydrogen-bond<--
+  10405101: -->methane<--
+  10405102: -->primary-carbon-hydrogen-bond<--
+  10405103: -->secondary-carbon-hydrogen-bond<--
+  10405104: -->tertiary-carbon-hydrogen-bond<--
+  10405200: -->ketene-(hh)<--
+  10405201: -->ketene-(rh)<--
+  10405202: -->ketene-(rr)<--
+  10505200: -->(q)(q)(-cco-)<--
+  10505400: -->(-cccco-)<--
+  10506100: -->c(h)(h)(h)(oh)<--
+  10506101: -->c(r)(h)(h)(oh)<--
+  10506102: -->c(r)(r)(h)(oh)<--
+  10506103: -->c(r)(r)(r)(oh)<--
+  10506200: -->olefin-(hh)(hh)<--
+  10506201: -->olefin-(rh)(hh)<--
+  10506202: -->ethane-(hh)(rh)<--
+  10506203: -->olefin-(rh)(rh)<--
+  10506204: -->olefin-(rr)(hh)<--
+  10506205: -->ethane-(hh)(rr)<--
+  10506206: -->olefin-(rr)(rh)<--
+  10506207: -->ethane-(rh)(rr)<--
+  10506208: -->olefin-(rr)(rr)<--
+  10506209: -->olefin-(qq)(qq)<--
+  10606300: -->(q)(q)(-ccco-)<--
+  10606500: -->(-ccccco-)<--
   10607100: -->(h)(h)(h)cooh<--
-  20910357: -->peroxypropene-radical-(rr)(h)(rr)<--
-  20708700: -->.ccccccc(h)<--
-  20506204: -->c(rhh).c(o)<--
-  20910208: -->ooc(rr)c(rr)oh<--
-  20708327: -->c(r)(h)(h)(ccoo.)<--
-  20405214: -->alkenyl-(hh)(h)<--
-  20910305: -->propyl-radical-(rh)(hh)(hhh)<--
-  20708219: -->.ccoh-(rh)(hh)<--
-  11112400: -->betaolefin(qq)(q)(hh)(hhh)<--
-  20809311: -->co(r)c(rr)c.(rh)<--
-  20205300: -->alphaolefinOO-radical<--
+  10607101: -->(h)(h)(r)cooh<--
+  10607102: -->(h)(r)(r)cooh<--
+  10607103: -->(r)(r)(r)cooh<--
+  10607105: -->c(r)(h)(h)(ooh)<--
+  10607106: -->c(r)(r)(h)(ooh)<--
+  10607107: -->c(r)(r)(r)(ooh)<--
+  10607108: -->oc(h)(cooh)<--
+  10607200: -->c(hhh)hc(o)<--
+  10607201: -->c(hhh)rc(o)<--
+  10607202: -->c(rhh)hc(o)<--
+  10607203: -->c(rhh)rc(o)<--
+  10607204: -->c(rrh)hc(o)<--
+  10607205: -->c(rrh)rc(o)<--
+  10607206: -->c(rrr)hc(o)<--
+  10607207: -->c(rrr)rc(o)<--
+  10607208: -->oc(r)cooh<--
+  10607209: -->oc(h)(cooh)<--
+  10607300: -->propyne-(h)(hhh)<--
+  10607301: -->propyne-(h)(rhh)<--
+  10607302: -->propyne-(h)(rrh)<--
+  10607303: -->propyne-(h)(rrr)<--
+  10607304: -->propyne-(r)(hhh)<--
+  10607305: -->propyne-(r)(rhh)<--
+  10607306: -->propyne-(r)(rrh)<--
+  10607307: -->propyne-(r)(rrr)<--
+  10607308: -->propyne-(hh)(hh)<--
+  10607309: -->propyne-(rh)(hh)<--
+  10607310: -->propyne-(rr)(hh)<--
+  10607311: -->propyne-(rh)(rh)<--
+  10607312: -->propyne-(rr)(rh)<--
+  10607313: -->propyne-(rr)(rr)<--
+  10707400: -->(q)(q)(-cccco-)<--
+  10708200: -->ethane-(hhh)(hhh)<--
+  10708201: -->ethane-(rhh)(hhh)<--
+  10708202: -->ethane-(rrh)(hhh)<--
+  10708203: -->ethane-(rrr)(hhh)<--
+  10708204: -->ethane-(rhh)(rhh)<--
+  10708205: -->ethane-(rrh)(rhh)<--
+  10708206: -->ethane-(rrh)(rrh)<--
+  10708207: -->ethane-(rrr)(rhh)<--
+  10708208: -->ethane-(rrr)(rrh)<--
+  10708209: -->ethane-(rrr)(rrr)<--
+  10708300: -->oc(h)(ccooh)<--
+  10708301: -->oc(r)(ccooh)<--
+  10708302: -->(hh)cc(h)c(h)o<--
+  10708303: -->(hh)cc(r)c(h)o<--
+  10708304: -->(rh)cc(h)c(h)o<--
+  10708305: -->(rh)cc(r)c(h)o<--
+  10708306: -->(rr)cc(h)c(h)o<--
+  10708307: -->(rr)cc(r)c(h)o<--
+  10808500: -->(q)(q)(-ccccco-)<--
+  10809200: -->oc(h)c(h)(h)(ooh)<--
+  10809201: -->oc(h)c(r)(h)(ooh)<--
+  10809202: -->oc(h)c(r)(r)(ooh)<--
+  10809203: -->oc(r)c(h)(h)(ooh)<--
+  10809204: -->oc(r)c(r)(h)(ooh)<--
+  10809205: -->oc(r)c(r)(r)(ooh)<--
+  10809300: -->alphaolefin-(qq)(q)(hhh)<--
+  10809301: -->alphaolefin-(qq)(q)(rhh)<--
+  10809302: -->alphaolefin-(qq)(q)(rrh)<--
+  10809303: -->alphaolefin-(qq)(q)(rrr)<--
+  10809304: -->co(h)c(hh)co(h)<--
+  10809305: -->co(r)c(hh)co(h)<--
+  10809306: -->co(h)c(rh)co(h)<--
+  10809307: -->co(r)c(rh)co(h)<--
+  10809308: -->co(h)c(rr)co(h)<--
+  10809309: -->co(r)c(rr)co(h)<--
+  10809310: -->co(h)c(hh)co(r)<--
+  10809311: -->co(r)c(hh)co(r)<--
+  10809312: -->co(h)c(rh)co(r)<--
+  10809313: -->co(r)c(rh)co(r)<--
+  10809314: -->co(h)c(rr)co(r)<--
+  10809315: -->co(r)c(rr)co(r)<--
+  10809400: -->oc(h)(cccooh)<--
+  10809401: -->oc(r)(cccooh)<--
+  10910200: -->c2q5ooh<--
+  10910500: -->oc(h)(ccccooh)<--
+  10910501: -->oc(r)(ccccooh)<--
+  11011300: -->propyl-(hhh)(hh)(hhh)<--
+  11011301: -->propyl-(rhh)(hh)(hhh)<--
   11011302: -->propyl-(rrh)(hh)(hhh)<--
-  20708377: -->propenyl-radical-(rr)(rrh)<--
-  20910355: -->peroxypropene-radical-(hh)(h)(rr)<--
-  20506202: -->.c(r)(r)co(q)<--
-  21011401: -->(h)(h)(cccoo.)cooh<--
-  20405212: -->ethenyl-(hh)(r)<--
-  20708325: -->.ccc(r)(r)(ooh)<--
-  20607600: -->.cccccc(h)<--
+  11011303: -->propyl-(rrr)(hh)(hhh)<--
+  11011304: -->propyl-(hhh)(rh)(hhh)<--
+  11011305: -->propyl-(rhh)(rh)(hhh)<--
+  11011306: -->propyl-(rrh)(rh)(hhh)<--
+  11011307: -->propyl-(rrr)(rh)(hhh)<--
+  11011308: -->propyl-(hhh)(rr)(hhh)<--
+  11011309: -->propyl-(rhh)(rr)(hhh)<--
+  11011310: -->propyl-(rrh)(rr)(hhh)<--
+  11011311: -->propyl-(rrr)(rr)(hhh)<--
+  11011312: -->propyl-(rhh)(hh)(rhh)<--
+  11011313: -->propyl-(rrh)(hh)(rhh)<--
+  11011314: -->propyl-(rrr)(hh)(rhh)<--
+  11011315: -->propyl-(rhh)(rh)(rhh)<--
+  11011316: -->propyl-(rrh)(rh)(rhh)<--
+  11011317: -->propyl-(rrr)(rh)(rhh)<--
+  11011318: -->propyl-(rhh)(rr)(rhh)<--
+  11011319: -->propyl-(rrh)(rr)(rhh)<--
+  11011320: -->propyl-(rrr)(rr)(rhh)<--
+  11011321: -->propyl-(rrh)(hh)(rrh)<--
+  11011322: -->propyl-(rrh)(rh)(rrh)<--
+  11011323: -->propyl-(rrh)(rr)(rrh)<--
+  11011324: -->propyl-(rrr)(hh)(rrh)<--
+  11011325: -->propyl-(rrr)(rh)(rrh)<--
+  11011326: -->propyl-(rrr)(rr)(rrh)<--
+  11011327: -->propyl-(rrr)(hh)(rrr)<--
+  11011329: -->propyl-(rrr)(rr)(rrr)<--
+  11112300: -->oc(q)c(h)(h)c(h)(h)(ooh)<--
+  11112301: -->oc(q)c(r)(h)c(h)(h)(ooh)<--
+  11112302: -->oc(q)c(r)(r)c(h)(h)(ooh)<--
+  11112303: -->oc(q)c(h)(h)c(r)(h)(ooh)<--
+  11112304: -->oc(q)c(r)(h)c(r)(h)(ooh)<--
+  11112305: -->oc(q)c(r)(r)c(r)(h)(ooh)<--
+  11112306: -->oc(q)c(h)(h)c(r)(r)(ooh)<--
+  11112307: -->oc(q)c(r)(h)c(r)(r)(ooh)<--
+  11112308: -->oc(q)c(r)(r)c(r)(r)(ooh)<--
+  11112400: -->betaolefin(qq)(q)(hh)(hhh)<--
+  11112401: -->betaolefin(qq)(q)(rh)(hhh)<--
+  11112402: -->betaolefin(qq)(q)(rr)(hhh)<--
+  11112403: -->betaolefin(qq)(q)(hh)(rhh)<--
+  11112404: -->betaolefin(qq)(q)(rh)(rhh)<--
+  11112405: -->betaolefin(qq)(q)(rr)(rhh)<--
+  11112406: -->betaolefin(qq)(q)(hh)(rrh)<--
+  11112407: -->betaolefin(qq)(q)(rh)(rrh)<--
+  11112408: -->betaolefin(qq)(q)(rr)(rrh)<--
+  11112409: -->betaolefin(qq)(q)(hh)(rrr)<--
+  11112410: -->betaolefin(qq)(q)(rh)(rrr)<--
+  11112411: -->betaolefin(qq)(q)(rr)(rrr)<--
+  20001000: -->hydrogen-radical<--
+  20001001: -->oxygen-radical<--
+  20102000: -->hydroxyl-radical<--
+  20102100: -->carbonmonoxide<--
+  20102200: -->ethyne-radical-general<--
+  20203000: -->peroxyl-radical<--
+  20203100: -->(h).c(o)<--
+  20203101: -->(r).c(o)<--
+  20203200: -->ethyne-radical-(h)<--
+  20203201: -->ethyne-radical-(r)<--
+  20203300: -->alphaolefin-radical<--
+  20205300: -->alphaolefinOO-radical<--
+  20304100: -->general-carbon-radical<--
+  20304101: -->methane-carbon-radical<--
+  20304102: -->primary-carbon-radical<--
+  20304103: -->secondary-carbon-radical<--
+  20304104: -->tertiary-carbon-radical<--
+  20304200: -->ketenyl-(h)<--
+  20304201: -->ketenyl-(r)<--
+  20405100: -->c(h)(h)(h)(o.)<--
+  20405101: -->c(r)(h)(h)(o.)<--
+  20405102: -->c(r)(r)(h)(o.)<--
+  20405103: -->c(q)(q)(q)(o.)<--
   20405104: -->c(r)(r)(r)(o.)<--
-  20910303: -->c(h)(r)(ccoo.)(ooh)<--
+  20405200: -->alkenyl-(qq)(q)<--
+  20405201: -->alkenyl-(hh)(h)<--
+  20405202: -->alkenyl-(hh)(r)<--
+  20405203: -->alkenyl-(rh)(h)<--
+  20405204: -->alkenyl-(rh)(r)<--
+  20405205: -->alkenyl-(rr)(h)<--
+  20405206: -->alkenyl-(rr)(r)<--
+  20405400: -->.cccc(h)<--
+  20506100: -->(h).cooh-r<--
+  20506101: -->r-.cooh-r<--
+  20506102: -->(q)(q)(h)coo.<--
+  20506103: -->(q)(q)(q)coo.<--
+  20506104: -->(h)(h)(h)coo.<--
+  20506105: -->(h)(h)(r)coo.<--
+  20506106: -->(h)(r)(r)coo.<--
+  20506107: -->(r)(r)(r)coo.<--
+  20506200: -->.c(h)(h)co(q)<--
+  20506201: -->.c(r)(h)co(q)<--
+  20506202: -->.c(r)(r)co(q)<--
+  20506203: -->c(hhh).c(o)<--
+  20506204: -->c(rhh).c(o)<--
+  20506205: -->c(rrh).c(o)<--
+  20506206: -->c(rrr).c(o)<--
+  20506207: -->.c(h)(h)co(h)<--
+  20506208: -->.c(r)(h)co(h)<--
+  20506209: -->.c(r)(r)co(h)<--
+  20506210: -->.c(h)(h)co(r)<--
+  20506211: -->.c(r)(h)co(r)<--
+  20506212: -->.c(r)(r)co(r)<--
+  20506213: -->oc(h)(coo)<--
+  20506214: -->oc(r)(coo)<--
+  20506215: -->oc.(cooh)<--
+  20506500: -->.ccccc(h)<--
+  20607200: -->c(q)(q)(h)(coo.)<--
+  20607201: -->.c(q)(q)(cooh)<--
+  20607202: -->c(h)(h)(h)(coo.)<--
+  20607203: -->c(r)(h)(h)(coo.)<--
+  20607204: -->c(r)(r)(h)(coo.)<--
+  20607205: -->c(h)(h)(r)(coo.)<--
+  20607206: -->c(r)(h)(r)(coo.)<--
+  20607207: -->c(r)(r)(r)(coo.)<--
+  20607208: -->.c(h)(h)(cooh)<--
+  20607209: -->.c(r)(h)(cooh)<--
+  20607210: -->.c(r)(r)(cooh)<--
+  20607211: -->ethyl-radical-(hh)(hhh)<--
+  20607212: -->ethyl-radical-(rh)(hhh)<--
+  20607213: -->ethyl-radical-(rr)(hhh)<--
+  20607214: -->ethyl-radical-(hh)(rhh)<--
+  20607215: -->ethyl-radical-(rh)(rhh)<--
+  20607216: -->ethyl-radical-(rr)(rhh)<--
+  20607217: -->ethyl-radical-(hh)(rrh)<--
+  20607218: -->ethyl-radical-(rh)(rrh)<--
+  20607219: -->ethyl-radical-(rr)(rrh)<--
+  20607220: -->ethyl-radical-(hh)(rrr)<--
+  20607221: -->ethyl-radical-(rh)(rrr)<--
+  20607222: -->ethyl-radical-(rr)(rrr)<--
+  20607300: -->oc(h)(ccoo)<--
+  20607301: -->oc(r)(ccoo)<--
+  20607302: -->oc.(ccooh)<--
+  20607600: -->.cccccc(h)<--
+  20708200: -->oc(h)c(h)(h)(oo)<--
+  20708201: -->oc(r)c(h)(h)(oo)<--
+  20708202: -->oc(h)c(r)(h)(oo)<--
+  20708203: -->oc(r)c(r)(h)(oo)<--
+  20708204: -->oc(h)c(r)(r)(oo)<--
+  20708205: -->oc(r)c(r)(r)(oo)<--
+  20708206: -->oc.c(h)(h)(ooh)<--
+  20708207: -->oc.c(r)(h)(ooh)<--
+  20708208: -->oc.c(r)(r)(ooh)<--
+  20708209: -->.ccoh-(hh)(hh)<--
+  20708210: -->.ccoh-(rh)(hh)<--
+  20708211: -->.ccoh-(rr)(hh)<--
+  20708212: -->c(hh)c(rh)oh<--
+  20708213: -->.ccoh-(rh)(rh)<--
+  20708214: -->.ccoh-(rr)(rh)<--
+  20708215: -->c(hh)c(rr)oh<--
+  20708216: -->.ccoh-(rh)(rr)<--
+  20708217: -->.ccoh-(rr)(rr)<--
+  20708218: -->.ccoh-(rr)(hh)<--
+  20708300: -->alphaolefin-radical(qq)(q)(hh)<--
+  20708301: -->alphaolefin-radical(qq)(q)(rh)<--
+  20708302: -->alphaolefin-radical(qq)(q)(rr)<--
+  20708303: -->propenyl-radical-(hh)(h)(hh)<--
+  20708304: -->propenyl-radical-(rh)(h)(hh)<--
+  20708305: -->propenyl-radical-(rr)(h)(hh)<--
+  20708306: -->propenyl-radical-(hh)(r)(hh)<--
+  20708307: -->propenyl-radical-(rh)(r)(hh)<--
+  20708308: -->propenyl-radical-(rr)(r)(hh)<--
+  20708309: -->propenyl-radical-(hh)(h)(rh)<--
+  20708310: -->propenyl-radical-(rh)(h)(rh)<--
+  20708311: -->propenyl-radical-(rr)(h)(rh)<--
+  20708312: -->propenyl-radical-(hh)(r)(rh)<--
+  20708313: -->propenyl-radical-(rh)(r)(rh)<--
+  20708314: -->propenyl-radical-(rr)(r)(rh)<--
+  20708315: -->propenyl-radical-(hh)(h)(rr)<--
+  20708316: -->propenyl-radical-(rh)(h)(rr)<--
+  20708317: -->propenyl-radical-(rr)(h)(rr)<--
+  20708318: -->propenyl-radical-(hh)(r)(rr)<--
+  20708319: -->propenyl-radical-(rh)(r)(rr)<--
+  20708320: -->propenyl-radical-(rr)(r)(rr)<--
+  20708321: -->c(h)(q)(q)(ccoo.)<--
+  20708322: -->.c(q)(q)(ccooh)<--
+  20708323: -->.ccc(h)(h)(ooh)<--
+  20708324: -->.ccc(r)(h)(ooh)<--
+  20708325: -->.ccc(r)(r)(ooh)<--
+  20708326: -->c(h)(h)(h)(ccoo.)<--
+  20708327: -->c(r)(h)(h)(ccoo.)<--
+  20708328: -->c(r)(r)(h)(ccoo.)<--
+  20708329: -->c(h)(h)(r)(ccoo.)<--
+  20708330: -->c(r)(h)(r)(ccoo.)<--
+  20708331: -->c(r)(r)(r)(ccoo.)<--
+  20708332: -->.c(h)(h)(ccooh)<--
+  20708333: -->.c(r)(h)(ccooh)<--
+  20708334: -->.c(r)(r)(ccooh)<--
+  20708335: -->propenyl-radical-(h)(h)(hhh)<--
+  20708336: -->propenyl-radical-(r)(h)(hhh)<--
+  20708337: -->propenyl-radical-(h)(r)(hhh)<--
+  20708338: -->propenyl-radical-(h)(r)(rhh)<--
+  20708339: -->propenyl-radical-(h)(r)(rrh)<--
+  20708340: -->propenyl-radical-(h)(r)(rrr)<--
+  20708341: -->propenyl-radical-(r)(r)(hhh)<--
+  20708342: -->propenyl-radical-(h)(h)(rhh)<--
+  20708343: -->propenyl-radical-(r)(h)(rhh)<--
+  20708344: -->propenyl-radical-(r)(r)(rhh)<--
+  20708345: -->propenyl-radical-(h)(h)(rrh)<--
+  20708346: -->propenyl-radical-(r)(h)(rrh)<--
+  20708347: -->propenyl-radical-(r)(r)(rrh)<--
+  20708348: -->propenyl-radical-(h)(h)(rrr)<--
+  20708349: -->propenyl-radical-(r)(h)(rrr)<--
+  20708350: -->propenyl-radical-(r)(r)(rrr)<--
+  20708351: -->propenyl-radical-(hh)(hhh)<--
+  20708353: -->propenyl-radical-(rr)(hhh)<--
+  20708354: -->propenyl-radical-(hh)(rhh)<--
+  20708355: -->propenyl-radical-(rh)(rhh)<--
+  20708356: -->propenyl-radical-(rr)(rhh)<--
+  20708357: -->propenyl-radical-(hh)(rrh)<--
+  20708358: -->propenyl-radical-(rh)(rrh)<--
+  20708359: -->propenyl-radical-(rr)(rrh)<--
+  20708360: -->propenyl-radical-(hh)(rrr)<--
+  20708361: -->propenyl-radical-(rh)(rrr)<--
+  20708362: -->propenyl-radical-(rr)(rrr)<--
+  20708400: -->oc(h)(cccoo)<--
+  20708401: -->oc(r)(cccoo)<--
+  20708402: -->oc.(cccooh)<--
+  20708403: -->.cccc(ooh)(h)<--
+  20708404: -->.c(ooh)ccc(h)<--
+  20708700: -->.ccccccc(h)<--
+  20809200: -->.c(h)(h)c(h)(h)(ooh)<--
+  20809201: -->.c(r)(h)c(h)(h)(ooh)<--
+  20809202: -->.c(r)(r)c(h)(h)(ooh)<--
+  20809203: -->.c(h)(h)c(r)(h)(ooh)<--
+  20809204: -->.c(r)(h)c(r)(h)(ooh)<--
+  20809205: -->.c(r)(r)c(r)(h)(ooh)<--
+  20809206: -->.c(h)(h)c(r)(r)(ooh)<--
+  20809207: -->.c(r)(h)c(r)(r)(ooh)<--
+  20809208: -->.c(r)(r)c(r)(r)(ooh)<--
+  20809209: -->c(h)(h)(coo.)(ooh)<--
+  20809210: -->c(h)(r)(coo.)(ooh)<--
+  20809300: -->co(h)c(hh)c.(hh)<--
+  20809301: -->co(r)c(hh)c.(hh)<--
+  20809302: -->co(h)c(rh)c.(hh)<--
+  20809303: -->co(r)c(rh)c.(hh)<--
+  20809304: -->co(h)c(rr)c.(hh)<--
+  20809305: -->co(r)c(rr)c.(hh)<--
+  20809306: -->co(h)c(hh)c.(rh)<--
+  20809307: -->co(r)c(hh)c.(rh)<--
+  20809308: -->co(h)c(rh)c.(rh)<--
+  20809309: -->co(r)c(rh)c.(rh)<--
+  20809310: -->co(h)c(rr)c.(rh)<--
+  20809311: -->co(r)c(rr)c.(rh)<--
+  20809312: -->co(h)c(hh)c.(rr)<--
+  20809313: -->co(r)c(hh)c.(rr)<--
+  20809314: -->co(h)c(rh)c.(rr)<--
+  20809315: -->co(r)c(rh)c.(rr)<--
+  20809316: -->co(h)c(rr)c.(rr)<--
+  20809317: -->co(r)c(rr)c.(rr)<--
+  20809318: -->.c(hh)coc(hhh)<--
+  20809319: -->.c(rh)coc(hhh)<--
+  20809320: -->.c(rr)coc(hhh)<--
+  20809321: -->.c(hh)coc(rhh)<--
+  20809322: -->.c(rh)coc(rhh)<--
+  20809323: -->.c(rr)coc(rhh)<--
+  20809324: -->.c(hh)coc(rrh)<--
+  20809325: -->.c(rh)coc(rrh)<--
+  20809326: -->.c(rr)coc(rrh)<--
+  20809327: -->.c(hh)coc(rrr)<--
+  20809328: -->.c(rh)coc(rrr)<--
+  20809329: -->.c(rr)coc(rrr)<--
+  20809400: -->c(h)(q)(q)(cccoo.)<--
+  20809401: -->.c(q)(q)(cccooh)<--
+  20809402: -->c(h)(h)(h)(cccoo.)<--
+  20809403: -->c(r)(h)(h)(cccoo.)<--
+  20809404: -->c(r)(r)(h)(cccoo.)<--
+  20809405: -->c(h)(h)(r)(cccoo.)<--
+  20809406: -->c(r)(h)(r)(cccoo.)<--
+  20809407: -->c(r)(r)(r)(cccoo.)<--
+  20809408: -->.c(h)(h)(cccooh)<--
+  20809409: -->.c(r)(h)(cccooh)<--
+  20809410: -->.c(r)(r)(cccooh)<--
+  20809500: -->.ccccc(ooh)(h)<--
+  20809501: -->.c(ooh)cccc(h)<--
+  20910200: -->.ooccoh-(hh)(hh)<--
+  20910201: -->.ooccoh-(rh)(hh)<--
+  20910202: -->.ooccoh-(rr)(hh)<--
+  20910203: -->ooc(hh)c(rh)oh<--
+  20910204: -->.ooccoh-(rh)(rh)<--
+  20910205: -->.ooccoh-(rr)(rh)<--
+  20910206: -->ooc(hh)c(rr)oh<--
+  20910207: -->.ooccoh-(rh)(rr)<--
+  20910208: -->.ooccoh-(rr)(rr)<--
+  20910209: -->.ooccoh-(rr)(hh)<--
+  20910300: -->c(h)(h)(ccoo.)(ooh)<--
+  20910301: -->c(h)(r)(ccoo.)(ooh)<--
+  20910302: -->propyl-radical-(hh)(hh)(hhh)<--
+  20910303: -->propyl-radical-(rh)(hh)(hhh)<--
+  20910304: -->propyl-radical-(rr)(hh)(hhh)<--
+  20910305: -->propyl-radical-(hh)(rh)(hhh)<--
+  20910306: -->propyl-radical-(rh)(rh)(hhh)<--
+  20910307: -->propyl-radical-(rr)(rh)(hhh)<--
+  20910308: -->propyl-radical-(hh)(rr)(hhh)<--
+  20910309: -->propyl-radical-(rh)(rr)(hhh)<--
+  20910310: -->propyl-radical-(rr)(rr)(hhh)<--
+  20910311: -->propyl-radical-(hh)(hh)(rhh)<--
+  20910312: -->propyl-radical-(rh)(hh)(rhh)<--
+  20910313: -->propyl-radical-(rr)(hh)(rhh)<--
+  20910314: -->propyl-radical-(hh)(rh)(rhh)<--
+  20910315: -->propyl-radical-(rh)(rh)(rhh)<--
+  20910316: -->propyl-radical-(rr)(rh)(rhh)<--
+  20910317: -->propyl-radical-(hh)(rr)(rhh)<--
+  20910318: -->propyl-radical-(rh)(rr)(rhh)<--
+  20910319: -->propyl-radical-(rr)(rr)(rhh)<--
+  20910320: -->propyl-radical-(hh)(hh)(rrh)<--
+  20910321: -->propyl-radical-(rh)(hh)(rrh)<--
+  20910322: -->propyl-radical-(rr)(hh)(rrh)<--
+  20910323: -->propyl-radical-(hh)(rh)(rrh)<--
+  20910324: -->propyl-radical-(rh)(rh)(rrh)<--
+  20910325: -->propyl-radical-(rr)(rh)(rrh)<--
+  20910326: -->propyl-radical-(hh)(rr)(rrh)<--
+  20910327: -->propyl-radical-(rh)(rr)(rrh)<--
+  20910328: -->propyl-radical-(rr)(rr)(rrh)<--
+  20910329: -->propyl-radical-(hh)(hh)(rrr)<--
+  20910330: -->propyl-radical-(rh)(hh)(rrr)<--
+  20910331: -->propyl-radical-(rr)(hh)(rrr)<--
+  20910332: -->propyl-radical-(hh)(rh)(rrr)<--
+  20910333: -->propyl-radical-(rh)(rh)(rrr)<--
+  20910334: -->propyl-radical-(rr)(rh)(rrr)<--
+  20910335: -->propyl-radical-(hh)(rr)(rrr)<--
+  20910337: -->propyl-radical-(rr)(rr)(rrr)<--
+  20910338: -->alphaolefinOO-radical(qq)(q)(hh)<--
+  20910339: -->alphaolefinOO-radical(qq)(q)(rh)<--
+  20910340: -->alphaolefinOO-radical(qq)(q)(rr)<--
+  20910341: -->peroxypropene-radical-(hh)(h)(hh)<--
+  20910342: -->peroxypropene-radical-(rh)(h)(hh)<--
+  20910343: -->peroxypropene-radical-(rr)(h)(hh)<--
+  20910344: -->peroxypropene-radical-(hh)(r)(hh)<--
+  20910345: -->peroxypropene-radical-(rh)(r)(hh)<--
+  20910346: -->peroxypropene-radical-(rr)(r)(hh)<--
+  20910347: -->peroxypropene-radical-(hh)(h)(rh)<--
+  20910348: -->peroxypropene-radical-(rh)(h)(rh)<--
+  20910349: -->peroxypropene-radical-(rr)(h)(rh)<--
+  20910350: -->peroxypropene-radical-(hh)(r)(rh)<--
+  20910351: -->peroxypropene-radical-(rh)(r)(rh)<--
+  20910352: -->peroxypropene-radical-(rr)(r)(rh)<--
+  20910353: -->peroxypropene-radical-(hh)(h)(rr)<--
+  20910354: -->peroxypropene-radical-(rh)(h)(rr)<--
+  20910355: -->peroxypropene-radical-(rr)(h)(rr)<--
+  20910356: -->peroxypropene-radical-(hh)(r)(rr)<--
+  20910357: -->peroxypropene-radical-(rh)(r)(rr)<--
+  20910500: -->.c(q)(q)(ccccooh)<--
+  20910501: -->c(h)(h)(h)(ccccoo.)<--
+  20910502: -->c(r)(h)(h)(ccccoo.)<--
+  20910503: -->c(r)(r)(h)(ccccoo.)<--
+  20910504: -->c(h)(h)(r)(ccccoo.)<--
+  20910505: -->c(r)(h)(r)(ccccoo.)<--
+  20910506: -->c(r)(r)(r)(ccccoo.)<--
+  20910507: -->.c(h)(h)(ccccooh)<--
+  20910508: -->.c(r)(h)(ccccooh)<--
+  20910509: -->.c(r)(r)(ccccooh)<--
+  20910600: -->.cccccc(ooh)(h)<--
+  20910601: -->.c(ooh)ccccc(h)<--
+  21011300: -->oc(q)c(h)(h)c(h)(h)(oo)<--
+  21011301: -->oc(q)c(r)(h)c(h)(h)(oo)<--
+  21011302: -->oc(q)c(r)(r)c(h)(h)(oo)<--
+  21011303: -->oc(q)c(h)(h)c(r)(h)(oo)<--
+  21011304: -->oc(q)c(r)(h)c(r)(h)(oo)<--
+  21011305: -->oc(q)c(r)(r)c(r)(h)(oo)<--
+  21011306: -->oc(q)c(h)(h)c(r)(r)(oo)<--
+  21011307: -->oc(q)c(r)(h)c(r)(r)(oo)<--
+  21011308: -->oc(q)c(r)(r)c(r)(r)(oo)<--
+  21011309: -->oc.c(h)(h)c(h)(h)(ooh)<--
+  21011310: -->oc.c(r)(h)c(h)(h)(ooh)<--
+  21011311: -->oc.c(r)(r)c(h)(h)(ooh)<--
+  21011312: -->oc.c(h)(h)c(r)(h)(ooh)<--
+  21011313: -->oc.c(r)(h)c(r)(h)(ooh)<--
+  21011314: -->oc.c(r)(r)c(r)(h)(ooh)<--
+  21011315: -->oc.c(h)(h)c(r)(r)(ooh)<--
+  21011316: -->oc.c(r)(h)c(r)(r)(ooh)<--
+  21011317: -->oc.c(r)(r)c(r)(r)(ooh)<--
+  21011400: -->(h)(h)(cccoo.)cooh<--
+  21011401: -->(h)(r)(cccoo.)cooh<--
+  21011700: -->.ccccccc(ooh)(h)<--
+  21011701: -->.c(ooh)cccccc(h)<--
+  21112500: -->(h)(h)(ccccoo.)cooh<--
+  21112501: -->(h)(r)(ccccoo.)cooh<--
 Misc>> Quit
 SubStructures>> Quit
 DbaseOps>> Quit
 main>> Quit
+[Firestore SearchKeys Store] dbName='Molecules', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Molecules', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Substructures', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Substructures', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Reactions', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='Reactions', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='ReactionPatterns', id=1, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
+[Firestore SearchKeys Store] dbName='ReactionPatterns', id=0, uid='UOqk0KtFtaXma5TGsi8Seh9RMbx1'
+[Firestore SearchKeys Store Result] PostJSONToOrchestrator returned: 0
 ~/git/WorkFlowProject/REACTCLOUD/data/mol/subs 

@@ -201,6 +201,9 @@ extern INT PutMoleculeInDatabaseClass(MoleculeInfo *molecule,
 	    } else {
 	      ProduceMolIDKey(molecule->ID, key);
 	    }
+	    if (key->Name == NULL && molecule->Name != NULL) {
+	      key->Name = CopyString(molecule->Name);
+	    }
 	    id = AddIDKeyToClass(key,class);
 
 	    info = DetermineObjectIDInfo(classification->Description, (VOID) molecule);

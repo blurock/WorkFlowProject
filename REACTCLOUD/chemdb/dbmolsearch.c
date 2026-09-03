@@ -626,6 +626,10 @@ extern INT DBReadListMolSubFromKeys(BindStructure *bind, INT dbflag) {
 
   commandmaster = GetBoundStructure(bind, BIND_COMMANDMASTER);
   master = GetBoundStructure(bind, BIND_CHEMDBASE);
+  if (master == NULL || master->DatabaseInfo == NULL) {
+    InitializeChemDBInfo(bind);
+    master = GetBoundStructure(bind, BIND_CHEMDBASE);
+  }
   molset = GetBoundStructure(bind, BIND_CURRENT_MOLECULES);
 
   nummols = MAX_CURRENT_MOLECULES;
@@ -639,7 +643,7 @@ extern INT DBReadListMolSubFromKeys(BindStructure *bind, INT dbflag) {
   molset->PropertyTypes =
       InitializeMolecularPropertyTypes(molset->ID, molset->Name);
 
-  dinfo = GetDataBaseInfoFromID(master->DatabaseInfo, dbflag);
+  dinfo = (master != NULL && master->DatabaseInfo != NULL) ? GetDataBaseInfoFromID(master->DatabaseInfo, dbflag) : NULL;
 
   file = OpenReadFileFromCurrent("DBDataDirectory", "DBDataMolRoot",
                                  MOLECULE_FILE_LIST_SUFFIX, RECOVER,
@@ -784,7 +788,11 @@ extern INT readMoleculesFromListOfNames(INT nummols, CHAR *names[],
   CHAR *name;
   dbflag = SUBSTRUCTURE_DATABASE;
   master = GetBoundStructure(bind, BIND_CHEMDBASE);
-  dinfo = GetDataBaseInfoFromID(master->DatabaseInfo, dbflag);
+  if (master == NULL || master->DatabaseInfo == NULL) {
+    InitializeChemDBInfo(bind);
+    master = GetBoundStructure(bind, BIND_CHEMDBASE);
+  }
+  dinfo = (master != NULL && master->DatabaseInfo != NULL) ? GetDataBaseInfoFromID(master->DatabaseInfo, dbflag) : NULL;
   molset = GetBoundStructure(bind, BIND_CURRENT_MOLECULES);
   FreeMoleculeSet(molset);
   CreateMoleculeSet(molset, BIND_CURRENT_MOLECULES, "Current Molecules",

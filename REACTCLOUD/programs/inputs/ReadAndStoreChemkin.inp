@@ -12,14 +12,10 @@ MetaAtoms
 Read
 Quit
 Quit
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Open up the data base
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 CreateOpenClose
-Start
+Initialize
 Quit
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -36,10 +32,6 @@ DBDataMolRoot
 Input
 XXXXX
 Quit
-Quit
-Keys
-Define
-Read
 Quit
 Current
 ReadInCurrent
