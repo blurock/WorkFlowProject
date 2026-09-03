@@ -21,3 +21,6 @@ frontend/src/environments/environment*.ts
 .jib-cache/
 **/ .jib-cache/
 
+# Generated raw output files
+*.rawout
+
