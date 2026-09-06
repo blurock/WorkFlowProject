@@ -2,7 +2,7 @@
 %%% Symmetry: 2*2 = 4
 %%%-------------------------------------------------------------------
 BetaAldRadButeneDecomp(qq)(q)(hh)\
-    betaaldradolefin(qq)(q)(hh) = carbonmonoxide propenyl-radical-(qq)(q)(hh)
+    betaaldradolefin(qq)(q)(hh) = carbonmonoxide alphaolefin-radical(qq)(q)(hh)
 - ID 70701
 - Correspondences
 1 2 3 4 5 6 7 8 9 10           2 2 4 2 2 2 2 2 2
@@ -17,7 +17,7 @@ $$$$
 %%% Symmetry: 2 = 2
 %%%-------------------------------------------------------------------
 BetaAldRadButeneDecomp(qq)(q)(rh)\
-    betaaldradolefin(qq)(q)(rh) = carbonmonoxide propenyl-radical-(qq)(q)(rh)
+    betaaldradolefin(qq)(q)(rh) = carbonmonoxide alphaolefin-radical(qq)(q)(rh)
 - ID 70702
 - Correspondences
 1 2 3 4 5 6 7 8 9 10           2 2 4 2 2 2 2 2 2
@@ -32,7 +32,7 @@ $$$$
 %%% Symmetry: 2*2 = 4
 %%%-------------------------------------------------------------------
 BetaAldRadButeneDecomp(qq)(q)(rr)\
-    betaaldradolefin(qq)(q)(rr) = carbonmonoxide propenyl-radical-(qq)(q)(rr)
+    betaaldradolefin(qq)(q)(rr) = carbonmonoxide alphaolefin-radical(qq)(q)(rr)
 - ID 70703
 - Correspondences
 1 2 3 4 5 6 7 8 9 10           2 2 4 2 2 2 2 2 2

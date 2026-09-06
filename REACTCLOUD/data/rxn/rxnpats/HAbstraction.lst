@@ -310,7 +310,7 @@ $$$$
 %%% Symmetry: Forward - 1*2*(2*1) = 4
 %%%-------------------------------------------------------------------
 H-Abstraction-EthenylRadical-Primary\
-     primary-carbon-hydrogen-bond ethenyl-(hh)(h) = primary-carbon-radical olefin-(hh)(hh) 
+     primary-carbon-hydrogen-bond alkenyl-(hh)(h) = primary-carbon-radical olefin-(hh)(hh) 
 - ID 1091
 - Correspondences
 1 2 3 4 5             4 2 2 2
@@ -327,7 +327,7 @@ $$$$
 %%% Symmetry: 2*1*(2*1) = 4
 %%%-------------------------------------------------------------------
 H-Abstraction-EthenylRadical-Secondary\
-     secondary-carbon-hydrogen-bond ethenyl-(hh)(h) = secondary-carbon-radical olefin-(hh)(hh) 
+     secondary-carbon-hydrogen-bond alkenyl-(hh)(h) = secondary-carbon-radical olefin-(hh)(hh) 
 - ID 1092
 - Correspondences
 1 2 3 4 5             4 2 2 2
@@ -344,7 +344,7 @@ $$$$
 %%% 3*2*1*(2*1)=12
 %%%-------------------------------------------------------------------
 H-Abstraction-EthenylRadical-Tertiary\
-     tertiary-carbon-hydrogen-bond ethenyl-(hh)(h) = tertiary-carbon-radical olefin-(hh)(hh) 
+     tertiary-carbon-hydrogen-bond alkenyl-(hh)(h) = tertiary-carbon-radical olefin-(hh)(hh) 
 - ID 1093
 - Correspondences
 1 2 3 4 5             4 2 2 2

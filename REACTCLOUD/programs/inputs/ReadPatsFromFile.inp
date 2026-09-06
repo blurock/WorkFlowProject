@@ -12,21 +12,11 @@ MetaAtoms
 Read
 Quit
 Quit
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Open up the data base
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 CreateOpenClose
-Start
-Quit
-
-DbaseOps
-RxnPatterns
-Keys
-Define
-Write
-Quit
-Quit
+Initialize
 Quit
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% 
@@ -56,11 +46,6 @@ DbaseOps
 RxnPatterns
 Current
 Store
-Quit
-Keys
-Define
-Fill
-Write
 Quit
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% leave

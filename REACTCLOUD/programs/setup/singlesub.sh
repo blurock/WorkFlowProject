@@ -13,5 +13,5 @@ set PROGRAM         = $REACTROOT/programs/scripts/readsubs.sh
 set SUBSTRUCTURES = $1
 
 cat $SUBSTRUCTURES.sdf >> all.sdf
-$PROGRAM $SUBSTRUCTURES >! $SUBSTRUCTURES.rawout
+$PROGRAM $SUBSTRUCTURES
 

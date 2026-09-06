@@ -102,7 +102,7 @@ extern INT StoreElementToFirestore(DbaseKeyword *keyword, CHAR *json_str, DataBa
     key_id = keyword->ID;
 
     if (keyword->KeyWord != NULL && keyword->Size > 0) {
-        if (keyword->Size == sizeof(int) && !cJSON_IsASCIIBuffer(keyword->KeyWord, (size_t)keyword->Size)) {
+        if (keyword->Size == sizeof(int) && (keyword->Name == NULL || !cJSON_IsASCIIBuffer(keyword->KeyWord, (size_t)keyword->Size))) {
             int key_val;
             memcpy(&key_val, keyword->KeyWord, sizeof(int));
             snprintf(key_name, sizeof(key_name), "%d", key_val);
@@ -110,7 +110,9 @@ extern INT StoreElementToFirestore(DbaseKeyword *keyword, CHAR *json_str, DataBa
             is_processed = 1;
         } else {
             snprintf(key_name, sizeof(key_name), "%s", (char *)keyword->KeyWord);
-            is_processed = 1;
+            if (key_name[0] != '\0') {
+                is_processed = 1;
+            }
         }
     }
 
@@ -164,22 +166,20 @@ extern INT FetchElementFromFirestore(VOID element, DbaseKeyword *keyword, DataBa
     }
 
     if (keyword->KeyWord != NULL && keyword->Size > 0) {
-        if (keyword->Size == sizeof(int) && !cJSON_IsASCIIBuffer(keyword->KeyWord, (size_t)keyword->Size)) {
+        if (keyword->Size == sizeof(int) && (keyword->Name == NULL || !cJSON_IsASCIIBuffer(keyword->KeyWord, (size_t)keyword->Size))) {
             int key_val;
             memcpy(&key_val, keyword->KeyWord, sizeof(int));
             snprintf(body, sizeof(body), "{\"uid\":\"%s\",\"dbName\":\"%s\",\"type\":\"int\",\"key\":%d}",
                      uid, dinfo->Name ? dinfo->Name : "UNKNOWN", key_val);
             is_processed = 1;
         } else {
-            snprintf(body, sizeof(body), "{\"uid\":\"%s\",\"dbName\":\"%s\",\"type\":\"string\",\"key\":\"%s\"}",
-                     uid, dinfo->Name ? dinfo->Name : "UNKNOWN", (char *)keyword->KeyWord);
-            is_processed = 1;
+            if (((char *)keyword->KeyWord)[0] != '\0') {
+                snprintf(body, sizeof(body), "{\"uid\":\"%s\",\"dbName\":\"%s\",\"type\":\"string\",\"key\":\"%s\"}",
+                         uid, dinfo->Name ? dinfo->Name : "UNKNOWN", (char *)keyword->KeyWord);
+                is_processed = 1;
+            }
         }
     }
-
-
-
-
 
     if (!is_processed) {
         if (keyword->Name != NULL && strlen(keyword->Name) > 0) {

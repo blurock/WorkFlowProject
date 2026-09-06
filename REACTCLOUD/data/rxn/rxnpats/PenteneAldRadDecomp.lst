@@ -2,7 +2,7 @@
 %%% Symmetry: 2*2*2 = 8
 %%%-------------------------------------------------------------------
 PenteneAlRadDecomp(qq)(q)(hh)(hh)\
-   cqqcqccoc.-(qq)(q)(hh)(hh) = propenyl-radical-(qq)(q)(hh) ketene-(hh)
+   cqqcqccoc.-(qq)(q)(hh)(hh) = alphaolefin-radical(qq)(q)(hh) ketene-(hh)
 - ID 70801
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11 12 13          2 2 4 2 2 2 2 2 2 2 2 2
@@ -17,7 +17,7 @@ $$$$
 %%% Symmetry: 2*2 = 4
 %%%-------------------------------------------------------------------
 PenteneAlRadDecomp(qq)(q)(rh)(hh)\
-   cqqcqccoc.-(qq)(q)(rh)(hh) = propenyl-radical-(qq)(q)(rh) ketene-(hh)
+   cqqcqccoc.-(qq)(q)(rh)(hh) = alphaolefin-radical(qq)(q)(rh) ketene-(hh)
 - ID 70802
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11 12 13          2 2 4 2 2 2 2 2 2 2 2 2
@@ -32,7 +32,7 @@ $$$$
 %%% Symmetry: 2*2*2 = 8
 %%%-------------------------------------------------------------------
 PenteneAlRadDecomp(qq)(q)(rr)(hh)\
-   cqqcqccoc.-(qq)(q)(rr)(hh) = propenyl-radical-(qq)(q)(rr) ketene-(hh)
+   cqqcqccoc.-(qq)(q)(rr)(hh) = alphaolefin-radical(qq)(q)(rr) ketene-(hh)
 - ID 70803
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11 12 13          2 2 4 2 2 2 2 2 2 2 2 2
@@ -47,7 +47,7 @@ $$$$
 %%% Symmetry: 2*2 = 4
 %%%-------------------------------------------------------------------
 PenteneAlRadDecomp(qq)(q)(hh)(rh)\
-   cqqcqccoc.-(qq)(q)(hh)(rh) = propenyl-radical-(qq)(q)(hh) ketene-(rh)
+   cqqcqccoc.-(qq)(q)(hh)(rh) = alphaolefin-radical(qq)(q)(hh) ketene-(rh)
 - ID 70804
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11 12 13          2 2 4 2 2 2 2 2 2 2 2 2
@@ -62,7 +62,7 @@ $$$$
 %%% Symmetry: 2 = 2
 %%%-------------------------------------------------------------------
 PenteneAlRadDecomp(qq)(q)(rh)(rh)\
-   cqqcqccoc.-(qq)(q)(rh)(rh) = propenyl-radical-(qq)(q)(rh) ketene-(rh)
+   cqqcqccoc.-(qq)(q)(rh)(rh) = alphaolefin-radical(qq)(q)(rh) ketene-(rh)
 - ID 70805
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11 12 13          2 2 4 2 2 2 2 2 2 2 2 2
@@ -77,7 +77,7 @@ $$$$
 %%% Symmetry: 2*2 = 4
 %%%-------------------------------------------------------------------
 PenteneAlRadDecomp(qq)(q)(rr)(rh)\
-   cqqcqccoc.-(qq)(q)(rr)(rh) = propenyl-radical-(qq)(q)(rr) ketene-(rh)
+   cqqcqccoc.-(qq)(q)(rr)(rh) = alphaolefin-radical(qq)(q)(rr) ketene-(rh)
 - ID 70806
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11 12 13          2 2 4 2 2 2 2 2 2 2 2 2
@@ -92,7 +92,7 @@ $$$$
 %%% Symmetry: 2*2*2 = 8
 %%%-------------------------------------------------------------------
 PenteneAlRadDecomp(qq)(q)(hh)(rr)\
-   cqqcqccoc.-(qq)(q)(hh)(rr) = propenyl-radical-(qq)(q)(hh) ketene-(rr)
+   cqqcqccoc.-(qq)(q)(hh)(rr) = alphaolefin-radical(qq)(q)(hh) ketene-(rr)
 - ID 70807
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11 12 13          2 2 4 2 2 2 2 2 2 2 2 2
@@ -107,7 +107,7 @@ $$$$
 %%% Symmetry: 2*2 = 4
 %%%-------------------------------------------------------------------
 PenteneAlRadDecomp(qq)(q)(rh)(rr)\
-   cqqcqccoc.-(qq)(q)(rh)(rr) = propenyl-radical-(qq)(q)(rh) ketene-(rr)
+   cqqcqccoc.-(qq)(q)(rh)(rr) = alphaolefin-radical(qq)(q)(rh) ketene-(rr)
 - ID 70808
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11 12 13          2 2 4 2 2 2 2 2 2 2 2 2
@@ -122,7 +122,7 @@ $$$$
 %%% Symmetry: 2*2*2 = 8
 %%%-------------------------------------------------------------------
 PenteneAlRadDecomp(qq)(q)(rr)(rr)\
-   cqqcqccoc.-(qq)(q)(rr)(rr) = propenyl-radical-(qq)(q)(rr) ketene-(rr)
+   cqqcqccoc.-(qq)(q)(rr)(rr) = alphaolefin-radical(qq)(q)(rr) ketene-(rr)
 - ID 70809
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11 12 13          2 2 4 2 2 2 2 2 2 2 2 2

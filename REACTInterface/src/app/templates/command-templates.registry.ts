@@ -112,13 +112,10 @@ export class CommandTemplatesRegistry {
 
   public static readMoleculeProperties(rootName: string = '22dimethylC3C4'): string[] {
     return [
-      "CreateOpenClose", "Start", "Quit",
+      "CreateOpenClose", "Initialize", "Quit",
       "DbaseOps", "Molecules", "Parameters", "DBDataMolRoot", "Input", `mol/molsdf/${rootName}`, "Quit", "Quit",
       "Current", "ASCII", "Store", "Quit",
-      "Keys", "Read", "Fill", "Write", "Quit",
-      "Misc", "PrintList", "Quit", "Quit", "Quit",
-      "DbaseOps", "Molecules", "Current", "ReadInCurrent", "Quit", "Quit", "Quit",
-      "Mol", "Output", "Molecules", "Print", "Quit", "Quit", "Quit", "Quit", "Quit"
+      "Quit", "Quit"
     ];
   }
 
@@ -131,10 +128,44 @@ export class CommandTemplatesRegistry {
       "Read", "Molecules", "SDF", "Quit", "Quit",
       "Calculations", "Molecules", "SemiEmpirical", "Quit", "Quit",
       "Output", "Molecules", "Print", "Quit", "Quit", "Quit",
-      "DbaseOps", "Molecules", "Current", "Store", "Quit",
-      "Keys", "Read", "Fill", "Write", "Quit", "Quit",
+      "DbaseOps", "Molecules", "Current", "Store", "Quit", "Quit", "Quit",
       "Mol", "Output", "Molecules", "Print", "Quit", "Quit",
       "Graph", "PrintGraph", "Quit", "Quit", "Quit",
+      "Quit"
+    ];
+  }
+
+  public static readAndStoreChemkin(rootName: string = '22dimethylC3C4'): string[] {
+    return [
+      "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
+      "MetaAtoms", "Read", "Quit", "Quit",
+      "CreateOpenClose", "Initialize", "Quit",
+      "DbaseOps", "Parameters", "DBDataDirectory", "Input", ".", "Quit", "Quit",
+      "Molecules", "Parameters", "DBDataMolRoot", "Input", rootName, "Quit", "Quit",
+      "Current", "ReadInCurrent", "Quit", "Quit", "Quit",
+      "Tables", "Parameters", "TablesDataDirectory", "Input", ".", "Quit",
+      "TablesOutputDirectory", "Input", ".", "Quit", "Quit",
+      "Chemkin", "Parameters", "TablesDataChemkinRoot", "Input", rootName, "Quit", "Quit",
+      "Read", "Quit", "Quit",
+      "DbaseOps", "Chemkin", "Store", "Fill", "Quit", "Quit",
+      "Mol", "Output", "Molecules", "Print", "Quit", "Quit", "Quit",
+      "DbaseOps", "Molecules", "Current", "Store", "Quit", "Quit", "Quit",
+      "DbaseOps", "Chemkin", "Store", "Quit", "Quit",
+      "Quit"
+    ];
+  }
+
+  public static readSubsFromFile(rootName: string = 'job1'): string[] {
+    return [
+      "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
+      "MetaAtoms", "Read", "Quit", "Quit",
+      "CreateOpenClose", "Initialize", "Quit",
+      "Mol", "Parameters", "RootMolName", "Input", `subs/${rootName}`, "Quit", "Quit",
+      "Read", "SubStructures", "SDF", "Quit", "Quit",
+      "Calculations", "SubStructures", "SemiEmpirical", "Quit", "Quit",
+      "Output", "SubStructures", "Print", "Quit", "Quit", "Quit",
+      "DbaseOps", "SubStructures", "Current", "Store", "Quit",
+      "Misc", "PrintList", "Quit",
       "Quit", "Quit", "Quit"
     ];
   }
@@ -148,6 +179,12 @@ export class CommandTemplatesRegistry {
         return this.readMoleculeProperties(rootName);
       case 'read-sdf-molecules':
         return this.readSdfMolecules(rootName);
+      case 'read-and-store-chemkin':
+      case 'read-chemkin':
+        return this.readAndStoreChemkin(rootName);
+      case 'read-subs-from-file':
+      case 'read-subs':
+        return this.readSubsFromFile(rootName);
       case 'molecules':
         return this.moleculesCatalog();
       case 'rxn-patterns':

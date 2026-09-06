@@ -31,6 +31,7 @@ set STANDARD        = $REACTROOT/data/mol/subs/standard.sdf
 set TEMPDIR         = $REACTROOT/tmp
 set TEMPFILE        = $REACTROOT/tmp/read.prg
 set TEMPOUTFILE     = $REACTROOT/tmp/read.out
+set OUTFILE         = $REACTROOT/tmp/$NEWFILE.rawout
 set INFILE          = $NEWFILE.sdf
 
 #--------------------------------------------------------------------------
@@ -44,11 +45,12 @@ cat $INFILE > $STANDARD
 # Put Substructures in Database
 #--------------------------------------------------------------------------
 pushd $TEMPDIR
-$CHEMPROG read < read.prg
+$CHEMPROG read < read.prg > $OUTFILE
 rm $TEMPFILE
 popd
-
+mv $OUTFILE $NEWFILE.rawout
 mv $TEMPOUTFILE $NEWFILE.out
+
 
 
 

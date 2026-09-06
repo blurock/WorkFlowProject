@@ -2,7 +2,7 @@
 %%%   Symmetry 2 = 2
 %%%-------------------------------------------------------------------
 HLossEthenylToEthyne-(hh)\
-   ethenyl-(hh)(h)  = ethyne-(h)(h) + hydrogen-radical
+   alkenyl-(hh)(h)  = ethyne-(h)(h) + hydrogen-radical
 - ID 42101
 - Correspondences
 1 2 3 4 5        2 2 4 2
@@ -17,7 +17,7 @@ $$$$
 %%%   Symmetry 1 = 1
 %%%-------------------------------------------------------------------
 HLossEthenylToEthyne-(rh)\
-   ethenyl-(rh)(h)  = ethyne-(r)(h) + hydrogen-radical
+   alkenyl-(rh)(h)  = ethyne-(r)(h) + hydrogen-radical
 - ID 42102
 - Correspondences
 1 2 3 4 5        2 2 4 2
@@ -32,7 +32,7 @@ $$$$
 %%%   Symmetry 1 = 1
 %%%-------------------------------------------------------------------
 HLossEthenylToEthyne-(rr)\
-   ethenyl-(rh)(r)  = ethyne-(r)(r) + hydrogen-radical
+   alkenyl-(rh)(r)  = ethyne-(r)(r) + hydrogen-radical
 - ID 42103
 - Correspondences
 1 2 3 4 5        2 2 4 2
@@ -47,7 +47,7 @@ $$$$
 %%%   Symmetry 2 = 2
 %%%-------------------------------------------------------------------
 HLossEthenylToEthyne-(hr)\
-   ethenyl-(hh)(r)  = ethyne-(r)(h) + hydrogen-radical
+   alkenyl-(hh)(r)  = ethyne-(r)(h) + hydrogen-radical
 - ID 42104
 - Correspondences
 1 2 3 4 5        2 2 4 2

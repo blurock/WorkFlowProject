@@ -17,15 +17,7 @@ Quit
 %%% Open up the data base
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 CreateOpenClose
-Start
-Quit
-DbaseOps
-SubStructures
-Keys
-Define
-Write
-Quit
-Quit
+Initialize
 Quit
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% 
@@ -60,11 +52,6 @@ DbaseOps
 SubStructures
 Current
 Store
-Quit
-Keys
-Define
-Fill
-Write
 Quit
 Misc
 PrintList
