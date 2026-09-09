@@ -36,9 +36,8 @@ $PROGRAM subsChainPeroxy
 $PROGRAM subsCyclicEthers
 $PROGRAM subsDiPeroxy
 $PROGRAM subsEthylRadical
-$PROGRAM subsKetoHydroPeroxide
+#$PROGRAM subsKetoHydroPeroxide
 $PROGRAM subsOOQOOH
-$PROGRAM subsAlkenyl
 $PROGRAM subsKetene
 $PROGRAM subsEthane
 $PROGRAM subsMethylAlcohol
@@ -75,7 +74,7 @@ $PROGRAM subsAldKetone5
 $PROGRAM subsAldKetone6
 $PROGRAM subsKetoAlkene
 $PROGRAM subsKetoAlkene2
-$PROGRAM subsKetoAlkeneAlphaRadical
+#$PROGRAM subsKetoAlkeneAlphaRadical
 $PROGRAM subsAldKetone7
 #$PROGRAM subsAldKetone8 (repeated in subsAldKetone.sdf
 #$PROGRAM subsAldKetone9 (repeated in subsKetoAlkene.sdf
@@ -91,7 +90,6 @@ $PROGRAM subsLongerRadicalChainsAlkene
 $PROGRAM subsPropenylRadical3
 $PROGRAM subsAlkoxyRadical
 $PROGRAM subsAlkoxyRadical2
-$PROGRAM cyclohexaneSubstructures
 $PROGRAM subsPeroxyCyclohexane
 $PROGRAM cyclohexaneSubstructures
 $PROGRAM subsHydroperoxyPeroxyCyclohexaneRadical

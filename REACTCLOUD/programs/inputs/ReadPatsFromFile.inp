@@ -16,7 +16,7 @@ Quit
 %%% Open up the data base
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 CreateOpenClose
-Initialize
+Start
 Quit
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% 
@@ -29,16 +29,26 @@ Input
 rxnpats/XXXXXXXXXX
 Quit
 Quit
+
+
 RxnPatterns
-MolFiles
+ASCII
 Quit
 Quit
+Rxn
 Output
 RxnPatterns
 Print
 Quit
 Quit
 Quit
+
+
+Quit
+Quit
+Quit
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

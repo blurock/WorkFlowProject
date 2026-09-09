@@ -19,9 +19,10 @@
  */
 #include "basic.h"
 #include "comlib.h"
+#include "dbase.h"
+#include "defines.h"
 #include "graph.h"
 #include "mol0.h"
-#include "dbase.h"
 #include "molprops.h"
 #include "rxn.h"
 #include "gentrans.h"
@@ -621,7 +622,7 @@ extern INT DBReadListMolSubFromKeys(BindStructure *bind, INT dbflag) {
   MoleculeSet *molset;
   MoleculeInfo *molinfo;
   CommandMaster *commandmaster;
-  INT ret, nummols, incmols;
+  INT ret, nummols, incmols, bindflag;
   CHAR *line, *string;
 
   commandmaster = GetBoundStructure(bind, BIND_COMMANDMASTER);
@@ -630,20 +631,23 @@ extern INT DBReadListMolSubFromKeys(BindStructure *bind, INT dbflag) {
     InitializeChemDBInfo(bind);
     master = GetBoundStructure(bind, BIND_CHEMDBASE);
   }
-  molset = GetBoundStructure(bind, BIND_CURRENT_MOLECULES);
+  bindflag = (dbflag == SUBSTRUCTURE_DATABASE) ? BIND_CURRENT_SUBSTRUCTURES : BIND_CURRENT_MOLECULES;
+  molset = GetBoundStructure(bind, bindflag);
 
   nummols = MAX_CURRENT_MOLECULES;
   incmols = INC_CURRENT_MOLECULES;
 
   FreeMoleculeSet(molset);
-  CreateMoleculeSet(molset, BIND_CURRENT_MOLECULES, "Current Molecules",
+  CreateMoleculeSet(molset, bindflag, (dbflag == SUBSTRUCTURE_DATABASE) ? "Current Substructures" : "Current Molecules",
                     nummols, 0, 0, 0);
 
   molset->NumberOfMolecules = 0;
   molset->PropertyTypes =
       InitializeMolecularPropertyTypes(molset->ID, molset->Name);
 
-  dinfo = (master != NULL && master->DatabaseInfo != NULL) ? GetDataBaseInfoFromID(master->DatabaseInfo, dbflag) : NULL;
+  dinfo = (master != NULL && master->DatabaseInfo != NULL)
+              ? GetDataBaseInfoFromID(master->DatabaseInfo, dbflag)
+              : NULL;
 
   file = OpenReadFileFromCurrent("DBDataDirectory", "DBDataMolRoot",
                                  MOLECULE_FILE_LIST_SUFFIX, RECOVER,
@@ -792,7 +796,9 @@ extern INT readMoleculesFromListOfNames(INT nummols, CHAR *names[],
     InitializeChemDBInfo(bind);
     master = GetBoundStructure(bind, BIND_CHEMDBASE);
   }
-  dinfo = (master != NULL && master->DatabaseInfo != NULL) ? GetDataBaseInfoFromID(master->DatabaseInfo, dbflag) : NULL;
+  dinfo = (master != NULL && master->DatabaseInfo != NULL)
+              ? GetDataBaseInfoFromID(master->DatabaseInfo, dbflag)
+              : NULL;
   molset = GetBoundStructure(bind, BIND_CURRENT_MOLECULES);
   FreeMoleculeSet(molset);
   CreateMoleculeSet(molset, BIND_CURRENT_MOLECULES, "Current Molecules",
@@ -813,7 +819,8 @@ extern INT readMoleculesFromListOfNames(INT nummols, CHAR *names[],
   return SYSTEM_NORMAL_RETURN;
 }
 
-/*F ret = PrintRXNFromListOfNames(rxnName, numReactants, numProducts, names, out, bind)
+/*F ret = PrintRXNFromListOfNames(rxnName, numReactants, numProducts, names,
+* out, bind)
 **
 **  DESCRIPTION
 **    rxnName: Name/Title of the reaction pattern
@@ -828,40 +835,40 @@ extern INT readMoleculesFromListOfNames(INT nummols, CHAR *names[],
 **    molecules into BIND_CURRENT_MOLECULES, prints the RXN preamble,
 **    and outputs each molecule in $MOL form.
 */
-extern INT PrintRXNFromListOfNames(CHAR *rxnName, INT numReactants, INT numProducts, 
-                                  CHAR *names[], FILE *out, BindStructure *bind)
-{
-    MoleculeSet *molset;
-    INT nummols;
-    INT ret;
-    int i;
+extern INT PrintRXNFromListOfNames(CHAR *rxnName, INT numReactants,
+                                   INT numProducts, CHAR *names[], FILE *out,
+                                   BindStructure *bind) {
+  MoleculeSet *molset;
+  INT nummols;
+  INT ret;
+  int i;
 
-    nummols = numReactants + numProducts;
+  nummols = numReactants + numProducts;
 
-    /* Read reactant and product molecules into BIND_CURRENT_MOLECULES */
-    ret = readMoleculesFromListOfNames(nummols, names, bind);
-    if (ret != SYSTEM_NORMAL_RETURN) {
-        return ret;
-    }
+  /* Read reactant and product molecules into BIND_CURRENT_MOLECULES */
+  ret = readMoleculesFromListOfNames(nummols, names, bind);
+  if (ret != SYSTEM_NORMAL_RETURN) {
+    return ret;
+  }
 
-    molset = GetBoundStructure(bind, BIND_CURRENT_MOLECULES);
-    if (molset == NULL || molset->Molecules == NULL) {
-        return SYSTEM_ERROR_RETURN;
-    }
+  molset = GetBoundStructure(bind, BIND_CURRENT_MOLECULES);
+  if (molset == NULL || molset->Molecules == NULL) {
+    return SYSTEM_ERROR_RETURN;
+  }
 
-    /* Print RXN Preamble */
-    fprintf(out, "$RXN\n");
-    fprintf(out, "$MDL\n");
-    fprintf(out, "%s\n", (rxnName != NULL && *rxnName != '\0') ? rxnName : "Reaction Pattern");
-    fprintf(out, "  REACTCLOUD\n");
-    fprintf(out, "%3d%3d\n", numReactants, numProducts);
+  /* Print RXN Preamble */
+  fprintf(out, "$RXN\n");
+  fprintf(out, "$MDL\n");
+  fprintf(out, "%s\n",
+          (rxnName != NULL && *rxnName != '\0') ? rxnName : "Reaction Pattern");
+  fprintf(out, "  REACTCLOUD\n");
+  fprintf(out, "%3d%3d\n", numReactants, numProducts);
 
-    /* Print each reactant and product molecule in $MOL format */
-    for (i = 0; i < nummols; i++) {
-        fprintf(out, "$MOL\n");
-        PrintMoleculeAsMolFile(out, &molset->Molecules[i]);
-    }
+  /* Print each reactant and product molecule in $MOL format */
+  for (i = 0; i < nummols; i++) {
+    fprintf(out, "$MOL\n");
+    PrintMoleculeAsMolFile(out, &molset->Molecules[i]);
+  }
 
-    return SYSTEM_NORMAL_RETURN;
+  return SYSTEM_NORMAL_RETURN;
 }
-

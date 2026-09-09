@@ -13,14 +13,14 @@
 /*I  . . . INCLUDES  . . . . . . . . . . . . . . . . . . . . . . . . . . . .
  */
 #include "basic.h"
-#include "chemdb.h"
 #include "comlib.h"
-#include "dbase.h"
-#include "gentrans.h"
 #include "graph.h"
 #include "mol0.h"
+#include "dbase.h"
 #include "molprops.h"
 #include "rxn.h"
+#include "gentrans.h"
+#include "chemdb.h"
 
 /*P  . . . PROTOTYPES  . . . . . . . . . . . . . . . . . . . . . . . . . . .
  */
