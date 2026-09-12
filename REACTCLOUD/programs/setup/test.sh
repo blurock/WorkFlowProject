@@ -21,5 +21,16 @@ popd
 rm $REACTROOT/data/DB/ReactionPatterns.dbf
 pushd $DATADIR/rxn/rxnpats
 
-$CHEMPROG HAbstraction
+$CHEMPROG AlkylIsomerization
+$CHEMPROG RO2ToAlkoxy
+$CHEMPROG AlkenylDecompToAlkyne
+$CHEMPROG RO2IsomerizationCyclohexane
+$CHEMPROG CyclohexaneHAbstraction
+$CHEMPROG RO2IsomerizationCyclohexane
+$CHEMPROG OOQOOH-Isomerization-Ring
+$CHEMPROG Decomp-1,3-dibutanal-4-yl
+$CHEMPROG Decomp-1,4-dibutanal-1-yl
+$CHEMPROG CyclohexaneCyclicEtherFormation
 popd
+
+

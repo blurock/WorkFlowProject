@@ -319,6 +319,8 @@ static int ReactionMolfileUsingDB(int id, char *line,
   next = reactants;
   while (*next != 0) {
     next = IsolateNextWord(next, name, ' ', LINELENGTH);
+    if (strcmp(name, "+") == 0 || name[0] == '\0')
+      continue;
     eout = DBFindMolSubFromString(name, minfo, dinfo);
     if (eout == 0) {
       mlf = readrxn->Reactants + readrxn->NumberOfReactants;
@@ -338,6 +340,8 @@ static int ReactionMolfileUsingDB(int id, char *line,
   next = products;
   while (*next != 0) {
     next = IsolateNextWord(next, name, ' ', LINELENGTH);
+    if (strcmp(name, "+") == 0 || name[0] == '\0')
+      continue;
     eout = DBFindMolSubFromString(name, minfo, dinfo);
     if (eout == 0) {
       mlf = readrxn->Products + readrxn->NumberOfProducts;

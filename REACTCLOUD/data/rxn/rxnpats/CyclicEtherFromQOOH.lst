@@ -7,7 +7,7 @@ CyclicEtherFromQOOH-3Ring  .c(q)(q)(cooh) =   (q)(q)(-cco-) hydroxyl-radical
 - Correspondences
 1 2 3 4 5 6 7       2 2 4 2 2 2
 2 3 4 6 7           2 2 4 2 2
-1 5
+1 5.                2
 >  <ForwardRxn>
 Standard 3.0e+11 0.0 22000 2; Type XIX: Combustion and Flame, 114:149-177 (1998)
 >  <ReverseRxn>
@@ -19,7 +19,7 @@ CyclicEtherFromQOOH-4Ring  .c(q)(q)(ccooh) =   (q)(q)(-ccco-) hydroxyl-radical
 - Correspondences
 1 2 3 4 5 6 7 8     2 2 2 4 2 2 2
 2 3 4 5 7 8         2 2 2 4 2 2
-1 6
+1 6                 2
 >  <ForwardRxn>
 Standard 2.50e+10 0.0 15250 2; Type XIX: Combustion and Flame, 114:149-177 (1998)
 >  <ReverseRxn>
@@ -31,7 +31,7 @@ CyclicEtherFromQOOH-5Ring  .c(q)(q)(cccooh) =  (q)(q)(-cccco-) hydroxyl-radical
 - Correspondences
 1 2 3 4 5 6 7 8 9    2 2 2 2 4 2 2 2
 2 3 4 5 6 8 9        2 2 2 2 4 2 2
-1 7
+1 7                  2
 >  <ForwardRxn>
 Standard 2.08e+9 0.0 6500 2; Type XIX: Combustion and Flame, 114:149-177 (1998)
 >  <ReverseRxn>

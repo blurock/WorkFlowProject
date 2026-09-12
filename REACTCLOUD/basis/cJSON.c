@@ -544,7 +544,7 @@ int cJSON_IsASCIIBuffer(const char *buf, size_t size) {
     if (!buf || size == 0) return 0;
     for (i = 0; i < size; i++) {
         unsigned char c = (unsigned char)buf[i];
-        if (c == 0) break;
+        if (c == 0) return 0;
         if (c < 9 || (c > 13 && c < 32) || c > 126) return 0;
     }
     return 1;
@@ -552,9 +552,8 @@ int cJSON_IsASCIIBuffer(const char *buf, size_t size) {
 
 cJSON *cJSON_CreateFromCharArray(const char *buf, size_t size) {
     if (!buf || size == 0) return cJSON_CreateNull();
-    if (cJSON_IsASCIIBuffer(buf, size)) {
-        size_t str_len = 0;
-        while (str_len < size && buf[str_len] != '\0') str_len++;
+    if (size > 1 && buf[size - 1] == '\0' && cJSON_IsASCIIBuffer(buf, size - 1)) {
+        size_t str_len = strlen(buf);
         char *str = (char *)cJSON_malloc(str_len + 1);
         if (str) {
             memcpy(str, buf, str_len);
@@ -578,11 +577,11 @@ cJSON *cJSON_CreateFromCharArray(const char *buf, size_t size) {
 cJSON *cJSON_CreateFromDbaseKeyword(int size, const char *keyword_ptr) {
     if (!keyword_ptr || size <= 0) return cJSON_CreateNull();
 
-    if (cJSON_IsASCIIBuffer(keyword_ptr, (size_t)size)) {
+    if (size == sizeof(int)) {
         size_t str_len = 0;
         while (str_len < (size_t)size && keyword_ptr[str_len] != '\0') str_len++;
-        if (str_len > 0) {
-            char *str = (char *)cJSON_malloc(str_len + 1);
+        if (str_len == (size_t)(size - 1) && keyword_ptr[size - 1] == '\0' && cJSON_IsASCIIBuffer(keyword_ptr, (size_t)(size - 1))) {
+            char *str = (char *)cJSON_malloc(size);
             if (str) {
                 memcpy(str, keyword_ptr, str_len);
                 str[str_len] = '\0';
@@ -590,13 +589,23 @@ cJSON *cJSON_CreateFromDbaseKeyword(int size, const char *keyword_ptr) {
                 cJSON_free(str);
                 return item;
             }
+        } else {
+            int val;
+            memcpy(&val, keyword_ptr, sizeof(int));
+            return cJSON_CreateNumber((double)val);
         }
     }
 
-    if (size == sizeof(int)) {
-        int val;
-        memcpy(&val, keyword_ptr, sizeof(int));
-        return cJSON_CreateNumber((double)val);
+    if (size > 1 && keyword_ptr[size - 1] == '\0' && cJSON_IsASCIIBuffer(keyword_ptr, (size_t)(size - 1))) {
+        size_t str_len = strlen(keyword_ptr);
+        char *str = (char *)cJSON_malloc(str_len + 1);
+        if (str) {
+            memcpy(str, keyword_ptr, str_len);
+            str[str_len] = '\0';
+            cJSON *item = cJSON_CreateString(str);
+            cJSON_free(str);
+            return item;
+        }
     }
 
     {
