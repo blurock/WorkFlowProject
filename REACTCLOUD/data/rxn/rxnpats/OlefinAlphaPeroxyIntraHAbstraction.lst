@@ -92,7 +92,7 @@ $$$$
 %%%   Symmetry 1*2*(2*3)/3 = 4
 %%%-------------------------------------------------------------------
 OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(hh)(hhh)\
-       c=ccooc(h)(hh)(hhh) = c=ccoohc(h)(hh)(hh)
+       c=ccoocc(h)(hh)(hhh) = c=ccoohcc(h)(hh)(hh)
 - ID 40106
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 2 2 2 2 2 4
@@ -106,7 +106,7 @@ $$$$
 %%%   Symmetry 1*2*(2*3)/3 = 4
 %%%-------------------------------------------------------------------
 OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(hh)(hhh)\
-       c=ccooc(r)(hh)(hhh) = c=ccoohc(r)(hh)(hh)
+       c=ccoocc(r)(hh)(hhh) = c=ccoohcc(r)(hh)(hh)
 - ID 40107
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 2 2 2 2 2 4
@@ -120,7 +120,7 @@ $$$$
 %%%   Symmetry 1*1*(3*2)/3 = 2
 %%%-------------------------------------------------------------------
 OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rh)(hhh)\
-       c=ccooc(h)(rh)(hhh) = c=ccoohc(h)(rh)(hh)
+       c=ccoocc(h)(rh)(hhh) = c=ccoohcc(h)(rh)(hh)
 - ID 40108
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 2 2 2 2 2 4
@@ -134,7 +134,7 @@ $$$$
 %%%   Symmetry 1*1*(3*2)/3 = 2
 %%%-------------------------------------------------------------------
 OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rh)(hhh)\
-       c=ccooc(r)(rh)(hhh) = c=ccoohc(r)(rh)(hh)
+       c=ccoocc(r)(rh)(hhh) = c=ccoohcc(r)(rh)(hh)
 - ID 40109
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 2 2 2 2 2 4
@@ -148,7 +148,7 @@ $$$$
 %%%   Symmetry 1*2*(3*2)/3 = 4
 %%%-------------------------------------------------------------------
 OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rr)(hhh)\
-       c=ccooc(h)(rr)(hhh) = c=ccoohc(h)(rr)(hh)
+       c=ccoocc(h)(rr)(hhh) = c=ccoohcc(h)(rr)(hh)
 - ID 40110
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 2 2 2 2 2 4
@@ -162,7 +162,7 @@ $$$$
 %%%   Symmetry 1*2*(3*2)/3 = 4
 %%%-------------------------------------------------------------------
 OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rr)(hhh)\
-       c=ccooc(r)(rr)(hhh) = c=ccoohc(r)(rr)(hh)
+       c=ccoocc(r)(rr)(hhh) = c=ccoohcc(r)(rr)(hh)
 - ID 40111
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 2 2 2 2 2 4
@@ -176,7 +176,7 @@ $$$$
 %%%   Symmetry 1*2*2/2 = 2
 %%%-------------------------------------------------------------------
 OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(hh)(rhh)\
-       c=ccooc(h)(hh)(rhh) = c=ccoohc(h)(hh)(rh)
+       c=ccoocc(h)(hh)(rhh) = c=ccoohcc(h)(hh)(rh)
 - ID 40112
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 2 2 2 2 2 4
@@ -190,7 +190,7 @@ $$$$
 %%%   Symmetry 1*2*2/2 = 2
 %%%-------------------------------------------------------------------
 OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(hh)(rhh)\
-       c=ccooc(r)(hh)(rhh) = c=ccoohc(r)(hh)(rh)
+       c=ccoocc(r)(hh)(rhh) = c=ccoohcc(r)(hh)(rh)
 - ID 40113
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 2 2 2 2 2 4
@@ -204,7 +204,7 @@ $$$$
 %%%   Symmetry 1*1*2/2 = 1
 %%%-------------------------------------------------------------------
 OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rh)(rhh)\
-       c=ccooc(h)(rh)(rhh) = c=ccoohc(h)(rh)(rh)
+       c=ccoocc(h)(rh)(rhh) = c=ccoohcc(h)(rh)(rh)
 - ID 40114
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 2 2 2 2 2 4
@@ -218,7 +218,7 @@ $$$$
 %%%   Symmetry 1*1*2/2 = 1
 %%%-------------------------------------------------------------------
 OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rh)(rhh)\
-       c=ccooc(r)(rh)(rhh) = c=ccoohc(r)(rh)(rh)
+       c=ccoocc(r)(rh)(rhh) = c=ccoohcc(r)(rh)(rh)
 - ID 40115
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 2 2 2 2 2 4
@@ -232,7 +232,7 @@ $$$$
 %%%   Symmetry 1*2*2/2 = 2
 %%%-------------------------------------------------------------------
 OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rr)(rhh)\
-       c=ccooc(h)(rr)(rhh) = c=ccoohc(h)(rr)(rh)
+       c=ccoocc(h)(rr)(rhh) = c=ccoohcc(h)(rr)(rh)
 - ID 40116
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 2 2 2 2 2 4
@@ -246,7 +246,7 @@ $$$$
 %%%   Symmetry 1*2*2/2 = 2
 %%%-------------------------------------------------------------------
 OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rr)(rhh)\
-       c=ccooc(r)(rr)(rhh) = c=ccoohc(r)(rr)(rh)
+       c=ccoocc(r)(rr)(rhh) = c=ccoohcc(r)(rr)(rh)
 - ID 40117
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 2 2 2 2 2 4
@@ -260,7 +260,7 @@ $$$$
 %%%   Symmetry 1*2*2/1 = 4
 %%%-------------------------------------------------------------------
 OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(hh)(rrh)\
-       c=ccooc(h)(hh)(rrh) = c=ccoohc(h)(hh)(rr)
+       c=ccoocc(h)(hh)(rrh) = c=ccoohcc(h)(hh)(rr)
 - ID 40118
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 2 2 2 2 2 4
@@ -274,7 +274,7 @@ $$$$
 %%%   Symmetry 1*2*2/1 = 4
 %%%-------------------------------------------------------------------
 OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(hh)(rrh)\
-       c=ccooc(r)(hh)(rrh) = c=ccoohc(r)(hh)(rr)
+       c=ccoocc(r)(hh)(rrh) = c=ccoohcc(r)(hh)(rr)
 - ID 40119
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 2 2 2 2 2 4
@@ -288,7 +288,7 @@ $$$$
 %%%   Symmetry 1*1*2/1 = 2
 %%%-------------------------------------------------------------------
 OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rh)(rrh)\
-       c=ccooc(h)(rh)(rrh) = c=ccoohc(h)(rh)(rr)
+       c=ccoocc(h)(rh)(rrh) = c=ccoohcc(h)(rh)(rr)
 - ID 40120
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 2 2 2 2 2 4
@@ -302,7 +302,7 @@ $$$$
 %%%   Symmetry 1*1*2/1 = 2
 %%%-------------------------------------------------------------------
 OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rh)(rrh)\
-       c=ccooc(r)(rh)(rrh) = c=ccoohc(r)(rh)(rr)
+       c=ccoocc(r)(rh)(rrh) = c=ccoohcc(r)(rh)(rr)
 - ID 40121
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 2 2 2 2 2 4
@@ -316,7 +316,7 @@ $$$$
 %%%   Symmetry 1*2*2/1 = 4
 %%%-------------------------------------------------------------------
 OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rr)(rrh)\
-       c=ccooc(h)(rr)(rrh) = c=ccoohc(h)(rr)(rr)
+       c=ccoocc(h)(rr)(rrh) = c=ccoohcc(h)(rr)(rr)
 - ID 40122
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 2 2 2 2 2 4
@@ -330,7 +330,7 @@ $$$$
 %%%   Symmetry 1*2*2/1 = 4
 %%%-------------------------------------------------------------------
 OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rr)(rrh)\
-       c=ccooc(r)(rr)(rrh) = c=ccoohc(r)(rr)(rr)
+       c=ccoocc(r)(rr)(rrh) = c=ccoohcc(r)(rr)(rr)
 - ID 40123
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11 12 13   2 2 2 2 2 2 2 2 2 2 2 4
@@ -472,7 +472,7 @@ Standard 1.72e+9 0.0 22150 1; Type XI (8-Ring, secondary): Combustion and Flame,
 >  <ReverseRxn>
 Standard 1.565E+10  -0.54  1.113E+04 1; Type XI (8-Ring, secondary): c7h15o2-3 = c7h14ooh3-7
 $$$$
-e%%%-------------------------------------------------------------------
+%%%-------------------------------------------------------------------
 %%%   Symmetry 1*(2)/2 = 1
 %%%-------------------------------------------------------------------
 OlefinAlphaPeroxyIntraHAbstraction8Ring-(r)(rhh)\

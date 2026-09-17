@@ -20,7 +20,7 @@ $$$$
 %%% Symmetry: 2*6=12
 %%%-------------------------------------------------------------------
 AlkoxyFromPeroxyAndAlkylRadical-(rhh)(hhh) \
-      (r)(h)(h)coo. methane-carbon-radical  =  .oc(rhh) .oc(hhh)
+      (h)(h)(r)coo. methane-carbon-radical  =  .oc(rhh) .oc(hhh)
 - ID 17302
 - Correspondences
 1 2 3 4 5 6      2 4 2 2 2
@@ -36,7 +36,7 @@ $$$$
 %%% Symmetry: 2*6=12
 %%%-------------------------------------------------------------------
 AlkoxyFromPeroxyAndAlkylRadical-(rrh)(hhh) \
-      (r)(r)(h)coo. methane-carbon-radical  =  .oc(rrh) .oc(hhh)
+      (h)(r)(r)coo. methane-carbon-radical  =  .oc(rrh) .oc(hhh)
 - ID 17303
 - Correspondences
 1 2 3 4 5 6      2 4 2 2 2
@@ -84,7 +84,7 @@ $$$$
 %%% Symmetry: 2*2=4
 %%%-------------------------------------------------------------------
 AlkoxyFromPeroxyAndAlkylRadical-(rhh)(rhh) \
-      (r)(h)(h)coo. primary-carbon-radical  =  .oc(rhh) .oc(rhh)
+      (h)(h)(r)coo. primary-carbon-radical  =  .oc(rhh) .oc(rhh)
 - ID 17306
 - Correspondences
 1 2 3 4 5 6      2 4 2 2 2
@@ -100,7 +100,7 @@ $$$$
 %%% Symmetry: 2*2=4
 %%%-------------------------------------------------------------------
 AlkoxyFromPeroxyAndAlkylRadical-(rrh)(rhh) \
-      (r)(r)(h)coo. primary-carbon-radical  =  .oc(rrh) .oc(rhh)
+      (h)(r)(r)coo. primary-carbon-radical  =  .oc(rrh) .oc(rhh)
 - ID 17307
 - Correspondences
 1 2 3 4 5 6      2 4 2 2 2
@@ -148,7 +148,7 @@ $$$$
 %%% Symmetry: 2*2=4
 %%%-------------------------------------------------------------------
 AlkoxyFromPeroxyAndAlkylRadical-(rhh)(rrh) \
-      (r)(h)(h)coo. secondary-carbon-radical  =  .oc(rhh) .oc(rrh)
+      (h)(h)(r)coo. secondary-carbon-radical  =  .oc(rhh) .oc(rrh)
 - ID 17310
 - Correspondences
 1 2 3 4 5 6      2 4 2 2 2
@@ -164,7 +164,7 @@ $$$$
 %%% Symmetry: 2*2=4
 %%%-------------------------------------------------------------------
 AlkoxyFromPeroxyAndAlkylRadical-(rrh)(rrh) \
-      (r)(r)(h)coo. secondary-carbon-radical  =  .oc(rrh) .oc(rrh)
+      (h)(r)(r)coo. secondary-carbon-radical  =  .oc(rrh) .oc(rrh)
 - ID 17311
 - Correspondences
 1 2 3 4 5 6      2 4 2 2 2
@@ -212,7 +212,7 @@ $$$$
 %%% Symmetry: 2*6=12
 %%%-------------------------------------------------------------------
 AlkoxyFromPeroxyAndAlkylRadical-(rhh)(rrr) \
-     (r)(h)(h)coo. tertiary-carbon-radical  =  .oc(rhh) .oc(rrr)
+     (h)(h)(r)coo. tertiary-carbon-radical  =  .oc(rhh) .oc(rrr)
 - ID 17314
 - Correspondences
 1 2 3 4 5 6      2 4 2 2 2
@@ -228,7 +228,7 @@ $$$$
 %%% Symmetry: 2*6=12
 %%%-------------------------------------------------------------------
 AlkoxyFromPeroxyAndAlkylRadical-(rrh)(rrr) \
-      (r)(r)(h)coo. tertiary-carbon-radical  =  .oc(rrh) .oc(rrr)
+      (h)(r)(r)coo. tertiary-carbon-radical  =  .oc(rrh) .oc(rrr)
 - ID 17315
 - Correspondences
 1 2 3 4 5 6      2 4 2 2 2

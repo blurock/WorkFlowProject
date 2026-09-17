@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  table { border-collapse: collapse; font-family: Calibri, Arial, sans-serif; font-size: 11pt; }
+  th { background-color: #1F497D; color: white; font-weight: bold; border: 1px solid #95B3D7; padding: 6px 12px; text-align: left; }
+  td { border: 1px solid #D9D9D9; padding: 5px 10px; vertical-align: top; }
+  tr:nth-child(even) { background-color: #F2F5F8; }
+  .dup { color: #C00000; font-weight: bold; }
+  .qclass { color: #002060; font-weight: bold; }
+  .dup-q { color: #900000; font-weight: bold; }
+  .sub-list { font-family: Consolas, monospace; font-size: 10pt; }
+</style>
+</head>
+<body>
+<table>
+<thead>
+  <tr>
+    <th>Filename</th>
+    <th>Class Name</th>
+    <th>Substructures</th>
+    <th>Status</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>subsCyclicEthers.sdf</td>
+    <td>(-ccccco-)</td>
+    <td class="sub-list">(-ccccco-)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsCyclicEthers.sdf</td>
+    <td>(-cccco-)</td>
+    <td class="sub-list">(-cccco-)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsCyclicEthers.sdf</td>
+    <td>(-ccco-)</td>
+    <td class="sub-list">(-ccco-)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsCyclicEthers.sdf</td>
+    <td>(-cco-)</td>
+    <td class="sub-list">(-cco-)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsCyclicEthers.sdf</td>
+    <td class="qclass">(Q)(Q)(-ccccco-)</td>
+    <td class="sub-list">(q)(q)(-ccccco-)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsCyclicEthers.sdf</td>
+    <td class="qclass">(Q)(Q)(-cccco-)</td>
+    <td class="sub-list">(q)(q)(-cccco-)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsCyclicEthers.sdf</td>
+    <td class="qclass">(Q)(Q)(-ccco-)</td>
+    <td class="sub-list">(q)(q)(-ccco-)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsCyclicEthers.sdf</td>
+    <td class="qclass">(Q)(Q)(-cco-)</td>
+    <td class="sub-list">(q)(q)(-cco-)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsPeroxy.sdf</td>
+    <td class="qclass">(Q)(Q)(Q)coo.</td>
+    <td class="sub-list">(q)(q)(q)coo.</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsPeroxy.sdf</td>
+    <td class="qclass">(Q)(Q)(X)coo.</td>
+    <td class="sub-list">(q)(q)(h)coo.</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsKetoAlkeneAlphaRadical.sdf</td>
+    <td class="qclass">(QQ)cc(Q)coc(XX)</td>
+    <td class="sub-list">(qq)cc(q)coc(hh)<br>(qq)cc(q)coc(rh)<br>(qq)cc(q)coc(rr)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsCyclicEthers2.sdf</td>
+    <td>(X)(X)(-ccccco-)</td>
+    <td class="sub-list">(h)(h)(-ccccco-)<br>(r)(h)(-ccccco-)<br>(r)(r)(-ccccco-)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsCyclicEthers2.sdf</td>
+    <td>(X)(X)(-cccco-)</td>
+    <td class="sub-list">(h)(h)(-cccco-)<br>(r)(h)(-cccco-)<br>(r)(r)(-cccco-)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsCyclicEthers2.sdf</td>
+    <td>(X)(X)(-ccco-)</td>
+    <td class="sub-list">(h)(h)(-ccco-)<br>(r)(h)(-ccco-)<br>(r)(r)(-ccco-)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsCyclicEthers2.sdf</td>
+    <td>(X)(X)(-cco-)</td>
+    <td class="sub-list">(h)(h)(-cco-)<br>(r)(h)(-cco-)<br>(r)(r)(-cco-)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsCyclicEthers3.sdf</td>
+    <td>(X)(X)(-cco-)cc(XXX)</td>
+    <td class="sub-list">(h)(h)(-cco-)cc(hhh)<br>(r)(h)(-cco-)cc(hhh)<br>(r)(r)(-cco-)cc(hhh)<br>(h)(h)(-cco-)cc(rhh)<br>(r)(h)(-cco-)cc(rhh)<br>(r)(r)(-cco-)cc(rhh)<br>(h)(h)(-cco-)cc(rrh)<br>(r)(h)(-cco-)cc(rrh)<br>(r)(r)(-cco-)cc(rrh)<br>(h)(h)(-cco-)cc(rrr)<br>(r)(h)(-cco-)cc(rrr)<br>(r)(r)(-cco-)cc(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsOOQOOH.sdf</td>
+    <td>(X)(X)(ccccoo.)cooh</td>
+    <td class="sub-list">(h)(h)(ccccoo.)cooh<br>(h)(r)(ccccoo.)cooh</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsOOQOOH.sdf</td>
+    <td>(X)(X)(cccoo.)cooh</td>
+    <td class="sub-list">(h)(h)(cccoo.)cooh<br>(h)(r)(cccoo.)cooh</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsDiPeroxy.sdf</td>
+    <td>(X)(X)(cccooh)cooh</td>
+    <td class="sub-list">(h)(h)(cccooh)cooh</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsPeroxy.sdf</td>
+    <td>(X)(X)(X)coo.</td>
+    <td class="sub-list">(h)(h)(h)coo.<br>(h)(h)(r)coo.<br>(h)(r)(r)coo.<br>(r)(r)(r)coo.</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsPeroxy.sdf</td>
+    <td>(X)(X)(X)cooh</td>
+    <td class="sub-list">(h)(h)(h)cooh<br>(h)(h)(r)cooh<br>(h)(r)(r)cooh<br>(r)(r)(r)cooh</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldKetone.sdf</td>
+    <td>(X)(X)c(o)</td>
+    <td class="sub-list">(h)(h)c(o)<br>(r)(h)c(o)<br>(r)(r)c(o)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldKetone.sdf</td>
+    <td>(X).c(o)</td>
+    <td class="sub-list">(h).c(o)<br>(r).c(o)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldKetone.sdf</td>
+    <td>(X).cooh-r</td>
+    <td class="sub-list">(h).cooh-r</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldKetone11.sdf</td>
+    <td>(X)coc(XX)c(XX)co</td>
+    <td class="sub-list">(h)coc(hh)c(hh)co<br>(r)coc(hh)c(hh)co<br>(h)coc(rh)c(hh)co<br>(r)coc(rh)c(hh)co<br>(h)coc(rr)c(hh)co<br>(r)coc(rr)c(hh)co<br>(h)coc(hh)c(rh)co<br>(r)coc(hh)c(rh)co<br>(h)coc(rh)c(rh)co<br>(r)coc(rh)c(rh)co<br>(h)coc(rr)c(rh)co<br>(r)coc(rr)c(rh)co<br>(h)coc(hh)c(rr)co<br>(r)coc(hh)c(rr)co<br>(h)coc(rh)c(rr)co<br>(r)coc(rh)c(rr)co<br>(h)coc(rr)c(rr)co<br>(r)coc(rr)c(rr)co</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldKetone10.sdf</td>
+    <td>(X)coc(XX)coc.(XX)</td>
+    <td class="sub-list">(h)coc(hh)coc.(hh)<br>(r)coc(hh)coc.(hh)<br>(h)coc(rh)coc.(hh)<br>(r)coc(rh)coc.(hh)<br>(h)coc(rr)coc.(hh)<br>(r)coc(rr)coc.(hh)<br>(h)coc(hh)coc.(rh)<br>(r)coc(hh)coc.(rh)<br>(h)coc(rh)coc.(rh)<br>(r)coc(rh)coc.(rh)<br>(h)coc(rr)coc.(rh)<br>(r)coc(rr)coc.(rh)<br>(h)coc(hh)coc.(rr)<br>(r)coc(hh)coc.(rr)<br>(h)coc(rh)coc.(rr)<br>(r)coc(rh)coc.(rr)<br>(h)coc(rr)coc.(rr)<br>(r)coc(rr)coc.(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsCyclicEthers5.sdf</td>
+    <td class="qclass">(XX)(Q)(-cco-)c(QQ)c(QQQ)</td>
+    <td class="sub-list">(hh)(q)(-cco-)c(qq)c(qqq)<br>(rh)(q)(-cco-)c(qq)c(qqq)<br>(rr)(q)(-cco-)c(qq)c(qqq)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsCyclicEthers4.sdf</td>
+    <td>(XX)(X)(-cco-)c(XXX)</td>
+    <td class="sub-list">(hh)(h)(-cco-)c(hhh)<br>(rh)(h)(-cco-)c(hhh)<br>(rr)(h)(-cco-)c(hhh)<br>(hh)(r)(-cco-)c(hhh)<br>(rh)(r)(-cco-)c(hhh)<br>(rr)(r)(-cco-)c(hhh)<br>(hh)(h)(-cco-)c(rhh)<br>(rh)(h)(-cco-)c(rhh)<br>(rr)(h)(-cco-)c(rhh)<br>(hh)(r)(-cco-)c(rhh)<br>(rh)(r)(-cco-)c(rhh)<br>(rr)(r)(-cco-)c(rhh)<br>(hh)(h)(-cco-)c(rrh)<br>(rh)(h)(-cco-)c(rrh)<br>(rr)(h)(-cco-)c(rrh)<br>(hh)(r)(-cco-)c(rrh)<br>(rh)(r)(-cco-)c(rrh)<br>(rr)(r)(-cco-)c(rrh)<br>(hh)(h)(-cco-)c(rrr)<br>(rh)(h)(-cco-)c(rrr)<br>(rr)(h)(-cco-)c(rrr)<br>(hh)(r)(-cco-)c(rrr)<br>(rh)(r)(-cco-)c(rrr)<br>(rr)(r)(-cco-)c(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsKetoAlphaRadical.sdf</td>
+    <td>(XX)cc(X)c(X)o</td>
+    <td class="sub-list">(hh)cc(h)c(h)o<br>(hh)cc(r)c(h)o<br>(rh)cc(h)c(h)o<br>(rh)cc(r)c(h)o<br>(rr)cc(h)c(h)o<br>(rr)cc(r)c(h)o<br>(hh)cc(h)c(r)o<br>(hh)cc(r)c(r)o<br>(rh)cc(h)c(r)o<br>(rh)cc(r)c(r)o<br>(rr)cc(h)c(r)o<br>(rr)cc(r)c(r)o</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsKetoAlphaRadical.sdf</td>
+    <td>(XX)cc(X)c(XX)o</td>
+    <td class="sub-list">(hh)cc(h)c(rh)o<br>(hh)cc(r)c(rh)o<br>(rh)cc(h)c(rh)o<br>(rh)cc(r)c(rh)o<br>(rr)cc(h)c(rh)o<br>(rr)cc(r)c(rh)o<br>(hh)cc(h)c(rr)o<br>(hh)cc(r)c(rr)o<br>(rh)cc(h)c(rr)o<br>(rh)cc(r)c(rr)o<br>(rr)cc(h)c(rr)o<br>(rr)cc(r)c(rr)o</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsKetoAlkeneAlphaRadical.sdf</td>
+    <td>(XX)cc(X)coc(XX)</td>
+    <td class="sub-list">(hh)cc(h)coc(hh)<br>(hh)cc(h)coc(rh)<br>(hh)cc(h)coc(rr)<br>(rh)cc(h)coc(hh)<br>(rh)cc(h)coc(rh)<br>(rh)cc(h)coc(rr)<br>(rr)cc(h)coc(hh)<br>(rr)cc(h)coc(rh)<br>(rr)cc(h)coc(rr)<br>(hh)cc(r)coc(hh)<br>(hh)cc(r)coc(rh)<br>(hh)cc(r)coc(rr)<br>(rh)cc(r)coc(hh)<br>(rh)cc(r)coc(rh)<br>(rh)cc(r)coc(rr)<br>(rr)cc(r)coc(hh)<br>(rr)cc(r)coc(rh)<br>(rr)cc(r)coc(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsChainPeroxy.sdf</td>
+    <td>.c(ooh)ccc(X)</td>
+    <td class="sub-list">.c(ooh)ccc(h)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsChainPeroxy.sdf</td>
+    <td>.c(ooh)cccc(X)</td>
+    <td class="sub-list">.c(ooh)cccc(h)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsChainPeroxy.sdf</td>
+    <td>.c(ooh)ccccc(X)</td>
+    <td class="sub-list">.c(ooh)ccccc(h)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsChainPeroxy.sdf</td>
+    <td>.c(ooh)cccccc(X)</td>
+    <td class="sub-list">.c(ooh)cccccc(h)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsPeroxy.sdf</td>
+    <td class="qclass">.c(Q)(Q)(ccccooh)</td>
+    <td class="sub-list">.c(q)(q)(ccccooh)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsPeroxy.sdf</td>
+    <td class="qclass">.c(Q)(Q)(cccooh)</td>
+    <td class="sub-list">.c(q)(q)(cccooh)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsPeroxy.sdf</td>
+    <td class="qclass">.c(Q)(Q)(ccooh)</td>
+    <td class="sub-list">.c(q)(q)(ccooh)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsPeroxy.sdf</td>
+    <td class="qclass">.c(Q)(Q)(cooh)</td>
+    <td class="sub-list">.c(q)(q)(cooh)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsPeroxy2.sdf</td>
+    <td>.c(X)(X)(ccccooh)</td>
+    <td class="sub-list">.c(h)(h)(ccccooh)<br>.c(r)(h)(ccccooh)<br>.c(r)(r)(ccccooh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsPeroxy2.sdf</td>
+    <td>.c(X)(X)(cccooh)</td>
+    <td class="sub-list">.c(h)(h)(cccooh)<br>.c(r)(h)(cccooh)<br>.c(r)(r)(cccooh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsPeroxy2.sdf</td>
+    <td>.c(X)(X)(ccooh)</td>
+    <td class="sub-list">.c(h)(h)(ccooh)<br>.c(r)(h)(ccooh)<br>.c(r)(r)(ccooh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsPeroxy2.sdf</td>
+    <td>.c(X)(X)(cooh)</td>
+    <td class="sub-list">.c(h)(h)(cooh)<br>.c(r)(h)(cooh)<br>.c(r)(r)(cooh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsPeroxy.sdf</td>
+    <td>.c(X)(X)c(X)(X)(ooh)</td>
+    <td class="sub-list">.c(h)(h)c(h)(h)(ooh)<br>.c(r)(h)c(h)(h)(ooh)<br>.c(r)(r)c(h)(h)(ooh)<br>.c(h)(h)c(r)(h)(ooh)<br>.c(r)(h)c(r)(h)(ooh)<br>.c(r)(r)c(r)(h)(ooh)<br>.c(h)(h)c(r)(r)(ooh)<br>.c(r)(h)c(r)(r)(ooh)<br>.c(r)(r)c(r)(r)(ooh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldKetone.sdf</td>
+    <td class="qclass">.c(X)(X)co(Q)</td>
+    <td class="sub-list">.c(h)(h)co(q)<br>.c(r)(h)co(q)<br>.c(r)(r)co(q)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsAldKetone.sdf</td>
+    <td class="dup">.c(X)(X)co(X)</td>
+    <td class="sub-list">.c(h)(h)co(h)<br>.c(r)(h)co(h)<br>.c(r)(r)co(h)<br>.c(h)(h)co(r)<br>.c(r)(h)co(r)<br>.c(r)(r)co(r)</td>
+    <td><span class="dup">DUPLICATE</span></td>
+  </tr>
+  <tr>
+    <td>subsAldKetone8.sdf</td>
+    <td class="dup">.c(X)(X)co(X)</td>
+    <td class="sub-list">.c(h)(h)co(h)<br>.c(r)(h)co(h)<br>.c(r)(r)co(h)</td>
+    <td><span class="dup">DUPLICATE</span></td>
+  </tr>
+  <tr>
+    <td>subsLongerRadicalChainsAlkene.sdf</td>
+    <td>.c(XX)c(XX)c(XX)c=c</td>
+    <td class="sub-list">.c(hh)c(hh)c(hh)c=c<br>.c(rh)c(hh)c(hh)c=c<br>.c(rr)c(hh)c(hh)c=c<br>.c(hh)c(rh)c(hh)c=c<br>.c(rh)c(rh)c(hh)c=c<br>.c(rr)c(rh)c(hh)c=c<br>.c(hh)c(rr)c(hh)c=c<br>.c(rh)c(rr)c(hh)c=c<br>.c(rr)c(rr)c(hh)c=c<br>.c(hh)c(hh)c(rh)c=c<br>.c(rh)c(hh)c(rh)c=c<br>.c(rr)c(hh)c(rh)c=c<br>.c(hh)c(rh)c(rh)c=c<br>.c(rh)c(rh)c(rh)c=c<br>.c(rr)c(rh)c(rh)c=c<br>.c(hh)c(rr)c(rh)c=c<br>.c(rh)c(rr)c(rh)c=c<br>.c(rr)c(rr)c(rh)c=c<br>.c(hh)c(hh)c(rr)c=c<br>.c(rh)c(hh)c(rr)c=c<br>.c(rr)c(hh)c(rr)c=c<br>.c(hh)c(rh)c(rr)c=c<br>.c(rh)c(rh)c(rr)c=c<br>.c(rr)c(rh)c(rr)c=c<br>.c(hh)c(rr)c(rr)c=c<br>.c(rh)c(rr)c(rr)c=c<br>.c(rr)c(rr)c(rr)c=c</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsPropenylRadical3.sdf</td>
+    <td>.c(XX)c=c</td>
+    <td class="sub-list">.c(hh)c=c<br>.c(rh)c=c<br>.c(rr)c=c</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsLongerRadicalChains3Carbons.sdf</td>
+    <td>.c(XX)cc(XXX)</td>
+    <td class="sub-list">.c(hh)cc(hhh)<br>.c(rh)cc(hhh)<br>.c(rr)cc(hhh)<br>.c(hh)cc(rhh)<br>.c(rh)cc(rhh)<br>.c(rr)cc(rhh)<br>.c(hh)cc(rrh)<br>.c(rh)cc(rrh)<br>.c(rr)cc(rrh)<br>.c(hh)cc(rrr)<br>.c(rh)cc(rrr)<br>.c(rr)cc(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsLongerRadicalChains4Carbons.sdf</td>
+    <td>.c(XX)ccc(XXX)</td>
+    <td class="sub-list">.c(hh)ccc(hhh)<br>.c(rh)ccc(hhh)<br>.c(rr)ccc(hhh)<br>.c(hh)ccc(rhh)<br>.c(rh)ccc(rhh)<br>.c(rr)ccc(rhh)<br>.c(hh)ccc(rrh)<br>.c(rh)ccc(rrh)<br>.c(rr)ccc(rrh)<br>.c(hh)ccc(rrr)<br>.c(rh)ccc(rrr)<br>.c(rr)ccc(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsLongerRadicalChains5Carbons.sdf</td>
+    <td>.c(XX)cccc(XXX)</td>
+    <td class="sub-list">.c(hh)cccc(hhh)<br>.c(rh)cccc(hhh)<br>.c(rr)cccc(hhh)<br>.c(hh)cccc(rhh)<br>.c(rh)cccc(rhh)<br>.c(rr)cccc(rhh)<br>.c(hh)cccc(rrh)<br>.c(rh)cccc(rrh)<br>.c(rr)cccc(rrh)<br>.c(hh)cccc(rrr)<br>.c(rh)cccc(rrr)<br>.c(rr)cccc(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsLongerRadicalChains6Carbons.sdf</td>
+    <td>.c(XX)ccccc(XXX)</td>
+    <td class="sub-list">.c(hh)ccccc(hhh)<br>.c(rh)ccccc(hhh)<br>.c(rr)ccccc(hhh)<br>.c(hh)ccccc(rhh)<br>.c(rh)ccccc(rhh)<br>.c(rr)ccccc(rhh)<br>.c(hh)ccccc(rrh)<br>.c(rh)ccccc(rrh)<br>.c(rr)ccccc(rrh)<br>.c(hh)ccccc(rrr)<br>.c(rh)ccccc(rrr)<br>.c(rr)ccccc(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldKetone.sdf</td>
+    <td>.c(XX)coc(XXX)</td>
+    <td class="sub-list">.c(hh)coc(hhh)<br>.c(rh)coc(hhh)<br>.c(rr)coc(hhh)<br>.c(hh)coc(rhh)<br>.c(rh)coc(rhh)<br>.c(rr)coc(rhh)<br>.c(hh)coc(rrh)<br>.c(rh)coc(rrh)<br>.c(rr)coc(rrh)<br>.c(hh)coc(rrr)<br>.c(rh)coc(rrr)<br>.c(rr)coc(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsPeroxy.sdf</td>
+    <td>.ccc(X)(X)(ooh)</td>
+    <td class="sub-list">.ccc(h)(h)(ooh)<br>.ccc(r)(h)(ooh)<br>.ccc(r)(r)(ooh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsChainPeroxy.sdf</td>
+    <td>.cccc(ooh)(X)</td>
+    <td class="sub-list">.cccc(ooh)(h)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsLongerRadicalChains.sdf</td>
+    <td>.cccc(X)</td>
+    <td class="sub-list">.cccc(h)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsChainPeroxy.sdf</td>
+    <td>.ccccc(ooh)(X)</td>
+    <td class="sub-list">.ccccc(ooh)(h)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsLongerRadicalChains.sdf</td>
+    <td>.ccccc(X)</td>
+    <td class="sub-list">.ccccc(h)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsChainPeroxy.sdf</td>
+    <td>.cccccc(ooh)(X)</td>
+    <td class="sub-list">.cccccc(ooh)(h)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsLongerRadicalChains.sdf</td>
+    <td>.cccccc(X)</td>
+    <td class="sub-list">.cccccc(h)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsChainPeroxy.sdf</td>
+    <td>.ccccccc(ooh)(X)</td>
+    <td class="sub-list">.ccccccc(ooh)(h)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsLongerRadicalChains.sdf</td>
+    <td>.ccccccc(X)</td>
+    <td class="sub-list">.ccccccc(h)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldKetone2.sdf</td>
+    <td>.ccccco(X)</td>
+    <td class="sub-list">.ccccco(h)<br>.ccccco(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldKetone2.sdf</td>
+    <td>.cccco(X)</td>
+    <td class="sub-list">.cccco(h)<br>.cccco(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldKetone2.sdf</td>
+    <td>.ccco(X)</td>
+    <td class="sub-list">.ccco(h)<br>.ccco(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldKetone2.sdf</td>
+    <td>.cco(X)</td>
+    <td class="sub-list">.cco(h)<br>.cco(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAlkoxyRadical.sdf</td>
+    <td class="qclass">.oc(QQQ)</td>
+    <td class="sub-list">.oc(qqq)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsAlkoxyRadical.sdf</td>
+    <td>.oc(XXX)</td>
+    <td class="sub-list">.oc(hhh)<br>.oc(rhh)<br>.oc(rrh)<br>.oc(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAlkoxyRadical2.sdf</td>
+    <td class="qclass">.occ-(QQ)(QQQ)</td>
+    <td class="sub-list">.occ-(qq)(qqq)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsAlkoxyRadical2.sdf</td>
+    <td>.occ-(XX)(XXX)</td>
+    <td class="sub-list">.occ-(hh)(hhh)<br>.occ-(rh)(hhh)<br>.occ-(rr)(hhh)<br>.occ-(hh)(rhh)<br>.occ-(rh)(rhh)<br>.occ-(rr)(rhh)<br>.occ-(hh)(rrh)<br>.occ-(rh)(rrh)<br>.occ-(rr)(rrh)<br>.occ-(hh)(rrr)<br>.occ-(rh)(rrr)<br>.occ-(rr)(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAlkoxy.sdf</td>
+    <td>.occcc</td>
+    <td class="sub-list">.occcc</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAlphaOlefin.sdf</td>
+    <td>alphaolefin</td>
+    <td class="sub-list">alphaolefin</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAlphaOlefin.sdf</td>
+    <td class="qclass">alphaolefin-(QQ)(Q)(XXX)</td>
+    <td class="sub-list">alphaolefin-(qq)(q)(hhh)<br>alphaolefin-(qq)(q)(rhh)<br>alphaolefin-(qq)(q)(rrh)<br>alphaolefin-(qq)(q)(rrr)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsAlphaOlefin.sdf</td>
+    <td>alphaolefin-radical</td>
+    <td class="sub-list">alphaolefin-radical</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAlphaOlefin.sdf</td>
+    <td class="qclass">alphaolefin-radical(QQ)(Q)(XX)</td>
+    <td class="sub-list">alphaolefin-radical(qq)(q)(hh)<br>alphaolefin-radical(qq)(q)(rh)<br>alphaolefin-radical(qq)(q)(rr)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsAlphaOlefin3.sdf</td>
+    <td>alphaolefin-radical(X)(X)(XXX)</td>
+    <td class="sub-list">alphaolefin-radical(h)(h)(hhh)<br>alphaolefin-radical(r)(h)(hhh)<br>alphaolefin-radical(h)(r)(hhh)<br>alphaolefin-radical(r)(r)(hhh)<br>alphaolefin-radical(h)(h)(rhh)<br>alphaolefin-radical(r)(h)(rhh)<br>alphaolefin-radical(h)(r)(rhh)<br>alphaolefin-radical(r)(r)(rhh)<br>alphaolefin-radical(h)(h)(rrh)<br>alphaolefin-radical(r)(h)(rrh)<br>alphaolefin-radical(h)(r)(rrh)<br>alphaolefin-radical(r)(r)(rrh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAlphaOlefin2.sdf</td>
+    <td>alphaolefin-radical(XX)(X)(XX)</td>
+    <td class="sub-list">alphaolefin-radical(hh)(h)(hh)<br>alphaolefin-radical(rh)(h)(hh)<br>alphaolefin-radical(rr)(h)(hh)<br>alphaolefin-radical(hh)(r)(hh)<br>alphaolefin-radical(rh)(r)(hh)<br>alphaolefin-radical(rr)(r)(hh)<br>alphaolefin-radical(hh)(h)(rh)<br>alphaolefin-radical(rh)(h)(rh)<br>alphaolefin-radical(rr)(h)(rh)<br>alphaolefin-radical(hh)(r)(rh)<br>alphaolefin-radical(rh)(r)(rh)<br>alphaolefin-radical(rr)(r)(rh)<br>alphaolefin-radical(hh)(h)(rr)<br>alphaolefin-radical(rh)(h)(rr)<br>alphaolefin-radical(rr)(h)(rr)<br>alphaolefin-radical(hh)(r)(rr)<br>alphaolefin-radical(rh)(r)(rr)<br>alphaolefin-radical(rr)(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAlphaOlefinOO.sdf</td>
+    <td>alphaolefinOO-radical</td>
+    <td class="sub-list">alphaolefinOO-radical</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAlphaOlefinOO.sdf</td>
+    <td class="qclass">alphaolefinOO-radical(QQ)(Q)(XX)</td>
+    <td class="sub-list">alphaolefinOO-radical(qq)(q)(hh)<br>alphaolefinOO-radical(qq)(q)(rh)<br>alphaolefinOO-radical(qq)(q)(rr)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsBetaAldRadButene.sdf</td>
+    <td class="qclass">betaaldradolefin(QQ)(Q)(XX)</td>
+    <td class="sub-list">betaaldradolefin(qq)(q)(hh)<br>betaaldradolefin(qq)(q)(rh)<br>betaaldradolefin(qq)(q)(rr)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsBetaOlefin.sdf</td>
+    <td>betaolefin</td>
+    <td class="sub-list">betaolefin</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsBetaOlefin.sdf</td>
+    <td class="qclass">betaolefin(QQ)(Q)(XX)(XXX)</td>
+    <td class="sub-list">betaolefin(qq)(q)(hh)(hhh)<br>betaolefin(qq)(q)(rh)(hhh)<br>betaolefin(qq)(q)(rr)(hhh)<br>betaolefin(qq)(q)(hh)(rhh)<br>betaolefin(qq)(q)(rh)(rhh)<br>betaolefin(qq)(q)(rr)(rhh)<br>betaolefin(qq)(q)(hh)(rrh)<br>betaolefin(qq)(q)(rh)(rrh)<br>betaolefin(qq)(q)(rr)(rrh)<br>betaolefin(qq)(q)(hh)(rrr)<br>betaolefin(qq)(q)(rh)(rrr)<br>betaolefin(qq)(q)(rr)(rrr)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsBetaOlefinRadical.sdf</td>
+    <td class="qclass">betaolefinrad(QQ)(Q)(XX)(XX)</td>
+    <td class="sub-list">betaolefinrad(qq)(q)(hh)(hh)<br>betaolefinrad(qq)(q)(rh)(hh)<br>betaolefinrad(qq)(q)(rr)(hh)<br>betaolefinrad(qq)(q)(hh)(rh)<br>betaolefinrad(qq)(q)(rh)(rh)<br>betaolefinrad(qq)(q)(rr)(rh)<br>betaolefinrad(qq)(q)(hh)(rr)<br>betaolefinrad(qq)(q)(rh)(rr)<br>betaolefinrad(qq)(q)(rr)(rr)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsBetaOlefinRadical.sdf</td>
+    <td class="dup">betaolefinradical</td>
+    <td class="sub-list">betaolefinradical</td>
+    <td><span class="dup">DUPLICATE</span></td>
+  </tr>
+  <tr>
+    <td>subsBetaPeroxyButene.sdf</td>
+    <td class="dup">betaolefinradical</td>
+    <td class="sub-list">betaolefinradical</td>
+    <td><span class="dup">DUPLICATE</span></td>
+  </tr>
+  <tr>
+    <td>subsBetaPeroxyButene.sdf</td>
+    <td class="qclass">betaperoxyolefin(QQ)(Q)(XX)(XX)</td>
+    <td class="sub-list">betaperoxyolefin(qq)(q)(hh)(hh)<br>betaperoxyolefin(qq)(q)(rh)(hh)<br>betaperoxyolefin(qq)(q)(rr)(hh)<br>betaperoxyolefin(qq)(q)(hh)(rh)<br>betaperoxyolefin(qq)(q)(rh)(rh)<br>betaperoxyolefin(qq)(q)(rr)(rh)<br>betaperoxyolefin(qq)(q)(hh)(rr)<br>betaperoxyolefin(qq)(q)(rh)(rr)<br>betaperoxyolefin(qq)(q)(rr)(rr)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsAlkene2.sdf</td>
+    <td>butene</td>
+    <td class="sub-list">butene</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsPeroxy.sdf</td>
+    <td class="qclass">c(Q)(Q)(Q)(o.)</td>
+    <td class="sub-list">c(q)(q)(q)(o.)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsPeroxy.sdf</td>
+    <td class="qclass">c(Q)(Q)(X)(coo.)</td>
+    <td class="sub-list">c(q)(q)(h)(coo.)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsAldKetone5.sdf</td>
+    <td class="qclass">c(QQ)c(Q)co</td>
+    <td class="sub-list">c(qq)c(q)co</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsKetoAlkene2.sdf</td>
+    <td class="qclass">c(QQ)c(Q)coc(XX)c(XX)</td>
+    <td class="sub-list">c(qq)c(q)coc(hh)c(hh)<br>c(qq)c(q)coc(rh)c(hh)<br>c(qq)c(q)coc(rr)c(hh)<br>c(qq)c(q)coc(hh)c(rh)<br>c(qq)c(q)coc(rh)c(rh)<br>c(qq)c(q)coc(rr)c(rh)<br>c(qq)c(q)coc(hh)c(rr)<br>c(qq)c(q)coc(rh)c(rr)<br>c(qq)c(q)coc(rr)c(rr)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsAldKetone5.sdf</td>
+    <td class="qclass">c(QQQ).c(o)</td>
+    <td class="sub-list">c(qqq).c(o)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsAlkene3.sdf</td>
+    <td class="qclass">c(QQQ)coc(Q)c(QQ)</td>
+    <td class="sub-list">c(qqq)coc(q)c(qq)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsAldKetone9.sdf</td>
+    <td class="dup-q">c(QQQ)coc(X)c(XX)</td>
+    <td class="sub-list">c(qqq)coc(h)c(hh)<br>c(qqq)coc(r)c(hh)<br>c(qqq)coc(h)c(rh)<br>c(qqq)coc(r)c(rh)<br>c(qqq)coc(h)c(rr)<br>c(qqq)coc(r)c(rr)</td>
+    <td><span class="dup">DUPLICATE</span> <span class="qclass">(Q-CLASS)</span></td>
+  </tr>
+  <tr>
+    <td>subsKetoAlkene.sdf</td>
+    <td class="dup-q">c(QQQ)coc(X)c(XX)</td>
+    <td class="sub-list">c(qqq)coc(h)c(hh)<br>c(qqq)coc(r)c(hh)<br>c(qqq)coc(h)c(rh)<br>c(qqq)coc(r)c(rh)<br>c(qqq)coc(h)c(rr)<br>c(qqq)coc(r)c(rr)</td>
+    <td><span class="dup">DUPLICATE</span> <span class="qclass">(Q-CLASS)</span></td>
+  </tr>
+  <tr>
+    <td>subsAldKetone3.sdf</td>
+    <td class="qclass">c(QQQ)coc(X)c(XX)c(XXX)</td>
+    <td class="sub-list">c(qqq)coc(h)c(hh)c(hhh)<br>c(qqq)coc(r)c(hh)c(hhh)<br>c(qqq)coc(h)c(rh)c(hhh)<br>c(qqq)coc(r)c(rh)c(hhh)<br>c(qqq)coc(h)c(rr)c(hhh)<br>c(qqq)coc(r)c(rr)c(hhh)<br>c(qqq)coc(h)c(hh)c(rhh)<br>c(qqq)coc(r)c(hh)c(rhh)<br>c(qqq)coc(h)c(rh)c(rhh)<br>c(qqq)coc(r)c(rh)c(rhh)<br>c(qqq)coc(h)c(rr)c(rhh)<br>c(qqq)coc(r)c(rr)c(rhh)<br>c(qqq)coc(h)c(hh)c(rrh)<br>c(qqq)coc(r)c(hh)c(rrh)<br>c(qqq)coc(h)c(rh)c(rrh)<br>c(qqq)coc(r)c(rh)c(rrh)<br>c(qqq)coc(h)c(rr)c(rrh)<br>c(qqq)coc(r)c(rr)c(rrh)<br>c(qqq)coc(h)c(hh)c(rrr)<br>c(qqq)coc(r)c(hh)c(rrr)<br>c(qqq)coc(h)c(rh)c(rrr)<br>c(qqq)coc(r)c(rh)c(rrr)<br>c(qqq)coc(h)c(rr)c(rrr)<br>c(qqq)coc(r)c(rr)c(rrr)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsAldKetone7.sdf</td>
+    <td class="qclass">c(QQQ)coc(XX)</td>
+    <td class="sub-list">c(qqq)coc(hh)<br>c(qqq)coc(rh)<br>c(qqq)coc(rr)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsAldKetone4.sdf</td>
+    <td class="qclass">c(QQQ)coc(XX)c(XX)</td>
+    <td class="sub-list">c(qqq)coc(hh)c(hh)<br>c(qqq)coc(rh)c(hh)<br>c(qqq)coc(rr)c(hh)<br>c(qqq)coc(hh)c(rh)<br>c(qqq)coc(rh)c(rh)<br>c(qqq)coc(rr)c(rh)<br>c(qqq)coc(hh)c(rr)<br>c(qqq)coc(rh)c(rr)<br>c(qqq)coc(rr)c(rr)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsAldKetone6.sdf</td>
+    <td class="qclass">c(QQQ)coc(XX)c(XX)c(XX)</td>
+    <td class="sub-list">c(qqq)coc(hh)c(hh)c(hh)<br>c(qqq)coc(rh)c(hh)c(hh)<br>c(qqq)coc(rr)c(hh)c(hh)<br>c(qqq)coc(hh)c(rh)c(hh)<br>c(qqq)coc(rh)c(rh)c(hh)<br>c(qqq)coc(rr)c(rh)c(hh)<br>c(qqq)coc(hh)c(rr)c(hh)<br>c(qqq)coc(rh)c(rr)c(hh)<br>c(qqq)coc(rr)c(rr)c(hh)<br>c(qqq)coc(hh)c(hh)c(rh)<br>c(qqq)coc(rh)c(hh)c(rh)<br>c(qqq)coc(rr)c(hh)c(rh)<br>c(qqq)coc(hh)c(rh)c(rh)<br>c(qqq)coc(rh)c(rh)c(rh)<br>c(qqq)coc(rr)c(rh)c(rh)<br>c(qqq)coc(hh)c(rr)c(rh)<br>c(qqq)coc(rh)c(rr)c(rh)<br>c(qqq)coc(rr)c(rr)c(rh)<br>c(qqq)coc(hh)c(hh)c(rr)<br>c(qqq)coc(rh)c(hh)c(rr)<br>c(qqq)coc(rr)c(hh)c(rr)<br>c(qqq)coc(hh)c(rh)c(rr)<br>c(qqq)coc(rh)c(rh)c(rr)<br>c(qqq)coc(rr)c(rh)c(rr)<br>c(qqq)coc(hh)c(rr)c(rr)<br>c(qqq)coc(rh)c(rr)c(rr)<br>c(qqq)coc(rr)c(rr)c(rr)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsPeroxy.sdf</td>
+    <td class="qclass">c(X)(Q)(Q)(cccoo.)</td>
+    <td class="sub-list">c(h)(q)(q)(cccoo.)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsPeroxy.sdf</td>
+    <td class="qclass">c(X)(Q)(Q)(ccoo.)</td>
+    <td class="sub-list">c(h)(q)(q)(ccoo.)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsDiPeroxy.sdf</td>
+    <td>c(X)(X)(ccoo.)(ooh)</td>
+    <td class="sub-list">c(h)(h)(ccoo.)(ooh)<br>c(h)(r)(ccoo.)(ooh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsDiPeroxy.sdf</td>
+    <td>c(X)(X)(coo.)(ooh)</td>
+    <td class="sub-list">c(h)(h)(coo.)(ooh)<br>c(h)(r)(coo.)(ooh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsPeroxy2.sdf</td>
+    <td>c(X)(X)(X)(ccccoo.)</td>
+    <td class="sub-list">c(h)(h)(h)(ccccoo.)<br>c(r)(h)(h)(ccccoo.)<br>c(r)(r)(h)(ccccoo.)<br>c(h)(h)(r)(ccccoo.)<br>c(r)(h)(r)(ccccoo.)<br>c(r)(r)(r)(ccccoo.)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsPeroxy2.sdf</td>
+    <td>c(X)(X)(X)(cccoo.)</td>
+    <td class="sub-list">c(h)(h)(h)(cccoo.)<br>c(r)(h)(h)(cccoo.)<br>c(r)(r)(h)(cccoo.)<br>c(h)(h)(r)(cccoo.)<br>c(r)(h)(r)(cccoo.)<br>c(r)(r)(r)(cccoo.)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsPeroxy2.sdf</td>
+    <td>c(X)(X)(X)(ccoo.)</td>
+    <td class="sub-list">c(h)(h)(h)(ccoo.)<br>c(r)(h)(h)(ccoo.)<br>c(r)(r)(h)(ccoo.)<br>c(h)(h)(r)(ccoo.)<br>c(r)(h)(r)(ccoo.)<br>c(r)(r)(r)(ccoo.)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsPeroxy2.sdf</td>
+    <td>c(X)(X)(X)(coo.)</td>
+    <td class="sub-list">c(h)(h)(h)(coo.)<br>c(r)(h)(h)(coo.)<br>c(r)(r)(h)(coo.)<br>c(h)(h)(r)(coo.)<br>c(r)(h)(r)(coo.)<br>c(r)(r)(r)(coo.)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsPeroxy.sdf</td>
+    <td>c(X)(X)(X)(o.)</td>
+    <td class="sub-list">c(h)(h)(h)(o.)<br>c(r)(h)(h)(o.)<br>c(r)(r)(h)(o.)<br>c(r)(r)(r)(o.)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsMethylAlcohol.sdf</td>
+    <td>c(X)(X)(X)(oh)</td>
+    <td class="sub-list">c(h)(h)(h)(oh)<br>c(r)(h)(h)(oh)<br>c(r)(r)(h)(oh)<br>c(r)(r)(r)(oh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsPeroxy.sdf</td>
+    <td>c(X)(X)(X)(ooh)</td>
+    <td class="sub-list">c(h)(h)(h)(ooh)<br>c(r)(h)(h)(ooh)<br>c(r)(r)(h)(ooh)<br>c(r)(r)(r)(ooh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldKetone.sdf</td>
+    <td>c(XXX).c(o)</td>
+    <td class="sub-list">c(hhh).c(o)<br>c(rhh).c(o)<br>c(rrh).c(o)<br>c(rrr).c(o)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldKetone.sdf</td>
+    <td>c(XXX)hc(o)</td>
+    <td class="sub-list">c(hhh)hc(o)<br>c(rhh)hc(o)<br>c(rrh)hc(o)<br>c(rrr)hc(o)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldKetone.sdf</td>
+    <td>c(XXX)rc(o)</td>
+    <td class="sub-list">c(hhh)rc(o)<br>c(rhh)rc(o)<br>c(rrh)rc(o)<br>c(rrr)rc(o)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsPropenylRadical2.sdf</td>
+    <td>c.=cc</td>
+    <td class="sub-list">c.=cc</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsPeroxy.sdf</td>
+    <td class="qclass">c2q5ooh</td>
+    <td class="sub-list">c2q5ooh</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsPropenylRadical2.sdf</td>
+    <td>c=c.c</td>
+    <td class="sub-list">c=c.c</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsPropenylRadical2.sdf</td>
+    <td>c=cc.</td>
+    <td class="sub-list">c=cc.</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsDiene.sdf</td>
+    <td>c=cc=c(X)(XX)</td>
+    <td class="sub-list">c=cc=c(h)(hh)<br>c=cc=c(r)(hh)<br>c=cc=c(h)(rh)<br>c=cc=c(r)(rh)<br>c=cc=c(h)(rr)<br>c=cc=c(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsButaDiene.sdf</td>
+    <td>c=cc=c(XX)(X)(X)(XX)</td>
+    <td class="sub-list">c=cc=c(hh)(h)(h)(hh)<br>c=cc=c(rh)(h)(h)(hh)<br>c=cc=c(rr)(h)(h)(hh)<br>c=cc=c(hh)(h)(r)(hh)<br>c=cc=c(rh)(h)(r)(hh)<br>c=cc=c(rr)(h)(r)(hh)<br>c=cc=c(rh)(r)(h)(hh)<br>c=cc=c(rr)(r)(h)(hh)<br>c=cc=c(hh)(r)(r)(hh)<br>c=cc=c(rh)(r)(r)(hh)<br>c=cc=c(rr)(r)(r)(hh)<br>c=cc=c(rh)(h)(h)(rh)<br>c=cc=c(rr)(h)(h)(rh)<br>c=cc=c(rh)(h)(r)(rh)<br>c=cc=c(rr)(h)(r)(rh)<br>c=cc=c(rr)(r)(h)(rh)<br>c=cc=c(rh)(r)(r)(rh)<br>c=cc=c(rr)(r)(r)(rh)<br>c=cc=c(rr)(h)(h)(rr)<br>c=cc=c(rr)(h)(r)(rr)<br>c=cc=c(rr)(r)(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsTrieneRadical.sdf</td>
+    <td>c=cc=cc=c.</td>
+    <td class="sub-list">c=cc=cc=c.</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsTrieneRadical.sdf</td>
+    <td>c=cc=cc=c.(XX)(X)</td>
+    <td class="sub-list">c=cc=cc=c.(hh)(h)<br>c=cc=cc=c.(hh)(r)<br>c=cc=cc=c.(rh)(h)<br>c=cc=cc=c.(rh)(r)<br>c=cc=cc=c.(rr)(h)<br>c=cc=cc=c.(rr)(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsOlefinAlphaRadical.sdf</td>
+    <td>c=ccc(X)(XXX)</td>
+    <td class="sub-list">c=ccc(h)(hhh)<br>c=ccc(r)(hhh)<br>c=ccc(h)(rhh)<br>c=ccc(r)(rhh)<br>c=ccc(h)(rrh)<br>c=ccc(r)(rrh)<br>c=ccc(h)(rrr)<br>c=ccc(r)(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsOlefinBetaRadical.sdf</td>
+    <td class="dup">c=ccc(XX)(XX)</td>
+    <td class="sub-list">c=ccc(hh)(hh)<br>c=ccc(rh)(hh)<br>c=ccc(rr)(hh)<br>c=ccc(rh)(hh)<br>c=ccc(rh)(rh)<br>c=ccc(rh)(rr)<br>c=ccc(rr)(hh)<br>c=ccc(rr)(rh)<br>c=ccc(rr)(rr)</td>
+    <td><span class="dup">DUPLICATE</span></td>
+  </tr>
+  <tr>
+    <td>subsOlefinGammaPeroxy.sdf</td>
+    <td>c=ccccoo(XX)(XX)(XX)</td>
+    <td class="sub-list">c=ccccoo(hh)(hh)(hh)<br>c=ccccoo(rh)(hh)(hh)<br>c=ccccoo(rr)(hh)(hh)<br>c=ccccoo(hh)(rh)(hh)<br>c=ccccoo(rh)(rh)(hh)<br>c=ccccoo(rr)(rh)(hh)<br>c=ccccoo(hh)(rr)(hh)<br>c=ccccoo(rh)(rr)(hh)<br>c=ccccoo(rr)(rr)(hh)<br>c=ccccoo(hh)(hh)(rh)<br>c=ccccoo(rh)(hh)(rh)<br>c=ccccoo(rr)(hh)(rh)<br>c=ccccoo(hh)(rh)(rh)<br>c=ccccoo(rh)(rh)(rh)<br>c=ccccoo(rr)(rh)(rh)<br>c=ccccoo(hh)(rr)(rh)<br>c=ccccoo(rh)(rr)(rh)<br>c=ccccoo(rr)(rr)(rh)<br>c=ccccoo(hh)(hh)(rr)<br>c=ccccoo(rh)(hh)(rr)<br>c=ccccoo(rr)(hh)(rr)<br>c=ccccoo(hh)(rh)(rr)<br>c=ccccoo(rh)(rh)(rr)<br>c=ccccoo(rr)(rh)(rr)<br>c=ccccoo(hh)(rr)(rr)<br>c=ccccoo(rh)(rr)(rr)<br>c=ccccoo(rr)(rr)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsOlefinGammaHydroPeroxyAlphaRad.sdf</td>
+    <td>c=ccccooh(X)(XX)(XX)</td>
+    <td class="sub-list">c=ccccooh(h)(hh)(hh)<br>c=ccccooh(r)(hh)(hh)<br>c=ccccooh(h)(rh)(hh)<br>c=ccccooh(r)(rh)(hh)<br>c=ccccooh(h)(rr)(hh)<br>c=ccccooh(r)(rr)(hh)<br>c=ccccooh(h)(hh)(rh)<br>c=ccccooh(r)(hh)(rh)<br>c=ccccooh(h)(rh)(rh)<br>c=ccccooh(r)(rh)(rh)<br>c=ccccooh(h)(rr)(rh)<br>c=ccccooh(r)(rr)(rh)<br>c=ccccooh(h)(hh)(rr)<br>c=ccccooh(r)(hh)(rr)<br>c=ccccooh(h)(rh)(rr)<br>c=ccccooh(r)(rh)(rr)<br>c=ccccooh(h)(rr)(rr)<br>c=ccccooh(r)(rr)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsOlefinBetaPeroxy.sdf</td>
+    <td>c=cccoo(XX)(XX)</td>
+    <td class="sub-list">c=cccoo(hh)(hh)<br>c=cccoo(rh)(hh)<br>c=cccoo(rr)(hh)<br>c=cccoo(hh)(rh)<br>c=cccoo(rh)(rh)<br>c=cccoo(rr)(rh)<br>c=cccoo(hh)(rr)<br>c=cccoo(rh)(rr)<br>c=cccoo(rr)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsOlefinBetaHydroPeroxy.sdf</td>
+    <td>c=cccooh(X)(XX)</td>
+    <td class="sub-list">c=cccooh(h)(hh)<br>c=cccooh(r)(hh)<br>c=cccooh(h)(rh)<br>c=cccooh(r)(rh)<br>c=cccooh(h)(rr)<br>c=cccooh(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsPropenal.sdf</td>
+    <td>c=cco(X)</td>
+    <td class="sub-list">c=cco(h)<br>c=cco(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsOlefinAlphaPeroxy.sdf</td>
+    <td>c=ccooc(X)(XXX)</td>
+    <td class="sub-list">c=ccooc(h)(hhh)<br>c=ccooc(r)(hhh)<br>c=ccooc(h)(rhh)<br>c=ccooc(r)(rhh)<br>c=ccooc(h)(rrh)<br>c=ccooc(r)(rrh)<br>c=ccooc(h)(rrr)<br>c=ccooc(r)(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsOlefinAlphaPeroxyC5.sdf</td>
+    <td>c=ccoocc(X)(XX)(XXX)</td>
+    <td class="sub-list">c=ccoocc(h)(hh)(hhh)<br>c=ccoocc(r)(hh)(hhh)<br>c=ccoocc(h)(rh)(hhh)<br>c=ccoocc(r)(rh)(hhh)<br>c=ccoocc(h)(rr)(hhh)<br>c=ccoocc(r)(rr)(hhh)<br>c=ccoocc(h)(hh)(rhh)<br>c=ccoocc(r)(hh)(rhh)<br>c=ccoocc(h)(rh)(rhh)<br>c=ccoocc(r)(rh)(rhh)<br>c=ccoocc(h)(rr)(rhh)<br>c=ccoocc(r)(rr)(rhh)<br>c=ccoocc(h)(hh)(rrh)<br>c=ccoocc(r)(hh)(rrh)<br>c=ccoocc(h)(rh)(rrh)<br>c=ccoocc(r)(rh)(rrh)<br>c=ccoocc(h)(rr)(rrh)<br>c=ccoocc(r)(rr)(rrh)<br>c=ccoocc(h)(hh)(rrr)<br>c=ccoocc(r)(hh)(rrr)<br>c=ccoocc(h)(rh)(rrr)<br>c=ccoocc(r)(rh)(rrr)<br>c=ccoocc(h)(rr)(rrr)<br>c=ccoocc(r)(rr)(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsOlefinAlphaPeroxyC6.sdf</td>
+    <td>c=ccooccc(X)(XXX)</td>
+    <td class="sub-list">c=ccooccc(h)(hhh)<br>c=ccooccc(r)(hhh)<br>c=ccooccc(h)(rhh)<br>c=ccooccc(r)(rhh)<br>c=ccooccc(h)(rrh)<br>c=ccooccc(r)(rrh)<br>c=ccooccc(h)(rrr)<br>c=ccooccc(r)(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsOlefinAlphaPeroxyC7.sdf</td>
+    <td>c=ccoocccc(X)(XXX)</td>
+    <td class="sub-list">c=ccoocccc(h)(hhh)<br>c=ccoocccc(r)(hhh)<br>c=ccoocccc(h)(rhh)<br>c=ccoocccc(r)(rhh)<br>c=ccoocccc(h)(rrh)<br>c=ccoocccc(r)(rrh)<br>c=ccoocccc(h)(rrr)<br>c=ccoocccc(r)(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsOlefinAlphaPeroxyGammaHydroPeroxy.sdf</td>
+    <td>c=ccooccooh(X)(XX)(XX)</td>
+    <td class="sub-list">c=ccooccooh(h)(hh)(hh)<br>c=ccooccooh(r)(hh)(hh)<br>c=ccooccooh(h)(rh)(hh)<br>c=ccooccooh(r)(rh)(hh)<br>c=ccooccooh(h)(rr)(hh)<br>c=ccooccooh(r)(rr)(hh)<br>c=ccooccooh(h)(hh)(rh)<br>c=ccooccooh(r)(hh)(rh)<br>c=ccooccooh(h)(rh)(rh)<br>c=ccooccooh(r)(rh)(rh)<br>c=ccooccooh(h)(rr)(rh)<br>c=ccooccooh(r)(rr)(rh)<br>c=ccooccooh(h)(hh)(rr)<br>c=ccooccooh(r)(hh)(rr)<br>c=ccooccooh(h)(rh)(rr)<br>c=ccooccooh(r)(rh)(rr)<br>c=ccooccooh(h)(rr)(rr)<br>c=ccooccooh(r)(rr)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsOlefinAlphaPeroxyBetaHydroPeroxy.sdf</td>
+    <td>c=ccoocooh(X)(XX)</td>
+    <td class="sub-list">c=ccoocooh(h)(hh)<br>c=ccoocooh(r)(hh)<br>c=ccoocooh(h)(rh)<br>c=ccoocooh(r)(rh)<br>c=ccoocooh(h)(rr)<br>c=ccoocooh(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsOlefinAlphaHydroPeroxy.sdf</td>
+    <td>c=ccoohc(X)(XX)</td>
+    <td class="sub-list">c=ccoohc(h)(hh)<br>c=ccoohc(r)(hh)<br>c=ccoohc(h)(rh)<br>c=ccoohc(r)(rh)<br>c=ccoohc(h)(rr)<br>c=ccoohc(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsOlefinAlphaHydroPeroxyC5.sdf</td>
+    <td>c=ccoohcc(X)(XX)(XX)</td>
+    <td class="sub-list">c=ccoohcc(h)(hh)(hh)<br>c=ccoohcc(r)(hh)(hh)<br>c=ccoohcc(h)(rh)(hh)<br>c=ccoohcc(r)(rh)(hh)<br>c=ccoohcc(h)(rr)(hh)<br>c=ccoohcc(r)(rr)(hh)<br>c=ccoohcc(h)(hh)(rh)<br>c=ccoohcc(r)(hh)(rh)<br>c=ccoohcc(h)(rh)(rh)<br>c=ccoohcc(r)(rh)(rh)<br>c=ccoohcc(h)(rr)(rh)<br>c=ccoohcc(r)(rr)(rh)<br>c=ccoohcc(h)(hh)(rr)<br>c=ccoohcc(r)(hh)(rr)<br>c=ccoohcc(h)(rh)(rr)<br>c=ccoohcc(r)(rh)(rr)<br>c=ccoohcc(h)(rr)(rr)<br>c=ccoohcc(r)(rr)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsOlefinAlphaHydroPeroxyC6.sdf</td>
+    <td class="dup">c=ccoohccc(X)(XX)</td>
+    <td class="sub-list">c=ccoohccc(h)(hh)<br>c=ccoohccc(r)(hh)<br>c=ccoohccc(h)(rh)<br>c=ccoohccc(r)(rh)<br>c=ccoohccc(h)(rr)<br>c=ccoohccc(r)(rr)<br>c=ccoohccc(h)(rr)<br>c=ccoohccc(r)(rr)</td>
+    <td><span class="dup">DUPLICATE</span></td>
+  </tr>
+  <tr>
+    <td>subsOlefinAlphaHydroPeroxyC7.sdf</td>
+    <td>c=ccoohcccc(X)(XX)</td>
+    <td class="sub-list">c=ccoohcccc(h)(hh)<br>c=ccoohcccc(r)(hh)<br>c=ccoohcccc(h)(rh)<br>c=ccoohcccc(r)(rh)<br>c=ccoohcccc(h)(rr)<br>c=ccoohcccc(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsOlefinAlphaHydroPeroxyGammaKetone.sdf</td>
+    <td>c=ccoohcco(X)(XX)(X)</td>
+    <td class="sub-list">c=ccoohcco(h)(hh)(h)<br>c=ccoohcco(r)(hh)(h)<br>c=ccoohcco(h)(rh)(h)<br>c=ccoohcco(r)(rh)(h)<br>c=ccoohcco(h)(rr)(h)<br>c=ccoohcco(r)(rr)(h)<br>c=ccoohcco(h)(hh)(r)<br>c=ccoohcco(r)(hh)(r)<br>c=ccoohcco(h)(rh)(r)<br>c=ccoohcco(r)(rh)(r)<br>c=ccoohcco(h)(rr)(r)<br>c=ccoohcco(r)(rr)(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsOlefinAlphaHydroPeroxyBetaKetone.sdf</td>
+    <td>c=ccoohco(X)(X)</td>
+    <td class="sub-list">c=ccoohco(h)(h)<br>c=ccoohco(r)(h)<br>c=ccoohco(h)(r)<br>c=ccoohco(r)(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsMolecules2.sdf</td>
+    <td>carbondioxide</td>
+    <td class="sub-list">carbondioxide</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsMolecules.sdf</td>
+    <td>carbonmonoxide</td>
+    <td class="sub-list">carbonmonoxide</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldPeroxyLong.sdf</td>
+    <td>ccccco</td>
+    <td class="sub-list">ccccco</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldPeroxyLong.sdf</td>
+    <td>cccco</td>
+    <td class="sub-list">cccco</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldPeroxyLong.sdf</td>
+    <td>ccco</td>
+    <td class="sub-list">ccco</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldKetone.sdf</td>
+    <td>co(X)c(XX)c.(XX)</td>
+    <td class="sub-list">co(h)c(hh)c.(hh)<br>co(r)c(hh)c.(hh)<br>co(h)c(rh)c.(hh)<br>co(r)c(rh)c.(hh)<br>co(h)c(rr)c.(hh)<br>co(r)c(rr)c.(hh)<br>co(h)c(hh)c.(rh)<br>co(r)c(hh)c.(rh)<br>co(h)c(rh)c.(rh)<br>co(r)c(rh)c.(rh)<br>co(h)c(rr)c.(rh)<br>co(r)c(rr)c.(rh)<br>co(h)c(hh)c.(rr)<br>co(r)c(hh)c.(rr)<br>co(h)c(rh)c.(rr)<br>co(r)c(rh)c.(rr)<br>co(h)c(rr)c.(rr)<br>co(r)c(rr)c.(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldKetone.sdf</td>
+    <td>co(X)c(XX)co(X)</td>
+    <td class="sub-list">co(h)c(hh)co(h)<br>co(r)c(hh)co(h)<br>co(h)c(rh)co(h)<br>co(r)c(rh)co(h)<br>co(h)c(rr)co(h)<br>co(r)c(rr)co(h)<br>co(h)c(hh)co(r)<br>co(r)c(hh)co(r)<br>co(h)c(rh)co(r)<br>co(r)c(rh)co(r)<br>co(h)c(rr)co(r)<br>co(r)c(rr)co(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldPeroxyLong.sdf</td>
+    <td class="qclass">cqq(ooh)ccccco</td>
+    <td class="sub-list">cqq(ooh)ccccco</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsAldPeroxyLong.sdf</td>
+    <td class="qclass">cqq(ooh)cccco</td>
+    <td class="sub-list">cqq(ooh)cccco</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsAldPeroxyLong.sdf</td>
+    <td class="qclass">cqq(ooh)ccco</td>
+    <td class="sub-list">cqq(ooh)ccco</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsC3R5COCR2.sdf</td>
+    <td class="qclass">cqqcqccoc.</td>
+    <td class="sub-list">cqqcqccoc.</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsC3R5COCR2.sdf</td>
+    <td class="qclass">cqqcqccoc.-(QQ)(Q)(XX)(XX)</td>
+    <td class="sub-list">cqqcqccoc.-(qq)(q)(hh)(hh)<br>cqqcqccoc.-(qq)(q)(rh)(hh)<br>cqqcqccoc.-(qq)(q)(rr)(hh)<br>cqqcqccoc.-(qq)(q)(hh)(rh)<br>cqqcqccoc.-(qq)(q)(rh)(rh)<br>cqqcqccoc.-(qq)(q)(rr)(rh)<br>cqqcqccoc.-(qq)(q)(hh)(rr)<br>cqqcqccoc.-(qq)(q)(rh)(rr)<br>cqqcqccoc.-(qq)(q)(rr)(rr)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsCarbon2.sdf</td>
+    <td>ethane-(XX)(XX)</td>
+    <td class="sub-list">ethane-(hh)(rh)<br>ethane-(rh)(rh)<br>ethane-(rr)(hh)<br>ethane-(hh)(rr)<br>ethane-(rr)(rh)<br>ethane-(rh)(rr)<br>ethane-(rr)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsCarbon2.sdf</td>
+    <td>ethane-(XX)(XXX)</td>
+    <td class="sub-list">ethane-(rh)(hhh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsEthane.sdf</td>
+    <td>ethane-(XXX)(XXX)</td>
+    <td class="sub-list">ethane-(hhh)(hhh)<br>ethane-(rhh)(hhh)<br>ethane-(rrh)(hhh)<br>ethane-(rrr)(hhh)<br>ethane-(rhh)(rhh)<br>ethane-(rrh)(rhh)<br>ethane-(rrh)(rrh)<br>ethane-(rrr)(rhh)<br>ethane-(rrr)(rrh)<br>ethane-(rrr)(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsEther.sdf</td>
+    <td>ether-(XX)</td>
+    <td class="sub-list">ether-(hh)<br>ether-(rh)<br>ether-(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsEther.sdf</td>
+    <td class="dup">ether-(XXX)</td>
+    <td class="sub-list">ether-(hhh)<br>ether-(rhh)<br>ether-(rrh)<br>ether-(rrh)</td>
+    <td><span class="dup">DUPLICATE</span></td>
+  </tr>
+  <tr>
+    <td>subsEther.sdf</td>
+    <td>ether-(XXX)(XXX)</td>
+    <td class="sub-list">ether-(hhh)(hhh)<br>ether-(rhh)(hhh)<br>ether-(rrh)(hhh)<br>ether-(rrr)(hhh)<br>ether-(rhh)(rhh)<br>ether-(rrh)(rhh)<br>ether-(rrr)(rhh)<br>ether-(rrh)(rrh)<br>ether-(rrr)(rrh)<br>ether-(rrr)(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsEthylRadical.sdf</td>
+    <td>ethyl-radical-(XX)(XXX)</td>
+    <td class="sub-list">ethyl-radical-(hh)(hhh)<br>ethyl-radical-(rh)(hhh)<br>ethyl-radical-(rr)(hhh)<br>ethyl-radical-(hh)(rhh)<br>ethyl-radical-(rh)(rhh)<br>ethyl-radical-(rr)(rhh)<br>ethyl-radical-(hh)(rrh)<br>ethyl-radical-(rh)(rrh)<br>ethyl-radical-(rr)(rrh)<br>ethyl-radical-(hh)(rrr)<br>ethyl-radical-(rh)(rrr)<br>ethyl-radical-(rr)(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsEthyne.sdf</td>
+    <td>ethyne-(X)(X)</td>
+    <td class="sub-list">ethyne-(h)(h)<br>ethyne-(r)(h)<br>ethyne-(r)(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsEthyne.sdf</td>
+    <td>ethyne-radical-(X)</td>
+    <td class="sub-list">ethyne-radical-(h)<br>ethyne-radical-(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldKetone.sdf</td>
+    <td>general-aldehydeketone</td>
+    <td class="sub-list">general-aldehydeketone</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsCarbon.sdf</td>
+    <td>general-carbon-hydrogen-bond</td>
+    <td class="sub-list">general-carbon-hydrogen-bond</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsCarbon.sdf</td>
+    <td>general-carbon-radical</td>
+    <td class="sub-list">general-carbon-radical</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsEther.sdf</td>
+    <td>general-ether</td>
+    <td class="sub-list">general-ether</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAlkene3.sdf</td>
+    <td class="qclass">hcoc(Q)c(QQ)</td>
+    <td class="sub-list">hcoc(q)c(qq)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsKetoAlkene.sdf</td>
+    <td>hcoc(X)c(XX)</td>
+    <td class="sub-list">hcoc(h)c(hh)<br>hcoc(r)c(hh)<br>hcoc(h)c(rh)<br>hcoc(r)c(rh)<br>hcoc(h)c(rr)<br>hcoc(r)c(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldKetone3.sdf</td>
+    <td>hcoc(X)c(XX)c(XXX)</td>
+    <td class="sub-list">hcoc(h)c(hh)c(hhh)<br>hcoc(r)c(hh)c(hhh)<br>hcoc(h)c(rh)c(hhh)<br>hcoc(r)c(rh)c(hhh)<br>hcoc(h)c(rr)c(hhh)<br>hcoc(r)c(rr)c(hhh)<br>hcoc(h)c(hh)c(rhh)<br>hcoc(r)c(hh)c(rhh)<br>hcoc(h)c(rh)c(rhh)<br>hcoc(r)c(rh)c(rhh)<br>hcoc(h)c(rr)c(rhh)<br>hcoc(r)c(rr)c(rhh)<br>hcoc(h)c(hh)c(rrh)<br>hcoc(r)c(hh)c(rrh)<br>hcoc(h)c(rh)c(rrh)<br>hcoc(r)c(rh)c(rrh)<br>hcoc(h)c(rr)c(rrh)<br>hcoc(r)c(rr)c(rrh)<br>hcoc(h)c(hh)c(rrr)<br>hcoc(r)c(hh)c(rrr)<br>hcoc(h)c(rh)c(rrr)<br>hcoc(r)c(rh)c(rrr)<br>hcoc(h)c(rr)c(rrr)<br>hcoc(r)c(rr)c(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldKetone6.sdf</td>
+    <td>hcoc(XX)c(XX)c(XX)</td>
+    <td class="sub-list">hcoc(hh)c(hh)c(hh)<br>hcoc(rh)c(hh)c(hh)<br>hcoc(rr)c(hh)c(hh)<br>hcoc(hh)c(rh)c(hh)<br>hcoc(rh)c(rh)c(hh)<br>hcoc(rr)c(rh)c(hh)<br>hcoc(hh)c(rr)c(hh)<br>hcoc(rh)c(rr)c(hh)<br>hcoc(rr)c(rr)c(hh)<br>hcoc(hh)c(hh)c(rh)<br>hcoc(rh)c(hh)c(rh)<br>hcoc(rr)c(hh)c(rh)<br>hcoc(hh)c(rh)c(rh)<br>hcoc(rh)c(rh)c(rh)<br>hcoc(rr)c(rh)c(rh)<br>hcoc(hh)c(rr)c(rh)<br>hcoc(rh)c(rr)c(rh)<br>hcoc(rr)c(rr)c(rh)<br>hcoc(hh)c(hh)c(rr)<br>hcoc(rh)c(hh)c(rr)<br>hcoc(rr)c(hh)c(rr)<br>hcoc(hh)c(rh)c(rr)<br>hcoc(rh)c(rh)c(rr)<br>hcoc(rr)c(rh)c(rr)<br>hcoc(hh)c(rr)c(rr)<br>hcoc(rh)c(rr)c(rr)<br>hcoc(rr)c(rr)c(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsMolecules.sdf</td>
+    <td>hydrogen</td>
+    <td class="sub-list">hydrogen</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsMolecules.sdf</td>
+    <td>hydrogen-peroxide</td>
+    <td class="sub-list">hydrogen-peroxide</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsMolecules.sdf</td>
+    <td>hydrogen-radical</td>
+    <td class="sub-list">hydrogen-radical</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsMolecules.sdf</td>
+    <td>hydroxyl-radical</td>
+    <td class="sub-list">hydroxyl-radical</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsKetene.sdf</td>
+    <td>ketene-(XX)</td>
+    <td class="sub-list">ketene-(hh)<br>ketene-(rh)<br>ketene-(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsKeteneCR3.sdf</td>
+    <td>ketene-(XXX)(X)</td>
+    <td class="sub-list">ketene-(hhh)(h)<br>ketene-(hhh)(r)<br>ketene-(rhh)(h)<br>ketene-(rhh)(r)<br>ketene-(rrh)(h)<br>ketene-(rrh)(r)<br>ketene-(rrr)(h)<br>ketene-(rrr)(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsKetene.sdf</td>
+    <td>ketenyl-(X)</td>
+    <td class="sub-list">ketenyl-(h)<br>ketenyl-(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsCarbon.sdf</td>
+    <td>methane</td>
+    <td class="sub-list">methane</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsCarbon.sdf</td>
+    <td>methane-carbon-radical</td>
+    <td class="sub-list">methane-carbon-radical</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldPeroxy2.sdf</td>
+    <td class="qclass">oc(Q)c(X)(X)c(X)(X)(oo)</td>
+    <td class="sub-list">oc(q)c(h)(h)c(h)(h)(oo)<br>oc(q)c(r)(h)c(h)(h)(oo)<br>oc(q)c(r)(r)c(h)(h)(oo)<br>oc(q)c(h)(h)c(r)(h)(oo)<br>oc(q)c(r)(h)c(r)(h)(oo)<br>oc(q)c(r)(r)c(r)(h)(oo)<br>oc(q)c(h)(h)c(r)(r)(oo)<br>oc(q)c(r)(h)c(r)(r)(oo)<br>oc(q)c(r)(r)c(r)(r)(oo)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsAldPeroxy.sdf</td>
+    <td class="qclass">oc(Q)c(X)(X)c(X)(X)(ooh)</td>
+    <td class="sub-list">oc(q)c(h)(h)c(h)(h)(ooh)<br>oc(q)c(r)(h)c(h)(h)(ooh)<br>oc(q)c(r)(r)c(h)(h)(ooh)<br>oc(q)c(r)(h)c(r)(h)(ooh)<br>oc(q)c(r)(r)c(r)(h)(ooh)<br>oc(q)c(h)(h)c(r)(r)(ooh)<br>oc(q)c(r)(h)c(r)(r)(ooh)<br>oc(q)c(r)(r)c(r)(r)(ooh)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsAldPeroxy.sdf</td>
+    <td>oc(X)(ccccooh)</td>
+    <td class="sub-list">oc(h)(ccccooh)<br>oc(r)(ccccooh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldPeroxy2.sdf</td>
+    <td>oc(X)(cccoo)</td>
+    <td class="sub-list">oc(h)(cccoo)<br>oc(r)(cccoo)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldPeroxy.sdf</td>
+    <td>oc(X)(cccooh)</td>
+    <td class="sub-list">oc(h)(cccooh)<br>oc(r)(cccooh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldPeroxy2.sdf</td>
+    <td>oc(X)(ccoo)</td>
+    <td class="sub-list">oc(h)(ccoo)<br>oc(r)(ccoo)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldPeroxy.sdf</td>
+    <td>oc(X)(ccooh)</td>
+    <td class="sub-list">oc(h)(ccooh)<br>oc(r)(ccooh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldPeroxy2.sdf</td>
+    <td>oc(X)(coo)</td>
+    <td class="sub-list">oc(h)(coo)<br>oc(r)(coo)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldPeroxy.sdf</td>
+    <td>oc(X)(cooh)</td>
+    <td class="sub-list">oc(h)(cooh)<br>oc(r)(cooh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldPeroxy2.sdf</td>
+    <td>oc(X)c(X)(X)(oo)</td>
+    <td class="sub-list">oc(h)c(h)(h)(oo)<br>oc(r)c(h)(h)(oo)<br>oc(h)c(r)(h)(oo)<br>oc(r)c(r)(h)(oo)<br>oc(h)c(r)(r)(oo)<br>oc(r)c(r)(r)(oo)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldPeroxy.sdf</td>
+    <td>oc(X)c(X)(X)(ooh)</td>
+    <td class="sub-list">oc(h)c(h)(h)(ooh)<br>oc(h)c(r)(h)(ooh)<br>oc(h)c(r)(r)(ooh)<br>oc(r)c(h)(h)(ooh)<br>oc(r)c(r)(h)(ooh)<br>oc(r)c(r)(r)(ooh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldOlefin.sdf</td>
+    <td>oc(X)c=c(XX)</td>
+    <td class="sub-list">oc(h)c=c(hh)<br>oc(r)c=c(hh)<br>oc(h)c=c(rh)<br>oc(r)c=c(rh)<br>oc(h)c=c(rr)<br>oc(r)c=c(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldPeroxy3.sdf</td>
+    <td>oc.(cccooh)</td>
+    <td class="sub-list">oc.(cccooh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldPeroxy3.sdf</td>
+    <td>oc.(ccooh)</td>
+    <td class="sub-list">oc.(ccooh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldPeroxy3.sdf</td>
+    <td>oc.(cooh)</td>
+    <td class="sub-list">oc.(cooh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldPeroxy3.sdf</td>
+    <td>oc.c(X)(X)(ooh)</td>
+    <td class="sub-list">oc.c(h)(h)(ooh)<br>oc.c(r)(h)(ooh)<br>oc.c(r)(r)(ooh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldPeroxy3.sdf</td>
+    <td>oc.c(X)(X)c(X)(X)(ooh)</td>
+    <td class="sub-list">oc.c(h)(h)c(h)(h)(ooh)<br>oc.c(r)(h)c(h)(h)(ooh)<br>oc.c(r)(r)c(h)(h)(ooh)<br>oc.c(h)(h)c(r)(h)(ooh)<br>oc.c(r)(h)c(r)(h)(ooh)<br>oc.c(r)(r)c(r)(h)(ooh)<br>oc.c(h)(h)c(r)(r)(ooh)<br>oc.c(r)(h)c(r)(r)(ooh)<br>oc.c(r)(r)c(r)(r)(ooh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsEthene.sdf</td>
+    <td>olefin</td>
+    <td class="sub-list">olefin</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsEthene.sdf</td>
+    <td class="qclass">olefin-(QQ)(QQ)</td>
+    <td class="sub-list">olefin-(qq)(qq)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsEthene.sdf</td>
+    <td>olefin-(XX)(XX)</td>
+    <td class="sub-list">olefin-(hh)(hh)<br>olefin-(rh)(hh)<br>olefin-(rh)(rh)<br>olefin-(rr)(hh)<br>olefin-(rr)(rh)<br>olefin-(rr)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsMolecules.sdf</td>
+    <td>oxygen</td>
+    <td class="sub-list">oxygen</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsMolecules.sdf</td>
+    <td>oxygen-atom</td>
+    <td class="sub-list">oxygen-atom</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsMolecules.sdf</td>
+    <td>oxygen-radical</td>
+    <td class="sub-list">oxygen-radical</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsMolecules.sdf</td>
+    <td>peroxyl-radical</td>
+    <td class="sub-list">peroxyl-radical</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsPeroxyPropeneRadical.sdf</td>
+    <td>peroxypropene-radical-(XX)(X)(XX)</td>
+    <td class="sub-list">peroxypropene-radical-(hh)(h)(hh)<br>peroxypropene-radical-(rh)(h)(hh)<br>peroxypropene-radical-(rr)(h)(hh)<br>peroxypropene-radical-(hh)(r)(hh)<br>peroxypropene-radical-(rh)(r)(hh)<br>peroxypropene-radical-(rr)(r)(hh)<br>peroxypropene-radical-(hh)(h)(rh)<br>peroxypropene-radical-(rh)(h)(rh)<br>peroxypropene-radical-(rr)(h)(rh)<br>peroxypropene-radical-(hh)(r)(rh)<br>peroxypropene-radical-(rh)(r)(rh)<br>peroxypropene-radical-(rr)(r)(rh)<br>peroxypropene-radical-(hh)(h)(rr)<br>peroxypropene-radical-(rh)(h)(rr)<br>peroxypropene-radical-(rr)(h)(rr)<br>peroxypropene-radical-(hh)(r)(rr)<br>peroxypropene-radical-(rh)(r)(rr)<br>peroxypropene-radical-(rr)(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsCarbon.sdf</td>
+    <td>primary-carbon-hydrogen-bond</td>
+    <td class="sub-list">primary-carbon-hydrogen-bond</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsCarbon.sdf</td>
+    <td>primary-carbon-radical</td>
+    <td class="sub-list">primary-carbon-radical</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAlkene2.sdf</td>
+    <td>propene</td>
+    <td class="sub-list">propene</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsPropene.sdf</td>
+    <td>propene-(XX)(X)(XXX)</td>
+    <td class="sub-list">propene-(hh)(h)(hhh)<br>propene-(rh)(h)(hhh)<br>propene-(rr)(h)(hhh)<br>propene-(hh)(r)(hhh)<br>propene-(rh)(r)(hhh)<br>propene-(rr)(r)(hhh)<br>propene-(hh)(h)(rhh)<br>propene-(rh)(h)(rhh)<br>propene-(rr)(h)(rhh)<br>propene-(hh)(r)(rhh)<br>propene-(rh)(r)(rhh)<br>propene-(rr)(r)(rhh)<br>propene-(hh)(h)(rrh)<br>propene-(rh)(h)(rrh)<br>propene-(rr)(h)(rrh)<br>propene-(hh)(r)(rrh)<br>propene-(rh)(r)(rrh)<br>propene-(rr)(r)(rrh)<br>propene-(hh)(h)(rrr)<br>propene-(rh)(h)(rrr)<br>propene-(rr)(h)(rrr)<br>propene-(hh)(r)(rrr)<br>propene-(rh)(r)(rrr)<br>propene-(rr)(r)(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsPropenylRadical2.sdf</td>
+    <td class="qclass">propenyl-radical-(QQ)(Q)(XX)</td>
+    <td class="sub-list">propenyl-radical-(qq)(q)(hh)<br>propenyl-radical-(qq)(q)(rh)<br>propenyl-radical-(qq)(q)(rr)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsPropyl.sdf</td>
+    <td>propyl-(XXX)(XX)(XXX)</td>
+    <td class="sub-list">propyl-(hhh)(hh)(hhh)<br>propyl-(rhh)(hh)(hhh)<br>propyl-(rrh)(hh)(hhh)<br>propyl-(rrr)(hh)(hhh)<br>propyl-(hhh)(rh)(hhh)<br>propyl-(rhh)(rh)(hhh)<br>propyl-(rrh)(rh)(hhh)<br>propyl-(rrr)(rh)(hhh)<br>propyl-(hhh)(rr)(hhh)<br>propyl-(rhh)(rr)(hhh)<br>propyl-(rrh)(rr)(hhh)<br>propyl-(rrr)(rr)(hhh)<br>propyl-(rhh)(hh)(rhh)<br>propyl-(rrh)(hh)(rhh)<br>propyl-(rrr)(hh)(rhh)<br>propyl-(rhh)(rh)(rhh)<br>propyl-(rrh)(rh)(rhh)<br>propyl-(rrr)(rh)(rhh)<br>propyl-(rhh)(rr)(rhh)<br>propyl-(rrh)(rr)(rhh)<br>propyl-(rrr)(rr)(rhh)<br>propyl-(rrh)(hh)(rrh)<br>propyl-(rrh)(rh)(rrh)<br>propyl-(rrh)(rr)(rrh)<br>propyl-(rrr)(hh)(rrh)<br>propyl-(rrr)(rh)(rrh)<br>propyl-(rrr)(rr)(rrh)<br>propyl-(rrr)(hh)(rrr)<br>propyl-(rrr)(rh)(rrr)<br>propyl-(rrr)(rr)(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsPropylRadical.sdf</td>
+    <td>propyl-radical-(XX)(XX)(XXX)</td>
+    <td class="sub-list">propyl-radical-(hh)(hh)(hhh)<br>propyl-radical-(rh)(hh)(hhh)<br>propyl-radical-(rr)(hh)(hhh)<br>propyl-radical-(hh)(rh)(hhh)<br>propyl-radical-(rh)(rh)(hhh)<br>propyl-radical-(rr)(rh)(hhh)<br>propyl-radical-(hh)(rr)(hhh)<br>propyl-radical-(rh)(rr)(hhh)<br>propyl-radical-(rr)(rr)(hhh)<br>propyl-radical-(hh)(hh)(rhh)<br>propyl-radical-(rh)(hh)(rhh)<br>propyl-radical-(rr)(hh)(rhh)<br>propyl-radical-(hh)(rh)(rhh)<br>propyl-radical-(rh)(rh)(rhh)<br>propyl-radical-(rr)(rh)(rhh)<br>propyl-radical-(hh)(rr)(rhh)<br>propyl-radical-(rh)(rr)(rhh)<br>propyl-radical-(rr)(rr)(rhh)<br>propyl-radical-(hh)(hh)(rrh)<br>propyl-radical-(rh)(hh)(rrh)<br>propyl-radical-(rr)(hh)(rrh)<br>propyl-radical-(hh)(rh)(rrh)<br>propyl-radical-(rh)(rh)(rrh)<br>propyl-radical-(rr)(rh)(rrh)<br>propyl-radical-(hh)(rr)(rrh)<br>propyl-radical-(rh)(rr)(rrh)<br>propyl-radical-(rr)(rr)(rrh)<br>propyl-radical-(hh)(hh)(rrr)<br>propyl-radical-(rh)(hh)(rrr)<br>propyl-radical-(rr)(hh)(rrr)<br>propyl-radical-(hh)(rh)(rrr)<br>propyl-radical-(rh)(rh)(rrr)<br>propyl-radical-(rr)(rh)(rrr)<br>propyl-radical-(hh)(rr)(rrr)<br>propyl-radical-(rh)(rr)(rrr)<br>propyl-radical-(rr)(rr)(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsPropyne.sdf</td>
+    <td>propyne-(X)(XXX)</td>
+    <td class="sub-list">propyne-(h)(hhh)<br>propyne-(h)(rhh)<br>propyne-(h)(rrh)<br>propyne-(h)(rrr)<br>propyne-(r)(hhh)<br>propyne-(r)(rhh)<br>propyne-(r)(rrh)<br>propyne-(r)(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsPropyne.sdf</td>
+    <td>propyne-(XX)(XX)</td>
+    <td class="sub-list">propyne-(hh)(hh)<br>propyne-(rh)(hh)<br>propyne-(rr)(hh)<br>propyne-(rh)(rh)<br>propyne-(rr)(rh)<br>propyne-(rr)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAldKetone.sdf</td>
+    <td>r-.cooh-r</td>
+    <td class="sub-list">r-.cooh-r</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsAlkene3.sdf</td>
+    <td class="qclass">rcoc(Q)c(QQ)</td>
+    <td class="sub-list">rcoc(q)c(qq)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>subsCarbon.sdf</td>
+    <td>secondary-carbon-hydrogen-bond</td>
+    <td class="sub-list">secondary-carbon-hydrogen-bond</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsCarbon.sdf</td>
+    <td>secondary-carbon-radical</td>
+    <td class="sub-list">secondary-carbon-radical</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsCarbon.sdf</td>
+    <td>tertiary-carbon-hydrogen-bond</td>
+    <td class="sub-list">tertiary-carbon-hydrogen-bond</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsCarbon.sdf</td>
+    <td>tertiary-carbon-radical</td>
+    <td class="sub-list">tertiary-carbon-radical</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>subsMolecules.sdf</td>
+    <td>water</td>
+    <td class="sub-list">water</td>
+    <td>UNIQUE</td>
+  </tr>
+</tbody>
+</table>
+</body>
+</html>

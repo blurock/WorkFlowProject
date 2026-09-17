@@ -78,6 +78,12 @@ extern int PostJSONToOrchestrator(const char *path, const char *json_body, char 
             total += nread;
         }
         response_buf[total] = '\0';
+    } else {
+        char dummy[256];
+        ssize_t nread;
+        while ((nread = read(sockfd, dummy, sizeof(dummy))) > 0) {
+            /* Drain socket response so request fully completes on server before returning */
+        }
     }
 
     close(sockfd);

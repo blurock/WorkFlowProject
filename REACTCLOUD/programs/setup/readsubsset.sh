@@ -95,4 +95,37 @@ $PROGRAM cyclohexaneSubstructures
 $PROGRAM subsHydroperoxyPeroxyCyclohexaneRadical
 $PROGRAM subsHydroperoxyKetylCyclohexane
 $PROGRAM cyclohexaneCyclicEther
+$PROGRAM subsOlefinBetaHydroPeroxy
+$PROGRAM methylcyclohexaneRadical
+$PROGRAM subsAldOlefin
+$PROGRAM subsAlkene2
+$PROGRAM subsAlphaOlefin3
+$PROGRAM subsAromatic
+$PROGRAM subsAromatic2
+$PROGRAM subsBetaPeroxyButene
+$PROGRAM subsButaDiene
+$PROGRAM subsDiene
+$PROGRAM subsEther
+$PROGRAM subsNone
+$PROGRAM subsOlefinAlphaHydroPeroxy
+$PROGRAM subsOlefinAlphaHydroPeroxyBetaKetone
+$PROGRAM subsOlefinAlphaHydroPeroxyC5
+$PROGRAM subsOlefinAlphaHydroPeroxyC6
+$PROGRAM subsOlefinAlphaHydroPeroxyC7
+$PROGRAM subsOlefinAlphaHydroPeroxyGammaKetone
+$PROGRAM subsOlefinAlphaPeroxy
+$PROGRAM subsOlefinAlphaPeroxyBetaHydroPeroxy
+$PROGRAM subsOlefinAlphaPeroxyC5
+$PROGRAM subsOlefinAlphaPeroxyC6
+$PROGRAM subsOlefinAlphaPeroxyC7
+$PROGRAM subsOlefinAlphaPeroxyGammaHydroPeroxy
+$PROGRAM subsOlefinAlphaRadical
+$PROGRAM subsOlefinBetaPeroxy
+$PROGRAM subsOlefinBetaRadical
+$PROGRAM subsOlefinGammaHydroPeroxyAlphaRad
+$PROGRAM subsOlefinGammaPeroxy
+$PROGRAM subsPropenal
+#. $PROGRAM subsPropenylRadical2
+$PROGRAM subsToluene
+$PROGRAM subsTrieneRadical
 popd

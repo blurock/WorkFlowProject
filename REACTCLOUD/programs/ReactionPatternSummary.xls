@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  table { border-collapse: collapse; font-family: Calibri, Arial, sans-serif; font-size: 11pt; }
+  th { background-color: #1F497D; color: white; font-weight: bold; border: 1px solid #95B3D7; padding: 6px 12px; text-align: left; }
+  td { border: 1px solid #D9D9D9; padding: 5px 10px; vertical-align: top; }
+  tr:nth-child(even) { background-color: #F2F5F8; }
+  .dup { color: #C00000; font-weight: bold; }
+  .qclass { color: #002060; font-weight: bold; }
+  .dup-q { color: #900000; font-weight: bold; }
+  .pat-list { font-family: Consolas, monospace; font-size: 10pt; }
+</style>
+</head>
+<body>
+<table>
+<thead>
+  <tr>
+    <th>Filename</th>
+    <th>Class Name</th>
+    <th>Reaction Patterns</th>
+    <th>Status</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>O2AdditionToRadical.lst</td>
+    <td>Activated-Primary-Carbon-Radical-(R.+O2-->RO2.)</td>
+    <td class="pat-list">Activated-Primary-Carbon-Radical-(R.+O2-->RO2.)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>O2AdditionToRadical.lst</td>
+    <td>Activated-Secondary-Carbon-Radical-(R.+O2-->RO2.)</td>
+    <td class="pat-list">Activated-Secondary-Carbon-Radical-(R.+O2-->RO2.)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>O2AdditionToRadical.lst</td>
+    <td>Activated-Tertiary-Carbon-Radical-(R.+O2-->RO2.)</td>
+    <td class="pat-list">Activated-Tertiary-Carbon-Radical-(R.+O2-->RO2.)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AddHydroxylToPropene.lst</td>
+    <td>AddHydroxylToPropene-(XX)(X)(XXX)</td>
+    <td class="pat-list">AddHydroxylToPropene-(hh)(h)(hhh)<br>AddHydroxylToPropene-(rh)(h)(hhh)<br>AddHydroxylToPropene-(rr)(h)(hhh)<br>AddHydroxylToPropene-(hh)(r)(hhh)<br>AddHydroxylToPropene-(rh)(r)(hhh)<br>AddHydroxylToPropene-(rr)(r)(hhh)<br>AddHydroxylToPropene-(hh)(h)(rhh)<br>AddHydroxylToPropene-(rh)(h)(rhh)<br>AddHydroxylToPropene-(rr)(h)(rhh)<br>AddHydroxylToPropene-(hh)(r)(rhh)<br>AddHydroxylToPropene-(rh)(r)(rhh)<br>AddHydroxylToPropene-(rr)(r)(rhh)<br>AddHydroxylToPropene-(hh)(h)(rrh)<br>AddHydroxylToPropene-(rh)(h)(rrh)<br>AddHydroxylToPropene-(rr)(h)(rrh)<br>AddHydroxylToPropene-(hh)(r)(rrh)<br>AddHydroxylToPropene-(rh)(r)(rrh)<br>AddHydroxylToPropene-(rr)(r)(rrh)<br>AddHydroxylToPropene-(hh)(h)(rrr)<br>AddHydroxylToPropene-(rh)(h)(rrr)<br>AddHydroxylToPropene-(rr)(h)(rrr)<br>AddHydroxylToPropene-(hh)(r)(rrr)<br>AddHydroxylToPropene-(rh)(r)(rrr)<br>AddHydroxylToPropene-(rr)(r)(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AddOxygenToPropene.lst</td>
+    <td>AddOxygenToPropene-(XX)(X)(XXX)</td>
+    <td class="pat-list">AddOxygenToPropene-(hh)(h)(hhh)<br>AddOxygenToPropene-(rh)(h)(hhh)<br>AddOxygenToPropene-(rr)(h)(hhh)<br>AddOxygenToPropene-(hh)(r)(hhh)<br>AddOxygenToPropene-(rh)(r)(hhh)<br>AddOxygenToPropene-(rr)(r)(hhh)<br>AddOxygenToPropene-(hh)(h)(rhh)<br>AddOxygenToPropene-(rh)(h)(rhh)<br>AddOxygenToPropene-(rr)(h)(rhh)<br>AddOxygenToPropene-(hh)(r)(rhh)<br>AddOxygenToPropene-(rh)(r)(rhh)<br>AddOxygenToPropene-(rr)(r)(rhh)<br>AddOxygenToPropene-(hh)(h)(rrh)<br>AddOxygenToPropene-(rh)(h)(rrh)<br>AddOxygenToPropene-(rr)(h)(rrh)<br>AddOxygenToPropene-(hh)(r)(rrh)<br>AddOxygenToPropene-(rh)(r)(rrh)<br>AddOxygenToPropene-(rr)(r)(rrh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AldehydeAlkeneAddOH.lst</td>
+    <td>AldehydeAlkeneAdditionOH-Alpha-(X)(XX)</td>
+    <td class="pat-list">AldehydeAlkeneAdditionOH-Alpha-(h)(hh)<br>AldehydeAlkeneAdditionOH-Alpha-(r)(hh)<br>AldehydeAlkeneAdditionOH-Alpha-(h)(rh)<br>AldehydeAlkeneAdditionOH-Alpha-(r)(rh)<br>AldehydeAlkeneAdditionOH-Alpha-(h)(rr)<br>AldehydeAlkeneAdditionOH-Alpha-(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AldehydeDecompToAlkene-Alkyl.lst</td>
+    <td>AldehydeDecompToAlkene-Alkyl-(XX)(XX)</td>
+    <td class="pat-list">AldehydeDecompToAlkene-Alkyl-(hh)(hh)<br>AldehydeDecompToAlkene-Alkyl-(rh)(hh)<br>AldehydeDecompToAlkene-Alkyl-(rr)(hh)<br>AldehydeDecompToAlkene-Alkyl-(hh)(rh)<br>AldehydeDecompToAlkene-Alkyl-(rh)(rh)<br>AldehydeDecompToAlkene-Alkyl-(rr)(rh)<br>AldehydeDecompToAlkene-Alkyl-(hh)(rr)<br>AldehydeDecompToAlkene-Alkyl-(rh)(rr)<br>AldehydeDecompToAlkene-Alkyl-(rr)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AldehydeDecompToKetylAndch2co-Alkyl.lst</td>
+    <td>AldehydeDecompToAlkeneAndch2co-Alkyl-(XX)(XX)(XX)</td>
+    <td class="pat-list">AldehydeDecompToAlkeneAndch2co-Alkyl-(hh)(hh)(hh)<br>AldehydeDecompToAlkeneAndch2co-Alkyl-(rh)(hh)(hh)<br>AldehydeDecompToAlkeneAndch2co-Alkyl-(rr)(hh)(hh)<br>AldehydeDecompToAlkeneAndch2co-Alkyl-(hh)(rh)(hh)<br>AldehydeDecompToAlkeneAndch2co-Alkyl-(rh)(rh)(hh)<br>AldehydeDecompToAlkeneAndch2co-Alkyl-(rr)(rh)(hh)<br>AldehydeDecompToAlkeneAndch2co-Alkyl-(hh)(rr)(hh)<br>AldehydeDecompToAlkeneAndch2co-Alkyl-(rh)(rr)(hh)<br>AldehydeDecompToAlkeneAndch2co-Alkyl-(rr)(rr)(hh)<br>AldehydeDecompToAlkeneAndch2co-Alkyl-(hh)(hh)(rh)<br>AldehydeDecompToAlkeneAndch2co-Alkyl-(rh)(hh)(rh)<br>AldehydeDecompToAlkeneAndch2co-Alkyl-(rr)(hh)(rh)<br>AldehydeDecompToAlkeneAndch2co-Alkyl-(hh)(rh)(rh)<br>AldehydeDecompToAlkeneAndch2co-Alkyl-(rh)(rh)(rh)<br>AldehydeDecompToAlkeneAndch2co-Alkyl-(rr)(rh)(rh)<br>AldehydeDecompToAlkeneAndch2co-Alkyl-(hh)(rr)(rh)<br>AldehydeDecompToAlkeneAndch2co-Alkyl-(rh)(rr)(rh)<br>AldehydeDecompToAlkeneAndch2co-Alkyl-(rr)(rr)(rh)<br>AldehydeDecompToAlkeneAndch2co-Alkyl-(hh)(hh)(rr)<br>AldehydeDecompToAlkeneAndch2co-Alkyl-(rh)(hh)(rr)<br>AldehydeDecompToAlkeneAndch2co-Alkyl-(rr)(hh)(rr)<br>AldehydeDecompToAlkeneAndch2co-Alkyl-(hh)(rh)(rr)<br>AldehydeDecompToAlkeneAndch2co-Alkyl-(rh)(rh)(rr)<br>AldehydeDecompToAlkeneAndch2co-Alkyl-(rr)(rh)(rr)<br>AldehydeDecompToAlkeneAndch2co-Alkyl-(hh)(rr)(rr)<br>AldehydeDecompToAlkeneAndch2co-Alkyl-(rh)(rr)(rr)<br>AldehydeDecompToAlkeneAndch2co-Alkyl-(rr)(rr)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AldehydeDecompToKetylAlkene-Alkyl.lst</td>
+    <td>AldehydeDecompToKetylAlkene-Alkyl-(X)(XX)(XXX)</td>
+    <td class="pat-list">AldehydeDecompToKetylAlkene-Alkyl-(h)(hh)(hhh)<br>AldehydeDecompToKetylAlkene-Alkyl-(r)(hh)(hhh)<br>AldehydeDecompToKetylAlkene-Alkyl-(h)(rh)(hhh)<br>AldehydeDecompToKetylAlkene-Alkyl-(r)(rh)(hhh)<br>AldehydeDecompToKetylAlkene-Alkyl-(h)(rr)(hhh)<br>AldehydeDecompToKetylAlkene-Alkyl-(r)(rr)(hhh)<br>AldehydeDecompToKetylAlkene-Alkyl-(h)(hh)(rhh)<br>AldehydeDecompToKetylAlkene-Alkyl-(r)(hh)(rhh)<br>AldehydeDecompToKetylAlkene-Alkyl-(h)(rh)(rhh)<br>AldehydeDecompToKetylAlkene-Alkyl-(r)(rh)(rhh)<br>AldehydeDecompToKetylAlkene-Alkyl-(h)(rr)(rhh)<br>AldehydeDecompToKetylAlkene-Alkyl-(r)(rr)(rhh)<br>AldehydeDecompToKetylAlkene-Alkyl-(h)(hh)(rrh)<br>AldehydeDecompToKetylAlkene-Alkyl-(r)(hh)(rrh)<br>AldehydeDecompToKetylAlkene-Alkyl-(h)(rh)(rrh)<br>AldehydeDecompToKetylAlkene-Alkyl-(r)(rh)(rrh)<br>AldehydeDecompToKetylAlkene-Alkyl-(h)(rr)(rrh)<br>AldehydeDecompToKetylAlkene-Alkyl-(r)(rr)(rrh)<br>AldehydeDecompToKetylAlkene-Alkyl-(h)(hh)(rrr)<br>AldehydeDecompToKetylAlkene-Alkyl-(r)(hh)(rrr)<br>AldehydeDecompToKetylAlkene-Alkyl-(h)(rh)(rrr)<br>AldehydeDecompToKetylAlkene-Alkyl-(r)(rh)(rrr)<br>AldehydeDecompToKetylAlkene-Alkyl-(h)(rr)(rrr)<br>AldehydeDecompToKetylAlkene-Alkyl-(r)(rr)(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AldehydeHAbstraction.lst</td>
+    <td>AldehydeHAbstractionCH3-(XX)</td>
+    <td class="pat-list">AldehydeHAbstractionCH3-(hh)<br>AldehydeHAbstractionCH3-(rh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AldehydeHAbstraction.lst</td>
+    <td>AldehydeHAbstractionCH3O-(XX)</td>
+    <td class="pat-list">AldehydeHAbstractionCH3O-(hh)<br>AldehydeHAbstractionCH3O-(rh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AldehydeHAbstraction.lst</td>
+    <td>AldehydeHAbstractionCH3O2-(XX)</td>
+    <td class="pat-list">AldehydeHAbstractionCH3O2-(hh)<br>AldehydeHAbstractionCH3O2-(rh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AldehydeHAbstraction.lst</td>
+    <td>AldehydeHAbstractionH-(XX)</td>
+    <td class="pat-list">AldehydeHAbstractionH-(hh)<br>AldehydeHAbstractionH-(rh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AldehydeHAbstraction.lst</td>
+    <td>AldehydeHAbstractionHO2-(XX)</td>
+    <td class="pat-list">AldehydeHAbstractionHO2-(hh)<br>AldehydeHAbstractionHO2-(rh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AldehydeHAbstraction.lst</td>
+    <td>AldehydeHAbstractionO-(XX)</td>
+    <td class="pat-list">AldehydeHAbstractionO-(hh)<br>AldehydeHAbstractionO-(rh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AldehydeHAbstraction.lst</td>
+    <td>AldehydeHAbstractionO2-(XX)</td>
+    <td class="pat-list">AldehydeHAbstractionO2-(hh)<br>AldehydeHAbstractionO2-(rh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AldehydeHAbstraction.lst</td>
+    <td>AldehydeHAbstractionOH-(XX)</td>
+    <td class="pat-list">AldehydeHAbstractionOH-(hh)<br>AldehydeHAbstractionOH-(rh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AdditionToOlefin.lst</td>
+    <td>Alkene-Add-Hydroxyl-Radical-(XX)(XX)</td>
+    <td class="pat-list">Alkene-Add-Hydroxyl-Radical-(hh)(hh)<br>Alkene-Add-Hydroxyl-Radical-(rh)(hh)<br>Alkene-Add-Hydroxyl-Radical-(rr)(hh)<br>Alkene-Add-Hydroxyl-Radical-(hh)(rh)<br>Alkene-Add-Hydroxyl-Radical-(rh)(rh)<br>Alkene-Add-Hydroxyl-Radical-(rr)(rh)<br>Alkene-Add-Hydroxyl-Radical-(hh)(rr)<br>Alkene-Add-Hydroxyl-Radical-(rh)(rr)<br>Alkene-Add-Hydroxyl-Radical-(rr)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AlkenylDecompToAlkyne.lst</td>
+    <td>AlkenylDecompToAlkyne-(X)(X)(XXX)</td>
+    <td class="pat-list">AlkenylDecompToAlkyne-(h)(h)(hhh)<br>AlkenylDecompToAlkyne-(r)(h)(hhh)<br>AlkenylDecompToAlkyne-(h)(r)(hhh)<br>AlkenylDecompToAlkyne-(r)(r)(hhh)<br>AlkenylDecompToAlkyne-(h)(h)(rhh)<br>AlkenylDecompToAlkyne-(r)(h)(rhh)<br>AlkenylDecompToAlkyne-(h)(r)(rhh)<br>AlkenylDecompToAlkyne-(r)(r)(rhh)<br>AlkenylDecompToAlkyne-(h)(h)(rrh)<br>AlkenylDecompToAlkyne-(r)(h)(rrh)<br>AlkenylDecompToAlkyne-(h)(r)(rrh)<br>AlkenylDecompToAlkyne-(r)(r)(rrh)<br>AlkenylDecompToAlkyne-(h)(h)(rrr)<br>AlkenylDecompToAlkyne-(r)(h)(rrr)<br>AlkenylDecompToAlkyne-(h)(r)(rrr)<br>AlkenylDecompToAlkyne-(r)(r)(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AlkOHOODecomposition.lst</td>
+    <td>AlkOHOODecomposition-(XX)(XX)</td>
+    <td class="pat-list">AlkOHOODecomposition-(hh)(hh)<br>AlkOHOODecomposition-(hh)(rh)<br>AlkOHOODecomposition-(hh)(rr)<br>AlkOHOODecomposition-(rh)(hh)<br>AlkOHOODecomposition-(rh)(rh)<br>AlkOHOODecomposition-(rh)(rr)<br>AlkOHOODecomposition-(rr)(hh)<br>AlkOHOODecomposition-(rr)(rh)<br>AlkOHOODecomposition-(rr)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AlkoxyDecomp.lst</td>
+    <td>AlkoxyDecomp</td>
+    <td class="pat-list">AlkoxyDecomp</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AlkoxyDecomp.lst</td>
+    <td class="dup">AlkoxyDecomp-(XX)(XXX)</td>
+    <td class="pat-list">AlkoxyDecomp-(hh)(hhh)<br>AlkoxyDecomp-(rh)(hhh)<br>AlkoxyDecomp-(rr)(hhh)<br>AlkoxyDecomp-(hh)(rhh)<br>AlkoxyDecomp-(rh)(rhh)<br>AlkoxyDecomp-(rr)(rhh)<br>AlkoxyDecomp-(hh)(rrh)<br>AlkoxyDecomp-(rh)(rrh)<br>AlkoxyDecomp-(rr)(rhh)<br>AlkoxyDecomp-(hh)(rrr)<br>AlkoxyDecomp-(rh)(rrr)<br>AlkoxyDecomp-(rr)(rrr)</td>
+    <td><span class="dup">DUPLICATE</span></td>
+  </tr>
+  <tr>
+    <td>AlkoxyFromPeroxy.lst</td>
+    <td>AlkoxyFromPeroxy-XXX</td>
+    <td class="pat-list">AlkoxyFromPeroxy-HHH<br>AlkoxyFromPeroxy-RHH<br>AlkoxyFromPeroxy-RRH<br>AlkoxyFromPeroxy-RRR</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AlkoxyFromPeroxyAndAlkylRadical.lst</td>
+    <td>AlkoxyFromPeroxyAndAlkylRadical-(XXX)(XXX)</td>
+    <td class="pat-list">AlkoxyFromPeroxyAndAlkylRadical-(hhh)(hhh)<br>AlkoxyFromPeroxyAndAlkylRadical-(rhh)(hhh)<br>AlkoxyFromPeroxyAndAlkylRadical-(rrh)(hhh)<br>AlkoxyFromPeroxyAndAlkylRadical-(rrr)(hhh)<br>AlkoxyFromPeroxyAndAlkylRadical-(hhh)(rhh)<br>AlkoxyFromPeroxyAndAlkylRadical-(rhh)(rhh)<br>AlkoxyFromPeroxyAndAlkylRadical-(rrh)(rhh)<br>AlkoxyFromPeroxyAndAlkylRadical-(rrr)(rhh)<br>AlkoxyFromPeroxyAndAlkylRadical-(hhh)(rrh)<br>AlkoxyFromPeroxyAndAlkylRadical-(rhh)(rrh)<br>AlkoxyFromPeroxyAndAlkylRadical-(rrh)(rrh)<br>AlkoxyFromPeroxyAndAlkylRadical-(rrr)(rrh)<br>AlkoxyFromPeroxyAndAlkylRadical-(hhh)(rrr)<br>AlkoxyFromPeroxyAndAlkylRadical-(rhh)(rrr)<br>AlkoxyFromPeroxyAndAlkylRadical-(rrh)(rrr)<br>AlkoxyFromPeroxyAndAlkylRadical-(rrr)(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AlkylIsomerization.lst</td>
+    <td>AlkylIsomerization4Ring-(XX)(XX)</td>
+    <td class="pat-list">AlkylIsomerization4Ring-(hh)(hh)<br>AlkylIsomerization4Ring-(hh)(rh)<br>AlkylIsomerization4Ring-(hh)(rr)<br>AlkylIsomerization4Ring-(rh)(hh)<br>AlkylIsomerization4Ring-(rh)(rh)<br>AlkylIsomerization4Ring-(rh)(rr)<br>AlkylIsomerization4Ring-(rr)(hh)<br>AlkylIsomerization4Ring-(rr)(rh)<br>AlkylIsomerization4Ring-(rr)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AlkylIsomerization.lst</td>
+    <td>AlkylIsomerization5Ring-(XX)(XX)</td>
+    <td class="pat-list">AlkylIsomerization5Ring-(hh)(hh)<br>AlkylIsomerization5Ring-(hh)(rh)<br>AlkylIsomerization5Ring-(hh)(rr)<br>AlkylIsomerization5Ring-(rh)(hh)<br>AlkylIsomerization5Ring-(rh)(rh)<br>AlkylIsomerization5Ring-(rr)(hh)<br>AlkylIsomerization5Ring-(rr)(rh)<br>AlkylIsomerization5Ring-(rr)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AlkylIsomerization.lst</td>
+    <td>AlkylIsomerization6Ring-(XX)(XX)</td>
+    <td class="pat-list">AlkylIsomerization6Ring-(hh)(hh)<br>AlkylIsomerization6Ring-(hh)(rh)<br>AlkylIsomerization6Ring-(hh)(rr)<br>AlkylIsomerization6Ring-(rh)(hh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AlphaAbstractionFromOlefin.lst</td>
+    <td>AlphaHAbstractionFromOlefin-(XX)</td>
+    <td class="pat-list">AlphaHAbstractionFromOlefin-(hh)<br>AlphaHAbstractionFromOlefin-(rh)<br>AlphaHAbstractionFromOlefin-(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AlphaHAbstractionFromOlefin.lst</td>
+    <td>AlphaHAbstractionFromOlefinCH3-(XX)</td>
+    <td class="pat-list">AlphaHAbstractionFromOlefinCH3-(hh)<br>AlphaHAbstractionFromOlefinCH3-(rh)<br>AlphaHAbstractionFromOlefinCH3-(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AlphaHAbstractionFromOlefin.lst</td>
+    <td>AlphaHAbstractionFromOlefinH-(XX)</td>
+    <td class="pat-list">AlphaHAbstractionFromOlefinH-(hh)<br>AlphaHAbstractionFromOlefinH-(rh)<br>AlphaHAbstractionFromOlefinH-(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AlphaHAbstractionFromOlefin.lst</td>
+    <td>AlphaHAbstractionFromOlefinO-(XX)</td>
+    <td class="pat-list">AlphaHAbstractionFromOlefinO-(hh)<br>AlphaHAbstractionFromOlefinO-(rh)<br>AlphaHAbstractionFromOlefinO-(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AlphaHAbstractionFromOlefin.lst</td>
+    <td>AlphaHAbstractionFromOlefinOH-(XX)</td>
+    <td class="pat-list">AlphaHAbstractionFromOlefinOH-(hh)<br>AlphaHAbstractionFromOlefinOH-(rh)<br>AlphaHAbstractionFromOlefinOH-(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AlphaAbstractionFromOlefin.lst</td>
+    <td>AlphaHAbstractionFromOlefinOxygen-(XX)</td>
+    <td class="pat-list">AlphaHAbstractionFromOlefinOxygen-(hh)<br>AlphaHAbstractionFromOlefinOxygen-(rh)<br>AlphaHAbstractionFromOlefinOxygen-(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AlphaOlefinRadicalDecompHO2.lst</td>
+    <td>AlphaOlefinRadicalDecompHO2-(XX)(X)(XX)</td>
+    <td class="pat-list">AlphaOlefinRadicalDecompHO2-(hh)(h)(hh)<br>AlphaOlefinRadicalDecompHO2-(rh)(h)(hh)<br>AlphaOlefinRadicalDecompHO2-(rr)(h)(hh)<br>AlphaOlefinRadicalDecompHO2-(hh)(r)(hh)<br>AlphaOlefinRadicalDecompHO2-(rh)(r)(hh)<br>AlphaOlefinRadicalDecompHO2-(rr)(r)(hh)<br>AlphaOlefinRadicalDecompHO2-(hh)(h)(rh)<br>AlphaOlefinRadicalDecompHO2-(rh)(h)(rh)<br>AlphaOlefinRadicalDecompHO2-(rr)(h)(rh)<br>AlphaOlefinRadicalDecompHO2-(hh)(r)(rh)<br>AlphaOlefinRadicalDecompHO2-(rh)(r)(rh)<br>AlphaOlefinRadicalDecompHO2-(rr)(r)(rh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AlphaOlefinRadicalDecompO.lst</td>
+    <td>AlphaOlefinRadicalDecompO-(XX)</td>
+    <td class="pat-list">AlphaOlefinRadicalDecompO-(hh)<br>AlphaOlefinRadicalDecompO-(rh)<br>AlphaOlefinRadicalDecompO-(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AlphaOlefinRadicalDecompOH.lst</td>
+    <td>AlphaOlefinRadicalDecompOH-(XX)(X)(XX)</td>
+    <td class="pat-list">AlphaOlefinRadicalDecompOH-(hh)(h)(hh)<br>AlphaOlefinRadicalDecompOH-(rh)(h)(hh)<br>AlphaOlefinRadicalDecompOH-(rr)(h)(hh)<br>AlphaOlefinRadicalDecompOH-(hh)(r)(hh)<br>AlphaOlefinRadicalDecompOH-(rh)(r)(hh)<br>AlphaOlefinRadicalDecompOH-(rr)(r)(hh)<br>AlphaOlefinRadicalDecompOH-(hh)(h)(rh)<br>AlphaOlefinRadicalDecompOH-(rh)(h)(rh)<br>AlphaOlefinRadicalDecompOH-(rr)(h)(rh)<br>AlphaOlefinRadicalDecompOH-(hh)(r)(rh)<br>AlphaOlefinRadicalDecompOH-(rh)(r)(rh)<br>AlphaOlefinRadicalDecompOH-(rr)(r)(rh)<br>AlphaOlefinRadicalDecompOH-(hh)(h)(rr)<br>AlphaOlefinRadicalDecompOH-(rh)(h)(rr)<br>AlphaOlefinRadicalDecompOH-(rr)(h)(rr)<br>AlphaOlefinRadicalDecompOH-(hh)(r)(rr)<br>AlphaOlefinRadicalDecompOH-(rh)(r)(rr)<br>AlphaOlefinRadicalDecompOH-(rr)(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>BetaAldRadButeneDecomp.lst</td>
+    <td class="qclass">BetaAldRadButeneDecomp(QQ)(Q)(XX)</td>
+    <td class="pat-list">BetaAldRadButeneDecomp(qq)(q)(hh)<br>BetaAldRadButeneDecomp(qq)(q)(rh)<br>BetaAldRadButeneDecomp(qq)(q)(rr)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>OlefinFromCOOH.lst</td>
+    <td>BetaHPeroxyToOlefin-XXXX</td>
+    <td class="pat-list">BetaHPeroxyToOlefin-HHHH<br>BetaHPeroxyToOlefin-RHHH<br>BetaHPeroxyToOlefin-RRHH<br>BetaHPeroxyToOlefin-HHRH<br>BetaHPeroxyToOlefin-RHRH<br>BetaHPeroxyToOlefin-RRRH<br>BetaHPeroxyToOlefin-HHRR<br>BetaHPeroxyToOlefin-RHRR<br>BetaHPeroxyToOlefin-RRRR</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>BetaOlefinDecomp.lst</td>
+    <td class="qclass">BetaOlefinDecomp(QQ)(Q)(XX)(XXX)</td>
+    <td class="pat-list">BetaOlefinDecomp(qq)(q)(hh)(hhh)<br>BetaOlefinDecomp(qq)(q)(rh)(hhh)<br>BetaOlefinDecomp(qq)(q)(rr)(hhh)<br>BetaOlefinDecomp(qq)(q)(hh)(rhh)<br>BetaOlefinDecomp(qq)(q)(rh)(rhh)<br>BetaOlefinDecomp(qq)(q)(rr)(rhh)<br>BetaOlefinDecomp(qq)(q)(hh)(rrh)<br>BetaOlefinDecomp(qq)(q)(rh)(rrh)<br>BetaOlefinDecomp(qq)(q)(rr)(rrh)<br>BetaOlefinDecomp(qq)(q)(hh)(rrr)<br>BetaOlefinDecomp(qq)(q)(rh)(rrr)<br>BetaOlefinDecomp(qq)(q)(rr)(rrr)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>BetaOlefinDecompRadical.lst</td>
+    <td class="qclass">BetaOlefinRadicalDecomp(QQ)(Q)(XX)(XX)</td>
+    <td class="pat-list">BetaOlefinRadicalDecomp(qq)(q)(hh)(hh)<br>BetaOlefinRadicalDecomp(qq)(q)(hh)(rh)<br>BetaOlefinRadicalDecomp(qq)(q)(hh)(rr)<br>BetaOlefinRadicalDecomp(qq)(q)(rh)(hh)<br>BetaOlefinRadicalDecomp(qq)(q)(rh)(rh)<br>BetaOlefinRadicalDecomp(qq)(q)(rh)(rr)<br>BetaOlefinRadicalDecomp(qq)(q)(rr)(hh)<br>BetaOlefinRadicalDecomp(qq)(q)(rr)(rh)<br>BetaOlefinRadicalDecomp(qq)(q)(rr)(rr)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>ButadieneDecompThroughHAddition.lst</td>
+    <td>ButaDieneDecompThroughHAddition-(XX)(X)(X)(XX)</td>
+    <td class="pat-list">ButaDieneDecompThroughHAddition-(hh)(h)(h)(hh)<br>ButaDieneDecompThroughHAddition-(rh)(h)(h)(hh)<br>ButaDieneDecompThroughHAddition-(rr)(h)(h)(hh)<br>ButaDieneDecompThroughHAddition-(hh)(h)(r)(hh)<br>ButaDieneDecompThroughHAddition-(rh)(h)(r)(hh)<br>ButaDieneDecompThroughHAddition-(rr)(h)(r)(hh)<br>ButaDieneDecompThroughHAddition-(rh)(r)(h)(hh)<br>ButaDieneDecompThroughHAddition-(rr)(r)(h)(hh)<br>ButaDieneDecompThroughHAddition-(hh)(r)(r)(hh)<br>ButaDieneDecompThroughHAddition-(rh)(r)(r)(hh)<br>ButaDieneDecompThroughHAddition-(rr)(r)(r)(hh)<br>ButaDieneDecompThroughHAddition-(rh)(h)(h)(rh)<br>ButaDieneDecompThroughHAddition-(rr)(h)(h)(rh)<br>ButaDieneDecompThroughHAddition-(rh)(h)(r)(rh)<br>ButaDieneDecompThroughHAddition-(rr)(h)(r)(rh)<br>ButaDieneDecompThroughHAddition-(rr)(r)(h)(rh)<br>ButaDieneDecompThroughHAddition-(rh)(r)(r)(rh)<br>ButaDieneDecompThroughHAddition-(rr)(r)(r)(rh)<br>ButaDieneDecompThroughHAddition-(rr)(h)(h)(rr)<br>ButaDieneDecompThroughHAddition-(rr)(h)(r)(rr)<br>ButaDieneDecompThroughHAddition-(rr)(r)(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>CyclicEther-3Ring-2.lst</td>
+    <td>CyclicEther-3Ring-(XX)</td>
+    <td class="pat-list">CyclicEther-3Ring-(hh)<br>CyclicEther-3Ring-(rh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>CyclicEther-3Ring-1.lst</td>
+    <td>CyclicEther-3RingDecomp-(XX)(X)(XXX)</td>
+    <td class="pat-list">CyclicEther-3RingDecomp-(hh)(h)(hhh)<br>CyclicEther-3RingDecomp-(rh)(h)(hhh)<br>CyclicEther-3RingDecomp-(rr)(h)(hhh)<br>CyclicEther-3RingDecomp-(hh)(h)(rhh)<br>CyclicEther-3RingDecomp-(rh)(h)(rhh)<br>CyclicEther-3RingDecomp-(rr)(h)(rhh)<br>CyclicEther-3RingDecomp-(hh)(h)(rrh)<br>CyclicEther-3RingDecomp-(rh)(h)(rrh)<br>CyclicEther-3RingDecomp-(rr)(h)(rrh)<br>CyclicEther-3RingDecomp-(hh)(h)(rrr)<br>CyclicEther-3RingDecomp-(rh)(h)(rrr)<br>CyclicEther-3RingDecomp-(rr)(h)(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>CyclicEther-Ring.lst</td>
+    <td>CyclicEther-4Ring-(X)</td>
+    <td class="pat-list">CyclicEther-4Ring-(h)<br>CyclicEther-4Ring-(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>CyclicEther-Ring.lst</td>
+    <td>CyclicEther-5Ring-(X)</td>
+    <td class="pat-list">CyclicEther-5Ring-(h)<br>CyclicEther-5Ring-(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>CyclicEther-Ring.lst</td>
+    <td>CyclicEther-6Ring-(X)</td>
+    <td class="pat-list">CyclicEther-6Ring-(h)<br>CyclicEther-6Ring-(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>CyclicEtherFromQOOH.lst</td>
+    <td class="qclass">CyclicEtherFromQOOH-3Ring</td>
+    <td class="pat-list">CyclicEtherFromQOOH-3Ring</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>CyclicEtherFromQOOH.lst</td>
+    <td class="qclass">CyclicEtherFromQOOH-4Ring</td>
+    <td class="pat-list">CyclicEtherFromQOOH-4Ring</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>CyclicEtherFromQOOH.lst</td>
+    <td class="qclass">CyclicEtherFromQOOH-5Ring</td>
+    <td class="pat-list">CyclicEtherFromQOOH-5Ring</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>CyclicEtherFromQOOH.lst</td>
+    <td class="qclass">CyclicEtherFromQOOH-6Ring</td>
+    <td class="pat-list">CyclicEtherFromQOOH-6Ring</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>CyclohexaneCyclicEtherFormation.lst</td>
+    <td>cyclohexane-13-cyclicetherformation-XX</td>
+    <td class="pat-list">cyclohexane-13-cyclicetherformation-HH<br>cyclohexane-13-cyclicetherformation-RH<br>cyclohexane-13-cyclicetherformation-HR<br>cyclohexane-13-cyclicetherformation-RR</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>CyclohexaneCyclicEtherFormation.lst</td>
+    <td>cyclohexane-14-cyclicetherformation-XX</td>
+    <td class="pat-list">cyclohexane-14-cyclicetherformation-HH<br>cyclohexane-14-cyclicetherformation-RH<br>cyclohexane-14-cyclicetherformation-HR<br>cyclohexane-14-cyclicetherformation-RR</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>Decomposition.lst</td>
+    <td class="dup">Decomp-(XXX)(XXX)</td>
+    <td class="pat-list">Decomp-(rhh)(hhh)<br>Decomp-(rhh)(rhh)<br>Decomp-(rrh)(hhh)<br>Decomp-(rrr)(hhh)<br>Decomp-(rrh)(rhh)<br>Decomp-(rrh)(rrh)<br>Decomp-(rrr)(rhh)<br>Decomp-(rrr)(rrh)<br>Decomp-(rrr)(rrr)</td>
+    <td><span class="dup">DUPLICATE</span></td>
+  </tr>
+  <tr>
+    <td>DecompositionCurran.lst</td>
+    <td class="dup">Decomp-(XXX)(XXX)</td>
+    <td class="pat-list">Decomp-(rhh)(hhh)<br>Decomp-(rhh)(rhh)<br>Decomp-(rrh)(hhh)<br>Decomp-(rrr)(hhh)<br>Decomp-(rrh)(rhh)<br>Decomp-(rrh)(rrh)<br>Decomp-(rrr)(rhh)<br>Decomp-(rrr)(rrh)<br>Decomp-(rrr)(rrr)</td>
+    <td><span class="dup">DUPLICATE</span></td>
+  </tr>
+  <tr>
+    <td>Decomp-1,3-dibutanal-4-yl.lst</td>
+    <td>Decomp-13-dibutanal-4-yl-(X)(XX)(XX)</td>
+    <td class="pat-list">Decomp-13-dibutanal-4-yl-(h)(hh)(hh)<br>Decomp-13-dibutanal-4-yl-(r)(hh)(hh)<br>Decomp-13-dibutanal-4-yl-(h)(rh)(hh)<br>Decomp-13-dibutanal-4-yl-(r)(rh)(hh)<br>Decomp-13-dibutanal-4-yl-(h)(rr)(hh)<br>Decomp-13-dibutanal-4-yl-(r)(rr)(hh)<br>Decomp-13-dibutanal-4-yl-(h)(hh)(rh)<br>Decomp-13-dibutanal-4-yl-(r)(hh)(rh)<br>Decomp-13-dibutanal-4-yl-(h)(rh)(rh)<br>Decomp-13-dibutanal-4-yl-(r)(rh)(rh)<br>Decomp-13-dibutanal-4-yl-(h)(rr)(rh)<br>Decomp-13-dibutanal-4-yl-(r)(rr)(rh)<br>Decomp-13-dibutanal-4-yl-(h)(hh)(rr)<br>Decomp-13-dibutanal-4-yl-(r)(hh)(rr)<br>Decomp-13-dibutanal-4-yl-(h)(rh)(rr)<br>Decomp-13-dibutanal-4-yl-(r)(rh)(rr)<br>Decomp-13-dibutanal-4-yl-(h)(rr)(rr)<br>Decomp-13-dibutanal-4-yl-(r)(rr)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>Decomp-1,4-dibutanal-1-yl.lst</td>
+    <td>Decomp-14-dibutanal-1-yl-(X)(XX)(XX)</td>
+    <td class="pat-list">Decomp-14-dibutanal-1-yl-(h)(hh)(hh)<br>Decomp-14-dibutanal-1-yl-(r)(hh)(hh)<br>Decomp-14-dibutanal-1-yl-(h)(rh)(hh)<br>Decomp-14-dibutanal-1-yl-(r)(rh)(hh)<br>Decomp-14-dibutanal-1-yl-(h)(rr)(hh)<br>Decomp-14-dibutanal-1-yl-(r)(rr)(hh)<br>Decomp-14-dibutanal-1-yl-(h)(hh)(rh)<br>Decomp-14-dibutanal-1-yl-(r)(hh)(rh)<br>Decomp-14-dibutanal-1-yl-(h)(rh)(rh)<br>Decomp-14-dibutanal-1-yl-(r)(rh)(rh)<br>Decomp-14-dibutanal-1-yl-(h)(rr)(rh)<br>Decomp-14-dibutanal-1-yl-(r)(rr)(rh)<br>Decomp-14-dibutanal-1-yl-(h)(hh)(rr)<br>Decomp-14-dibutanal-1-yl-(r)(hh)(rr)<br>Decomp-14-dibutanal-1-yl-(h)(rh)(rr)<br>Decomp-14-dibutanal-1-yl-(r)(rh)(rr)<br>Decomp-14-dibutanal-1-yl-(h)(rr)(rr)<br>Decomp-14-dibutanal-1-yl-(r)(rr)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>DecompToTolueneRadical.lst</td>
+    <td>DecompToTolueneRadical-(XX)(XXX)</td>
+    <td class="pat-list">DecompToTolueneRadical-(hh)(hhh)<br>DecompToTolueneRadical-(rh)(hhh)<br>DecompToTolueneRadical-(rr)(hhh)<br>DecompToTolueneRadical-(hh)(rhh)<br>DecompToTolueneRadical-(rh)(rhh)<br>DecompToTolueneRadical-(rr)(rhh)<br>DecompToTolueneRadical-(hh)(rrh)<br>DecompToTolueneRadical-(rh)(rrh)<br>DecompToTolueneRadical-(rr)(rrh)<br>DecompToTolueneRadical-(hh)(rrr)<br>DecompToTolueneRadical-(rh)(rrr)<br>DecompToTolueneRadical-(rr)(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>DieneFormationFromOlefinAlphaHydroPeroxyRadical.lst</td>
+    <td>DieneFormationFromOlefinAlphaHydroPeroxyRadical-(X)(XX)</td>
+    <td class="pat-list">DieneFormationFromOlefinAlphaHydroPeroxyRadical-(h)(hh)<br>DieneFormationFromOlefinAlphaHydroPeroxyRadical-(r)(hh)<br>DieneFormationFromOlefinAlphaHydroPeroxyRadical-(h)(rh)<br>DieneFormationFromOlefinAlphaHydroPeroxyRadical-(r)(rh)<br>DieneFormationFromOlefinAlphaHydroPeroxyRadical-(h)(rr)<br>DieneFormationFromOlefinAlphaHydroPeroxyRadical-(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>DieneFormationFromOlefinBetaHydroPeroxyRadical.lst</td>
+    <td>DieneFormationFromOlefinBetaHydroPeroxyRadical-(X)(XX)</td>
+    <td class="pat-list">DieneFormationFromOlefinBetaHydroPeroxyRadical-(h)(hh)<br>DieneFormationFromOlefinBetaHydroPeroxyRadical-(r)(hh)<br>DieneFormationFromOlefinBetaHydroPeroxyRadical-(h)(rh)<br>DieneFormationFromOlefinBetaHydroPeroxyRadical-(r)(rh)<br>DieneFormationFromOlefinBetaHydroPeroxyRadical-(h)(rr)<br>DieneFormationFromOlefinBetaHydroPeroxyRadical-(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>DiKetoAldDecomp.lst</td>
+    <td>DiKetoAldDecomp-XXXX</td>
+    <td class="pat-list">DiKetoAldDecomp-HHHH<br>DiKetoAldDecomp-RHHH<br>DiKetoAldDecomp-HRHH<br>DiKetoAldDecomp-RRHH<br>DiKetoAldDecomp-HRRH<br>DiKetoAldDecomp-RRRH<br>DiKetoAldDecomp-HHHR<br>DiKetoAldDecomp-RHHR<br>DiKetoAldDecomp-HRHR<br>DiKetoAldDecomp-RRHR<br>DiKetoAldDecomp-HRRR<br>DiKetoAldDecomp-RRRR</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>OlefinAlphaPeroxyIntraHAbstraction.lst</td>
+    <td>e%%%-------------------------------------------------------------------</td>
+    <td class="pat-list">e%%%-------------------------------------------------------------------</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HRingIsomerization.lst</td>
+    <td>EightRing-(ooh)-h-isomerization</td>
+    <td class="pat-list">EightRing-(ooh)-h-isomerization</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HRingIsomerization.lst</td>
+    <td>EightRing-chain-h-isomerization</td>
+    <td class="pat-list">EightRing-chain-h-isomerization</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>EthylRadicalToOlefin.lst</td>
+    <td>ethyl-radical(XX)(XXX)-oxidation-to-olefin</td>
+    <td class="pat-list">ethyl-radical(hh)(hhh)-oxidation-to-olefin<br>ethyl-radical(rh)(hhh)-oxidation-to-olefin<br>ethyl-radical(hh)(rhh)-oxidation-to-olefin<br>ethyl-radical(rr)(hhh)-oxidation-to-olefin<br>ethyl-radical(rh)(rhh)-oxidation-to-olefin<br>ethyl-radical(hh)(rrh)-oxidation-to-olefin<br>ethyl-radical(rr)(rhh)-oxidation-to-olefin<br>ethyl-radical(rh)(rrh)-oxidation-to-olefin<br>ethyl-radical(rr)(rrh)-oxidation-to-olefin</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>EthynylDecomposition.lst</td>
+    <td>EthyneDecompositionWithOxygen-(X)</td>
+    <td class="pat-list">EthyneDecompositionWithOxygen-(h)<br>EthyneDecompositionWithOxygen-(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HRingIsomerization.lst</td>
+    <td>FiveRing-(ooh)-h-isomerization</td>
+    <td class="pat-list">FiveRing-(ooh)-h-isomerization</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HRingIsomerization.lst</td>
+    <td>FiveRing-chain-h-isomerization</td>
+    <td class="pat-list">FiveRing-chain-h-isomerization</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbsAlphaKetone2.lst</td>
+    <td>H-Abstraction-AlphaToKetoneCH3-(X)(XX)</td>
+    <td class="pat-list">H-Abstraction-AlphaToKetoneCH3-(h)(hh)<br>H-Abstraction-AlphaToKetoneCH3-(r)(hh)<br>H-Abstraction-AlphaToKetoneCH3-(h)(rh)<br>H-Abstraction-AlphaToKetoneCH3-(r)(rh)<br>H-Abstraction-AlphaToKetoneCH3-(h)(rr)<br>H-Abstraction-AlphaToKetoneCH3-(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbsAlphaKetone2.lst</td>
+    <td>H-Abstraction-AlphaToKetoneCH3O-(X)(XX)</td>
+    <td class="pat-list">H-Abstraction-AlphaToKetoneCH3O-(h)(hh)<br>H-Abstraction-AlphaToKetoneCH3O-(r)(hh)<br>H-Abstraction-AlphaToKetoneCH3O-(h)(rh)<br>H-Abstraction-AlphaToKetoneCH3O-(r)(rh)<br>H-Abstraction-AlphaToKetoneCH3O-(h)(rr)<br>H-Abstraction-AlphaToKetoneCH3O-(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbsAlphaKetone.lst</td>
+    <td>H-Abstraction-AlphaToKetoneCH3O2-(X)(XX)</td>
+    <td class="pat-list">H-Abstraction-AlphaToKetoneCH3O2-(h)(hh)<br>H-Abstraction-AlphaToKetoneCH3O2-(r)(hh)<br>H-Abstraction-AlphaToKetoneCH3O2-(h)(rh)<br>H-Abstraction-AlphaToKetoneCH3O2-(r)(rh)<br>H-Abstraction-AlphaToKetoneCH3O2-(h)(rr)<br>H-Abstraction-AlphaToKetoneCH3O2-(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbsAlphaKetone2.lst</td>
+    <td>H-Abstraction-AlphaToKetoneH-(X)(XX)</td>
+    <td class="pat-list">H-Abstraction-AlphaToKetoneH-(h)(hh)<br>H-Abstraction-AlphaToKetoneH-(r)(hh)<br>H-Abstraction-AlphaToKetoneH-(h)(rh)<br>H-Abstraction-AlphaToKetoneH-(r)(rh)<br>H-Abstraction-AlphaToKetoneH-(h)(rr)<br>H-Abstraction-AlphaToKetoneH-(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbsAlphaKetone.lst</td>
+    <td>H-Abstraction-AlphaToKetoneHO2-(X)(XX)</td>
+    <td class="pat-list">H-Abstraction-AlphaToKetoneHO2-(h)(hh)<br>H-Abstraction-AlphaToKetoneHO2-(r)(hh)<br>H-Abstraction-AlphaToKetoneHO2-(h)(rh)<br>H-Abstraction-AlphaToKetoneHO2-(r)(rh)<br>H-Abstraction-AlphaToKetoneHO2-(h)(rr)<br>H-Abstraction-AlphaToKetoneHO2-(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbsAlphaKetone2.lst</td>
+    <td>H-Abstraction-AlphaToKetoneO-(X)(XX)</td>
+    <td class="pat-list">H-Abstraction-AlphaToKetoneO-(h)(hh)<br>H-Abstraction-AlphaToKetoneO-(r)(hh)<br>H-Abstraction-AlphaToKetoneO-(h)(rh)<br>H-Abstraction-AlphaToKetoneO-(r)(rh)<br>H-Abstraction-AlphaToKetoneO-(h)(rr)<br>H-Abstraction-AlphaToKetoneO-(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbsAlphaKetone2.lst</td>
+    <td>H-Abstraction-AlphaToKetoneO2-(X)(XX)</td>
+    <td class="pat-list">H-Abstraction-AlphaToKetoneO2-(h)(hh)<br>H-Abstraction-AlphaToKetoneO2-(r)(hh)<br>H-Abstraction-AlphaToKetoneO2-(h)(rh)<br>H-Abstraction-AlphaToKetoneO2-(r)(rh)<br>H-Abstraction-AlphaToKetoneO2-(h)(rr)<br>H-Abstraction-AlphaToKetoneO2-(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbsAlphaKetone.lst</td>
+    <td>H-Abstraction-AlphaToKetoneOH-(X)(XX)</td>
+    <td class="pat-list">H-Abstraction-AlphaToKetoneOH-(h)(hh)<br>H-Abstraction-AlphaToKetoneOH-(r)(hh)<br>H-Abstraction-AlphaToKetoneOH-(h)(rh)<br>H-Abstraction-AlphaToKetoneOH-(r)(rh)<br>H-Abstraction-AlphaToKetoneOH-(h)(rr)<br>H-Abstraction-AlphaToKetoneOH-(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-EthenylRadical-Primary</td>
+    <td class="pat-list">H-Abstraction-EthenylRadical-Primary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-EthenylRadical-Secondary</td>
+    <td class="pat-list">H-Abstraction-EthenylRadical-Secondary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-EthenylRadical-Tertiary</td>
+    <td class="pat-list">H-Abstraction-EthenylRadical-Tertiary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-EthylRadical-Primary</td>
+    <td class="pat-list">H-Abstraction-EthylRadical-Primary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-EthylRadical-Secondary</td>
+    <td class="pat-list">H-Abstraction-EthylRadical-Secondary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-EthylRadical-Tertiary</td>
+    <td class="pat-list">H-Abstraction-EthylRadical-Tertiary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-Hydrogen-Radical-Primary</td>
+    <td class="pat-list">H-Abstraction-Hydrogen-Radical-Primary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-Hydrogen-Radical-Secondary</td>
+    <td class="pat-list">H-Abstraction-Hydrogen-Radical-Secondary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-Hydrogen-Radical-Tertiary</td>
+    <td class="pat-list">H-Abstraction-Hydrogen-Radical-Tertiary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-Hydroxyl-Radical-Primary</td>
+    <td class="pat-list">H-Abstraction-Hydroxyl-Radical-Primary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-Hydroxyl-Radical-Secondary</td>
+    <td class="pat-list">H-Abstraction-Hydroxyl-Radical-Secondary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-Hydroxyl-Radical-Tertiary</td>
+    <td class="pat-list">H-Abstraction-Hydroxyl-Radical-Tertiary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-Methoxy-Primary</td>
+    <td class="pat-list">H-Abstraction-Methoxy-Primary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-Methoxy-Secondary</td>
+    <td class="pat-list">H-Abstraction-Methoxy-Secondary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-Methoxy-Tertiary</td>
+    <td class="pat-list">H-Abstraction-Methoxy-Tertiary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-Methyl-Primary</td>
+    <td class="pat-list">H-Abstraction-Methyl-Primary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-Methyl-Secondary</td>
+    <td class="pat-list">H-Abstraction-Methyl-Secondary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-Methyl-Tertiary</td>
+    <td class="pat-list">H-Abstraction-Methyl-Tertiary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-MethylPeroxyl-Primary</td>
+    <td class="pat-list">H-Abstraction-MethylPeroxyl-Primary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-MethylPeroxyl-Secondary</td>
+    <td class="pat-list">H-Abstraction-MethylPeroxyl-Secondary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-MethylPeroxyl-Tertiary</td>
+    <td class="pat-list">H-Abstraction-MethylPeroxyl-Tertiary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-Oxygen-Primary</td>
+    <td class="pat-list">H-Abstraction-Oxygen-Primary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-Oxygen-Radical-Primary</td>
+    <td class="pat-list">H-Abstraction-Oxygen-Radical-Primary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-Oxygen-Radical-Secondary</td>
+    <td class="pat-list">H-Abstraction-Oxygen-Radical-Secondary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-Oxygen-Radical-Tertiary</td>
+    <td class="pat-list">H-Abstraction-Oxygen-Radical-Tertiary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-Oxygen-Secondary</td>
+    <td class="pat-list">H-Abstraction-Oxygen-Secondary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-Oxygen-Tertiary</td>
+    <td class="pat-list">H-Abstraction-Oxygen-Tertiary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-PeroxylRadical-Primary</td>
+    <td class="pat-list">H-Abstraction-PeroxylRadical-Primary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-PeroxylRadical-Secondary</td>
+    <td class="pat-list">H-Abstraction-PeroxylRadical-Secondary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstraction.lst</td>
+    <td>H-Abstraction-PeroxylRadical-Tertiary</td>
+    <td class="pat-list">H-Abstraction-PeroxylRadical-Tertiary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>CyclohexaneHAbstraction.lst</td>
+    <td>H-AbstractionCyclohexane-Hydroxyl-Radical-XX</td>
+    <td class="pat-list">H-AbstractionCyclohexane-Hydroxyl-Radical-HH<br>H-AbstractionCyclohexane-Hydroxyl-Radical-RH</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>CyclohexaneHAbstraction.lst</td>
+    <td>H-AbstractionCyclohexane-Oxygen-Radical-XX</td>
+    <td class="pat-list">H-AbstractionCyclohexane-Oxygen-Radical-HH<br>H-AbstractionCyclohexane-Oxygen-Radical-RH</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AdditionToOlefin.lst</td>
+    <td>H-Alkene-Add-Hydrogen-Radical-(XX)(XX)</td>
+    <td class="pat-list">H-Alkene-Add-Hydrogen-Radical-(hh)(hh)<br>H-Alkene-Add-Hydrogen-Radical-(rh)(hh)<br>H-Alkene-Add-Hydrogen-Radical-(hh)(rh)<br>H-Alkene-Add-Hydrogen-Radical-(rr)(hh)<br>H-Alkene-Add-Hydrogen-Radical-(rh)(rh)<br>H-Alkene-Add-Hydrogen-Radical-(rr)(rh)<br>H-Alkene-Add-Hydrogen-Radical-(rh)(rr)<br>H-Alkene-Add-Hydrogen-Radical-(rr)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstractionAlkenyl.lst</td>
+    <td>H-Alkenyl-Abs-Hydrogen-Radical-(XX)(X)</td>
+    <td class="pat-list">H-Alkenyl-Abs-Hydrogen-Radical-(hh)(h)<br>H-Alkenyl-Abs-Hydrogen-Radical-(hh)(r)<br>H-Alkenyl-Abs-Hydrogen-Radical-(rh)(h)<br>H-Alkenyl-Abs-Hydrogen-Radical-(rh)(r)<br>H-Alkenyl-Abs-Hydrogen-Radical-(rr)(h)<br>H-Alkenyl-Abs-Hydrogen-Radical-(rr)(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstractionAlkenyl.lst</td>
+    <td>H-Alkenyl-Abs-Hydroxyl-Radical-(XX)(X)</td>
+    <td class="pat-list">H-Alkenyl-Abs-Hydroxyl-Radical-(hh)(h)<br>H-Alkenyl-Abs-Hydroxyl-Radical-(hh)(r)<br>H-Alkenyl-Abs-Hydroxyl-Radical-(rh)(h)<br>H-Alkenyl-Abs-Hydroxyl-Radical-(rh)(r)<br>H-Alkenyl-Abs-Hydroxyl-Radical-(rr)(h)<br>H-Alkenyl-Abs-Hydroxyl-Radical-(rr)(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstractionAlkenyl.lst</td>
+    <td>H-Alkenyl-Abs-Methane-Carbon-Radical-(XX)(X)</td>
+    <td class="pat-list">H-Alkenyl-Abs-Methane-Carbon-Radical-(hh)(h)<br>H-Alkenyl-Abs-Methane-Carbon-Radical-(hh)(r)<br>H-Alkenyl-Abs-Methane-Carbon-Radical-(rh)(h)<br>H-Alkenyl-Abs-Methane-Carbon-Radical-(rh)(r)<br>H-Alkenyl-Abs-Methane-Carbon-Radical-(rr)(h)<br>H-Alkenyl-Abs-Methane-Carbon-Radical-(rr)(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstractionAlkenyl.lst</td>
+    <td>H-Alkenyl-Abs-Oxygen-Radical-(XX)(X)</td>
+    <td class="pat-list">H-Alkenyl-Abs-Oxygen-Radical-(hh)(h)<br>H-Alkenyl-Abs-Oxygen-Radical-(hh)(r)<br>H-Alkenyl-Abs-Oxygen-Radical-(rh)(h)<br>H-Alkenyl-Abs-Oxygen-Radical-(rr)(h)<br>H-Alkenyl-Abs-Oxygen-Radical-(rr)(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstractionBetaAlkenylToDiene.lst</td>
+    <td>HAbstractionBetaAlkenylToDieneCH3-(X)(XX)</td>
+    <td class="pat-list">HAbstractionBetaAlkenylToDieneCH3-(h)(hh)<br>HAbstractionBetaAlkenylToDieneCH3-(r)(hh)<br>HAbstractionBetaAlkenylToDieneCH3-(h)(rh)<br>HAbstractionBetaAlkenylToDieneCH3-(r)(rh)<br>HAbstractionBetaAlkenylToDieneCH3-(h)(rr)<br>HAbstractionBetaAlkenylToDieneCH3-(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstractionBetaAlkenylToDiene.lst</td>
+    <td>HAbstractionBetaAlkenylToDieneH-(X)(XX)</td>
+    <td class="pat-list">HAbstractionBetaAlkenylToDieneH-(h)(hh)<br>HAbstractionBetaAlkenylToDieneH-(r)(hh)<br>HAbstractionBetaAlkenylToDieneH-(h)(rh)<br>HAbstractionBetaAlkenylToDieneH-(r)(rh)<br>HAbstractionBetaAlkenylToDieneH-(h)(rr)<br>HAbstractionBetaAlkenylToDieneH-(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HAbstractionBetaAlkenylToDiene.lst</td>
+    <td class="dup">HAbstractionBetaAlkenylToDieneO2-(X)(XX)</td>
+    <td class="pat-list">HAbstractionBetaAlkenylToDieneO2-(h)(hh)<br>HAbstractionBetaAlkenylToDieneO2-(r)(hh)<br>HAbstractionBetaAlkenylToDieneO2-(h)(rh)<br>HAbstractionBetaAlkenylToDieneO2-(r)(rh)<br>HAbstractionBetaAlkenylToDieneO2-(h)(rr)<br>HAbstractionBetaAlkenylToDieneO2-(r)(hh)</td>
+    <td><span class="dup">DUPLICATE</span></td>
+  </tr>
+  <tr>
+    <td>OlefinHAbstraction.lst</td>
+    <td>HAbstractionFromOlefin-(XX)(X)</td>
+    <td class="pat-list">HAbstractionFromOlefin-(hh)(h)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>EthyneHAbstraction.lst</td>
+    <td>HAbstractionToEthynyl-hydroxyl-radical-(X)</td>
+    <td class="pat-list">HAbstractionToEthynyl-hydroxyl-radical-(h)<br>HAbstractionToEthynyl-hydroxyl-radical-(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>EthyneHAbstraction.lst</td>
+    <td>HAbstractionToEthynyl-oxygen-(X)</td>
+    <td class="pat-list">HAbstractionToEthynyl-oxygen-(h)<br>HAbstractionToEthynyl-oxygen-(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>EthyneHAbstraction.lst</td>
+    <td>HAbstractionToEthynyl-peroxyl-radical-(X)</td>
+    <td class="pat-list">HAbstractionToEthynyl-peroxyl-radical-(h)<br>HAbstractionToEthynyl-peroxyl-radical-(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AlphaPropyneHAbstraction.lst</td>
+    <td>HDecompositionToPropenyl-oxygen-(XX)</td>
+    <td class="pat-list">HDecompositionToPropenyl-oxygen-(hh)<br>HDecompositionToPropenyl-oxygen-(rh)<br>HDecompositionToPropenyl-oxygen-(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HLossEthylRadicalToOlefin.lst</td>
+    <td>HLoss-ethyl-radical(XX)(XXX)-to-olefin</td>
+    <td class="pat-list">HLoss-ethyl-radical(hh)(hhh)-to-olefin<br>HLoss-ethyl-radical(rh)(hhh)-to-olefin<br>HLoss-ethyl-radical(hh)(rhh)-to-olefin<br>HLoss-ethyl-radical(rr)(hhh)-to-olefin<br>HLoss-ethyl-radical(rh)(rhh)-to-olefin<br>HLoss-ethyl-radical(hh)(rrh)-to-olefin<br>HLoss-ethyl-radical(rr)(rhh)-to-olefin<br>HLoss-ethyl-radical(rh)(rrh)-to-olefin<br>HLoss-ethyl-radical(rr)(rrh)-to-olefin</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HLossBetaAlkenylToDiene.lst</td>
+    <td>HLossBetaAlkenylToDiene-(X)(XX)</td>
+    <td class="pat-list">HLossBetaAlkenylToDiene-(h)(hh)<br>HLossBetaAlkenylToDiene-(r)(hh)<br>HLossBetaAlkenylToDiene-(h)(rh)<br>HLossBetaAlkenylToDiene-(r)(rh)<br>HLossBetaAlkenylToDiene-(h)(rr)<br>HLossBetaAlkenylToDiene-(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HLoseFromCarbon.lst</td>
+    <td class="dup">HLossDecomposition-(XXX)</td>
+    <td class="pat-list">HLossDecomposition-(hhh)<br>HLossDecomposition-(rhh)<br>HLossDecomposition-(rrh)<br>HLossDecomposition-(rrr)</td>
+    <td><span class="dup">DUPLICATE</span></td>
+  </tr>
+  <tr>
+    <td>HLossDecomposition.lst</td>
+    <td class="dup">HLossDecomposition-(XXX)</td>
+    <td class="pat-list">HLossDecomposition-(hhh)<br>HLossDecomposition-(rhh)<br>HLossDecomposition-(rrh)<br>HLossDecomposition-(rrr)</td>
+    <td><span class="dup">DUPLICATE</span></td>
+  </tr>
+  <tr>
+    <td>EthenylToEthyne.lst</td>
+    <td>HLossEthenylToEthyne-(XX)</td>
+    <td class="pat-list">HLossEthenylToEthyne-(hh)<br>HLossEthenylToEthyne-(rh)<br>HLossEthenylToEthyne-(rr)<br>HLossEthenylToEthyne-(hr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AlphaPropyneHAbstraction.lst</td>
+    <td>HLossPropenyl-(XX)</td>
+    <td class="pat-list">HLossPropenyl-(hh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AlphaPropyneHAbstraction.lst</td>
+    <td>HLossToPropenyl-oxygen-(XX)</td>
+    <td class="pat-list">HLossToPropenyl-oxygen-(rh)<br>HLossToPropenyl-oxygen-(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HShiftAlkyl.lst</td>
+    <td>HShift-12-Alkyl-(XX)(XX)</td>
+    <td class="pat-list">HShift-12-Alkyl-(rh)(hh)<br>HShift-12-Alkyl-(rr)(hh)<br>HShift-12-Alkyl-(hh)(rh)<br>HShift-12-Alkyl-(rh)(rh)<br>HShift-12-Alkyl-(rr)(rh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>QOOHFormation.lst</td>
+    <td class="qclass">Intramolecular-1-4-QOOH-Formation</td>
+    <td class="pat-list">Intramolecular-1-4-QOOH-Formation</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>QOOHFormation.lst</td>
+    <td class="qclass">Intramolecular-1-5-QOOH-Formation</td>
+    <td class="pat-list">Intramolecular-1-5-QOOH-Formation</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>QOOHFormation.lst</td>
+    <td class="qclass">Intramolecular-1-6-QOOH-Formation</td>
+    <td class="pat-list">Intramolecular-1-6-QOOH-Formation</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>Intramolecular-H-Abs-PeroxyAldehyde.lst</td>
+    <td>Intramolecular-H-Abs-PeroxyAldehyde-XX</td>
+    <td class="pat-list">Intramolecular-H-Abs-PeroxyAldehyde-HH<br>Intramolecular-H-Abs-PeroxyAldehyde-RH<br>Intramolecular-H-Abs-PeroxyAldehyde-RR</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KeteneDecomp.lst</td>
+    <td>KeteneDecomp-(XX)</td>
+    <td class="pat-list">KeteneDecomp-(hh)<br>KeteneDecomp-(rh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KeteneDecompOHToCO2.lst</td>
+    <td>KeteneDecompHOToCO2-(XXX)(X)</td>
+    <td class="pat-list">KeteneDecompHOToCO2-(hhh)(h)<br>KeteneDecompHOToCO2-(rhh)(h)<br>KeteneDecompHOToCO2-(rrh)(h)<br>KeteneDecompHOToCO2-(rrr)(h)<br>KeteneDecompHOToCO2-(hhh)(r)<br>KeteneDecompHOToCO2-(rhh)(r)<br>KeteneDecompHOToCO2-(rrh)(r)<br>KeteneDecompHOToCO2-(rrr)(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KeteneDecomp.lst</td>
+    <td>KeteneDecompHToCO-(XX)</td>
+    <td class="pat-list">KeteneDecompHToCO-(hh)<br>KeteneDecompHToCO-(rh)<br>KeteneDecompHToCO-(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KeteneDecompOToCO2.lst</td>
+    <td>KeteneDecompOToCO2-(XXX)(X)</td>
+    <td class="pat-list">KeteneDecompOToCO2-(hhh)(h)<br>KeteneDecompOToCO2-(rhh)(h)<br>KeteneDecompOToCO2-(rrh)(h)<br>KeteneDecompOToCO2-(hhh)(r)<br>KeteneDecompOToCO2-(rhh)(r)<br>KeteneDecompOToCO2-(rrh)(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KeteneFormation.lst</td>
+    <td>KeteneFormation-(XX)</td>
+    <td class="pat-list">KeteneFormation-(hh)<br>KeteneFormation-(rh)<br>KeteneFormation-(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KeteneFormation.lst</td>
+    <td>KeteneFormationO2Abstraction-(XX)</td>
+    <td class="pat-list">KeteneFormationO2Abstraction-(hh)<br>KeteneFormationO2Abstraction-(rh)<br>KeteneFormationO2Abstraction-(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KeteneFormation.lst</td>
+    <td>KeteneFormationRadicalDecomp-(XX)(XXX)</td>
+    <td class="pat-list">KeteneFormationRadicalDecomp-(hh)(hhh)<br>KeteneFormationRadicalDecomp-(hh)(rhh)<br>KeteneFormationRadicalDecomp-(hh)(rrh)<br>KeteneFormationRadicalDecomp-(hh)(rrr)<br>KeteneFormationRadicalDecomp-(rh)(hhh)<br>KeteneFormationRadicalDecomp-(rh)(rhh)<br>KeteneFormationRadicalDecomp-(rh)(rrh)<br>KeteneFormationRadicalDecomp-(rh)(rrr)<br>KeteneFormationRadicalDecomp-(rr)(hhh)<br>KeteneFormationRadicalDecomp-(rr)(rhh)<br>KeteneFormationRadicalDecomp-(rr)(rrh)<br>KeteneFormationRadicalDecomp-(rr)(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KetoAldCRadDecomposition.lst</td>
+    <td>KetoAldCRadDecomp-H-HH-XX</td>
+    <td class="pat-list">KetoAldCRadDecomp-H-HH-HH<br>KetoAldCRadDecomp-H-HH-RH<br>KetoAldCRadDecomp-H-HH-RR</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KetoAldCRadDecomposition.lst</td>
+    <td>KetoAldCRadDecomp-H-RH-XX</td>
+    <td class="pat-list">KetoAldCRadDecomp-H-RH-HH<br>KetoAldCRadDecomp-H-RH-RH<br>KetoAldCRadDecomp-H-RH-RR</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KetoAldCRadDecomposition.lst</td>
+    <td>KetoAldCRadDecomp-H-RR-XX</td>
+    <td class="pat-list">KetoAldCRadDecomp-H-RR-HH<br>KetoAldCRadDecomp-H-RR-RH<br>KetoAldCRadDecomp-H-RR-RR</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KetoAldCRadDecomposition.lst</td>
+    <td>KetoAldCRadDecomp-R-HH-XX</td>
+    <td class="pat-list">KetoAldCRadDecomp-R-HH-HH<br>KetoAldCRadDecomp-R-HH-RH<br>KetoAldCRadDecomp-R-HH-RR</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KetoAldCRadDecomposition.lst</td>
+    <td>KetoAldCRadDecomp-R-RH-XX</td>
+    <td class="pat-list">KetoAldCRadDecomp-R-RH-HH<br>KetoAldCRadDecomp-R-RH-RH<br>KetoAldCRadDecomp-R-RH-RR</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KetoAldCRadDecomposition.lst</td>
+    <td>KetoAldCRadDecomp-R-RR-XX</td>
+    <td class="pat-list">KetoAldCRadDecomp-R-RR-HH<br>KetoAldCRadDecomp-R-RR-RH<br>KetoAldCRadDecomp-R-RR-RR</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KetoAldDecomposition.lst</td>
+    <td>KetoAldDecomp-O2-XXX</td>
+    <td class="pat-list">KetoAldDecomp-O2-HHH<br>KetoAldDecomp-O2-RHH<br>KetoAldDecomp-O2-RRH<br>KetoAldDecomp-O2-RRR</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KetoAldDecomposition.lst</td>
+    <td>KetoAldDecomp-OH-XXX</td>
+    <td class="pat-list">KetoAldDecomp-OH-HHH<br>KetoAldDecomp-OH-RHH<br>KetoAldDecomp-OH-RRH<br>KetoAldDecomp-OH-RRR</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KetoHydroPeroxideDecomposition.lst</td>
+    <td>KetoHydroPeroxideDecomposition</td>
+    <td class="pat-list">KetoHydroPeroxideDecomposition</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KetoPeroxyDecompositionLong.lst</td>
+    <td>KetoHydroPeroxideDecompositionC4</td>
+    <td class="pat-list">KetoHydroPeroxideDecompositionC4</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KetoPeroxyDecompositionLong.lst</td>
+    <td>KetoHydroPeroxideDecompositionC5</td>
+    <td class="pat-list">KetoHydroPeroxideDecompositionC5</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KetoPeroxyDecompositionLong.lst</td>
+    <td>KetoHydroPeroxideDecompositionC6</td>
+    <td class="pat-list">KetoHydroPeroxideDecompositionC6</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KetoHydroPeroxideDecomposition.lst</td>
+    <td>KetoHydroPeroxideDecompToAldRadical-CHHHH</td>
+    <td class="pat-list">KetoHydroPeroxideDecompToAldRadical-CHHHH</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KetoHydroPeroxideDecomposition.lst</td>
+    <td>KetoHydroPeroxideDecompToAldRadical-CHHRH</td>
+    <td class="pat-list">KetoHydroPeroxideDecompToAldRadical-CHHRH</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KetoHydroPeroxideDecomposition.lst</td>
+    <td>KetoHydroPeroxideDecompToAldRadical-CHHRR</td>
+    <td class="pat-list">KetoHydroPeroxideDecompToAldRadical-CHHRR</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KetoHydroPeroxideDecomposition.lst</td>
+    <td>KetoHydroPeroxideDecompToAldRadical-CRHHH</td>
+    <td class="pat-list">KetoHydroPeroxideDecompToAldRadical-CRHHH</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KetoHydroPeroxideDecomposition.lst</td>
+    <td>KetoHydroPeroxideDecompToAldRadical-CRHRH</td>
+    <td class="pat-list">KetoHydroPeroxideDecompToAldRadical-CRHRH</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KetoHydroPeroxideDecomposition.lst</td>
+    <td>KetoHydroPeroxideDecompToAldRadical-CRHRR</td>
+    <td class="pat-list">KetoHydroPeroxideDecompToAldRadical-CRHRR</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KetoHydroPeroxideDecomposition.lst</td>
+    <td>KetoHydroPeroxideDecompToAldRadical-CRRHH</td>
+    <td class="pat-list">KetoHydroPeroxideDecompToAldRadical-CRRHH</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KetoHydroPeroxideDecomposition.lst</td>
+    <td>KetoHydroPeroxideDecompToAldRadical-CRRRH</td>
+    <td class="pat-list">KetoHydroPeroxideDecompToAldRadical-CRRRH</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KetoHydroPeroxideDecomposition.lst</td>
+    <td>KetoHydroPeroxideDecompToAldRadical-CRRRR</td>
+    <td class="pat-list">KetoHydroPeroxideDecompToAldRadical-CRRRR</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KetoHydroPeroxideDecomposition.lst</td>
+    <td>KetoHydroPeroxideDecompToAldRadical-XXX</td>
+    <td class="pat-list">KetoHydroPeroxideDecompToAldRadical-HHH<br>KetoHydroPeroxideDecompToAldRadical-HRH<br>KetoHydroPeroxideDecompToAldRadical-HRR<br>KetoHydroPeroxideDecompToAldRadical-RHH<br>KetoHydroPeroxideDecompToAldRadical-RRH<br>KetoHydroPeroxideDecompToAldRadical-RRR</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KetoneAdditionOH-Alpha.lst</td>
+    <td class="dup">KetoneAdditionOH-Alpha-(X)(XX)</td>
+    <td class="pat-list">KetoneAdditionOH-Alpha-(h)(hh)<br>KetoneAdditionOH-Alpha-(r)(hh)<br>KetoneAdditionOH-Alpha-(h)(rh)<br>KetoneAdditionOH-Alpha-(r)(rh)<br>KetoneAdditionOH-Alpha-(h)(rr)<br>KetoneAdditionOH-Alpha-(r)(rr)</td>
+    <td><span class="dup">DUPLICATE</span></td>
+  </tr>
+  <tr>
+    <td>KetoneAdditionOH-Beta.lst</td>
+    <td class="dup">KetoneAdditionOH-Alpha-(X)(XX)</td>
+    <td class="pat-list">KetoneAdditionOH-Alpha-(h)(hh)</td>
+    <td><span class="dup">DUPLICATE</span></td>
+  </tr>
+  <tr>
+    <td>KetoneDecompToAlkene-Alkenyl.lst</td>
+    <td>KetoneDecompToAlkene-Alkenyl-(XX)(XX)</td>
+    <td class="pat-list">KetoneDecompToAlkene-Alkenyl-(hh)(hh)<br>KetoneDecompToAlkene-Alkenyl-(rh)(hh)<br>KetoneDecompToAlkene-Alkenyl-(rr)(hh)<br>KetoneDecompToAlkene-Alkenyl-(hh)(rh)<br>KetoneDecompToAlkene-Alkenyl-(rh)(rh)<br>KetoneDecompToAlkene-Alkenyl-(rr)(rh)<br>KetoneDecompToAlkene-Alkenyl-(hh)(rr)<br>KetoneDecompToAlkene-Alkenyl-(rh)(rr)<br>KetoneDecompToAlkene-Alkenyl-(rr)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KetoneDecompToAlkene-Alkyl.lst</td>
+    <td>KetoneDecompToAlkene-Alkyl-(XX)(XX)</td>
+    <td class="pat-list">KetoneDecompToAlkene-Alkyl-(hh)(hh)<br>KetoneDecompToAlkene-Alkyl-(rh)(hh)<br>KetoneDecompToAlkene-Alkyl-(rr)(hh)<br>KetoneDecompToAlkene-Alkyl-(hh)(rh)<br>KetoneDecompToAlkene-Alkyl-(rh)(rh)<br>KetoneDecompToAlkene-Alkyl-(rr)(rh)<br>KetoneDecompToAlkene-Alkyl-(hh)(rr)<br>KetoneDecompToAlkene-Alkyl-(rh)(rr)<br>KetoneDecompToAlkene-Alkyl-(rr)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KetoneDecompToAlkeneAndch2co-Alkyl.lst</td>
+    <td>KetoneDecompToAlkeneAndch2co-Alkyl-(XX)(XX)(XX)</td>
+    <td class="pat-list">KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(hh)(hh)<br>KetoneDecompToAlkeneAndch2co-Alkyl-(rh)(hh)(hh)<br>KetoneDecompToAlkeneAndch2co-Alkyl-(rr)(hh)(hh)<br>KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(rh)(hh)<br>KetoneDecompToAlkeneAndch2co-Alkyl-(rh)(rh)(hh)<br>KetoneDecompToAlkeneAndch2co-Alkyl-(rr)(rh)(hh)<br>KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(rr)(hh)<br>KetoneDecompToAlkeneAndch2co-Alkyl-(rh)(rr)(hh)<br>KetoneDecompToAlkeneAndch2co-Alkyl-(rr)(rr)(hh)<br>KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(hh)(rh)<br>KetoneDecompToAlkeneAndch2co-Alkyl-(rh)(hh)(rh)<br>KetoneDecompToAlkeneAndch2co-Alkyl-(rr)(hh)(rh)<br>KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(rh)(rh)<br>KetoneDecompToAlkeneAndch2co-Alkyl-(rh)(rh)(rh)<br>KetoneDecompToAlkeneAndch2co-Alkyl-(rr)(rh)(rh)<br>KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(rr)(rh)<br>KetoneDecompToAlkeneAndch2co-Alkyl-(rh)(rr)(rh)<br>KetoneDecompToAlkeneAndch2co-Alkyl-(rr)(rr)(rh)<br>KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(hh)(rr)<br>KetoneDecompToAlkeneAndch2co-Alkyl-(rh)(hh)(rr)<br>KetoneDecompToAlkeneAndch2co-Alkyl-(rr)(hh)(rr)<br>KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(rh)(rr)<br>KetoneDecompToAlkeneAndch2co-Alkyl-(rh)(rh)(rr)<br>KetoneDecompToAlkeneAndch2co-Alkyl-(rr)(rh)(rr)<br>KetoneDecompToAlkeneAndch2co-Alkyl-(hh)(rr)(rr)<br>KetoneDecompToAlkeneAndch2co-Alkyl-(rh)(rr)(rr)<br>KetoneDecompToAlkeneAndch2co-Alkyl-(rr)(rr)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KetoneDecompToKetylAlkene-Alkyl.lst</td>
+    <td>KetoneDecompToKetylAlkene-Alkyl-(X)(XX)(XXX)</td>
+    <td class="pat-list">KetoneDecompToKetylAlkene-Alkyl-(h)(hh)(hhh)<br>KetoneDecompToKetylAlkene-Alkyl-(r)(hh)(hhh)<br>KetoneDecompToKetylAlkene-Alkyl-(h)(rh)(hhh)<br>KetoneDecompToKetylAlkene-Alkyl-(r)(rh)(hhh)<br>KetoneDecompToKetylAlkene-Alkyl-(h)(rr)(hhh)<br>KetoneDecompToKetylAlkene-Alkyl-(r)(rr)(hhh)<br>KetoneDecompToKetylAlkene-Alkyl-(h)(hh)(rhh)<br>KetoneDecompToKetylAlkene-Alkyl-(r)(hh)(rhh)<br>KetoneDecompToKetylAlkene-Alkyl-(h)(rh)(rhh)<br>KetoneDecompToKetylAlkene-Alkyl-(r)(rh)(rhh)<br>KetoneDecompToKetylAlkene-Alkyl-(h)(rr)(rhh)<br>KetoneDecompToKetylAlkene-Alkyl-(r)(rr)(rhh)<br>KetoneDecompToKetylAlkene-Alkyl-(h)(hh)(rrh)<br>KetoneDecompToKetylAlkene-Alkyl-(r)(hh)(rrh)<br>KetoneDecompToKetylAlkene-Alkyl-(h)(rh)(rrh)<br>KetoneDecompToKetylAlkene-Alkyl-(r)(rh)(rrh)<br>KetoneDecompToKetylAlkene-Alkyl-(h)(rr)(rrh)<br>KetoneDecompToKetylAlkene-Alkyl-(r)(rr)(rrh)<br>KetoneDecompToKetylAlkene-Alkyl-(h)(hh)(rrr)<br>KetoneDecompToKetylAlkene-Alkyl-(r)(hh)(rrr)<br>KetoneDecompToKetylAlkene-Alkyl-(h)(rh)(rrr)<br>KetoneDecompToKetylAlkene-Alkyl-(r)(rh)(rrr)<br>KetoneDecompToKetylAlkene-Alkyl-(h)(rr)(rrr)<br>KetoneDecompToKetylAlkene-Alkyl-(r)(rr)(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AldehydeRadicalDecomp.lst</td>
+    <td>KetoneRadicalDecomp-XXX</td>
+    <td class="pat-list">KetoneRadicalDecomp-HHH<br>KetoneRadicalDecomp-RHH<br>KetoneRadicalDecomp-RRH<br>KetoneRadicalDecomp-RRR</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>KetylHydroPeroxyDecomposition.lst</td>
+    <td>KetylHydroPeroxyDecomposition-XX</td>
+    <td class="pat-list">KetylHydroPeroxyDecomposition-HH<br>KetylHydroPeroxyDecomposition-RH<br>KetylHydroPeroxyDecomposition-RR</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AlkOHOOFormation.lst</td>
+    <td>O2-AdditionToCCOH-(XX)(XX)</td>
+    <td class="pat-list">O2-AdditionToCCOH-(hh)(hh)<br>O2-AdditionToCCOH-(hh)(rh)<br>O2-AdditionToCCOH-(hh)(rr)<br>O2-AdditionToCCOH-(rh)(hh)<br>O2-AdditionToCCOH-(rh)(rh)<br>O2-AdditionToCCOH-(rh)(rr)<br>O2-AdditionToCCOH-(rr)(hh)<br>O2-AdditionToCCOH-(rr)(rh)<br>O2-AdditionToCCOH-(rr)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>O2AdditionToAlphaRadicalKetone.lst</td>
+    <td>O2AdditionToAlphaRadicalKetone-XXX</td>
+    <td class="pat-list">O2AdditionToAlphaRadicalKetone-HHH<br>O2AdditionToAlphaRadicalKetone-RHH<br>O2AdditionToAlphaRadicalKetone-RRH<br>O2AdditionToAlphaRadicalKetone-HHR<br>O2AdditionToAlphaRadicalKetone-RHR<br>O2AdditionToAlphaRadicalKetone-RRR</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>OlefinAlphaHydroPeroxyBetaKetoneDecomp.lst</td>
+    <td>OlefinAlphaHydroPeroxyBetaKetoneDecomp-(X)(X)</td>
+    <td class="pat-list">OlefinAlphaHydroPeroxyBetaKetoneDecomp-(h)(h)<br>OlefinAlphaHydroPeroxyBetaKetoneDecomp-(r)(h)<br>OlefinAlphaHydroPeroxyBetaKetoneDecomp-(h)(r)<br>OlefinAlphaHydroPeroxyBetaKetoneDecomp-(r)(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>OlefinAlphaHydroPeroxyGammaKetoneDecomp.lst</td>
+    <td>OlefinAlphaHydroPeroxyGammaKetoneDecomp-(X)(XX)(X)</td>
+    <td class="pat-list">OlefinAlphaHydroPeroxyGammaKetoneDecomp-(h)(hh)(h)<br>OlefinAlphaHydroPeroxyGammaKetoneDecomp-(r)(hh)(h)<br>OlefinAlphaHydroPeroxyGammaKetoneDecomp-(h)(rh)(h)<br>OlefinAlphaHydroPeroxyGammaKetoneDecomp-(r)(rh)(h)<br>OlefinAlphaHydroPeroxyGammaKetoneDecomp-(h)(rr)(h)<br>OlefinAlphaHydroPeroxyGammaKetoneDecomp-(r)(rr)(h)<br>OlefinAlphaHydroPeroxyGammaKetoneDecomp-(h)(hh)(r)<br>OlefinAlphaHydroPeroxyGammaKetoneDecomp-(r)(hh)(r)<br>OlefinAlphaHydroPeroxyGammaKetoneDecomp-(h)(rh)(r)<br>OlefinAlphaHydroPeroxyGammaKetoneDecomp-(r)(rh)(r)<br>OlefinAlphaHydroPeroxyGammaKetoneDecomp-(h)(rr)(r)<br>OlefinAlphaHydroPeroxyGammaKetoneDecomp-(r)(rr)(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>OlefinAlphaHydroPeroxyGammaRadicalDecomp.lst</td>
+    <td>OlefinAlphaHydroPeroxyGammaRadicalDecomp-(X)(XX)(XX)</td>
+    <td class="pat-list">OlefinAlphaHydroPeroxyGammaRadicalDecomp-(h)(hh)(hh)<br>OlefinAlphaHydroPeroxyGammaRadicalDecomp-(r)(hh)(hh)<br>OlefinAlphaHydroPeroxyGammaRadicalDecomp-(h)(rh)(hh)<br>OlefinAlphaHydroPeroxyGammaRadicalDecomp-(r)(rh)(hh)<br>OlefinAlphaHydroPeroxyGammaRadicalDecomp-(h)(rr)(hh)<br>OlefinAlphaHydroPeroxyGammaRadicalDecomp-(r)(rr)(hh)<br>OlefinAlphaHydroPeroxyGammaRadicalDecomp-(h)(hh)(rh)<br>OlefinAlphaHydroPeroxyGammaRadicalDecomp-(r)(hh)(rh)<br>OlefinAlphaHydroPeroxyGammaRadicalDecomp-(h)(rh)(rh)<br>OlefinAlphaHydroPeroxyGammaRadicalDecomp-(r)(rh)(rh)<br>OlefinAlphaHydroPeroxyGammaRadicalDecomp-(h)(rr)(rh)<br>OlefinAlphaHydroPeroxyGammaRadicalDecomp-(r)(rr)(rh)<br>OlefinAlphaHydroPeroxyGammaRadicalDecomp-(h)(hh)(rr)<br>OlefinAlphaHydroPeroxyGammaRadicalDecomp-(r)(hh)(rr)<br>OlefinAlphaHydroPeroxyGammaRadicalDecomp-(h)(rh)(rr)<br>OlefinAlphaHydroPeroxyGammaRadicalDecomp-(r)(rh)(rr)<br>OlefinAlphaHydroPeroxyGammaRadicalDecomp-(h)(rr)(rr)<br>OlefinAlphaHydroPeroxyGammaRadicalDecomp-(r)(rr)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>OlefinAlphaPeroxyBetaHydroPeroxyDecomp.lst</td>
+    <td>OlefinAlphaPeroxyBetaHydroPeroxyDecomp-(X)(X)</td>
+    <td class="pat-list">OlefinAlphaPeroxyBetaHydroPeroxyDecomp-(h)(h)<br>OlefinAlphaPeroxyBetaHydroPeroxyDecomp-(r)(h)<br>OlefinAlphaPeroxyBetaHydroPeroxyDecomp-(h)(r)<br>OlefinAlphaPeroxyBetaHydroPeroxyDecomp-(r)(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>OlefinAlphaPeroxyGammaHydroPeroxyDecomp.lst</td>
+    <td>OlefinAlphaPeroxyGammaHydroPeroxyDecomp-(X)(XX)(X)</td>
+    <td class="pat-list">OlefinAlphaPeroxyGammaHydroPeroxyDecomp-(h)(hh)(h)<br>OlefinAlphaPeroxyGammaHydroPeroxyDecomp-(r)(hh)(h)<br>OlefinAlphaPeroxyGammaHydroPeroxyDecomp-(h)(rh)(h)<br>OlefinAlphaPeroxyGammaHydroPeroxyDecomp-(r)(rh)(h)<br>OlefinAlphaPeroxyGammaHydroPeroxyDecomp-(h)(rr)(h)<br>OlefinAlphaPeroxyGammaHydroPeroxyDecomp-(r)(rr)(h)<br>OlefinAlphaPeroxyGammaHydroPeroxyDecomp-(h)(hh)(r)<br>OlefinAlphaPeroxyGammaHydroPeroxyDecomp-(r)(hh)(r)<br>OlefinAlphaPeroxyGammaHydroPeroxyDecomp-(h)(rh)(r)<br>OlefinAlphaPeroxyGammaHydroPeroxyDecomp-(r)(rh)(r)<br>OlefinAlphaPeroxyGammaHydroPeroxyDecomp-(h)(rr)(r)<br>OlefinAlphaPeroxyGammaHydroPeroxyDecomp-(r)(rr)(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>OlefinAlphaPeroxyIntraHAbstraction.lst</td>
+    <td>OlefinAlphaPeroxyIntraHAbstraction5Ring-(X)(XXX)</td>
+    <td class="pat-list">OlefinAlphaPeroxyIntraHAbstraction5Ring-(h)(hhh)<br>OlefinAlphaPeroxyIntraHAbstraction5Ring-(r)(hhh)<br>OlefinAlphaPeroxyIntraHAbstraction5Ring-(h)(rhh)<br>OlefinAlphaPeroxyIntraHAbstraction5Ring-(r)(rhh)<br>OlefinAlphaPeroxyIntraHAbstraction5Ring-(h)(rrh)<br>OlefinAlphaPeroxyIntraHAbstraction5Ring-(r)(rrh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>OlefinAlphaPeroxyIntraHAbstraction.lst</td>
+    <td>OlefinAlphaPeroxyIntraHAbstraction6Ring-(X)(XX)(XXX)</td>
+    <td class="pat-list">OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(hh)(hhh)<br>OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(hh)(hhh)<br>OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rh)(hhh)<br>OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rh)(hhh)<br>OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rr)(hhh)<br>OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rr)(hhh)<br>OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(hh)(rhh)<br>OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(hh)(rhh)<br>OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rh)(rhh)<br>OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rh)(rhh)<br>OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rr)(rhh)<br>OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rr)(rhh)<br>OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(hh)(rrh)<br>OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(hh)(rrh)<br>OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rh)(rrh)<br>OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rh)(rrh)<br>OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rr)(rrh)<br>OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rr)(rrh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>OlefinAlphaPeroxyIntraHAbstraction.lst</td>
+    <td>OlefinAlphaPeroxyIntraHAbstraction7Ring-(X)(XXX)</td>
+    <td class="pat-list">OlefinAlphaPeroxyIntraHAbstraction7Ring-(h)(hhh)<br>OlefinAlphaPeroxyIntraHAbstraction7Ring-(r)(hhh)<br>OlefinAlphaPeroxyIntraHAbstraction7Ring-(h)(rhh)<br>OlefinAlphaPeroxyIntraHAbstraction7Ring-(r)(rhh)<br>OlefinAlphaPeroxyIntraHAbstraction7Ring-(h)(rrh)<br>OlefinAlphaPeroxyIntraHAbstraction7Ring-(r)(rrh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>OlefinAlphaPeroxyIntraHAbstraction.lst</td>
+    <td>OlefinAlphaPeroxyIntraHAbstraction8Ring-(X)(XXX)</td>
+    <td class="pat-list">OlefinAlphaPeroxyIntraHAbstraction8Ring-(h)(hhh)<br>OlefinAlphaPeroxyIntraHAbstraction8Ring-(r)(hhh)<br>OlefinAlphaPeroxyIntraHAbstraction8Ring-(h)(rhh)<br>OlefinAlphaPeroxyIntraHAbstraction8Ring-(h)(rrh)<br>OlefinAlphaPeroxyIntraHAbstraction8Ring-(r)(rrh)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>OlefinBetaHydroPeroxyAlphaRadicalO2Addition.lst</td>
+    <td>OlefinBetaHydroPeroxyAlphaRadicalO2Addition-(X)(XX)</td>
+    <td class="pat-list">OlefinBetaHydroPeroxyAlphaRadicalO2Addition-(h)(hh)<br>OlefinBetaHydroPeroxyAlphaRadicalO2Addition-(r)(hh)<br>OlefinBetaHydroPeroxyAlphaRadicalO2Addition-(h)(rh)<br>OlefinBetaHydroPeroxyAlphaRadicalO2Addition-(r)(rh)<br>OlefinBetaHydroPeroxyAlphaRadicalO2Addition-(h)(rr)<br>OlefinBetaHydroPeroxyAlphaRadicalO2Addition-(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>OlefinBetaPeroxyIntraHAbstraction.lst</td>
+    <td>OlefinBetaPeroxyIntraHAbstraction5Ring-(X)(XX)</td>
+    <td class="pat-list">OlefinBetaPeroxyIntraHAbstraction5Ring-(h)(hh)<br>OlefinBetaPeroxyIntraHAbstraction5Ring-(r)(hh)<br>OlefinBetaPeroxyIntraHAbstraction5Ring-(h)(rh)<br>OlefinBetaPeroxyIntraHAbstraction5Ring-(r)(rh)<br>OlefinBetaPeroxyIntraHAbstraction5Ring-(h)(rr)<br>OlefinBetaPeroxyIntraHAbstraction5Ring-(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>OlefinCarbonylFromQOOH.lst</td>
+    <td>OlefinCarbonylFromPeroxy-XX</td>
+    <td class="pat-list">OlefinCarbonylFromPeroxy-HH<br>OlefinCarbonylFromPeroxy-RH<br>OlefinCarbonylFromPeroxy-RR</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>OlefinDecompToAlkenyl.lst</td>
+    <td class="dup">OlefinDecompToAkenyl(XX)(XXX)</td>
+    <td class="pat-list">OlefinDecompToAkenyl(hh)(hhh)<br>OlefinDecompToAkenyl(rh)(hhh)<br>OlefinDecompToAkenyl(rr)(hhh)<br>OlefinDecompToAkenyl(hh)(rhh)<br>OlefinDecompToAkenyl(rh)(rhh)<br>OlefinDecompToAkenyl(rr)(rhh)<br>OlefinDecompToAkenyl(hh)(rrh)<br>OlefinDecompToAkenyl(rh)(rrh)<br>OlefinDecompToAkenyl(rr)(rrh)<br>OlefinDecompToAkenyl(hh)(rrr)<br>OlefinDecompToAkenyl(rh)(rrr)<br>OlefinDecompToAkenyl(rr)(hhh)</td>
+    <td><span class="dup">DUPLICATE</span></td>
+  </tr>
+  <tr>
+    <td>OlefinDecompToAlkenyl.lst</td>
+    <td>OlefinDecompToAkenyl(XXX)</td>
+    <td class="pat-list">OlefinDecompToAkenyl(hhh)<br>OlefinDecompToAkenyl(rhh)<br>OlefinDecompToAkenyl(rrh)<br>OlefinDecompToAkenyl(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>OlefinGammaHydroPeroxyAlphaRadicalDecomp.lst</td>
+    <td class="dup">OlefinGammaHydroPeroxyAlphaRadicalFormation-(X)(XX)(XX)</td>
+    <td class="pat-list">OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(hh)(hh)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(hh)(hh)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(rh)(hh)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(rh)(hh)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(rr)(hh)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(rr)(hh)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(hh)(rh)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(hh)(rh)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(rh)(rh)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(rh)(rh)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(rr)(rh)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(rr)(rh)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(hh)(rr)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(hh)(rr)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(rh)(rr)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(rh)(rr)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(rr)(rr)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(rr)(rr)</td>
+    <td><span class="dup">DUPLICATE</span></td>
+  </tr>
+  <tr>
+    <td>OlefinGammaHydroPeroxyAlphaRadicalFormation.lst</td>
+    <td class="dup">OlefinGammaHydroPeroxyAlphaRadicalFormation-(X)(XX)(XX)</td>
+    <td class="pat-list">OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(hh)(hh)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(hh)(hh)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(rh)(hh)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(rh)(hh)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(rr)(hh)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(rr)(hh)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(hh)(rh)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(hh)(rh)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(rh)(rh)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(rh)(rh)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(rr)(rh)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(rr)(rh)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(hh)(rr)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(hh)(rr)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(rh)(rr)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(rh)(rr)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(h)(rr)(rr)<br>OlefinGammaHydroPeroxyAlphaRadicalFormation-(r)(rr)(rr)</td>
+    <td><span class="dup">DUPLICATE</span></td>
+  </tr>
+  <tr>
+    <td>OlefinGammaHydroPeroxyAlphaRadicalO2Addition.lst</td>
+    <td>OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(X)(XX)(XX)</td>
+    <td class="pat-list">OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(h)(hh)(hh)<br>OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(r)(hh)(hh)<br>OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(h)(rh)(hh)<br>OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(r)(rh)(hh)<br>OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(h)(rr)(hh)<br>OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(r)(rr)(hh)<br>OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(h)(hh)(rh)<br>OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(r)(hh)(rh)<br>OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(h)(rh)(rh)<br>OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(r)(rh)(rh)<br>OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(h)(rr)(rh)<br>OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(r)(rr)(rh)<br>OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(h)(hh)(rr)<br>OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(r)(hh)(rr)<br>OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(h)(rh)(rr)<br>OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(r)(rh)(rr)<br>OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(h)(rr)(rr)<br>OlefinGammaHydroPeroxyAlphaRadicalO2Addition-(r)(rr)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>OlefinToAldehyde.lst</td>
+    <td>OlefinToAldehydeDecomp-(XX)(XX)</td>
+    <td class="pat-list">OlefinToAldehydeDecomp-(hh)(hh)<br>OlefinToAldehydeDecomp-(rh)(hh)<br>OlefinToAldehydeDecomp-(rr)(hh)<br>OlefinToAldehydeDecomp-(hh)(rh)<br>OlefinToAldehydeDecomp-(rh)(rh)<br>OlefinToAldehydeDecomp-(rr)(rh)<br>OlefinToAldehydeDecomp-(hh)(rr)<br>OlefinToAldehydeDecomp-(rh)(rr)<br>OlefinToAldehydeDecomp-(rr)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>OlefinToAldehyde.lst</td>
+    <td>OlefinToAldehydeDecompB-(XX)(XX)</td>
+    <td class="pat-list">OlefinToAldehydeDecompB-(rh)(hh)<br>OlefinToAldehydeDecompB-(rr)(hh)<br>OlefinToAldehydeDecompB-(hh)(rh)<br>OlefinToAldehydeDecompB-(rr)(rh)<br>OlefinToAldehydeDecompB-(hh)(rr)<br>OlefinToAldehydeDecompB-(rh)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>QOOHQOO.lst</td>
+    <td class="qclass">OOQOOH-Isomerization-5Ring-Primary</td>
+    <td class="pat-list">OOQOOH-Isomerization-5Ring-Primary</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>QOOHQOO.lst</td>
+    <td class="qclass">OOQOOH-Isomerization-5Ring-Secondary</td>
+    <td class="pat-list">OOQOOH-Isomerization-5Ring-Secondary</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>QOOHQOO.lst</td>
+    <td class="qclass">OOQOOH-Isomerization-6Ring-Primary</td>
+    <td class="pat-list">OOQOOH-Isomerization-6Ring-Primary</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>QOOHQOO.lst</td>
+    <td class="qclass">OOQOOH-Isomerization-6Ring-Secondary</td>
+    <td class="pat-list">OOQOOH-Isomerization-6Ring-Secondary</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>QOOHQOO.lst</td>
+    <td class="qclass">OOQOOH-Isomerization-7Ring-Primary</td>
+    <td class="pat-list">OOQOOH-Isomerization-7Ring-Primary</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>QOOHQOO.lst</td>
+    <td class="qclass">OOQOOH-Isomerization-7Ring-Secondary</td>
+    <td class="pat-list">OOQOOH-Isomerization-7Ring-Secondary</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>QOOHQOO.lst</td>
+    <td class="qclass">OOQOOH-Isomerization-8Ring-Primary</td>
+    <td class="pat-list">OOQOOH-Isomerization-8Ring-Primary</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>QOOHQOO.lst</td>
+    <td class="qclass">OOQOOH-Isomerization-8Ring-Secondary</td>
+    <td class="pat-list">OOQOOH-Isomerization-8Ring-Secondary</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>OOQOOH-Isomerization-Ring.lst</td>
+    <td class="qclass">OOQOOH-IsomerizationCyclohexane-5-Ring-H</td>
+    <td class="pat-list">OOQOOH-IsomerizationCyclohexane-5-Ring-H</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>OOQOOH-Isomerization-Ring.lst</td>
+    <td class="qclass">OOQOOH-IsomerizationCyclohexane-5-Ring-R</td>
+    <td class="pat-list">OOQOOH-IsomerizationCyclohexane-5-Ring-R</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>OOQOOH-Isomerization-Ring.lst</td>
+    <td class="qclass">OOQOOH-IsomerizationCyclohexane-6-Ring-H</td>
+    <td class="pat-list">OOQOOH-IsomerizationCyclohexane-6-Ring-H</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>OOQOOH-Isomerization-Ring.lst</td>
+    <td class="qclass">OOQOOH-IsomerizationCyclohexane-6-Ring-R</td>
+    <td class="pat-list">OOQOOH-IsomerizationCyclohexane-6-Ring-R</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>OOQOOH-Isomerization-Ring.lst</td>
+    <td class="qclass">OOQOOH-IsomerizationCyclohexane-7-Ring-H</td>
+    <td class="pat-list">OOQOOH-IsomerizationCyclohexane-7-Ring-H</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>OOQOOH-Isomerization-Ring.lst</td>
+    <td class="qclass">OOQOOH-IsomerizationCyclohexane-7-Ring-R</td>
+    <td class="pat-list">OOQOOH-IsomerizationCyclohexane-7-Ring-R</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>PenteneAldRadDecomp.lst</td>
+    <td class="qclass">PenteneAlRadDecomp(QQ)(Q)(XX)(XX)</td>
+    <td class="pat-list">PenteneAlRadDecomp(qq)(q)(hh)(hh)<br>PenteneAlRadDecomp(qq)(q)(rh)(hh)<br>PenteneAlRadDecomp(qq)(q)(rr)(hh)<br>PenteneAlRadDecomp(qq)(q)(hh)(rh)<br>PenteneAlRadDecomp(qq)(q)(rh)(rh)<br>PenteneAlRadDecomp(qq)(q)(rr)(rh)<br>PenteneAlRadDecomp(qq)(q)(hh)(rr)<br>PenteneAlRadDecomp(qq)(q)(rh)(rr)<br>PenteneAlRadDecomp(qq)(q)(rr)(rr)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>PentenylDecompToPropenyl.lst</td>
+    <td>PentenylDecompToPropenyl-(XX)(XX)(XX)</td>
+    <td class="pat-list">PentenylDecompToPropenyl-(hh)(hh)(hh)<br>PentenylDecompToPropenyl-(rh)(hh)(hh)<br>PentenylDecompToPropenyl-(rr)(hh)(hh)<br>PentenylDecompToPropenyl-(hh)(rh)(hh)<br>PentenylDecompToPropenyl-(rh)(rh)(hh)<br>PentenylDecompToPropenyl-(rr)(rh)(hh)<br>PentenylDecompToPropenyl-(hh)(rr)(hh)<br>PentenylDecompToPropenyl-(rh)(rr)(hh)<br>PentenylDecompToPropenyl-(rr)(rr)(hh)<br>PentenylDecompToPropenyl-(hh)(hh)(rh)<br>PentenylDecompToPropenyl-(rh)(hh)(rh)<br>PentenylDecompToPropenyl-(rr)(hh)(rh)<br>PentenylDecompToPropenyl-(hh)(rh)(rh)<br>PentenylDecompToPropenyl-(rh)(rh)(rh)<br>PentenylDecompToPropenyl-(rr)(rh)(rh)<br>PentenylDecompToPropenyl-(hh)(rr)(rh)<br>PentenylDecompToPropenyl-(rh)(rr)(rh)<br>PentenylDecompToPropenyl-(rr)(rr)(rh)<br>PentenylDecompToPropenyl-(hh)(hh)(rr)<br>PentenylDecompToPropenyl-(rh)(hh)(rr)<br>PentenylDecompToPropenyl-(rr)(hh)(rr)<br>PentenylDecompToPropenyl-(hh)(rh)(rr)<br>PentenylDecompToPropenyl-(rh)(rh)(rr)<br>PentenylDecompToPropenyl-(rr)(rh)(rr)<br>PentenylDecompToPropenyl-(hh)(rr)(rr)<br>PentenylDecompToPropenyl-(rh)(rr)(rr)<br>PentenylDecompToPropenyl-(rr)(rr)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>PeroxyAllylDecomposition.lst</td>
+    <td>PeroxyAllylDecomposition(XX)(X)(XX)</td>
+    <td class="pat-list">PeroxyAllylDecomposition(hh)(h)(hh)<br>PeroxyAllylDecomposition(rh)(h)(hh)<br>PeroxyAllylDecomposition(rr)(h)(hh)<br>PeroxyAllylDecomposition(hh)(r)(hh)<br>PeroxyAllylDecomposition(rh)(r)(hh)<br>PeroxyAllylDecomposition(rr)(r)(hh)<br>PeroxyAllylDecomposition(hh)(h)(rh)<br>PeroxyAllylDecomposition(rh)(h)(rh)<br>PeroxyAllylDecomposition(rr)(h)(rh)<br>PeroxyAllylDecomposition(hh)(r)(rh)<br>PeroxyAllylDecomposition(rh)(r)(rh)<br>PeroxyAllylDecomposition(rr)(r)(rh)<br>PeroxyAllylDecomposition(hh)(h)(rr)<br>PeroxyAllylDecomposition(rh)(h)(rr)<br>PeroxyAllylDecomposition(rr)(h)(rr)<br>PeroxyAllylDecomposition(hh)(r)(rr)<br>PeroxyAllylDecomposition(rh)(r)(rr)<br>PeroxyAllylDecomposition(rr)(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>PeroxyAllylFormation.lst</td>
+    <td>PeroxyAllylFormation(XX)(X)(XX)</td>
+    <td class="pat-list">PeroxyAllylFormation(hh)(h)(hh)<br>PeroxyAllylFormation(rh)(h)(hh)<br>PeroxyAllylFormation(rr)(h)(hh)<br>PeroxyAllylFormation(hh)(r)(hh)<br>PeroxyAllylFormation(rh)(r)(hh)<br>PeroxyAllylFormation(rr)(r)(hh)<br>PeroxyAllylFormation(hh)(h)(rh)<br>PeroxyAllylFormation(rh)(h)(rh)<br>PeroxyAllylFormation(rr)(h)(rh)<br>PeroxyAllylFormation(hh)(r)(rh)<br>PeroxyAllylFormation(rh)(r)(rh)<br>PeroxyAllylFormation(rr)(r)(rh)<br>PeroxyAllylFormation(hh)(h)(rr)<br>PeroxyAllylFormation(rh)(h)(rr)<br>PeroxyAllylFormation(rr)(h)(rr)<br>PeroxyAllylFormation(hh)(r)(rr)<br>PeroxyAllylFormation(rh)(r)(rr)<br>PeroxyAllylFormation(rr)(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>PeroxyFromHydroPeroxy.lst</td>
+    <td>PeroxyFromHydrogenPeroxide-XXX</td>
+    <td class="pat-list">PeroxyFromHydrogenPeroxide-HHH<br>PeroxyFromHydrogenPeroxide-RHH<br>PeroxyFromHydrogenPeroxide-RRH<br>PeroxyFromHydrogenPeroxide-RRR</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>PeroxyOlefinDecomposition.lst</td>
+    <td>PeroxyOlefinDecomposition-(XX)(X)(XX)</td>
+    <td class="pat-list">PeroxyOlefinDecomposition-(hh)(h)(hh)<br>PeroxyOlefinDecomposition-(rh)(h)(hh)<br>PeroxyOlefinDecomposition-(rr)(h)(hh)<br>PeroxyOlefinDecomposition-(hh)(r)(hh)<br>PeroxyOlefinDecomposition-(rh)(r)(hh)<br>PeroxyOlefinDecomposition-(rr)(r)(hh)<br>PeroxyOlefinDecomposition-(hh)(h)(rh)<br>PeroxyOlefinDecomposition-(rh)(h)(rh)<br>PeroxyOlefinDecomposition-(rr)(h)(rh)<br>PeroxyOlefinDecomposition-(hh)(r)(rh)<br>PeroxyOlefinDecomposition-(rh)(r)(rh)<br>PeroxyOlefinDecomposition-(rr)(r)(rh)<br>PeroxyOlefinDecomposition-(hh)(h)(rr)<br>PeroxyOlefinDecomposition-(rh)(h)(rr)<br>PeroxyOlefinDecomposition-(rr)(h)(rr)<br>PeroxyOlefinDecomposition-(hh)(r)(rr)<br>PeroxyOlefinDecomposition-(rh)(r)(rr)<br>PeroxyOlefinDecomposition-(rr)(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>PeroxyOlefinFormationFromAlphaOlefinRadical.lst</td>
+    <td>PeroxyOlefinFormationFromAlphaOlefinRadical-(XX)</td>
+    <td class="pat-list">PeroxyOlefinFormationFromAlphaOlefinRadical-(hh)<br>PeroxyOlefinFormationFromAlphaOlefinRadical-(rh)<br>PeroxyOlefinFormationFromAlphaOlefinRadical-(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>O2AdditionToRadical.lst</td>
+    <td>Primary-Carbon-Radical-(R.+O2-->RO2.)</td>
+    <td class="pat-list">Primary-Carbon-Radical-(R.+O2-->RO2.)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>PropenylRadicalIsomerization.lst</td>
+    <td>PropenylIsomerization-(XX)(X)(XX)</td>
+    <td class="pat-list">PropenylIsomerization-(hh)(h)(hh)<br>PropenylIsomerization-(rh)(h)(hh)<br>PropenylIsomerization-(hh)(r)(hh)<br>PropenylIsomerization-(rh)(r)(hh)<br>PropenylIsomerization-(hh)(h)(rh)<br>PropenylIsomerization-(rh)(h)(rh)<br>PropenylIsomerization-(hh)(r)(rh)<br>PropenylIsomerization-(rh)(r)(rh)<br>PropenylIsomerization-(hh)(h)(rr)<br>PropenylIsomerization-(rh)(h)(rr)<br>PropenylIsomerization-(hh)(r)(rr)<br>PropenylIsomerization-(rh)(r)(rr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>PropylRadicalToEthene.lst</td>
+    <td>PropylRadicalToEthene-(XX)(XX)(XXX)</td>
+    <td class="pat-list">PropylRadicalToEthene-(hh)(hh)(hhh)<br>PropylRadicalToEthene-(rh)(hh)(hhh)<br>PropylRadicalToEthene-(rr)(hh)(hhh)<br>PropylRadicalToEthene-(hh)(rh)(hhh)<br>PropylRadicalToEthene-(rh)(rh)(hhh)<br>PropylRadicalToEthene-(rr)(rh)(hhh)<br>PropylRadicalToEthene-(hh)(rr)(hhh)<br>PropylRadicalToEthene-(rh)(rr)(hhh)<br>PropylRadicalToEthene-(rr)(rr)(hhh)<br>PropylRadicalToEthene-(hh)(hh)(rhh)<br>PropylRadicalToEthene-(rh)(hh)(rhh)<br>PropylRadicalToEthene-(rr)(hh)(rhh)<br>PropylRadicalToEthene-(hh)(rh)(rhh)<br>PropylRadicalToEthene-(rh)(rh)(rhh)<br>PropylRadicalToEthene-(rr)(rh)(rhh)<br>PropylRadicalToEthene-(hh)(rr)(rhh)<br>PropylRadicalToEthene-(rh)(rr)(rhh)<br>PropylRadicalToEthene-(rr)(rr)(rhh)<br>PropylRadicalToEthene-(hh)(hh)(rrh)<br>PropylRadicalToEthene-(rh)(hh)(rrh)<br>PropylRadicalToEthene-(rr)(hh)(rrh)<br>PropylRadicalToEthene-(hh)(rh)(rrh)<br>PropylRadicalToEthene-(rh)(rh)(rrh)<br>PropylRadicalToEthene-(rr)(rh)(rrh)<br>PropylRadicalToEthene-(hh)(rr)(rrh)<br>PropylRadicalToEthene-(rh)(rr)(rrh)<br>PropylRadicalToEthene-(rr)(rr)(rrh)<br>PropylRadicalToEthene-(hh)(hh)(rrr)<br>PropylRadicalToEthene-(rh)(hh)(rrr)<br>PropylRadicalToEthene-(rr)(hh)(rrr)<br>PropylRadicalToEthene-(hh)(rh)(rrr)<br>PropylRadicalToEthene-(rh)(rh)(rrr)<br>PropylRadicalToEthene-(rr)(rh)(rrr)<br>PropylRadicalToEthene-(hh)(rr)(rrr)<br>PropylRadicalToEthene-(rh)(rr)(rrr)<br>PropylRadicalToEthene-(rr)(rr)(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>EthyneDecomposition.lst</td>
+    <td>PropyneDecompositionToEthynyl-(X)(XXX)</td>
+    <td class="pat-list">PropyneDecompositionToEthynyl-(h)(hhh)<br>PropyneDecompositionToEthynyl-(r)(hhh)<br>PropyneDecompositionToEthynyl-(h)(rhh)<br>PropyneDecompositionToEthynyl-(r)(rhh)<br>PropyneDecompositionToEthynyl-(h)(rrh)<br>PropyneDecompositionToEthynyl-(r)(rrh)<br>PropyneDecompositionToEthynyl-(h)(rrr)<br>PropyneDecompositionToEthynyl-(r)(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>RO2Isomerization.lst</td>
+    <td>RO2-Isomerization-5RingPrimary</td>
+    <td class="pat-list">RO2-Isomerization-5RingPrimary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>RO2Isomerization.lst</td>
+    <td>RO2-Isomerization-5RingSecondary</td>
+    <td class="pat-list">RO2-Isomerization-5RingSecondary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>RO2Isomerization.lst</td>
+    <td>RO2-Isomerization-5RingTertiary</td>
+    <td class="pat-list">RO2-Isomerization-5RingTertiary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>RO2Isomerization.lst</td>
+    <td>RO2-Isomerization-6RingPrimary</td>
+    <td class="pat-list">RO2-Isomerization-6RingPrimary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>RO2Isomerization.lst</td>
+    <td>RO2-Isomerization-6RingSecondary</td>
+    <td class="pat-list">RO2-Isomerization-6RingSecondary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>RO2Isomerization.lst</td>
+    <td>RO2-Isomerization-6RingTertiary</td>
+    <td class="pat-list">RO2-Isomerization-6RingTertiary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>RO2Isomerization.lst</td>
+    <td>RO2-Isomerization-7RingPrimary</td>
+    <td class="pat-list">RO2-Isomerization-7RingPrimary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>RO2Isomerization.lst</td>
+    <td>RO2-Isomerization-7RingSecondary</td>
+    <td class="pat-list">RO2-Isomerization-7RingSecondary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>RO2Isomerization.lst</td>
+    <td>RO2-Isomerization-7RingTertiary</td>
+    <td class="pat-list">RO2-Isomerization-7RingTertiary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>RO2Isomerization.lst</td>
+    <td>RO2-Isomerization-8RingPrimary</td>
+    <td class="pat-list">RO2-Isomerization-8RingPrimary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>RO2Isomerization.lst</td>
+    <td>RO2-Isomerization-8RingSecondary</td>
+    <td class="pat-list">RO2-Isomerization-8RingSecondary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>RO2Isomerization.lst</td>
+    <td>RO2-Isomerization-8RingTertiary</td>
+    <td class="pat-list">RO2-Isomerization-8RingTertiary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>RO2IsomerizationCyclohexane.lst</td>
+    <td>RO2IsomerizationCyclohexane-5RingSecondary</td>
+    <td class="pat-list">RO2IsomerizationCyclohexane-5RingSecondary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>RO2IsomerizationCyclohexane.lst</td>
+    <td>RO2IsomerizationCyclohexane-5RingTertiary</td>
+    <td class="pat-list">RO2IsomerizationCyclohexane-5RingTertiary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>RO2IsomerizationCyclohexane.lst</td>
+    <td>RO2IsomerizationCyclohexane-6RingSecondary</td>
+    <td class="pat-list">RO2IsomerizationCyclohexane-6RingSecondary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>RO2IsomerizationCyclohexane.lst</td>
+    <td>RO2IsomerizationCyclohexane-6RingTertiary</td>
+    <td class="pat-list">RO2IsomerizationCyclohexane-6RingTertiary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>RO2IsomerizationCyclohexane.lst</td>
+    <td>RO2IsomerizationCyclohexane-7RingSecondary</td>
+    <td class="pat-list">RO2IsomerizationCyclohexane-7RingSecondary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>RO2IsomerizationCyclohexane.lst</td>
+    <td>RO2IsomerizationCyclohexane-7RingTertiary</td>
+    <td class="pat-list">RO2IsomerizationCyclohexane-7RingTertiary</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>RO2ToAlkoxy.lst</td>
+    <td class="qclass">RO2ToAlkoxy-(QQQ)(QQQ)</td>
+    <td class="pat-list">RO2ToAlkoxy-(qqq)(qqq)</td>
+    <td><span class="qclass">Q-CLASS</span></td>
+  </tr>
+  <tr>
+    <td>RO2ToAlkoxy.lst</td>
+    <td>RO2ToAlkoxy-(XXX)(XXX)</td>
+    <td class="pat-list">RO2ToAlkoxy-(hhh)(hhh)<br>RO2ToAlkoxy-(hhh)(rhh)<br>RO2ToAlkoxy-(hhh)(rrh)<br>RO2ToAlkoxy-(hhh)(rrr)<br>RO2ToAlkoxy-(rhh)(rhh)<br>RO2ToAlkoxy-(rhh)(rrh)<br>RO2ToAlkoxy-(rhh)(rrr)<br>RO2ToAlkoxy-(rrh)(rrh)<br>RO2ToAlkoxy-(rrh)(rrr)<br>RO2ToAlkoxy-(rrr)(rrr)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>ROOHFromRO2AndPeroxy.lst</td>
+    <td>ROOHFromPeroxy-XXX</td>
+    <td class="pat-list">ROOHFromPeroxy-HHH<br>ROOHFromPeroxy-RHH<br>ROOHFromPeroxy-RRH<br>ROOHFromPeroxy-RRR</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>O2AdditionToRadical.lst</td>
+    <td>Secondary-Carbon-Radical-(R.+O2-->RO2.)</td>
+    <td class="pat-list">Secondary-Carbon-Radical-(R.+O2-->RO2.)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HRingIsomerization.lst</td>
+    <td>SevenRing-(ooh)-h-isomerization</td>
+    <td class="pat-list">SevenRing-(ooh)-h-isomerization</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HRingIsomerization.lst</td>
+    <td>SevenRing-chain-h-isomerization</td>
+    <td class="pat-list">SevenRing-chain-h-isomerization</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HRingIsomerization.lst</td>
+    <td>SixRing-(ooh)-h-isomerization</td>
+    <td class="pat-list">SixRing-(ooh)-h-isomerization</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>HRingIsomerization.lst</td>
+    <td>SixRing-chain-h-isomerization</td>
+    <td class="pat-list">SixRing-chain-h-isomerization</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>O2AdditionToRadical.lst</td>
+    <td>Tertiary-Carbon-Radical-(R.+O2-->RO2.)</td>
+    <td class="pat-list">Tertiary-Carbon-Radical-(R.+O2-->RO2.)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>TrieneToAromatic.lst</td>
+    <td>TrieneToAromatic-(X)(X)</td>
+    <td class="pat-list">TrieneToAromatic-(h)(h)<br>TrieneToAromatic-(r)(h)<br>TrieneToAromatic-(h)(r)<br>TrieneToAromatic-(r)(r)</td>
+    <td>UNIQUE</td>
+  </tr>
+  <tr>
+    <td>AlkoxyFromRadicalAndPeroxy.lst</td>
+    <td>TwoAlkoxyFormation</td>
+    <td class="pat-list">TwoAlkoxyFormation</td>
+    <td>UNIQUE</td>
+  </tr>
+</tbody>
+</table>
+</body>
+</html>

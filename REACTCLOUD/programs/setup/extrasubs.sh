@@ -1,27 +1,22 @@
 #!/bin/csh
 # ---------------------------------------------------------------------------
-#
-# Script to Read in a molecule file to the database
-#
+# Script to Read in the set of extra substructures
 # ---------------------------------------------------------------------------
 set verbose on
-
 #--------------------------------------------------------------------------
 # Set up inputs, files and program
 #--------------------------------------------------------------------------
 set DATADIR         = $REACTROOT/data
 set PROGRAMDIR      = $REACTROOT/programs
-set CHEMPROG        = $REACTROOT/programs/scripts/readpats.sh
+set PROGRAM         = $REACTROOT/programs/setup/singlesub.sh
 
 #--------------------------------------------------------------------------
-pushd $DATADIR
+pushd $DATADIR/DB
 rm SubStructures.dbf
 popd
 #--------------------------------------------------------------------------
-rm $REACTROOT/data/DB/ReactionPatterns.dbf
-pushd $DATADIR/rxn/rxnpats
+pushd $DATADIR/mol/subs
+rm all.sdf
 
 
 popd
-
-
