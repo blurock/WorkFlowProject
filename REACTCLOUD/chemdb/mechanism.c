@@ -495,25 +495,55 @@ extern void InsertThermoValue(MechanismMolecule *mol,
 {
   PropertyValues *values;
   GenPropValue *value;
+
+  printf("[DEBUG] InsertThermoValue: start for mol '%s', valueset=%p\n",
+         (mol && mol->AbbreviatedName) ? mol->AbbreviatedName : "NULL", (void *)valueset);
+  fflush(stdout);
      
+  if (valueset == NULL) {
+    printf("[DEBUG] InsertThermoValue: valueset is NULL!\n");
+    fflush(stdout);
+    return;
+  }
+
   values = FindValuesFromType(CHEMKIN_READTHERMO_PROPERTY,valueset);
+  printf("[DEBUG] InsertThermoValue: FindValuesFromType CHEMKIN_READTHERMO_PROPERTY returned values=%p\n", (void *)values);
+  fflush(stdout);
+
+  if (values == NULL) {
+    printf("[DEBUG] InsertThermoValue: values is NULL for CHEMKIN_READTHERMO_PROPERTY!\n");
+    fflush(stdout);
+    return;
+  }
+
   value = FindSpecificValueInPropertyValues("Chemkin",values);
+  printf("[DEBUG] InsertThermoValue: FindSpecificValueInPropertyValues 'Chemkin' returned value=%p\n", (void *)value);
+  fflush(stdout);
+
   if(value == 0)
     {
       value = FindSpecificValueInPropertyValues("Benson",values);
+      printf("[DEBUG] InsertThermoValue: FindSpecificValueInPropertyValues 'Benson' returned value=%p\n", (void *)value);
+      fflush(stdout);
       if(value != 0)
 	value = values->Values;
     }
   if(value != 0)
     {
+      printf("[DEBUG] InsertThermoValue: value != 0, value->Reference='%s'\n", value->Reference ? value->Reference : "NULL");
+      fflush(stdout);
       mol->ThermoReference = CopyString(value->Reference);
 
+      printf("[DEBUG] InsertThermoValue: allocating ThermoConstants and calling GetPropValue\n");
+      fflush(stdout);
       mol->ThermoConstants = AllocateChemkinThermoRead;
       GetPropValue(mol->ThermoConstants,value,types);
       if(mol->ThermoConstants->Name != 0)
 	Free(mol->ThermoConstants->Name);
       mol->ThermoConstants->Name = CopyString(mol->AbbreviatedName);
     }
+  printf("[DEBUG] InsertThermoValue: end\n");
+  fflush(stdout);
 }
 /*f InsertEquilibriumValue(mol,values,types);
 **
@@ -528,15 +558,38 @@ extern void InsertEquilibriumValue(MechanismMolecule *mol,
 {
   PropertyValues *values;
   GenPropValue *value;
-     
+
+  printf("[DEBUG] InsertEquilibriumValue: start for mol '%s', valueset=%p\n",
+         (mol && mol->AbbreviatedName) ? mol->AbbreviatedName : "NULL", (void *)valueset);
+  fflush(stdout);
+
+  if (valueset == NULL) {
+    printf("[DEBUG] InsertEquilibriumValue: valueset is NULL!\n");
+    fflush(stdout);
+    return;
+  }
+
   values = FindValuesFromType(ARRENHIUS_FORM_CONSTANTS,valueset);
-     
+  printf("[DEBUG] InsertEquilibriumValue: FindValuesFromType ARRENHIUS_FORM_CONSTANTS returned values=%p\n", (void *)values);
+  fflush(stdout);
+
+  if (values == NULL) {
+    printf("[DEBUG] InsertEquilibriumValue: values is NULL for ARRENHIUS_FORM_CONSTANTS!\n");
+    fflush(stdout);
+    return;
+  }
+
   value = FindSpecificValueInPropertyValues("Equilibrium",values);
+  printf("[DEBUG] InsertEquilibriumValue: FindSpecificValueInPropertyValues 'Equilibrium' returned value=%p\n", (void *)value);
+  fflush(stdout);
+
   if(value != 0)
     {
       mol->Equilibrium = AllocateArrheniusFormValue;
       GetPropValue(mol->Equilibrium,value,types);
     }
+  printf("[DEBUG] InsertEquilibriumValue: end\n");
+  fflush(stdout);
 }
 
      

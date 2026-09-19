@@ -205,18 +205,75 @@ extern void GetPropValue(VOID element,
      DbaseLinkedList *link;
      PropertyType *type;
      
-     
+     printf("[DEBUG] GetPropValue: value->ID=%d, value->NumberOfBytes=%d, types=%p\n",
+            value ? value->ID : -1, value ? value->NumberOfBytes : -1, (void *)types);
+     fflush(stdout);
+
+     if (value == NULL || types == NULL) {
+       printf("[DEBUG] GetPropValue: value or types is NULL!\n");
+       fflush(stdout);
+       return;
+     }
+
      type = FindPropertyTypeFromType(value->ID,types);
-     
+     printf("[DEBUG] GetPropValue: FindPropertyTypeFromType returned type=%p\n", (void *)type);
+     fflush(stdout);
+
+     if (type == NULL) {
+       printf("[DEBUG] GetPropValue: ERROR! PropertyType with ID=%d not found in types!\n", value->ID);
+       fflush(stdout);
+       return;
+     }
+
+     if (value->Value != NULL && (((char *)value->Value)[0] == '{' || ((char *)value->Value)[0] == '[')) {
+       printf("[DEBUG] GetPropValue: payload is JSON text for property ID=%d\n", value->ID);
+       fflush(stdout);
+       if (value->ID == 102) { /* CHEMKIN_READTHERMO_PROPERTY */
+         extern INT ReadJSONChemkinThermoReadFromString(void *eleptr, CHAR *json_str);
+         ReadJSONChemkinThermoReadFromString(element, (char *)value->Value);
+         printf("[DEBUG] GetPropValue: ReadJSONChemkinThermoReadFromString finished successfully\n");
+         fflush(stdout);
+         return;
+       } else if (value->ID == 101) { /* BENSON_THERMO_PROPERTY */
+         extern INT ReadJSONBensonSecondThermoTableFromString(void *eleptr, CHAR *json_str);
+         ReadJSONBensonSecondThermoTableFromString(element, (char *)value->Value);
+         printf("[DEBUG] GetPropValue: ReadJSONBensonSecondThermoTableFromString finished successfully\n");
+         fflush(stdout);
+         return;
+       }
+     }
+
+     if (type->ReadBinValue == NULL) {
+       printf("[DEBUG] GetPropValue: ERROR! type->ReadBinValue is NULL for PropertyType ID=%d!\n", value->ID);
+       fflush(stdout);
+       return;
+     }
+
+     printf("[DEBUG] GetPropValue: type->Name='%s', type->ReadBinValue=%p, value->Value=%p\n",
+            type->Name ? type->Name : "NULL", (void *)type->ReadBinValue, (void *)value->Value);
+     fflush(stdout);
+
      link = AllocateDbaseLinkedList;
+     printf("[DEBUG] GetPropValue: calling CreateDbaseLinkedList\n");
+     fflush(stdout);
      CreateDbaseLinkedList(link,value->ID,0,
 			   value->NumberOfBytes,
 			   value->NumberOfBytes,			   
 			   0,value->Value,0);
+
+     printf("[DEBUG] GetPropValue: calling type->ReadBinValue (%p) on element=%p, link=%p\n",
+            (void *)type->ReadBinValue, (void *)element, (void *)link);
+     fflush(stdout);
+
      (*(type->ReadBinValue))(element,link);
+
+     printf("[DEBUG] GetPropValue: returned from type->ReadBinValue\n");
+     fflush(stdout);
      
      FreeDbaseLinkedList(link);
      Free(link);
+     printf("[DEBUG] GetPropValue: end\n");
+     fflush(stdout);
      }
 
 /*S AddProperty

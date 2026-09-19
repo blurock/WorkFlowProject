@@ -427,30 +427,79 @@ extern DetailedMechanism
 
   CreateDetailedMechanism(mechanism,performed->ID,performed->Name,
 			  0,0,0,0,0);
-  printf("TransferGeneratedToMechanism\n");
-  mechanism->Molecules = TransferSetOfGraphsToMoleculeSet(performed->Molecules);
-  ReplaceMoleculesFromDatabase(mechanism->Molecules,bind);
+  printf("[DEBUG] TransferGeneratedToMechanism: start\n");
+  fflush(stdout);
 
-  mol = mechanism->Molecules->Molecules;
-  graph = performed->Molecules->Graphs;
-  LOOPi(mechanism->Molecules->NumberOfMolecules)
-    {
-      printf("Molecules: %10d:%20s   %10d:%20s\n",graph->ID,graph->Name,mol->ID,mol->Name);
-      graph->ID = mol->ID;
-      Free(graph->Name);
-      graph->Name = CopyString(mol->Name);
-      graph++;
-      mol++;
-    }
-  /*NewNamesForMolecules(mechanism->Molecules);*/
+  printf("[DEBUG] TransferGeneratedToMechanism: calling TransferSetOfGraphsToMoleculeSet\n");
+  fflush(stdout);
+  mechanism->Molecules = TransferSetOfGraphsToMoleculeSet(performed->Molecules);
+  printf("[DEBUG] TransferGeneratedToMechanism: mechanism->Molecules = %p, NumberOfMolecules = %d\n",
+         (void *)mechanism->Molecules,
+         mechanism->Molecules ? mechanism->Molecules->NumberOfMolecules : -1);
+  fflush(stdout);
+
+  printf("[DEBUG] TransferGeneratedToMechanism: calling ReplaceMoleculesFromDatabase\n");
+  fflush(stdout);
+  ReplaceMoleculesFromDatabase(mechanism->Molecules,bind);
+  printf("[DEBUG] TransferGeneratedToMechanism: after ReplaceMoleculesFromDatabase\n");
+  fflush(stdout);
+
+  if (mechanism->Molecules && mechanism->Molecules->Molecules && performed->Molecules && performed->Molecules->Graphs) {
+    mol = mechanism->Molecules->Molecules;
+    graph = performed->Molecules->Graphs;
+    LOOPi(mechanism->Molecules->NumberOfMolecules)
+      {
+        printf("[DEBUG] TransferGeneratedToMechanism: Molecule %d/%d: graph ID=%d name='%s', mol ID=%d name='%s'\n",
+               i, mechanism->Molecules->NumberOfMolecules,
+               graph ? graph->ID : -1, (graph && graph->Name) ? graph->Name : "NULL",
+               mol ? mol->ID : -1, (mol && mol->Name) ? mol->Name : "NULL");
+        fflush(stdout);
+        if (graph && mol) {
+          graph->ID = mol->ID;
+          if (graph->Name) Free(graph->Name);
+          graph->Name = CopyString(mol->Name);
+        }
+        graph++;
+        mol++;
+      }
+  } else {
+    printf("[DEBUG] TransferGeneratedToMechanism: WARNING - NULL pointers in Molecules or Graphs!\n");
+    fflush(stdout);
+  }
+
+  printf("[DEBUG] TransferGeneratedToMechanism: calling TransferReactionSet\n");
+  fflush(stdout);
   mechanism->RxnSet = TransferReactionSet(performed);
+  printf("[DEBUG] TransferGeneratedToMechanism: after TransferReactionSet\n");
+  fflush(stdout);
+
+  printf("[DEBUG] TransferGeneratedToMechanism: calling CopyFullReactionSet\n");
+  fflush(stdout);
   mechanism->Reactions = AllocateReactionSet;
   CopyFullReactionSet(mechanism->Reactions,rxnpatterns);
+  printf("[DEBUG] TransferGeneratedToMechanism: after CopyFullReactionSet\n");
+  fflush(stdout);
+
   if(bentree != 0) {
+    printf("[DEBUG] TransferGeneratedToMechanism: calling MolSubBensonThermo\n");
+    fflush(stdout);
     MolSubBensonThermo(mechanism->Molecules,bentree,0);
+    printf("[DEBUG] TransferGeneratedToMechanism: calling ChemkinFromBensonForSet\n");
+    fflush(stdout);
     ChemkinFromBensonForSet(mechanism->Molecules);
+    printf("[DEBUG] TransferGeneratedToMechanism: after ChemkinFromBensonForSet\n");
+    fflush(stdout);
   }
+
+  printf("[DEBUG] TransferGeneratedToMechanism: calling TransferMoleculesToMechanism\n");
+  fflush(stdout);
   mechanism->MolSet = TransferMoleculesToMechanism(mechanism->Molecules);
+  printf("[DEBUG] TransferGeneratedToMechanism: after TransferMoleculesToMechanism\n");
+  fflush(stdout);
+
+  printf("[DEBUG] TransferGeneratedToMechanism: end\n");
+  fflush(stdout);
+
   return(mechanism);
 }
 /*f rxnset = TransferReactionSet(performed)
@@ -550,6 +599,10 @@ static MechanismMoleculeSet *TransferMoleculesToMechanism(MoleculeSet *molecules
   MoleculeInfo *mol;
   INT i;
      
+  printf("[DEBUG] TransferMoleculesToMechanism: start, molecules=%p, num=%d\n",
+         (void *)molecules, molecules ? molecules->NumberOfMolecules : -1);
+  fflush(stdout);
+
   mechmolset = AllocateMechanismMoleculeSet;
   CreateMechanismMoleculeSet(mechmolset,molecules->ID,molecules->Name,
 			     molecules->NumberOfMolecules,0,0);
@@ -558,14 +611,34 @@ static MechanismMoleculeSet *TransferMoleculesToMechanism(MoleculeSet *molecules
   mol = molecules->Molecules;
   LOOPi(mechmolset->NumberOfMolecules)
     {
+      printf("[DEBUG] TransferMoleculesToMechanism: mol %d/%d (ID=%d, Name='%s')\n",
+             i, mechmolset->NumberOfMolecules, mol ? mol->ID : -1, (mol && mol->Name) ? mol->Name : "NULL");
+      fflush(stdout);
+
       CreateMechanismMolecule(mechmol,mol->ID,mol->Name,
 			      0,0,0,0,0,0);
+
+      printf("[DEBUG] TransferMoleculesToMechanism: DetermineAtomCounts for '%s'\n", mol ? mol->Name : "NULL");
+      fflush(stdout);
       mechmol->AtomCounts = DetermineAtomCounts(mol);
+
+      printf("[DEBUG] TransferMoleculesToMechanism: CopyString Name '%s'\n", mol ? mol->Name : "NULL");
+      fflush(stdout);
       mechmol->AbbreviatedName = CopyString(mol->Name);
+
+      printf("[DEBUG] TransferMoleculesToMechanism: InsertThermoValue for '%s'\n", mol ? mol->Name : "NULL");
+      fflush(stdout);
       InsertThermoValue(mechmol,mol->Properties,molecules->PropertyTypes);
+
+      printf("[DEBUG] TransferMoleculesToMechanism: InsertEquilibriumValue for '%s'\n", mol ? mol->Name : "NULL");
+      fflush(stdout);
       InsertEquilibriumValue(mechmol,mol->Properties,molecules->PropertyTypes);
+
       mol++;
       mechmol++;
     }
+  printf("[DEBUG] TransferMoleculesToMechanism: end\n");
+  fflush(stdout);
+
   return(mechmolset);
 }
