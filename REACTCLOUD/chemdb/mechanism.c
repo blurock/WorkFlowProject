@@ -495,55 +495,25 @@ extern void InsertThermoValue(MechanismMolecule *mol,
 {
   PropertyValues *values;
   GenPropValue *value;
-
-  printf("[DEBUG] InsertThermoValue: start for mol '%s', valueset=%p\n",
-         (mol && mol->AbbreviatedName) ? mol->AbbreviatedName : "NULL", (void *)valueset);
-  fflush(stdout);
      
-  if (valueset == NULL) {
-    printf("[DEBUG] InsertThermoValue: valueset is NULL!\n");
-    fflush(stdout);
-    return;
-  }
-
   values = FindValuesFromType(CHEMKIN_READTHERMO_PROPERTY,valueset);
-  printf("[DEBUG] InsertThermoValue: FindValuesFromType CHEMKIN_READTHERMO_PROPERTY returned values=%p\n", (void *)values);
-  fflush(stdout);
-
-  if (values == NULL) {
-    printf("[DEBUG] InsertThermoValue: values is NULL for CHEMKIN_READTHERMO_PROPERTY!\n");
-    fflush(stdout);
-    return;
-  }
-
   value = FindSpecificValueInPropertyValues("Chemkin",values);
-  printf("[DEBUG] InsertThermoValue: FindSpecificValueInPropertyValues 'Chemkin' returned value=%p\n", (void *)value);
-  fflush(stdout);
-
   if(value == 0)
     {
       value = FindSpecificValueInPropertyValues("Benson",values);
-      printf("[DEBUG] InsertThermoValue: FindSpecificValueInPropertyValues 'Benson' returned value=%p\n", (void *)value);
-      fflush(stdout);
       if(value != 0)
 	value = values->Values;
     }
   if(value != 0)
     {
-      printf("[DEBUG] InsertThermoValue: value != 0, value->Reference='%s'\n", value->Reference ? value->Reference : "NULL");
-      fflush(stdout);
       mol->ThermoReference = CopyString(value->Reference);
 
-      printf("[DEBUG] InsertThermoValue: allocating ThermoConstants and calling GetPropValue\n");
-      fflush(stdout);
       mol->ThermoConstants = AllocateChemkinThermoRead;
       GetPropValue(mol->ThermoConstants,value,types);
       if(mol->ThermoConstants->Name != 0)
 	Free(mol->ThermoConstants->Name);
       mol->ThermoConstants->Name = CopyString(mol->AbbreviatedName);
     }
-  printf("[DEBUG] InsertThermoValue: end\n");
-  fflush(stdout);
 }
 /*f InsertEquilibriumValue(mol,values,types);
 **
@@ -558,38 +528,15 @@ extern void InsertEquilibriumValue(MechanismMolecule *mol,
 {
   PropertyValues *values;
   GenPropValue *value;
-
-  printf("[DEBUG] InsertEquilibriumValue: start for mol '%s', valueset=%p\n",
-         (mol && mol->AbbreviatedName) ? mol->AbbreviatedName : "NULL", (void *)valueset);
-  fflush(stdout);
-
-  if (valueset == NULL) {
-    printf("[DEBUG] InsertEquilibriumValue: valueset is NULL!\n");
-    fflush(stdout);
-    return;
-  }
-
+     
   values = FindValuesFromType(ARRENHIUS_FORM_CONSTANTS,valueset);
-  printf("[DEBUG] InsertEquilibriumValue: FindValuesFromType ARRENHIUS_FORM_CONSTANTS returned values=%p\n", (void *)values);
-  fflush(stdout);
-
-  if (values == NULL) {
-    printf("[DEBUG] InsertEquilibriumValue: values is NULL for ARRENHIUS_FORM_CONSTANTS!\n");
-    fflush(stdout);
-    return;
-  }
-
+     
   value = FindSpecificValueInPropertyValues("Equilibrium",values);
-  printf("[DEBUG] InsertEquilibriumValue: FindSpecificValueInPropertyValues 'Equilibrium' returned value=%p\n", (void *)value);
-  fflush(stdout);
-
   if(value != 0)
     {
       mol->Equilibrium = AllocateArrheniusFormValue;
       GetPropValue(mol->Equilibrium,value,types);
     }
-  printf("[DEBUG] InsertEquilibriumValue: end\n");
-  fflush(stdout);
 }
 
      
@@ -1689,13 +1636,49 @@ static INT DBPrintAllMechs(BindStructure *bind, INT dbflag)
 }
 
 
+/*F  ret = DBFindMechanismFromString(name,mechanism,dinfo)
+**
+**  DESCRIPTION
+**    name: The string name or ID of the mechanism
+**    ret: SYSTEM_NORMAL_RETURN, SYSTEM_ERROR_RETURN
+**
+**  REMARKS
+**    Matches substructure and reaction retrieval pattern using SearchKeyElement
+*/
+extern INT DBFindMechanismFromString(CHAR *name, DetailedMechanism *mechanism, DataBaseInformation *dinfo)
+{
+  DbaseKeyword *key;
+  INT id, ret;
+
+  key = AllocateDbaseKeyword;
+  ret = SYSTEM_ERROR_RETURN;
+
+  if (*name >= '0' && *name <= '9')
+    {
+      sscanf(name, "%d", &id);
+      CreateDbaseKeyword(key, 0, NULL, sizeof(INT), (VOID *)&id);
+      ret = SearchKeyElement(DB_ID_SEARCH, (VOID *) mechanism, key, dinfo);
+      FreeDbaseKeyword(key);
+    }
+  if (ret == SYSTEM_ERROR_RETURN)
+    {
+      key = ProduceKeywordFromName(name);
+      ret = SearchKeyElement(DB_NAME_SEARCH, (VOID *) mechanism, key, dinfo);
+      FreeDbaseKeyword(key);
+    }
+
+  Free(key);
+
+  return (ret);
+}
+
 /*F ret = RetrieveMechanismsFromDatabase(bind)
 **
 **  DESCRIPTION
 **      mechanism: The mechanism to store
 **      master: The master information of the database
 **
-**      This stores the mechanism into the database
+**      This retrieves mechanisms listed in MechDirectory/RootMechName.lst into current set of mechanisms.
 **
 **  REMARKS
 **
@@ -1706,46 +1689,43 @@ extern INT RetrieveMechanismsFromDatabase(BindStructure *bind)
   ChemDBMaster *master;
   DetailedMechanism *mechanism;
   DataBaseInformation *dinfo;
-  DbaseKeyword *key;
   FILE *file;
-  char *line,*mechname,*line1;
-  int ret,final;
+  char *line, *line1;
+  int ret, final;
 
   line = AllocateString(LINELENGTH);
 
-  commandmaster = GetBoundStructure(bind,BIND_COMMANDMASTER);
-  master = GetBoundStructure(bind,BIND_CHEMDBASE);
-  dinfo = GetDataBaseInfoFromID(master->DatabaseInfo,MECHANISM_DATABASE);
+  commandmaster = GetBoundStructure(bind, BIND_COMMANDMASTER);
+  master = GetBoundStructure(bind, BIND_CHEMDBASE);
+  dinfo = GetDataBaseInfoFromID(master->DatabaseInfo, MECHANISM_DATABASE);
 
-  file = OpenReadFileFromCurrent("MechDirectory","RootMechName",
+  file = OpenReadFileFromCurrent("MechDirectory", "RootMechName",
 				 "lst",
-				 IGNORE,"Set of Mechanisms",commandmaster);
-
-  mechanism = AllocateDetailedMechanism;
+				 IGNORE, "Set of Mechanisms", commandmaster);
 
   final = SYSTEM_NORMAL_RETURN;
-  line1 = NextNonBlankLine(file,line);
-  printf("Retrieve Mechanisms From Database\n");
-  while(line1 != 0)
+  if (file != 0)
     {
-      printf("Mechanism Retrieve: '%s'\n",line1);
-      key = ProduceKeywordFromName(line1);
-      
-      ret = FetchElement((VOID *) mechanism,
-			 key,
-			 dinfo);
-      
-      if(ret == SYSTEM_NORMAL_RETURN)
+      line1 = NextNonBlankLine(file, line);
+      printf("Retrieve Mechanisms From Database\n");
+      while (line1 != 0)
 	{
-	  InsertDetailedMechanismInSet(bind,mechanism);
+	  printf("Mechanism Retrieve: '%s'\n", line1);
+	  mechanism = AllocateDetailedMechanism;
+	  ret = DBFindMechanismFromString(line1, mechanism, dinfo);
+	  if (ret == SYSTEM_NORMAL_RETURN)
+	    {
+	      InsertDetailedMechanismInSet(bind, mechanism);
+	    }
+	  else
+	    {
+	      final = SYSTEM_ERROR_RETURN;
+	      FreeDetailedMechanism(mechanism);
+	      Free(mechanism);
+	    }
+	  line1 = NextNonBlankLine(file, line);
 	}
-      else
-	{
-	  final = SYSTEM_ERROR_RETURN;
-	}
-      line1 = NextNonBlankLine(file,line);
-      FreeDbaseKeyword(key);
-      Free(key);
+      fclose(file);
     }
   Free(line);
   return final; 

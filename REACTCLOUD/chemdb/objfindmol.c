@@ -48,33 +48,16 @@ extern DataSubSet *ReplaceMoleculesFromDatabase(MoleculeSet *molset,
   INT *id, i, ret;
   MoleculeInfo *mol;
 
-  printf("[DEBUG] ReplaceMoleculesFromDatabase: start, numMolecules=%d\n", molset ? molset->NumberOfMolecules : -1);
-  fflush(stdout);
-
   master = GetBoundStructure(bind, BIND_CHEMDBASE);
   dinfo = GetDataBaseInfoFromID(master->DatabaseInfo, MOLECULE_DATABASE);
-
-  printf("[DEBUG] ReplaceMoleculesFromDatabase: calling DetermineDatabaseCorrespondence\n");
-  fflush(stdout);
   corrset = DetermineDatabaseCorrespondence(molset, MOLECULE_DATABASE, bind);
-
-  printf("[DEBUG] ReplaceMoleculesFromDatabase: corrset numPoints=%d\n", corrset ? corrset->NumberOfPoints : -1);
-  fflush(stdout);
-
   key = AllocateDbaseKeyword;
   id = corrset->Points;
   mol = molset->Molecules;
   LOOPi(corrset->NumberOfPoints) {
-    printf("[DEBUG] ReplaceMoleculesFromDatabase: point %d/%d, *id=%d, mol ID=%d, Name='%s'\n",
-           i, corrset->NumberOfPoints, *id, mol ? mol->ID : -1, (mol && mol->Name) ? mol->Name : "NULL");
-    fflush(stdout);
     if (*id >= 0) {
-      printf("[DEBUG] ReplaceMoleculesFromDatabase: FreeMoleculeInfo for mol '%s'\n", mol->Name);
-      fflush(stdout);
       FreeMoleculeInfo(mol);
       ProduceMolIDKey(*id, key);
-      printf("[DEBUG] ReplaceMoleculesFromDatabase: SearchKeyElement for id=%d\n", *id);
-      fflush(stdout);
       ret = SearchKeyElement(DB_ID_SEARCH, mol, key, dinfo);
       if (ret != SYSTEM_NORMAL_RETURN) {
         printf("Abnormal Situation: Keyed Molecule %d not found\n", *id);
@@ -88,8 +71,6 @@ extern DataSubSet *ReplaceMoleculesFromDatabase(MoleculeSet *molset,
     id++;
     mol++;
   }
-  printf("[DEBUG] ReplaceMoleculesFromDatabase: end\n");
-  fflush(stdout);
   return (corrset);
 }
 
@@ -117,21 +98,14 @@ extern DataSubSet *DetermineDatabaseCorrespondence(MoleculeSet *molecules,
   DataSubSet *corrset;
   INT *id, i, ret;
 
-  printf("[DEBUG] DetermineDatabaseCorrespondence: start\n");
-  fflush(stdout);
   dbmaster = GetBoundStructure(bind, BIND_CHEMDBASE);
   classification = FindClassification(classid, DATABASE_CLASSIFICATIONS, bind);
   dinfo = GetDataBaseInfoFromID(dbmaster->DatabaseInfo,
                                 classification->Description->Database);
 
-  printf("[DEBUG] DetermineDatabaseCorrespondence: ReadKeyIntoMemory DB_ID_SEARCH\n");
-  fflush(stdout);
   ret = ReadKeyIntoMemory(DB_ID_SEARCH, dinfo);
-  if (ret == SYSTEM_NORMAL_RETURN) {
-    printf("[DEBUG] DetermineDatabaseCorrespondence: ReadKeyIntoMemory DB_NAME_SEARCH\n");
-    fflush(stdout);
+  if (ret == SYSTEM_NORMAL_RETURN)
     ReadKeyIntoMemory(DB_NAME_SEARCH, dinfo);
-  }
   corrset = AllocateDataSubSet;
   CreateDataSubSet(corrset, molecules->ID, molecules->Name, 0,
                    molecules->NumberOfMolecules, 0);
@@ -139,17 +113,9 @@ extern DataSubSet *DetermineDatabaseCorrespondence(MoleculeSet *molecules,
   molecule = molecules->Molecules;
   id = corrset->Points;
   LOOPi(molecules->NumberOfMolecules) {
-    printf("[DEBUG] DetermineDatabaseCorrespondence: mol %d/%d ID=%d Name='%s'\n",
-           i, molecules->NumberOfMolecules, molecule ? molecule->ID : -1,
-           (molecule && molecule->Name) ? molecule->Name : "NULL");
-    fflush(stdout);
     if (molecule->ID >= 0) {
-      printf("[DEBUG] DetermineDatabaseCorrespondence: calling DetermineObjectID for mol '%s'\n", molecule->Name);
-      fflush(stdout);
       *id = DetermineObjectID((VOID)molecule, classid, DATABASE_CLASSIFICATIONS,
                               bind);
-      printf("[DEBUG] DetermineDatabaseCorrespondence: DetermineObjectID returned *id=%d\n", *id);
-      fflush(stdout);
       if (*id == 0)
         *id = -1;
     } else
@@ -157,8 +123,6 @@ extern DataSubSet *DetermineDatabaseCorrespondence(MoleculeSet *molecules,
     id++;
     molecule++;
   }
-  printf("[DEBUG] DetermineDatabaseCorrespondence: end\n");
-  fflush(stdout);
   return (corrset);
 }
 

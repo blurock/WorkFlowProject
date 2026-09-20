@@ -10,6 +10,7 @@ endif
 
 set ROOTNAME        = $1
 shift
+echo "The root name is $ROOTNAME"
 
 set TEMPLIST = mech.lst
 
@@ -18,18 +19,20 @@ if(-f $TEMPLIST) then
 endif
 
 touch $TEMPLIST
+echo "The rest of the arguments are $argv"
 echo "List of mechanisms to print out"
-while($#argv > 1)
-    echo $1
+while($#argv)
     echo $1 >> $TEMPLIST
     shift
 end
 echo "done with list"
 
+echo '-------------------------------------------'
 cat $TEMPLIST
+echo '-------------------------------------------'
 echo "now the rest of the script"
-set REACTROOT = $1
-echo $REACTROOT
+//set REACTROOT = $1
+//echo $REACTROOT
 
 mv $TEMPLIST $REACTROOT/tmp/mech.lst
 
@@ -46,6 +49,8 @@ set MECH            = $ROOTNAME.mech
 set CORRS           = $ROOTNAME.corrs
 set PROG            = $REACTROOT/bin/runchemprg.sh
 
+echo "The REACTROOT is: $REACTROOT"
+echo 'Program:' $PROG
 
 cat <<EOF >! $TEMPPROG
 CreateOpenClose

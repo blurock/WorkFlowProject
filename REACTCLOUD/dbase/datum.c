@@ -64,10 +64,21 @@ extern int PostJSONToOrchestrator(const char *path, const char *json_body, char 
              "Connection: close\r\n\r\n",
              path, port, body_len);
 
-    if (write(sockfd, header, strlen(header)) < 0 || write(sockfd, json_body, body_len) < 0) {
-        printf("[Firestore IPC Error] Failed writing request body\n");
+    if (write(sockfd, header, strlen(header)) < 0) {
+        printf("[Firestore IPC Error] Failed writing request header\n");
         close(sockfd);
         return -1;
+    }
+
+    size_t written = 0;
+    while (written < body_len) {
+        ssize_t nw = write(sockfd, json_body + written, body_len - written);
+        if (nw <= 0) {
+            printf("[Firestore IPC Error] Failed writing request body\n");
+            close(sockfd);
+            return -1;
+        }
+        written += nw;
     }
 
     if (response_buf && response_buf_size > 0) {
@@ -158,7 +169,7 @@ extern INT FetchElementFromFirestore(VOID element, DbaseKeyword *keyword, DataBa
 {
     CHAR body[1024];
     CHAR *resp;
-    size_t resp_size = 65536;
+    size_t resp_size = 16777216; /* 16 MB buffer to accommodate large mechanism objects */
     int status = SYSTEM_ERROR_RETURN;
     const char *uid;
     int is_processed = 0;
@@ -229,7 +240,7 @@ extern INT FetchDatabaseRecordSummaries(DataBaseInformation *dinfo, cJSON **out_
 {
     CHAR body[512];
     CHAR *resp;
-    size_t resp_size = 524288;
+    size_t resp_size = 4194304; /* 4 MB buffer */
     int status = SYSTEM_ERROR_RETURN;
     const char *uid;
 
@@ -343,7 +354,7 @@ extern INT FetchSearchKeysFromFirestore(INT id, SetOfSearchKeys *keys, DataBaseI
 {
     CHAR body[512];
     CHAR *resp;
-    size_t resp_size = 65536;
+    size_t resp_size = 4194304; /* 4 MB buffer */
     int status = SYSTEM_ERROR_RETURN;
     const char *uid;
     

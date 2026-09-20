@@ -23,8 +23,8 @@ REACTIONCLASS  = Secondary-Carbon-Radical-(R.+O2-->RO2.)
     1 {2-butyl-radical} + {oxygen} = {2-butylperoxy-radical}
 END
 REACTIONCLASS  = Intramolecular-1-4-QOOH-Formation
-    3 {2-butylperoxy-radical} = {1-butyl-2-hydroperoxy-radical}
     2 {1-butylperoxy-radical} = {2-butyl-1-hydroperoxy-radical}
+    3 {2-butylperoxy-radical} = {1-butyl-2-hydroperoxy-radical}
     2 {2-butylperoxy-radical} = {3-butyl-2-hydroperoxy-radical}
 END
 REACTIONCLASS  = Intramolecular-1-5-QOOH-Formation

@@ -7,21 +7,21 @@ if ( $#argv != 1 ) then
   echo "        File     :    The seed molecule for the set of submechanisms"
   exit(1)
 endif
-
+set COMBINE         = $REACTROOT/programs/scripts/combinemech.sh
 
 set MOLECULE = $1
 
 cat <<EOF >! combine.lst
-$MOLECULE-BetaHPeroxyToOlefin
-$MOLECULE-AlkoxyFromPeroxy
-$MOLECULE-BasicLowTemp
-$MOLECULE-OlefinCarbonylFromPeroxy
+$MOLECULE-BasicLowTemperatureV3
 $MOLECULE-AlkeneFromRadical
-$MOLECULE-CyclicEtherFromQOOH
 $MOLECULE-ROOHFromPeroxylRadical
 $MOLECULE-PeroxyFromHydrogenPeroxide
+$MOLECULE-BetaHPeroxyToOlefin
+$MOLECULE-CyclicEtherFromQOOH
+$MOLECULE-OlefinCarbonylFromPeroxy
 $MOLECULE-AlkoxyFromPeroxy
 $MOLECULE-AlphaHHydroPeroxylIsomerization
-EOF
 
-combinemech.sh combine $MOLECULE-PrimaryCombined
+EOF
+cat combine.lst
+$COMBINE combine $MOLECULE-PrimaryCombined

@@ -1,10 +1,10 @@
-#!/bin/csh
+#! /bin/tcsh -f
 # ---------------------------------------------------------------------------
 #
 # Script to combine a set of mechanisms
 #
 # ---------------------------------------------------------------------------
-set verbose on
+#set verbose on
 
 if ( $#argv < 1 ) then
   echo "Usage: readmol.sh File"
@@ -19,6 +19,9 @@ endif
 set ROOTNAME        = $1
 set MECHNAME        = $2
 set ROOTDIR         = $PWD
+echo ROOT: $ROOTNAME
+echo MECHNAME: $MECHNAME
+echo ROOTDIR: $ROOTDIR
 
 #--------------------------------------------------------------------------
 # CombineMechanisms.inp:      The REACTION commands
@@ -38,9 +41,10 @@ set TEMPMECH       = $REACTROOT/tmp/$ROOTNAME.lst
 #--------------------------------------------------------------------------
 # Modify Input file
 #--------------------------------------------------------------------------
+echo ROOT: $ROOTNAME
 sed "s/XXXXXXXXXX/$ROOTNAME/g"\
         $REFERENCE >! $TEMPFILE1
-
+echo Mechanism: $MECHNAME
 sed "s/YYYYYYYYYY/$MECHNAME/g"\
         $TEMPFILE1 >! $TEMPFILE
 
@@ -91,7 +95,7 @@ if($ERROR == 1) then
 endif
 
 #rm $TEMPFILE
-rm $TEMPFILE1
+#rm $TEMPFILE1
 #rm $TEMPMECH
 
 popd

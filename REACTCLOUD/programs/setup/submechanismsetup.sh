@@ -29,8 +29,8 @@ set MOLECULE        = $1
 # In tmp directory, run the chain
 #--------------------------------------------------------------------------
 
-cp $MECHSDIR/BasicLowTemp.lsr mech.lsr
-runchain.sh mech $MOLECULE,oxygen $MOLECULE-BasicLowTemp
+cp $MECHSDIR/BasicLowTemperatureV3.lsr mech.lsr
+runchain.sh mech $MOLECULE,oxygen $MOLECULE-BasicLowTemperatureV3
 
 ## Radical
 cp $MECHSDIR/AlkeneFromRadical.lsr mech.lsr

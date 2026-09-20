@@ -14,7 +14,6 @@ MetaAtoms
 Read
 Quit
 Quit
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Open Data Base
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -49,6 +48,9 @@ Retrieve
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Combine them into one mechanism
 Combine
+Quit
+Quit
+Quit
 Quit
 Quit
 Quit
