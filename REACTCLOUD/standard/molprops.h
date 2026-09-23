@@ -86,6 +86,11 @@ extern INT MasterPrintCurrentMolecules(BindStructure *bind);
 extern INT MasterPrintCurrentSubStructures(BindStructure *bind);
 extern INT MasterPrintMoleculeSet(BindStructure *bind, INT cflag);
 
+extern INT MasterMoleculeSetInDatabase(BindStructure *bind);
+extern INT MasterSubstructureInDatabase(BindStructure *bind);
+extern INT MasterDetermineMolSubInDatabase(BindStructure *bind, INT cflag, INT classid);
+extern void DetermineMolSubInDatabase(FILE *file, MoleculeSet *set, INT classid, BindStructure *bind);
+
 extern MoleculeInfo *FindMoleculeInMoleculeSet(INT id, MoleculeSet *set);
 extern void PrintPrettyMoleculeInfo(CHAR *prefix, FILE *file, 
 				    MoleculeInfo *molecule,

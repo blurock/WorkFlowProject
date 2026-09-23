@@ -135,7 +135,8 @@ extern CHAR *FillInProperties(FILE *file, ASCIIProperties *props,CHAR *string)
 		    rest = IsolateNextWord(rest,word,BLANK,PRINT_BUFFER_LENGTH);
 		    rest = EliminateLeadingBlanks(rest);
 		    
-		    CreateASCIIProperty(prop,count,word,rest);
+		    CreateASCIIProperty(prop,props->NumberOfProperties,word,rest);
+		    printf("[FillInProperties] Read property '%s': '%s'\n", word, rest ? rest : "");
 		    prop++;
 		    props->NumberOfProperties += 1;
 		    }

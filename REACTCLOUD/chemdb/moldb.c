@@ -621,8 +621,14 @@ DetermineMoleculeSetFromASCII(ReadInMoleculeSet *asciimolset, INT dbflag,
   ChemDBMaster *master;
 
   master = GetBoundStructure(bind, BIND_CHEMDBASE);
+  if (master == NULL || master->DatabaseInfo == NULL) {
+    InitializeChemDBInfo(bind);
+    master = GetBoundStructure(bind, BIND_CHEMDBASE);
+  }
+  dinfo = (master != NULL && master->DatabaseInfo != NULL)
+              ? GetDataBaseInfoFromID(master->DatabaseInfo, dbflag)
+              : NULL;
 
-  dinfo = GetDataBaseInfoFromID(master->DatabaseInfo, dbflag);
 
   molset = AllocateMoleculeSet;
   CreateMoleculeSet(molset, asciimolset->ID, asciimolset->Name,

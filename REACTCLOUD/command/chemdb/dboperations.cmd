@@ -7,13 +7,23 @@ COMMAND DbaseOps OPERATIONSDATABASE
                 INT_VALUE    ASCIIMoleculeMaxNum       
                     TITLE   The Maximum number of molecules on input (used in allocations)
                     DEFAULT 500
+                INT_VALUE    ASCIIReactionMaxNum
+                    TITLE   The Maximum number of reactions on input
+                    DEFAULT 100
              INPUT_FILE_NAME     RootRxnName
                   TITLE   The Root Name for the reactions
                   DEFAULT_STRING MASTER
                 INPUT_FILE_NAME        RxnDirectory
                     TITLE   The Directory of the reactions
                     DEFAULT_STRING RXNDIR
+             INPUT_FILE_NAME     RxnOutName
+                  TITLE   The Root Name for output
+                  DEFAULT_STRING MASTER
+                INPUT_FILE_NAME        RxnOutDir
+                    TITLE   The Directory for output
+                    DEFAULT_STRING CURRENT
           END_ARGUMENTS
+
 
           COMMAND Molecules DATABASEMOLECULE
                TITLE Molecule Database
@@ -195,6 +205,18 @@ COMMAND DbaseOps OPERATIONSDATABASE
                               TITLE   The Root name of the reaction data
                               DEFAULT_STRING REACTIONROOT
                     END_ARGUMENTS
+              COMMAND FormatCheck RXNFORMATCHECKDB
+                   TITLE Format check for reactions file
+                   FUNCTION FormatCheckReactions
+              ENDCOMMAND
+              COMMAND ExistenceCheck RXNEXISTENCECHECKDB
+                   TITLE Existence check for reactions in database
+                   FUNCTION ExistenceCheckReactions
+              ENDCOMMAND
+              COMMAND Store RXNSTOREDB
+                   TITLE Store reactions into database
+                   FUNCTION StoreReactions
+              ENDCOMMAND
               COMMAND Keys MOLECULESEARCHKEYS
                  TITLE Commands for setting up search keys
                     COMMAND Define DEFINESEARCHKEYS
@@ -242,6 +264,18 @@ COMMAND DbaseOps OPERATIONSDATABASE
                               TITLE   The Root name of the reaction data
                               DEFAULT_STRING REACTIONROOT
                     END_ARGUMENTS
+              COMMAND FormatCheck RXNPATFORMATCHECKDB
+                   TITLE Format check for reaction patterns file
+                   FUNCTION FormatCheckRxnPatterns
+              ENDCOMMAND
+              COMMAND ExistenceCheck RXNPATEXISTENCECHECKDB
+                   TITLE Existence check for reaction patterns in database
+                   FUNCTION ExistenceCheckRxnPatterns
+              ENDCOMMAND
+              COMMAND Store RXNPATSTOREDB
+                   TITLE Store reaction patterns into database
+                   FUNCTION StoreRxnPatterns
+              ENDCOMMAND
               COMMAND Keys MOLECULESEARCHKEYS
                  TITLE Commands for setting up search keys
                     COMMAND Define DEFINESEARCHKEYS
@@ -277,6 +311,10 @@ COMMAND DbaseOps OPERATIONSDATABASE
                     COMMAND PrintList PRINTMOLDATABASE
                          TITLE Print List of Reactions
                          FUNCTION DBPrintAllRxnPatterns
+                    ENDCOMMAND
+                    COMMAND CheckDatabase DBCHECKPATTERNS
+                         TITLE Check Reaction Patterns in database
+                         FUNCTION MasterRxnPatternSetInDatabase
                     ENDCOMMAND
               ENDCOMMAND
               COMMAND Read DBREACTIONSTORE

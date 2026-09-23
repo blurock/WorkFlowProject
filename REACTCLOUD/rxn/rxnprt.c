@@ -3,7 +3,11 @@
 #include "comlib.h"
 #include "graph.h"
 #include "mol0.h"
+#include "dbase.h"
+#include "molprops.h"
 #include "rxn.h"
+#include "gentrans.h"
+#include "chemdb.h"
 
 
 static void StringRxnChangesParameters(CHAR *out, 
@@ -81,6 +85,7 @@ extern void PrintPrettyReactionInfo(CHAR *prefix, FILE *file,
 				    ReactionInfo *rxn,
 				    SetOfPropertyTypes *types,
 				    MoleculeSet *molecules,
+				    INT dbflag,
 				    BindStructure *bind)
      {
      CHAR *string;
@@ -110,7 +115,7 @@ extern void PrintPrettyReactionInfo(CHAR *prefix, FILE *file,
 		   idx++;
 	       }
 
-	       PrintRXNFromListOfNames(rxn->Name, rxn->NumberOfReactants, rxn->NumberOfProducts, names, file, bind);
+	       PrintRXNFromListOfNames(rxn->Name, rxn->NumberOfReactants, rxn->NumberOfProducts, names, file, dbflag, bind);
 
 	       for (i = 0; i < nummols; i++) {
 		   Free(names[i]);
@@ -137,6 +142,7 @@ extern void PrintPrettyReactionInfo(CHAR *prefix, FILE *file,
 extern void PrintPrettyReactionSet(CHAR *prefix, FILE *file,
 				   ReactionSet *set,
 				   MoleculeSet *molecules,
+				   INT dbflag,
 				   BindStructure *bind)
      {
      CHAR *string;
@@ -155,7 +161,7 @@ extern void PrintPrettyReactionSet(CHAR *prefix, FILE *file,
      rxn = set->Reactions;
      LOOPi(set->NumberOfReactions)
 	  {
-	  PrintPrettyReactionInfo(string,file,rxn++,set->PropertyTypes,molecules,bind);
+	  PrintPrettyReactionInfo(string,file,rxn++,set->PropertyTypes,molecules,dbflag,bind);
 	  fprintf(file,"\n");
 	  }
      Free(string);
@@ -430,6 +436,117 @@ static void StringRxnAtomParameters(CHAR *out,
 	  Free(reson);
 	  }
      }
+
+extern INT MasterRxnPatternSetInDatabase(BindStructure *bind)
+     {
+     ReactionSet *rxnpatset;
+     FILE *out;
+     CommandMaster *commandmaster;
+
+     rxnpatset = GetBoundStructure(bind, BIND_CURRENT_PATTERNS);
+     commandmaster = GetBoundStructure(bind, BIND_COMMANDMASTER);
+
+     out = OpenWriteFileFromCurrent("RxnOutDir", "RxnOutName",
+                                    REACTION_PRINT_OUT_SUFFIX,
+                                    IGNORE, "Reaction Pattern Database Check Filename",
+                                    commandmaster);
+
+     if (out != 0)
+          {
+          DetermineRxnPatternInDatabase(out, rxnpatset, PATTERN_DATABASE, bind);
+          fclose(out);
+          }
+
+     return (SYSTEM_NORMAL_RETURN);
+     }
+
+extern void DetermineRxnPatternInDatabase(FILE *file, ReactionSet *set, INT classid, BindStructure *bind)
+     {
+     ChemDBMaster *master;
+     DataSubSet *corrset;
+     DataBaseInformation *dinfo;
+     DbaseKeyword *key;
+     ReactionInfo *rxn;
+     ReactionInfo dbrxn;
+     INT *id, i, ret;
+     ObjectClassification *classification;
+
+     if (set == 0 || file == 0) return;
+
+     master = GetBoundStructure(bind, BIND_CHEMDBASE);
+     if (master == NULL)
+          {
+          fprintf(file, "ERROR: ChemDBMaster structure (BIND_CHEMDBASE) is NULL. Did you run 'CreateOpenClose Start'?\n");
+          return;
+          }
+
+     classification = FindClassification(classid, DATABASE_CLASSIFICATIONS, bind);
+     if (classification == NULL)
+          {
+          fprintf(file, "ERROR: ObjectClassification for classid %d not found.\n", classid);
+          return;
+          }
+
+     dinfo = GetDataBaseInfoFromID(master->DatabaseInfo, classification->Description->Database);
+     if (dinfo == NULL)
+          {
+          fprintf(file, "ERROR: DataBaseInformation is NULL.\n");
+          return;
+          }
+
+     corrset = DetermineRxnPatternDatabaseCorrespondence(set, classid, bind);
+     if (corrset == NULL)
+          {
+          fprintf(file, "ERROR: DetermineRxnPatternDatabaseCorrespondence returned NULL.\n");
+          return;
+          }
+
+     fprintf(file, "%-35s %-35s\n", "Name_in_File", "Name_in_Database");
+     fprintf(file, "----------------------------------- -----------------------------------\n");
+
+     key = AllocateDbaseKeyword;
+     id = corrset->Points;
+     rxn = set->Reactions;
+
+     LOOPi(set->NumberOfReactions)
+          {
+          if (*id >= 0)
+               {
+               memset(&dbrxn, 0, sizeof(ReactionInfo));
+               ProduceRxnNameKey(rxn->Name, key);
+               if (key->Name == NULL && rxn->Name != NULL)
+                    key->Name = CopyString(rxn->Name);
+               ret = SearchKeyElement(DB_NAME_SEARCH, &dbrxn, key, dinfo);
+               if (ret != SYSTEM_NORMAL_RETURN)
+                    {
+                    ProduceRxnIDKey(*id, key);
+                    if (key->Name == NULL && rxn->Name != NULL)
+                         key->Name = CopyString(rxn->Name);
+                    ret = SearchKeyElement(DB_ID_SEARCH, &dbrxn, key, dinfo);
+                    }
+               if (ret == SYSTEM_NORMAL_RETURN && dbrxn.Name != NULL)
+                    {
+                    fprintf(file, "%-35s %-35s\n", rxn->Name ? rxn->Name : "NULL", dbrxn.Name);
+                    }
+               else
+                    {
+                    fprintf(file, "%-35s %-35s\n", rxn->Name ? rxn->Name : "NULL", "NOT_FOUND");
+                    }
+               FreeDbaseKeyword(key);
+               }
+          else
+               {
+               fprintf(file, "%-35s %-35s\n", rxn->Name ? rxn->Name : "NULL", "NOT_FOUND");
+               }
+          id++;
+          rxn++;
+          }
+
+     Free(key);
+     FreeDataSubSet(corrset);
+     Free(corrset);
+     }
+
 
 	  
 

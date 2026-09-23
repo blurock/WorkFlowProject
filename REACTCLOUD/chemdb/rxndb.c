@@ -51,14 +51,12 @@ static INT DBPrintAllRxns(BindStructure *bind, INT dbflag);
 */
 extern INT StoreCurrentReactions(BindStructure *bind)
      {
-     ChemDBMaster *master;
      ReactionSet *rxnset;
      INT ret;
      
-     master = GetBoundStructure(bind,BIND_CHEMDBASE);
      rxnset = GetBoundStructure(bind,BIND_CURRENT_REACTIONS);
      
-     ret = StoreReactionSetToDatabase(rxnset,REACTION_DATABASE,master);
+     ret = StoreReactionSetToDatabase(rxnset,REACTION_DATABASE,bind);
      
      return(ret);
      }
@@ -76,26 +74,25 @@ extern INT StoreCurrentReactions(BindStructure *bind)
 **
 **  HEADERFILE
 **
+**
 */
 extern INT StoreCurrentReactionPatterns(BindStructure *bind)
      {
-     ChemDBMaster *master;
      ReactionSet *rxnpat;
      INT ret;
      
-     master = GetBoundStructure(bind,BIND_CHEMDBASE);
      rxnpat = GetBoundStructure(bind,BIND_CURRENT_PATTERNS);
-     ret = StoreReactionSetToDatabase(rxnpat,PATTERN_DATABASE,master);
+     ret = StoreReactionSetToDatabase(rxnpat,PATTERN_DATABASE,bind);
      
      return(ret);
      }
  
-/*F ret = StoreReactionSetToDatabase(rxnset,dbflag,master)
+/*F ret = StoreReactionSetToDatabase(rxnset,dbflag,bind)
 **
 **  DESCRIPTION
 **    rxnset: The current reaction set to store in database
 **    dbflag: Thedatabase id (REACTION_DATABASE, PATTERN_DATABASE)
-**    master: Master Database structure
+**    bind: Bind Structure
 **    ret: SYSTEM_NORMAL_RETURN, SYSTEM_ERROR_RETURN
 **
 **    Store the ReactionSet in the database specified
@@ -112,27 +109,40 @@ extern INT StoreCurrentReactionPatterns(BindStructure *bind)
 */
 extern INT StoreReactionSetToDatabase(ReactionSet *rxnset,
 				      INT dbflag,
-				      ChemDBMaster *master)
+				      BindStructure *bind)
      {
+     ChemDBMaster *master;
      DataBaseInformation *dinfo;
      ReactionInfo *reaction;
-     INT i;
+     INT i, id;
      DbaseKeyword *key;
     
+     master = GetBoundStructure(bind, BIND_CHEMDBASE);
      dinfo = GetDataBaseInfoFromID(master->DatabaseInfo,dbflag);
 
      reaction = rxnset->Reactions;
      LOOPi(rxnset->NumberOfReactions)
 	  {
-	  key = ComputeReactionKeyWord(reaction);
+	  if (reaction != NULL && reaction->Name != NULL) {
+	    printf("Store Reaction: %10d:%s\n", reaction->ID, reaction->Name);
+	    if (dbflag == PATTERN_DATABASE || dbflag == REACTION_DATABASE) {
+	      id = PutReactionInDatabaseClass(reaction, dbflag, bind);
+	      reaction->ID = id;
+	    }
+	    printf("New Reaction ID: %10d\n", reaction->ID);
+
+	    key = ComputeReactionKeyWord(reaction);
 	  
-	  StoreElement((VOID) reaction,
-		       key,GDBM_REPLACE,
-		       dinfo);
-	  FreeDbaseKeyword(key);
-	  Free(key);
+	    StoreElement((VOID *) reaction,
+		         key,GDBM_REPLACE,
+		         dinfo);
+
+	    FreeDbaseKeyword(key);
+	    Free(key);
+	  }
 	  reaction++;
 	  }
+     ProduceDataBaseSearchKeys(dinfo);
      return(SYSTEM_NORMAL_RETURN);
      }
 /*f  key = ComputeReactionKeyWord(molecule)
@@ -149,9 +159,7 @@ static DbaseKeyword *ComputeReactionKeyWord(ReactionInfo *reaction)
      DbaseKeyword *key;
      
      key = AllocateDbaseKeyword;
-     CreateDbaseKeyword(key,reaction->ID,reaction->Name,
-			sizeof(INT),0);
-     memcpy(key->KeyWord,&(reaction->ID),sizeof(INT));
+     ProduceRxnIDKey(reaction->ID, key);
      
      return(key);
      }

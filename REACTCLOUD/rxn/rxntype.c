@@ -70,11 +70,11 @@ static INT CompareRxnCorrespondenceSet(RxnCorrespondenceSet *set1,
 static RxnCorrespondenceSet 
      *FormCanonicalRxnCorrespondenceSet(RxnCorrespondenceSet *set,
 					MoleculeSet *molecules);
-static INT CompareReactionInfo(ReactionInfo *info1, 
+extern INT CompareReactionInfo(ReactionInfo *info1, 
 			       ReactionInfo *info2,
 			       INT level,
 			       MoleculeSet *molecules);
-static void FormCanonicalReactionInfo(ReactionInfo *new,
+extern void FormCanonicalReactionInfo(ReactionInfo *new,
 				      ReactionInfo *info,
 				      MoleculeSet *molecules);
 
@@ -666,6 +666,13 @@ static INT CompareRxnBondChanges(RxnBondChanges *set1,
      RxnBond *bond1,*bond2;
      INT count,ans;
      
+     if (set1 == NULL || set2 == NULL)
+          {
+          printf("  [Check 1 & 2] BondChanges NULL (set1=%p, set2=%p)\n", set1, set2);
+          return (set1 == set2 ? 0 : (set1 ? 1 : -1));
+          }
+
+     printf("  [Check 1] NumberBondChanges: set1=%d, set2=%d\n", set1->NumberBondChanges, set2->NumberBondChanges);
      if(set1->NumberBondChanges != set2->NumberBondChanges)
 	  ans = set1->NumberBondChanges - set2->NumberBondChanges;
      else
@@ -678,6 +685,7 @@ static INT CompareRxnBondChanges(RxnBondChanges *set1,
 		ans == 0)
 	       {
 	       ans = CompareRxnBond(bond1,bond2,level,molecules);
+               printf("  [Check 2] CompareRxnBond index %d: res=%d\n", count, ans);
 	       count++;
 	       }
 	  }
@@ -696,6 +704,7 @@ static RxnBondChanges *FormCanonicalRxnBondChanges(RxnBondChanges *set,
 
      {
      RxnBondChanges *changes;
+     if (set == NULL) return NULL;
      
      changes = AllocateRxnBondChanges;
      CreateRxnBondChanges(changes,set->ID,set->Name,
@@ -725,15 +734,26 @@ static INT CompareRxnCorrespondenceSet(RxnCorrespondenceSet *set1,
      INT ans,count;
      RxnAtomCorrespondence *corrs1,*corrs2;
 
+     if (set1 == NULL || set2 == NULL)
+          {
+          printf("  [CorrespondenceSet] NULL (set1=%p, set2=%p)\n", set1, set2);
+          return (set1 == set2 ? 0 : (set1 ? 1 : -1));
+          }
+
      ans = CompareRxnBondChanges(set1->BondChanges,
 			      set2->BondChanges,
 			      level,molecules);
      if(ans == 0)
 	  {
+          printf("  [Check 3] NumberUnMatchedAtoms: set1=%d, set2=%d\n",
+                 set1->UnMatched ? set1->UnMatched->NumberUnMatchedAtoms : -1,
+                 set2->UnMatched ? set2->UnMatched->NumberUnMatchedAtoms : -1);
 	  ans = CompareRxnUnMatchedSet(set1->UnMatched,set2->UnMatched,
 				       level,molecules);
+          printf("  [Check 4] CompareRxnUnMatchedSet: res=%d\n", ans);
 	  if(ans == 0)
 	       {
+               printf("  [Check 5] NumberOfCorrs: set1=%d, set2=%d\n", set1->NumberOfCorrs, set2->NumberOfCorrs);
 	       if(set1->NumberOfCorrs != set2->NumberOfCorrs)
 		    ans = set1->NumberOfCorrs - set2->NumberOfCorrs;
 	       else
@@ -746,6 +766,7 @@ static INT CompareRxnCorrespondenceSet(RxnCorrespondenceSet *set1,
 			 {
 			 ans = CompareRxnAtomCorrespondence(corrs1,corrs2,
 							    level,molecules);
+                         printf("  [Check 6] CompareRxnAtomCorrespondence index %d: res=%d\n", count, ans);
 			 count++;
 			 }
 		    }
@@ -766,6 +787,7 @@ static RxnCorrespondenceSet
 					MoleculeSet *molecules)
      {
      RxnCorrespondenceSet *new;
+     if (set == NULL) return NULL;
      
      new = AllocateRxnCorrespondenceSet;
 
@@ -789,29 +811,41 @@ static RxnCorrespondenceSet
 **  REMARKS
 **
 */
-static INT CompareReactionInfo(ReactionInfo *info1, 
+extern INT CompareReactionInfo(ReactionInfo *info1, 
 			       ReactionInfo *info2,
 			       INT level,
 			       MoleculeSet *molecules)
      {
      INT ans;
-     
+
+     if (info1 == NULL || info2 == NULL)
+          {
+          printf("  [CompareReactionInfo] NULL (info1=%p, info2=%p)\n", info1, info2);
+          return (info1 == info2 ? 0 : (info1 ? 1 : -1));
+          }
+
+     printf("--- Starting CompareReactionInfo for '%s' vs '%s' ---\n",
+            info1->Name ? info1->Name : "NULL", info2->Name ? info2->Name : "NULL");
+
      ans = CompareRxnCorrespondenceSet(info1->TotalCorr,
 				       info2->TotalCorr,
 				       level,
 				       molecules);
      if(ans == 0)
 	  {
+          printf("  [Check 7] NumberOfReactants: info1=%d, info2=%d\n", info1->NumberOfReactants, info2->NumberOfReactants);
 	  if(info1->NumberOfReactants != info2->NumberOfReactants)
 	       ans = info1->NumberOfReactants - info2->NumberOfReactants;
 	  else
 	       {
+               printf("  [Check 8] NumberOfProducts: info1=%d, info2=%d\n", info1->NumberOfProducts, info2->NumberOfProducts);
 	       if(info1->NumberOfProducts != info2->NumberOfProducts)
 		    ans = info1->NumberOfProducts - info2->NumberOfProducts;
 	       else
 		    ans = 0;
 	       }
 	  }
+     printf("--- CompareReactionInfo Final Result = %d ---\n", ans);
      return(ans);
      }
  
@@ -822,7 +856,7 @@ static INT CompareReactionInfo(ReactionInfo *info1,
 **  REMARKS
 **
 */
-static void FormCanonicalReactionInfo(ReactionInfo *new,
+extern void FormCanonicalReactionInfo(ReactionInfo *new,
 				      ReactionInfo *info,
 				      MoleculeSet *molecules)
      {

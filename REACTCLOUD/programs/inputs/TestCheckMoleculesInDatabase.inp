@@ -1,3 +1,6 @@
+CreateOpenClose
+Start
+Quit
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%  Read in Molecule Graph information as MolFile
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -38,7 +41,16 @@ Quit
 Quit
 Output
 Molecules
-Print
+CheckDatabase
+Quit
+Quit
+Quit
+Mol
+Graph
+PrintGraph
+Quit
+Quit
+Quit
 Quit
 Quit
 Quit

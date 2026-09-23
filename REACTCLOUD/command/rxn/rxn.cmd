@@ -1,23 +1,30 @@
 COMMAND Rxn RXNCOMMAND
    TITLE Reaction Set Managing
+   ARGUMENTS
+       INT_VALUE           ReadRxnDebug
+            TITLE   The Debug Flag
+            DEFAULT   0
+            LOWER     0
+       INT_VALUE        ASCIIReactionMaxNum   
+            TITLE   The Debug Flag
+            DEFAULT   100
+            LOWER     10
+       INPUT_FILE_NAME     RootRxnName
+            TITLE   The Root Name for the reactions
+            DEFAULT_STRING MASTER
+       INPUT_FILE_NAME        RxnDirectory
+            TITLE   The Directory of the reactions
+            DEFAULT_STRING RXNDIR
+       INPUT_FILE_NAME     RxnOutName
+            TITLE   The Root Name for output
+            DEFAULT_STRING MASTER
+       INPUT_FILE_NAME        RxnOutDir
+            TITLE   The Directory for output
+            DEFAULT_STRING CURRENT
+   END_ARGUMENTS
    COMMAND Read READRXN
          TITLE Read in Reaction Set
-         ARGUMENTS
-             INT_VALUE           ReadRxnDebug
-                  TITLE   The Debug Flag
-                  DEFAULT   0
-                  LOWER     0
-             INT_VALUE        ASCIIReactionMaxNum   
-                  TITLE   The Debug Flag
-                  DEFAULT   100
-                  LOWER     10
-             INPUT_FILE_NAME     RootRxnName
-                  TITLE   The Root Name for the reactions
-                  DEFAULT_STRING MASTER
-             INPUT_FILE_NAME        RxnDirectory
-                  TITLE   The Directory of the reactions
-                  DEFAULT_STRING RXNDIR
-          END_ARGUMENTS
+
 
         COMMAND Reactions REACTIONSREAD
         TITLE Read in Reactions to Current Set
@@ -28,6 +35,18 @@ COMMAND Rxn RXNCOMMAND
           COMMAND ASCII MOLFILES
                TITLE Read in Reactions as lines
                FUNCTION ReadInASCIISetOfReactions
+          ENDCOMMAND
+          COMMAND FormatCheck RXNFORMATCHECK
+               TITLE Check format of reaction input
+               FUNCTION FormatCheckReactions
+          ENDCOMMAND
+          COMMAND ExistenceCheck RXNEXISTENCECHECK
+               TITLE Check existence of reactions in database
+               FUNCTION ExistenceCheckReactions
+          ENDCOMMAND
+          COMMAND Store RXNSTORE
+               TITLE Store reactions in database
+               FUNCTION StoreReactions
           ENDCOMMAND
         ENDCOMMAND
 
@@ -41,7 +60,20 @@ COMMAND Rxn RXNCOMMAND
                TITLE Read in Reactions as lines
                FUNCTION ReadInASCIISetOfRxnPatterns
           ENDCOMMAND
+          COMMAND FormatCheck RXNPATFORMATCHECK
+               TITLE Check format of reaction pattern input
+               FUNCTION FormatCheckRxnPatterns
+          ENDCOMMAND
+          COMMAND ExistenceCheck RXNPATEXISTENCECHECK
+               TITLE Check existence of reaction patterns in database
+               FUNCTION ExistenceCheckRxnPatterns
+          ENDCOMMAND
+          COMMAND Store RXNPATSTORE
+               TITLE Store reaction patterns in database
+               FUNCTION StoreRxnPatterns
+          ENDCOMMAND
         ENDCOMMAND
+
 
      ENDCOMMAND
 
@@ -69,6 +101,10 @@ COMMAND Rxn RXNCOMMAND
               TITLE Print out the current set of reactions
               FUNCTION MasterPrintRxnPatterns
           ENDCOMMAND
+          COMMAND CheckDatabase RXNPATCHECKDB
+              TITLE Check current set of reaction patterns in database
+              FUNCTION MasterRxnPatternSetInDatabase
+          ENDCOMMAND
         ENDCOMMAND
      ENDCOMMAND
      COMMAND Calc RXNPATTERNS
@@ -82,6 +118,38 @@ COMMAND Rxn RXNCOMMAND
                FUNCTION MasterReactionOrder
           ENDCOMMAND
      ENDCOMMAND
+     COMMAND Reactions DIRECTREACTIONS
+     TITLE Manage Reactions
+          COMMAND FormatCheck RXNDIRECTFORMATCHECK
+               TITLE Check format of reaction input
+               FUNCTION FormatCheckReactions
+          ENDCOMMAND
+          COMMAND ExistenceCheck RXNDIRECTEXISTENCECHECK
+               TITLE Check existence of reactions in database
+               FUNCTION ExistenceCheckReactions
+          ENDCOMMAND
+          COMMAND Store RXNDIRECTSTORE
+               TITLE Store reactions in database
+               FUNCTION StoreReactions
+          ENDCOMMAND
+     ENDCOMMAND
+
+     COMMAND RxnPatterns DIRECTRXNPATTERNS
+     TITLE Manage Reaction Patterns
+          COMMAND FormatCheck RXNPATDIRECTFORMATCHECK
+               TITLE Check format of reaction pattern input
+               FUNCTION FormatCheckRxnPatterns
+          ENDCOMMAND
+          COMMAND ExistenceCheck RXNPATDIRECTEXISTENCECHECK
+               TITLE Check existence of reaction patterns in database
+               FUNCTION ExistenceCheckRxnPatterns
+          ENDCOMMAND
+          COMMAND Store RXNPATDIRECTSTORE
+               TITLE Store reaction patterns in database
+               FUNCTION StoreRxnPatterns
+          ENDCOMMAND
+     ENDCOMMAND
+
      COMMAND Settings RXNSETTINGS
           TITLE Set Various Global Reaction Parameters
          ARGUMENTS
@@ -92,3 +160,4 @@ COMMAND Rxn RXNCOMMAND
       ENDCOMMAND    
 ENDCOMMAND
 DONE
+

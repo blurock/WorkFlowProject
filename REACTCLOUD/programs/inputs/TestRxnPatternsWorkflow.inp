@@ -1,0 +1,65 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  Read MetaAtoms
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Mol
+Parameters
+RootMolName
+Input
+StandardMeta
+Quit
+Quit
+MetaAtoms
+Read
+Quit
+Quit
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Open database connection
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+CreateOpenClose
+Start
+Quit
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Setup Reaction Pattern Inputs & Outputs under Rxn
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Rxn
+Parameters
+RootRxnName
+Input
+rxnpats/RxnPatTest
+Quit
+RxnOutName
+Input
+TestRxnPatOut
+Quit
+RxnOutDir
+Input
+.
+Quit
+Quit
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% 1. FormatCheck Reaction Patterns
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+RxnPatterns
+FormatCheck
+Quit
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% 2. ExistenceCheck Reaction Patterns
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+RxnPatterns
+ExistenceCheck
+Quit
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% 3. Store Reaction Patterns
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+RxnPatterns
+Store
+Quit
+
+Quit
+
+Quit

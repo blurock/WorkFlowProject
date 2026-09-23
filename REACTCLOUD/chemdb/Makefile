@@ -14,12 +14,13 @@ ALL_PROGS = str_form library
 HFILES     = mol0.h molprops.h
 
 ALL_SOURCES = \
-       objfindmol.c objfind.c genrxn.c asciiprp.c rxndb.c dbrxnsearch.c bensontables.c\
-       mechanism.c moldb.c datab.c  dbmolsearch.c dbfunc.c rxnpatin.c combine.c
+       objfindmol.c objfindrxn.c objfind.c genrxn.c asciiprp.c rxndb.c dbrxnsearch.c bensontables.c\
+       mechanism.c moldb.c datab.c  dbmolsearch.c dbfunc.c rxnpatin.c combine.c rxncheck.c
 
 ALL_OBJECTS = \
-       objfindmol.o objfind.o genrxn.o asciiprp.o rxndb.o dbrxnsearch.o bensontables.o\
-       mechanism.o moldb.o datab.o dbmolsearch.o dbfunc.o rxnpatin.o combine.o
+       objfindmol.o objfindrxn.o objfind.o genrxn.o asciiprp.o rxndb.o dbrxnsearch.o bensontables.o\
+       mechanism.o moldb.o datab.o dbmolsearch.o dbfunc.o rxnpatin.o combine.o rxncheck.o
+
 
 COMMANDFILES = util.cmd
 

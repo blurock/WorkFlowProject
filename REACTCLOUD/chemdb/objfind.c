@@ -268,8 +268,11 @@ extern INT DetermineObjectID(VOID object,
      dbmaster = GetBoundStructure(bind,BIND_CHEMDBASE);
 
      classification = FindClassification(classid,source,bind);
+     if (classification == NULL || classification->Description == NULL)
+          return 0;
      
      info = DetermineObjectIDInfo(classification->Description, object);
+
      class = FetchOrCreateObjectIDClassFromFirestore(source, classification->Name, classification->Description, info);
      
      switch(source)
@@ -338,25 +341,59 @@ static INT SearchForObjectInDatabase(ObjectIDClass *class,
      {
      DataBaseInformation *dinfo;
      VOID newobject;
-     INT done,count,compare,ret;
+     INT done,count,compare,ret,numKeys;
      DbaseKeyword *key;
+     SingleSearchKey *skey;
+     SearchKeyInfo *nameKeyType;
      
      dinfo = GetDataBaseInfoFromID(dbmaster->DatabaseInfo,
 				   classification->Description->Database);
      
+     printf("[SearchForObjectInDatabase] Searching in class '%s': NumberOfKeys = %d\n",
+            classification->Name ? classification->Name : "NULL",
+            class ? class->NumberOfKeys : -1);
+
      done = 0;
      count = 0;
-     key = class->Keys;
-     while(done == 0 && count < class->NumberOfKeys)
+     numKeys = 0;
+     key = NULL;
+     skey = NULL;
+
+     if (class != NULL && class->NumberOfKeys > 0)
        {
+         key = class->Keys;
+         numKeys = class->NumberOfKeys;
+       }
+     else
+       {
+         nameKeyType = FindKeyTypeFromID(DB_NAME_SEARCH, dinfo);
+         if (nameKeyType != NULL && nameKeyType->Keys != NULL && nameKeyType->Keys->NumberOfKeys > 0)
+           {
+             printf("[SearchForObjectInDatabase] Falling back to NameSearchKeys (total keys = %d)\n",
+                    nameKeyType->Keys->NumberOfKeys);
+             skey = nameKeyType->Keys->Keys;
+             numKeys = nameKeyType->Keys->NumberOfKeys;
+           }
+       }
+
+     while(done == 0 && count < numKeys)
+       {
+	 DbaseKeyword *currKey;
+	 if (key != NULL)
+	   currKey = key + count;
+	 else if (skey != NULL && skey[count].DBKey != NULL)
+	   currKey = skey[count].DBKey;
+	 else
+	   currKey = skey[count].Search;
+
 	 newobject = (*(dinfo->AllocateElement))();
 	 ret = SearchKeyElement(classification->Description->KeyType,
-				newobject,key,dinfo);
+				newobject,currKey,dinfo);
 	 if(ret == SYSTEM_NORMAL_RETURN)
 	   {
 	     compare = (*(classification->Equivalence))(newobject,object);
 	     if(compare == 0)
-	       done = key->ID;
+	       done = (currKey->ID != 0) ? currKey->ID : (count + 1);
 	     (*(dinfo->FreeElement))(newobject);
 	   }
 	 else
@@ -365,7 +402,6 @@ static INT SearchForObjectInDatabase(ObjectIDClass *class,
 	   }
 	 Free(newobject);
 	 count++;
-	 key++;
        }
      return(done);
      }
@@ -577,6 +613,22 @@ extern ObjectClassification *AddEmptyClassification(SetOfObjectClassifications *
 	  classification->TreeOfObjects = InitializeObjectTree(classid,"DB-Index-SubStructureIDs");
 	  classification->Equivalence = SubStructureEquivalence;
 	  classification->FindElementInSet = FindMoleculeByKey;
+	  break;
+     case PATTERN_DATABASE:
+	  classification->Name = CopyString("DB-Index-PatternIDs");
+	  classification->Description = InitializeReactionTreeDescription(classid,
+									  "DB-Index-PatternIDs");
+	  classification->TreeOfObjects = InitializeObjectTree(classid,"DB-Index-PatternIDs");
+	  classification->Equivalence = ReactionPatternEquivalence;
+	  classification->FindElementInSet = FindReactionPatternByKey;
+	  break;
+     case REACTION_DATABASE:
+	  classification->Name = CopyString("DB-Index-ReactionIDs");
+	  classification->Description = InitializeReactionTreeDescription(classid,
+									  "DB-Index-ReactionIDs");
+	  classification->TreeOfObjects = InitializeObjectTree(classid,"DB-Index-ReactionIDs");
+	  classification->Equivalence = ReactionPatternEquivalence;
+	  classification->FindElementInSet = FindReactionPatternByKey;
 	  break;
      default:
 	  FreeObjectClassification(classification);

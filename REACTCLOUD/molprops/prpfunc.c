@@ -18,7 +18,7 @@
 #include "mol0.h"
 #include "molprops.h"
 
-#define NUMBER_MOLPROPS_FUNCTIONS  22
+#define NUMBER_MOLPROPS_FUNCTIONS  24
 
 static FunctionInfo MOLPROPS_FUNCTION_LIST[NUMBER_MOLPROPS_FUNCTIONS] = {
      {1,"ReadInChemkinThermoFile",(INT (*)(void)) ReadInChemkinThermoFile},  
@@ -42,7 +42,9 @@ static FunctionInfo MOLPROPS_FUNCTION_LIST[NUMBER_MOLPROPS_FUNCTIONS] = {
      {19,"AddSDFToCurrentSubStructures",(INT (*)(void)) AddSDFToCurrentSubStructures},
      {20,"ChemkinToBensonTest",(INT (*)(void)) ChemkinToBensonTest},
      {21,"LocalReadASCIIMoleculeProps",(INT (*)(void)) LocalReadASCIIMoleculeProps},
-     {22,"TransferChemkinToTables",(INT (*)(void))TransferChemkinToTables }
+     {22,"TransferChemkinToTables",(INT (*)(void))TransferChemkinToTables },
+     {23,"MasterMoleculeSetInDatabase",(INT (*)(void)) MasterMoleculeSetInDatabase},
+     {24,"MasterSubstructureInDatabase",(INT (*)(void)) MasterSubstructureInDatabase}
      };
 
 static FunctionList MOLPROPS_FUNCTIONS = {

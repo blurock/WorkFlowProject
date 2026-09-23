@@ -102,13 +102,17 @@ COMMAND Mol MOLECULE
           ENDCOMMAND
         ENDCOMMAND
      ENDCOMMAND
-     COMMAND Output MOLOUTPUT
-          TITLE Output the Molecular Information
+      COMMAND Output MOLOUTPUT
+           TITLE Output the Molecular Information
         COMMAND Molecules READCURRENTMOLECULES
           TITLE Printing Current Molecules
           COMMAND Print MOLPRINT
               TITLE Print out the current set of molecules
               FUNCTION MasterPrintCurrentMolecules
+          ENDCOMMAND
+          COMMAND CheckDatabase MOLCHECKDB
+              TITLE Check current set of molecules in database
+              FUNCTION MasterMoleculeSetInDatabase
           ENDCOMMAND
         ENDCOMMAND
         COMMAND SubStructures READCURRENTSUBSTRUCTURES
@@ -117,8 +121,11 @@ COMMAND Mol MOLECULE
               TITLE Print out the current set of substructures
               FUNCTION MasterPrintCurrentSubStructures
           ENDCOMMAND
+          COMMAND CheckDatabase MOLCHECKDB
+              TITLE Check current set of substructures in database
+              FUNCTION MasterSubstructureInDatabase
+          ENDCOMMAND
         ENDCOMMAND
      ENDCOMMAND
 ENDCOMMAND
 DONE
-

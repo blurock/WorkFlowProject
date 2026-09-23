@@ -149,7 +149,7 @@ extern INT StoreCurrentReactions(BindStructure *bind);
 extern INT StoreCurrentReactionPatterns(BindStructure *bind);
 extern INT StoreReactionSetToDatabase(ReactionSet *rxnset,
 				      INT dbflag,
-				      ChemDBMaster *master);
+				      BindStructure *bind);
 /*P  . . . PROTOTYPES . . . . . . . . . . . . . . . . . . . . . dbrxnsearch.c
 */
 extern INT DBResetReactionSearchKeys(BindStructure *bind);
@@ -279,6 +279,14 @@ extern VOID FindMoleculeByKey(DbaseKeyword *key, VOID setofelements);
 extern INT PutMoleculeInDatabaseClass(MoleculeInfo *molecule,
 				      INT source,
 				      BindStructure *bind);
+
+/*P  . . . PROTOTYPES  . . . . . . . . . . . . . . . . . . .objfindrxn.c
+*/
+extern ListOfTreeLevelDescriptions *InitializeReactionTreeDescription(INT id, CHAR *name);
+extern INT ReactionPatternEquivalence(VOID *pat1, VOID *pat2);
+extern VOID *FindReactionPatternByKey(DbaseKeyword *key, VOID *setofelements);
+extern DataSubSet *DetermineRxnPatternDatabaseCorrespondence(ReactionSet *rxnset, INT classid, BindStructure *bind);
+extern INT PutReactionInDatabaseClass(ReactionInfo *reaction, INT classid, BindStructure *bind);
 extern INT ReadInRxnPatternsMolsFromDB(BindStructure *bind);
 extern void WriteOutDetailedMechanism(DetailedMechanism *mechanism,
 				      BindStructure *bind);
@@ -290,3 +298,13 @@ extern INT CombineToTotalMechanism(BindStructure *bind);
 extern INT DBPrintAllMechanisms(BindStructure *bind);
 extern INT PrintChemkinNameCorrespondences(BindStructure *bind);
 extern INT AddIDKeyToClass(DbaseKeyword *key, ObjectIDClass *class);
+
+/*P  . . . PROTOTYPES  . . . . . . . . . . . . . . . . . . .rxncheck.c
+*/
+extern INT FormatCheckReactions(BindStructure *bind);
+extern INT FormatCheckRxnPatterns(BindStructure *bind);
+extern INT ExistenceCheckReactions(BindStructure *bind);
+extern INT ExistenceCheckRxnPatterns(BindStructure *bind);
+extern INT StoreReactions(BindStructure *bind);
+extern INT StoreRxnPatterns(BindStructure *bind);
+

@@ -1,0 +1,25 @@
+#!/bin/csh
+# ---------------------------------------------------------------------------
+# Script 3: Store Reaction into Database
+# ---------------------------------------------------------------------------
+
+if ( $#argv != 1 ) then
+  echo "Usage: $0 FileRoot"
+  echo "        FileRoot : The reaction file root name (e.g. TestRxnList)"
+  exit(1)
+endif
+
+set INFILEROOT = $1
+set REFERENCE  = $REACTROOT/programs/inputs/StoreReaction.inp
+set CHEMPROG   = $REACTROOT/bin/runchem.sh
+set TEMPDIR    = $REACTROOT/tmp
+set TEMPFILE   = $REACTROOT/tmp/read.prg
+
+sed "s/XXXXX/$INFILEROOT/g" $REFERENCE >! $TEMPFILE
+
+pushd $TEMPDIR > /dev/null
+$CHEMPROG read < read.prg >! $TEMPDIR/storerxn.rawout
+popd > /dev/null
+
+echo "Reactions stored into database for $INFILEROOT."
+grep Store $TEMPDIR/storerxn.rawout

@@ -3,9 +3,15 @@
 #include "comlib.h"
 #include "graph.h"
 #include "mol0.h"
+#include "dbase.h"
+#include "molprops.h"
 #include "rxn.h"
+#include "gentrans.h"
+#include "chemdb.h"
 
-#define NUMBER_REACTIONS_FUNCTIONS 8
+
+
+#define NUMBER_REACTIONS_FUNCTIONS 15
 
 static FunctionInfo REACTIONS_FUNCTION_LIST[NUMBER_REACTIONS_FUNCTIONS] = 
      {
@@ -16,7 +22,14 @@ static FunctionInfo REACTIONS_FUNCTION_LIST[NUMBER_REACTIONS_FUNCTIONS] =
      {5,"ReadInASCIISetOfReactions",(INT (*)(void)) ReadInASCIISetOfReactions},
      {6,"ReadInASCIISetOfRxnPatterns",(INT (*)(void)) ReadInASCIISetOfRxnPatterns},
      {7,"FindReactionPattern",(INT (*)(void)) FindReactionPattern},
-     {8,"MasterReactionOrder",(INT (*)(void)) MasterReactionOrder}
+     {8,"MasterReactionOrder",(INT (*)(void)) MasterReactionOrder},
+     {9,"MasterRxnPatternSetInDatabase",(INT (*)(void)) MasterRxnPatternSetInDatabase},
+     {10,"FormatCheckReactions",(INT (*)(void)) FormatCheckReactions},
+     {11,"FormatCheckRxnPatterns",(INT (*)(void)) FormatCheckRxnPatterns},
+     {12,"ExistenceCheckReactions",(INT (*)(void)) ExistenceCheckReactions},
+     {13,"ExistenceCheckRxnPatterns",(INT (*)(void)) ExistenceCheckRxnPatterns},
+     {14,"StoreReactions",(INT (*)(void)) StoreReactions},
+     {15,"StoreRxnPatterns",(INT (*)(void)) StoreRxnPatterns}
 };
 
 

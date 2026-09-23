@@ -16,14 +16,18 @@
 #include "comlib.h"
 #include "graph.h"
 #include "mol0.h"
+#include "dbase.h"
 #include "rxn.h"
 #include "molprops.h"
+#include "gentrans.h"
+#include "chemdb.h"
  
 /*P  . . . PROTOTYPES  . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 */
 static INT ReadInRxnsFromList(ReactionSet *reactions,MoleculeSet *molecules,
 			      BindStructure *bind);
 static INT MasterPrintRxns(ReactionSet *reactions,
+			   INT dbflag,
 			   BindStructure *bind);
 /*S InitializeReactionSet
 */ 
@@ -236,7 +240,7 @@ extern INT MasterPrintReactionSet(BindStructure *bind)
      INT ret;
      
      reactions = GetBoundStructure(bind,BIND_CURRENT_REACTIONS);
-     ret = MasterPrintRxns(reactions,bind);
+     ret = MasterPrintRxns(reactions,REACTION_DATABASE,bind);
      return(ret);
      }
 /*F  ret = MasterPrintRxnPatterns(bind)
@@ -260,7 +264,7 @@ extern INT MasterPrintRxnPatterns(BindStructure *bind)
      INT ret;
      
      reactions = GetBoundStructure(bind,BIND_CURRENT_PATTERNS);
-     ret = MasterPrintRxns(reactions,bind);
+     ret = MasterPrintRxns(reactions,PATTERN_DATABASE,bind);
      return(ret);
      }
 /*f
@@ -271,6 +275,7 @@ extern INT MasterPrintRxnPatterns(BindStructure *bind)
 **
 */
 static INT MasterPrintRxns(ReactionSet *reactions,
+			   INT dbflag,
 			   BindStructure *bind)
      {
      FILE *out;
@@ -278,9 +283,16 @@ static INT MasterPrintRxns(ReactionSet *reactions,
      MoleculeSet *molecules;
 
      commandmaster = GetBoundStructure(bind,BIND_COMMANDMASTER);
-     molecules = GetBoundStructure(bind,BIND_CURRENT_SUBSTRUCTURES);
-     if (molecules == 0 || molecules->NumberOfMolecules == 0) {
+     if (dbflag == PATTERN_DATABASE || dbflag == SUBSTRUCTURE_DATABASE) {
+       molecules = GetBoundStructure(bind,BIND_CURRENT_SUBSTRUCTURES);
+       if (molecules == 0 || molecules->NumberOfMolecules == 0) {
+         molecules = GetBoundStructure(bind,BIND_CURRENT_MOLECULES);
+       }
+     } else {
        molecules = GetBoundStructure(bind,BIND_CURRENT_MOLECULES);
+       if (molecules == 0 || molecules->NumberOfMolecules == 0) {
+         molecules = GetBoundStructure(bind,BIND_CURRENT_SUBSTRUCTURES);
+       }
      }
 
      out = OpenWriteFileFromCurrent("RxnOutDir","RxnOutName",
@@ -290,7 +302,7 @@ static INT MasterPrintRxns(ReactionSet *reactions,
      
      if(out != 0)
 	  {
-	  PrintPrettyReactionSet("",out,reactions,molecules,bind);
+	  PrintPrettyReactionSet("",out,reactions,molecules,dbflag,bind);
 	  fclose(out);
 	  }
      

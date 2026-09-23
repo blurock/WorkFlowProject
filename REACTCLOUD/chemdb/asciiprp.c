@@ -25,7 +25,7 @@
 /*P  . . . PROTOTYPES  . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 */
 static INT ReadInASCIIRxns(MoleculeSet *origmols,ReactionSet *origrxns,
-			      BindStructure *bind);
+			      INT dbflag, BindStructure *bind);
 static void MoleculesFromDatabase(ReadInMoleculeSet *asciimolset,
 				  MoleculeSet *mols,
 				  INT dbflag,
@@ -200,37 +200,47 @@ extern INT ReadInASCIISetOfReactions(BindStructure *bind)
      origrxns = GetBoundStructure(bind,BIND_CURRENT_REACTIONS);
      origmols = GetBoundStructure(bind,BIND_CURRENT_MOLECULES);
 
-     ret = ReadInASCIIRxns(origmols,origrxns,bind);
+     if (origrxns == NULL) {
+       origrxns = AllocateReactionSet;
+       memset(origrxns, 0, sizeof(ReactionSet));
+       BindStructureIntoMaster((VOID)origrxns, BIND_CURRENT_REACTIONS, bind);
+     }
+     if (origmols == NULL) {
+       origmols = AllocateMoleculeSet;
+       memset(origmols, 0, sizeof(MoleculeSet));
+       BindStructureIntoMaster((VOID)origmols, BIND_CURRENT_MOLECULES, bind);
+     }
+
+     ret = ReadInASCIIRxns(origmols,origrxns,MOLECULE_DATABASE,bind);
      return(ret);
      }
-/*F ret = ReadInASCIISetOfRxnPatterns(bind)
-**
-**  DESCRIPTION
-**    bind: The bind structure
-**
-**    ret: SYSTEM_NORMAL_RETURN, SYSTEM_ERROR_RETURN
-**
-**  REMARKS
-**
-**  SEE ALSO
-**      Main Functions: 
-**
-**  HEADERFILE
-**
-*/
+
 extern INT ReadInASCIISetOfRxnPatterns(BindStructure *bind)
      {
      MoleculeSet *origmols;
      ReactionSet *origrxns;
      INT ret;
-     printf("ReadInASCIISetOfRxnPatterns\n");
+
      origrxns = GetBoundStructure(bind,BIND_CURRENT_PATTERNS);
      origmols = GetBoundStructure(bind,BIND_CURRENT_SUBSTRUCTURES);
 
-     ret = ReadInASCIIRxns(origmols,origrxns,bind);
+     if (origrxns == NULL) {
+       origrxns = AllocateReactionSet;
+       memset(origrxns, 0, sizeof(ReactionSet));
+       BindStructureIntoMaster((VOID)origrxns, BIND_CURRENT_PATTERNS, bind);
+     }
+     if (origmols == NULL) {
+       origmols = AllocateMoleculeSet;
+       memset(origmols, 0, sizeof(MoleculeSet));
+       BindStructureIntoMaster((VOID)origmols, BIND_CURRENT_SUBSTRUCTURES, bind);
+     }
+
+
+     ret = ReadInASCIIRxns(origmols,origrxns,SUBSTRUCTURE_DATABASE,bind);
      return(ret);
      }
-/*f ret = ReadInASCIIRxns(origmols,origrxns,bind)
+
+/*f ret = ReadInASCIIRxns(origmols,origrxns,dbflag,bind)
 **
 **  DESCRIPTION
 **    
@@ -238,6 +248,7 @@ extern INT ReadInASCIISetOfRxnPatterns(BindStructure *bind)
 **
 */
 static INT ReadInASCIIRxns(MoleculeSet *origmols,ReactionSet *origrxns,
+                           INT dbflag,
 			      BindStructure *bind)
      {
      CommandMaster *commandmaster;
@@ -259,14 +270,15 @@ static INT ReadInASCIIRxns(MoleculeSet *origmols,ReactionSet *origrxns,
 	  {
 	  asciirxnset = ReadInASCIIReactions(file,max);
 	  asciimolset = DetermineSetOfASCIIMolecules(asciirxnset);
-	  molset = DetermineMoleculeSetFromASCII(asciimolset,MOLECULE_DATABASE,bind);
+	  molset = DetermineMoleculeSetFromASCII(asciimolset,dbflag,bind);
 	  rxnset = ASCIIMoleculesInReaction(asciirxnset,asciimolset,molset);
 	  FillInReactionPropertyValues(asciirxnset,rxnset,bind);
 
-	  FreeReactionSet(origrxns);
-	  FreeMoleculeSet(origmols);
+	  if (origrxns != NULL && origrxns->Reactions != NULL) FreeReactionSet(origrxns);
+	  if (origmols != NULL && origmols->Molecules != NULL) FreeMoleculeSet(origmols);
 	  memcpy(origrxns,rxnset,ReactionSetSize);
 	  memcpy(origmols,molset,MoleculeSetSize);
+
 	  
 	  fclose(file);
 	  }

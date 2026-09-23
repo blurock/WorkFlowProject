@@ -151,10 +151,11 @@ extern INT FindASCIIInMolSet(ReadInMolecule *asciimol,
      
      done = -1;
      count = 0;
+     if (molset == NULL || molset->Molecules == NULL || asciimol == NULL) return done;
      mol = molset->Molecules;
      while(done == -1 && count < molset->NumberOfMolecules)
 	  {
-	  if(!strcmp(mol->Name,asciimol->Name))
+	  if(mol->Name != NULL && asciimol->Name != NULL && !strcmp(mol->Name,asciimol->Name))
 	     done = mol->ID;
 	  count++;
 	  mol++;

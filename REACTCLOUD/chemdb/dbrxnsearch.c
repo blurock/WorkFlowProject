@@ -628,10 +628,15 @@ extern INT DBReadListRxnSetFromKeys(BindStructure *bind, INT dbflag)
 
      rxnset = GetBoundStructure(bind,BIND_CURRENT_REACTIONS);
      asciirxnset = ReadInReactionSetFromFile(bind,';');
+     if (asciirxnset == NULL) {
+         printf("ERROR: Could not read reaction set list from file.\n");
+         return(SYSTEM_ERROR_RETURN);
+     }
 
      newrxns = DetermineReactionSetFromASCII(asciirxnset,dbflag,bind);
-
-     ReplaceBindReactionSet(newrxns,bind);
+     if (newrxns != NULL) {
+         ReplaceBindReactionSet(newrxns,bind);
+     }
      
      return(SYSTEM_NORMAL_RETURN);
      }
@@ -661,6 +666,8 @@ extern ReactionSet *DetermineReactionSetFromASCII(ReadInReactionSet *asciirxnset
      ReactionInfo *rxninfo;
      ReadInReaction *asciirxn;
      INT i,ret;
+
+     if (asciirxnset == NULL) return NULL;
 
      master = GetBoundStructure(bind,BIND_CHEMDBASE);
      
@@ -714,7 +721,7 @@ extern ReadInReactionSet *ReadInReactionSetFromFile(BindStructure *bind,
      {
      CommandMaster *commandmaster;
      FILE *file;
-     ReadInReactionSet *rxnset;
+     ReadInReactionSet *rxnset = NULL;
      ReadInReaction *rxn;
      CHAR delimitor,*string,*line,*name;
 

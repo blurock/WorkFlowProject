@@ -43,6 +43,9 @@ extern FunctionList *MergeFunctReactions(FunctionList *old);
 /****************************************************************************/
 extern ReactionSet *FormCanonicalReactionSet(ReactionSet *set,
 					     MoleculeSet *molecules);
+extern INT CompareReactionInfo(ReactionInfo *info1, ReactionInfo *info2, INT level, MoleculeSet *molecules);
+extern void FormCanonicalReactionInfo(ReactionInfo *new, ReactionInfo *info, MoleculeSet *molecules);
+
 /****************************************************************************/
 /* Routines from rxnprt.c   */
 /****************************************************************************/
@@ -63,16 +66,21 @@ extern void PrintPrettyReactionInfo(CHAR *prefix, FILE *file,
 				    ReactionInfo *rxn,
 				    SetOfPropertyTypes *types,
 				    MoleculeSet *molecules,
+				    INT dbflag,
 				    BindStructure *bind);
 extern void PrintPrettyReactionSet(CHAR *prefix, FILE *file,
 				   ReactionSet *set,
 				   MoleculeSet *molecules,
+				   INT dbflag,
 				   BindStructure *bind);
 
+extern INT MasterRxnPatternSetInDatabase(BindStructure *bind);
+extern void DetermineRxnPatternInDatabase(FILE *file, ReactionSet *set, INT classid, BindStructure *bind);
+
 extern ReadInMoleculeSet *FindMoleculesInReactionSet(ReactionSet *set);
-extern INT readMoleculesFromListOfNames(INT nummols, CHAR *names[], BindStructure *bind);
+extern INT readMoleculesFromListOfNames(INT nummols, CHAR *names[], INT dbflag, BindStructure *bind);
 extern INT PrintRXNFromListOfNames(CHAR *rxnName, INT numReactants, INT numProducts, 
-                                  CHAR *names[], FILE *out, BindStructure *bind);
+                                  CHAR *names[], FILE *out, INT dbflag, BindStructure *bind);
 
 
 /****************************************************************************/

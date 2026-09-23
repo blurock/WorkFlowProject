@@ -1,0 +1,57 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  Read MetaAtoms
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Mol
+Parameters
+RootMolName
+Input
+StandardMeta
+Quit
+Quit
+MetaAtoms
+Read
+Quit
+Quit
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Open database connection
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+CreateOpenClose
+Start
+Quit
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Read Reaction Patterns from file using database substructures
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+DbaseOps
+Parameters
+RootRxnName
+Input
+rxnpats/XXXXX
+Quit
+Quit
+RxnPatterns
+Read
+Quit
+Quit
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Check Reaction Patterns in Database (Output to YYYYY.out)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Rxn
+Output
+Parameters
+RxnOutName
+Input
+YYYYY
+Quit
+Quit
+RxnPatterns
+CheckDatabase
+Quit
+Quit
+Quit
+
+Quit
+
+Quit
