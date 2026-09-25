@@ -388,6 +388,8 @@ extern INT FormatCheckASCIIReactions(BindStructure *bind) {
     return SYSTEM_ERROR_RETURN;
   }
 
+  BindStructureIntoMaster((VOID *)asciirxnset, BIND_ASCII_REACTIONS, bind);
+
   fprintf(out, "SUCCESS: Parsed %d ASCII reactions successfully.\n\n", asciirxnset->NumberOfReactions);
   PrintPrettyASCIIReactionSet(out, asciirxnset);
 
@@ -435,6 +437,8 @@ extern INT FormatCheckASCIIRxnPatterns(BindStructure *bind) {
     if (out != stdout) fclose(out);
     return SYSTEM_ERROR_RETURN;
   }
+
+  BindStructureIntoMaster((VOID *)asciirxnset, BIND_ASCII_PATTERNS, bind);
 
   fprintf(out, "SUCCESS: Parsed %d ASCII reaction patterns successfully.\n\n", asciirxnset->NumberOfReactions);
   PrintPrettyASCIIReactionSet(out, asciirxnset);

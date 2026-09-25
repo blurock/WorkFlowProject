@@ -237,9 +237,29 @@ static INT ReadInRxnsFromList(ReactionSet *reactions,MoleculeSet *molecules,
 extern INT MasterPrintReactionSet(BindStructure *bind)
      {
      ReactionSet *reactions;
+     ASCIIReactionSet *asciirxns;
+     FILE *out;
+     CommandMaster *commandmaster;
      INT ret;
      
      reactions = GetBoundStructure(bind,BIND_CURRENT_REACTIONS);
+     if (reactions != NULL && reactions->NumberOfReactions > 0 && reactions->Reactions != NULL) {
+       ret = MasterPrintRxns(reactions,REACTION_DATABASE,bind);
+       return(ret);
+     }
+
+     asciirxns = GetBoundStructure(bind, BIND_ASCII_REACTIONS);
+     if (asciirxns != NULL && asciirxns->NumberOfReactions > 0) {
+       commandmaster = GetBoundStructure(bind, BIND_COMMANDMASTER);
+       out = OpenWriteFileFromCurrent("RxnOutDir", "RxnOutName", REACTION_PRINT_OUT_SUFFIX,
+                                      IGNORE, "Reaction Print Filename", commandmaster);
+       if (out != NULL) {
+         PrintPrettyASCIIReactionSet(out, asciirxns);
+         fclose(out);
+       }
+       return SYSTEM_NORMAL_RETURN;
+     }
+
      ret = MasterPrintRxns(reactions,REACTION_DATABASE,bind);
      return(ret);
      }
@@ -261,9 +281,29 @@ extern INT MasterPrintReactionSet(BindStructure *bind)
 extern INT MasterPrintRxnPatterns(BindStructure *bind)
      {
      ReactionSet *reactions;
+     ASCIIReactionSet *asciirxns;
+     FILE *out;
+     CommandMaster *commandmaster;
      INT ret;
      
      reactions = GetBoundStructure(bind,BIND_CURRENT_PATTERNS);
+     if (reactions != NULL && reactions->NumberOfReactions > 0 && reactions->Reactions != NULL) {
+       ret = MasterPrintRxns(reactions,PATTERN_DATABASE,bind);
+       return(ret);
+     }
+
+     asciirxns = GetBoundStructure(bind, BIND_ASCII_PATTERNS);
+     if (asciirxns != NULL && asciirxns->NumberOfReactions > 0) {
+       commandmaster = GetBoundStructure(bind, BIND_COMMANDMASTER);
+       out = OpenWriteFileFromCurrent("RxnOutDir", "RxnOutName", REACTION_PRINT_OUT_SUFFIX,
+                                      IGNORE, "Reaction Pattern Print Filename", commandmaster);
+       if (out != NULL) {
+         PrintPrettyASCIIReactionSet(out, asciirxns);
+         fclose(out);
+       }
+       return SYSTEM_NORMAL_RETURN;
+     }
+
      ret = MasterPrintRxns(reactions,PATTERN_DATABASE,bind);
      return(ret);
      }
