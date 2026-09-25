@@ -34,137 +34,7 @@ static MoleculeInfo *FindMoleculeInSetByID(MoleculeSet *set, INT id) {
   return 0;
 }
 
-/*F ret = FormatCheckRxnPatterns(bind)
-**
-**  DESCRIPTION
-**    Validates file syntax and structure of Reaction Patterns without DB access.
-**    Writes report table to <RxnOutDir>/<RxnOutName>_Format.out.
-*/
-extern INT FormatCheckRxnPatterns(BindStructure *bind) {
-  CommandMaster *commandmaster;
-  FILE *out, *file;
-  ASCIIReactionSet *asciirxnset;
-  ASCIIReaction *rxn;
-  INT count = 0, valid = 0, errors = 0;
-  INT max, i;
 
-  commandmaster = GetBoundStructure(bind, BIND_COMMANDMASTER);
-  out = OpenWriteFileFromCurrent("RxnOutDir", "RxnOutName", "Format.out", IGNORE,
-                                 "Reaction Pattern Format Check", commandmaster);
-  if (out == NULL) out = stdout;
-
-  file = OpenReadFileFromCurrent("RxnDirectory", "RootRxnName", RXN_FILE_LIST_SUFFIX,
-                                 IGNORE, "List of Reaction Patterns", commandmaster);
-  max = GetCurrentIntegerArgument("ASCIIReactionMaxNum", commandmaster);
-
-  fprintf(out, "================================================================================\n");
-  fprintf(out, "Reaction Pattern Format Check Report\n");
-  fprintf(out, "================================================================================\n");
-  fprintf(out, "%-35s %-15s %-30s\n", "Pattern_Name", "Format_Status", "Details");
-  fprintf(out, "----------------------------------- --------------- ------------------------------\n");
-
-  if (file == NULL) {
-    fprintf(out, "ERROR: Unable to open input reaction pattern file.\n");
-    if (out != stdout) fclose(out);
-    return SYSTEM_NORMAL_RETURN;
-  }
-
-  asciirxnset = ReadInASCIIReactions(file, max);
-  fclose(file);
-
-  if (asciirxnset != NULL && asciirxnset->NumberOfReactions > 0) {
-    rxn = asciirxnset->Reactions;
-    LOOPi(asciirxnset->NumberOfReactions) {
-      count++;
-      if (rxn->Reactants != NULL && rxn->Reactants->NumberOfMolecules > 0 &&
-          rxn->Products != NULL && rxn->Products->NumberOfMolecules > 0) {
-        valid++;
-        fprintf(out, "%-35.35s %-15s Reactants & Products syntax OK\n",
-                rxn->Name ? rxn->Name : "Pattern", "VALID");
-      } else {
-        errors++;
-        fprintf(out, "%-35.35s %-15s Invalid/Empty pattern definition\n",
-                rxn->Name ? rxn->Name : "Pattern", "FORMAT_ERROR");
-      }
-      rxn++;
-    }
-  } else {
-    fprintf(out, "No reaction patterns found in input file.\n");
-  }
-
-  fprintf(out, "----------------------------------- --------------- ------------------------------\n");
-  fprintf(out, "Summary: Total Checked = %d, Valid = %d, Format Errors = %d\n", count, valid, errors);
-  fprintf(out, "================================================================================\n");
-
-  if (out != stdout) fclose(out);
-  return SYSTEM_NORMAL_RETURN;
-}
-
-/*F ret = FormatCheckReactions(bind)
-**
-**  DESCRIPTION
-**    Validates file syntax and structure of Reactions without DB access.
-**    Writes report table to <RxnOutDir>/<RxnOutName>_Format.out.
-*/
-extern INT FormatCheckReactions(BindStructure *bind) {
-  CommandMaster *commandmaster;
-  FILE *out, *file;
-  ASCIIReactionSet *asciirxnset;
-  ASCIIReaction *rxn;
-  INT count = 0, valid = 0, errors = 0;
-  INT max, i;
-
-  commandmaster = GetBoundStructure(bind, BIND_COMMANDMASTER);
-  out = OpenWriteFileFromCurrent("RxnOutDir", "RxnOutName", "Format.out", IGNORE,
-                                 "Reaction Format Check", commandmaster);
-  if (out == NULL) out = stdout;
-
-  file = OpenReadFileFromCurrent("RxnDirectory", "RootRxnName", RXN_FILE_LIST_SUFFIX,
-                                 IGNORE, "ASCII Reactions", commandmaster);
-  max = GetCurrentIntegerArgument("ASCIIReactionMaxNum", commandmaster);
-
-  fprintf(out, "================================================================================\n");
-  fprintf(out, "Reactions Format Check Report\n");
-  fprintf(out, "================================================================================\n");
-  fprintf(out, "%-35s %-15s %-30s\n", "Reaction_Name", "Format_Status", "Details");
-  fprintf(out, "----------------------------------- --------------- ------------------------------\n");
-
-  if (file == NULL) {
-    fprintf(out, "ERROR: Unable to open input reactions file.\n");
-    if (out != stdout) fclose(out);
-    return SYSTEM_NORMAL_RETURN;
-  }
-
-  asciirxnset = ReadInASCIIReactions(file, max);
-  fclose(file);
-
-  if (asciirxnset != NULL && asciirxnset->NumberOfReactions > 0) {
-    rxn = asciirxnset->Reactions;
-    LOOPi(asciirxnset->NumberOfReactions) {
-      count++;
-      if (rxn->Reactants != NULL && rxn->Reactants->NumberOfMolecules > 0 &&
-          rxn->Products != NULL && rxn->Products->NumberOfMolecules > 0) {
-        valid++;
-        fprintf(out, "%-35.35s %-15s Reactants & Products syntax OK\n",
-                rxn->Name ? rxn->Name : "Reaction", "VALID");
-      } else {
-        errors++;
-        fprintf(out, "%-35.35s %-15s Invalid reaction line syntax\n",
-                rxn->Name ? rxn->Name : "Reaction", "FORMAT_ERROR");
-      }
-      rxn++;
-    }
-  } else {
-    fprintf(out, "No reactions found in input file.\n");
-  }
-
-  fprintf(out, "----------------------------------- --------------- ------------------------------\n");
-  fprintf(out, "Summary: Total Checked = %d, Valid = %d, Format Errors = %d\n", count, valid, errors);
-  fprintf(out, "================================================================================\n");
-
-  if (out != stdout) fclose(out);
-  return SYSTEM_NORMAL_RETURN;
-}
 
 /*F ret = ExistenceCheckRxnPatterns(bind)
 **
@@ -476,4 +346,109 @@ extern INT StoreReactions(BindStructure *bind) {
   ret = StoreReactionSetToDatabase(rxnset, REACTION_DATABASE, bind);
   return ret;
 }
+
+/*F ret = FormatCheckASCIIReactions(bind)
+**
+**  DESCRIPTION
+**    Verifies format for ASCII Reactions file using ReadInASCIIReactions.
+**    NO database access is used.
+**    Prints report containing ASCIIReactionSet structure with molecule names.
+*/
+extern INT FormatCheckASCIIReactions(BindStructure *bind) {
+  CommandMaster *commandmaster;
+  FILE *file, *out;
+  ASCIIReactionSet *asciirxnset;
+  INT max;
+
+  commandmaster = GetBoundStructure(bind, BIND_COMMANDMASTER);
+  out = OpenWriteFileFromCurrent("RxnOutDir", "RxnOutName", "Format.out", IGNORE,
+                                 "ASCII Reactions Format Check Report", commandmaster);
+  if (out == NULL) out = stdout;
+
+  fprintf(out, "================================================================================\n");
+  fprintf(out, "ASCII Reactions Format Check Report\n");
+  fprintf(out, "================================================================================\n");
+
+  file = OpenReadFileFromCurrent("RxnDirectory", "RootRxnName", RXN_FILE_LIST_SUFFIX,
+                                 IGNORE, "ASCII Reactions", commandmaster);
+  max = GetCurrentIntegerArgument("ASCIIReactionMaxNum", commandmaster);
+
+  if (file == NULL) {
+    fprintf(out, "ERROR: Could not open ASCII reactions file.\n");
+    if (out != stdout) fclose(out);
+    return SYSTEM_ERROR_RETURN;
+  }
+
+  asciirxnset = ReadInASCIIReactions(file, max);
+  fclose(file);
+
+  if (asciirxnset == NULL || asciirxnset->NumberOfReactions == 0) {
+    fprintf(out, "ERROR: Failed to parse ASCII reactions or no reactions found in file.\n");
+    if (out != stdout) fclose(out);
+    return SYSTEM_ERROR_RETURN;
+  }
+
+  fprintf(out, "SUCCESS: Parsed %d ASCII reactions successfully.\n\n", asciirxnset->NumberOfReactions);
+  PrintPrettyASCIIReactionSet(out, asciirxnset);
+
+  if (out != stdout) fclose(out);
+  return SYSTEM_NORMAL_RETURN;
+}
+
+/*F ret = FormatCheckASCIIRxnPatterns(bind)
+**
+**  DESCRIPTION
+**    Verifies format for ASCII Reaction Patterns file using ReadInASCIIReactions.
+**    NO database access is used.
+**    Prints report containing ASCIIReactionSet structure with molecule names.
+*/
+extern INT FormatCheckASCIIRxnPatterns(BindStructure *bind) {
+  CommandMaster *commandmaster;
+  FILE *file, *out;
+  ASCIIReactionSet *asciirxnset;
+  INT max;
+
+  commandmaster = GetBoundStructure(bind, BIND_COMMANDMASTER);
+  out = OpenWriteFileFromCurrent("RxnOutDir", "RxnOutName", "Format.out", IGNORE,
+                                 "ASCII RxnPatterns Format Check Report", commandmaster);
+  if (out == NULL) out = stdout;
+
+  fprintf(out, "================================================================================\n");
+  fprintf(out, "ASCII Reaction Patterns Format Check Report\n");
+  fprintf(out, "================================================================================\n");
+
+  file = OpenReadFileFromCurrent("RxnDirectory", "RootRxnName", RXN_FILE_LIST_SUFFIX,
+                                 IGNORE, "ASCII Reaction Patterns", commandmaster);
+  max = GetCurrentIntegerArgument("ASCIIReactionMaxNum", commandmaster);
+
+  if (file == NULL) {
+    fprintf(out, "ERROR: Could not open ASCII reaction patterns file.\n");
+    if (out != stdout) fclose(out);
+    return SYSTEM_ERROR_RETURN;
+  }
+
+  asciirxnset = ReadInASCIIReactions(file, max);
+  fclose(file);
+
+  if (asciirxnset == NULL || asciirxnset->NumberOfReactions == 0) {
+    fprintf(out, "ERROR: Failed to parse ASCII reaction patterns or no patterns found in file.\n");
+    if (out != stdout) fclose(out);
+    return SYSTEM_ERROR_RETURN;
+  }
+
+  fprintf(out, "SUCCESS: Parsed %d ASCII reaction patterns successfully.\n\n", asciirxnset->NumberOfReactions);
+  PrintPrettyASCIIReactionSet(out, asciirxnset);
+
+  if (out != stdout) fclose(out);
+  return SYSTEM_NORMAL_RETURN;
+}
+
+extern INT FormatCheckReactions(BindStructure *bind) {
+  return FormatCheckASCIIReactions(bind);
+}
+
+extern INT FormatCheckRxnPatterns(BindStructure *bind) {
+  return FormatCheckASCIIRxnPatterns(bind);
+}
+
 

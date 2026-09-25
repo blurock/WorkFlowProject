@@ -21,7 +21,7 @@ Start
 Quit
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Store Reactions in Database
+%%% Read ASCII Reactions & Print Output
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Rxn
 Parameters
@@ -42,8 +42,17 @@ Input
 .
 Quit
 Quit
+Read
 Reactions
-Store
+FormatCheck
+Quit
+Quit
+Output
+Reactions
+Print
+Quit
+Quit
+Quit
 Quit
 Quit
 Quit

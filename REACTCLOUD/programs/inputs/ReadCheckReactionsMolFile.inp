@@ -14,13 +14,24 @@ Quit
 Quit
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Format Check Reactions
+%%% Open database connection
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+CreateOpenClose
+Start
+Quit
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Read MolFile Reactions & Print Output
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Rxn
 Parameters
 RootRxnName
 Input
 XXXXX
+Quit
+RxnDirectory
+Input
+.
 Quit
 RxnOutName
 Input
@@ -31,8 +42,17 @@ Input
 .
 Quit
 Quit
+Read
 Reactions
-FormatCheck
+MolFiles
+Quit
+Quit
+Output
+Reactions
+Print
+Quit
+Quit
+Quit
 Quit
 Quit
 Quit

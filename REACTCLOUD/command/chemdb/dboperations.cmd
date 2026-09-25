@@ -207,7 +207,7 @@ COMMAND DbaseOps OPERATIONSDATABASE
                     END_ARGUMENTS
               COMMAND FormatCheck RXNFORMATCHECKDB
                    TITLE Format check for reactions file
-                   FUNCTION FormatCheckReactions
+                   FUNCTION FormatCheckASCIIReactions
               ENDCOMMAND
               COMMAND ExistenceCheck RXNEXISTENCECHECKDB
                    TITLE Existence check for reactions in database
@@ -266,7 +266,7 @@ COMMAND DbaseOps OPERATIONSDATABASE
                     END_ARGUMENTS
               COMMAND FormatCheck RXNPATFORMATCHECKDB
                    TITLE Format check for reaction patterns file
-                   FUNCTION FormatCheckRxnPatterns
+                   FUNCTION FormatCheckASCIIRxnPatterns
               ENDCOMMAND
               COMMAND ExistenceCheck RXNPATEXISTENCECHECKDB
                    TITLE Existence check for reaction patterns in database

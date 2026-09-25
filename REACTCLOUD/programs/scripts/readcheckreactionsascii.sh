@@ -1,6 +1,6 @@
 #!/bin/csh
 # ---------------------------------------------------------------------------
-# Script 1: Format Check Reaction (No Database Access)
+# Script: Read & Check ASCII Reactions
 # ---------------------------------------------------------------------------
 
 if ( $#argv != 1 ) then
@@ -9,8 +9,9 @@ if ( $#argv != 1 ) then
   exit(1)
 endif
 
+set CALLDIR    = `pwd`
 set INFILEROOT = $1
-set REFERENCE  = $REACTROOT/programs/inputs/FormatCheckReaction.inp
+set REFERENCE  = $REACTROOT/programs/inputs/ReadCheckReactionsASCII.inp
 set CHEMPROG   = $REACTROOT/bin/runchem.sh
 set TEMPDIR    = $REACTROOT/tmp
 set TEMPFILE   = $REACTROOT/tmp/read.prg
@@ -18,7 +19,13 @@ set TEMPFILE   = $REACTROOT/tmp/read.prg
 sed "s/XXXXX/$INFILEROOT/g" $REFERENCE >! $TEMPFILE
 
 pushd $TEMPDIR > /dev/null
-$CHEMPROG read < read.prg >! $TEMPDIR/formatcheck.rawout
+if ( -e $CALLDIR/$INFILEROOT.lst ) then
+  cp $CALLDIR/$INFILEROOT.* .
+else if ( -e $REACTROOT/data/rxn/$INFILEROOT.lst ) then
+  cp $REACTROOT/data/rxn/$INFILEROOT.* .
+endif
+
+$CHEMPROG read < read.prg >! $TEMPDIR/readcheckreactionsascii.rawout
 popd > /dev/null
 
-echo "Format check completed for $INFILEROOT."
+echo "Read & check ASCII reactions completed for $INFILEROOT."

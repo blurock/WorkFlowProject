@@ -9,6 +9,7 @@ if ( $#argv != 1 ) then
   exit(1)
 endif
 
+set CALLDIR    = `pwd`
 set INFILEROOT = $1
 set REFERENCE  = $REACTROOT/programs/inputs/StoreReaction.inp
 set CHEMPROG   = $REACTROOT/bin/runchem.sh
@@ -18,6 +19,12 @@ set TEMPFILE   = $REACTROOT/tmp/read.prg
 sed "s/XXXXX/$INFILEROOT/g" $REFERENCE >! $TEMPFILE
 
 pushd $TEMPDIR > /dev/null
+if ( -e $CALLDIR/$INFILEROOT.lst ) then
+  cp $CALLDIR/$INFILEROOT.* .
+else if ( -e $REACTROOT/data/rxn/$INFILEROOT.lst ) then
+  cp $REACTROOT/data/rxn/$INFILEROOT.* .
+endif
+
 $CHEMPROG read < read.prg >! $TEMPDIR/storerxn.rawout
 popd > /dev/null
 

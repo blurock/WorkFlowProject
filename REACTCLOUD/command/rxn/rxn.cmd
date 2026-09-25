@@ -36,9 +36,9 @@ COMMAND Rxn RXNCOMMAND
                TITLE Read in Reactions as lines
                FUNCTION ReadInASCIISetOfReactions
           ENDCOMMAND
-          COMMAND FormatCheck RXNFORMATCHECK
-               TITLE Check format of reaction input
-               FUNCTION FormatCheckReactions
+          COMMAND FormatCheck RXNFORMATCHECKASCII
+               TITLE Format check ASCII reactions file
+               FUNCTION FormatCheckASCIIReactions
           ENDCOMMAND
           COMMAND ExistenceCheck RXNEXISTENCECHECK
                TITLE Check existence of reactions in database
@@ -60,9 +60,9 @@ COMMAND Rxn RXNCOMMAND
                TITLE Read in Reactions as lines
                FUNCTION ReadInASCIISetOfRxnPatterns
           ENDCOMMAND
-          COMMAND FormatCheck RXNPATFORMATCHECK
-               TITLE Check format of reaction pattern input
-               FUNCTION FormatCheckRxnPatterns
+          COMMAND FormatCheck RXNPATFORMATCHECKASCII
+               TITLE Format check ASCII reaction patterns file
+               FUNCTION FormatCheckASCIIRxnPatterns
           ENDCOMMAND
           COMMAND ExistenceCheck RXNPATEXISTENCECHECK
                TITLE Check existence of reaction patterns in database
@@ -121,8 +121,8 @@ COMMAND Rxn RXNCOMMAND
      COMMAND Reactions DIRECTREACTIONS
      TITLE Manage Reactions
           COMMAND FormatCheck RXNDIRECTFORMATCHECK
-               TITLE Check format of reaction input
-               FUNCTION FormatCheckReactions
+               TITLE Format check ASCII reactions
+               FUNCTION FormatCheckASCIIReactions
           ENDCOMMAND
           COMMAND ExistenceCheck RXNDIRECTEXISTENCECHECK
                TITLE Check existence of reactions in database
@@ -137,8 +137,8 @@ COMMAND Rxn RXNCOMMAND
      COMMAND RxnPatterns DIRECTRXNPATTERNS
      TITLE Manage Reaction Patterns
           COMMAND FormatCheck RXNPATDIRECTFORMATCHECK
-               TITLE Check format of reaction pattern input
-               FUNCTION FormatCheckRxnPatterns
+               TITLE Format check ASCII reaction patterns
+               FUNCTION FormatCheckASCIIRxnPatterns
           ENDCOMMAND
           COMMAND ExistenceCheck RXNPATDIRECTEXISTENCECHECK
                TITLE Check existence of reaction patterns in database
@@ -149,6 +149,7 @@ COMMAND Rxn RXNCOMMAND
                FUNCTION StoreRxnPatterns
           ENDCOMMAND
      ENDCOMMAND
+
 
      COMMAND Settings RXNSETTINGS
           TITLE Set Various Global Reaction Parameters

@@ -134,7 +134,7 @@ extern FunctionList *MergeFunctDBBensonTables(FunctionList *old)
      }
 /* DatabaseReactions
 */
-#define NUMBER_DBREACTIONS_FUNCTIONS 20
+#define NUMBER_DBREACTIONS_FUNCTIONS 22
 
 static FunctionInfo DBREACTIONS_FUNCTION_LIST[NUMBER_DBREACTIONS_FUNCTIONS] = {
      {1,"DBResetReactionSearchKeys",(INT (*)(void)) DBResetReactionSearchKeys},
@@ -151,13 +151,16 @@ static FunctionInfo DBREACTIONS_FUNCTION_LIST[NUMBER_DBREACTIONS_FUNCTIONS] = {
      {12,"StoreCurrentReactions",(INT (*)(void)) StoreCurrentReactions},
      {13,"StoreCurrentReactionPatterns",(INT (*)(void)) StoreCurrentReactionPatterns},
      {14,"ReadInASCIISetOfSubStructureProps",(INT (*)(void)) ReadInASCIISetOfSubStructureProps},
-     {15,"FormatCheckReactions",(INT (*)(void)) FormatCheckReactions},
-     {16,"FormatCheckRxnPatterns",(INT (*)(void)) FormatCheckRxnPatterns},
-     {17,"ExistenceCheckReactions",(INT (*)(void)) ExistenceCheckReactions},
-     {18,"ExistenceCheckRxnPatterns",(INT (*)(void)) ExistenceCheckRxnPatterns},
-     {19,"StoreReactions",(INT (*)(void)) StoreReactions},
-     {20,"StoreRxnPatterns",(INT (*)(void)) StoreRxnPatterns}
+     {15,"ExistenceCheckReactions",(INT (*)(void)) ExistenceCheckReactions},
+     {16,"ExistenceCheckRxnPatterns",(INT (*)(void)) ExistenceCheckRxnPatterns},
+     {17,"StoreReactions",(INT (*)(void)) StoreReactions},
+     {18,"StoreRxnPatterns",(INT (*)(void)) StoreRxnPatterns},
+     {19,"FormatCheckASCIIReactions",(INT (*)(void)) FormatCheckASCIIReactions},
+     {20,"FormatCheckASCIIRxnPatterns",(INT (*)(void)) FormatCheckASCIIRxnPatterns},
+     {21,"FormatCheckReactions",(INT (*)(void)) FormatCheckReactions},
+     {22,"FormatCheckRxnPatterns",(INT (*)(void)) FormatCheckRxnPatterns}
      };
+
     
 static FunctionList DBREACTIONS_FUNCTIONS = {
         0,"Reaction/Pattern Database",

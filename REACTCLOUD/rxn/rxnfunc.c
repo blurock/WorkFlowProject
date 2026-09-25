@@ -11,7 +11,7 @@
 
 
 
-#define NUMBER_REACTIONS_FUNCTIONS 15
+#define NUMBER_REACTIONS_FUNCTIONS 17
 
 static FunctionInfo REACTIONS_FUNCTION_LIST[NUMBER_REACTIONS_FUNCTIONS] = 
      {
@@ -24,13 +24,16 @@ static FunctionInfo REACTIONS_FUNCTION_LIST[NUMBER_REACTIONS_FUNCTIONS] =
      {7,"FindReactionPattern",(INT (*)(void)) FindReactionPattern},
      {8,"MasterReactionOrder",(INT (*)(void)) MasterReactionOrder},
      {9,"MasterRxnPatternSetInDatabase",(INT (*)(void)) MasterRxnPatternSetInDatabase},
-     {10,"FormatCheckReactions",(INT (*)(void)) FormatCheckReactions},
-     {11,"FormatCheckRxnPatterns",(INT (*)(void)) FormatCheckRxnPatterns},
-     {12,"ExistenceCheckReactions",(INT (*)(void)) ExistenceCheckReactions},
-     {13,"ExistenceCheckRxnPatterns",(INT (*)(void)) ExistenceCheckRxnPatterns},
-     {14,"StoreReactions",(INT (*)(void)) StoreReactions},
-     {15,"StoreRxnPatterns",(INT (*)(void)) StoreRxnPatterns}
+     {10,"ExistenceCheckReactions",(INT (*)(void)) ExistenceCheckReactions},
+     {11,"ExistenceCheckRxnPatterns",(INT (*)(void)) ExistenceCheckRxnPatterns},
+     {12,"StoreReactions",(INT (*)(void)) StoreReactions},
+     {13,"StoreRxnPatterns",(INT (*)(void)) StoreRxnPatterns},
+     {14,"FormatCheckASCIIReactions",(INT (*)(void)) FormatCheckASCIIReactions},
+     {15,"FormatCheckASCIIRxnPatterns",(INT (*)(void)) FormatCheckASCIIRxnPatterns},
+     {16,"FormatCheckReactions",(INT (*)(void)) FormatCheckReactions},
+     {17,"FormatCheckRxnPatterns",(INT (*)(void)) FormatCheckRxnPatterns}
 };
+
 
 
 static FunctionList REACTIONS_FUNCTIONS = {

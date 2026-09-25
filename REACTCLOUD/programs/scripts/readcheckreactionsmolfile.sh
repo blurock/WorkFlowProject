@@ -1,6 +1,6 @@
 #!/bin/csh
 # ---------------------------------------------------------------------------
-# Script 2: Check for Reaction Duplicates & Molecule Existence
+# Script: Read & Check MolFile Reactions
 # ---------------------------------------------------------------------------
 
 if ( $#argv != 1 ) then
@@ -11,7 +11,7 @@ endif
 
 set CALLDIR    = `pwd`
 set INFILEROOT = $1
-set REFERENCE  = $REACTROOT/programs/inputs/ExistenceCheckReaction.inp
+set REFERENCE  = $REACTROOT/programs/inputs/ReadCheckReactionsMolFile.inp
 set CHEMPROG   = $REACTROOT/bin/runchem.sh
 set TEMPDIR    = $REACTROOT/tmp
 set TEMPFILE   = $REACTROOT/tmp/read.prg
@@ -25,8 +25,7 @@ else if ( -e $REACTROOT/data/rxn/$INFILEROOT.lst ) then
   cp $REACTROOT/data/rxn/$INFILEROOT.* .
 endif
 
-$CHEMPROG read < read.prg >! $TEMPDIR/existencecheck.rawout
+$CHEMPROG read < read.prg >! $TEMPDIR/readcheckreactionsmolfile.rawout
 popd > /dev/null
 
-echo "Existence & duplicate check completed for $INFILEROOT."
-grep -E "Reaction|Match|Database|Equivalence" $TEMPDIR/existencecheck.rawout
+echo "Read & check MolFile reactions completed for $INFILEROOT."

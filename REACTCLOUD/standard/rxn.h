@@ -145,6 +145,7 @@ extern void FillInMolecules(INT *molecules,
 extern INT FindASCIIInMolSet(ReadInMolecule *asciimol, 
 			     MoleculeSet *molset);
 extern ASCIIReactionSet *ReadInASCIIReactions(FILE *file, INT max);
+extern void PrintPrettyASCIIReactionSet(FILE *out, ASCIIReactionSet *rxnset);
 extern void FillInReactionPropertyValues(ASCIIReactionSet *asciirxnset, 
 					 ReactionSet *rxnset,
 					 BindStructure *bind);
@@ -152,6 +153,11 @@ extern void FillInReactionPropertyValues(ASCIIReactionSet *asciirxnset,
 
 extern INT ReadInASCIISetOfReactions(BindStructure *bind);
 extern INT ReadInASCIISetOfRxnPatterns(BindStructure *bind);
+extern INT FormatCheckASCIIReactions(BindStructure *bind);
+extern INT FormatCheckASCIIRxnPatterns(BindStructure *bind);
+extern INT FormatCheckReactions(BindStructure *bind);
+extern INT FormatCheckRxnPatterns(BindStructure *bind);
+
 
 
 extern void FillInASCIIValueToReactionInfo(ASCIIProperties *asciipropset,

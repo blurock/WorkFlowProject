@@ -29,6 +29,10 @@ RootRxnName
 Input
 XXXXX
 Quit
+RxnDirectory
+Input
+.
+Quit
 RxnOutName
 Input
 XXXXX

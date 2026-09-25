@@ -188,6 +188,11 @@ extern INT ReadInASCIIMols(INT dbflag,
 			   BindStructure *bind);
 extern INT ReadInASCIISetOfReactions(BindStructure *bind);
 extern INT ReadInASCIISetOfRxnPatterns(BindStructure *bind);
+extern INT FormatCheckASCIIReactions(BindStructure *bind);
+extern INT FormatCheckASCIIRxnPatterns(BindStructure *bind);
+extern INT FormatCheckReactions(BindStructure *bind);
+extern INT FormatCheckRxnPatterns(BindStructure *bind);
+
  
 /*P  . . . PROTOTYPES . . . . . . . . . . . . . . . . . . . . . . mechanism.c
 */
@@ -301,8 +306,6 @@ extern INT AddIDKeyToClass(DbaseKeyword *key, ObjectIDClass *class);
 
 /*P  . . . PROTOTYPES  . . . . . . . . . . . . . . . . . . .rxncheck.c
 */
-extern INT FormatCheckReactions(BindStructure *bind);
-extern INT FormatCheckRxnPatterns(BindStructure *bind);
 extern INT ExistenceCheckReactions(BindStructure *bind);
 extern INT ExistenceCheckRxnPatterns(BindStructure *bind);
 extern INT StoreReactions(BindStructure *bind);
