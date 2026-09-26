@@ -15,8 +15,8 @@ REACT is a sophisticated chemistry software system for:
 REACTCloudRun packages the REACT system in a Docker container designed for:
 - **Cloud-Native Deployment**: Optimized for Google Cloud Run serverless platform
 - **Dual-Mode Operation**: CLI for batch processing or HTTP API for web requests
-- **Minimal Dependencies**: Only requires gdbm and standard C libraries
-- **Multi-Stage Build**: Separate builder/runtime images for Cloud Run deployment
+- **Minimal Dependencies**: Only standard C libraries and Node.js for Orchestrator
+- **Cloud Database Integration**: Cloud Firestore replaces GNU DBM for persistent record storage
 
 ## Quick Links
 
@@ -93,13 +93,13 @@ The container can run in two modes:
 **Build Stage**
 - Ubuntu 22.04 base
 - Build tools: gcc, make, build-essential
-- Development libraries: gdbm-dev, libc6-dev
+- Development libraries: libc6-dev
 - Runs `make all` to compile the REACT binaries
-- Runs `make install` to perform runtime setup and initialize the database files
+- Runs `make install` to perform runtime setup
 
 **Runtime Stage**
 - Ubuntu 22.04 base
-- Runtime libraries: libc6, libgdbm6, libnsl2, libtirpc3, tcsh
+- Runtime libraries: libc6, libnsl2, libtirpc3, tcsh, nodejs
 - Copies compiled binaries from build stage
 - Runs as a non-root `react` user
 
@@ -110,10 +110,8 @@ The container can run in two modes:
 - POSIX System APIs - included in base image  
 - RPC/XDR - included in glibc
 
-### Third-Party Libraries
-- **GNU DBM (gdbm)** - Database functionality
-  - Runtime package: `libgdbm6`
-  - Development package: `gdbm-dev` (only in build stage)
+### Database Infrastructure
+- **Cloud Firestore**: Managed NoSQL database accessed via local HTTP Orchestrator bridge (`/api/db/*`).
 
 ## Compilation & Build Status
 

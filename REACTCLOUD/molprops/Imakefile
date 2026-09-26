@@ -30,7 +30,6 @@ DEPLIBS =  -L/home/blurock/lib\
            -lcomlib\
            -ldbase\
            -lbasis\
-           -lgdbm\
            -lXG\
             -lm
 

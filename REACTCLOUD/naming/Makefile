@@ -27,9 +27,6 @@ STD_LIBRARIES =\
            -lproperty\
            -lstatistics\
            -ldbase\
-           -ldatmat\
-           -lcomlib\
-           -lbasis\
-           -lgdbm
+           -lbasis -lm
 
 include ../etc/MakeDef.prgs

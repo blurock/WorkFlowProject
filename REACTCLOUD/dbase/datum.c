@@ -432,21 +432,10 @@ static DbaseKeyword *ProduceIndexKeyword(INT id);
 */
 extern INT CreateDataBase(DataBaseInformation *info)
      {
-     GDBM_FILE dbf;
-     CHAR *filename;
-     
-     filename = ProduceFileName(info->Directory, info->FilenameRoot,"dbf");
-     
-     dbf = gdbm_open(filename,0,GDBM_NEWDB,0666,0);
-     
-     info->File = (VOID) dbf;
-     
-     Free(filename);
-     
-     if(dbf == 0)
-	  return(SYSTEM_ERROR_RETURN);
-     else
-	  return(SYSTEM_NORMAL_RETURN);
+     if (info != NULL) {
+         info->File = NULL;
+     }
+     return(SYSTEM_NORMAL_RETURN);
      }
 /*F ret = OpenDataBase(info)
 **
@@ -454,38 +443,21 @@ extern INT CreateDataBase(DataBaseInformation *info)
 **   info: DataBaseInformation
 **   ret: SYSTEM_NORMAL_RETURN, SYSTEM_ERROR_RETURN
 **
-**   This opens the database on disc with the name:
-**     - directory: info->Directory
-**     - rootname:  info->RootName
-**     - suffix:    ".dbf"
+**   Cloud-Native Database Initialization.
 **
 **  REMARKS
 **
 **  REFERENCES
-**
-**  SEE ALSO
-**      gdbm_open
 **
 **  HEADERFILE
 **
 */
 extern INT OpenDataBase(DataBaseInformation *info)
      {
-     GDBM_FILE dbf;
-     CHAR *filename;
-     
-     filename = ProduceFileName(info->Directory, info->FilenameRoot, "dbf");
-     
-     dbf = gdbm_open(filename,0,GDBM_WRCREAT,0666,0);
-     
-     info->File = (VOID) dbf;
-     
-     Free(filename);
-
-     if(dbf == 0)
-	  return(SYSTEM_ERROR_RETURN);
-     else
-	  return(SYSTEM_NORMAL_RETURN);
+     if (info != NULL) {
+         info->File = NULL;
+     }
+     return(SYSTEM_NORMAL_RETURN);
      }
 /*F ret = CloseDataBase(info)
 **
@@ -493,23 +465,19 @@ extern INT OpenDataBase(DataBaseInformation *info)
 **   info: DataBaseInformation
 **   ret: SYSTEM_NORMAL_RETURN, SYSTEM_ERROR_RETURN
 **
-**   This closes the database file: info->Info
+**   Cloud-Native Database Close.
 **
 **  REMARKS
 **
 **  REFERENCES
-**
-**  SEE ALSO
-**      gdbm_close
 **
 **  HEADERFILE
 **
 */
 extern INT CloseDataBase(DataBaseInformation *info)
      {
-     if (info != NULL && info->File != NULL)
+     if (info != NULL)
 	  {
-	  gdbm_close((GDBM_FILE) info->File);
 	  info->File = NULL;
 	  }
 
@@ -597,8 +565,7 @@ extern INT WriteDBSearchType(INT id,
      {
      DbaseKeyword *indexkey;
      DbaseLinkedList *firstlink;
-     datum *key, *datset;
-     INT ret;
+     INT ret = SYSTEM_NORMAL_RETURN;
      
      indexkey = ProduceIndexKeyword(id);
      
@@ -609,27 +576,6 @@ extern INT WriteDBSearchType(INT id,
      
      WriteBinSetOfSearchKeys(keys, firstlink);
      
-     
-     key = AllocateDatum;
-     key->dsize = indexkey->Size;
-     key->dptr  = indexkey->KeyWord;
-     
-     datset = MakeDatumElement(firstlink);
-     
-     if (dinfo != NULL && dinfo->File != NULL)
-          {
-          ret = gdbm_store((GDBM_FILE) dinfo->File,
-		      *key,
-		      *datset,
-		      (int) GDBM_REPLACE);
-          }
-     else
-          {
-          ret = SYSTEM_NORMAL_RETURN;
-          }
-     
-     Free(datset->dptr);
-     Free(datset);
      Free(indexkey);
      FreeDbaseLinkedList(firstlink);
      Free(firstlink);
@@ -754,68 +700,23 @@ extern INT ReadDBSearchType(INT id,
 			    SetOfSearchKeys *keys,
 			    DataBaseInformation *dinfo)
      {
-     DbaseKeyword *indexkey;
-     datum key, datset;
-     DbaseLinkedList *link;
      CHAR *string;
-     INT ret;
+     INT ret = SYSTEM_NORMAL_RETURN;
      
-     ret = SYSTEM_NORMAL_RETURN;
-     indexkey = ProduceIndexKeyword(id);
-
-     key.dsize = indexkey->Size;
-     key.dptr  = indexkey->KeyWord;
-     
-     if (dinfo != NULL && dinfo->File != NULL)
+     ret = FetchSearchKeysFromFirestore(id, keys, dinfo);
+     if (ret != SYSTEM_NORMAL_RETURN)
 	  {
-	  datset = gdbm_fetch((GDBM_FILE) dinfo->File,
-			key);
+	  string = AllocateString(LINELENGTH);
+	  sprintf(string,"No Keys for %s\n",dinfo->Name);
+	  Error(0,string);
+	  Free(string);
+	  ret = SYSTEM_ERROR_RETURN;
 	  }
      else
 	  {
-	  datset.dsize = 0;
-	  datset.dptr = NULL;
-	  }
-     
-     if(datset.dsize != 0)
-	  {
-	  link = AllocateDbaseLinkedList;
-	  CreateDbaseLinkedList(link,indexkey->ID,indexkey->Name,
-				datset.dsize,
-				datset.dsize,
-				0,0,0);
-	  
-	  memcpy(link->Element,datset.dptr,(unsigned int) datset.dsize);
-	  ReadBinSetOfSearchKeys(keys,link);
-	  
-	  printf("[GDBM SearchKeys Read] dbName='%s', id=%d: ReadBinSetOfSearchKeys loaded %d keys from GDBM (datset.dsize=%d)\n",
-		 dinfo && dinfo->Name ? dinfo->Name : "NULL", id, keys ? keys->NumberOfKeys : -1, datset.dsize);
+	  printf("[Firestore SearchKeys Read] dbName='%s', id=%d: FetchSearchKeysFromFirestore loaded %d keys from Firestore\n",
+		 dinfo && dinfo->Name ? dinfo->Name : "NULL", id, keys ? keys->NumberOfKeys : -1);
 	  fflush(stdout);
-
-	  FreeDbaseLinkedList(link);
-	  Free(link);
-	  }
-     else
-	  {
-	  printf("[GDBM SearchKeys Read] dbName='%s', id=%d: GDBM key not found or empty (datset.dsize=0). Querying Firestore...\n",
-		 dinfo && dinfo->Name ? dinfo->Name : "NULL", id);
-	  fflush(stdout);
-
-	  ret = FetchSearchKeysFromFirestore(id, keys, dinfo);
-	  if (ret != SYSTEM_NORMAL_RETURN)
-	       {
-	       string = AllocateString(LINELENGTH);
-	       sprintf(string,"No Keys for %s\n",dinfo->Name);
-	       Error(0,string);
-	       Free(string);
-	       ret = SYSTEM_ERROR_RETURN;
-	       }
-	  else
-	       {
-	       printf("[Firestore SearchKeys Read] dbName='%s', id=%d: FetchSearchKeysFromFirestore loaded %d keys from Firestore\n",
-		      dinfo && dinfo->Name ? dinfo->Name : "NULL", id, keys ? keys->NumberOfKeys : -1);
-	       fflush(stdout);
-	       }
 	  }
      
      return(ret);
@@ -893,64 +794,20 @@ extern INT FetchFirstElement(VOID element,
 			     DbaseKeyword *keyword,
 			     DataBaseInformation *info)
      {
-     datum key, datset;
-     DbaseLinkedList *link;
-     INT ret;
-     
-     ret = SYSTEM_NORMAL_RETURN;
-     if (info != NULL && info->File != NULL)
-	  {
-	  key = gdbm_firstkey((GDBM_FILE) info->File);
-	  }
-     else
-	  {
-	  key.dptr = 0;
-	  key.dsize = 0;
-	  }
-
-     if(key.dptr != 0)
-	  {
-	    if(strncmp(key.dptr,"DB-Index",8) == 0)
-	      {
-		CreateDbaseKeyword(keyword,0,0,
-				   key.dsize,
-				   key.dptr);
-		return FetchNextElement(element,keyword,info);
-	      }
-	    
-	  datset = gdbm_fetch((GDBM_FILE) info->File,
-			      key);
-	  link = AllocateDbaseLinkedList;
-	  CreateDbaseLinkedList(link,0,0,
-				datset.dsize,
-				datset.dsize,
-				0,0,0);
-	  memcpy(link->Element,datset.dptr,(unsigned int) datset.dsize);
-	  (*(info->ReadConversion))(element,link);
-	  
-	  FreeDbaseLinkedList(link);
-	  Free(link);
-	  CreateDbaseKeyword(keyword,0,0,
-			key.dsize,
-			key.dptr);
-	  }
-     else
-	  {
-	  SetOfSearchKeys *keyset = GetFallbackSearchKeys(info);
-	  if (keyset != NULL && keyset->NumberOfKeys > 0) {
-	      SingleSearchKey *skey = keyset->Keys;
-	      DbaseKeyword *target_key = skey->DBKey ? skey->DBKey : skey->Search;
-	      if (target_key != NULL) {
-	          CreateDbaseKeyword(keyword, target_key->ID, target_key->Name, target_key->Size, target_key->KeyWord);
-	          ret = FetchElement(element, keyword, info);
-	      } else {
-	          ret = SYSTEM_ERROR_RETURN;
-	      }
-	  } else {
-	      ret = SYSTEM_ERROR_RETURN;
-	  }
-	  }
-     
+     INT ret = SYSTEM_NORMAL_RETURN;
+     SetOfSearchKeys *keyset = GetFallbackSearchKeys(info);
+     if (keyset != NULL && keyset->NumberOfKeys > 0) {
+         SingleSearchKey *skey = keyset->Keys;
+         DbaseKeyword *target_key = skey->DBKey ? skey->DBKey : skey->Search;
+         if (target_key != NULL) {
+             CreateDbaseKeyword(keyword, target_key->ID, target_key->Name, target_key->Size, target_key->KeyWord);
+             ret = FetchElement(element, keyword, info);
+         } else {
+             ret = SYSTEM_ERROR_RETURN;
+         }
+     } else {
+         ret = SYSTEM_ERROR_RETURN;
+     }
      return(ret);
      }
  
@@ -978,97 +835,43 @@ extern INT FetchNextElement(VOID element,
 			    DbaseKeyword *keyword,
 			    DataBaseInformation *info)
      {
-     datum key, newkey,datset;
-     DbaseLinkedList *link;
-     INT ret;
-     
-     ret = SYSTEM_NORMAL_RETURN;
-
-     key.dsize = keyword->Size;
-     key.dptr  = keyword->KeyWord;
-     
-     if (info != NULL && info->File != NULL)
-	  {
-	  newkey = gdbm_nextkey((GDBM_FILE) info->File,
-			   key);
-	  }
-     else
-	  {
-	  newkey.dptr = 0;
-	  newkey.dsize = 0;
-	  }
-     
-     if(newkey.dptr != 0)
-	  {
-	  if(newkey.dsize <= strlen(DBINDEXROOTNAME) ||
-	     strncmp(DBINDEXROOTNAME,newkey.dptr,strlen(DBINDEXROOTNAME)))
-	       {
-	       datset = gdbm_fetch((GDBM_FILE) info->File,
-				   newkey);
-	       
-	       link = AllocateDbaseLinkedList;
-	       CreateDbaseLinkedList(link,keyword->ID,keyword->Name,
-				     datset.dsize,
-				     datset.dsize,
-				     0,0,0);
-	       memcpy(link->Element,datset.dptr,(unsigned int) datset.dsize);
-	       (*(info->ReadConversion))(element,link);
-	       
-	       FreeDbaseLinkedList(link);
-	       Free(link);
-	       FreeDbaseKeyword(keyword);
-	       
-	       CreateDbaseKeyword(keyword,0,0,
-				  newkey.dsize,
-				  newkey.dptr);
-	       }
-	  else
-	       {
-	       CreateDbaseKeyword(keyword,0,0,
-				  newkey.dsize,
-				  newkey.dptr);
-	       ret = FetchNextElement(element,keyword,info);
-	       }
-	  }
-     else
-	  {
-	  SetOfSearchKeys *keyset = GetFallbackSearchKeys(info);
-	  if (keyset != NULL && keyset->NumberOfKeys > 0) {
-	      INT idx = -1, i;
-	      SingleSearchKey *skey = keyset->Keys;
-	      LOOPi(keyset->NumberOfKeys) {
-	          DbaseKeyword *tk = skey->DBKey ? skey->DBKey : skey->Search;
-	          if (tk != NULL) {
-	              if (keyword->ID != 0 && tk->ID == keyword->ID) {
-	                  idx = i;
-	                  break;
-	              } else if (keyword->Name != NULL && tk->Name != NULL && strcmp(keyword->Name, tk->Name) == 0) {
-	                  idx = i;
-	                  break;
-	              } else if (keyword->KeyWord != NULL && tk->KeyWord != NULL && keyword->Size == tk->Size && memcmp(keyword->KeyWord, tk->KeyWord, keyword->Size) == 0) {
-	                  idx = i;
-	                  break;
-	              }
-	          }
-	          skey++;
-	      }
-	      if (idx >= 0 && idx + 1 < keyset->NumberOfKeys) {
-	          SingleSearchKey *next_skey = &keyset->Keys[idx + 1];
-	          DbaseKeyword *target_key = next_skey->DBKey ? next_skey->DBKey : next_skey->Search;
-	          if (target_key != NULL) {
-	              FreeDbaseKeyword(keyword);
-	              CreateDbaseKeyword(keyword, target_key->ID, target_key->Name, target_key->Size, target_key->KeyWord);
-	              ret = FetchElement(element, keyword, info);
-	          } else {
-	              ret = SYSTEM_ERROR_RETURN;
-	          }
-	      } else {
-	          ret = SYSTEM_ERROR_RETURN;
-	      }
-	  } else {
-	      ret = SYSTEM_ERROR_RETURN;
-	  }
-	  }
+     INT ret = SYSTEM_NORMAL_RETURN;
+     SetOfSearchKeys *keyset = GetFallbackSearchKeys(info);
+     if (keyset != NULL && keyset->NumberOfKeys > 0) {
+         INT idx = -1, i;
+         SingleSearchKey *skey = keyset->Keys;
+         LOOPi(keyset->NumberOfKeys) {
+             DbaseKeyword *tk = skey->DBKey ? skey->DBKey : skey->Search;
+             if (tk != NULL) {
+                 if (keyword->ID != 0 && tk->ID == keyword->ID) {
+                     idx = i;
+                     break;
+                 } else if (keyword->Name != NULL && tk->Name != NULL && strcmp(keyword->Name, tk->Name) == 0) {
+                     idx = i;
+                     break;
+                 } else if (keyword->KeyWord != NULL && tk->KeyWord != NULL && keyword->Size == tk->Size && memcmp(keyword->KeyWord, tk->KeyWord, keyword->Size) == 0) {
+                     idx = i;
+                     break;
+                 }
+             }
+             skey++;
+         }
+         if (idx >= 0 && idx + 1 < keyset->NumberOfKeys) {
+             SingleSearchKey *next_skey = &keyset->Keys[idx + 1];
+             DbaseKeyword *target_key = next_skey->DBKey ? next_skey->DBKey : next_skey->Search;
+             if (target_key != NULL) {
+                 FreeDbaseKeyword(keyword);
+                 CreateDbaseKeyword(keyword, target_key->ID, target_key->Name, target_key->Size, target_key->KeyWord);
+                 ret = FetchElement(element, keyword, info);
+             } else {
+                 ret = SYSTEM_ERROR_RETURN;
+             }
+         } else {
+             ret = SYSTEM_ERROR_RETURN;
+         }
+     } else {
+         ret = SYSTEM_ERROR_RETURN;
+     }
      return(ret);
      }
 
@@ -1096,86 +899,19 @@ extern INT FetchNextElement(VOID element,
 extern DbaseLinkedList *ReadGenericElement(DbaseKeyword *key,
 					   DataBaseInformation *dinfo)
      {
-     datum dkey, datset;
-     DbaseLinkedList *link;
-     
-     dkey.dsize = key->Size;
-     dkey.dptr  = key->KeyWord;
-     
-     if (dinfo != NULL && dinfo->File != NULL)
-	  {
-	  datset = gdbm_fetch((GDBM_FILE) dinfo->File,
-			dkey);
-	  }
-     else
-	  {
-	  datset.dsize = 0;
-	  datset.dptr = NULL;
-	  }
-     
-     if(datset.dsize != 0)
-	  {
-	  link = AllocateDbaseLinkedList;
-	  CreateDbaseLinkedList(link,key->ID,key->Name,
-				datset.dsize,
-				datset.dsize,
-				0,0,0);
-	  memcpy(link->Element,datset.dptr,(unsigned int) datset.dsize);
-	  }
-     else
-	  link = 0;
-     
-     return(link);
+     (void)key;
+     (void)dinfo;
+     return(0);
      }
-/*F ret = StoreGenericElement(link,key,dinfo)
-**
-**  DESCRIPTION
-**    key: The key
-**    dinfo: The linked list structure
-**    link: the link
-**
-**    Writes a generic element to the specified database and returns the 
-**    linked list structure (DbaseLinkedList).
-**
-**  REMARKS
-**
-**  REFERENCES
-**
-**  SEE ALSO
-**
-**  HEADERFILE
-**
-*/
 extern INT WriteGenericElement(DbaseLinkedList *link,
 			       DbaseKeyword *keyword,
 			       INT flag,
 			       DataBaseInformation *info)
      {
-     datum *key, *datset;
-     INT ret;
-     
-     key = AllocateDatum;
-     key->dsize = keyword->Size;
-     key->dptr  = keyword->KeyWord;
-     
-     datset = MakeDatumElement(link);
-     
-     if (info != NULL && info->File != NULL)
-	  {
-	  ret = gdbm_store((GDBM_FILE) info->File,
-		      *key,
-		      *datset,
-		      (int) flag);
-	  }
-     else
-	  {
-	  ret = SYSTEM_NORMAL_RETURN;
-	  }
-     
-     Free(datset->dptr);
-     Free(datset);
-     Free(key);
-
-     return(ret);
+     (void)link;
+     (void)keyword;
+     (void)flag;
+     (void)info;
+     return(SYSTEM_NORMAL_RETURN);
      }
 

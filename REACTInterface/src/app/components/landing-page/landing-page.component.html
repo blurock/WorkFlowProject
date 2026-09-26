@@ -53,8 +53,12 @@
             <mat-divider class="login-divider"></mat-divider>
 
             <!-- Dev / Local Preset Users -->
-            <p class="custom-login-label">Or test with local development profiles:</p>
+            <p class="custom-login-label">Or select a local profile / Google UID preset:</p>
             <div class="preset-users">
+              <button mat-stroked-button color="accent" (click)="onLogin('Edward Blurock', 'UOqk0KtFtaXma5TGsi8Seh9RMbx1@reactcloud.org')">
+                <mat-icon>verified_user</mat-icon> Edward (Google UID)
+              </button>
+
               <button mat-stroked-button color="primary" (click)="onLogin('Local User', 'user_default_local@reactcloud.org')">
                 <mat-icon>person</mat-icon> Default Local
               </button>

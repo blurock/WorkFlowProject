@@ -30,7 +30,16 @@
  
 /*I  . . . INCLUDES  . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 */
-#include "gdbm.h"
+typedef struct {
+    char *dptr;
+    int dsize;
+} datum;
+
+#ifndef GDBM_INSERT
+#define GDBM_INSERT  0
+#define GDBM_REPLACE 1
+#endif
+
 #include "dbase/dbasestr.h" 
 
 /*V  . . . GLOBAL VARIABLES  . . . . . . . . . . . . . . . . . . . . . . . . 

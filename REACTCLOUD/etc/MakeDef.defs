@@ -25,7 +25,7 @@ LIBFILE    = $(MYLIBDIR)/$(LIBNAME)
 
 ifeq ($(OSNAME),Darwin)
 EXTRAINCLUDES  =
-EXTRASYSTEMLIBS = -L/opt/homebrew/opt/gdbm/lib -L/opt/local/lib
+EXTRASYSTEMLIBS = -L/opt/local/lib
 else
 EXTRAINCLUDES  = -I/usr/include/tirpc
 EXTRASYSTEMLIBS = -ltirpc

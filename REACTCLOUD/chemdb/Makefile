@@ -43,10 +43,9 @@ DEPLIBS = -L$(MYLIBDIR)\
            -lproperty\
            -lstatistics\
            -ldbase\
-           -ldatmat\
            -lcomlib\
+           -ldatmat\
            -lbasis\
-           -lgdbm\
            -lm $(EXTRASYSTEMLIBS)
 
 

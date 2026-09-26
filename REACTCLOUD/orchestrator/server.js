@@ -32,16 +32,7 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 
-// GDBM Database Files managed per user
-const DB_FILES = [
-  'BensonTables.dbf',
-  'ChemkinThermo.dbf',
-  'Molecules.dbf',
-  'ReactionPatterns.dbf',
-  'Reactions.dbf',
-  'RxnMechanism.dbf',
-  'SubStructures.dbf'
-];
+
 
 /**
  * Authentication Middleware
@@ -113,66 +104,7 @@ async function hydrateUserWorkspace(uid, workspaceDir) {
   const userCacheDir = path.join('/tmp', 'reactcloud', 'users', uid, 'cache');
   fs.mkdirSync(userCacheDir, { recursive: true });
 
-  const bucket = storage.bucket(BUCKET_NAME);
-
-  // 3. Process DB files in parallel (Promise.all)
-  await Promise.all(DB_FILES.map(async (dbFile) => {
-    const cachedPath = path.join(userCacheDir, dbFile);
-    const localPath = path.join(workspaceDir, dbFile);
-
-    // Cache Hit: If cached locally in session, copy instantly (1ms)
-    if (fs.existsSync(cachedPath)) {
-      fs.copyFileSync(cachedPath, localPath);
-      return;
-    }
-
-    // Cache Miss: Parallel download from GCS or copy from system default seed
-    const gcsPath = `users/${uid}/databases/${dbFile}`;
-    try {
-      const file = bucket.file(gcsPath);
-      let [exists] = await file.exists();
-      const seedPath = path.join(REACTROOT, 'data', 'DB', dbFile);
-
-      if (exists) {
-        await file.download({ destination: cachedPath });
-        console.log(`[GCS Sync] Downloaded ${dbFile} from ${gcsPath}`);
-
-        // Check if downloaded DB file is uninitialized/empty (< 20KB while seed is > 30KB)
-        if (fs.existsSync(cachedPath) && fs.existsSync(seedPath)) {
-          const stats = fs.statSync(cachedPath);
-          const seedStats = fs.statSync(seedPath);
-          if (stats.size < 20000 && seedStats.size > 30000) {
-            console.log(`[GCS Re-Seed] DB file ${dbFile} was uninitialized (${stats.size} bytes). Re-seeding from system default (${seedPath})`);
-            fs.copyFileSync(seedPath, cachedPath);
-            bucket.upload(cachedPath, { destination: gcsPath }).then(() => {
-              console.log(`[GCS Re-Seed Uploaded] ${dbFile} uploaded to ${gcsPath}`);
-            }).catch((err) => {
-              console.warn(`[GCS Upload Warning] ${dbFile}: ${err.message}`);
-            });
-          }
-        }
-      } else {
-        // Does not exist in GCS yet: Initialize from system default seed and upload to Cloud Storage for this user
-        if (fs.existsSync(seedPath)) {
-          fs.copyFileSync(seedPath, cachedPath);
-          console.log(`[GCS Seed] Initialized ${dbFile} for user ${uid} from system default seed`);
-          bucket.upload(cachedPath, { destination: gcsPath }).then(() => {
-            console.log(`[GCS Seed Uploaded] ${dbFile} uploaded to ${gcsPath}`);
-          }).catch((err) => {
-            console.warn(`[GCS Upload Warning] ${dbFile}: ${err.message}`);
-          });
-        }
-      }
-
-      if (fs.existsSync(cachedPath)) {
-        fs.copyFileSync(cachedPath, localPath);
-      }
-    } catch (err) {
-      console.warn(`[GCS Sync Warning] Failed to sync ${dbFile}: ${err.message}`);
-    }
-  }));
-
-  // 4. Overlay user custom data files from session cache (/tmp/reactcloud/users/{uid}/cache/data/)
+  // 3. Overlay user custom data files from session cache (/tmp/reactcloud/users/{uid}/cache/data/)
   const userCacheDataDir = path.join(userCacheDir, 'data');
   if (fs.existsSync(userCacheDataDir)) {
     const copyRecursive = (src, dest) => {
@@ -196,59 +128,84 @@ async function hydrateUserWorkspace(uid, workspaceDir) {
 }
 
 /**
- * Fast Parallel Persistence Sync
- * Skip DB re-upload if job is read-only (e.g. printing catalogs/lists)
+ * Generate GCS Signed Download URL (7-day TTL by default)
  */
-async function persistUserWorkspace(uid, workspaceDir, jobId, isReadOnly = true) {
-  const userCacheDir = path.join('/tmp', 'reactcloud', 'users', uid, 'cache');
-  const bucket = storage.bucket(BUCKET_NAME);
-
-  // 1. If database files were modified (write job), sync to cache and GCS in parallel
-  if (!isReadOnly) {
-    await Promise.all(DB_FILES.map(async (dbFile) => {
-      const localPath = path.join(workspaceDir, dbFile);
-      if (fs.existsSync(localPath)) {
-        const cachedPath = path.join(userCacheDir, dbFile);
-        fs.copyFileSync(localPath, cachedPath);
-
-        const gcsPath = `users/${uid}/databases/${dbFile}`;
-        try {
-          await bucket.upload(localPath, { destination: gcsPath });
-          console.log(`[GCS Upload] Synced ${dbFile} back to ${gcsPath}`);
-        } catch (err) {
-          console.warn(`[GCS Upload Error] ${dbFile}: ${err.message}`);
-        }
-      }
-    }));
+async function getSignedDownloadUrl(bucketName, gcsPath, expiresInHours = 168) {
+  try {
+    const file = storage.bucket(bucketName).file(gcsPath);
+    const [url] = await file.getSignedUrl({
+      action: 'read',
+      expires: Date.now() + expiresInHours * 60 * 60 * 1000
+    });
+    return url;
+  } catch (err) {
+    console.warn(`[Signed URL Warning] ${gcsPath}: ${err.message}`);
+    return null;
   }
+}
 
-  // 2. Upload job output artifacts in parallel
-  const outputFiles = fs.readdirSync(workspaceDir).filter(f => !DB_FILES.includes(f) && !['elements.xml', 'command', 'data', 'basis', 'ffield'].includes(f));
-  const artifactPaths = [];
+/**
+ * Fast Parallel Persistence Sync
+ * Uploads execution logs and output artifacts to GCS under session hierarchy.
+ * Populates Cloud Firestore with full file manifest and GCS signed download URLs.
+ */
+async function persistUserWorkspace(uid, sessionId, workspaceDir, jobId, isReadOnly = true) {
+  const bucket = storage.bucket(BUCKET_NAME);
+  const activeSessionId = sessionId || 'default_session';
+  const sessionGcsPrefix = `users/${uid}/sessions/${activeSessionId}/jobs/${jobId}`;
+
+  // Upload job output artifacts & execution logs in parallel to session path
+  const outputFiles = fs.readdirSync(workspaceDir).filter(f => !['elements.xml', 'command', 'data', 'basis', 'ffield'].includes(f));
+  const fileManifest = [];
 
   await Promise.all(outputFiles.map(async (file) => {
     const filePath = path.join(workspaceDir, file);
     try {
       if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
-        const gcsPath = `users/${uid}/jobs/${jobId}/artifacts/${file}`;
+        const isRootLog = file === 'execution.log' || file === 'run.inp';
+        const gcsPath = isRootLog ? `${sessionGcsPrefix}/${file}` : `${sessionGcsPrefix}/artifacts/${file}`;
+
         await bucket.upload(filePath, { destination: gcsPath });
-        artifactPaths.push(`gs://${BUCKET_NAME}/${gcsPath}`);
+        const downloadUrl = await getSignedDownloadUrl(BUCKET_NAME, gcsPath);
+
+        fileManifest.push({
+          filename: file,
+          fileType: file.endsWith('.Format.out') ? 'format_check_report' : (file.endsWith('.log') ? 'log' : (file === 'run.inp' ? 'script' : 'artifact')),
+          sizeBytes: fs.statSync(filePath).size,
+          gcsPath: `gs://${BUCKET_NAME}/${gcsPath}`,
+          downloadUrl
+        });
       }
     } catch (err) {
       console.warn(`[GCS Artifact Upload Error] ${file}: ${err.message}`);
     }
   }));
 
-  // 3. Record Firestore Job Document
+  // 3. Record Firestore Job Document (under user jobs and session jobs)
+  const execLogFile = fileManifest.find(f => f.filename === 'execution.log');
+  const artifactPaths = fileManifest.map(f => f.gcsPath);
+
   try {
-    const jobDoc = firestore.collection('users').doc(uid).collection('jobs').doc(jobId);
-    await jobDoc.set({
+    const jobData = {
       jobId,
+      sessionId: activeSessionId,
       userId: uid,
       timestamp: new Date().toISOString(),
+      executionLog: execLogFile || null,
+      files: fileManifest,
       artifacts: artifactPaths
-    }, { merge: true });
-  } catch (err) {}
+    };
+
+    const userJobDoc = firestore.collection('users').doc(uid).collection('jobs').doc(jobId);
+    await userJobDoc.set(jobData, { merge: true });
+
+    const sessionJobDoc = firestore.collection('users').doc(uid).collection('sessions').doc(activeSessionId).collection('jobs').doc(jobId);
+    await sessionJobDoc.set(jobData, { merge: true }).catch(() => {});
+  } catch (err) {
+    console.warn(`[Firestore Job Doc Error] ${err.message}`);
+  }
+
+  return fileManifest;
 }
 
 /**
@@ -370,11 +327,12 @@ app.post('/api/upload-data-files', authenticateUser, async (req, res) => {
 app.post('/api/run-input', authenticateUser, async (req, res) => {
   const { inputFile, root, replacements } = req.body;
   const uid = req.user.uid;
+  const sessionId = req.body.sessionId || req.headers['x-session-id'] || req.headers['session-id'] || 'default_session';
   const jobId = `job_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
   const workspaceDir = path.join('/tmp', 'reactcloud', 'users', uid, jobId);
 
   const startTime = Date.now();
-  console.log(`[Job Start] ${jobId} for User ${uid}`);
+  console.log(`[Job Start] ${jobId} (Session: ${sessionId}) for User ${uid}`);
 
   try {
     await hydrateUserWorkspace(uid, workspaceDir);
@@ -402,21 +360,41 @@ app.post('/api/run-input', authenticateUser, async (req, res) => {
     let stdout = '';
     let stderr = '';
 
+    const logFilePath = path.join(workspaceDir, 'execution.log');
+    const logStream = fs.createWriteStream(logFilePath, { flags: 'a' });
+
     const commandDir = path.join(REACTROOT, 'command');
     const staticFile = path.join(REACTROOT, 'data', 'stat-inf.dat');
 
     const child = spawn(CHEMDB_BIN, [root || 'test', '0', commandDir, staticFile], {
       cwd: workspaceDir,
-      env: { ...process.env, REACTROOT, CCROOT: REACTROOT, REACT_USER_ID: uid, GCS_BUCKET: BUCKET_NAME }
+      env: {
+        ...process.env,
+        REACTROOT,
+        CCROOT: REACTROOT,
+        REACT_USER_ID: uid,
+        REACT_USER_UID: uid,
+        REACT_SESSION_ID: sessionId,
+        GCS_BUCKET: BUCKET_NAME
+      }
     });
 
     child.stdin.write(inpContent);
     child.stdin.end();
 
-    child.stdout.on('data', data => { stdout += data.toString(); });
-    child.stderr.on('data', data => { stderr += data.toString(); });
+    child.stdout.on('data', data => {
+      const str = data.toString();
+      stdout += str;
+      logStream.write(str);
+    });
+    child.stderr.on('data', data => {
+      const str = data.toString();
+      stderr += str;
+      logStream.write(str);
+    });
 
     child.on('close', exitCode => {
+      logStream.end();
       const elapsed = Date.now() - startTime;
       console.log(`[Job Complete] ${jobId} finished in ${elapsed}ms with exit code ${exitCode}`);
 
@@ -425,7 +403,7 @@ app.post('/api/run-input', authenticateUser, async (req, res) => {
       try {
         const detailFiles = fs.readdirSync(workspaceDir).filter(f => f.endsWith('.ans') || f.endsWith('.out'));
         for (const df of detailFiles) {
-          if (df === 'run.inp' || df === 'test.inp') continue;
+          if (df === 'run.inp' || df === 'test.inp' || df === 'execution.log') continue;
           const dfPath = path.join(workspaceDir, df);
           const dfContent = fs.readFileSync(dfPath, 'utf8');
           if (dfContent && dfContent.trim()) {
@@ -436,21 +414,35 @@ app.post('/api/run-input', authenticateUser, async (req, res) => {
         console.warn(`[Detail File Read Warning] ${e.message}`);
       }
 
-      // Return HTTP response immediately for sub-second UI response
-      res.json({
-        jobId,
-        inputFile,
-        root: root || 'ROOT',
-        exitCode,
-        output: combinedOutput,
-        error: stderr,
-        elapsedMs: elapsed
-      });
-
       // Async background persistence & cleanup
       const isReadOnly = inputFile.startsWith('Print') || inputFile.includes('List');
-      persistUserWorkspace(uid, workspaceDir, jobId, isReadOnly)
-        .catch(err => console.warn(`[GCS Persist Warning] ${err.message}`))
+      persistUserWorkspace(uid, sessionId, workspaceDir, jobId, isReadOnly)
+        .then(fileManifest => {
+          res.json({
+            jobId,
+            sessionId,
+            inputFile,
+            root: root || 'ROOT',
+            exitCode,
+            output: combinedOutput,
+            error: stderr,
+            elapsedMs: elapsed,
+            files: fileManifest
+          });
+        })
+        .catch(err => {
+          console.warn(`[GCS Persist Warning] ${err.message}`);
+          res.json({
+            jobId,
+            sessionId,
+            inputFile,
+            root: root || 'ROOT',
+            exitCode,
+            output: combinedOutput,
+            error: stderr,
+            elapsedMs: elapsed
+          });
+        })
         .finally(() => cleanupWorkspace(workspaceDir));
     });
   } catch (err) {
@@ -463,6 +455,7 @@ app.post('/api/run-input', authenticateUser, async (req, res) => {
 app.post('/api/run-commands', authenticateUser, async (req, res) => {
   const { commands, root } = req.body;
   const uid = req.user.uid;
+  const sessionId = req.body.sessionId || req.headers['x-session-id'] || req.headers['session-id'] || 'default_session';
   const jobId = `job_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
   const workspaceDir = path.join('/tmp', 'reactcloud', 'users', uid, jobId);
 
@@ -489,21 +482,41 @@ app.post('/api/run-commands', authenticateUser, async (req, res) => {
     let stdout = '';
     let stderr = '';
 
+    const logFilePath = path.join(workspaceDir, 'execution.log');
+    const logStream = fs.createWriteStream(logFilePath, { flags: 'a' });
+
     const commandDir = path.join(REACTROOT, 'command');
     const staticFile = path.join(REACTROOT, 'data', 'stat-inf.dat');
 
     const child = spawn(CHEMDB_BIN, [root || 'test', '0', commandDir, staticFile], {
       cwd: workspaceDir,
-      env: { ...process.env, REACTROOT, CCROOT: REACTROOT, REACT_USER_ID: uid, GCS_BUCKET: BUCKET_NAME }
+      env: {
+        ...process.env,
+        REACTROOT,
+        CCROOT: REACTROOT,
+        REACT_USER_ID: uid,
+        REACT_USER_UID: uid,
+        REACT_SESSION_ID: sessionId,
+        GCS_BUCKET: BUCKET_NAME
+      }
     });
 
     child.stdin.write(commandText);
     child.stdin.end();
 
-    child.stdout.on('data', data => { stdout += data.toString(); });
-    child.stderr.on('data', data => { stderr += data.toString(); });
+    child.stdout.on('data', data => {
+      const str = data.toString();
+      stdout += str;
+      logStream.write(str);
+    });
+    child.stderr.on('data', data => {
+      const str = data.toString();
+      stderr += str;
+      logStream.write(str);
+    });
 
     child.on('close', exitCode => {
+      logStream.end();
       const elapsed = Date.now() - startTime;
       console.log(`[Job Complete] ${jobId} finished in ${elapsed}ms`);
 
@@ -514,7 +527,7 @@ app.post('/api/run-commands', authenticateUser, async (req, res) => {
           f.endsWith('.ans') || f.endsWith('.out') || f.endsWith('.mech') || f.endsWith('.sdf') || f.endsWith('.thm') || f.endsWith('.corrs')
         );
         for (const df of detailFiles) {
-          if (df === 'run.inp' || df === 'test.inp' || df === 'mech.lst' || df === 'xxx.lst' || df === 'xxx.mol' || df === 'xxx.rxn') continue;
+          if (df === 'run.inp' || df === 'test.inp' || df === 'mech.lst' || df === 'xxx.lst' || df === 'xxx.mol' || df === 'xxx.rxn' || df === 'execution.log') continue;
           const dfPath = path.join(workspaceDir, df);
           const dfContent = fs.readFileSync(dfPath, 'utf8');
           if (dfContent && dfContent.trim()) {
@@ -537,21 +550,34 @@ app.post('/api/run-commands', authenticateUser, async (req, res) => {
 
       combinedOutput += `--- Execution Log ---\n` + stdout;
 
-      // Return HTTP response immediately for sub-second UI response
-      res.json({
-        jobId,
-        root: root || 'ROOT',
-        exitCode,
-        output: combinedOutput,
-        error: stderr,
-        elapsedMs: elapsed
-      });
-
       // Async background persistence & cleanup
       const hasWriteOps = commandText.includes('Store') || commandText.includes('Write') || commandText.includes('Fill');
       const isReadOnly = req.body.isReadOnly !== undefined ? Boolean(req.body.isReadOnly) : !hasWriteOps;
-      persistUserWorkspace(uid, workspaceDir, jobId, isReadOnly)
-        .catch(err => console.warn(`[GCS Persist Warning] ${err.message}`))
+      persistUserWorkspace(uid, sessionId, workspaceDir, jobId, isReadOnly)
+        .then(fileManifest => {
+          res.json({
+            jobId,
+            sessionId,
+            root: root || 'ROOT',
+            exitCode,
+            output: combinedOutput,
+            error: stderr,
+            elapsedMs: elapsed,
+            files: fileManifest
+          });
+        })
+        .catch(err => {
+          console.warn(`[GCS Persist Warning] ${err.message}`);
+          res.json({
+            jobId,
+            sessionId,
+            root: root || 'ROOT',
+            exitCode,
+            output: combinedOutput,
+            error: stderr,
+            elapsedMs: elapsed
+          });
+        })
         .finally(() => cleanupWorkspace(workspaceDir));
     });
   } catch (err) {

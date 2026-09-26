@@ -16,7 +16,7 @@ set CHEMPROPS       = $REACTROOT/programs/scripts/readmolprops.sh
 set THERMO          = $REACTROOT/programs/scripts/readchemkin.sh
 #--------------------------------------------------------------------------
 pushd $DATADIR
-rm Molecules.dbf
+rm -f Molecules.dbf
 popd
 #--------------------------------------------------------------------------
 pushd $PROGRAMDIR

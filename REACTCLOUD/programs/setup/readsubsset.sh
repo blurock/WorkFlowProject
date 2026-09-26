@@ -12,7 +12,7 @@ set PROGRAM         = $REACTROOT/programs/setup/singlesub.sh
 
 #--------------------------------------------------------------------------
 pushd $DATADIR/DB
-rm SubStructures.dbf
+rm -f SubStructures.dbf
 popd
 #--------------------------------------------------------------------------
 pushd $DATADIR/mol/subs

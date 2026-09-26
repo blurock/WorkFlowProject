@@ -15,10 +15,10 @@ set CHEMPROG        = $REACTROOT/programs/scripts/readpats.sh
 
 #--------------------------------------------------------------------------
 pushd $DATADIR
-rm SubStructures.dbf
+rm -f SubStructures.dbf
 popd
 #--------------------------------------------------------------------------
-rm $REACTROOT/data/DB/ReactionPatterns.dbf
+rm -f $REACTROOT/data/DB/ReactionPatterns.dbf
 pushd $DATADIR/rxn/rxnpats
 
 $CHEMPROG HAbstraction

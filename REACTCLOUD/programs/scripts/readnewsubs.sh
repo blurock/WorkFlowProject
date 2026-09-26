@@ -46,7 +46,7 @@ cat $INFILE >> $STANDARD
 # Put Substructures in Database
 #--------------------------------------------------------------------------
 pushd $TEMPDIR
-rm $REACTROOT/data/DB/SubStructures.dbf
+rm -f $REACTROOT/data/DB/SubStructures.dbf
 $CHEMPROG read < read.prg
 rm $TEMPFILE
 popd

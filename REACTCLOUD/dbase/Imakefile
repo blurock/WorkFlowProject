@@ -9,7 +9,7 @@ LIBFILE    = $(MYLIBDIR)/$(LIBNAME)
 
 
 STD_LIBRARIES            = -L$(MYLIBDIR)\
-           -lgdbm -lbasis -lm 
+           -lbasis -lm 
 
 
 STD_INCLUDES = -I./standard\

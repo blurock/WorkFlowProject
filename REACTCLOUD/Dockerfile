@@ -14,7 +14,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     make \
     tcsh \
     libc6-dev \
-    libgdbm-dev \
     libnsl-dev \
     libtirpc-dev \
     curl \
@@ -29,9 +28,6 @@ COPY . .
 RUN REACTROOT=/opt/react CCROOT=/opt/react BINDIR=/opt/react/bin make all \
     && REACTROOT=/opt/react CCROOT=/opt/react BINDIR=/opt/react/bin make runsetup \
     && gcc -O2 -Wall -Wextra -o /opt/react/bin/http-server /opt/react/src/http-server.c
-
-# Re-copy populated seed databases to ensure data/DB is populated in runtime container
-COPY data/DB /opt/react/data/DB
 
 # Stage 2: Runtime
 FROM ubuntu:22.04
@@ -49,7 +45,6 @@ LABEL org.opencontainers.image.source="https://github.com/blurock/REACT"
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     libc6 \
-    libgdbm6 \
     libnsl2 \
     libtirpc3 \
     tcsh \

@@ -37,10 +37,7 @@ DEPLIBS = -L$(MYLIBDIR)\
            -lgraphs\
            -lproperty\
            -ldbase\
-           -ldatmat\
-           -lcomlib\
            -lbasis\
-           -lgdbm\
            -lm $(EXTRASYSTEMLIBS)
 
 

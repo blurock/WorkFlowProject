@@ -40,7 +40,5 @@ STD_LIBRARIES =\
            -lstatistics\
            -ldbase\
            -ldatmat\
-           -lcomlib\
            -lbasis\
-           -lgdbm\
            -lm $(EXTRASYSTEMLIBS)

@@ -25,9 +25,7 @@ DEPLIBS =  -L/home/blurock/lib\
            -lXcomlib\
            -lgraph\
            -ldatmat\
-           -lcomlib\
            -lbasis\
-           -lgdbm\
            -lXG\
             -lm
 
