@@ -58,6 +58,7 @@ export class CommandTemplatesRegistry {
   // Parameterized Detail Templates (Unmodified static command sequences matching .inp files)
 
   public static printMoleculeDetail(_moleculeRootName?: string): string[] {
+    const rootName = _moleculeRootName || "xxx";
     return [
       "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
       "MetaAtoms", "Read", "Quit", "Quit",
@@ -65,27 +66,29 @@ export class CommandTemplatesRegistry {
       "Mol", "Parameters", "MolDirectory", "Input", ".", "Quit",
       "RootMolName", "Input", "molecule", "Quit", "Quit", "Quit",
       "DbaseOps", "Parameters", "DBDataDirectory", "Input", ".", "Quit", "Quit",
-      "Molecules", "Parameters", "DBDataMolRoot", "Input", "xxx", "Quit", "Quit",
+      "Molecules", "Parameters", "DBDataMolRoot", "Input", rootName, "Quit", "Quit",
       "Current", "Help", "ReadInCurrent", "Quit", "Quit", "Quit",
       "Mol", "Output", "Molecules", "Print", "Quit", "Quit", "Quit", "Quit"
     ];
   }
 
   public static printRxnPatternDetail(_rxnPatternRootName?: string): string[] {
+    const rootName = _rxnPatternRootName || "xxx";
     return [
       "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
       "MetaAtoms", "Read", "Quit", "Quit",
       "CreateOpenClose", "Start", "Quit",
-      "Rxn", "Read", "Parameters", "RxnDirectory", "Input", ".", "Quit",
-      "RootRxnName", "Input", "xxx", "Quit", "Quit", "Quit", "Quit",
       "DbaseOps", "Parameters", "DBDataDirectory", "Input", ".", "Quit", "Quit",
-      "RxnPatterns", "Parameters", "DBDataRxnRoot", "Input", "xxx", "Quit", "Quit",
+      "RxnPatterns", "Parameters", "DBDataRxnRoot", "Input", rootName, "Quit", "Quit",
       "Current", "ReadInCurrent", "Quit", "Quit", "Quit",
-      "Rxn", "Output", "RxnPatterns", "Print", "Quit", "Quit", "Quit", "Quit"
+      "Rxn", "Parameters", "RxnDirectory", "Input", ".", "Quit",
+      "RootRxnName", "Input", rootName, "Quit", "Quit",
+      "Output", "RxnPatterns", "Print", "Quit", "Quit", "Quit", "Quit"
     ];
   }
 
   public static printSubstructureDetail(_substructureRootName?: string): string[] {
+    const rootName = _substructureRootName || "xxx";
     return [
       "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
       "MetaAtoms", "Read", "Quit", "Quit",
@@ -93,17 +96,18 @@ export class CommandTemplatesRegistry {
       "Mol", "Parameters", "MolDirectory", "Input", ".", "Quit",
       "RootMolName", "Input", "molecule", "Quit", "Quit", "Quit",
       "DbaseOps", "Parameters", "DBDataDirectory", "Input", ".", "Quit", "Quit",
-      "SubStructures", "Parameters", "DBDataMolRoot", "Input", "xxx", "Quit", "Quit",
+      "SubStructures", "Parameters", "DBDataMolRoot", "Input", rootName, "Quit", "Quit",
       "Current", "ReadInCurrent", "Quit", "Quit", "Quit",
       "Mol", "Output", "SubStructures", "Print", "Quit", "Quit", "Quit", "Quit"
     ];
   }
 
   public static printMechanismDetail(_mechanismName?: string): string[] {
+    const rootName = _mechanismName || "xxx";
     return [
       "CreateOpenClose", "Start", "Quit",
       "DbaseOps", "Mechanisms", "Parameters", "MechDirectory", "Input", ".", "Quit",
-      "RootMechName", "Input", "xxx", "Quit", "Quit",
+      "RootMechName", "Input", rootName, "Quit", "Quit",
       "Retrieve", "Print", "Quit", "Quit", "Quit"
     ];
   }

@@ -4,7 +4,7 @@
 # Script to Read in a molecule file to the database
 #
 # ---------------------------------------------------------------------------
-#set verbose on
+set verbose on
 
 set CHEMPROG        = $REACTROOT/bin/runchem.sh
 set INPPRINT        = $REACTROOT/programs/inputs/PrintRxnPattern.inp

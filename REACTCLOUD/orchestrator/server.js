@@ -831,6 +831,8 @@ app.post('/api/run-commands', authenticateUser, async (req, res) => {
       fs.writeFileSync(path.join(workspaceDir, 'mech.lst'), `${targetItemName}\n`);
       fs.writeFileSync(path.join(workspaceDir, 'MASTER.lst'), `${targetItemName}\n`);
       fs.writeFileSync(path.join(workspaceDir, `${targetItemName}.lst`), `${targetItemName}\n`);
+      fs.writeFileSync(path.join(workspaceDir, `${targetItemName}.rxn`), `RxnPatternList\n${targetItemName}\n`);
+      fs.writeFileSync(path.join(workspaceDir, `${targetItemName}.mol`), `${targetItemName}\n`);
     }
 
     let stdout = '';
