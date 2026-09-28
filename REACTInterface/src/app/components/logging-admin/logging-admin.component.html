@@ -1,0 +1,453 @@
+<div class="logging-admin-container">
+  <!-- Header & Top Navigation Bar -->
+  <header class="admin-header">
+    <div class="header-title-group">
+      <a routerLink="/dashboard" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+        Back to Dashboard
+      </a>
+      <h1>REACTCLOUD Logging Administration</h1>
+      <span *ngIf="isSuperAdmin()" class="badge super-admin-badge">SUPER ADMIN MODE</span>
+      <span *ngIf="!isSuperAdmin()" class="badge user-mode-badge">USER LOGS MODE</span>
+    </div>
+
+    <!-- Storage Usage Widget -->
+    <div class="storage-metrics-widget">
+      <div class="metric-card">
+        <span class="metric-label">Total Executions</span>
+        <span class="metric-value">{{ jobs().length }}</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-label">Storage Consumed</span>
+        <span class="metric-value highlight">{{ totalStorageFormatted() }}</span>
+      </div>
+      <button class="btn btn-secondary btn-sm" (click)="loadLogs(true)" [disabled]="isLoading()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+        Refresh Logs
+      </button>
+    </div>
+  </header>
+
+  <!-- Filter & Controls Bar -->
+  <section class="controls-bar">
+    <div class="search-box">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input 
+        type="text" 
+        placeholder="Search by Job ID, email, or filename..."
+        [(ngModel)]="filter().searchTerm"
+        (input)="onFilterChange()" 
+      />
+    </div>
+
+    <div class="filter-group">
+      <label>Access Mode:</label>
+      <select [(ngModel)]="filter().accessMode" (change)="onFilterChange()">
+        <option value="all">All Modes</option>
+        <option value="read-only">Read Only</option>
+        <option value="db-modifying">DB Modifying</option>
+      </select>
+
+      <label>Status:</label>
+      <select [(ngModel)]="filter().status" (change)="onFilterChange()">
+        <option value="all">All Statuses</option>
+        <option value="SUCCESS">Success</option>
+        <option value="FAILED">Failed</option>
+      </select>
+    </div>
+
+    <!-- View Mode Switcher -->
+    <div class="view-toggle">
+      <button 
+        [class.active]="viewMode() === 'jobs'" 
+        (click)="viewMode.set('jobs')"
+        title="Firestore Job Document Inspector View"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+        Job View
+      </button>
+      <button 
+        [class.active]="viewMode() === 'grid'" 
+        (click)="viewMode.set('grid')"
+        title="Data Grid Table View"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/><path d="M15 3v18"/></svg>
+        Grid
+      </button>
+      <button 
+        [class.active]="viewMode() === 'tree'" 
+        (click)="viewMode.set('tree')"
+        title="Cloud Storage Directory Tree View"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L8.6 3.3A2 2 0 0 0 6.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+        Storage View
+      </button>
+    </div>
+  </section>
+
+  <!-- Main Content Layout -->
+  <div class="content-wrapper">
+    <!-- Loading State -->
+    <div *ngIf="isLoading()" class="loading-state">
+      <div class="spinner"></div>
+      <p>Loading Firestore job document records...</p>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!isLoading() && jobs().length === 0" class="empty-state">
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/></svg>
+      <h3>No Log Records Found</h3>
+      <p>No job execution logs match your active search filters.</p>
+    </div>
+
+    <!-- JOB DOCUMENT VIEW (FIRESTORE DOCUMENT INSPECTOR) -->
+    <div *ngIf="!isLoading() && viewMode() === 'jobs' && jobs().length > 0" class="job-doc-view-container">
+      <!-- Master: Firestore Job Documents List -->
+      <aside class="job-doc-list-sidebar">
+        <div class="sidebar-header">
+          <h3>Firestore Job Documents</h3>
+          <span class="count-badge">{{ jobs().length }}</span>
+        </div>
+        <div class="job-doc-cards">
+          <div 
+            *ngFor="let job of jobs()" 
+            class="job-doc-card"
+            [class.active]="selectedJob()?.jobId === job.jobId"
+            (click)="selectJob(job)"
+          >
+            <div class="card-top">
+              <span class="status-indicator" [class.success]="job.status === 'SUCCESS'" [class.failed]="job.status === 'FAILED'"></span>
+              <span class="category-tag">{{ job.jobCategory }}</span>
+              <span class="mode-tag-sm" [class.db-modifying]="job.accessMode === 'db-modifying'">{{ job.accessMode }}</span>
+            </div>
+            <div class="card-title">
+              <code>{{ job.jobId }}</code>
+            </div>
+            <div class="card-meta">
+              <span class="user-meta" *ngIf="isSuperAdmin()">{{ job.userEmail || job.userId }}</span>
+              <span class="time-meta">{{ formatDate(job.timestamp) }}</span>
+            </div>
+            <div class="card-path" *ngIf="job.docPath">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/></svg>
+              <code>{{ job.docPath }}</code>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Detail: Firestore Job Document Inspector & File Viewer -->
+      <main class="job-doc-inspector-main" *ngIf="selectedJob() as job">
+        <!-- Inspector Top Header -->
+        <header class="inspector-header">
+          <div class="title-meta">
+            <span class="status-badge" [class.success]="job.status === 'SUCCESS'" [class.failed]="job.status === 'FAILED'">
+              {{ job.status }}
+            </span>
+            <h2>{{ job.jobCategory }} <span class="sub-id">({{ job.jobId }})</span></h2>
+          </div>
+          <div class="inspector-actions">
+            <button class="btn btn-secondary btn-sm" (click)="copyDocumentJson()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+              {{ copySuccess() ? 'JSON Copied!' : 'Copy Document JSON' }}
+            </button>
+            <button class="btn btn-danger btn-sm" (click)="promptDeleteJob(job)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+              Delete Job
+            </button>
+          </div>
+        </header>
+
+        <!-- Firestore Doc Path Info Banner -->
+        <div class="doc-path-banner">
+          <span class="banner-label">Firestore Doc Path:</span>
+          <code>{{ job.docPath || ('users/' + job.userId + '/jobs/' + job.jobId) }}</code>
+        </div>
+
+        <!-- Inspector Tabs -->
+        <nav class="inspector-tabs">
+          <button [class.active]="activeTab() === 'document'" (click)="activeTab.set('document')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            Firestore Document JSON
+          </button>
+          <button [class.active]="activeTab() === 'files'" (click)="activeTab.set('files')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+            Job Output Files ({{ job.files ? job.files.length : 0 }})
+          </button>
+          <button [class.active]="activeTab() === 'artifacts'" (click)="activeTab.set('artifacts')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L8.6 3.3A2 2 0 0 0 6.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+            Cloud Storage Manifest
+          </button>
+        </nav>
+
+        <!-- Tab 1: Firestore Document JSON & Field Summary -->
+        <div *ngIf="activeTab() === 'document'" class="inspector-pane doc-pane">
+          <div class="fields-grid">
+            <div class="field-item">
+              <span class="f-label">Job ID</span>
+              <span class="f-val"><code>{{ job.jobId }}</code></span>
+            </div>
+            <div class="field-item">
+              <span class="f-label">User</span>
+              <span class="f-val">{{ job.userEmail || job.userId }}</span>
+            </div>
+            <div class="field-item">
+              <span class="f-label">Access Mode</span>
+              <span class="f-val"><span class="mode-tag" [class.db-modifying]="job.accessMode === 'db-modifying'">{{ job.accessMode }}</span></span>
+            </div>
+            <div class="field-item">
+              <span class="f-label">Job Category</span>
+              <span class="f-val"><span class="category-pill">{{ job.jobCategory }}</span></span>
+            </div>
+            <div class="field-item">
+              <span class="f-label">Timestamp</span>
+              <span class="f-val">{{ formatDate(job.timestamp) }}</span>
+            </div>
+            <div class="field-item">
+              <span class="f-label">Total Size</span>
+              <span class="f-val">{{ formatBytes(job.totalSizeBytes) }}</span>
+            </div>
+          </div>
+
+          <div class="raw-json-section">
+            <div class="section-header">
+              <h4>Raw Firestore Document Payload</h4>
+            </div>
+            <pre class="json-code-block"><code>{{ selectedJobFormattedJson() }}</code></pre>
+          </div>
+        </div>
+
+        <!-- Tab 2: Job Output Files Content Viewer -->
+        <div *ngIf="activeTab() === 'files'" class="inspector-pane file-viewer-pane">
+          <!-- Selectable File Chips Header -->
+          <div class="file-chips-bar">
+            <span class="bar-title">Attached Files:</span>
+            <button 
+              *ngFor="let file of job.files" 
+              class="file-chip"
+              [class.active]="selectedFile()?.filename === file.filename"
+              (click)="selectFile(file)"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/></svg>
+              {{ file.filename }}
+              <span class="chip-size">({{ formatBytes(file.sizeBytes) }})</span>
+            </button>
+          </div>
+
+          <!-- Active File Content Block -->
+          <div class="file-content-container" *ngIf="selectedFile() as file">
+            <div class="file-content-header">
+              <span class="active-filename">{{ file.filename }}</span>
+              <a *ngIf="file.downloadUrl" [href]="file.downloadUrl" target="_blank" class="download-link">
+                Download File
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </a>
+            </div>
+
+            <div *ngIf="isLoadingFileContent()" class="log-loading">
+              <div class="spinner"></div> Fetching file contents from GCS storage...
+            </div>
+            <pre *ngIf="!isLoadingFileContent()" class="log-code-block"><code>{{ activeFileContent() }}</code></pre>
+          </div>
+        </div>
+
+        <!-- Tab 3: Cloud Storage Artifact Manifest -->
+        <div *ngIf="activeTab() === 'artifacts'" class="inspector-pane artifacts-pane">
+          <div class="gcs-prefix-box">
+            <span class="box-label">Cloud Storage Prefix:</span>
+            <code>{{ job.gcsPrefix }}</code>
+          </div>
+
+          <ul class="file-manifest-list">
+            <li *ngFor="let file of job.files" class="manifest-file-item">
+              <div class="file-info">
+                <span class="filename">{{ file.filename }}</span>
+                <span class="gcs-uri"><code>{{ file.gcsPath }}</code></span>
+                <span class="filesize">{{ formatBytes(file.sizeBytes) }}</span>
+              </div>
+              <a *ngIf="file.downloadUrl" [href]="file.downloadUrl" target="_blank" class="download-link">
+                Download
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </main>
+    </div>
+
+    <!-- DATA GRID VIEW -->
+    <div *ngIf="!isLoading() && viewMode() === 'grid' && jobs().length > 0" class="grid-view-container">
+      <table class="logs-table">
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Job ID</th>
+            <th *ngIf="isSuperAdmin()">User</th>
+            <th>Category</th>
+            <th>Access Mode</th>
+            <th>Date & Time</th>
+            <th>Total Size</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let job of jobs()" (click)="selectJob(job)" [class.selected]="selectedJob()?.jobId === job.jobId">
+            <td>
+              <span class="status-badge" [class.success]="job.status === 'SUCCESS'" [class.failed]="job.status === 'FAILED'">
+                {{ job.status || 'SUCCESS' }}
+              </span>
+            </td>
+            <td class="job-id-cell">
+              <code>{{ job.jobId }}</code>
+            </td>
+            <td *ngIf="isSuperAdmin()" class="user-cell">
+              {{ job.userEmail || job.userId }}
+            </td>
+            <td>
+              <span class="category-pill">{{ job.jobCategory }}</span>
+            </td>
+            <td>
+              <span class="mode-tag" [class.db-modifying]="job.accessMode === 'db-modifying'">
+                {{ job.accessMode }}
+              </span>
+            </td>
+            <td class="date-cell">{{ formatDate(job.timestamp) }}</td>
+            <td class="size-cell">{{ formatBytes(job.totalSizeBytes) }}</td>
+            <td class="actions-cell">
+              <button class="btn-icon view-btn" (click)="selectJob(job)" title="View Log Details & Content">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+              <button class="btn-icon delete-btn" (click)="promptDeleteJob(job, $event)" title="Hard Delete GCS & Firestore Log">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- DIRECTORY TREE VIEW -->
+    <div *ngIf="!isLoading() && viewMode() === 'tree' && treeNodes().length > 0" class="tree-view-container">
+      <div class="tree-root">
+        <ng-container *ngTemplateOutlet="treeRecursive; context: { nodes: treeNodes() }"></ng-container>
+      </div>
+    </div>
+
+    <!-- Recursive Tree Template -->
+    <ng-template #treeRecursive let-nodes="nodes">
+      <ul class="tree-list">
+        <li *ngFor="let node of nodes" class="tree-node-item">
+          <div class="tree-node-header" (click)="toggleTreeNode(node, $event)" [class.is-job]="node.type === 'job'">
+            <span class="tree-icon">
+              <svg *ngIf="node.type !== 'job'" [class.rotated]="node.isExpanded" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+              <svg *ngIf="node.type === 'user'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <svg *ngIf="node.type === 'accessMode' || node.type === 'day'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L8.6 3.3A2 2 0 0 0 6.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+              <svg *ngIf="node.type === 'job'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/></svg>
+            </span>
+            <span class="tree-node-label">{{ node.label }}</span>
+          </div>
+
+          <div *ngIf="node.children && node.children.length > 0 && node.isExpanded" class="tree-children">
+            <ng-container *ngTemplateOutlet="treeRecursive; context: { nodes: node.children }"></ng-container>
+          </div>
+        </li>
+      </ul>
+    </ng-template>
+  </div>
+
+  <!-- SLIDE-OVER LOG INSPECTOR DRAWER (For Grid & Tree modes) -->
+  <aside class="log-drawer" [class.open]="viewMode() !== 'jobs' && selectedJob() !== null">
+    <div *ngIf="selectedJob() as job" class="drawer-content">
+      <div class="drawer-header">
+        <div class="drawer-title">
+          <span class="status-badge" [class.success]="job.status === 'SUCCESS'" [class.failed]="job.status === 'FAILED'">
+            {{ job.status }}
+          </span>
+          <h3>{{ job.jobCategory }}</h3>
+          <code>{{ job.jobId }}</code>
+        </div>
+        <button class="close-btn" (click)="closeDrawer()" title="Close Drawer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <!-- Drawer Metadata Summary -->
+      <div class="drawer-meta-grid">
+        <div class="meta-item">
+          <span class="label">User:</span>
+          <span class="val">{{ job.userEmail || job.userId }}</span>
+        </div>
+        <div class="meta-item">
+          <span class="label">Timestamp:</span>
+          <span class="val">{{ formatDate(job.timestamp) }}</span>
+        </div>
+        <div class="meta-item">
+          <span class="label">Total Size:</span>
+          <span class="val">{{ formatBytes(job.totalSizeBytes) }}</span>
+        </div>
+        <div class="meta-item">
+          <span class="label">GCS Path:</span>
+          <span class="val path-val">{{ job.gcsPrefix }}</span>
+        </div>
+      </div>
+
+      <!-- Drawer Content Tabs -->
+      <div class="drawer-tabs">
+        <button [class.active]="activeTab() === 'document'" (click)="activeTab.set('document')">
+          Firestore JSON
+        </button>
+        <button [class.active]="activeTab() === 'files'" (click)="activeTab.set('files')">
+          Output Files ({{ job.files ? job.files.length : 0 }})
+        </button>
+      </div>
+
+      <!-- Log Content / Document Viewer Pane -->
+      <div *ngIf="activeTab() === 'document'" class="tab-pane log-viewer-pane">
+        <pre class="log-code-block"><code>{{ selectedJobFormattedJson() }}</code></pre>
+      </div>
+
+      <div *ngIf="activeTab() === 'files'" class="tab-pane files-pane">
+        <!-- File Chips Header -->
+        <div class="file-chips-bar">
+          <button 
+            *ngFor="let file of job.files" 
+            class="file-chip"
+            [class.active]="selectedFile()?.filename === file.filename"
+            (click)="selectFile(file)"
+          >
+            {{ file.filename }}
+          </button>
+        </div>
+
+        <div *ngIf="isLoadingFileContent()" class="log-loading">
+          <div class="spinner"></div> Loading log content...
+        </div>
+        <pre *ngIf="!isLoadingFileContent()" class="log-code-block">{{ activeFileContent() }}</pre>
+      </div>
+
+      <!-- Drawer Footer Action -->
+      <div class="drawer-footer">
+        <button class="btn btn-danger" (click)="promptDeleteJob(job)">
+          Delete Log & GCS Artifacts
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- DELETE CONFIRMATION MODAL -->
+  <div *ngIf="deleteConfirmJob()" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <h3>Confirm Hard Delete</h3>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to permanently delete execution log <code>{{ deleteConfirmJob()?.jobId }}</code>?</p>
+        <p class="warning-text">This will immediately purge all corresponding log files and output artifacts stored under <code>{{ deleteConfirmJob()?.gcsPrefix }}</code> in Cloud Storage.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="cancelDelete()">Cancel</button>
+        <button class="btn btn-danger" (click)="confirmDelete()">Permanent Hard Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

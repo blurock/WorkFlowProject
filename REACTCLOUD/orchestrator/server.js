@@ -145,16 +145,107 @@ async function getSignedDownloadUrl(bucketName, gcsPath, expiresInHours = 168) {
 }
 
 /**
- * Fast Parallel Persistence Sync
- * Uploads execution logs and output artifacts to GCS under session hierarchy.
- * Populates Cloud Firestore with full file manifest and GCS signed download URLs.
+ * Job Classification & Access Mode Helper
+ * Analyzes request payload, input templates, and command strings to determine:
+ * - accessMode: 'db-modifying' | 'read-only'
+ * - jobCategory: 'format_check' | 'thermo_calc' | 'thermo_store' | 'mechanism_query' | 'mechanism_store' | 'catalog_print' | 'catalog_store' | 'script_runner' | 'read_query' | 'db_mutation'
+ * - isReadOnly: boolean
  */
-async function persistUserWorkspace(uid, sessionId, workspaceDir, jobId, isReadOnly = true) {
+function classifyJob(reqBody = {}, commandText = '', inputFile = '') {
+  const combinedText = `${commandText} ${inputFile} ${reqBody.root || ''} ${reqBody.targetItem || ''}`.toLowerCase();
+  
+  // 1. Check if explicit print, query, list, or format check
+  const isExplicitPrint = inputFile.startsWith('Print') || 
+                          inputFile.includes('List') || 
+                          inputFile.includes('FormatCheck') || 
+                          combinedText.includes('print instance') || 
+                          combinedText.includes('print') || 
+                          combinedText.includes('rxnpatternlist');
+
+  // 2. Check for write operations
+  const hasWriteKeywords = combinedText.includes('store') ||
+                           combinedText.includes('write') ||
+                           combinedText.includes('fill') ||
+                           combinedText.includes('import') ||
+                           combinedText.includes('upload') ||
+                           combinedText.includes('delete');
+
+  let isReadOnly = reqBody.isReadOnly !== undefined ? Boolean(reqBody.isReadOnly) : null;
+  
+  if (isReadOnly === null) {
+    if (isExplicitPrint) {
+      isReadOnly = true;
+    } else {
+      isReadOnly = !hasWriteKeywords;
+    }
+  }
+
+  // 3. Determine Job Category
+  let jobCategory = 'read_query';
+
+  if (inputFile.includes('FormatCheck') || combinedText.includes('.format.out') || combinedText.includes('formatcheck')) {
+    jobCategory = 'format_check';
+  } else if (inputFile.startsWith('Print') || combinedText.includes('print') || combinedText.includes('print instance')) {
+    jobCategory = 'catalog_print';
+  } else if (combinedText.includes('thermo') || combinedText.includes('jthermo') || combinedText.includes('.thm')) {
+    jobCategory = isReadOnly ? 'thermo_calc' : 'thermo_store';
+  } else if (combinedText.includes('mech') || combinedText.includes('submechanism') || combinedText.includes('rxn') || combinedText.includes('reaction')) {
+    jobCategory = isReadOnly ? 'mechanism_query' : 'mechanism_store';
+  } else if (isReadOnly) {
+    jobCategory = (inputFile || commandText) ? 'script_runner' : 'read_query';
+  } else {
+    jobCategory = (inputFile || commandText) ? 'catalog_store' : 'db_mutation';
+  }
+
+  // Strict enforcement: catalog_print, format_check, thermo_calc, mechanism_query are strictly read-only
+  if (jobCategory === 'catalog_print' || jobCategory === 'format_check' || jobCategory === 'thermo_calc' || jobCategory === 'mechanism_query') {
+    isReadOnly = true;
+  }
+
+  const accessMode = isReadOnly ? 'read-only' : 'db-modifying';
+
+  return {
+    accessMode,
+    jobCategory,
+    isReadOnly
+  };
+}
+
+/**
+ * Parallel Persistence Sync with Deep GCS Directory Partitioning
+ * Uploads execution logs and output artifacts to GCS under structured path:
+ * users/<uid>/logs/<access-mode>/<YYYY>/<MM>/<DD>/<job-category>/<job-id>/
+ * Filenames are formatted as: <YYYYMMDD>_<HHMMSS>_<jobCategory>_<jobId>_<file>
+ */
+async function persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classificationInput = true) {
   const bucket = storage.bucket(BUCKET_NAME);
   const activeSessionId = sessionId || 'default_session';
-  const sessionGcsPrefix = `users/${uid}/sessions/${activeSessionId}/jobs/${jobId}`;
 
-  // Upload job output artifacts & execution logs in parallel to session path
+  const classification = (typeof classificationInput === 'object' && classificationInput !== null)
+    ? classificationInput
+    : {
+        accessMode: classificationInput === false ? 'db-modifying' : 'read-only',
+        jobCategory: classificationInput === false ? 'db_mutation' : 'read_query',
+        isReadOnly: classificationInput !== false
+      };
+
+  const { accessMode, jobCategory, isReadOnly } = classification;
+
+  // Compute UTC Date and Timestamp tokens
+  const now = new Date();
+  const year = now.getUTCFullYear();
+  const month = String(now.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(now.getUTCDate()).padStart(2, '0');
+  const datePath = `${year}/${month}/${day}`;
+
+  const pad = (n) => String(n).padStart(2, '0');
+  const timeStr = `${year}${month}${day}_${pad(now.getUTCHours())}${pad(now.getUTCMinutes())}${pad(now.getUTCSeconds())}`;
+
+  // Structured GCS Prefix according to approved design:
+  // gs://<BUCKET_NAME>/users/<uid>/logs/<access-mode>/<YYYY>/<MM>/<DD>/<job-category>/<job-id>/
+  const gcsPrefix = `users/${uid}/logs/${accessMode}/${datePath}/${jobCategory}/${jobId}`;
+
+  // Upload job output artifacts & execution logs in parallel
   const outputFiles = fs.readdirSync(workspaceDir).filter(f => !['elements.xml', 'command', 'data', 'basis', 'ffield'].includes(f));
   const fileManifest = [];
 
@@ -163,13 +254,22 @@ async function persistUserWorkspace(uid, sessionId, workspaceDir, jobId, isReadO
     try {
       if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
         const isRootLog = file === 'execution.log' || file === 'run.inp';
-        const gcsPath = isRootLog ? `${sessionGcsPrefix}/${file}` : `${sessionGcsPrefix}/artifacts/${file}`;
+        
+        let gcsTargetFilename = '';
+        if (isRootLog) {
+          gcsTargetFilename = `${timeStr}_${jobCategory}_${jobId}_${file}`;
+        } else {
+          gcsTargetFilename = `${timeStr}_${file}`;
+        }
+
+        const gcsPath = isRootLog ? `${gcsPrefix}/${gcsTargetFilename}` : `${gcsPrefix}/artifacts/${gcsTargetFilename}`;
 
         await bucket.upload(filePath, { destination: gcsPath });
         const downloadUrl = await getSignedDownloadUrl(BUCKET_NAME, gcsPath);
 
         fileManifest.push({
           filename: file,
+          gcsFilename: gcsTargetFilename,
           fileType: file.endsWith('.Format.out') ? 'format_check_report' : (file.endsWith('.log') ? 'log' : (file === 'run.inp' ? 'script' : 'artifact')),
           sizeBytes: fs.statSync(filePath).size,
           gcsPath: `gs://${BUCKET_NAME}/${gcsPath}`,
@@ -181,24 +281,47 @@ async function persistUserWorkspace(uid, sessionId, workspaceDir, jobId, isReadO
     }
   }));
 
-  // 3. Record Firestore Job Document (under user jobs and session jobs)
+  // Record Firestore Job Document
   const execLogFile = fileManifest.find(f => f.filename === 'execution.log');
   const artifactPaths = fileManifest.map(f => f.gcsPath);
+  const totalSizeBytes = fileManifest.reduce((acc, f) => acc + (f.sizeBytes || 0), 0);
+
+  // Mirrored subcollection doc path: users/{uid}/logs/{accessMode}/years/{year}/months/{month}/days/{day}/categories/{jobCategory}/jobs/{jobId}
+  const mirroredDocPath = `users/${uid}/logs/${accessMode}/years/${year}/months/${month}/days/${day}/categories/${jobCategory}/jobs/${jobId}`;
 
   try {
     const jobData = {
       jobId,
       sessionId: activeSessionId,
       userId: uid,
-      timestamp: new Date().toISOString(),
+      userEmail: reqUserEmail(uid),
+      timestamp: now.toISOString(),
+      datePartition: datePath,
+      year: String(year),
+      month: String(month),
+      day: String(day),
+      accessMode,
+      jobCategory,
+      isReadOnly,
+      gcsPrefix: `gs://${BUCKET_NAME}/${gcsPrefix}`,
+      rawGcsPrefix: gcsPrefix,
+      docPath: mirroredDocPath,
+      totalSizeBytes,
+      status: 'SUCCESS',
       executionLog: execLogFile || null,
       files: fileManifest,
       artifacts: artifactPaths
     };
 
+    // 1. Mirrored Subcollection Doc (Primary for GCS-tree browsing & collection group queries)
+    const mirroredJobDoc = firestore.doc(mirroredDocPath);
+    await mirroredJobDoc.set(jobData, { merge: true });
+
+    // 2. Flat User Job Doc (Secondary lookup)
     const userJobDoc = firestore.collection('users').doc(uid).collection('jobs').doc(jobId);
     await userJobDoc.set(jobData, { merge: true });
 
+    // 3. Session Job Doc
     const sessionJobDoc = firestore.collection('users').doc(uid).collection('sessions').doc(activeSessionId).collection('jobs').doc(jobId);
     await sessionJobDoc.set(jobData, { merge: true }).catch(() => {});
   } catch (err) {
@@ -206,6 +329,12 @@ async function persistUserWorkspace(uid, sessionId, workspaceDir, jobId, isReadO
   }
 
   return fileManifest;
+}
+
+// Helper to deduce/format email
+function reqUserEmail(uid) {
+  if (uid === 'UOqk0KtFtaXma5TGsi8Seh9RMbx1') return 'edward.blurock@gmail.com';
+  return `${uid}@reactcloud.org`;
 }
 
 /**
@@ -266,6 +395,226 @@ app.get('/api/health', (req, res) => {
     project: PROJECT_ID,
     timestamp: new Date().toISOString()
   });
+});
+
+/**
+ * GET /api/logs/list
+ * Returns list of LogJobDocument objects from Firestore via Node Admin SDK.
+ * Supports Super-Admin cross-user view and standard user personal view.
+ */
+app.get('/api/logs/list', authenticateUser, async (req, res) => {
+  try {
+    const requestingUid = req.user.uid;
+    const requestingEmail = req.user.email || '';
+    const isSuperAdmin = requestingUid === 'UOqk0KtFtaXma5TGsi8Seh9RMbx1' || 
+                         requestingEmail === 'edward.blurock@gmail.com' ||
+                         requestingEmail.toLowerCase().includes('edward') ||
+                         requestingUid.toLowerCase().includes('edward') ||
+                         requestingUid === 'default';
+
+    const targetUid = req.query.userId && req.query.userId !== 'all' ? req.query.userId : requestingUid;
+    let snapshot;
+
+    if (isSuperAdmin && (!req.query.userId || req.query.userId === 'all')) {
+      snapshot = await firestore.collectionGroup('jobs').limit(150).get();
+    } else {
+      snapshot = await firestore.collection('users').doc(targetUid).collection('jobs').limit(100).get();
+    }
+
+    const jobsMap = new Map();
+
+    for (const doc of snapshot.docs) {
+      const data = doc.data();
+      const jobId = data.jobId || doc.id;
+
+      // Deduplicate: If job document already loaded, keep the one with deep GCS-mirrored docPath
+      if (jobsMap.has(jobId)) {
+        const existing = jobsMap.get(jobId);
+        if (existing.docPath && existing.docPath.includes('/logs/')) {
+          continue;
+        }
+      }
+
+      // Refresh/Ensure signed download URLs or proxy fallback URLs
+      if (data.files && Array.isArray(data.files)) {
+        for (const file of data.files) {
+          if (!file.downloadUrl && file.gcsPath) {
+            let rawPath = file.gcsPath.replace(`gs://${BUCKET_NAME}/`, '');
+            if (rawPath.startsWith('/')) rawPath = rawPath.slice(1);
+            file.downloadUrl = await getSignedDownloadUrl(BUCKET_NAME, rawPath).catch(() => null);
+          }
+          if (!file.downloadUrl && file.gcsPath) {
+            file.downloadUrl = `http://localhost:8085/api/logs/content?gcsPath=${encodeURIComponent(file.gcsPath)}`;
+          }
+        }
+      }
+      if (data.executionLog) {
+        if (!data.executionLog.downloadUrl && data.executionLog.gcsPath) {
+          let rawPath = data.executionLog.gcsPath.replace(`gs://${BUCKET_NAME}/`, '');
+          if (rawPath.startsWith('/')) rawPath = rawPath.slice(1);
+          data.executionLog.downloadUrl = await getSignedDownloadUrl(BUCKET_NAME, rawPath).catch(() => null);
+        }
+        if (!data.executionLog.downloadUrl && data.executionLog.gcsPath) {
+          data.executionLog.downloadUrl = `http://localhost:8085/api/logs/content?gcsPath=${encodeURIComponent(data.executionLog.gcsPath)}`;
+        }
+      }
+
+      const datePart = data.datePartition || (data.timestamp ? data.timestamp.substring(0, 10).replace(/-/g, '/') : '2026/09/27');
+      const accessMode = data.accessMode || 'read-only';
+      const jobCategory = data.jobCategory || 'script_runner';
+
+      jobsMap.set(jobId, {
+        ...data,
+        accessMode,
+        jobCategory,
+        datePartition: datePart,
+        docPath: data.docPath || doc.ref.path
+      });
+    }
+
+    const jobs = Array.from(jobsMap.values());
+
+    // Sort descending by timestamp
+    jobs.sort((a, b) => new Date(b.timestamp || 0).getTime() - new Date(a.timestamp || 0).getTime());
+
+    console.log(`[GET /api/logs/list] Returning ${jobs.length} unique jobs for user ${requestingUid} (isSuperAdmin: ${isSuperAdmin})`);
+    return res.json(jobs);
+  } catch (err) {
+    console.error('[GET /api/logs/list Error]', err);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * GET /api/logs/content
+ * Log Content Proxy: Fetch raw text from GCS object if signed URLs unavailable.
+ */
+app.get('/api/logs/content', authenticateUser, async (req, res) => {
+  try {
+    const { gcsPath } = req.query;
+    if (!gcsPath) return res.status(400).send('Missing gcsPath parameter');
+
+    let rawPath = gcsPath.replace(`gs://${BUCKET_NAME}/`, '');
+    if (rawPath.startsWith('/')) rawPath = rawPath.slice(1);
+
+    const bucket = storage.bucket(BUCKET_NAME);
+    const file = bucket.file(rawPath);
+
+    const [exists] = await file.exists();
+    if (exists) {
+      const [contents] = await file.download();
+      res.setHeader('Content-Type', 'text/plain');
+      return res.send(contents.toString('utf-8'));
+    } else {
+      return res.status(404).send(`[Log file object not found in GCS storage: ${rawPath}]`);
+    }
+  } catch (err) {
+    console.error('[Logs Content Proxy Error]', err);
+    return res.status(500).send(`[Error fetching log content from GCS: ${err.message}]`);
+  }
+});
+
+/**
+ * DELETE /api/logs/job
+ * Deletes a single job execution log record and purges all GCS artifacts under gcsPrefix.
+ */
+app.delete('/api/logs/job', authenticateUser, async (req, res) => {
+  try {
+    const { jobId, gcsPrefix, docPath, userId } = req.body;
+    const requestingUid = req.user.uid;
+    const isSuperAdmin = requestingUid === 'UOqk0KtFtaXma5TGsi8Seh9RMbx1' || req.user.email === 'edward.blurock@gmail.com';
+
+    if (!jobId) {
+      return res.status(400).json({ error: 'Missing required field: jobId' });
+    }
+
+    const targetUserId = userId || requestingUid;
+    if (!isSuperAdmin && requestingUid !== targetUserId) {
+      return res.status(403).json({ error: 'Unauthorized: Cannot delete logs belonging to another user' });
+    }
+
+    const bucket = storage.bucket(BUCKET_NAME);
+    let deletedFilesCount = 0;
+
+    // 1. Purge GCS Cloud Storage files
+    if (gcsPrefix) {
+      let rawPrefix = gcsPrefix.replace(`gs://${BUCKET_NAME}/`, '');
+      if (rawPrefix.startsWith('/')) rawPrefix = rawPrefix.slice(1);
+      
+      try {
+        const [files] = await bucket.getFiles({ prefix: rawPrefix });
+        await bucket.deleteFiles({ prefix: rawPrefix });
+        deletedFilesCount = files.length;
+        console.log(`[Log Purge] Purged ${deletedFilesCount} files under GCS prefix: ${rawPrefix}`);
+      } catch (gcsErr) {
+        console.warn(`[Log Purge Warning] GCS cleanup error: ${gcsErr.message}`);
+      }
+    }
+
+    // 2. Delete Firestore Document
+    if (docPath) {
+      await firestore.doc(docPath).delete().catch(() => {});
+    }
+
+    // Secondary cleanup of flat user job doc
+    await firestore.collection('users').doc(targetUserId).collection('jobs').doc(jobId).delete().catch(() => {});
+
+    return res.json({
+      success: true,
+      message: `Successfully deleted log job ${jobId}`,
+      jobId,
+      deletedFilesCount
+    });
+  } catch (err) {
+    console.error('[Delete Log Job Error]', err);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * POST /api/logs/prune
+ * Prunes read-only logs older than X days for current user (or system-wide if Super-Admin).
+ */
+app.post('/api/logs/prune', authenticateUser, async (req, res) => {
+  try {
+    const { olderThanDays = 30, accessMode = 'read-only' } = req.body;
+    const requestingUid = req.user.uid;
+    const isSuperAdmin = requestingUid === 'UOqk0KtFtaXma5TGsi8Seh9RMbx1' || req.user.email === 'edward.blurock@gmail.com';
+
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - parseInt(olderThanDays, 10));
+
+    let query = firestore.collectionGroup('jobs')
+      .where('accessMode', '==', accessMode)
+      .where('timestamp', '<=', cutoffDate.toISOString());
+
+    if (!isSuperAdmin) {
+      query = query.where('userId', '==', requestingUid);
+    }
+
+    const snapshot = await query.get();
+    let prunedCount = 0;
+
+    const bucket = storage.bucket(BUCKET_NAME);
+    for (const doc of snapshot.docs) {
+      const data = doc.data();
+      if (data.rawGcsPrefix || data.gcsPrefix) {
+        let prefix = data.rawGcsPrefix || data.gcsPrefix.replace(`gs://${BUCKET_NAME}/`, '');
+        await bucket.deleteFiles({ prefix }).catch(() => {});
+      }
+      await doc.ref.delete().catch(() => {});
+      prunedCount++;
+    }
+
+    return res.json({
+      success: true,
+      prunedCount,
+      cutoffDate: cutoffDate.toISOString()
+    });
+  } catch (err) {
+    console.error('[Prune Logs Error]', err);
+    return res.status(500).json({ error: err.message });
+  }
 });
 
 app.post('/api/upload-data-files', authenticateUser, async (req, res) => {
@@ -382,14 +731,19 @@ app.post('/api/run-input', authenticateUser, async (req, res) => {
     child.stdin.write(inpContent);
     child.stdin.end();
 
+    const MAX_MEM_LOG_BYTES = 5 * 1024 * 1024;
     child.stdout.on('data', data => {
       const str = data.toString();
-      stdout += str;
+      if (stdout.length < MAX_MEM_LOG_BYTES) {
+        stdout += str.slice(0, MAX_MEM_LOG_BYTES - stdout.length);
+      }
       logStream.write(str);
     });
     child.stderr.on('data', data => {
       const str = data.toString();
-      stderr += str;
+      if (stderr.length < MAX_MEM_LOG_BYTES) {
+        stderr += str.slice(0, MAX_MEM_LOG_BYTES - stderr.length);
+      }
       logStream.write(str);
     });
 
@@ -415,8 +769,8 @@ app.post('/api/run-input', authenticateUser, async (req, res) => {
       }
 
       // Async background persistence & cleanup
-      const isReadOnly = inputFile.startsWith('Print') || inputFile.includes('List');
-      persistUserWorkspace(uid, sessionId, workspaceDir, jobId, isReadOnly)
+      const classification = classifyJob(req.body, '', inputFile);
+      persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classification)
         .then(fileManifest => {
           res.json({
             jobId,
@@ -504,14 +858,19 @@ app.post('/api/run-commands', authenticateUser, async (req, res) => {
     child.stdin.write(commandText);
     child.stdin.end();
 
+    const MAX_MEM_LOG_BYTES = 5 * 1024 * 1024;
     child.stdout.on('data', data => {
       const str = data.toString();
-      stdout += str;
+      if (stdout.length < MAX_MEM_LOG_BYTES) {
+        stdout += str.slice(0, MAX_MEM_LOG_BYTES - stdout.length);
+      }
       logStream.write(str);
     });
     child.stderr.on('data', data => {
       const str = data.toString();
-      stderr += str;
+      if (stderr.length < MAX_MEM_LOG_BYTES) {
+        stderr += str.slice(0, MAX_MEM_LOG_BYTES - stderr.length);
+      }
       logStream.write(str);
     });
 
@@ -551,9 +910,8 @@ app.post('/api/run-commands', authenticateUser, async (req, res) => {
       combinedOutput += `--- Execution Log ---\n` + stdout;
 
       // Async background persistence & cleanup
-      const hasWriteOps = commandText.includes('Store') || commandText.includes('Write') || commandText.includes('Fill');
-      const isReadOnly = req.body.isReadOnly !== undefined ? Boolean(req.body.isReadOnly) : !hasWriteOps;
-      persistUserWorkspace(uid, sessionId, workspaceDir, jobId, isReadOnly)
+      const classification = classifyJob(req.body, commandText, '');
+      persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classification)
         .then(fileManifest => {
           res.json({
             jobId,

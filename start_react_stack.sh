@@ -155,8 +155,9 @@ else
         npm install
     fi
     
-    PORT=${ORCH_PORT} REACTROOT="${REACTROOT}" CCROOT="${CCROOT}" node server.js > "${ORCH_LOG}" 2>&1 &
+    PORT=${ORCH_PORT} REACTROOT="${REACTROOT}" CCROOT="${CCROOT}" nohup node server.js > "${ORCH_LOG}" 2>&1 &
     ORCH_PID=$!
+    disown $ORCH_PID 2>/dev/null || true
     echo "  Spawned Orchestrator (PID: ${ORCH_PID}), logging to ${ORCH_LOG}"
     
     # Wait for health endpoint
@@ -184,8 +185,9 @@ else
         npm install
     fi
     
-    npm start > "${FRONTEND_LOG}" 2>&1 &
+    nohup npm start > "${FRONTEND_LOG}" 2>&1 &
     FRONTEND_PID=$!
+    disown $FRONTEND_PID 2>/dev/null || true
     echo "  Spawned REACTInterface Frontend (PID: ${FRONTEND_PID}), logging to ${FRONTEND_LOG}"
     echo "  (Frontend compilation usually takes ~10-15 seconds)"
 fi

@@ -12,8 +12,8 @@
     </mat-card-content>
 
     <mat-card-actions class="banner-actions">
-      <button mat-raised-button color="primary" (click)="loadTaskData()" [disabled]="isLoading">
-        <mat-icon>play_arrow</mat-icon> Run Task API (Registry)
+      <button mat-raised-button color="primary" (click)="loadTaskData(true)" [disabled]="isLoading">
+        <mat-icon>refresh</mat-icon> Refresh Catalog List
       </button>
       <span class="spacer"></span>
       <span class="item-count-badge" *ngIf="items.length > 0">

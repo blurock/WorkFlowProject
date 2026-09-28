@@ -12,11 +12,11 @@ export class MechanismsService extends BaseCatalogService {
     super(apiService);
   }
 
-  public getCatalogList(rootName: string = 'job1'): Observable<CatalogItem[]> {
-    return this.fetchCatalogList('mechanisms', rootName);
+  public getCatalogList(rootName: string = 'job1', forceRefresh: boolean = false): Observable<CatalogItem[]> {
+    return this.fetchCatalogList('mechanisms', rootName, forceRefresh);
   }
 
-  public getItemDetails(itemName: string, rootName: string = 'job1'): Observable<string> {
-    return this.fetchItemDetails('mechanisms', itemName, rootName);
+  public getItemDetails(itemName: string, rootName: string = 'job1', forceRefresh: boolean = false): Observable<string> {
+    return this.fetchItemDetails('mechanisms', itemName, rootName, forceRefresh);
   }
 }

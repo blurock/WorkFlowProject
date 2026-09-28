@@ -125,18 +125,18 @@ export class TaskListViewComponent implements OnChanges {
       this.moleculeSections = [];
       this.currentSdfContent = null;
       this.selectedTabIndex = 0;
-      this.loadTaskData();
+      this.loadTaskData(false);
     }
   }
 
-  public loadTaskData(): void {
+  public loadTaskData(forceRefresh: boolean = false): void {
     if (!this.task) return;
 
     this.isLoading = true;
     this.errorMessage = null;
 
     const catalogService = this.catalogServiceRegistry.getServiceForTask(this.task.id);
-    catalogService.getCatalogList().subscribe({
+    catalogService.getCatalogList('job1', forceRefresh).subscribe({
       next: (parsedItems) => {
         this.items = (parsedItems || []).sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
         this.isLoading = false;
@@ -154,7 +154,7 @@ export class TaskListViewComponent implements OnChanges {
     });
   }
 
-  public onItemClick(item: CatalogItem): void {
+  public onItemClick(item: CatalogItem, forceRefresh: boolean = false): void {
     this.selectedItem = item;
     this.itemDetailOutput = null;
     this.moleculeSections = [];
@@ -167,7 +167,7 @@ export class TaskListViewComponent implements OnChanges {
     });
 
     const catalogService = this.catalogServiceRegistry.getServiceForTask(this.task.id);
-    catalogService.getItemDetails(item.name).subscribe({
+    catalogService.getItemDetails(item.name, 'job1', forceRefresh).subscribe({
       next: (detailOutput) => {
         this.itemDetailOutput = detailOutput;
         this.currentSdfContent = this.chemParser.extractSdfContent(detailOutput);

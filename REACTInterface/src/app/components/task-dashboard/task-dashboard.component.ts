@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,6 +25,7 @@ import { GenericFileInputComponent } from '../generic-file-input/generic-file-in
   standalone: true,
   imports: [
     CommonModule,
+    RouterLink,
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
