@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable, map, switchMap } from 'rxjs';
 import { CommandTemplatesRegistry } from '../templates/command-templates.registry';
 
 export interface CatalogItem {
@@ -99,6 +99,44 @@ export class ReactCloudApiService {
   constructor(private http: HttpClient) {}
 
   /**
+   * Request GCS V4 Signed Upload URL for direct frontend client file streaming obeying taxonomy path:
+   * gs://<BUCKET>/users/<UID>/data/<category>/<subcategory>/<filename>
+   */
+  public getSignedUploadUrl(filename: string, targetDir?: string, contentType?: string): Observable<{
+    success: boolean;
+    uploadUrl: string;
+    gcsPath: string;
+    relativePath: string;
+    category: string;
+    subcategory: string;
+    categoryPath: string;
+    filename: string;
+  }> {
+    const payload = { filename, targetDir, contentType };
+    return this.http.post<any>(`${this.baseUrl}/api/upload/get-signed-url`, payload);
+  }
+
+  /**
+   * Direct Client-to-GCS File Upload via Signed Upload URL
+   */
+  public uploadFileDirectToGcs(file: File, targetDir?: string): Observable<{ gcsPath: string; relativePath: string; category: string; subcategory: string }> {
+    return this.getSignedUploadUrl(file.name, targetDir, file.type || 'application/octet-stream').pipe(
+      switchMap(res => {
+        return this.http.put(res.uploadUrl, file, {
+          headers: { 'Content-Type': file.type || 'application/octet-stream' }
+        }).pipe(
+          map(() => ({
+            gcsPath: res.gcsPath,
+            relativePath: res.relativePath,
+            category: res.category,
+            subcategory: res.subcategory
+          }))
+        );
+      })
+    );
+  }
+
+  /**
    * Legacy file-based template execution (/api/run-input)
    */
   public runInputTask(inpFile: string, rootName: string = 'job1'): Observable<CatalogItem[]> {
@@ -125,6 +163,7 @@ export class ReactCloudApiService {
     return this.http.post<{ success: boolean; targetDir: string; files: any[] }>(`${this.baseUrl}/api/upload-data-files`, payload);
   }
 
+
   /**
    * Run input file task with custom replacements map
    */
@@ -140,7 +179,7 @@ export class ReactCloudApiService {
   /**
    * New Option A Stateless Memory-Piped execution (/api/run-commands)
    */
-  public runCommands(commands: string[], rootName: string = 'job1', targetItem?: string, taskId?: string): Observable<ApiRunCommandsResponse> {
+  public runCommands(commands: string[], rootName: string = 'job1', targetItem?: string, taskId?: string, fileUrl?: string, fileName?: string): Observable<ApiRunCommandsResponse> {
     const payload: any = {
       commands: commands,
       root: rootName
@@ -151,8 +190,21 @@ export class ReactCloudApiService {
     if (taskId) {
       payload.taskId = taskId;
     }
+    if (fileUrl) {
+      payload.fileUrl = fileUrl;
+    }
+    if (fileName) {
+      payload.fileName = fileName;
+    }
 
     return this.http.post<ApiRunCommandsResponse>(`${this.baseUrl}/api/run-commands`, payload);
+  }
+
+  /**
+   * Resolve GCS URI (gs://...) or HTTPS URL and cache locally in user session disk
+   */
+  public resolveFileLink(fileUrl: string, fileName?: string): Observable<{ success: boolean; file: any }> {
+    return this.http.post<{ success: boolean; file: any }>(`${this.baseUrl}/api/resolve-file-link`, { fileUrl, fileName });
   }
 
   /**
@@ -173,10 +225,11 @@ export class ReactCloudApiService {
   /**
    * Run generic task using CommandTemplatesRegistry (Stateless memory-piped)
    */
-  public runTaskWithRegistry(taskId: string, rootName: string = 'job1'): Observable<ApiRunCommandsResponse> {
+  public runTaskWithRegistry(taskId: string, rootName: string = 'job1', fileUrl?: string, fileName?: string): Observable<ApiRunCommandsResponse> {
     const commands = CommandTemplatesRegistry.getTaskCommands(taskId, rootName);
-    return this.runCommands(commands, rootName, undefined, taskId);
+    return this.runCommands(commands, rootName, undefined, taskId, fileUrl, fileName);
   }
+
 
 
   /**

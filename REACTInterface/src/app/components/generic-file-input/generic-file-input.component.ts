@@ -116,6 +116,7 @@ export class GenericFileInputComponent implements OnInit {
   @Input() config!: GenericFileInputConfig;
 
   public rootName: string = '';
+  public customFileUrl: string = '';
   public fileItems: SelectedFileItem[] = [];
   public isUploading: boolean = false;
   public isExecuting: boolean = false;
@@ -220,8 +221,10 @@ export class GenericFileInputComponent implements OnInit {
 
   public isFormValid(): boolean {
     if (!this.rootName.trim()) return false;
+    if (this.customFileUrl && this.customFileUrl.trim()) return true;
     return this.fileItems.every(item => item.slot.required ? item.isValid : true);
   }
+
 
   public parseMoleculesFromLog(logText: string): ParsedMolecule[] {
     if (!logText) return [];
@@ -396,34 +399,47 @@ export class GenericFileInputComponent implements OnInit {
     if (!this.isFormValid()) return;
 
     this.isUploading = true;
-    this.statusMessage = 'Uploading file & persisting to Cloud Storage data directory...';
+    this.statusMessage = 'Processing file input & resolving Cloud Storage link...';
     this.errorMessage = '';
     this.taskOutput = '';
     this.parsedMolecules = [];
     this.selectedMolecule = null;
 
     try {
-      // 1. Prepare files payload
-      const uploadPayload = this.fileItems
-        .filter(item => item.file && item.content !== null)
-        .map(item => ({
-          filename: item.expectedFilename,
-          content: item.content as string
-        }));
+      let resolvedFileUrl = this.customFileUrl ? this.customFileUrl.trim() : '';
+      let primaryFileName = '';
 
-      // 2. Upload to Cloud Storage & Session Cache via API
-      const uploadRes = await this.reactCloudApi.uploadUserDataFiles(this.config.targetDirectory, uploadPayload).toPromise();
-      console.log('[GenericFileInput] Upload response:', uploadRes);
+      if (!resolvedFileUrl) {
+        // 1. Prepare files payload from local files
+        const uploadPayload = this.fileItems
+          .filter(item => item.file && item.content !== null)
+          .map(item => ({
+            filename: item.expectedFilename,
+            content: item.content as string
+          }));
 
-      const gcsPaths = uploadRes?.files?.map(f => f.gcsPath || f.filename).join(', ') || '';
+        if (uploadPayload.length > 0) {
+          primaryFileName = uploadPayload[0].filename;
+          const uploadRes = await this.reactCloudApi.uploadUserDataFiles(this.config.targetDirectory, uploadPayload).toPromise();
+          console.log('[GenericFileInput] Upload response:', uploadRes);
+          if (uploadRes?.files && uploadRes.files.length > 0) {
+            resolvedFileUrl = uploadRes.files[0].gcsPath || '';
+          }
+        }
+      }
+
       this.isUploading = false;
       this.isExecuting = true;
-      this.statusMessage = `Persisted to Cloud Storage (${gcsPaths})! Executing task '${this.config.taskId}' via Command Templates Registry...`;
+      this.statusMessage = resolvedFileUrl 
+        ? `Resolving Cloud Storage file link (${resolvedFileUrl})... Executing task '${this.config.taskId}'...`
+        : `Executing task '${this.config.taskId}' via Command Templates Registry...`;
 
-      // 3. Execute Task using CommandTemplatesRegistry (stateless memory-piped execution)
+      // 2. Execute Task passing fileUrl link metadata to Orchestrator
       const taskRes = await this.reactCloudApi.runTaskWithRegistry(
         this.config.taskId,
-        this.rootName.trim()
+        this.rootName.trim(),
+        resolvedFileUrl || undefined,
+        primaryFileName || undefined
       ).toPromise();
 
       this.isExecuting = false;

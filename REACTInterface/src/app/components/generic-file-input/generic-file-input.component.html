@@ -40,8 +40,22 @@
       </mat-form-field>
     </div>
 
+    <!-- Cloud Storage / External Link Field (Optional) -->
+    <div class="section-card">
+      <div class="section-title">
+        <mat-icon>cloud_queue</mat-icon>
+        <span>Cloud Storage / External File Link (Optional)</span>
+      </div>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Cloud Storage URI (gs://...) or HTTPS Link (https://...)</mat-label>
+        <input matInput [(ngModel)]="customFileUrl" placeholder="gs://blurock-database.firebasestorage.app/users/.../molecules.sdf">
+        <mat-hint>If provided, the backend orchestrator will download & cache the file directly from Cloud Storage.</mat-hint>
+      </mat-form-field>
+    </div>
+
     <!-- Step 2: File Slots Selection & Preview -->
     <div class="section-card">
+
       <div class="section-title">
         <mat-icon>folder_open</mat-icon>
         <span>Required Dataset Files (Target Directory: <code>data/{{ config.targetDirectory }}</code>)</span>

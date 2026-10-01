@@ -2,6 +2,9 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
+const http = require('http');
+const https = require('https');
 const { spawn } = require('child_process');
 const admin = require('firebase-admin');
 const { Storage } = require('@google-cloud/storage');
@@ -163,6 +166,208 @@ async function getSignedDownloadUrl(bucketName, gcsPath, expiresInHours = 168) {
 }
 
 /**
+ * GCS Storage Directory Taxonomy Resolver
+ * Standardized directory structure:
+ * gs://<BUCKET>/users/{UID}/data/{category}/{subcategory}/{filename}
+ *
+ * Categories & Subcategories:
+ * - mols/subs (Substructures: .sdf, .mol, .lst)
+ * - mols/structures (3D/2D Molecular graphs: .sdf, .mol, .xyz)
+ * - thermo/benson (Benson thermo datasets: .dat, .csv, .json, .thm)
+ * - thermo/nasa (NASA thermo datasets: .inp, .dat, .txt)
+ * - kinetics/mechanisms (Reaction mechanisms: .inp, .mech, .yaml, .rxn)
+ * - datasets/general (General tabular datasets)
+ */
+function getGcsTaxonomyInfo(uid, filename = '', targetDir = '') {
+  const cleanDir = targetDir ? targetDir.toLowerCase().replace(/^\/+|\/+$/g, '') : '';
+  const nameLower = filename ? filename.toLowerCase() : '';
+  const ext = filename ? path.extname(filename).toLowerCase() : '';
+
+  let category = 'datasets';
+  let subcategory = 'general';
+
+  if (cleanDir.includes('subs') || nameLower.includes('substructure') || cleanDir.includes('substructure')) {
+    category = 'mols';
+    subcategory = 'subs';
+  } else if (cleanDir.includes('mol') || ext === '.sdf' || ext === '.mol' || ext === '.xyz') {
+    category = 'mols';
+    subcategory = 'structures';
+  } else if (cleanDir.includes('benson') || nameLower.includes('benson')) {
+    category = 'thermo';
+    subcategory = 'benson';
+  } else if (cleanDir.includes('nasa') || nameLower.includes('nasa')) {
+    category = 'thermo';
+    subcategory = 'nasa';
+  } else if (cleanDir.includes('thermo') || ext === '.thm') {
+    category = 'thermo';
+    subcategory = 'benson';
+  } else if (cleanDir.includes('mech') || cleanDir.includes('kinetics') || nameLower.includes('pattern') || ext === '.rxn' || ext === '.mech') {
+    category = 'kinetics';
+    subcategory = 'mechanisms';
+  } else if (cleanDir) {
+    const parts = cleanDir.split('/');
+    if (parts.length >= 2) {
+      category = parts[0];
+      subcategory = parts[1];
+    } else {
+      category = cleanDir;
+      subcategory = 'general';
+    }
+  }
+
+  const categoryPath = `${category}/${subcategory}`;
+  const relGcsPath = filename ? `users/${uid}/data/${categoryPath}/${filename}` : `users/${uid}/data/${categoryPath}`;
+  const fullGcsUri = `gs://${BUCKET_NAME}/${relGcsPath}`;
+
+  return {
+    category,
+    subcategory,
+    categoryPath,
+    relGcsPath,
+    fullGcsUri
+  };
+}
+
+/**
+ * Resolves a file link (gs:// URI or http(s):// URL) and caches it in local session disk
+ * cache (/tmp/reactcloud/users/{uid}/cache/data/{targetFilename})
+ */
+
+async function resolveAndCacheInputFile(uid, fileUrl, customFileName = '') {
+  if (!fileUrl || typeof fileUrl !== 'string') return null;
+
+  const userCacheDataDir = path.join('/tmp', 'reactcloud', 'users', uid, 'cache', 'data');
+  fs.mkdirSync(userCacheDataDir, { recursive: true });
+
+  let targetFileName = customFileName ? customFileName.trim() : '';
+  if (!targetFileName) {
+    try {
+      const urlObj = new URL(fileUrl.startsWith('gs://') ? `https://dummy/${fileUrl.replace('gs://', '')}` : fileUrl);
+      targetFileName = path.basename(urlObj.pathname);
+    } catch (e) {
+      targetFileName = `file_${Date.now()}`;
+    }
+  }
+
+  const localFilePath = path.join(userCacheDataDir, targetFileName);
+  const taxonomy = getGcsTaxonomyInfo(uid, targetFileName);
+
+  if (fileUrl.startsWith('gs://')) {
+    const rawPath = fileUrl.replace('gs://', '');
+    const slashIdx = rawPath.indexOf('/');
+    const bucketName = slashIdx > 0 ? rawPath.substring(0, slashIdx) : BUCKET_NAME;
+    const objectPath = slashIdx > 0 ? rawPath.substring(slashIdx + 1) : rawPath;
+
+    const file = storage.bucket(bucketName).file(objectPath);
+    let metadata = null;
+    try {
+      const [meta] = await file.getMetadata();
+      metadata = meta;
+    } catch (metaErr) {
+      console.warn(`[GCS Metadata Fetch Warning] ${fileUrl}: ${metaErr.message}`);
+    }
+
+    // Check MD5 cache match if local file already exists
+    if (fs.existsSync(localFilePath) && metadata && metadata.md5Hash) {
+      const existingBuf = fs.readFileSync(localFilePath);
+      const existingMd5 = crypto.createHash('md5').update(existingBuf).digest('base64');
+      if (existingMd5 === metadata.md5Hash) {
+        console.log(`[File Link Cache Hit] ${targetFileName} matches GCS MD5 (${metadata.md5Hash})`);
+        const downloadUrl = await getSignedDownloadUrl(bucketName, objectPath);
+        return {
+          fileName: targetFileName,
+          localFilePath,
+          fileSource: 'gcs',
+          fileUrl,
+          downloadUrl,
+          gcsPath: fileUrl,
+          category: taxonomy.category,
+          subcategory: taxonomy.subcategory,
+          categoryPath: taxonomy.categoryPath,
+          sizeBytes: metadata.size ? Number(metadata.size) : fs.statSync(localFilePath).size,
+          md5Hash: metadata.md5Hash
+        };
+      }
+    }
+
+    // Download from GCS
+    await file.download({ destination: localFilePath });
+    console.log(`[File Link Downloaded] Saved GCS ${fileUrl} -> ${localFilePath}`);
+    const downloadUrl = await getSignedDownloadUrl(bucketName, objectPath);
+
+    // Auto-create matching companion files for .lst files
+    if (targetFileName.endsWith('.lst')) {
+      const rootBase = targetFileName.replace(/\.lst$/, '');
+      const molPath = path.join(userCacheDataDir, `${rootBase}.mol`);
+      const sdfPath = path.join(userCacheDataDir, `${rootBase}.sdf`);
+      if (!fs.existsSync(molPath)) fs.writeFileSync(molPath, `1 ${rootBase}\n`);
+      if (!fs.existsSync(sdfPath)) fs.writeFileSync(sdfPath, `${rootBase}\n  -OEChem-\n\n  0  0  0     0  0  0  0  0  0999 V2000\nM  END\n$$$$\n`);
+    }
+
+    return {
+      fileName: targetFileName,
+      localFilePath,
+      fileSource: 'gcs',
+      fileUrl,
+      downloadUrl,
+      gcsPath: fileUrl,
+      category: taxonomy.category,
+      subcategory: taxonomy.subcategory,
+      categoryPath: taxonomy.categoryPath,
+      sizeBytes: fs.statSync(localFilePath).size,
+      md5Hash: metadata ? metadata.md5Hash : null
+    };
+  } else if (fileUrl.startsWith('http://') || fileUrl.startsWith('https://')) {
+    const client = fileUrl.startsWith('https://') ? https : http;
+    await new Promise((resolve, reject) => {
+      client.get(fileUrl, (res) => {
+        if (res.statusCode >= 400) {
+          return reject(new Error(`Failed to download URL: HTTP status ${res.statusCode}`));
+        }
+        const fileStream = fs.createWriteStream(localFilePath);
+        res.pipe(fileStream);
+        fileStream.on('finish', () => {
+          fileStream.close();
+          resolve();
+        });
+        fileStream.on('error', (err) => {
+          fs.unlink(localFilePath, () => {});
+          reject(err);
+        });
+      }).on('error', (err) => reject(err));
+    });
+
+    console.log(`[URL Downloaded] Saved HTTP ${fileUrl} -> ${localFilePath}`);
+
+    // Auto-create matching companion files for .lst files
+    if (targetFileName.endsWith('.lst')) {
+      const rootBase = targetFileName.replace(/\.lst$/, '');
+      const molPath = path.join(userCacheDataDir, `${rootBase}.mol`);
+      const sdfPath = path.join(userCacheDataDir, `${rootBase}.sdf`);
+      if (!fs.existsSync(molPath)) fs.writeFileSync(molPath, `1 ${rootBase}\n`);
+      if (!fs.existsSync(sdfPath)) fs.writeFileSync(sdfPath, `${rootBase}\n  -OEChem-\n\n  0  0  0     0  0  0  0  0  0999 V2000\nM  END\n$$$$\n`);
+    }
+
+    return {
+      fileName: targetFileName,
+      localFilePath,
+      fileSource: 'url',
+      fileUrl,
+      downloadUrl: fileUrl,
+      gcsPath: taxonomy.fullGcsUri,
+      category: taxonomy.category,
+      subcategory: taxonomy.subcategory,
+      categoryPath: taxonomy.categoryPath,
+      sizeBytes: fs.statSync(localFilePath).size
+    };
+  }
+
+
+  return null;
+}
+
+
+/**
  * Job Classification & Access Mode Helper
  * Analyzes request payload, input templates, and command strings to determine:
  * - accessMode: 'db-modifying' | 'read-only'
@@ -235,7 +440,7 @@ function classifyJob(reqBody = {}, commandText = '', inputFile = '') {
  * users/<uid>/logs/<access-mode>/<YYYY>/<MM>/<DD>/<job-category>/<job-id>/
  * Filenames are formatted as: <YYYYMMDD>_<HHMMSS>_<jobCategory>_<jobId>_<file>
  */
-async function persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classificationInput = true) {
+async function persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classificationInput = true, inputFileManifest = []) {
   const bucket = storage.bucket(BUCKET_NAME);
   const activeSessionId = sessionId || 'default_session';
 
@@ -326,10 +531,12 @@ async function persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classif
       docPath: mirroredDocPath,
       totalSizeBytes,
       status: 'SUCCESS',
+      inputFiles: Array.isArray(inputFileManifest) ? inputFileManifest : [],
       executionLog: execLogFile || null,
       files: fileManifest,
       artifacts: artifactPaths
     };
+
 
     // 1. Mirrored Subcollection Doc (Primary for GCS-tree browsing & collection group queries)
     const mirroredJobDoc = firestore.doc(mirroredDocPath);
@@ -732,6 +939,48 @@ app.post('/api/logs/prune', authenticateUser, async (req, res) => {
   }
 });
 
+/**
+ * POST /api/upload/get-signed-url
+ * Generates a GCS V4 Signed Upload URL for direct frontend client uploads to GCS
+ * obeying the Target GCS Taxonomy Path: users/{uid}/data/{category}/{subcategory}/{filename}
+ */
+app.post('/api/upload/get-signed-url', authenticateUser, async (req, res) => {
+  try {
+    const { filename, targetDir, categoryPath, contentType } = req.body || {};
+    const uid = req.user.uid;
+
+    if (!filename) {
+      return res.status(400).json({ error: 'filename parameter is required' });
+    }
+
+    const taxonomy = getGcsTaxonomyInfo(uid, filename, categoryPath || targetDir);
+    const bucket = storage.bucket(BUCKET_NAME);
+    const file = bucket.file(taxonomy.relGcsPath);
+
+    // Generate V4 signed URL for PUT action (15-minute expiration)
+    const [uploadUrl] = await file.getSignedUrl({
+      version: 'v4',
+      action: 'write',
+      expires: Date.now() + 15 * 60 * 1000,
+      contentType: contentType || 'application/octet-stream'
+    });
+
+    return res.json({
+      success: true,
+      uploadUrl,
+      gcsPath: taxonomy.fullGcsUri,
+      relativePath: taxonomy.relGcsPath,
+      category: taxonomy.category,
+      subcategory: taxonomy.subcategory,
+      categoryPath: taxonomy.categoryPath,
+      filename
+    });
+  } catch (err) {
+    console.error('[Get Signed Upload URL Error]', err);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
 app.post('/api/upload-data-files', authenticateUser, async (req, res) => {
   try {
     const { targetDir, files } = req.body || {};
@@ -742,9 +991,8 @@ app.post('/api/upload-data-files', authenticateUser, async (req, res) => {
     }
 
     const userCacheDir = path.join('/tmp', 'reactcloud', 'users', uid, 'cache');
-    const cleanTargetDir = (targetDir && targetDir !== '.') ? path.normalize(targetDir).replace(/^\/+|\/+$/g, '') : '';
-    const userCacheTargetDir = cleanTargetDir ? path.join(userCacheDir, 'data', cleanTargetDir) : path.join(userCacheDir, 'data');
-    fs.mkdirSync(userCacheTargetDir, { recursive: true });
+    const userCacheDataDir = path.join(userCacheDir, 'data');
+    fs.mkdirSync(userCacheDataDir, { recursive: true });
 
     const bucket = storage.bucket(BUCKET_NAME);
     const uploadedResults = [];
@@ -752,18 +1000,32 @@ app.post('/api/upload-data-files', authenticateUser, async (req, res) => {
     for (const f of files) {
       if (!f.filename || f.content === undefined) continue;
 
-      const localPath = path.join(userCacheTargetDir, f.filename);
+      const taxonomy = getGcsTaxonomyInfo(uid, f.filename, targetDir);
+      
+      // Save locally in root data dir AND taxonomy subdirectory
+      const localPath = path.join(userCacheDataDir, f.filename);
       fs.writeFileSync(localPath, f.content);
 
-      const relGcsPath = cleanTargetDir ? `users/${uid}/data/${cleanTargetDir}/${f.filename}` : `users/${uid}/data/${f.filename}`;
+      const taxonomyLocalDir = path.join(userCacheDataDir, taxonomy.categoryPath);
+      fs.mkdirSync(taxonomyLocalDir, { recursive: true });
+      fs.writeFileSync(path.join(taxonomyLocalDir, f.filename), f.content);
+
+      const relGcsPath = taxonomy.relGcsPath;
       try {
         await bucket.upload(localPath, { destination: relGcsPath });
-        console.log(`[Data Upload] Saved ${f.filename} to Cloud Storage: ${relGcsPath}`);
-        uploadedResults.push({ filename: f.filename, gcsPath: `gs://${BUCKET_NAME}/${relGcsPath}` });
+        console.log(`[Taxonomy Data Upload] Saved ${f.filename} to GCS Path: ${relGcsPath}`);
+        uploadedResults.push({
+          filename: f.filename,
+          gcsPath: taxonomy.fullGcsUri,
+          relativePath: relGcsPath,
+          category: taxonomy.category,
+          subcategory: taxonomy.subcategory
+        });
       } catch (err) {
         console.warn(`[GCS Data Upload Warning] ${f.filename}: ${err.message}`);
         uploadedResults.push({ filename: f.filename, localOnly: true, warning: err.message });
       }
+
 
       // Auto-create matching companion .mol and .sdf files if missing to prevent chemdb RECOVER file missing errors
       if (f.filename.endsWith('.lst')) {
@@ -794,6 +1056,27 @@ app.post('/api/upload-data-files', authenticateUser, async (req, res) => {
   }
 });
 
+app.post('/api/resolve-file-link', authenticateUser, async (req, res) => {
+  try {
+    const { fileUrl, fileName } = req.body || {};
+    const uid = req.user.uid;
+
+    if (!fileUrl) {
+      return res.status(400).json({ error: 'fileUrl parameter is required' });
+    }
+
+    const resolved = await resolveAndCacheInputFile(uid, fileUrl, fileName);
+    if (!resolved) {
+      return res.status(400).json({ error: 'Unsupported or unresolvable file link format' });
+    }
+
+    return res.json({ success: true, file: resolved });
+  } catch (err) {
+    console.error('[Resolve File Link Error]', err);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
 app.post('/api/run-input', authenticateUser, async (req, res) => {
   const { inputFile, root, replacements } = req.body;
   const uid = req.user.uid;
@@ -805,7 +1088,20 @@ app.post('/api/run-input', authenticateUser, async (req, res) => {
   console.log(`[Job Start] ${jobId} (Session: ${sessionId}) for User ${uid}`);
 
   try {
+    // Resolve any input file link (GCS or HTTPS) into user session cache prior to workspace hydration
+    const inputFileManifest = [];
+    const incomingFileUrl = req.body.fileUrl || req.body.inputFileUrl || req.body.gcsUrl;
+    if (incomingFileUrl) {
+      try {
+        const resolved = await resolveAndCacheInputFile(uid, incomingFileUrl, req.body.fileName);
+        if (resolved) inputFileManifest.push(resolved);
+      } catch (linkErr) {
+        console.warn(`[File Link Ingestion Warning] ${linkErr.message}`);
+      }
+    }
+
     await hydrateUserWorkspace(uid, workspaceDir);
+
 
     // Locate or copy template input file
     let inpContent = '';
@@ -891,7 +1187,7 @@ app.post('/api/run-input', authenticateUser, async (req, res) => {
 
       // Async background persistence & cleanup
       const classification = classifyJob(req.body, '', inputFile);
-      persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classification)
+      persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classification, inputFileManifest)
         .then(fileManifest => {
           res.json({
             jobId,
@@ -937,7 +1233,20 @@ app.post('/api/run-commands', authenticateUser, async (req, res) => {
   const startTime = Date.now();
 
   try {
+    // Resolve any input file link (GCS or HTTPS) into user session cache prior to workspace hydration
+    const inputFileManifest = [];
+    const incomingFileUrl = req.body.fileUrl || req.body.inputFileUrl || req.body.gcsUrl;
+    if (incomingFileUrl) {
+      try {
+        const resolved = await resolveAndCacheInputFile(uid, incomingFileUrl, req.body.fileName);
+        if (resolved) inputFileManifest.push(resolved);
+      } catch (linkErr) {
+        console.warn(`[File Link Ingestion Warning] ${linkErr.message}`);
+      }
+    }
+
     await hydrateUserWorkspace(uid, workspaceDir);
+
 
     const commandText = Array.isArray(commands) ? commands.join('\n') : (commands || '');
     const jobInpFile = path.join(workspaceDir, 'run.inp');
@@ -1045,7 +1354,7 @@ app.post('/api/run-commands', authenticateUser, async (req, res) => {
 
       // Async background GCS persistence & cleanup
       const classification = classifyJob(req.body, commandText, '');
-      persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classification)
+      persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classification, inputFileManifest)
         .catch(err => {
           console.warn(`[GCS Persist Warning] ${err.message}`);
         })
