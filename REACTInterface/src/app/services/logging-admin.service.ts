@@ -293,7 +293,8 @@ export class LoggingAdminService {
         jobId: job.jobId,
         gcsPrefix: job.rawGcsPrefix || job.gcsPrefix,
         docPath: job.docPath,
-        userId: job.userId
+        userId: job.userId,
+        sessionId: job.sessionId
       }
     }).pipe(
       map(res => {
@@ -305,6 +306,28 @@ export class LoggingAdminService {
       }),
       catchError(err => {
         console.error('[LoggingAdminService] Delete job error:', err);
+        return of({ success: false, message: err.error?.error || err.message });
+      })
+    );
+  }
+
+  /**
+   * Purge all execution logs, session jobs, and GCS artifacts
+   */
+  public purgeAllLogs(userId?: string): Observable<{ success: boolean; message?: string; deletedDocsCount?: number }> {
+    return this.http.post<{ success: boolean; message?: string; deletedDocsCount?: number }>(
+      `${this.baseUrl}/api/logs/purge-all`,
+      { targetUserId: userId || (this.isSuperAdmin() ? 'all' : undefined) },
+      { headers: this.getAuthHeaders() }
+    ).pipe(
+      map(res => {
+        if (res.success) {
+          this.clearCache();
+        }
+        return res;
+      }),
+      catchError(err => {
+        console.error('[LoggingAdminService] Purge all logs error:', err);
         return of({ success: false, message: err.error?.error || err.message });
       })
     );

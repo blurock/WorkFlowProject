@@ -31,6 +31,7 @@ export class LoggingAdminComponent implements OnInit {
   public isLoadingFileContent = signal<boolean>(false);
   public activeTab = signal<'document' | 'files' | 'artifacts'>('document');
   public deleteConfirmJob = signal<LogJobDocument | null>(null);
+  public showPurgeAllModal = signal<boolean>(false);
   public copySuccess = signal<boolean>(false);
 
   // Filter Signals
@@ -153,11 +154,35 @@ export class LoggingAdminComponent implements OnInit {
             this.selectedJob.set(null);
           }
           this.deleteConfirmJob.set(null);
-          this.loadLogs();
+          this.loadLogs(true);
         } else {
           alert(`Failed to delete log: ${res.message || 'Unknown error'}`);
           this.deleteConfirmJob.set(null);
         }
+      }
+    });
+  }
+
+  public promptPurgeAll(): void {
+    this.showPurgeAllModal.set(true);
+  }
+
+  public cancelPurgeAll(): void {
+    this.showPurgeAllModal.set(false);
+  }
+
+  public confirmPurgeAll(): void {
+    this.isLoading.set(true);
+    this.loggingService.purgeAllLogs().subscribe({
+      next: (res) => {
+        this.showPurgeAllModal.set(false);
+        this.selectedJob.set(null);
+        this.loadLogs(true);
+      },
+      error: (err) => {
+        alert(`Failed to purge all logs: ${err.message || 'Unknown error'}`);
+        this.showPurgeAllModal.set(false);
+        this.isLoading.set(false);
       }
     });
   }

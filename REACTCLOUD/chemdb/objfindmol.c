@@ -518,3 +518,114 @@ extern INT SubStructureEquivalence(VOID mol1, VOID mol2) {
 
   return (out);
 }
+
+/*F ret = StructureExistsInDatabase(bind, classid)
+**
+**  DESCRIPTION
+**    Checks existence of currently loaded molecules or substructures in the database.
+**    Uses DetermineDatabaseCorrespondence to find database IDs.
+**    Outputs results to stdout and to an output file (<MolOutDir>/<MolOutName>_Existence.out).
+*/
+static INT StructureExistsInDatabase(BindStructure *bind, INT classid) {
+  CommandMaster *commandmaster;
+  MoleculeSet *set;
+  DataSubSet *corrset;
+  FILE *out;
+  INT i, found_count = 0, missing_count = 0;
+  const char *type_name = (classid == MOLECULE_DATABASE) ? "Molecule" : "Substructure";
+  INT bind_key = (classid == MOLECULE_DATABASE) ? BIND_CURRENT_MOLECULES : BIND_CURRENT_SUBSTRUCTURES;
+
+  commandmaster = GetBoundStructure(bind, BIND_COMMANDMASTER);
+  out = OpenWriteFileFromCurrent("MolOutDir", "MolOutName", "Existence.out", IGNORE,
+                                 "Structure Database Existence Check", commandmaster);
+
+  set = GetBoundStructure(bind, bind_key);
+  if (set == NULL || set->NumberOfMolecules == 0 || set->Molecules == NULL) {
+    printf("No %s set currently loaded in memory.\n", type_name);
+    if (out != NULL && out != stdout) {
+      fprintf(out, "No %s set currently loaded in memory.\n", type_name);
+      fclose(out);
+    }
+    return SYSTEM_NORMAL_RETURN;
+  }
+
+  corrset = DetermineDatabaseCorrespondence(set, classid, bind);
+  if (corrset == NULL) {
+    printf("ERROR: DetermineDatabaseCorrespondence returned NULL for %ss.\n", type_name);
+    if (out != NULL && out != stdout) {
+      fprintf(out, "ERROR: DetermineDatabaseCorrespondence returned NULL for %ss.\n", type_name);
+      fclose(out);
+    }
+    return SYSTEM_NORMAL_RETURN;
+  }
+
+  /* Print to stdout */
+  printf("================================================================================\n");
+  printf("%s Database Existence Check Report\n", type_name);
+  printf("Total %ss checked: %d\n", type_name, set->NumberOfMolecules);
+  printf("================================================================================\n");
+  printf("%-5s %-40s %-15s %-15s\n", "Index", "Name", "Database ID", "Status");
+  printf("--------------------------------------------------------------------------------\n");
+
+  /* Print to file if file open */
+  if (out != NULL && out != stdout) {
+    fprintf(out, "================================================================================\n");
+    fprintf(out, "%s Database Existence Check Report\n", type_name);
+    fprintf(out, "Total %ss checked: %d\n", type_name, set->NumberOfMolecules);
+    fprintf(out, "================================================================================\n");
+    fprintf(out, "%-5s %-40s %-15s %-15s\n", "Index", "Name", "Database ID", "Status");
+    fprintf(out, "--------------------------------------------------------------------------------\n");
+  }
+
+  for (i = 0; i < set->NumberOfMolecules; i++) {
+    MoleculeInfo *mol = &set->Molecules[i];
+    INT dbid = corrset->Points[i];
+    const char *name = (mol->Name != NULL) ? mol->Name : "UNNAMED";
+
+    if (dbid > 0) {
+      printf("%-5d %-40s %-15d EXISTS\n", i + 1, name, dbid);
+      if (out != NULL && out != stdout) {
+        fprintf(out, "%-5d %-40s %-15d EXISTS\n", i + 1, name, dbid);
+      }
+      found_count++;
+    } else {
+      printf("%-5d %-40s %-15s NOT FOUND\n", i + 1, name, "---");
+      if (out != NULL && out != stdout) {
+        fprintf(out, "%-5d %-40s %-15s NOT FOUND\n", i + 1, name, "---");
+      }
+      missing_count++;
+    }
+  }
+
+  printf("--------------------------------------------------------------------------------\n");
+  printf("Summary: %d Exists in DB, %d Not Found in DB\n", found_count, missing_count);
+  printf("================================================================================\n");
+
+  if (out != NULL && out != stdout) {
+    fprintf(out, "--------------------------------------------------------------------------------\n");
+    fprintf(out, "Summary: %d Exists in DB, %d Not Found in DB\n", found_count, missing_count);
+    fprintf(out, "================================================================================\n");
+    fclose(out);
+  }
+
+  FreeDataSubSet(corrset);
+  Free(corrset);
+  return SYSTEM_NORMAL_RETURN;
+}
+
+/*F ret = MoleculeExistsInDatabase(bind)
+**  DESCRIPTION
+**    Checks existence of current molecules in database.
+*/
+extern INT MoleculeExistsInDatabase(BindStructure *bind) {
+  return StructureExistsInDatabase(bind, MOLECULE_DATABASE);
+}
+
+/*F ret = SubstructureExistsInDatabase(bind)
+**  DESCRIPTION
+**    Checks existence of current substructures in database.
+*/
+extern INT SubstructureExistsInDatabase(BindStructure *bind) {
+  return StructureExistsInDatabase(bind, SUBSTRUCTURE_DATABASE);
+}
+

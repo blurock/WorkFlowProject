@@ -19,6 +19,7 @@ import { SubmechanismCreatorComponent } from '../submechanism-creator/submechani
 import { SubmechanismPathSetComponent } from '../submechanism-path-set/submechanism-path-set.component';
 import { CombineSubmechanismsComponent } from '../combine-submechanisms/combine-submechanisms.component';
 import { GenericFileInputComponent } from '../generic-file-input/generic-file-input.component';
+import { ReadCheckStoreComponent } from '../read-check-store/read-check-store.component';
 
 @Component({
   selector: 'app-task-dashboard',
@@ -39,7 +40,8 @@ import { GenericFileInputComponent } from '../generic-file-input/generic-file-in
     SubmechanismCreatorComponent,
     SubmechanismPathSetComponent,
     CombineSubmechanismsComponent,
-    GenericFileInputComponent
+    GenericFileInputComponent,
+    ReadCheckStoreComponent
   ],
   templateUrl: './task-dashboard.component.html',
   styleUrls: ['./task-dashboard.component.scss']

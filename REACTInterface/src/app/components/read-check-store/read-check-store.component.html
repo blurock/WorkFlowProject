@@ -1,0 +1,262 @@
+<div class="read-check-store-container dark-theme">
+  <!-- Header Bar -->
+  <div class="header-bar">
+    <div class="title-group">
+      <mat-icon class="header-icon">cloud_upload</mat-icon>
+      <div>
+        <h2>Database File Input Sequence</h2>
+        <p class="subtitle">Read formatted source files, verify database existence, and commit structures to REACTCLOUD</p>
+      </div>
+    </div>
+    <button mat-icon-button (click)="closeDialog()" *ngIf="dialogRef" matTooltip="Close Window">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <!-- Common Configuration Form -->
+  <div class="config-panel">
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="flex-field">
+        <mat-label>Data Structure Type</mat-label>
+        <mat-select [(ngModel)]="dataType" (selectionChange)="onDataTypeChange()">
+          <mat-option value="molecule">Molecule</mat-option>
+          <mat-option value="substructure">Substructure</mat-option>
+          <mat-option value="rxn-pattern">Reaction Pattern</mat-option>
+          <mat-option value="reaction">Reaction</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="flex-field">
+        <mat-label>File Format</mat-label>
+        <mat-select [(ngModel)]="format" (selectionChange)="onFormatChange()">
+          <mat-option *ngFor="let fmt of supportedFormats" [value]="fmt.value">
+            {{ fmt.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="flex-field">
+        <mat-label>Dataset Root Name</mat-label>
+        <input matInput [(ngModel)]="rootName" placeholder="e.g. 22dimethylC3C4" (ngModelChange)="resetWorkflow()">
+      </mat-form-field>
+    </div>
+
+    <!-- File Drop Zone -->
+    <div class="file-upload-zone" [class.file-selected]="!!selectedFile">
+      <div class="upload-info">
+        <mat-icon class="upload-icon">upload_file</mat-icon>
+        <div>
+          <span class="file-name" *ngIf="selectedFile">{{ selectedFile.name }}</span>
+          <span class="upload-prompt" *ngIf="!selectedFile">Select or Drop Source Data File ({{ fileExtensionLabel }})</span>
+          <p class="upload-subtext">Will be read from current working directory as <code>{{ rootName || 'ROOTNAME' }}{{ format === 'sdf' ? '.sdf' : '.dat' }}</code></p>
+        </div>
+      </div>
+      <input type="file" #fileInput (change)="onFileSelected($event)" class="hidden-file-input">
+      <button mat-stroked-button color="accent" (click)="fileInput.click()">
+        <mat-icon>folder_open</mat-icon> Browse File
+      </button>
+    </div>
+  </div>
+
+  <!-- Workflow Stepper Nav Bar -->
+  <div class="stepper-nav">
+    <button class="step-btn" [class.active]="activeStep === 1" [class.completed]="step1Completed" (click)="activeStep = 1">
+      <span class="step-num">1</span>
+      <span class="step-title">Read & Format Check</span>
+      <mat-icon *ngIf="step1Completed" class="step-check">check_circle</mat-icon>
+    </button>
+    <div class="step-connector"></div>
+    <button class="step-btn" [class.active]="activeStep === 2" [class.completed]="step2Completed" [disabled]="!step1Completed" (click)="activeStep = 2">
+      <span class="step-num">2</span>
+      <span class="step-title">Database Check</span>
+      <mat-icon *ngIf="step2Completed" class="step-check">check_circle</mat-icon>
+    </button>
+    <div class="step-connector"></div>
+    <button class="step-btn" [class.active]="activeStep === 3" [class.completed]="step3Completed" [disabled]="!step2Completed" (click)="activeStep = 3">
+      <span class="step-num">3</span>
+      <span class="step-title">Database Store</span>
+      <mat-icon *ngIf="step3Completed" class="step-check">check_circle</mat-icon>
+    </button>
+  </div>
+
+  <!-- Status & Alerts Bar -->
+  <mat-progress-bar mode="indeterminate" *ngIf="isExecuting" class="exec-progress"></mat-progress-bar>
+  
+  <div class="status-banner success" *ngIf="statusMessage && !errorMessage && !isExecuting">
+    <mat-icon>info</mat-icon> {{ statusMessage }}
+  </div>
+
+  <div class="status-banner error" *ngIf="errorMessage">
+    <mat-icon>error_outline</mat-icon> {{ errorMessage }}
+  </div>
+
+  <div class="status-banner warning" *ngIf="orchestratorWarning">
+    <mat-icon>warning</mat-icon>
+    <span><strong>Orchestrator Notice:</strong> If the Store step fails, verify that the local Orchestrator service is running and accessible on port 8085.</span>
+  </div>
+
+  <!-- Step Content Viewports -->
+  <div class="step-content">
+
+    <!-- Step 1: Read & Format Check -->
+    <div class="step-pane" *ngIf="activeStep === 1">
+      <div class="pane-header">
+        <div class="pane-title">
+          <h3>Step 1: Read Formatted File & Validate Syntax</h3>
+          <p>Parses the input file to ensure there are no formatting or syntax errors before database comparison.</p>
+        </div>
+        <button mat-raised-button color="primary" (click)="executeStep1Read()" [disabled]="isExecuting">
+          <mat-icon>play_arrow</mat-icon> Run Format Check & Read
+        </button>
+      </div>
+
+      <div class="visualizer-card" *ngIf="step1Completed">
+        <div class="summary-badge success">
+          <mat-icon>verified</mat-icon> Format Validated (Found {{ parsedStructuresCount }} Data Structure(s))
+        </div>
+      </div>
+
+      <!-- Raw Log Terminal Output -->
+      <div class="terminal-log-card">
+        <div class="terminal-header">
+          <mat-icon class="term-icon">terminal</mat-icon>
+          <span>Raw Terminal Output (Step 1 Read)</span>
+        </div>
+        <div class="terminal-body scrollable">
+          <div *ngFor="let lineObj of step1Lines" [class.error-line]="lineObj.isError">
+            {{ lineObj.text }}
+          </div>
+          <div *ngIf="step1Lines.length === 0" class="terminal-empty">No output log available. Click 'Run Format Check & Read' to begin.</div>
+        </div>
+      </div>
+
+      <div class="pane-footer" *ngIf="step1Completed">
+        <button mat-raised-button color="accent" (click)="executeStep2Check()">
+          Proceed to Step 2: Database Check <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 2: Database Check -->
+    <div class="step-pane" *ngIf="activeStep === 2">
+      <div class="pane-header">
+        <div class="pane-title">
+          <h3>Step 2: Database Existence Check</h3>
+          <p>Verifies whether the data structures are already present in the REACTCLOUD database.</p>
+        </div>
+        <div class="button-group">
+          <button mat-stroked-button color="warn" (click)="rereadFile()" matTooltip="If an error occurs or file needs modification, edit the file and click Reread File to return to Step 1">
+            <mat-icon>refresh</mat-icon> Reread File
+          </button>
+          <button mat-raised-button color="primary" (click)="executeStep2Check()" [disabled]="isExecuting">
+            <mat-icon>search</mat-icon> Check DB Existence
+          </button>
+        </div>
+      </div>
+
+      <!-- Conflict Warning Banner -->
+      <div class="status-banner warning" *ngIf="hasConflicts">
+        <mat-icon>warning</mat-icon>
+        <span>One or more data structures already exist in the database. Choose to skip, replace, or click 'Reread File' after modifying your source file.</span>
+      </div>
+
+      <!-- Existence Status Table -->
+      <div class="visualizer-card" *ngIf="existenceItems.length > 0">
+        <h4>Database Structure Status</h4>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Item / Structure</th>
+              <th>Database Status</th>
+              <th>Suggested Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of existenceItems">
+              <td><strong>{{ item.name }}</strong></td>
+              <td>
+                <span class="status-pill" [class.present]="item.inDatabase" [class.new]="!item.inDatabase">
+                  {{ item.status }}
+                </span>
+              </td>
+              <td>{{ item.suggestedAction }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Terminal Log -->
+      <div class="terminal-log-card">
+        <div class="terminal-header">
+          <mat-icon class="term-icon">terminal</mat-icon>
+          <span>Raw Terminal Output (Step 2 Check)</span>
+        </div>
+        <div class="terminal-body scrollable">
+          <div *ngFor="let lineObj of step2Lines" [class.error-line]="lineObj.isError">
+            {{ lineObj.text }}
+          </div>
+          <div *ngIf="step2Lines.length === 0" class="terminal-empty">No output log available. Click 'Check DB Existence' to begin.</div>
+        </div>
+      </div>
+
+      <div class="pane-footer" *ngIf="step2Completed">
+        <button mat-raised-button color="accent" (click)="executeStep3Store()">
+          Proceed to Step 3: Database Store <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 3: Database Store -->
+    <div class="step-pane" *ngIf="activeStep === 3">
+      <div class="pane-header">
+        <div class="pane-title">
+          <h3>Step 3: Database Store</h3>
+          <p>Reads structures into memory and commits data records to the REACTCLOUD database.</p>
+        </div>
+        <button mat-raised-button color="accent" (click)="executeStep3Store()" [disabled]="isExecuting">
+          <mat-icon>save</mat-icon> Commit & Store to Database
+        </button>
+      </div>
+
+      <!-- Stored Records Table -->
+      <div class="visualizer-card" *ngIf="storedRecords.length > 0">
+        <h4>Registered Database Records</h4>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Dataset Name</th>
+              <th>Record ID</th>
+              <th>Storage Directory</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let rec of storedRecords">
+              <td><strong>{{ rec.name }}</strong></td>
+              <td><code>{{ rec.recordId }}</code></td>
+              <td><code>{{ rec.storagePath }}</code></td>
+              <td>
+                <span class="status-pill success">{{ rec.status }}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Terminal Log -->
+      <div class="terminal-log-card">
+        <div class="terminal-header">
+          <mat-icon class="term-icon">terminal</mat-icon>
+          <span>Raw Terminal Output (Step 3 Store)</span>
+        </div>
+        <div class="terminal-body scrollable">
+          <div *ngFor="let lineObj of step3Lines" [class.error-line]="lineObj.isError">
+            {{ lineObj.text }}
+          </div>
+          <div *ngIf="step3Lines.length === 0" class="terminal-empty">No output log available. Click 'Commit & Store to Database' to complete.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

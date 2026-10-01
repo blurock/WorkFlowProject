@@ -30,7 +30,8 @@ const firestore = new Firestore({ projectId: PROJECT_ID });
 
 const app = express();
 app.use(cors());
-app.use(express.json({ limit: '10mb' }));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 
 
@@ -104,26 +105,43 @@ async function hydrateUserWorkspace(uid, workspaceDir) {
   const userCacheDir = path.join('/tmp', 'reactcloud', 'users', uid, 'cache');
   fs.mkdirSync(userCacheDir, { recursive: true });
 
-  // 3. Overlay user custom data files from session cache (/tmp/reactcloud/users/{uid}/cache/data/)
+  const copyRecursive = (src, dest) => {
+    if (fs.statSync(src).isDirectory()) {
+      if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
+      for (const child of fs.readdirSync(src)) {
+        copyRecursive(path.join(src, child), path.join(dest, child));
+      }
+    } else {
+      if (!fs.existsSync(path.dirname(dest))) fs.mkdirSync(path.dirname(dest), { recursive: true });
+      fs.copyFileSync(src, dest);
+    }
+  };
+
+  // 3. Overlay root files from session cache directly into workspace root (.)
+  for (const item of fs.readdirSync(userCacheDir)) {
+    if (item === 'data') continue;
+    const srcPath = path.join(userCacheDir, item);
+    const destPath = path.join(workspaceDir, item);
+    copyRecursive(srcPath, destPath);
+  }
+
+  // 4. Overlay user custom data files from session cache (/tmp/reactcloud/users/{uid}/cache/data/)
   const userCacheDataDir = path.join(userCacheDir, 'data');
   if (fs.existsSync(userCacheDataDir)) {
-    const copyRecursive = (src, dest) => {
-      if (fs.statSync(src).isDirectory()) {
-        if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
-        for (const child of fs.readdirSync(src)) {
-          copyRecursive(path.join(src, child), path.join(dest, child));
-        }
-      } else {
-        if (!fs.existsSync(path.dirname(dest))) fs.mkdirSync(path.dirname(dest), { recursive: true });
-        fs.copyFileSync(src, dest);
-      }
-    };
     const workspaceDataDir = path.join(workspaceDir, 'data');
     if (fs.existsSync(workspaceDataDir) && fs.lstatSync(workspaceDataDir).isSymbolicLink()) {
       try { fs.unlinkSync(workspaceDataDir); } catch(e) {}
       fs.mkdirSync(workspaceDataDir, { recursive: true });
     }
     copyRecursive(userCacheDataDir, workspaceDataDir);
+
+    // Also copy files from cache/data into workspace root (.) so files with MolDirectory="." are found
+    for (const child of fs.readdirSync(userCacheDataDir)) {
+      const srcChild = path.join(userCacheDataDir, child);
+      if (fs.statSync(srcChild).isFile()) {
+        fs.copyFileSync(srcChild, path.join(workspaceDir, child));
+      }
+    }
   }
 }
 
@@ -551,22 +569,119 @@ app.delete('/api/logs/job', authenticateUser, async (req, res) => {
       }
     }
 
-    // 2. Delete Firestore Document
+    // 2. Delete Primary Firestore Document
     if (docPath) {
       await firestore.doc(docPath).delete().catch(() => {});
     }
 
-    // Secondary cleanup of flat user job doc
+    // 3. Secondary cleanup of flat user job doc
     await firestore.collection('users').doc(targetUserId).collection('jobs').doc(jobId).delete().catch(() => {});
+
+    // 4. Clean up all matching job documents across collectionGroup('jobs') (includes session job subcollections)
+    try {
+      const groupSnap = await firestore.collectionGroup('jobs')
+        .where('jobId', '==', jobId)
+        .get();
+      for (const d of groupSnap.docs) {
+        const data = d.data();
+        if (isSuperAdmin || data.userId === targetUserId || d.ref.path.includes(`users/${targetUserId}/`)) {
+          await d.ref.delete().catch(() => {});
+        }
+      }
+    } catch (cgErr) {
+      console.warn(`[Delete Log Job Warning] collectionGroup cleanup for ${jobId}: ${cgErr.message}`);
+    }
+
+    // 5. Sweep all session job documents under users/{targetUserId}/sessions/*/jobs/{jobId}
+    try {
+      const sessionsSnap = await firestore.collection('users').doc(targetUserId).collection('sessions').get();
+      for (const sessDoc of sessionsSnap.docs) {
+        await sessDoc.ref.collection('jobs').doc(jobId).delete().catch(() => {});
+      }
+    } catch (sessErr) {
+      console.warn(`[Delete Log Job Warning] Session cleanup error: ${sessErr.message}`);
+    }
 
     return res.json({
       success: true,
-      message: `Successfully deleted log job ${jobId}`,
+      message: `Successfully deleted log job ${jobId} and session job documents`,
       jobId,
       deletedFilesCount
     });
   } catch (err) {
     console.error('[Delete Log Job Error]', err);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * POST /api/logs/purge-all
+ * Purges ALL job execution log records, session jobs, and GCS artifacts for user (or system-wide if Super-Admin).
+ */
+app.post('/api/logs/purge-all', authenticateUser, async (req, res) => {
+  try {
+    const { targetUserId } = req.body;
+    const requestingUid = req.user.uid;
+    const isSuperAdmin = requestingUid === 'UOqk0KtFtaXma5TGsi8Seh9RMbx1' || req.user.email === 'edward.blurock@gmail.com';
+
+    const userId = targetUserId || requestingUid;
+    if (!isSuperAdmin && requestingUid !== userId) {
+      return res.status(403).json({ error: 'Unauthorized: Cannot purge logs belonging to another user' });
+    }
+
+    const bucket = storage.bucket(BUCKET_NAME);
+    let deletedDocsCount = 0;
+    let deletedFilesCount = 0;
+
+    // 1. Fetch all docs in collectionGroup('jobs') matching this user (or all if super admin and targetUserId is 'all')
+    let query;
+    if (isSuperAdmin && (!targetUserId || targetUserId === 'all')) {
+      query = firestore.collectionGroup('jobs');
+    } else {
+      query = firestore.collectionGroup('jobs').where('userId', '==', userId);
+    }
+
+    const snapshot = await query.get();
+
+    for (const doc of snapshot.docs) {
+      const data = doc.data();
+      if (data.rawGcsPrefix || data.gcsPrefix) {
+        let prefix = data.rawGcsPrefix || data.gcsPrefix.replace(`gs://${BUCKET_NAME}/`, '');
+        if (prefix.startsWith('/')) prefix = prefix.slice(1);
+        try {
+          const [files] = await bucket.getFiles({ prefix });
+          if (files.length > 0) {
+            await bucket.deleteFiles({ prefix }).catch(() => {});
+            deletedFilesCount += files.length;
+          }
+        } catch (e) {}
+      }
+      await doc.ref.delete().catch(() => {});
+      deletedDocsCount++;
+    }
+
+    // 2. Also explicitly clean up all documents in users/{userId}/sessions/{sessionId}/jobs/
+    try {
+      const sessionsSnap = await firestore.collection('users').doc(userId).collection('sessions').get();
+      for (const sessDoc of sessionsSnap.docs) {
+        const jobsSnap = await sessDoc.ref.collection('jobs').get();
+        for (const jDoc of jobsSnap.docs) {
+          await jDoc.ref.delete().catch(() => {});
+          deletedDocsCount++;
+        }
+      }
+    } catch (e) {}
+
+    console.log(`[Purge All Logs] Purged ${deletedDocsCount} job docs and ${deletedFilesCount} GCS files for user ${userId}`);
+
+    return res.json({
+      success: true,
+      message: `Successfully purged all ${deletedDocsCount} log documents and ${deletedFilesCount} artifacts.`,
+      deletedDocsCount,
+      deletedFilesCount
+    });
+  } catch (err) {
+    console.error('[Purge All Logs Error]', err);
     return res.status(500).json({ error: err.message });
   }
 });
@@ -618,59 +733,65 @@ app.post('/api/logs/prune', authenticateUser, async (req, res) => {
 });
 
 app.post('/api/upload-data-files', authenticateUser, async (req, res) => {
-  const { targetDir, files } = req.body;
-  const uid = req.user.uid;
+  try {
+    const { targetDir, files } = req.body || {};
+    const uid = req.user.uid;
 
-  if (!targetDir || !files || !Array.isArray(files)) {
-    return res.status(400).json({ error: 'Invalid payload: targetDir and files array required' });
-  }
-
-  const userCacheDir = path.join('/tmp', 'reactcloud', 'users', uid, 'cache');
-  const userCacheTargetDir = path.join(userCacheDir, 'data', targetDir);
-  fs.mkdirSync(userCacheTargetDir, { recursive: true });
-
-  const bucket = storage.bucket(BUCKET_NAME);
-  const uploadedResults = [];
-
-  for (const f of files) {
-    if (!f.filename || f.content === undefined) continue;
-
-    const localPath = path.join(userCacheTargetDir, f.filename);
-    fs.writeFileSync(localPath, f.content);
-
-    const relGcsPath = `users/${uid}/data/${targetDir}/${f.filename}`;
-    try {
-      await bucket.upload(localPath, { destination: relGcsPath });
-      console.log(`[Data Upload] Saved ${f.filename} to Cloud Storage: ${relGcsPath}`);
-      uploadedResults.push({ filename: f.filename, gcsPath: `gs://${BUCKET_NAME}/${relGcsPath}` });
-    } catch (err) {
-      console.warn(`[GCS Data Upload Warning] ${f.filename}: ${err.message}`);
-      uploadedResults.push({ filename: f.filename, localOnly: true, warning: err.message });
+    if (!files || !Array.isArray(files)) {
+      return res.status(400).json({ error: 'Invalid payload: files array required' });
     }
 
-    // Auto-create matching companion .mol and .sdf files if missing to prevent chemdb RECOVER file missing errors
-    if (f.filename.endsWith('.lst')) {
-      const rootBase = f.filename.replace(/\.lst$/, '');
-      const companionMol = `${rootBase}.mol`;
-      const companionSdf = `${rootBase}.sdf`;
-      
-      const molLocalPath = path.join(userCacheTargetDir, companionMol);
-      if (!fs.existsSync(molLocalPath)) {
-        fs.writeFileSync(molLocalPath, `1 ${rootBase}\n`);
-        const molGcsPath = `users/${uid}/data/${targetDir}/${companionMol}`;
-        bucket.upload(molLocalPath, { destination: molGcsPath }).catch(() => {});
+    const userCacheDir = path.join('/tmp', 'reactcloud', 'users', uid, 'cache');
+    const cleanTargetDir = (targetDir && targetDir !== '.') ? path.normalize(targetDir).replace(/^\/+|\/+$/g, '') : '';
+    const userCacheTargetDir = cleanTargetDir ? path.join(userCacheDir, 'data', cleanTargetDir) : path.join(userCacheDir, 'data');
+    fs.mkdirSync(userCacheTargetDir, { recursive: true });
+
+    const bucket = storage.bucket(BUCKET_NAME);
+    const uploadedResults = [];
+
+    for (const f of files) {
+      if (!f.filename || f.content === undefined) continue;
+
+      const localPath = path.join(userCacheTargetDir, f.filename);
+      fs.writeFileSync(localPath, f.content);
+
+      const relGcsPath = cleanTargetDir ? `users/${uid}/data/${cleanTargetDir}/${f.filename}` : `users/${uid}/data/${f.filename}`;
+      try {
+        await bucket.upload(localPath, { destination: relGcsPath });
+        console.log(`[Data Upload] Saved ${f.filename} to Cloud Storage: ${relGcsPath}`);
+        uploadedResults.push({ filename: f.filename, gcsPath: `gs://${BUCKET_NAME}/${relGcsPath}` });
+      } catch (err) {
+        console.warn(`[GCS Data Upload Warning] ${f.filename}: ${err.message}`);
+        uploadedResults.push({ filename: f.filename, localOnly: true, warning: err.message });
       }
 
-      const sdfLocalPath = path.join(userCacheTargetDir, companionSdf);
-      if (!fs.existsSync(sdfLocalPath)) {
-        fs.writeFileSync(sdfLocalPath, `${rootBase}\n  -OEChem-\n\n  0  0  0     0  0  0  0  0  0999 V2000\nM  END\n$$$$\n`);
-        const sdfGcsPath = `users/${uid}/data/${targetDir}/${companionSdf}`;
-        bucket.upload(sdfLocalPath, { destination: sdfLocalPath }).catch(() => {});
+      // Auto-create matching companion .mol and .sdf files if missing to prevent chemdb RECOVER file missing errors
+      if (f.filename.endsWith('.lst')) {
+        const rootBase = f.filename.replace(/\.lst$/, '');
+        const companionMol = `${rootBase}.mol`;
+        const companionSdf = `${rootBase}.sdf`;
+        
+        const molLocalPath = path.join(userCacheTargetDir, companionMol);
+        if (!fs.existsSync(molLocalPath)) {
+          fs.writeFileSync(molLocalPath, `1 ${rootBase}\n`);
+          const molGcsPath = cleanTargetDir ? `users/${uid}/data/${cleanTargetDir}/${companionMol}` : `users/${uid}/data/${companionMol}`;
+          bucket.upload(molLocalPath, { destination: molGcsPath }).catch(() => {});
+        }
+
+        const sdfLocalPath = path.join(userCacheTargetDir, companionSdf);
+        if (!fs.existsSync(sdfLocalPath)) {
+          fs.writeFileSync(sdfLocalPath, `${rootBase}\n  -OEChem-\n\n  0  0  0     0  0  0  0  0  0999 V2000\nM  END\n$$$$\n`);
+          const sdfGcsPath = cleanTargetDir ? `users/${uid}/data/${cleanTargetDir}/${companionSdf}` : `users/${uid}/data/${companionSdf}`;
+          bucket.upload(sdfLocalPath, { destination: sdfGcsPath }).catch(() => {});
+        }
       }
     }
-  }
 
-  return res.json({ success: true, targetDir, files: uploadedResults });
+    return res.json({ success: true, targetDir, files: uploadedResults });
+  } catch (err) {
+    console.error('[Upload Data Files Error]', err);
+    return res.status(500).json({ error: err.message });
+  }
 });
 
 app.post('/api/run-input', authenticateUser, async (req, res) => {
@@ -911,32 +1032,22 @@ app.post('/api/run-commands', authenticateUser, async (req, res) => {
 
       combinedOutput += `--- Execution Log ---\n` + stdout;
 
-      // Async background persistence & cleanup
+      // Respond immediately with chemdb results for fast UI response
+      res.json({
+        jobId,
+        sessionId,
+        root: root || 'ROOT',
+        exitCode,
+        output: combinedOutput,
+        error: stderr,
+        elapsedMs: elapsed
+      });
+
+      // Async background GCS persistence & cleanup
       const classification = classifyJob(req.body, commandText, '');
       persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classification)
-        .then(fileManifest => {
-          res.json({
-            jobId,
-            sessionId,
-            root: root || 'ROOT',
-            exitCode,
-            output: combinedOutput,
-            error: stderr,
-            elapsedMs: elapsed,
-            files: fileManifest
-          });
-        })
         .catch(err => {
           console.warn(`[GCS Persist Warning] ${err.message}`);
-          res.json({
-            jobId,
-            sessionId,
-            root: root || 'ROOT',
-            exitCode,
-            output: combinedOutput,
-            error: stderr,
-            elapsedMs: elapsed
-          });
         })
         .finally(() => cleanupWorkspace(workspaceDir));
     });
@@ -1357,6 +1468,14 @@ app.get('/api/db/keys', async (req, res) => {
     console.error('[Firestore DB Keys Error]', err.message);
     return res.status(500).json({ error: err.message });
   }
+});
+
+app.use((err, req, res, next) => {
+  console.error('[Orchestrator Global Error]', err);
+  if (res.headersSent) {
+    return next(err);
+  }
+  return res.status(500).json({ error: err.message || 'Internal Server Error' });
 });
 
 app.listen(PORT, () => {

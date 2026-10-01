@@ -109,6 +109,10 @@ COMMAND DbaseOps OPERATIONSDATABASE
                          TITLE Store the Current Molecules in database
                          FUNCTION StoreCurrentMoleculeSet
                     ENDCOMMAND
+                    COMMAND ExistenceCheck MOLEXISTENCECHECKDB
+                         TITLE Check existence of current molecules in database
+                         FUNCTION MoleculeExistsInDatabase
+                    ENDCOMMAND
                     COMMAND ASCII MOLFROMSDFDATABASE
                          TITLE Insert ASCII data from a file
                          FUNCTION ReadInASCIISetOfMoleculeProps
@@ -182,6 +186,10 @@ COMMAND DbaseOps OPERATIONSDATABASE
                     COMMAND Store DBSUBSTRUCTURESTORE
                          TITLE Store the Current Molecules in database
                          FUNCTION StoreCurrentSubStructureSet
+                    ENDCOMMAND
+                    COMMAND ExistenceCheck SUBSTRUCTUREEXISTENCECHECKDB
+                         TITLE Check existence of current substructures in database
+                         FUNCTION SubstructureExistsInDatabase
                     ENDCOMMAND
                     COMMAND ASCII MOLFROMSDFDATABASE
                          TITLE Insert ASCII data from a file

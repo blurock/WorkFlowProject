@@ -59,7 +59,7 @@ extern FunctionList *MergeFunctChemDbase(FunctionList *old)
      }
 /*S DatabaseMolecule
 */
-#define NUMBER_DBMOLECULE_FUNCTIONS 20
+#define NUMBER_DBMOLECULE_FUNCTIONS 22
 
 static FunctionInfo DBMOLECULE_FUNCTION_LIST[NUMBER_DBMOLECULE_FUNCTIONS] = {
      {1,"DBReadInMoleculesFromList",(INT (*)(void)) DBReadInMoleculesFromList},  
@@ -81,7 +81,9 @@ static FunctionInfo DBMOLECULE_FUNCTION_LIST[NUMBER_DBMOLECULE_FUNCTIONS] = {
      {17,"ReadMoleculeDBKeys",(INT (*)(void)) ReadMoleculeDBKeys},
      {18,"ReadSubStructureDBKeys",(INT (*)(void)) ReadSubStructureDBKeys},
      {19,"ReadInASCIISetOfMoleculeProps",(INT (*)(void)) ReadInASCIISetOfMoleculeProps},
-     {20,"ReadInRxnPatternsMolsFromDB",(INT (*)(void)) ReadInRxnPatternsMolsFromDB}
+     {20,"ReadInRxnPatternsMolsFromDB",(INT (*)(void)) ReadInRxnPatternsMolsFromDB},
+     {21,"MoleculeExistsInDatabase",(INT (*)(void)) MoleculeExistsInDatabase},
+     {22,"SubstructureExistsInDatabase",(INT (*)(void)) SubstructureExistsInDatabase}
      };
 
 static FunctionList DBMOLECULE_FUNCTIONS = {

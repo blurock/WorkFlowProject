@@ -155,8 +155,8 @@ else
         npm install
     fi
     
-    PORT=${ORCH_PORT} REACTROOT="${REACTROOT}" CCROOT="${CCROOT}" nohup node server.js > "${ORCH_LOG}" 2>&1 &
-    ORCH_PID=$!
+    ( PORT=${ORCH_PORT} REACTROOT="${REACTROOT}" CCROOT="${CCROOT}" nohup node server.js > "${ORCH_LOG}" 2>&1 & )
+    ORCH_PID=$(get_pid_on_port "$ORCH_PORT")
     disown $ORCH_PID 2>/dev/null || true
     echo "  Spawned Orchestrator (PID: ${ORCH_PID}), logging to ${ORCH_LOG}"
     

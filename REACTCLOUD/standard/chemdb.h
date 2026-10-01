@@ -222,6 +222,8 @@ extern SetOfDetailedMechanisms *InitializeSetOfDetailedMechanisms(INT id, CHAR *
 extern DataSubSet *DetermineDatabaseCorrespondence(MoleculeSet *molecules,
 						   INT classid,
 						   BindStructure *bind);
+extern INT MoleculeExistsInDatabase(BindStructure *bind);
+extern INT SubstructureExistsInDatabase(BindStructure *bind);
 
 
 /*P  . . . PROTOTYPES . . . . . . . . . . . . . . . . . . . . . . .  genrxn.c

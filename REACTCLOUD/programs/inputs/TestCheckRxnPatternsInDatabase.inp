@@ -23,11 +23,15 @@ Quit
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Read Reaction Patterns from file using database substructures
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-DbaseOps
+Rxn
 Parameters
 RootRxnName
 Input
-rxnpats/XXXXX
+XXXXX
+Quit
+RxnDirectory
+Input
+.
 Quit
 Quit
 RxnPatterns

@@ -26,7 +26,11 @@ Mol
 Parameters
 RootMolName
 Input
-subs/XXXXX
+XXXXX
+Quit
+MolDirectory
+Input
+.
 Quit
 Quit
 Read

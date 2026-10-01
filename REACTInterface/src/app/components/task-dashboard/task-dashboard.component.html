@@ -99,6 +99,11 @@
           <app-generic-file-input [taskId]="selectedTask.id"></app-generic-file-input>
         </ng-container>
 
+        <!-- 6. 3-Step Read-Check-Store Database Input Task -->
+        <ng-container *ngIf="selectedTask.type === 'read-check-store'">
+          <app-read-check-store></app-read-check-store>
+        </ng-container>
+
         <!-- 3. Interactive Creator / Generator Tasks (Create & Generate) -->
         <ng-container *ngIf="selectedTask.type === 'interactive-creator'">
           <mat-card class="creator-placeholder-card mat-elevation-z2">

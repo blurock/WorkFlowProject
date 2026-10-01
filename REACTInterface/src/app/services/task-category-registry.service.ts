@@ -106,6 +106,13 @@ export class TaskCategoryRegistry {
           type: 'interactive-creator'
         },
         {
+          id: 'read-check-store-db',
+          title: 'Read, Check & Store Database Input',
+          description: 'Upload source files, verify existence, and commit structures to database in 3 steps',
+          icon: 'cloud_upload',
+          type: 'read-check-store'
+        },
+        {
           id: 'read-mol-properties',
           title: 'Read Molecule Properties from File',
           inpFile: 'ReadInMoleculeProperties.inp',

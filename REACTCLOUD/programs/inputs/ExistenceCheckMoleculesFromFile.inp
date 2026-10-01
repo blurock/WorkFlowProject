@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%  Read in SubStructure Graph information as MolFile
+%%%  Read in Molecule Graph information as MolFile
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Mol
 Parameters
@@ -16,65 +16,57 @@ Quit
 %%% Open up the data base
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 CreateOpenClose
-Start
+Initialize
 Quit
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% 
+%%% Read SDF into Mol and perform calculations
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Rxn
-Read
+Mol
 Parameters
-RootRxnName
+MolOutName
 Input
-XXXXXXXXXX
+YYYYY
 Quit
-RxnDirectory
+RootMolName
+Input
+XXXXX
+Quit
+MolDirectory
 Input
 .
 Quit
 Quit
-
-
-RxnPatterns
-ASCII
+Read
+Molecules
+SDF
 Quit
 Quit
-Rxn
+Calculations
+Molecules
+SemiEmpirical
+Quit
+Quit
 Output
-RxnPatterns
+Molecules
 Print
 Quit
 Quit
 Quit
 
-
-Quit
-Quit
-Quit
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% 
+%%% ExistenceCheck Molecules in Database
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 DbaseOps
-RxnPatterns
+Molecules
 Current
-Store
+ExistenceCheck
 Quit
+Quit
+Quit
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% leave
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Quit
 Quit
 Quit
-
-
-
-
-
-
-
-
-
-
-

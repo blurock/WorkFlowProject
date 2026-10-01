@@ -139,6 +139,209 @@ export class CommandTemplatesRegistry {
     ];
   }
 
+  // --- Read-Check-Store 3-Step Database File Input Templates ---
+
+  // 1. Molecules (SDF / Molfile)
+  public static readMoleculesFromFile(rootName: string = 'job1', outName: string = 'out1'): string[] {
+    return [
+      "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
+      "MetaAtoms", "Read", "Quit", "Quit",
+      "Mol", "Parameters", "MolOutName", "Input", outName, "Quit",
+      "RootMolName", "Input", rootName, "Quit",
+      "MolDirectory", "Input", ".", "Quit", "Quit",
+      "Read", "Molecules", "SDF", "Quit", "Quit",
+      "Calculations", "Molecules", "SemiEmpirical", "Quit", "Quit",
+      "Output", "Molecules", "Print", "Quit", "Quit", "Quit",
+      "Quit"
+    ];
+  }
+
+  public static checkMoleculesInDatabase(rootName: string = 'job1', outName: string = 'out1'): string[] {
+    return [
+      "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
+      "MetaAtoms", "Read", "Quit", "Quit",
+      "CreateOpenClose", "Initialize", "Quit",
+      "Mol", "Parameters", "MolOutName", "Input", outName, "Quit",
+      "RootMolName", "Input", rootName, "Quit",
+      "MolDirectory", "Input", ".", "Quit", "Quit",
+      "Read", "Molecules", "SDF", "Quit", "Quit",
+      "Calculations", "Molecules", "SemiEmpirical", "Quit", "Quit",
+      "Output", "Molecules", "Print", "Quit", "Quit", "Quit",
+      "DbaseOps", "Molecules", "Current", "ExistenceCheck", "Quit", "Quit", "Quit",
+      "Quit", "Quit", "Quit"
+    ];
+  }
+
+  public static storeMoleculesInDatabase(rootName: string = 'job1', outName: string = 'out1'): string[] {
+    return [
+      "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
+      "MetaAtoms", "Read", "Quit", "Quit",
+      "CreateOpenClose", "Initialize", "Quit",
+      "Mol", "Parameters", "MolOutName", "Input", outName, "Quit",
+      "RootMolName", "Input", rootName, "Quit",
+      "MolDirectory", "Input", ".", "Quit", "Quit",
+      "Read", "Molecules", "SDF", "Quit", "Quit",
+      "Calculations", "Molecules", "SemiEmpirical", "Quit", "Quit",
+      "Output", "Molecules", "Print", "Quit", "Quit", "Quit",
+      "DbaseOps", "Molecules", "Current", "Store", "Quit", "Quit", "Quit",
+      "Quit", "Quit", "Quit"
+    ];
+  }
+
+  // 2. Substructures (SDF / Molfile)
+  public static readSubstructuresFromFile(rootName: string = 'job1'): string[] {
+    return [
+      "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
+      "MetaAtoms", "Read", "Quit", "Quit",
+      "Mol", "Parameters", "RootMolName", "Input", rootName, "Quit",
+      "MolDirectory", "Input", ".", "Quit", "Quit",
+      "Read", "SubStructures", "SDF", "Quit", "Quit",
+      "Calculations", "SubStructures", "SemiEmpirical", "Quit", "Quit",
+      "Output", "SubStructures", "Print", "Quit", "Quit",
+      "Quit", "Quit", "Quit"
+    ];
+  }
+
+  public static checkSubstructuresInDatabase(rootName: string = 'job1'): string[] {
+    return [
+      "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
+      "MetaAtoms", "Read", "Quit", "Quit",
+      "CreateOpenClose", "Initialize", "Quit",
+      "Mol", "Parameters", "RootMolName", "Input", rootName, "Quit",
+      "MolDirectory", "Input", ".", "Quit", "Quit",
+      "Read", "SubStructures", "SDF", "Quit", "Quit",
+      "Calculations", "SubStructures", "SemiEmpirical", "Quit", "Quit",
+      "Output", "SubStructures", "Print", "Quit", "Quit", "Quit",
+      "DbaseOps", "SubStructures", "Current", "ExistenceCheck", "Quit", "Quit", "Quit",
+      "Quit", "Quit", "Quit"
+    ];
+  }
+
+  public static storeSubstructuresInDatabase(rootName: string = 'job1'): string[] {
+    return [
+      "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
+      "MetaAtoms", "Read", "Quit", "Quit",
+      "CreateOpenClose", "Initialize", "Quit",
+      "Mol", "Parameters", "RootMolName", "Input", rootName, "Quit",
+      "MolDirectory", "Input", ".", "Quit", "Quit",
+      "Read", "SubStructures", "SDF", "Quit", "Quit",
+      "Calculations", "SubStructures", "SemiEmpirical", "Quit", "Quit",
+      "Output", "SubStructures", "Print", "Quit", "Quit", "Quit",
+      "DbaseOps", "SubStructures", "Current", "Store", "Quit", "Quit", "Quit",
+      "Quit", "Quit", "Quit"
+    ];
+  }
+
+  // 3. Reaction Patterns (ASCII & Molfile/SDF)
+  public static readRxnPatternsASCII(rootName: string = 'job1', outName: string = 'out1'): string[] {
+    return [
+      "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
+      "MetaAtoms", "Read", "Quit", "Quit",
+      "CreateOpenClose", "Start", "Quit",
+      "Rxn", "Parameters", "RootRxnName", "Input", rootName, "Quit",
+      "RxnDirectory", "Input", ".", "Quit",
+      "RxnOutName", "Input", outName, "Quit",
+      "RxnOutDir", "Input", ".", "Quit", "Quit",
+      "Read", "RxnPatterns", "FormatCheck", "Quit", "Quit", "Quit", "Quit"
+    ];
+  }
+
+  public static readRxnPatternsMolFile(rootName: string = 'job1', outName: string = 'out1'): string[] {
+    return [
+      "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
+      "MetaAtoms", "Read", "Quit", "Quit",
+      "CreateOpenClose", "Start", "Quit",
+      "Rxn", "Parameters", "RootRxnName", "Input", rootName, "Quit",
+      "RxnDirectory", "Input", ".", "Quit",
+      "RxnOutName", "Input", outName, "Quit",
+      "RxnOutDir", "Input", ".", "Quit", "Quit",
+      "Read", "RxnPatterns", "MolFiles", "Quit", "Quit",
+      "Output", "RxnPatterns", "Print", "Quit", "Quit", "Quit", "Quit", "Quit", "Quit"
+    ];
+  }
+
+  public static checkRxnPatternsInDatabase(rootName: string = 'job1', outName: string = 'out1'): string[] {
+    return [
+      "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
+      "MetaAtoms", "Read", "Quit", "Quit",
+      "CreateOpenClose", "Start", "Quit",
+      "Rxn", "Parameters", "RootRxnName", "Input", rootName, "Quit",
+      "RxnDirectory", "Input", ".", "Quit",
+      "RxnOutName", "Input", outName, "Quit",
+      "RxnOutDir", "Input", ".", "Quit", "Quit",
+      "RxnPatterns", "ExistenceCheck", "Quit",
+      "Quit", "Quit"
+    ];
+  }
+
+  public static storeRxnPatternsInDatabase(rootName: string = 'job1', outName: string = 'out1'): string[] {
+    return [
+      "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
+      "MetaAtoms", "Read", "Quit", "Quit",
+      "CreateOpenClose", "Start", "Quit",
+      "Rxn", "Parameters", "RootRxnName", "Input", rootName, "Quit",
+      "RxnDirectory", "Input", ".", "Quit",
+      "RxnOutName", "Input", outName, "Quit",
+      "RxnOutDir", "Input", ".", "Quit", "Quit",
+      "RxnPatterns", "Store", "Quit",
+      "Quit", "Quit"
+    ];
+  }
+
+  // 4. Reactions (ASCII & Molfile/SDF)
+  public static readReactionsASCII(rootName: string = 'job1', outName: string = 'out1'): string[] {
+    return [
+      "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
+      "MetaAtoms", "Read", "Quit", "Quit",
+      "CreateOpenClose", "Start", "Quit",
+      "Rxn", "Parameters", "RootRxnName", "Input", rootName, "Quit",
+      "RxnDirectory", "Input", ".", "Quit",
+      "RxnOutName", "Input", outName, "Quit",
+      "RxnOutDir", "Input", ".", "Quit", "Quit",
+      "Read", "Reactions", "FormatCheck", "Quit", "Quit", "Quit", "Quit"
+    ];
+  }
+
+  public static readReactionsMolFile(rootName: string = 'job1', outName: string = 'out1'): string[] {
+    return [
+      "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
+      "MetaAtoms", "Read", "Quit", "Quit",
+      "CreateOpenClose", "Start", "Quit",
+      "Rxn", "Parameters", "RootRxnName", "Input", rootName, "Quit",
+      "RxnDirectory", "Input", ".", "Quit",
+      "RxnOutName", "Input", outName, "Quit",
+      "RxnOutDir", "Input", ".", "Quit", "Quit",
+      "Read", "Reactions", "MolFiles", "Quit", "Quit",
+      "Output", "Reactions", "Print", "Quit", "Quit", "Quit", "Quit", "Quit", "Quit"
+    ];
+  }
+
+  public static checkReactionsInDatabase(rootName: string = 'job1', outName: string = 'out1'): string[] {
+    return [
+      "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
+      "MetaAtoms", "Read", "Quit", "Quit",
+      "CreateOpenClose", "Start", "Quit",
+      "Rxn", "Parameters", "RootRxnName", "Input", rootName, "Quit",
+      "RxnDirectory", "Input", ".", "Quit",
+      "RxnOutName", "Input", outName, "Quit",
+      "RxnOutDir", "Input", ".", "Quit", "Quit",
+      "Reactions", "ExistenceCheck", "Quit", "Quit", "Quit"
+    ];
+  }
+
+  public static storeReactionsInDatabase(rootName: string = 'job1', outName: string = 'out1'): string[] {
+    return [
+      "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
+      "MetaAtoms", "Read", "Quit", "Quit",
+      "CreateOpenClose", "Start", "Quit",
+      "Rxn", "Parameters", "RootRxnName", "Input", rootName, "Quit",
+      "RxnDirectory", "Input", ".", "Quit",
+      "RxnOutName", "Input", outName, "Quit",
+      "RxnOutDir", "Input", ".", "Quit", "Quit",
+      "Reactions", "Store", "Quit", "Quit", "Quit"
+    ];
+  }
+
   public static readAndStoreChemkin(rootName: string = '22dimethylC3C4'): string[] {
     return [
       "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
@@ -175,6 +378,53 @@ export class CommandTemplatesRegistry {
   }
 
   /**
+   * Universal Dispatcher for 3-Step Read-Check-Store Commands
+   */
+  public static getReadCheckStoreCommands(
+    dataType: string,
+    step: 'read' | 'check' | 'store',
+    format: string = 'sdf',
+    rootName: string = 'job1',
+    outName: string = 'out1'
+  ): string[] {
+    const isMolFile = format.toLowerCase() === 'molfile' || format.toLowerCase() === 'sdf';
+    switch (dataType.toLowerCase()) {
+      case 'molecule':
+      case 'molecules':
+        if (step === 'read') return this.readMoleculesFromFile(rootName, outName);
+        if (step === 'check') return this.checkMoleculesInDatabase(rootName, outName);
+        return this.storeMoleculesInDatabase(rootName, outName);
+
+      case 'substructure':
+      case 'substructures':
+        if (step === 'read') return this.readSubstructuresFromFile(rootName);
+        if (step === 'check') return this.checkSubstructuresInDatabase(rootName);
+        return this.storeSubstructuresInDatabase(rootName);
+
+      case 'rxn-pattern':
+      case 'rxnpattern':
+      case 'rxn-patterns':
+        if (step === 'read') {
+          return isMolFile ? this.readRxnPatternsMolFile(rootName, outName) : this.readRxnPatternsASCII(rootName, outName);
+        }
+        if (step === 'check') return this.checkRxnPatternsInDatabase(rootName, outName);
+        return this.storeRxnPatternsInDatabase(rootName, outName);
+
+      case 'reaction':
+      case 'reactions':
+      case 'rxn':
+        if (step === 'read') {
+          return isMolFile ? this.readReactionsMolFile(rootName, outName) : this.readReactionsASCII(rootName, outName);
+        }
+        if (step === 'check') return this.checkReactionsInDatabase(rootName, outName);
+        return this.storeReactionsInDatabase(rootName, outName);
+
+      default:
+        return this.readMoleculesFromFile(rootName, outName);
+    }
+  }
+
+  /**
    * Helper mapping task ID + root name to generic task command array generator
    */
   public static getTaskCommands(taskId: string, rootName: string = '22dimethylC3C4'): string[] {
@@ -182,13 +432,13 @@ export class CommandTemplatesRegistry {
       case 'read-mol-properties':
         return this.readMoleculeProperties(rootName);
       case 'read-sdf-molecules':
-        return this.readSdfMolecules(rootName);
+        return this.readMoleculesFromFile(rootName, rootName + '_out');
       case 'read-and-store-chemkin':
       case 'read-chemkin':
         return this.readAndStoreChemkin(rootName);
       case 'read-subs-from-file':
       case 'read-subs':
-        return this.readSubsFromFile(rootName);
+        return this.readSubstructuresFromFile(rootName);
       case 'molecules':
         return this.moleculesCatalog();
       case 'rxn-patterns':
