@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, ElementRef, ViewChild, HostListener } from '@angular/core';
+import { Component, Input, OnChanges, AfterViewInit, SimpleChanges, ElementRef, ViewChild, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MatCardModule } from '@angular/material/card';
@@ -47,7 +47,7 @@ import { environment } from '../../../environments/environment';
     .ketcher-iframe { width: 100%; height: 100%; border: none; }
   `]
 })
-export class KetcherViewerComponent implements OnChanges {
+export class KetcherViewerComponent implements OnChanges, AfterViewInit {
   @Input() molfile: string | null = null;
   @Input() title: string = '2D Chemical Structure (Ketcher Viewer)';
 
@@ -55,6 +55,7 @@ export class KetcherViewerComponent implements OnChanges {
 
   public ketcherSafeUrl: SafeResourceUrl;
   public isKetcherLoaded: boolean = false;
+  private lastSentMolfile: string | null = null;
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -63,20 +64,25 @@ export class KetcherViewerComponent implements OnChanges {
     this.ketcherSafeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(environment.ketcherUrl);
   }
 
+  ngAfterViewInit(): void {
+    if (this.molfile) {
+      this.sendSdfToKetcher(this.molfile);
+    }
+  }
+
   @HostListener('window:message', ['$event'])
   onWindowMessage(event: MessageEvent): void {
     if (event.data?.eventType === 'init' || event.data === 'ketcher-ready') {
       this.isKetcherLoaded = true;
       if (this.molfile) {
-        this.sendSdfToKetcher(this.molfile);
+        this.sendSdfToKetcher(this.molfile, true);
       }
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['molfile'] && this.molfile && this.isKetcherLoaded) {
-      this.sendSdfToKetcher(this.molfile);
-      setTimeout(() => this.sendSdfToKetcher(this.molfile!), 300);
+    if (changes['molfile'] && this.molfile) {
+      this.sendSdfToKetcher(this.molfile, true);
     }
   }
 
@@ -84,13 +90,12 @@ export class KetcherViewerComponent implements OnChanges {
     this.isKetcherLoaded = true;
     if (this.molfile) {
       this.sendSdfToKetcher(this.molfile);
-      setTimeout(() => this.sendSdfToKetcher(this.molfile!), 300);
     }
   }
 
   public reloadKetcherStructure(): void {
     if (this.molfile) {
-      this.sendSdfToKetcher(this.molfile);
+      this.sendSdfToKetcher(this.molfile, true);
       this.snackBar.open('Reloading structure in Ketcher panel...', 'Dismiss', { duration: 1500 });
     }
   }
@@ -102,15 +107,20 @@ export class KetcherViewerComponent implements OnChanges {
         iframeWin.postMessage({
           eventType: 'LAYOUT_STRUCTURE'
         }, '*');
-        this.snackBar.open('Auto-arranging 2D layout...', 'Dismiss', { duration: 1500 });
       }
     } catch (err) {
       console.warn('[KetcherViewer] postMessage layout error:', err);
     }
   }
 
-  public sendSdfToKetcher(sdfContent: string): void {
+  public sendSdfToKetcher(sdfContent: string, force: boolean = false): void {
     if (!sdfContent) return;
+    if (!force && this.lastSentMolfile === sdfContent && this.isKetcherLoaded) {
+      return;
+    }
+
+    const formattedSdf = this.ensureValidV2000Molfile(sdfContent);
+    this.lastSentMolfile = sdfContent;
 
     const sendMessage = (): void => {
       try {
@@ -118,7 +128,7 @@ export class KetcherViewerComponent implements OnChanges {
         if (iframeWin) {
           iframeWin.postMessage({
             eventType: 'SET_STRUCTURE',
-            molfile: sdfContent,
+            molfile: formattedSdf,
             doLayout: true
           }, '*');
         }
@@ -127,10 +137,44 @@ export class KetcherViewerComponent implements OnChanges {
       }
     };
 
-    // Immediate attempt + progressive retries while iframe finishes initializing
     sendMessage();
     setTimeout(() => sendMessage(), 300);
-    setTimeout(() => sendMessage(), 800);
-    setTimeout(() => sendMessage(), 1500);
+    setTimeout(() => sendMessage(), 1000);
+  }
+
+  private ensureValidV2000Molfile(rawSdf: string): string {
+    if (!rawSdf) return '';
+    const trimmed = rawSdf.trim();
+    if (trimmed.includes('$RXN')) return trimmed; // MDL $RXN reaction format
+
+    const lines = trimmed.split(/\r?\n/);
+    const countsLineIdx = lines.findIndex(l => /^\s*\d+\s+\d+/.test(l));
+    if (countsLineIdx < 0) return trimmed;
+
+    // Ensure exactly 3 preamble lines before the counts line as mandated by MDL MOL spec
+    let preamble = lines.slice(0, countsLineIdx);
+    if (preamble.length === 0) {
+      preamble = ['Molecule', '  -REACTCLOUD-', ''];
+    } else if (preamble.length === 1) {
+      preamble = [preamble[0], '  -REACTCLOUD-', ''];
+    } else if (preamble.length === 2) {
+      preamble = [preamble[0], preamble[1], ''];
+    } else if (preamble.length > 3) {
+      preamble = preamble.slice(preamble.length - 3);
+    }
+
+    const body = lines.slice(countsLineIdx);
+    if (body.length > 0 && !body[0].includes('V2000') && !body[0].includes('V3000')) {
+      const countsMatch = body[0].match(/^\s*(\d+)\s+(\d+)/);
+      if (countsMatch) {
+        const nAtoms = parseInt(countsMatch[1], 10);
+        const nBonds = parseInt(countsMatch[2], 10);
+        const formattedAtoms = nAtoms.toString().padStart(3, ' ');
+        const formattedBonds = nBonds.toString().padStart(3, ' ');
+        body[0] = `${formattedAtoms}${formattedBonds}  0  0  0  0  0  0  0  0999 V2000`;
+      }
+    }
+
+    return [...preamble, ...body].join('\n');
   }
 }

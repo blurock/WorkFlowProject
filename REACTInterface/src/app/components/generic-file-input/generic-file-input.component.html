@@ -98,8 +98,114 @@
       </div>
     </div>
 
+    <!-- 3-Section Collapsible Output Views (Input Data, Parsed Data Structures, Execution Log) -->
+    <div class="output-sections-wrapper" *ngIf="taskOutput" style="margin-top: 20px;">
+
+      <!-- ==================== SECTION 1: INPUT DATA / SDF INFORMATION ==================== -->
+      <div class="output-section-card" *ngIf="outputSections.inputDataText">
+        <!-- 1. Collapsed Bar -->
+        <div class="one-line-summary-row" *ngIf="!section1Expanded">
+          <div class="one-line-summary-text">
+            <mat-icon color="primary">description</mat-icon>
+            <span class="one-line-summary-badge badge-blue">Input Data / SDF</span>
+            <span class="one-line-summary-title">Source File Format Content</span>
+          </div>
+          <button type="button" mat-icon-button (click)="section1Expanded = true" matTooltip="Expand Input Data">
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </div>
+
+        <!-- 2. Expanded View -->
+        <div class="one-line-summary-card" *ngIf="section1Expanded">
+          <div class="one-line-summary-card-header">
+            <div class="one-line-summary-card-title">
+              <mat-icon color="primary">description</mat-icon>
+              <span>Input File Information (SDF / Format)</span>
+            </div>
+            <button type="button" mat-icon-button (click)="section1Expanded = false" matTooltip="Collapse Section">
+              <mat-icon>visibility_off</mat-icon>
+            </button>
+          </div>
+          <div class="scrollable-text-box">
+            <pre><code>{{ outputSections.inputDataText }}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SECTION 2: PARSED DATA STRUCTURES ==================== -->
+      <div class="output-section-card" *ngIf="outputSections.parsedDataStructures.length > 0">
+        <!-- 1. Collapsed Bar -->
+        <div class="one-line-summary-row" *ngIf="!section2Expanded">
+          <div class="one-line-summary-text">
+            <mat-icon color="accent">schema</mat-icon>
+            <span class="one-line-summary-badge badge-green">Parsed Objects</span>
+            <span class="one-line-summary-title">{{ outputSections.parsedDataStructures.length }} Parsed Item(s)</span>
+          </div>
+          <button type="button" mat-icon-button (click)="section2Expanded = true" matTooltip="Expand Data Structures">
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </div>
+
+        <!-- 2. Expanded View (Component Dispatcher) -->
+        <div class="one-line-summary-card" *ngIf="section2Expanded">
+          <div class="one-line-summary-card-header">
+            <div class="one-line-summary-card-title">
+              <mat-icon color="accent">schema</mat-icon>
+              <span>Parsed Data Structures ({{ outputSections.parsedDataStructures.length }} Items)</span>
+            </div>
+            <button type="button" mat-icon-button (click)="section2Expanded = false" matTooltip="Collapse Section">
+              <mat-icon>visibility_off</mat-icon>
+            </button>
+          </div>
+          
+          <div class="parsed-objects-grid">
+            <div *ngFor="let item of outputSections.parsedDataStructures" class="parsed-item-card">
+              <div class="parsed-item-header">
+                <span class="item-index">#{{ item.index || 1 }}</span>
+                <span class="item-title">{{ item.name || 'Data Object' }}</span>
+              </div>
+              <app-ketcher-viewer *ngIf="item.sdfContent || item.rawString" [molfile]="item.sdfContent || item.rawString" [title]="item.name || 'Chemical Structure'"></app-ketcher-viewer>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SECTION 3: RAW EXECUTION LOG ==================== -->
+      <div class="output-section-card" *ngIf="taskOutput">
+        <!-- 1. Collapsed Bar -->
+        <div class="one-line-summary-row" *ngIf="!section3Expanded">
+          <div class="one-line-summary-text">
+            <mat-icon>terminal</mat-icon>
+            <span class="one-line-summary-badge badge-gray">Execution Log</span>
+            <span class="one-line-summary-title">Raw Command Terminal Output</span>
+          </div>
+          <button type="button" mat-icon-button (click)="section3Expanded = true" matTooltip="Expand Execution Log">
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </div>
+
+        <!-- 2. Expanded View -->
+        <div class="one-line-summary-card" *ngIf="section3Expanded">
+          <div class="one-line-summary-card-header">
+            <div class="one-line-summary-card-title">
+              <mat-icon>terminal</mat-icon>
+              <span>Raw Command Terminal Output</span>
+            </div>
+            <button type="button" mat-icon-button (click)="section3Expanded = false" matTooltip="Collapse Section">
+              <mat-icon>visibility_off</mat-icon>
+            </button>
+          </div>
+          <div class="terminal-body scrollable">
+            <pre><code>{{ taskOutput }}</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
     <!-- Step 3: Execution Terminal Output & Molecule Viewer -->
-    <div class="section-card terminal-card" *ngIf="taskOutput">
+    <div class="section-card terminal-card" *ngIf="taskOutput && parsedMolecules.length > 0">
+
       <div class="terminal-header">
         <div class="section-title">
           <mat-icon>terminal</mat-icon>

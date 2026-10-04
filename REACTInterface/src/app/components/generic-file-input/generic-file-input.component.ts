@@ -11,6 +11,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ReactCloudApiService } from '../../services/react-cloud-api.service';
 import { KetcherViewerComponent } from '../ketcher-viewer/ketcher-viewer.component';
+import { ExecutionOutputParserService, ExecutionOutputSections } from '../../services/execution-output-parser.service';
 
 export interface FileSlotConfig {
   extension: string;          // e.g. '-names.lst', '.mol', '.sdf'
@@ -124,6 +125,17 @@ export class GenericFileInputComponent implements OnInit {
   public errorMessage: string = '';
   public taskOutput: string = '';
 
+  // 3-Section Collapsible Output State
+  public outputSections: ExecutionOutputSections = {
+    inputDataText: '',
+    parsedDataStructures: [],
+    executionLogText: '',
+    dataType: 'molecule'
+  };
+  public section1Expanded: boolean = false; // Input Data (SDF): Collapsed by default
+  public section2Expanded: boolean = true;  // Parsed Objects: Expanded by default
+  public section3Expanded: boolean = false; // Execution Log: Collapsed by default
+
   // Parsed Molecule Log State
   public parsedMolecules: ParsedMolecule[] = [];
   public selectedMolecule: ParsedMolecule | null = null;
@@ -134,6 +146,7 @@ export class GenericFileInputComponent implements OnInit {
 
   constructor(
     private reactCloudApi: ReactCloudApiService,
+    private executionParser: ExecutionOutputParserService,
     @Optional() public dialogRef?: MatDialogRef<GenericFileInputComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: GenericFileInputConfig
   ) {}
@@ -455,13 +468,16 @@ export class GenericFileInputComponent implements OnInit {
         this.taskOutput = 'Task finished successfully.';
       }
 
-      // Parse output for molecule blocks
+      // Parse into 3-section output object (Input Data / SDF, Parsed Objects, Execution Log)
+      this.outputSections = this.executionParser.parseExecutionOutput(this.taskOutput, 'molecule');
+      if (this.fileItems.length > 0 && this.fileItems[0].content && !this.outputSections.inputDataText) {
+        this.outputSections.inputDataText = this.fileItems[0].content;
+      }
+
+      // Legacy molecule blocks fallback
       this.parsedMolecules = this.parseMoleculesFromLog(this.taskOutput);
       if (this.parsedMolecules.length > 0) {
         this.selectedMolecule = this.parsedMolecules[0];
-        this.showRawTerminalLog = false;
-      } else {
-        this.showRawTerminalLog = true;
       }
 
     } catch (err: any) {

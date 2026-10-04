@@ -14,6 +14,7 @@ import { firstValueFrom } from 'rxjs';
 import { ReactCloudApiService } from '../../services/react-cloud-api.service';
 import { CommandTemplatesRegistry } from '../../templates/command-templates.registry';
 import { KetcherViewerComponent } from '../ketcher-viewer/ketcher-viewer.component';
+import { ExecutionOutputParserService, ExecutionOutputSections } from '../../services/execution-output-parser.service';
 
 export type DataTypeOption = 'molecule' | 'substructure' | 'rxn-pattern' | 'reaction';
 export type FormatOption = 'sdf' | 'ascii';
@@ -21,6 +22,7 @@ export type FormatOption = 'sdf' | 'ascii';
 export interface ExistenceCheckItem {
   id: string;
   name: string;
+  dbId?: string;
   inDatabase: boolean;
   status: 'Present' | 'New' | 'Unknown';
   suggestedAction: 'Skip' | 'Replace' | 'Add';
@@ -85,6 +87,66 @@ export class ReadCheckStoreComponent implements OnInit {
   public errorMessage: string = '';
   public orchestratorWarning: boolean = false;
 
+  // 3-Section Output Sections State
+  public step1OutputSections: ExecutionOutputSections = {
+    inputDataText: '',
+    parsedDataStructures: [],
+    executionLogText: '',
+    dataType: 'molecule'
+  };
+  public step1Section1Expanded: boolean = false; // Input Data (SDF): Collapsed by default
+  public step1Section2Expanded: boolean = true;  // Parsed Objects: Expanded by default
+  public step1Section3Expanded: boolean = false; // Execution Log: Collapsed by default
+
+  // Lazy Molecule Render State
+  public expandedParsedItems: { [index: number]: boolean } = {};
+
+  public toggleParsedItem(index: number): void {
+    this.expandedParsedItems[index] = !this.expandedParsedItems[index];
+  }
+
+  public isParsedItemExpanded(index: number): boolean {
+    return !!this.expandedParsedItems[index];
+  }
+
+  /**
+   * Extracts molecule name from the 3rd line of the original SDF molecule structure.
+   */
+  public getMoleculeName(item: any, defaultIndex: number): string {
+    const sdfText = item?.sdfContent || item?.rawString || '';
+    if (sdfText) {
+      const lines = sdfText.trim().split(/\r?\n/);
+      // The 3rd line of the original SDF molecule (index 2)
+      if (lines.length >= 3) {
+        const line3 = lines[2].trim();
+        if (
+          line3 &&
+          !line3.includes('V2000') &&
+          !line3.includes('V3000') &&
+          !line3.includes('M  END') &&
+          !/^\s*\d+\s+\d+/.test(line3) &&
+          !line3.startsWith('$$$$')
+        ) {
+          return line3;
+        }
+      }
+      // Fallback: check 1st line if 3rd line is empty
+      if (lines.length >= 1) {
+        const line1 = lines[0].trim();
+        if (
+          line1 &&
+          !line1.startsWith('$') &&
+          !line1.includes('V2000') &&
+          !line1.includes('M  END') &&
+          !/^\s*\d+\s+\d+/.test(line1)
+        ) {
+          return line1;
+        }
+      }
+    }
+    return item?.name || item?.title || `Molecule #${defaultIndex}`;
+  }
+
   // Output Logs per Step (Cached Array References for *ngFor)
   public step1Log: string = '';
   public step2Log: string = '';
@@ -101,9 +163,11 @@ export class ReadCheckStoreComponent implements OnInit {
 
   constructor(
     private reactCloudApi: ReactCloudApiService,
+    private executionParser: ExecutionOutputParserService,
     @Optional() public dialogRef?: MatDialogRef<ReadCheckStoreComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: { dataType?: DataTypeOption }
   ) {}
+
 
   ngOnInit(): void {
     if (this.dialogData?.dataType) {
@@ -189,6 +253,7 @@ export class ReadCheckStoreComponent implements OnInit {
     this.errorMessage = '';
     this.statusMessage = '';
     this.orchestratorWarning = false;
+    this.expandedParsedItems = {};
   }
 
   /**
@@ -254,14 +319,25 @@ export class ReadCheckStoreComponent implements OnInit {
       this.isExecuting = false;
 
       if (res) {
-        this.step1Log = res.output || 'Step 1 completed.';
-        if (res.error) this.step1Log += `\n--- ERRORS ---\n${res.error}`;
+        // Parse into 3 distinct sections (Input SDF, Parsed Objects, Execution Log)
+        this.step1OutputSections = this.executionParser.parseExecutionOutput(res.output || '', this.dataType);
+        this.expandedParsedItems = {};
+        if (this.fileContent && !this.step1OutputSections.inputDataText) {
+          this.step1OutputSections.inputDataText = this.fileContent;
+        }
+
+        // Section 3 Raw Terminal Output: Only include output after '--- Execution Log ---'
+        let rawLogText = this.step1OutputSections.executionLogText || '';
+        if (res.error) {
+          rawLogText += (rawLogText ? '\n--- ERRORS ---\n' : '') + res.error;
+        }
+        this.step1Log = rawLogText;
         this.step1Lines = this.parseLogToLines(this.step1Log);
 
         if (res.exitCode === 0 && !res.output.includes('ERROR:')) {
           this.step1Completed = true;
           this.statusMessage = 'Step 1 Read & Format Check successful!';
-          this.parsedStructuresCount = (res.output.match(/:Mol|:Rxn|:Sub/g) || []).length || 1;
+          this.parsedStructuresCount = this.step1OutputSections.parsedDataStructures.length || (res.output.match(/:Mol|:Rxn|:Sub/g) || []).length || 1;
         } else {
           this.errorMessage = 'Format error detected during Step 1 Read. Check output log.';
         }
@@ -322,27 +398,109 @@ export class ReadCheckStoreComponent implements OnInit {
     this.hasConflicts = false;
 
     if (output) {
-      const lines = output.split('\n');
-      lines.forEach((line, idx) => {
-        if (line.includes('FOUND') || line.includes('EXISTS') || line.includes('PRESENT')) {
-          this.hasConflicts = true;
+      const lines = output.split(/\r?\n/);
+      let inReportTable = false;
+
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed) continue;
+
+        // STOP SIGNAL: Stop processing when reaching Summary line, boundary line, ': X Molecules', ':Mol', or 'Command:'
+        if (
+          /^\:\s*\d+\s+(Molecules|Substructures|ReactionPatterns|Mechanisms)/i.test(trimmed) ||
+          /^Summary:/i.test(trimmed) ||
+          /^Command:/i.test(trimmed) ||
+          /^\:\s*Mol/i.test(trimmed)
+        ) {
+          if (inReportTable && items.length > 0) {
+            break;
+          }
+        }
+
+        // Detect start of Report Table header
+        if (trimmed.includes('Index') && trimmed.includes('Name') && (trimmed.includes('Status') || trimmed.includes('Database'))) {
+          inReportTable = true;
+          continue;
+        }
+
+        if (inReportTable) {
+          // Skip divider lines
+          if (trimmed.startsWith('----') || trimmed.startsWith('====')) {
+            continue;
+          }
+
+          // Parse table row e.g. "1 .cco(h) 20304202 EXISTS" or ".cco(h) 20304202 EXISTS"
+          const tokens = trimmed.split(/\s+/);
+          if (tokens.length >= 2) {
+            let name = tokens[0];
+            let dbId = '';
+            let statusStr = '';
+
+            if (/^\d+$/.test(tokens[0]) && tokens.length >= 3) {
+              name = tokens[1];
+              dbId = tokens[2];
+              statusStr = tokens.slice(3).join(' ') || tokens[2];
+            } else if (tokens.length >= 3) {
+              name = tokens[0];
+              dbId = tokens[1];
+              statusStr = tokens.slice(2).join(' ');
+            } else {
+              name = tokens[0];
+              statusStr = tokens[1];
+            }
+
+            const upperStatus = statusStr.toUpperCase();
+            const upperDbId = dbId.toUpperCase();
+            const isNotFound = upperStatus.includes('NOT FOUND') ||
+                              upperStatus.includes('NOT_FOUND') ||
+                              upperStatus.includes('NOT') ||
+                              upperDbId === '---' ||
+                              upperDbId === 'NOT_FOUND';
+
+            const isPresent = !isNotFound && (
+              upperStatus.includes('EXISTS') ||
+              upperStatus.includes('PRESENT') ||
+              (upperStatus.includes('FOUND') && !upperStatus.includes('NOT')) ||
+              (dbId !== '' && dbId !== '---' && dbId !== 'NOT_FOUND' && /^\d+$/.test(dbId))
+            );
+
+            if (isPresent) {
+              this.hasConflicts = true;
+            }
+
+            items.push({
+              id: `ITEM-${items.length + 1}`,
+              name: name,
+              dbId: dbId,
+              inDatabase: isPresent,
+              status: isPresent ? 'Present' : 'New',
+              suggestedAction: isPresent ? 'Replace' : 'Add'
+            });
+          }
+        }
+      }
+    }
+
+    // Fallback if no explicit report header matched
+    if (items.length === 0 && output) {
+      const lines = output.split(/\r?\n/);
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (/^\:\s*\d+\s+(Molecules|Substructures)/i.test(trimmed) || /^Command:/i.test(trimmed) || /^Summary:/i.test(trimmed)) {
+          break;
+        }
+        if (trimmed.includes('EXISTS') || trimmed.includes('PRESENT') || trimmed.includes('NOT_FOUND')) {
+          const isPresent = !trimmed.includes('NOT_FOUND');
+          if (isPresent) this.hasConflicts = true;
           items.push({
-            id: `ITEM-${idx}`,
-            name: line.trim(),
-            inDatabase: true,
-            status: 'Present',
-            suggestedAction: 'Replace'
-          });
-        } else if (line.includes(':Mol') || line.includes(':Rxn') || line.includes(':Sub')) {
-          items.push({
-            id: `ITEM-${idx}`,
-            name: line.trim(),
-            inDatabase: false,
-            status: 'New',
-            suggestedAction: 'Add'
+            id: `ITEM-${items.length + 1}`,
+            name: trimmed,
+            inDatabase: isPresent,
+            status: isPresent ? 'Present' : 'New',
+            suggestedAction: isPresent ? 'Replace' : 'Add'
           });
         }
-      });
+      }
     }
 
     if (items.length === 0) {

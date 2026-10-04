@@ -13,12 +13,15 @@ WORKSPACE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REACTROOT="${WORKSPACE_DIR}/REACTCLOUD"
 CCROOT="${WORKSPACE_DIR}/REACTCLOUD"
 INTERFACE_DIR="${WORKSPACE_DIR}/REACTInterface"
+KETCHER_DIR="${WORKSPACE_DIR}/ketcher"
 
 ORCH_PORT=8085
 FRONTEND_PORT=4200
+KETCHER_PORT=4002
 
 ORCH_LOG="/tmp/react_orchestrator.log"
 FRONTEND_LOG="/tmp/react_frontend.log"
+KETCHER_LOG="/tmp/react_ketcher.log"
 
 export REACTROOT
 export CCROOT
@@ -62,7 +65,16 @@ check_status() {
         echo -e "  [${RED}STOPPED${NC}] Orchestrator Service (Port ${ORCH_PORT})"
     fi
 
-    # 2. Frontend
+    # 2. Ketcher Standalone
+    if is_port_in_use "$KETCHER_PORT"; then
+        local pid=$(get_pid_on_port "$KETCHER_PORT")
+        echo -e "  [${GREEN}RUNNING${NC}] Ketcher Standalone Server (Port ${KETCHER_PORT}, PID: ${pid:-unknown})"
+        echo -e "           URL: http://localhost:${KETCHER_PORT}"
+    else
+        echo -e "  [${RED}STOPPED${NC}] Ketcher Standalone Server (Port ${KETCHER_PORT})"
+    fi
+
+    # 3. Frontend
     if is_port_in_use "$FRONTEND_PORT"; then
         local pid=$(get_pid_on_port "$FRONTEND_PORT")
         echo -e "  [${GREEN}RUNNING${NC}] REACTInterface Frontend (Port ${FRONTEND_PORT}, PID: ${pid:-unknown})"
@@ -83,6 +95,16 @@ stop_services() {
         fi
     else
         echo "Orchestrator not running."
+    fi
+
+    if is_port_in_use "$KETCHER_PORT"; then
+        local pid=$(get_pid_on_port "$KETCHER_PORT")
+        if [ -n "$pid" ]; then
+            echo "Stopping Ketcher Standalone Server (PID: $pid)..."
+            kill "$pid" 2>/dev/null || kill -9 "$pid" 2>/dev/null || true
+        fi
+    else
+        echo "Ketcher server not running."
     fi
 
     if is_port_in_use "$FRONTEND_PORT"; then
@@ -141,7 +163,7 @@ else
 fi
 
 # Step 2: Orchestrator Service Check & Launch
-echo -e "\n${BOLD}[1/2] Checking Orchestrator Service (Port ${ORCH_PORT})...${NC}"
+echo -e "\n${BOLD}[1/3] Checking Orchestrator Service (Port ${ORCH_PORT})...${NC}"
 if is_port_in_use "$ORCH_PORT"; then
     local_pid=$(get_pid_on_port "$ORCH_PORT")
     echo -e "  [${GREEN}ALREADY RUNNING${NC}] Orchestrator is active on port ${ORCH_PORT} (PID: ${local_pid:-unknown})"
@@ -171,8 +193,33 @@ else
     done
 fi
 
-# Step 3: REACTInterface Angular Frontend Check & Launch
-echo -e "\n${BOLD}[2/2] Checking REACTInterface Frontend (Port ${FRONTEND_PORT})...${NC}"
+# Step 3: Ketcher Standalone Server Check & Launch
+echo -e "\n${BOLD}[2/3] Checking Ketcher Standalone Server (Port ${KETCHER_PORT})...${NC}"
+if is_port_in_use "$KETCHER_PORT"; then
+    ketcher_pid=$(get_pid_on_port "$KETCHER_PORT")
+    echo -e "  [${GREEN}ALREADY RUNNING${NC}] Ketcher Standalone Server is active on port ${KETCHER_PORT} (PID: ${ketcher_pid:-unknown})"
+else
+    echo "Starting Ketcher Standalone Server..."
+    cd "${KETCHER_DIR}/example"
+    
+    if [ ! -d "node_modules" ]; then
+        echo "Installing Ketcher example npm dependencies..."
+        npm install
+    fi
+
+    if [ ! -d "dist/standalone" ]; then
+        echo "Building Ketcher standalone distribution..."
+        npm run build:standalone
+    fi
+    
+    nohup npm run serve:standalone > "${KETCHER_LOG}" 2>&1 &
+    KETCHER_PID=$!
+    disown $KETCHER_PID 2>/dev/null || true
+    echo "  Spawned Ketcher Standalone Server (PID: ${KETCHER_PID}), logging to ${KETCHER_LOG}"
+fi
+
+# Step 4: REACTInterface Angular Frontend Check & Launch
+echo -e "\n${BOLD}[3/3] Checking REACTInterface Frontend (Port ${FRONTEND_PORT})...${NC}"
 if is_port_in_use "$FRONTEND_PORT"; then
     frontend_pid=$(get_pid_on_port "$FRONTEND_PORT")
     echo -e "  [${GREEN}ALREADY RUNNING${NC}] REACTInterface Frontend is active on port ${FRONTEND_PORT} (PID: ${frontend_pid:-unknown})"
@@ -197,6 +244,9 @@ echo -e "${BOLD}${GREEN}   REACT Stack successfully initialized!              ${
 echo -e "${BOLD}${GREEN}======================================================${NC}"
 echo -e "  - ${BOLD}REACTInterface Frontend:${NC} http://localhost:${FRONTEND_PORT}"
 echo -e "  - ${BOLD}Orchestrator Backend:${NC}   http://localhost:${ORCH_PORT}"
+echo -e "  - ${BOLD}Ketcher Standalone:${NC}     http://localhost:${KETCHER_PORT}"
 echo -e "  - ${BOLD}Orchestrator Logs:${NC}      ${ORCH_LOG}"
+echo -e "  - ${BOLD}Ketcher Logs:${NC}           ${KETCHER_LOG}"
 echo -e "  - ${BOLD}Frontend Logs:${NC}          ${FRONTEND_LOG}"
 echo -e "\nUse ${BOLD}./start_react_stack.sh --status${NC} to check status or ${BOLD}./start_react_stack.sh --stop${NC} to shutdown.\n"
+

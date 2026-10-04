@@ -419,8 +419,205 @@
       justify-content: flex-end;
       margin-top: 20px;
     }
+
+    /* 3-Section Collapsible Output Views */
+    .output-sections-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+
+      .output-section-card {
+        background: #0f172a;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .one-line-summary-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 16px;
+        background: rgba(30, 41, 59, 0.6);
+        cursor: pointer;
+        transition: background 0.2s ease;
+
+        &:hover {
+          background: rgba(51, 65, 85, 0.8);
+        }
+
+        .one-line-summary-text {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+
+          .one-line-summary-badge {
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+
+            &.badge-blue {
+              background: rgba(56, 189, 248, 0.2);
+              color: #38bdf8;
+              border: 1px solid rgba(56, 189, 248, 0.4);
+            }
+            &.badge-green {
+              background: rgba(74, 222, 128, 0.2);
+              color: #4ade80;
+              border: 1px solid rgba(74, 222, 128, 0.4);
+            }
+            &.badge-gray {
+              background: rgba(148, 163, 184, 0.2);
+              color: #94a3b8;
+              border: 1px solid rgba(148, 163, 184, 0.4);
+            }
+          }
+
+          .one-line-summary-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #f8fafc;
+          }
+        }
+      }
+
+      .one-line-summary-card {
+        padding: 16px;
+        background: #090d16;
+
+        .one-line-summary-card-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 12px;
+
+          .one-line-summary-card-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #38bdf8;
+          }
+        }
+
+        .scrollable-text-box {
+          max-height: 250px;
+          overflow-y: auto;
+          background: #020617;
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          border-radius: 6px;
+          padding: 12px;
+
+          pre {
+            margin: 0;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            color: #cbd5e1;
+            white-space: pre-wrap;
+          }
+        }
+
+        .parsed-objects-grid {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+
+          .parsed-item-wrapper {
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            overflow: hidden;
+
+            .item-summary-row {
+              background: rgba(15, 23, 42, 0.8);
+              border-radius: 6px;
+              padding: 8px 12px;
+
+              &:hover {
+                background: rgba(30, 41, 59, 0.9);
+              }
+
+              .item-type-icon {
+                font-size: 20px;
+                width: 20px;
+                height: 20px;
+              }
+            }
+
+            .item-expanded-card {
+              background: #0b1120;
+              border-radius: 6px;
+              padding: 16px;
+              border: 1px solid rgba(56, 189, 248, 0.2);
+
+              .molecule-ketcher-box {
+                margin-bottom: 16px;
+              }
+
+              .molecule-subsections-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                gap: 12px;
+                margin-top: 12px;
+
+                .sub-section-card {
+                  background: #0f172a;
+                  border: 1px solid rgba(255, 255, 255, 0.08);
+                  border-radius: 6px;
+                  overflow: hidden;
+
+                  .sub-section-card-header {
+                    background: rgba(30, 41, 59, 0.6);
+                    padding: 8px 12px;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    font-weight: 600;
+                    font-size: 0.85rem;
+                    color: #38bdf8;
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+                    mat-icon {
+                      font-size: 18px;
+                      width: 18px;
+                      height: 18px;
+                    }
+                  }
+
+                  .sub-section-card-body {
+                    margin: 0;
+                    padding: 10px 12px;
+                    font-family: 'Fira Code', 'Courier New', monospace;
+                    font-size: 0.78rem;
+                    line-height: 1.4;
+                    color: #cbd5e1;
+                    white-space: pre-wrap;
+                    max-height: 200px;
+                    overflow-y: auto;
+                  }
+                }
+              }
+
+              .raw-data-content pre {
+                margin: 0;
+                font-family: 'Fira Code', 'Courier New', monospace;
+                font-size: 0.8rem;
+                color: #cbd5e1;
+                white-space: pre-wrap;
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
+
 
 /* Global Select Dropdown Overlay Dark Theme */
 ::ng-deep .cdk-overlay-container {
