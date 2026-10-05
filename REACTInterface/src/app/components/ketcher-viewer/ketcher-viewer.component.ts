@@ -147,9 +147,20 @@ export class KetcherViewerComponent implements OnChanges, AfterViewInit {
     const trimmed = rawSdf.trim();
     if (trimmed.includes('$RXN')) return trimmed; // MDL $RXN reaction format
 
-    const lines = trimmed.split(/\r?\n/);
+    if (trimmed.includes('$$$$')) {
+      const sdfBlocks = trimmed.split('$$$$');
+      return sdfBlocks
+        .map(block => (block.trim() ? this.processSingleMolfile(block) : ''))
+        .join('$$$$\n');
+    }
+
+    return this.processSingleMolfile(trimmed);
+  }
+
+  private processSingleMolfile(molfileStr: string): string {
+    const lines = molfileStr.split(/\r?\n/);
     const countsLineIdx = lines.findIndex(l => /^\s*\d+\s+\d+/.test(l));
-    if (countsLineIdx < 0) return trimmed;
+    if (countsLineIdx < 0) return molfileStr;
 
     // Ensure exactly 3 preamble lines before the counts line as mandated by MDL MOL spec
     let preamble = lines.slice(0, countsLineIdx);
@@ -172,6 +183,49 @@ export class KetcherViewerComponent implements OnChanges, AfterViewInit {
         const formattedAtoms = nAtoms.toString().padStart(3, ' ');
         const formattedBonds = nBonds.toString().padStart(3, ' ');
         body[0] = `${formattedAtoms}${formattedBonds}  0  0  0  0  0  0  0  0999 V2000`;
+      }
+    }
+
+    // Process atom lines for radical code 4 -> 0 and generate M RAD property lines
+    const countsMatch = body[0].match(/^\s*(\d+)\s+(\d+)/);
+    if (countsMatch) {
+      const nAtoms = parseInt(countsMatch[1], 10);
+      const radicals: { atomIdx: number; type: number }[] = [];
+
+      for (let i = 1; i <= nAtoms && i < body.length; i++) {
+        const atomLine = body[i];
+        if (atomLine.length >= 39) {
+          const chargeField = atomLine.substring(36, 39);
+          const chargeVal = parseInt(chargeField.trim(), 10);
+          if (chargeVal === 4) {
+            // Replace charge 4 with 0 on atom line
+            body[i] = atomLine.substring(0, 36) + '  0' + atomLine.substring(39);
+            radicals.push({ atomIdx: i, type: 2 }); // 2 = doublet radical
+          }
+        }
+      }
+
+      // Check if M RAD line already exists
+      const hasMRad = body.some(l => l.startsWith('M  RAD'));
+      if (radicals.length > 0 && !hasMRad) {
+        const mRadLines: string[] = [];
+        // Max 8 entry pairs per M RAD line
+        for (let idx = 0; idx < radicals.length; idx += 8) {
+          const chunk = radicals.slice(idx, idx + 8);
+          let mRadStr = `M  RAD${chunk.length.toString().padStart(3, ' ')}`;
+          for (const rad of chunk) {
+            mRadStr += `${rad.atomIdx.toString().padStart(4, ' ')}${rad.type.toString().padStart(4, ' ')}`;
+          }
+          mRadLines.push(mRadStr);
+        }
+
+        const mEndIdx = body.findIndex(l => l.trim() === 'M  END' || l.startsWith('M  END'));
+        if (mEndIdx >= 0) {
+          body.splice(mEndIdx, 0, ...mRadLines);
+        } else {
+          body.push(...mRadLines);
+          body.push('M  END');
+        }
       }
     }
 

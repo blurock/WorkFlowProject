@@ -11,6 +11,7 @@ static INT PrintMolFilePreamble(FILE *file, MolFileMolecule *mol);
 static INT PrintMolFileAtoms(FILE *file, MolFileMolecule *mol);
 static INT ChargeNumberFromRadChrg(FLOAT rad, FLOAT chrg);
 static INT PrintMolFileBonds(FILE *file, MolFileMolecule *mol);
+static INT PrintMolFileProperties(FILE *file, MolFileMolecule *mol);
 
 #define DEBUG DEBUG0
 
@@ -688,6 +689,8 @@ extern INT PrintMoleculeAsMolFile(FILE *file, MoleculeInfo *mol)
     ret = PrintMolFileAtoms(file,mol->Molfile);
   if(ret == SYSTEM_NORMAL_RETURN)
     ret = PrintMolFileBonds(file,mol->Molfile);
+  if(ret == SYSTEM_NORMAL_RETURN)
+    ret = PrintMolFileProperties(file,mol->Molfile);
   fprintf(file,"M  END\n");
   return(ret);
 }
@@ -767,17 +770,11 @@ static INT ChargeNumberFromRadChrg(FLOAT rad, FLOAT chrg)
 {
   int ans;
 
-  if(rad == 0.0)
-    {
-      if(chrg == 0.0)
-	ans = 0;
-      else
-	ans = 4 - floor(chrg+.00001);
-    }
+  if(chrg == 0.0)
+    ans = 0;
   else
-    {
-      ans = 4;
-    }
+    ans = 4 - floor(chrg+.00001);
+
   return ans;
 }
  
@@ -808,5 +805,54 @@ static INT PrintMolFileBonds(FILE *file, MolFileMolecule *mol)
     }
   else
     ret = SYSTEM_ERROR_RETURN;
-      return(ret);
+  return(ret);
+}
+
+static INT PrintMolFileProperties(FILE *file, MolFileMolecule *mol)
+{
+  MolFileAtom *atm;
+  INT i, nradicals = 0, count_on_line = 0;
+
+  if (mol == 0 || mol->Atoms == 0)
+    return SYSTEM_NORMAL_RETURN;
+
+  atm = mol->Atoms;
+  LOOPi(mol->NAtoms)
+    {
+      if (atm->Radical > 0.0)
+        nradicals++;
+      atm++;
+    }
+
+  if (nradicals > 0)
+    {
+      fprintf(file, "M  RAD%3d", nradicals);
+      atm = mol->Atoms;
+      LOOPi(mol->NAtoms)
+        {
+          if (atm->Radical > 0.0)
+            {
+              INT rad_type = 2; /* 2 = doublet radical */
+              if (atm->Radical == 2.0)
+                rad_type = 3;   /* 3 = triplet radical */
+              else if (atm->Radical == 3.0)
+                rad_type = 1;   /* 1 = singlet radical */
+
+              fprintf(file, "%4d%4d", i + 1, rad_type);
+              count_on_line++;
+              if (count_on_line == 8 && i < mol->NAtoms - 1)
+                {
+                  fprintf(file, "\n");
+                  nradicals -= count_on_line;
+                  if (nradicals > 0)
+                    fprintf(file, "M  RAD%3d", nradicals);
+                  count_on_line = 0;
+                }
+            }
+          atm++;
+        }
+      fprintf(file, "\n");
+    }
+
+  return SYSTEM_NORMAL_RETURN;
 }
