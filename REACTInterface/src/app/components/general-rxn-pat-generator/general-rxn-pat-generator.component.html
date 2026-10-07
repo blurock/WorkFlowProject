@@ -1,0 +1,413 @@
+<div class="generator-dialog-container">
+  <!-- Dialog Header -->
+  <div class="generator-dialog-header">
+    <div class="header-title-group">
+      <mat-icon class="header-icon" color="accent">hub</mat-icon>
+      <h2>Reaction Pattern Generator</h2>
+      <span class="step-chip badge-step-{{ currentStep }}">Step {{ currentStep }} of 5</span>
+    </div>
+    <div class="header-actions">
+      <button mat-icon-button (click)="closeDialog()" matTooltip="Close Generator">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Status / Error Bar -->
+  <div *ngIf="statusMessage" class="status-banner info">
+    <mat-icon>info</mat-icon>
+    <span>{{ statusMessage }}</span>
+  </div>
+  <div *ngIf="errorMessage" class="status-banner error">
+    <mat-icon>error_outline</mat-icon>
+    <span>{{ errorMessage }}</span>
+  </div>
+
+  <mat-progress-bar *ngIf="isExecuting" mode="indeterminate" class="executing-progress"></mat-progress-bar>
+
+  <!-- Main Split Layout -->
+  <div class="generator-split-container">
+    <!-- Left Column: Ketcher Drawing Canvas -->
+    <div class="ketcher-column">
+      <app-ketcher-viewer
+        #ketcherCanvas
+        [molfile]="templateRxnContent"
+        title="1. Draw Reaction Template (Ketcher)">
+      </app-ketcher-viewer>
+    </div>
+
+    <!-- Right Column: Reaction Class Configuration & Translator Panels (All 7 Panels) -->
+    <div class="panels-column">
+
+      <!-- Panel 1: Button Toolbar -->
+      <mat-card class="panel-card button-toolbar-card">
+        <mat-card-header>
+          <mat-card-title class="card-subtitle">
+            <mat-icon>play_circle</mat-icon> 1. Control Toolbar
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="button-toolbar-actions">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="validateTemplate()"
+            [disabled]="isExecuting"
+            matTooltip="Validate reaction template atoms, counts, and arrow">
+            <mat-icon>fact_check</mat-icon>
+            Validate Template
+          </button>
+
+          <button
+            mat-raised-button
+            color="accent"
+            (click)="assignAtoms()"
+            [disabled]="!isValidated || isExecuting"
+            matTooltip="Fill in atom correspondences, bond changes & R-groups">
+            <mat-icon>link</mat-icon>
+            Assign Atoms
+          </button>
+
+          <button
+            mat-raised-button
+            color="accent"
+            (click)="generateClass()"
+            [disabled]="!isAssigned || isExecuting"
+            matTooltip="Define substructures & generate all R-group reaction pattern permutations">
+            <mat-icon>auto_awesome</mat-icon>
+            Generate Class
+          </button>
+
+          <button
+            mat-stroked-button
+            color="primary"
+            (click)="checkDatabase()"
+            [disabled]="!isGenerated || isExecuting"
+            matTooltip="Check if class already exists in REACTCLOUD database">
+            <mat-icon>pageview</mat-icon>
+            Check Database
+          </button>
+
+          <button
+            mat-raised-button
+            color="warn"
+            (click)="storeClass()"
+            [disabled]="!isChecked || isExecuting"
+            matTooltip="Store reaction class and pattern set in database">
+            <mat-icon>save_alt</mat-icon>
+            Store Class
+          </button>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Panel 2: Class Name Panel -->
+      <mat-card class="panel-card">
+        <mat-card-header>
+          <mat-card-title class="card-subtitle">
+            <mat-icon>badge</mat-icon> 2. Class Name Configuration
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="form-grid-2col">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Root Template Name (Root)</mat-label>
+            <input matInput [(ngModel)]="rootName" (ngModelChange)="onRootNameChange()" placeholder="e.g. AlkOHOODecomposition" />
+            <mat-hint>Base identifier for the reaction class</mat-hint>
+          </mat-form-field>
+
+          <div class="generated-name-preview">
+            <label class="preview-label">Generated Class Pattern:</label>
+            <span class="preview-chip">{{ generatedClassNamePattern || rootName + '-(XXX)' }}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Panel 3: Reaction Constants (Default Rate Constants) -->
+      <mat-card class="panel-card">
+        <mat-card-header>
+          <mat-card-title class="card-subtitle">
+            <mat-icon>functions</mat-icon> 3. Default Reaction Rate Constants (Arrhenius Form)
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="rate-constants-split">
+            <!-- Forward Direction -->
+            <div class="rate-box forward-box">
+              <h4>Forward Reaction Rate Constants</h4>
+              <div class="rate-inputs-grid">
+                <mat-form-field appearance="outline">
+                  <mat-label>A Constant</mat-label>
+                  <input matInput type="number" [(ngModel)]="forwardRateDefault.Aconstant" />
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Activation Energy (cal/mol)</mat-label>
+                  <input matInput type="number" [(ngModel)]="forwardRateDefault.Energy" />
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Temp Exponent (n)</mat-label>
+                  <input matInput type="number" [(ngModel)]="forwardRateDefault.TempExp" />
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Symmetry Factor</mat-label>
+                  <input matInput type="number" [(ngModel)]="forwardRateDefault.SymmetryFactor" />
+                </mat-form-field>
+              </div>
+              <mat-form-field appearance="outline" class="full-width mt-1">
+                <mat-label>Forward Reference / Note</mat-label>
+                <input matInput [(ngModel)]="forwardRateDefault.Reference" />
+              </mat-form-field>
+            </div>
+
+            <!-- Reverse Direction -->
+            <div class="rate-box reverse-box">
+              <h4>Reverse Reaction Rate Constants</h4>
+              <div class="rate-inputs-grid">
+                <mat-form-field appearance="outline">
+                  <mat-label>A Constant</mat-label>
+                  <input matInput type="number" [(ngModel)]="reverseRateDefault.Aconstant" />
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Activation Energy (cal/mol)</mat-label>
+                  <input matInput type="number" [(ngModel)]="reverseRateDefault.Energy" />
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Temp Exponent (n)</mat-label>
+                  <input matInput type="number" [(ngModel)]="reverseRateDefault.TempExp" />
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Symmetry Factor</mat-label>
+                  <input matInput type="number" [(ngModel)]="reverseRateDefault.SymmetryFactor" />
+                </mat-form-field>
+              </div>
+              <mat-form-field appearance="outline" class="full-width mt-1">
+                <mat-label>Reverse Reference / Note</mat-label>
+                <input matInput [(ngModel)]="reverseRateDefault.Reference" />
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Panel 4: Atom Correspondences & Bond Changes -->
+      <mat-card class="panel-card">
+        <mat-card-header>
+          <mat-card-title class="card-subtitle">
+            <mat-icon>compare_arrows</mat-icon> 4. Atom Correspondences & Bond Changes
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <ng-container *ngIf="isAssigned || isValidated; else assignPrompt4">
+            <!-- Correspondence Table -->
+            <h5>Reactant to Product Atom Mapping</h5>
+            <table mat-table [dataSource]="correspondenceRows" class="mat-elevation-z1 generator-table mb-3">
+              <ng-container matColumnDef="reactantAtom">
+                <th mat-header-cell *matHeaderCellDef>Reactant Atom #</th>
+                <td mat-cell *matCellDef="let row">Atom #{{ row.reactantAtomNumber }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="atomType">
+                <th mat-header-cell *matHeaderCellDef>Atom Type</th>
+                <td mat-cell *matCellDef="let row"><span class="atom-type-badge">{{ row.reactantSymbol }}</span></td>
+              </ng-container>
+
+              <ng-container matColumnDef="productAtomDropdown">
+                <th mat-header-cell *matHeaderCellDef>Product Atom Dropdown</th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-select [(ngModel)]="row.productAtomNumber" (selectionChange)="onCorrespondenceChange()" class="table-select">
+                    <mat-option *ngFor="let cand of row.candidateProductAtoms" [value]="cand.atomNumber">
+                      {{ cand.label }}
+                    </mat-option>
+                  </mat-select>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="correspondenceDisplayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: correspondenceDisplayedColumns;"></tr>
+            </table>
+
+            <!-- Bond Changes Table -->
+            <h5>Bond Breaking / Formation Changes</h5>
+            <table mat-table [dataSource]="bondChangeRows" class="mat-elevation-z1 generator-table">
+              <ng-container matColumnDef="molecule">
+                <th mat-header-cell *matHeaderCellDef>Molecule Z</th>
+                <td mat-cell *matCellDef="let row">Molecule #{{ row.moleculeIndex }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="atomX">
+                <th mat-header-cell *matHeaderCellDef>Atom X</th>
+                <td mat-cell *matCellDef="let row">Atom #{{ row.atom1Number }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="atomY">
+                <th mat-header-cell *matHeaderCellDef>Atom Y</th>
+                <td mat-cell *matCellDef="let row">Atom #{{ row.atom2Number }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="changeType">
+                <th mat-header-cell *matHeaderCellDef>Bond Change Type</th>
+                <td mat-cell *matCellDef="let row">
+                  <span class="bond-type-badge" [class.broken]="row.type === 4" [class.formed]="row.type === 104">
+                    {{ row.type === 4 ? '4 (Broken Bond)' : '104 (Formed Bond)' }}
+                  </span>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="bondChangesDisplayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: bondChangesDisplayedColumns;"></tr>
+            </table>
+
+            <div class="unmatched-badge mt-2">
+              <mat-icon>check_circle</mat-icon> Unmatched Reactant Atoms: {{ unmatchedAtomsCount }} (Verified)
+            </div>
+          </ng-container>
+          <ng-template #assignPrompt4>
+            <div class="panel-placeholder-box">
+              <mat-icon color="accent">info</mat-icon>
+              <span>Click <strong>'Validate Template'</strong> then <strong>'Assign Atoms'</strong> in the toolbar above to populate atom correspondences and bond changes.</span>
+            </div>
+          </ng-template>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Panel 5: Table of R Groupings -->
+      <mat-card class="panel-card">
+        <mat-card-header>
+          <mat-card-title class="card-subtitle">
+            <mat-icon>hub</mat-icon> 5. Table of R Groupings & Permutations
+          </mat-card-title>
+          <div *ngIf="isAssigned" class="header-badge">
+            Total Class Permutations: <strong>{{ totalPermutationsCount }}</strong> Patterns
+          </div>
+        </mat-card-header>
+        <mat-card-content>
+          <ng-container *ngIf="isAssigned; else assignPrompt5">
+            <table mat-table [dataSource]="rGroupRows" class="mat-elevation-z1 generator-table">
+              <ng-container matColumnDef="groupIndex">
+                <th mat-header-cell *matHeaderCellDef>Group #</th>
+                <td mat-cell *matCellDef="let row">Group {{ row.groupIndex }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="rAtoms">
+                <th mat-header-cell *matHeaderCellDef>R Atoms in Group</th>
+                <td mat-cell *matCellDef="let row">
+                  <span class="r-atoms-list">{{ row.rAtomSymbols.join(', ') }}</span>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="centralAtom">
+                <th mat-header-cell *matHeaderCellDef>Attached Central Atom</th>
+                <td mat-cell *matCellDef="let row">Atom {{ row.centralAtomSymbol }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="assignments">
+                <th mat-header-cell *matHeaderCellDef>Group Assignments (Allowed Substitutions)</th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-form-field appearance="outline" class="dense-field">
+                    <input matInput [(ngModel)]="row.assignmentOptions" (ngModelChange)="onRGroupAssignmentChange()" />
+                  </mat-form-field>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="rGroupDisplayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: rGroupDisplayedColumns;"></tr>
+            </table>
+          </ng-container>
+          <ng-template #assignPrompt5>
+            <div class="panel-placeholder-box">
+              <mat-icon color="accent">info</mat-icon>
+              <span>Click <strong>'Assign Atoms'</strong> in the toolbar to auto-detect generic R-groupings and configure substitution permutations.</span>
+            </div>
+          </ng-template>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Panel 6: Substructures Panel -->
+      <mat-card class="panel-card">
+        <mat-card-header>
+          <mat-card-title class="card-subtitle">
+            <mat-icon>account_tree</mat-icon> 6. Required Class Substructures ({{ substructures.length }})
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <ng-container *ngIf="isGenerated; else generatePrompt6">
+            <div class="substructures-list">
+              <div *ngFor="let item of substructures; let idx = index" class="substructure-row">
+                <div class="substructure-header">
+                  <span class="sub-index">#{{ idx + 1 }}</span>
+                  <span class="sub-name">{{ item.name }}</span>
+                  <button mat-icon-button color="accent" (click)="item.isExpanded = !item.isExpanded" matTooltip="Toggle Molfile Preview">
+                    <mat-icon>visibility</mat-icon>
+                  </button>
+                </div>
+                <div *ngIf="item.isExpanded" class="molfile-preview-card mt-2">
+                  <app-ketcher-viewer [molfile]="item.molfile" title="Substructure Molfile Viewer"></app-ketcher-viewer>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <ng-template #generatePrompt6>
+            <div class="panel-placeholder-box">
+              <mat-icon color="accent">info</mat-icon>
+              <span>Click <strong>'Generate Class'</strong> in the toolbar to define required class substructures and molfiles.</span>
+            </div>
+          </ng-template>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Panel 7: Reaction Pattern List Panel -->
+      <mat-card class="panel-card">
+        <mat-card-header>
+          <mat-card-title class="card-subtitle">
+            <mat-icon>view_list</mat-icon> 7. Generated Reaction Pattern Set ({{ generatedRxnPatterns.length }})
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <ng-container *ngIf="isGenerated; else generatePrompt7">
+            <mat-accordion class="patterns-accordion">
+              <mat-expansion-panel *ngFor="let pat of generatedRxnPatterns; let idx = index">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <span class="pat-idx">#{{ idx + 1 }}</span>
+                    <span class="pat-name">{{ pat.name }}</span>
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    Permutations Tag: {{ pat.permutationTag }}
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <ng-template matExpansionPanelContent>
+                  <!-- Pattern Specific Rate Overrides -->
+                  <div class="pattern-detail-content">
+                    <h5>Pattern Structure Preview</h5>
+                    <app-ketcher-viewer [molfile]="pat.molfile" title="Reaction Pattern Ketcher Structure"></app-ketcher-viewer>
+
+                    <h5 class="mt-3">Custom Rate Constants Overrides</h5>
+                    <div class="rate-inputs-grid">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Forward A</mat-label>
+                        <input matInput type="number" [(ngModel)]="pat.forwardRate.Aconstant" />
+                      </mat-form-field>
+                      <mat-form-field appearance="outline">
+                        <mat-label>Forward Ea</mat-label>
+                        <input matInput type="number" [(ngModel)]="pat.forwardRate.Energy" />
+                      </mat-form-field>
+                      <mat-form-field appearance="outline">
+                        <mat-label>Forward Sym</mat-label>
+                        <input matInput type="number" [(ngModel)]="pat.forwardRate.SymmetryFactor" />
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </ng-template>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </ng-container>
+          <ng-template #generatePrompt7>
+            <div class="panel-placeholder-box">
+              <mat-icon color="accent">info</mat-icon>
+              <span>Click <strong>'Generate Class'</strong> in the toolbar to generate all reaction patterns and parameterize rate constants.</span>
+            </div>
+          </ng-template>
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+  </div>
+</div>

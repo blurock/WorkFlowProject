@@ -100,10 +100,10 @@ export class TaskCategoryRegistry {
         },
         {
           id: 'build-rxn-pattern',
-          title: 'Reaction Pattern Builder',
-          description: 'Construct new reaction patterns and parameterize rate coefficients',
-          icon: 'add_chart',
-          type: 'interactive-creator'
+          title: 'Reaction Pattern Generator',
+          description: 'Draw reaction template in Ketcher, assign atom correspondences, generate class patterns & store in REACT database',
+          icon: 'hub',
+          type: 'rxn-pat-generator'
         },
         {
           id: 'read-check-store-db',

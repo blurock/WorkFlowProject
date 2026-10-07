@@ -80,6 +80,10 @@ const App = () => {
 
             if (event.data.eventType === 'GET_STRUCTURE') {
               try {
+                let rxn = '';
+                if (typeof (ketcher as any).getRxn === 'function') {
+                  rxn = await (ketcher as any).getRxn('v2000').catch(() => '');
+                }
                 const [smiles, molfile] = await Promise.all([
                   ketcher.getSmiles().catch(() => ''),
                   ketcher.getMolfile('v2000').catch(() => ''),
@@ -88,12 +92,14 @@ const App = () => {
                   eventType: 'STRUCTURE_RESPONSE',
                   smiles,
                   molfile,
+                  rxn: rxn || molfile
                 });
               } catch (err) {
                 safePostMessage({
                   eventType: 'STRUCTURE_RESPONSE',
                   smiles: '',
                   molfile: '',
+                  rxn: '',
                   error: String(err),
                 });
               }

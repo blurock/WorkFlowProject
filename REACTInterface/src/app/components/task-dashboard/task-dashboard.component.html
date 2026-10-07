@@ -104,6 +104,11 @@
           <app-read-check-store></app-read-check-store>
         </ng-container>
 
+        <!-- 7. Reaction Pattern Generator Task -->
+        <ng-container *ngIf="selectedTask.type === 'rxn-pat-generator'">
+          <app-general-rxn-pat-generator></app-general-rxn-pat-generator>
+        </ng-container>
+
         <!-- 3. Interactive Creator / Generator Tasks (Create & Generate) -->
         <ng-container *ngIf="selectedTask.type === 'interactive-creator'">
           <mat-card class="creator-placeholder-card mat-elevation-z2">

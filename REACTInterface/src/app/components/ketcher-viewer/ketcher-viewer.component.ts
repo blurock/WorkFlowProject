@@ -70,14 +70,57 @@ export class KetcherViewerComponent implements OnChanges, AfterViewInit {
     }
   }
 
+  private getStructureResolve: ((structure: string) => void) | null = null;
+
   @HostListener('window:message', ['$event'])
   onWindowMessage(event: MessageEvent): void {
+    const iframeWin = this.ketcherIframe?.nativeElement?.contentWindow;
+    if (!iframeWin || event.source !== iframeWin) {
+      return;
+    }
     if (event.data?.eventType === 'init' || event.data === 'ketcher-ready') {
       this.isKetcherLoaded = true;
       if (this.molfile) {
         this.sendSdfToKetcher(this.molfile, true);
       }
+    } else if (
+      event.data?.eventType === 'STRUCTURE_RESPONSE' ||
+      event.data?.eventType === 'GET_STRUCTURE_RESPONSE' ||
+      event.data?.eventType === 'GET_MOLFILE_RESPONSE' ||
+      event.data?.eventType === 'EXPORT_STRUCTURE_RESPONSE'
+    ) {
+      if (this.getStructureResolve) {
+        const resultStr = event.data.rxn || event.data.molfile || event.data.smiles || event.data.structure || '';
+        this.getStructureResolve(resultStr);
+        this.getStructureResolve = null;
+      }
     }
+  }
+
+  public exportStructureFromKetcher(format: 'mol' | 'rxn' = 'rxn'): Promise<string> {
+    return new Promise<string>((resolve) => {
+      try {
+        const iframeWin = this.ketcherIframe?.nativeElement?.contentWindow;
+        if (!iframeWin) {
+          resolve('');
+          return;
+        }
+
+        this.getStructureResolve = resolve;
+        iframeWin.postMessage({ eventType: 'GET_STRUCTURE', format }, '*');
+
+        setTimeout(() => {
+          if (this.getStructureResolve) {
+            console.warn('[KetcherViewer] Structure request timed out, returning fallback.');
+            this.getStructureResolve('');
+            this.getStructureResolve = null;
+          }
+        }, 3000);
+      } catch (err) {
+        console.warn('[KetcherViewer] Export structure error:', err);
+        resolve('');
+      }
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {

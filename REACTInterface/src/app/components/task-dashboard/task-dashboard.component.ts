@@ -20,6 +20,7 @@ import { SubmechanismPathSetComponent } from '../submechanism-path-set/submechan
 import { CombineSubmechanismsComponent } from '../combine-submechanisms/combine-submechanisms.component';
 import { GenericFileInputComponent } from '../generic-file-input/generic-file-input.component';
 import { ReadCheckStoreComponent } from '../read-check-store/read-check-store.component';
+import { GeneralRxnPatGeneratorComponent } from '../general-rxn-pat-generator/general-rxn-pat-generator.component';
 
 @Component({
   selector: 'app-task-dashboard',
@@ -41,7 +42,8 @@ import { ReadCheckStoreComponent } from '../read-check-store/read-check-store.co
     SubmechanismPathSetComponent,
     CombineSubmechanismsComponent,
     GenericFileInputComponent,
-    ReadCheckStoreComponent
+    ReadCheckStoreComponent,
+    GeneralRxnPatGeneratorComponent
   ],
   templateUrl: './task-dashboard.component.html',
   styleUrls: ['./task-dashboard.component.scss']
