@@ -256,6 +256,9 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         this.templateRxnContent = await this.ketcherCanvas.exportStructureFromKetcher('rxn');
       }
 
+      console.log('[RxnPatGenerator][validateTemplate] Raw templateRxnContent exported from Ketcher:\n', this.templateRxnContent);
+      console.log('[RxnPatGenerator][validateTemplate] isReactionSmiles:', this.isReactionSmiles(this.templateRxnContent));
+
       if (!this.templateRxnContent || !this.templateRxnContent.trim()) {
         this.errorMessage = 'No reaction structure found in Ketcher drawing area. Please draw a reaction template.';
         this.isExecuting = false;
@@ -336,6 +339,8 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
 
     this.isExecuting = true;
     this.statusMessage = 'Defining substructures & generating reaction pattern permutations...';
+
+    console.log('[RxnPatGenerator][generateClass] Starting generateClass for rootName:', this.rootName);
 
     try {
       this.initMoleculeRootItems();
@@ -636,6 +641,16 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
       });
     });
 
+    console.log('[RxnPatGenerator][initMoleculeRootItems] Initialized items:', items.map(i => ({
+      role: i.roleLabel,
+      molIdx: i.moleculeIndex,
+      isReactant: i.isReactant,
+      hasRGroups: i.hasRGroups,
+      defaultRoot: i.defaultRoot,
+      customRoot: i.customRoot,
+      formula: i.formulaOrType
+    })));
+
     this.moleculeRootItems = items;
   }
 
@@ -835,7 +850,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
   }
 
   private parseReactionSmiles(rxnSmiles: string): void {
-    console.log('[RxnPatGenerator] Parsing structure as Reaction SMILES / CXSMILES...');
+    console.log('[RxnPatGenerator][parseReactionSmiles] Full raw SMILES:', rxnSmiles);
 
     let smilesPart = rxnSmiles.trim();
     let extBlock = '';
@@ -846,6 +861,21 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
       smilesPart = rxnSmiles.substring(0, firstPipe).trim();
       extBlock = rxnSmiles.substring(firstPipe + 1, lastPipe).trim();
     }
+    console.log('[RxnPatGenerator][parseReactionSmiles] smilesPart:', smilesPart, 'extBlock:', extBlock);
+
+    // Parse ChemAxon / Ketcher CXSMILES radical extension (^code:idx1,idx2... or rad:idx:val)
+    const cxRadicals = new Map<number, number>();
+    for (const cm of extBlock.matchAll(/\^(\d+):([0-9,]+)/g)) {
+      const radCode = parseInt(cm[1], 10);
+      const radType = (radCode === 2) ? 1 : ((radCode === 3) ? 3 : 2); // 1, 5 -> doublet (2)
+      cm[2].split(',').map(s => parseInt(s.trim(), 10)).filter(n => !isNaN(n)).forEach(idx => {
+        cxRadicals.set(idx, radType);
+      });
+    }
+    for (const rm of extBlock.matchAll(/rad:(\d+):(\d+)/g)) {
+      cxRadicals.set(parseInt(rm[1], 10), parseInt(rm[2], 10));
+    }
+    console.log('[RxnPatGenerator][parseReactionSmiles] Parsed CXSMILES radicals:', Array.from(cxRadicals.entries()));
 
     const cxLabels: string[] = [];
     const dollarMatch = extBlock.match(/\$([^$]+)\$/);
@@ -871,7 +901,8 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
       1,
       1,
       globalSmilesAtomIdx,
-      cxLabels
+      cxLabels,
+      cxRadicals
     );
     this.reactantAtoms = rResult.atoms;
     this.reactantBonds = rResult.bonds;
@@ -887,10 +918,24 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
       rResult.maxMolIndex + 1,
       productStartAtomNumber,
       globalSmilesAtomIdx,
-      cxLabels
+      cxLabels,
+      cxRadicals
     );
     this.productAtoms = pResult.atoms;
     this.productBonds = pResult.bonds;
+
+    console.log('[RxnPatGenerator][parseReactionSmiles] Resulting Reactant Atoms with Radicals:', this.reactantAtoms.map(a => ({
+      atomNumber: a.atomNumber,
+      symbol: a.symbol,
+      molIdx: a.moleculeIndex,
+      radical: a.radical
+    })));
+    console.log('[RxnPatGenerator][parseReactionSmiles] Resulting Product Atoms with Radicals:', this.productAtoms.map(a => ({
+      atomNumber: a.atomNumber,
+      symbol: a.symbol,
+      molIdx: a.moleculeIndex,
+      radical: a.radical
+    })));
 
     console.log('[RxnPatGenerator] Summary of parsed Reaction SMILES structure:', {
       reactantAtoms: this.reactantAtoms,
@@ -906,7 +951,8 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
     startMolIndex: number,
     startAtomCounter: number,
     startGlobalSmilesIdx: number,
-    cxLabels: string[]
+    cxLabels: string[],
+    cxRadicals: Map<number, number> = new Map()
   ): { atoms: AtomInfo[]; bonds: BondInfo[]; nextGlobalSmilesIdx: number; maxMolIndex: number } {
     const atoms: AtomInfo[] = [];
     const bonds: BondInfo[] = [];
@@ -931,9 +977,19 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
       while ((match = regex.exec(molToken)) !== null) {
         if (match[1] || match[2]) {
           const rawAtomStr = match[1] || match[2];
+          const isBracketed = !!match[1];
           let symbol = rawAtomStr;
 
-          const cxLabel = cxLabels[globalSmilesIdx] || '';
+          const currentIdx = globalSmilesIdx;
+          const cxLabel = cxLabels[currentIdx] || '';
+
+          let radVal: number | undefined = undefined;
+          if (cxRadicals.has(currentIdx)) {
+            radVal = cxRadicals.get(currentIdx);
+          } else if (isBracketed && (rawAtomStr === 'O' || rawAtomStr === 'C' || rawAtomStr.includes('.'))) {
+            radVal = 2; // Default doublet radical for bracketed free-radical centers
+          }
+
           globalSmilesIdx++;
 
           if (cxLabel) {
@@ -959,8 +1015,11 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
             isGeneric: isGeneric,
             moleculeIndex: currentMolIdx,
             isReactant: isReactant,
-            atomMapNumber: atomMapNumber
+            atomMapNumber: atomMapNumber,
+            radical: radVal
           };
+
+          console.log(`[RxnPatGenerator][parseSmilesSection] molIdx=${currentMolIdx}, atom #${atomNum} (${symbol}): rawAtomStr='${rawAtomStr}', cxLabel='${cxLabel}', globalIdx=${currentIdx}, radical=${radVal}`);
 
           molAtoms.push(atomObj);
           atoms.push(atomObj);
@@ -1010,6 +1069,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
 
     console.log('[RxnPatGenerator] --- Beginning parseRxnStructure ---');
     console.log('[RxnPatGenerator] Raw Ketcher RXN Content:\n', rxnStr);
+    console.log('[RxnPatGenerator] isReactionSmiles:', this.isReactionSmiles(rxnStr));
 
     if (!rxnStr || !rxnStr.trim()) {
       console.warn('[RxnPatGenerator] Rxn content is empty.');
@@ -1017,6 +1077,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
     }
 
     if (this.isReactionSmiles(rxnStr)) {
+      console.log('[RxnPatGenerator] Delegating to parseReactionSmiles...');
       this.parseReactionSmiles(rxnStr);
       return;
     }
@@ -1138,6 +1199,19 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
     // Resolve any overlapping or duplicate atom coordinates from template file
     this.resolveOverlappingCoordinates(this.reactantAtoms, this.reactantBonds);
     this.resolveOverlappingCoordinates(this.productAtoms, this.productBonds);
+
+    console.log('[RxnPatGenerator][parseRxnStructure] Final Reactant Atoms with Radicals:', this.reactantAtoms.map(a => ({
+      atomNumber: a.atomNumber,
+      symbol: a.symbol,
+      molIdx: a.moleculeIndex,
+      radical: a.radical
+    })));
+    console.log('[RxnPatGenerator][parseRxnStructure] Final Product Atoms with Radicals:', this.productAtoms.map(a => ({
+      atomNumber: a.atomNumber,
+      symbol: a.symbol,
+      molIdx: a.moleculeIndex,
+      radical: a.radical
+    })));
 
     console.log('[RxnPatGenerator] Summary of parsed reaction structure:', {
       numReactants,
@@ -1361,11 +1435,16 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
             }
 
             let radVal = 0;
-            if (line.length >= 38) {
-              const radStr = line.substring(36, 38).trim();
-              const parsedRad = parseInt(radStr, 10);
-              if (!isNaN(parsedRad)) radVal = parsedRad;
+            const chrgCol = line.length >= 39 ? line.substring(36, 39).trim() : (line.length >= 38 ? line.substring(36, 38).trim() : '');
+            const parsedCharge = parseInt(chrgCol, 10);
+            if (!isNaN(parsedCharge)) {
+              if (parsedCharge === 4) {
+                radVal = 2; // In MDL CTFile, charge code 4 means doublet radical (value 2 in M RAD)
+              } else {
+                radVal = parsedCharge;
+              }
             }
+            console.log(`[RxnPatGenerator][parseMolBlock] Block #${moleculeIndex} Atom ${j + 1} (${symbol}): raw cols 37-39='${chrgCol}', parsed radVal=${radVal}, fullLine='${line}'`);
 
             const isGeneric = /^R\d*$/i.test(symbol) || symbol === 'A' || symbol === 'X' || symbol === '*' || symbol.startsWith('R');
             const atomNum = atomMapNumber !== undefined ? atomMapNumber : (isReactant ? rCounter++ : pCounter++);
@@ -1431,6 +1510,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         for (let p = propStartIdx; p < blockLines.length; p++) {
           const pLine = blockLines[p].trim();
           if (pLine.startsWith('M  RAD')) {
+            console.log(`[RxnPatGenerator][parseMolBlock] Found M RAD line in block #${moleculeIndex}:`, pLine);
             const tokens = pLine.split(/\s+/);
             if (tokens.length >= 4) {
               const entryCount = parseInt(tokens[2], 10);
@@ -1440,11 +1520,19 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
                 const atomObj = molAtoms.find(a => a.molAtomIndex === localIdx);
                 if (atomObj) {
                   atomObj.radical = radType;
+                  console.log(`[RxnPatGenerator][parseMolBlock] Set radical=${radType} on atom localIdx=${localIdx} (${atomObj.symbol}) from M RAD.`);
                 }
               }
             }
           }
         }
+
+        console.log(`[RxnPatGenerator][parseMolBlock] Block #${moleculeIndex} atoms summary:`, molAtoms.map(a => ({
+          molAtomIndex: a.molAtomIndex,
+          atomNumber: a.atomNumber,
+          symbol: a.symbol,
+          radical: a.radical
+        })));
 
         return { atoms: molAtoms, bonds: molBonds, nextReactantCounter: rCounter, nextProductCounter: pCounter };
       }
@@ -1865,6 +1953,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
       const nBonds = molData.bonds.length;
       molfile += `${nAtoms.toString().padStart(3, ' ')}${nBonds.toString().padStart(3, ' ')}  0  0  0  0  0  0  0  0999 V2000\n`;
 
+      const radEntries: { localIdx: number; radType: number }[] = [];
       molData.atoms.forEach((a, idx) => {
         let sym = a.symbol;
         if (substitutions.has(a.atomNumber)) {
@@ -1876,8 +1965,14 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         const formattedSym = sym.toUpperCase().padEnd(3, ' ');
         const mapVal = a.atomMapNumber !== undefined ? a.atomMapNumber : a.atomNumber;
         const mapStr = mapVal > 0 ? mapVal.toString().padStart(3, ' ') : '  0';
+        const radCode = (a.radical && a.radical > 0) ? 4 : 0;
+        const radStr = radCode > 0 ? radCode.toString().padStart(3, ' ') : '  0';
+        const localIdx = idx + 1;
+        if (a.radical && a.radical > 0) {
+          radEntries.push({ localIdx, radType: a.radical });
+        }
 
-        molfile += `    0.0000    0.0000    0.0000 ${formattedSym} 0  0  0  0  0  0  0  0  0${mapStr}  0  0\n`;
+        molfile += `    0.0000    0.0000    0.0000 ${formattedSym} 0${radStr}  0  0  0  0  0  0  0${mapStr}  0  0\n`;
       });
 
       molData.bonds.forEach(b => {
@@ -1889,6 +1984,17 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
 
         molfile += `${a1Local.toString().padStart(3, ' ')}${a2Local.toString().padStart(3, ' ')}${bType.toString().padStart(3, ' ')}  0  0  0  0\n`;
       });
+
+      if (radEntries.length > 0) {
+        for (let i = 0; i < radEntries.length; i += 8) {
+          const slice = radEntries.slice(i, i + 8);
+          let mRadStr = `M  RAD${slice.length.toString().padStart(3, ' ')}`;
+          slice.forEach(e => {
+            mRadStr += `${e.localIdx.toString().padStart(4, ' ')}${e.radType.toString().padStart(4, ' ')}`;
+          });
+          molfile += `${mRadStr}\n`;
+        }
+      }
 
       molfile += `M  END\n`;
     });
@@ -1962,6 +2068,12 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
               if (curSym === 'R#' || curSym.startsWith('R#')) {
                 atomLine = atomLine.substring(0, 31) + 'R  ' + atomLine.substring(34);
               }
+            }
+          }
+
+          if (matchedAtom && matchedAtom.radical && matchedAtom.radical > 0) {
+            if (atomLine.length >= 39) {
+              atomLine = atomLine.substring(0, 36) + '  4' + atomLine.substring(39);
             }
           }
 
@@ -2092,11 +2204,11 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
       cleanSym = 'R';
     }
     const symFormatted = cleanSym.padEnd(3, ' ');
-    const massDiffStr = ' 0';
-    const radStr = radical > 0 ? radical.toString().padStart(2, ' ') : ' 0';
-    const aamStr = aam > 0 ? aam.toString().padStart(3, ' ') : '  0';
+    const massDiffStr = ' 0'; // cols 35-36 (2 chars)
+    const radStr = radical > 0 ? radical.toString().padStart(3, ' ') : '  0'; // cols 37-39 (3 chars)
+    const aamStr = aam > 0 ? aam.toString().padStart(3, ' ') : '  0'; // cols 61-63 (3 chars)
 
-    return `${xStr}${yStr}${zStr} ${symFormatted}${massDiffStr} ${radStr}  0  0  0  0  0  0  0${aamStr}  0  0`;
+    return `${xStr}${yStr}${zStr} ${symFormatted}${massDiffStr}${radStr}  0  0  0  0  0  0  0${aamStr}  0  0`;
   }
 
   private buildMolBlockFromAtoms(subName: string, substitutions: Map<number, string>, molIdx: number = 1, subId: number = 1): string {
@@ -2119,6 +2231,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
 
     const hasExistingCoords = molAtoms.some(a => a.x !== undefined && a.y !== undefined && (Math.abs(a.x) > 0.0001 || Math.abs(a.y) > 0.0001));
     const rgpEntries: { localIdx: number; rNum: number }[] = [];
+    const radEntries: { localIdx: number; radType: number }[] = [];
 
     molAtoms.forEach((a, idx) => {
       let x = a.x;
@@ -2151,7 +2264,13 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         sym = 'R';
       }
 
-      resultLines.push(this.formatV2000AtomLine(x, y, z, sym, localNum, 0));
+      if (a.radical && a.radical > 0) {
+        radEntries.push({ localIdx: localNum, radType: a.radical });
+      }
+
+      const radCode = (a.radical && a.radical > 0) ? 4 : 0;
+      console.log(`[RxnPatGenerator][buildMolBlockFromAtoms] Formatted atom #${localNum} (${sym}): rad=${a.radical || 0}, radCode=${radCode}`);
+      resultLines.push(this.formatV2000AtomLine(x, y, z, sym, localNum, radCode));
     });
 
     molBonds.forEach(b => {
@@ -2169,13 +2288,28 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
       resultLines.push(mRgpStr);
     }
 
+    if (radEntries.length > 0) {
+      for (let i = 0; i < radEntries.length; i += 8) {
+        const slice = radEntries.slice(i, i + 8);
+        let mRadStr = `M  RAD${slice.length.toString().padStart(3, ' ')}`;
+        slice.forEach(e => {
+          mRadStr += `${e.localIdx.toString().padStart(4, ' ')}${e.radType.toString().padStart(4, ' ')}`;
+        });
+        resultLines.push(mRadStr);
+      }
+    }
+
     resultLines.push('M  END');
+
+    console.log(`[RxnPatGenerator][buildMolBlockFromAtoms] Completed Molfile for '${subName}':\n` + resultLines.join('\n'));
 
     return resultLines.join('\n');
   }
 
   private generateSubstructureMolfile(subName: string, substitutions: Map<number, string>, molIdx: number = 1, subId: number = 1): string {
+    console.log(`[RxnPatGenerator][generateSubstructureMolfile] subName='${subName}', molIdx=${molIdx}, subId=${subId}`);
     const rawBlockStr = this.extractMolBlockForMolecule(this.templateRxnContent, molIdx);
+    console.log(`[RxnPatGenerator][generateSubstructureMolfile] rawBlockStr (first 100 chars):`, rawBlockStr.substring(0, 100));
     const lines = rawBlockStr.split(/\r?\n/).map(l => l.trimEnd());
 
     let headerCountsLineIdx = -1;
@@ -2212,7 +2346,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
     }
 
     if (headerCountsLineIdx === -1 || isNaN(nAtoms) || nAtoms === 0) {
-      console.log(`[RxnPatGenerator] Raw V2000 counts line missing for ${subName}; generating MOL block directly from parsed atom/bond structures.`);
+      console.warn(`[RxnPatGenerator][generateSubstructureMolfile] Counts line missing for '${subName}'; falling back to buildMolBlockFromAtoms.`);
       return this.buildMolBlockFromAtoms(subName, substitutions, molIdx, subId);
     }
 
@@ -2285,6 +2419,12 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         }
       }
 
+      if (matchedAtom && matchedAtom.radical && matchedAtom.radical > 0) {
+        if (atomLine.length >= 39) {
+          atomLine = atomLine.substring(0, 36) + '  4' + atomLine.substring(39);
+        }
+      }
+
       if (matchedAtom && matchedAtom.x !== undefined && matchedAtom.y !== undefined) {
         const xStr = matchedAtom.x.toFixed(4).padStart(10, ' ');
         const yStr = matchedAtom.y.toFixed(4).padStart(10, ' ');
@@ -2339,6 +2479,10 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
       let line = lines[p];
       if (line.trim().startsWith('$MOL') || line.trim().startsWith('$$$$')) {
         break;
+      }
+
+      if (line.startsWith('M  RAD')) {
+        continue;
       }
 
       // Filter out alias lines for substituted atoms
@@ -2402,15 +2546,34 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         }
       }
 
-      resultLines.push(line);
       if (line.trim() === 'M  END') {
         break;
       }
+      resultLines.push(line);
     }
 
-    if (!resultLines.some(l => l.trim() === 'M  END')) {
-      resultLines.push('M  END');
+    const molAtoms = allAtoms.filter(a => a.moleculeIndex === molIdx);
+    const radEntries: { localIdx: number; radType: number }[] = [];
+    molAtoms.forEach(a => {
+      if (a.radical && a.radical > 0 && a.molAtomIndex !== undefined) {
+        radEntries.push({ localIdx: a.molAtomIndex, radType: a.radical });
+      }
+    });
+
+    if (radEntries.length > 0) {
+      for (let i = 0; i < radEntries.length; i += 8) {
+        const slice = radEntries.slice(i, i + 8);
+        let mRadStr = `M  RAD${slice.length.toString().padStart(3, ' ')}`;
+        slice.forEach(e => {
+          mRadStr += `${e.localIdx.toString().padStart(4, ' ')}${e.radType.toString().padStart(4, ' ')}`;
+        });
+        resultLines.push(mRadStr);
+      }
     }
+
+    resultLines.push('M  END');
+
+    console.log(`[RxnPatGenerator][generateSubstructureMolfile] Completed Molfile for '${subName}':\n` + resultLines.join('\n'));
 
     return resultLines.join('\n');
   }
@@ -2461,6 +2624,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
 
     const hasExistingCoords = targetAtoms.some(a => a.x !== undefined && a.y !== undefined && (Math.abs(a.x) > 0.0001 || Math.abs(a.y) > 0.0001));
     const rgpEntries: { localIdx: number; rNum: number }[] = [];
+    const radEntries: { localIdx: number; radType: number }[] = [];
 
     targetAtoms.forEach((a, idx) => {
       let x = a.x;
@@ -2501,7 +2665,12 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         sym = 'R';
       }
 
-      resultLines.push(this.formatV2000AtomLine(x, y, z, sym, localNum, 0));
+      if (a.radical && a.radical > 0) {
+        radEntries.push({ localIdx: localNum, radType: a.radical });
+      }
+
+      const radCode = (a.radical && a.radical > 0) ? 4 : 0;
+      resultLines.push(this.formatV2000AtomLine(x, y, z, sym, localNum, radCode));
     });
 
     targetBonds.forEach(b => {
@@ -2517,6 +2686,17 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         mRgpStr += `${entry.localIdx.toString().padStart(4, ' ')}${entry.rNum.toString().padStart(4, ' ')}`;
       });
       resultLines.push(mRgpStr);
+    }
+
+    if (radEntries.length > 0) {
+      for (let i = 0; i < radEntries.length; i += 8) {
+        const slice = radEntries.slice(i, i + 8);
+        let mRadStr = `M  RAD${slice.length.toString().padStart(3, ' ')}`;
+        slice.forEach(e => {
+          mRadStr += `${e.localIdx.toString().padStart(4, ' ')}${e.radType.toString().padStart(4, ' ')}`;
+        });
+        resultLines.push(mRadStr);
+      }
     }
 
     resultLines.push('M  END');
@@ -2605,6 +2785,8 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         g.rAtomNumbers.some(rNum => molAtomNums.includes(rNum))
       );
 
+      console.log(`[RxnPatGenerator][defineSubstructures] Reactant molIdx=${mIdx}: molAtoms=`, molAtoms.map(a => ({ num: a.atomNumber, sym: a.symbol, rad: a.radical })), `hasRGroups=${groupsOnMol.length > 0}`);
+
       const rootItem = this.moleculeRootItems.find(i => i.moleculeIndex === mIdx && i.isReactant);
       const baseRoot = (rootItem && rootItem.customRoot && rootItem.customRoot.trim())
         ? rootItem.customRoot.trim()
@@ -2676,6 +2858,8 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         (g.centralAtomNumber !== undefined && mappedReactantNums.includes(g.centralAtomNumber)) ||
         g.rAtomNumbers.some(rNum => mappedReactantNums.includes(rNum))
       );
+
+      console.log(`[RxnPatGenerator][defineSubstructures] Product molIdx=${pIdx}: pAtoms=`, pAtoms.map(a => ({ num: a.atomNumber, sym: a.symbol, rad: a.radical })), `hasRGroups=${groupsOnMol.length > 0}`);
 
       const rootItem = this.moleculeRootItems.find(i => i.moleculeIndex === pIdx && !i.isReactant);
       const baseRoot = (rootItem && rootItem.customRoot && rootItem.customRoot.trim())
