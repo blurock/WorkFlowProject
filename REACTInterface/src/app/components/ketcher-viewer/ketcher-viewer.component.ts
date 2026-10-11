@@ -14,18 +14,20 @@ import { environment } from '../../../environments/environment';
   imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule, MatTooltipModule],
   template: `
     <mat-card class="section-card ketcher-card">
-      <mat-card-header class="section-card-header">
-        <mat-icon mat-card-avatar color="accent" class="section-avatar-icon">hub</mat-icon>
-        <mat-card-title class="section-card-title">{{ title }}</mat-card-title>
+      <div class="section-card-header">
+        <div class="header-title-group">
+          <mat-icon color="accent" class="section-avatar-icon">hub</mat-icon>
+          <span class="section-card-title">{{ title }}</span>
+        </div>
         <div class="section-header-actions">
-          <button mat-icon-button (click)="triggerKetcherLayout()" matTooltip="Auto-arrange 2D layout">
-            <mat-icon>auto_fix_high</mat-icon>
+          <button mat-stroked-button color="accent" (click)="triggerKetcherLayout()" matTooltip="Auto-arrange 2D layout">
+            <mat-icon>auto_fix_high</mat-icon> Auto-Arrange 2D Layout
           </button>
-          <button mat-icon-button (click)="reloadKetcherStructure()" matTooltip="Reload structure in Ketcher">
-            <mat-icon>refresh</mat-icon>
+          <button mat-stroked-button (click)="reloadKetcherStructure()" matTooltip="Reload structure in Ketcher">
+            <mat-icon>refresh</mat-icon> Reload
           </button>
         </div>
-      </mat-card-header>
+      </div>
       <mat-card-content class="section-card-content p-0">
         <div class="ketcher-iframe-container">
           <iframe
@@ -42,7 +44,11 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['../task-list-view/task-list-view.component.scss'],
   styles: [`
     :host { display: block; width: 100%; }
-    .ketcher-card { height: 100%; min-height: 520px; display: flex; flex-direction: column; }
+    .ketcher-card { height: 100%; min-height: 520px; display: flex; flex-direction: column; margin-bottom: 12px; }
+    .section-card-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+    .header-title-group { display: flex; align-items: center; gap: 10px; }
+    .section-card-title { font-weight: 600; font-size: 1.05rem; }
+    .section-header-actions { display: flex; align-items: center; gap: 10px; margin-left: auto; }
     .ketcher-iframe-container { width: 100%; height: 520px; min-height: 520px; position: relative; border-radius: 0 0 8px 8px; overflow: hidden; }
     .ketcher-iframe { width: 100%; height: 100%; border: none; }
   `]
@@ -66,7 +72,7 @@ export class KetcherViewerComponent implements OnChanges, AfterViewInit {
 
   ngAfterViewInit(): void {
     if (this.molfile) {
-      this.sendSdfToKetcher(this.molfile);
+      this.sendSdfToKetcher(this.molfile, true);
     }
   }
 
@@ -132,7 +138,7 @@ export class KetcherViewerComponent implements OnChanges, AfterViewInit {
   public onKetcherIframeLoad(): void {
     this.isKetcherLoaded = true;
     if (this.molfile) {
-      this.sendSdfToKetcher(this.molfile);
+      this.sendSdfToKetcher(this.molfile, true);
     }
   }
 
@@ -165,6 +171,8 @@ export class KetcherViewerComponent implements OnChanges, AfterViewInit {
     const formattedSdf = this.ensureValidV2000Molfile(sdfContent);
     this.lastSentMolfile = sdfContent;
 
+    console.log(`[KetcherViewer] Sending structure to Ketcher iframe (title: "${this.title}"):\n`, formattedSdf);
+
     const sendMessage = (): void => {
       try {
         const iframeWin = this.ketcherIframe?.nativeElement?.contentWindow;
@@ -187,23 +195,36 @@ export class KetcherViewerComponent implements OnChanges, AfterViewInit {
 
   private ensureValidV2000Molfile(rawSdf: string): string {
     if (!rawSdf) return '';
-    const trimmed = rawSdf.trim();
+    let trimmed = rawSdf.trim();
     if (trimmed.includes('$RXN')) return trimmed; // MDL $RXN reaction format
 
     if (trimmed.includes('$$$$')) {
-      const sdfBlocks = trimmed.split('$$$$');
+      const sdfBlocks = trimmed
+        .split('$$$$')
+        .map(b => b.trim())
+        .filter(b => b.length > 0);
+
+      // Single MOL block with trailing $$$$
+      if (sdfBlocks.length === 1) {
+        return this.processSingleMolfile(sdfBlocks[0]);
+      }
+
       return sdfBlocks
-        .map(block => (block.trim() ? this.processSingleMolfile(block) : ''))
-        .join('$$$$\n');
+        .map(block => this.processSingleMolfile(block))
+        .join('\n$$$$\n') + '\n$$$$\n';
     }
 
     return this.processSingleMolfile(trimmed);
   }
 
   private processSingleMolfile(molfileStr: string): string {
-    const lines = molfileStr.split(/\r?\n/);
-    const countsLineIdx = lines.findIndex(l => /^\s*\d+\s+\d+/.test(l));
-    if (countsLineIdx < 0) return molfileStr;
+    let cleanMol = molfileStr.trim();
+    // Strip leading $MOL block header delimiter lines like "$MOL\n1\n\n" if present
+    cleanMol = cleanMol.replace(/^\$MOL\r?\n(\d+\r?\n)?/i, '').trim();
+
+    const lines = cleanMol.split(/\r?\n/);
+    const countsLineIdx = lines.findIndex(l => /V2000|V3000/i.test(l) || /^\s*\d{1,3}\s+\d{1,3}\s+\d{1,3}/.test(l));
+    if (countsLineIdx < 0) return cleanMol;
 
     // Ensure exactly 3 preamble lines before the counts line as mandated by MDL MOL spec
     let preamble = lines.slice(0, countsLineIdx);

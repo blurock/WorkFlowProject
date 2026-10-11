@@ -62,8 +62,19 @@ extern INT ReadInRxnPatternsMolsFromDB(BindStructure *bind) {
 
   master = GetBoundStructure(bind, BIND_CHEMDBASE);
   dinfo = GetDataBaseInfoFromID(master->DatabaseInfo, SUBSTRUCTURE_DATABASE);
-  reactions = GetBoundStructure(bind, BIND_CURRENT_REACTIONS);
-  molecules = GetBoundStructure(bind, BIND_CURRENT_MOLECULES);
+  reactions = GetBoundStructure(bind, BIND_CURRENT_PATTERNS);
+  molecules = GetBoundStructure(bind, BIND_CURRENT_SUBSTRUCTURES);
+
+  if (reactions == NULL) {
+    reactions = AllocateReactionSet;
+    memset(reactions, 0, sizeof(ReactionSet));
+    BindStructureIntoMaster((VOID)reactions, BIND_CURRENT_PATTERNS, bind);
+  }
+  if (molecules == NULL) {
+    molecules = AllocateMoleculeSet;
+    memset(molecules, 0, sizeof(MoleculeSet));
+    BindStructureIntoMaster((VOID)molecules, BIND_CURRENT_SUBSTRUCTURES, bind);
+  }
 
   ret = ReadInRxnsMolsFromDB(dinfo, reactions, molecules, bind);
   return (ret);
@@ -92,20 +103,23 @@ static INT ReadInRxnsMolsFromDB(DataBaseInformation *dinfo,
   dir = GetCurrentStringArgument("RxnDirectory", commandmaster);
 
   string = AllocateString(LINELENGTH);
-  file = OpenReadFileFromCurrent("RxnDirectory", "RootRxnName",
-                                 RXN_FILE_LIST_SUFFIX, IGNORE,
-                                 "List of Molfiles", commandmaster);
+  file = OpenReadFileFromCurrent(
+      "RxnDirectory", "RootRxnName", RXN_FILE_LIST_SUFFIX, IGNORE,
+      "List of Reactions/Reaction Patterns", commandmaster);
   meta = GetMetaAtomMaster(bind);
   rxnmolf = AllocateMolFileReaction;
   if (file != 0) {
 
     line = NextNonBlankLine(file, string);
     while (line != 0) {
-
+      printf("[DEBUG ReadInRxnsMolsFromDB] Entry start line: '%s' (len=%lu)\n", line, (unsigned long)strlen(line));
       EliminateLeadingBlanks(line);
       error = ReactionMolfileUsingDB(count, line, dinfo, rxnmolf);
+      printf("[DEBUG ReadInRxnsMolsFromDB] ReactionMolfileUsingDB returned error=%d\n", error);
       error1 = ReadRxnID(file, rxnmolf);
+      printf("[DEBUG ReadInRxnsMolsFromDB] ReadRxnID returned error1=%d, rxnID=%d\n", error1, rxnmolf->ID);
       error2 = ReadCorrespondences(file, rxnmolf);
+      printf("[DEBUG ReadInRxnsMolsFromDB] ReadCorrespondences returned error2=%d\n", error2);
 
       rxnmolf->Properties = AllocateASCIIProperties;
       ReadInPropertyInfoSDF(file, line, rxnmolf->Properties);
@@ -202,15 +216,21 @@ static int ReadRxnID(FILE *file, MolFileReaction *rxnmolf) {
 
   line = NextNonBlankLine(file, string);
   if (line != 0) {
+    printf("[DEBUG ReadRxnID] Raw line read: '%s' (len=%lu)\n", line, (unsigned long)strlen(line));
+    for (i = 0; i < (int)strlen(line); i++) {
+      printf("[DEBUG ReadRxnID] char[%d] = %d ('%c')\n", i, (int)line[i], line[i] >= 32 ? line[i] : ' ');
+    }
     EliminateLeadingBlanks(line);
     if (!strncmp("- ID", line, 4)) {
       next = IsolateNextWord(line + 4, word, ' ', LINELENGTH);
       rxnmolf->ID = ConvertStringToInteger(word);
+      printf("[DEBUG ReadRxnID] Parsed ID: %d (word='%s')\n", rxnmolf->ID, word);
     } else {
       printf("ERROR: Expected '- ID', got '%s'\n", line);
       err = 1;
     }
   } else {
+    printf("[DEBUG ReadRxnID] NextNonBlankLine returned NULL/0!\n");
     err = 1;
   }
   if (err == 1)

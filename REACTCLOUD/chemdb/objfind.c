@@ -387,18 +387,31 @@ static INT SearchForObjectInDatabase(ObjectIDClass *class,
 	   currKey = skey[count].Search;
 
 	 newobject = (*(dinfo->AllocateElement))();
-	 ret = SearchKeyElement(classification->Description->KeyType,
-				newobject,currKey,dinfo);
+	 if (currKey != NULL && currKey->ID > 0)
+	   {
+	     DbaseKeyword idkey;
+	     memset(&idkey, 0, sizeof(DbaseKeyword));
+	     ProduceRxnIDKey(currKey->ID, &idkey);
+	     if (currKey->Name != NULL) idkey.Name = CopyString(currKey->Name);
+	     ret = SearchKeyElement(DB_ID_SEARCH, newobject, &idkey, dinfo);
+	     FreeDbaseKeyword(&idkey);
+	   }
+	 else
+	   {
+	     ret = SearchKeyElement(classification->Description->KeyType, newobject, currKey, dinfo);
+	   }
+
 	 if(ret == SYSTEM_NORMAL_RETURN)
 	   {
 	     compare = (*(classification->Equivalence))(newobject,object);
 	     if(compare == 0)
-	       done = (currKey->ID != 0) ? currKey->ID : (count + 1);
+	       done = (newobject != NULL && ((ReactionInfo *)newobject)->ID > 0) ? ((ReactionInfo *)newobject)->ID : ((currKey != NULL && currKey->ID != 0) ? currKey->ID : (count + 1));
 	     (*(dinfo->FreeElement))(newobject);
 	   }
 	 else
 	   {
-	     printf("The object within the classification was not found\n");
+	     printf("The object within the classification was not found (key ID=%d, Name='%s')\n",
+                    currKey ? currKey->ID : 0, (currKey && currKey->Name) ? currKey->Name : "NULL");
 	   }
 	 Free(newobject);
 	 count++;

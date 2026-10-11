@@ -501,7 +501,7 @@ extern INT SubStructureEquivalence(VOID mol1, VOID mol2) {
     i = 0;
     while (i < pairs->NumberOfPairs && out == 0) {
       g1 = *(grph1->NodeTypes + pair->I);
-      g2 = *(grph1->NodeTypes + pair->J);
+      g2 = *(grph2->NodeTypes + pair->J);
       if (g1 != g2)
         out = 1;
       i++;

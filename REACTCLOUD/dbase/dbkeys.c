@@ -412,7 +412,6 @@ extern INT SearchKeyElement(INT id, VOID element, DbaseKeyword *keyword,
 
   ret = FetchElementFromFirestore(element, keyword, dinfo);
   if (ret != SYSTEM_NORMAL_RETURN) {
-    printf("ERROR: Element Not Found keyword=%s", keyword->Name);
     ret = SYSTEM_ERROR_RETURN;
   }
 

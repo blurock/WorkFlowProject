@@ -33,6 +33,8 @@ sed "s|XXXXX|$PATTERN|g"\
 # Check Reaction Patterns in Database
 #--------------------------------------------------------------------------
 set CURRDIR = `pwd`
+
+cp $PATTERN.lst $TEMPDIR/$PATTERN.lst
 pushd $TEMPDIR
 $CHEMPROG read < read.prg
 

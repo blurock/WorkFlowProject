@@ -7,7 +7,7 @@ description: Instructions for registering and configuring new data structures in
 
 This skill details how to register and configure data structure file inputs in `REACTInterface` using the 3-Step Read-Check-Store sequence:
 1. **Read & Format Check**: Validate input file syntax and parse structure into memory.
-2. **Database Existence Check**: Check whether structures already exist in the database (with conflict handling and a **Reread File** reset option).
+2. **Database Existence Check**: Check whether structures already exist in the database using [`ExistenceCheckService`](file:///Users/edwardblurock/git/WorkFlowProject/REACTInterface/src/app/services/existence-check.service.ts) and the [`DatabaseExistenceCheck`](file:///Users/edwardblurock/git/WorkFlowProject/.agents/skills/DatabaseExistenceCheck/SKILL.md) skill.
 3. **Database Store**: Commit structures and file paths into the REACTCLOUD database.
 
 ---

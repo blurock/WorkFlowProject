@@ -1033,17 +1033,17 @@ app.post('/api/upload-data-files', authenticateUser, async (req, res) => {
         const companionMol = `${rootBase}.mol`;
         const companionSdf = `${rootBase}.sdf`;
         
-        const molLocalPath = path.join(userCacheTargetDir, companionMol);
+        const molLocalPath = path.join(userCacheDataDir, companionMol);
         if (!fs.existsSync(molLocalPath)) {
           fs.writeFileSync(molLocalPath, `1 ${rootBase}\n`);
-          const molGcsPath = cleanTargetDir ? `users/${uid}/data/${cleanTargetDir}/${companionMol}` : `users/${uid}/data/${companionMol}`;
+          const molGcsPath = `users/${uid}/data/${companionMol}`;
           bucket.upload(molLocalPath, { destination: molGcsPath }).catch(() => {});
         }
 
-        const sdfLocalPath = path.join(userCacheTargetDir, companionSdf);
+        const sdfLocalPath = path.join(userCacheDataDir, companionSdf);
         if (!fs.existsSync(sdfLocalPath)) {
           fs.writeFileSync(sdfLocalPath, `${rootBase}\n  -OEChem-\n\n  0  0  0     0  0  0  0  0  0999 V2000\nM  END\n$$$$\n`);
-          const sdfGcsPath = cleanTargetDir ? `users/${uid}/data/${cleanTargetDir}/${companionSdf}` : `users/${uid}/data/${companionSdf}`;
+          const sdfGcsPath = `users/${uid}/data/${companionSdf}`;
           bucket.upload(sdfLocalPath, { destination: sdfGcsPath }).catch(() => {});
         }
       }
@@ -1252,17 +1252,26 @@ app.post('/api/run-commands', authenticateUser, async (req, res) => {
     const jobInpFile = path.join(workspaceDir, 'run.inp');
     fs.writeFileSync(jobInpFile, commandText);
 
-    // If querying item details (e.g. 1-butanal, AlkoxyDecomp, or PropaneCombinedMech), create xxx.mol, xxx.rxn, xxx.lst, mech.lst, MASTER.lst, and ${targetItemName}.lst
+    // If querying item details (e.g. 1-butanal, AlkoxyDecomp, or PropaneCombinedMech), create default files ONLY if missing
     const targetItemName = (req.body.targetItem || root || '').trim();
     if (targetItemName && targetItemName !== 'test' && targetItemName !== 'job1') {
-      fs.writeFileSync(path.join(workspaceDir, 'xxx.mol'), `${targetItemName}\n`);
-      fs.writeFileSync(path.join(workspaceDir, 'xxx.rxn'), `RxnPatternList\n${targetItemName}\n`);
-      fs.writeFileSync(path.join(workspaceDir, 'xxx.lst'), `${targetItemName}\n`);
-      fs.writeFileSync(path.join(workspaceDir, 'mech.lst'), `${targetItemName}\n`);
-      fs.writeFileSync(path.join(workspaceDir, 'MASTER.lst'), `${targetItemName}\n`);
-      fs.writeFileSync(path.join(workspaceDir, `${targetItemName}.lst`), `${targetItemName}\n`);
-      fs.writeFileSync(path.join(workspaceDir, `${targetItemName}.rxn`), `RxnPatternList\n${targetItemName}\n`);
-      fs.writeFileSync(path.join(workspaceDir, `${targetItemName}.mol`), `${targetItemName}\n`);
+      const defaultFiles = [
+        { name: 'xxx.mol', content: `${targetItemName}\n` },
+        { name: 'xxx.rxn', content: `RxnPatternList\n${targetItemName}\n` },
+        { name: 'xxx.lst', content: `${targetItemName}\n` },
+        { name: 'mech.lst', content: `${targetItemName}\n` },
+        { name: 'MASTER.lst', content: `${targetItemName}\n` },
+        { name: `${targetItemName}.lst`, content: `${targetItemName}\n` },
+        { name: `${targetItemName}.rxn`, content: `RxnPatternList\n${targetItemName}\n` },
+        { name: `${targetItemName}.mol`, content: `${targetItemName}\n` }
+      ];
+
+      for (const df of defaultFiles) {
+        const dest = path.join(workspaceDir, df.name);
+        if (!fs.existsSync(dest)) {
+          fs.writeFileSync(dest, df.content);
+        }
+      }
     }
 
     let stdout = '';

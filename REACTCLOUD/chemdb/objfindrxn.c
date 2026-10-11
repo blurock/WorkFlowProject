@@ -24,21 +24,77 @@
 
 #define RXNPATID_NUM_REACTANTS          1
 #define RXNPATID_NUM_PRODUCTS         100
-#define RXNPATID_NUM_BONDCHANGES     1000
-#define RXNPATID_NUM_REACTANT_ATOMS 10000
-#define RXNPATID_NUM_REACTANT_C     100000
-#define RXNPATID_NUM_REACTANT_HR   1000000
-#define RXNPATID_NUM_REACTANT_HET  10000000
+#define RXNPATID_NUM_BONDCHANGES    10000
+#define RXNPATID_NUM_REACTANT_ATOMS 1000000
+#define RXNPATID_NUM_REACTANT_C     100000000
+#define RXNPATID_NUM_REACTANT_HR   1000000000
+#define RXNPATID_NUM_REACTANT_HET  1000000000
 
 #define RXNPATID_MAX_NUM_REACTANTS      99
 #define RXNPATID_MAX_NUM_PRODUCTS       99
 #define RXNPATID_MAX_NUM_BONDCHANGES    99
-#define RXNPATID_MAX_NUM_REACTANT_ATOMS 999
-#define RXNPATID_MAX_NUM_REACTANT_C     999
-#define RXNPATID_MAX_NUM_REACTANT_HR    999
-#define RXNPATID_MAX_NUM_REACTANT_HET   999
+#define RXNPATID_MAX_NUM_REACTANT_ATOMS 99
+#define RXNPATID_MAX_NUM_REACTANT_C     99
+#define RXNPATID_MAX_NUM_REACTANT_HR    99
+#define RXNPATID_MAX_NUM_REACTANT_HET   99
 
 static BindStructure *CurrentClassificationBind = NULL;
+
+static MoleculeInfo *GetMoleculeInfoFromReactantID(INT id, BindStructure *bind, INT *must_free) {
+  MoleculeSet *molset;
+  MoleculeInfo *mol = NULL;
+  ChemDBMaster *master;
+  DataBaseInformation *dinfo;
+  CHAR idstr[32];
+  INT res;
+
+  *must_free = 0;
+  if (bind == NULL || id <= 0) return NULL;
+
+  /* 1. Try BIND_CURRENT_MOLECULES */
+  molset = GetBoundStructure(bind, BIND_CURRENT_MOLECULES);
+  if (molset != NULL) {
+    mol = FindMoleculeInMoleculeSet(id, molset);
+  }
+
+  /* 2. Try BIND_CURRENT_SUBSTRUCTURES */
+  if (mol == NULL) {
+    molset = GetBoundStructure(bind, BIND_CURRENT_SUBSTRUCTURES);
+    if (molset != NULL) {
+      mol = FindMoleculeInMoleculeSet(id, molset);
+    }
+  }
+
+  /* 3. If not found in memory sets, fetch from SUBSTRUCTURE_DATABASE in database */
+  if (mol == NULL) {
+    master = GetBoundStructure(bind, BIND_CHEMDBASE);
+    if (master != NULL && master->DatabaseInfo != NULL) {
+      dinfo = GetDataBaseInfoFromID(master->DatabaseInfo, SUBSTRUCTURE_DATABASE);
+      if (dinfo != NULL) {
+        sprintf(idstr, "%d", id);
+        mol = AllocateMoleculeInfo;
+        memset(mol, 0, sizeof(MoleculeInfo));
+        res = DBFindMolSubFromString(idstr, mol, dinfo);
+        if (res == 0 && mol->Molfile != NULL) {
+          *must_free = 1;
+        } else {
+          /* Try MOLECULE_DATABASE */
+          dinfo = GetDataBaseInfoFromID(master->DatabaseInfo, MOLECULE_DATABASE);
+          res = (dinfo != NULL) ? DBFindMolSubFromString(idstr, mol, dinfo) : -1;
+          if (res == 0 && mol->Molfile != NULL) {
+            *must_free = 1;
+          } else {
+            FreeMoleculeInfo(mol);
+            Free(mol);
+            mol = NULL;
+          }
+        }
+      }
+    }
+  }
+
+  return mol;
+}
 
 static INT DetermineRxnPatternNumReactants(VOID *object) {
   ReactionInfo *rxn = (ReactionInfo *)object;
@@ -52,43 +108,58 @@ static INT DetermineRxnPatternNumProducts(VOID *object) {
 
 static INT DetermineRxnPatternNumBondChanges(VOID *object) {
   ReactionInfo *rxn = (ReactionInfo *)object;
-  if (rxn != NULL && rxn->TotalCorr != NULL && rxn->TotalCorr->BondChanges != NULL)
-    return rxn->TotalCorr->BondChanges->NumberBondChanges;
-  return 0;
+  INT numBonds = 0;
+  if (rxn != NULL) {
+    if (rxn->TotalCorr != NULL) {
+      if (rxn->TotalCorr->BondChanges != NULL) {
+        numBonds = rxn->TotalCorr->BondChanges->NumberBondChanges;
+        printf("[DEBUG DetermineRxnPatternNumBondChanges] Rxn '%s': TotalCorr and BondChanges present, NumberBondChanges = %d\n",
+               rxn->Name ? rxn->Name : "NULL", numBonds);
+      } else {
+        printf("[DEBUG DetermineRxnPatternNumBondChanges] Rxn '%s': TotalCorr present, but BondChanges is NULL -> 0\n",
+               rxn->Name ? rxn->Name : "NULL");
+      }
+    } else {
+      printf("[DEBUG DetermineRxnPatternNumBondChanges] Rxn '%s': TotalCorr is NULL -> 0\n",
+             rxn->Name ? rxn->Name : "NULL");
+    }
+  } else {
+    printf("[DEBUG DetermineRxnPatternNumBondChanges] rxn is NULL -> 0\n");
+  }
+  return numBonds;
 }
 
 static INT DetermineRxnPatternNumReactantAtoms(VOID *object) {
   ReactionInfo *rxn = (ReactionInfo *)object;
-  MoleculeSet *molset;
   MoleculeInfo *mol;
-  INT totalAtoms = 0, i;
+  INT totalAtoms = 0, i, must_free;
 
   if (rxn == NULL || CurrentClassificationBind == NULL) return 0;
-  molset = GetBoundStructure(CurrentClassificationBind, BIND_CURRENT_MOLECULES);
-  if (molset == NULL) return 0;
 
   for (i = 0; i < rxn->NumberOfReactants; i++) {
-    mol = FindMoleculeInMoleculeSet(rxn->Reactants[i], molset);
+    mol = GetMoleculeInfoFromReactantID(rxn->Reactants[i], CurrentClassificationBind, &must_free);
     if (mol != NULL && mol->Molfile != NULL) {
       totalAtoms += mol->Molfile->NAtoms;
+    }
+    if (must_free && mol != NULL) {
+      FreeMoleculeInfo(mol);
+      Free(mol);
     }
   }
   return totalAtoms;
 }
 
+
 static INT DetermineRxnPatternNumReactantCarbons(VOID *object) {
   ReactionInfo *rxn = (ReactionInfo *)object;
-  MoleculeSet *molset;
   MoleculeInfo *mol;
   MolFileAtom *atm;
-  INT carbons = 0, i, k;
+  INT carbons = 0, i, k, must_free;
 
   if (rxn == NULL || CurrentClassificationBind == NULL) return 0;
-  molset = GetBoundStructure(CurrentClassificationBind, BIND_CURRENT_MOLECULES);
-  if (molset == NULL) return 0;
 
   for (i = 0; i < rxn->NumberOfReactants; i++) {
-    mol = FindMoleculeInMoleculeSet(rxn->Reactants[i], molset);
+    mol = GetMoleculeInfoFromReactantID(rxn->Reactants[i], CurrentClassificationBind, &must_free);
     if (mol != NULL && mol->Molfile != NULL) {
       atm = mol->Molfile->Atoms;
       for (k = 0; k < mol->Molfile->NAtoms; k++) {
@@ -97,23 +168,24 @@ static INT DetermineRxnPatternNumReactantCarbons(VOID *object) {
         atm++;
       }
     }
+    if (must_free && mol != NULL) {
+      FreeMoleculeInfo(mol);
+      Free(mol);
+    }
   }
   return carbons;
 }
 
 static INT DetermineRxnPatternNumReactantHandR(VOID *object) {
   ReactionInfo *rxn = (ReactionInfo *)object;
-  MoleculeSet *molset;
   MoleculeInfo *mol;
   MolFileAtom *atm;
-  INT count = 0, i, k;
+  INT count = 0, i, k, must_free;
 
   if (rxn == NULL || CurrentClassificationBind == NULL) return 0;
-  molset = GetBoundStructure(CurrentClassificationBind, BIND_CURRENT_MOLECULES);
-  if (molset == NULL) return 0;
 
   for (i = 0; i < rxn->NumberOfReactants; i++) {
-    mol = FindMoleculeInMoleculeSet(rxn->Reactants[i], molset);
+    mol = GetMoleculeInfoFromReactantID(rxn->Reactants[i], CurrentClassificationBind, &must_free);
     if (mol != NULL && mol->Molfile != NULL) {
       atm = mol->Molfile->Atoms;
       for (k = 0; k < mol->Molfile->NAtoms; k++) {
@@ -122,23 +194,24 @@ static INT DetermineRxnPatternNumReactantHandR(VOID *object) {
         atm++;
       }
     }
+    if (must_free && mol != NULL) {
+      FreeMoleculeInfo(mol);
+      Free(mol);
+    }
   }
   return count;
 }
 
 static INT DetermineRxnPatternNumReactantHetero(VOID *object) {
   ReactionInfo *rxn = (ReactionInfo *)object;
-  MoleculeSet *molset;
   MoleculeInfo *mol;
   MolFileAtom *atm;
-  INT hetero = 0, i, k;
+  INT hetero = 0, i, k, must_free;
 
   if (rxn == NULL || CurrentClassificationBind == NULL) return 0;
-  molset = GetBoundStructure(CurrentClassificationBind, BIND_CURRENT_MOLECULES);
-  if (molset == NULL) return 0;
 
   for (i = 0; i < rxn->NumberOfReactants; i++) {
-    mol = FindMoleculeInMoleculeSet(rxn->Reactants[i], molset);
+    mol = GetMoleculeInfoFromReactantID(rxn->Reactants[i], CurrentClassificationBind, &must_free);
     if (mol != NULL && mol->Molfile != NULL) {
       atm = mol->Molfile->Atoms;
       for (k = 0; k < mol->Molfile->NAtoms; k++) {
@@ -146,6 +219,10 @@ static INT DetermineRxnPatternNumReactantHetero(VOID *object) {
           hetero++;
         atm++;
       }
+    }
+    if (must_free && mol != NULL) {
+      FreeMoleculeInfo(mol);
+      Free(mol);
     }
   }
   return hetero;
@@ -253,27 +330,87 @@ extern ListOfTreeLevelDescriptions *InitializeReactionTreeDescription(INT id, CH
      return(descr);
      }
 
+static INT SubstructureMatches(INT id1, INT id2, BindStructure *bind) {
+  MoleculeInfo *m1 = NULL, *m2 = NULL;
+  INT free1 = 0, free2 = 0, match = 0;
+
+  if (id1 == id2 && id1 > 0) return 1;
+
+  m1 = GetMoleculeInfoFromReactantID(id1, bind, &free1);
+  m2 = GetMoleculeInfoFromReactantID(id2, bind, &free2);
+
+  if (m1 != NULL && m2 != NULL) {
+    if (m1->ID == m2->ID && m1->ID > 0) {
+      match = 1;
+    } else if (m1->Name != NULL && m2->Name != NULL && strcmp(m1->Name, m2->Name) == 0) {
+      match = 1;
+    }
+  }
+
+  if (free1 && m1 != NULL) { FreeMoleculeInfo(m1); Free(m1); }
+  if (free2 && m2 != NULL) { FreeMoleculeInfo(m2); Free(m2); }
+
+  return match;
+}
+
+static INT CompareRxnSubstructures(INT num1, INT *list1, INT num2, INT *list2, BindStructure *bind) {
+  INT i, j;
+  INT *used;
+
+  if (num1 != num2) return 0;
+  if (num1 == 0) return 1;
+
+  used = (INT *) Calloc(num2, sizeof(INT));
+  for (i = 0; i < num1; i++) {
+    INT found = 0;
+    for (j = 0; j < num2; j++) {
+      if (!used[j] && SubstructureMatches(list1[i], list2[j], bind)) {
+        used[j] = 1;
+        found = 1;
+        break;
+      }
+    }
+    if (!found) {
+      Free(used);
+      return 0;
+    }
+  }
+  Free(used);
+  return 1;
+}
+
 /*F ans = ReactionPatternEquivalence(pat1, pat2)
 **
 **  DESCRIPTION
-**    Checks structural equivalence between two reaction patterns using CompareReactionInfo.
+**    Checks structural equivalence between two reaction patterns.
+**    Compares reactant substructures (by name or ID) and product substructures (by name or ID).
 **    Returns 0 if patterns are structurally identical.
 */
 extern INT ReactionPatternEquivalence(VOID *pat1, VOID *pat2) {
   ReactionInfo *r1 = (ReactionInfo *)pat1;
   ReactionInfo *r2 = (ReactionInfo *)pat2;
-  INT ans;
+  BindStructure *bind = CurrentClassificationBind;
 
   if (r1 == NULL || r2 == NULL) return -1;
 
-  printf("[ReactionPatternEquivalence] Comparing Pattern1 '%s' (ID %d, R=%d, P=%d) with Pattern2 '%s' (ID %d, R=%d, P=%d)\n",
-         r1->Name ? r1->Name : "NULL", r1->ID, r1->NumberOfReactants, r1->NumberOfProducts,
-         r2->Name ? r2->Name : "NULL", r2->ID, r2->NumberOfReactants, r2->NumberOfProducts);
+  printf("[ReactionPatternEquivalence] Comparing Pattern1 '%s' (R=%d, P=%d) with Pattern2 '%s' (R=%d, P=%d)\n",
+         r1->Name ? r1->Name : "NULL", r1->NumberOfReactants, r1->NumberOfProducts,
+         r2->Name ? r2->Name : "NULL", r2->NumberOfReactants, r2->NumberOfProducts);
 
-  ans = CompareReactionInfo(r1, r2, 0, NULL);
-  printf("[ReactionPatternEquivalence] Comparison result = %d (0 means MATCH)\n", ans);
+  if (r1->NumberOfReactants != r2->NumberOfReactants || r1->NumberOfProducts != r2->NumberOfProducts) {
+    return -1;
+  }
 
-  return ans;
+  if (!CompareRxnSubstructures(r1->NumberOfReactants, r1->Reactants, r2->NumberOfReactants, r2->Reactants, bind)) {
+    return -1;
+  }
+
+  if (!CompareRxnSubstructures(r1->NumberOfProducts, r1->Products, r2->NumberOfProducts, r2->Products, bind)) {
+    return -1;
+  }
+
+  printf("[ReactionPatternEquivalence] Reaction patterns match!\n");
+  return 0;
 }
 
 /*F FindReactionPatternByKey(key, setofelements)
@@ -385,6 +522,9 @@ extern INT PutReactionInDatabaseClass(ReactionInfo *reaction, INT classid,
     }
     if (key->Name == NULL && reaction->Name != NULL) {
       key->Name = CopyString(reaction->Name);
+    }
+    if (reaction->ID > 0) {
+      key->ID = reaction->ID;
     }
     id = AddIDKeyToClass(key, class);
     reaction->ID = id;

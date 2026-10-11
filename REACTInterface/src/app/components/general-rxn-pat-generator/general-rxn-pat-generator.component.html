@@ -4,7 +4,7 @@
     <div class="header-title-group">
       <mat-icon class="header-icon" color="accent">hub</mat-icon>
       <h2>Reaction Pattern Generator</h2>
-      <span class="step-chip badge-step-{{ currentStep }}">Step {{ currentStep }} of 5</span>
+      <span class="step-chip badge-step-{{ currentStep }}">Step {{ currentStep }} of 6</span>
     </div>
     <div class="header-actions">
       <button mat-icon-button (click)="closeDialog()" matTooltip="Close Generator">
@@ -37,9 +37,10 @@
     </div>
 
     <!-- Right Column: Reaction Class Configuration & Translator Panels (All 7 Panels) -->
+    <!-- Right Column: Reaction Class Configuration & Translator Panels (Collapsible Panels) -->
     <div class="panels-column">
 
-      <!-- Panel 1: Button Toolbar -->
+      <!-- Panel 1: Button Toolbar (Always visible control bar) -->
       <mat-card class="panel-card button-toolbar-card">
         <mat-card-header>
           <mat-card-title class="card-subtitle">
@@ -78,13 +79,23 @@
           </button>
 
           <button
+            mat-raised-button
+            color="primary"
+            (click)="checkSubstructures()"
+            [disabled]="!isGenerated || isExecuting"
+            matTooltip="Check generated substructures against database and substitute DB IDs">
+            <mat-icon [class.spinning-icon]="isSubstructuresChecking">{{ isSubstructuresChecking ? 'sync' : 'manage_search' }}</mat-icon>
+            {{ isSubstructuresChecking ? 'Checking Substructures...' : 'Check Substructures' }}
+          </button>
+
+          <button
             mat-stroked-button
             color="primary"
             (click)="checkDatabase()"
-            [disabled]="!isGenerated || isExecuting"
+            [disabled]="!isSubstructuresChecked || isExecuting"
             matTooltip="Check if class already exists in REACTCLOUD database">
-            <mat-icon>pageview</mat-icon>
-            Check Database
+            <mat-icon [class.spinning-icon]="isDatabaseChecking">{{ isDatabaseChecking ? 'sync' : 'pageview' }}</mat-icon>
+            {{ isDatabaseChecking ? 'Checking Database...' : 'Check Database' }}
           </button>
 
           <button
@@ -93,41 +104,43 @@
             (click)="storeClass()"
             [disabled]="!isChecked || isExecuting"
             matTooltip="Store reaction class and pattern set in database">
-            <mat-icon>save_alt</mat-icon>
-            Store Class
+            <mat-icon [class.spinning-icon]="isStoringClass">{{ isStoringClass ? 'sync' : 'save_alt' }}</mat-icon>
+            {{ isStoringClass ? 'Storing Class...' : 'Store Class' }}
           </button>
         </mat-card-content>
       </mat-card>
 
-      <!-- Panel 2: Class Name Panel -->
-      <mat-card class="panel-card">
-        <mat-card-header>
-          <mat-card-title class="card-subtitle">
-            <mat-icon>badge</mat-icon> 2. Class Name Configuration
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="form-grid-2col">
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Root Template Name (Root)</mat-label>
-            <input matInput [(ngModel)]="rootName" (ngModelChange)="onRootNameChange()" placeholder="e.g. AlkOHOODecomposition" />
-            <mat-hint>Base identifier for the reaction class</mat-hint>
-          </mat-form-field>
+      <!-- Main Collapsible Accordion -->
+      <mat-accordion multi="true" class="generator-accordion">
 
-          <div class="generated-name-preview">
-            <label class="preview-label">Generated Class Pattern:</label>
-            <span class="preview-chip">{{ generatedClassNamePattern || rootName + '-(XXX)' }}</span>
+        <!-- Panel 1: Class Name Panel -->
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="card-subtitle">
+              <mat-icon>badge</mat-icon> 2. Class Name Configuration
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="form-grid-2col">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Root Template Name (Root)</mat-label>
+              <input matInput [(ngModel)]="rootName" (ngModelChange)="onRootNameChange()" placeholder="e.g. AlkOHOODecomposition" />
+              <mat-hint>Base identifier for the reaction class</mat-hint>
+            </mat-form-field>
+
+            <div class="generated-name-preview">
+              <label class="preview-label">Generated Class Pattern:</label>
+              <span class="preview-chip">{{ generatedClassNamePattern || rootName + '-(XXX)' }}</span>
+            </div>
           </div>
-        </mat-card-content>
-      </mat-card>
+        </mat-expansion-panel>
 
-      <!-- Panel 3: Reaction Constants (Default Rate Constants) -->
-      <mat-card class="panel-card">
-        <mat-card-header>
-          <mat-card-title class="card-subtitle">
-            <mat-icon>functions</mat-icon> 3. Default Reaction Rate Constants (Arrhenius Form)
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
+        <!-- Panel 2: Reaction Constants (Default Rate Constants) -->
+        <mat-expansion-panel [expanded]="false">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="card-subtitle">
+              <mat-icon>functions</mat-icon> 3. Default Reaction Rate Constants (Arrhenius Form)
+            </mat-panel-title>
+          </mat-expansion-panel-header>
           <div class="rate-constants-split">
             <!-- Forward Direction -->
             <div class="rate-box forward-box">
@@ -135,24 +148,24 @@
               <div class="rate-inputs-grid">
                 <mat-form-field appearance="outline">
                   <mat-label>A Constant</mat-label>
-                  <input matInput type="number" [(ngModel)]="forwardRateDefault.Aconstant" />
+                  <input matInput type="number" [(ngModel)]="forwardRateDefault.Aconstant" (ngModelChange)="onDefaultRatesChange()" />
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                   <mat-label>Activation Energy (cal/mol)</mat-label>
-                  <input matInput type="number" [(ngModel)]="forwardRateDefault.Energy" />
+                  <input matInput type="number" [(ngModel)]="forwardRateDefault.Energy" (ngModelChange)="onDefaultRatesChange()" />
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                   <mat-label>Temp Exponent (n)</mat-label>
-                  <input matInput type="number" [(ngModel)]="forwardRateDefault.TempExp" />
+                  <input matInput type="number" [(ngModel)]="forwardRateDefault.TempExp" (ngModelChange)="onDefaultRatesChange()" />
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                   <mat-label>Symmetry Factor</mat-label>
-                  <input matInput type="number" [(ngModel)]="forwardRateDefault.SymmetryFactor" />
+                  <input matInput type="number" [(ngModel)]="forwardRateDefault.SymmetryFactor" (ngModelChange)="onDefaultRatesChange()" />
                 </mat-form-field>
               </div>
               <mat-form-field appearance="outline" class="full-width mt-1">
                 <mat-label>Forward Reference / Note</mat-label>
-                <input matInput [(ngModel)]="forwardRateDefault.Reference" />
+                <input matInput [(ngModel)]="forwardRateDefault.Reference" (ngModelChange)="onDefaultRatesChange()" />
               </mat-form-field>
             </div>
 
@@ -162,38 +175,36 @@
               <div class="rate-inputs-grid">
                 <mat-form-field appearance="outline">
                   <mat-label>A Constant</mat-label>
-                  <input matInput type="number" [(ngModel)]="reverseRateDefault.Aconstant" />
+                  <input matInput type="number" [(ngModel)]="reverseRateDefault.Aconstant" (ngModelChange)="onDefaultRatesChange()" />
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                   <mat-label>Activation Energy (cal/mol)</mat-label>
-                  <input matInput type="number" [(ngModel)]="reverseRateDefault.Energy" />
+                  <input matInput type="number" [(ngModel)]="reverseRateDefault.Energy" (ngModelChange)="onDefaultRatesChange()" />
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                   <mat-label>Temp Exponent (n)</mat-label>
-                  <input matInput type="number" [(ngModel)]="reverseRateDefault.TempExp" />
+                  <input matInput type="number" [(ngModel)]="reverseRateDefault.TempExp" (ngModelChange)="onDefaultRatesChange()" />
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                   <mat-label>Symmetry Factor</mat-label>
-                  <input matInput type="number" [(ngModel)]="reverseRateDefault.SymmetryFactor" />
+                  <input matInput type="number" [(ngModel)]="reverseRateDefault.SymmetryFactor" (ngModelChange)="onDefaultRatesChange()" />
                 </mat-form-field>
               </div>
               <mat-form-field appearance="outline" class="full-width mt-1">
                 <mat-label>Reverse Reference / Note</mat-label>
-                <input matInput [(ngModel)]="reverseRateDefault.Reference" />
+                <input matInput [(ngModel)]="reverseRateDefault.Reference" (ngModelChange)="onDefaultRatesChange()" />
               </mat-form-field>
             </div>
           </div>
-        </mat-card-content>
-      </mat-card>
+        </mat-expansion-panel>
 
-      <!-- Panel 4: Atom Correspondences & Bond Changes -->
-      <mat-card class="panel-card">
-        <mat-card-header>
-          <mat-card-title class="card-subtitle">
-            <mat-icon>compare_arrows</mat-icon> 4. Atom Correspondences & Bond Changes
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
+        <!-- Panel 3: Atom Correspondences & Bond Changes -->
+        <mat-expansion-panel [expanded]="false">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="card-subtitle">
+              <mat-icon>compare_arrows</mat-icon> 4. Atom Correspondences & Bond Changes
+            </mat-panel-title>
+          </mat-expansion-panel-header>
           <ng-container *ngIf="isAssigned || isValidated; else assignPrompt4">
             <!-- Correspondence Table -->
             <h5>Reactant to Product Atom Mapping</h5>
@@ -264,20 +275,18 @@
               <span>Click <strong>'Validate Template'</strong> then <strong>'Assign Atoms'</strong> in the toolbar above to populate atom correspondences and bond changes.</span>
             </div>
           </ng-template>
-        </mat-card-content>
-      </mat-card>
+        </mat-expansion-panel>
 
-      <!-- Panel 5: Table of R Groupings -->
-      <mat-card class="panel-card">
-        <mat-card-header>
-          <mat-card-title class="card-subtitle">
-            <mat-icon>hub</mat-icon> 5. Table of R Groupings & Permutations
-          </mat-card-title>
-          <div *ngIf="isAssigned" class="header-badge">
-            Total Class Permutations: <strong>{{ totalPermutationsCount }}</strong> Patterns
-          </div>
-        </mat-card-header>
-        <mat-card-content>
+        <!-- Panel 4: Table of R Groupings -->
+        <mat-expansion-panel [expanded]="isAssigned">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="card-subtitle">
+              <mat-icon>hub</mat-icon> 5. Table of R Groupings & Permutations
+            </mat-panel-title>
+            <mat-panel-description *ngIf="isAssigned">
+              Total Permutations: <strong>{{ totalPermutationsCount }}</strong>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
           <ng-container *ngIf="isAssigned; else assignPrompt5">
             <table mat-table [dataSource]="rGroupRows" class="mat-elevation-z1 generator-table">
               <ng-container matColumnDef="groupIndex">
@@ -316,17 +325,15 @@
               <span>Click <strong>'Assign Atoms'</strong> in the toolbar to auto-detect generic R-groupings and configure substitution permutations.</span>
             </div>
           </ng-template>
-        </mat-card-content>
-      </mat-card>
+        </mat-expansion-panel>
 
-      <!-- Panel 6: Substructures Panel -->
-      <mat-card class="panel-card">
-        <mat-card-header>
-          <mat-card-title class="card-subtitle">
-            <mat-icon>account_tree</mat-icon> 6. Required Class Substructures ({{ substructures.length }})
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
+        <!-- Panel 5: Substructures Panel -->
+        <mat-expansion-panel [expanded]="isGenerated">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="card-subtitle">
+              <mat-icon>account_tree</mat-icon> 6. Required Class Substructures ({{ substructures.length }})
+            </mat-panel-title>
+          </mat-expansion-panel-header>
           <ng-container *ngIf="isGenerated; else generatePrompt6">
             <div class="substructures-list">
               <div *ngFor="let item of substructures; let idx = index" class="substructure-row">
@@ -349,17 +356,15 @@
               <span>Click <strong>'Generate Class'</strong> in the toolbar to define required class substructures and molfiles.</span>
             </div>
           </ng-template>
-        </mat-card-content>
-      </mat-card>
+        </mat-expansion-panel>
 
-      <!-- Panel 7: Reaction Pattern List Panel -->
-      <mat-card class="panel-card">
-        <mat-card-header>
-          <mat-card-title class="card-subtitle">
-            <mat-icon>view_list</mat-icon> 7. Generated Reaction Pattern Set ({{ generatedRxnPatterns.length }})
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
+        <!-- Panel 6: Reaction Pattern List Panel -->
+        <mat-expansion-panel [expanded]="isGenerated">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="card-subtitle">
+              <mat-icon>view_list</mat-icon> 7. Generated Reaction Pattern Set ({{ generatedRxnPatterns.length }})
+            </mat-panel-title>
+          </mat-expansion-panel-header>
           <ng-container *ngIf="isGenerated; else generatePrompt7">
             <mat-accordion class="patterns-accordion">
               <mat-expansion-panel *ngFor="let pat of generatedRxnPatterns; let idx = index">
@@ -374,25 +379,65 @@
                 </mat-expansion-panel-header>
 
                 <ng-template matExpansionPanelContent>
-                  <!-- Pattern Specific Rate Overrides -->
                   <div class="pattern-detail-content">
                     <h5>Pattern Structure Preview</h5>
                     <app-ketcher-viewer [molfile]="pat.molfile" title="Reaction Pattern Ketcher Structure"></app-ketcher-viewer>
 
-                    <h5 class="mt-3">Custom Rate Constants Overrides</h5>
-                    <div class="rate-inputs-grid">
-                      <mat-form-field appearance="outline">
-                        <mat-label>Forward A</mat-label>
-                        <input matInput type="number" [(ngModel)]="pat.forwardRate.Aconstant" />
-                      </mat-form-field>
-                      <mat-form-field appearance="outline">
-                        <mat-label>Forward Ea</mat-label>
-                        <input matInput type="number" [(ngModel)]="pat.forwardRate.Energy" />
-                      </mat-form-field>
-                      <mat-form-field appearance="outline">
-                        <mat-label>Forward Sym</mat-label>
-                        <input matInput type="number" [(ngModel)]="pat.forwardRate.SymmetryFactor" />
-                      </mat-form-field>
+                    <h5 class="mt-3">Reaction Rate Constants (Arrhenius Form)</h5>
+                    <div class="rate-constants-split mt-2">
+                      <!-- Forward Direction -->
+                      <div class="rate-box forward-box">
+                        <h4>Forward Reaction Rate Constants</h4>
+                        <div class="rate-inputs-grid">
+                          <mat-form-field appearance="outline">
+                            <mat-label>A Constant</mat-label>
+                            <input matInput type="number" [(ngModel)]="pat.forwardRate.Aconstant" (ngModelChange)="generateCheckDataFiles()" />
+                          </mat-form-field>
+                          <mat-form-field appearance="outline">
+                            <mat-label>Activation Energy (cal/mol)</mat-label>
+                            <input matInput type="number" [(ngModel)]="pat.forwardRate.Energy" (ngModelChange)="generateCheckDataFiles()" />
+                          </mat-form-field>
+                          <mat-form-field appearance="outline">
+                            <mat-label>Temp Exponent (n)</mat-label>
+                            <input matInput type="number" [(ngModel)]="pat.forwardRate.TempExp" (ngModelChange)="generateCheckDataFiles()" />
+                          </mat-form-field>
+                          <mat-form-field appearance="outline">
+                            <mat-label>Symmetry Factor</mat-label>
+                            <input matInput type="number" [(ngModel)]="pat.forwardRate.SymmetryFactor" (ngModelChange)="generateCheckDataFiles()" />
+                          </mat-form-field>
+                        </div>
+                        <mat-form-field appearance="outline" class="full-width mt-1">
+                          <mat-label>Forward Reference / Note</mat-label>
+                          <input matInput [(ngModel)]="pat.forwardRate.Reference" (ngModelChange)="generateCheckDataFiles()" />
+                        </mat-form-field>
+                      </div>
+
+                      <!-- Reverse Direction -->
+                      <div class="rate-box reverse-box">
+                        <h4>Reverse Reaction Rate Constants</h4>
+                        <div class="rate-inputs-grid">
+                          <mat-form-field appearance="outline">
+                            <mat-label>A Constant</mat-label>
+                            <input matInput type="number" [(ngModel)]="pat.reverseRate.Aconstant" (ngModelChange)="generateCheckDataFiles()" />
+                          </mat-form-field>
+                          <mat-form-field appearance="outline">
+                            <mat-label>Activation Energy (cal/mol)</mat-label>
+                            <input matInput type="number" [(ngModel)]="pat.reverseRate.Energy" (ngModelChange)="generateCheckDataFiles()" />
+                          </mat-form-field>
+                          <mat-form-field appearance="outline">
+                            <mat-label>Temp Exponent (n)</mat-label>
+                            <input matInput type="number" [(ngModel)]="pat.reverseRate.TempExp" (ngModelChange)="generateCheckDataFiles()" />
+                          </mat-form-field>
+                          <mat-form-field appearance="outline">
+                            <mat-label>Symmetry Factor</mat-label>
+                            <input matInput type="number" [(ngModel)]="pat.reverseRate.SymmetryFactor" (ngModelChange)="generateCheckDataFiles()" />
+                          </mat-form-field>
+                        </div>
+                        <mat-form-field appearance="outline" class="full-width mt-1">
+                          <mat-label>Reverse Reference / Note</mat-label>
+                          <input matInput [(ngModel)]="pat.reverseRate.Reference" (ngModelChange)="generateCheckDataFiles()" />
+                        </mat-form-field>
+                      </div>
                     </div>
                   </div>
                 </ng-template>
@@ -405,8 +450,181 @@
               <span>Click <strong>'Generate Class'</strong> in the toolbar to generate all reaction patterns and parameterize rate constants.</span>
             </div>
           </ng-template>
-        </mat-card-content>
-      </mat-card>
+        </mat-expansion-panel>
+
+        <!-- Panel 7 (Extra): Substructure Database Check Panel -->
+        <mat-expansion-panel *ngIf="isSubstructuresCheckedExecuted" [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="card-subtitle">
+              <mat-icon>manage_search</mat-icon> 8. Substructures Database Check & ID Mapping
+            </mat-panel-title>
+            <mat-panel-description>
+              Status: {{ isSubstructuresChecked ? 'Check Complete' : 'Executing' }}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <div class="check-result-body">
+            <div class="visualizer-card mb-3" *ngIf="substructureCheckItems.length > 0">
+              <h5 class="mb-2">Substructure Database Existence Report</h5>
+              <table mat-table [dataSource]="substructureCheckItems" class="mat-elevation-z1 generator-table">
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef>Substructure Name</th>
+                  <td mat-cell *matCellDef="let item"><strong>{{ item.name }}</strong></td>
+                </ng-container>
+
+                <ng-container matColumnDef="dbId">
+                  <th mat-header-cell *matHeaderCellDef>Database ID</th>
+                  <td mat-cell *matCellDef="let item"><code>{{ item.dbId || 'N/A' }}</code></td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef>Database Status</th>
+                  <td mat-cell *matCellDef="let item">
+                    <span class="status-pill" [class.present]="item.inDatabase" [class.new]="!item.inDatabase">
+                      {{ item.status }}
+                    </span>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="suggestedAction">
+                  <th mat-header-cell *matHeaderCellDef>Action / ID Substitution</th>
+                  <td mat-cell *matCellDef="let item">
+                    <span *ngIf="item.inDatabase && item.dbId">Substituted DB ID {{ item.dbId }}</span>
+                    <span *ngIf="!item.inDatabase">Add Substructure to DB</span>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="substructureCheckDisplayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: substructureCheckDisplayedColumns;"></tr>
+              </table>
+            </div>
+
+            <!-- Terminal Output Log -->
+            <div class="terminal-log-card mt-3">
+              <div class="terminal-header">
+                <mat-icon class="term-icon">terminal</mat-icon>
+                <span>Raw Terminal Output (Substructures Existence Check)</span>
+              </div>
+              <div class="terminal-body scrollable">
+                <div *ngFor="let lineObj of substructureCheckLogLines" [class.error-line]="lineObj.isError">
+                  {{ lineObj.text }}
+                </div>
+                <div *ngIf="substructureCheckLogLines.length === 0" class="terminal-empty">No check output log available.</div>
+              </div>
+            </div>
+          </div>
+        </mat-expansion-panel>
+
+        <!-- Panel 8 (Extra): Substructure Molfiles (Revealed when 'Check Substructures' or 'Check Database' is clicked) -->
+        <mat-expansion-panel *ngIf="isSubstructuresCheckedExecuted || isCheckedExecuted" [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="card-subtitle">
+              <mat-icon>description</mat-icon> 9. Substructure Molfiles ({{ getSubstructuresTotalCount() }})
+            </mat-panel-title>
+            <mat-panel-description>
+              MDL V2000 Structure Definitions
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="panel-action-bar mb-2">
+            <button mat-stroked-button color="accent" (click)="copyToClipboard(substructureMolfilesCombined, 'Substructure Molfiles')">
+              <mat-icon>content_copy</mat-icon> Copy Molfiles Content
+            </button>
+          </div>
+          <div class="scrollable-code-box">
+            <pre><code>{{ substructureMolfilesCombined || 'No substructure molfiles generated yet.' }}</code></pre>
+          </div>
+        </mat-expansion-panel>
+
+        <!-- Panel 9 (Extra): Reaction Pattern ASCII List File (Revealed when 'Check Substructures' or 'Check Database' is clicked) -->
+        <mat-expansion-panel *ngIf="isSubstructuresCheckedExecuted || isCheckedExecuted" [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="card-subtitle">
+              <mat-icon>article</mat-icon> 10. Reaction Pattern ASCII List File ({{ rootName }}.lst)
+            </mat-panel-title>
+            <mat-panel-description>
+              REACTCLOUD .lst Format
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="panel-action-bar mb-2">
+            <button mat-stroked-button color="accent" (click)="copyToClipboard(rxnPatternLstContent, '.lst File Content')">
+              <mat-icon>content_copy</mat-icon> Copy .lst File Content
+            </button>
+          </div>
+          <div class="scrollable-code-box">
+            <pre><code>{{ rxnPatternLstContent || 'No .lst content generated yet.' }}</code></pre>
+          </div>
+        </mat-expansion-panel>
+
+        <!-- Panel 10 (Extra): Result of Reaction Patterns Database Check -->
+        <mat-expansion-panel *ngIf="isCheckedExecuted" [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="card-subtitle">
+              <mat-icon>fact_check</mat-icon> 11. Result of Reaction Class Database Check
+            </mat-panel-title>
+            <mat-panel-description>
+              Status: {{ isChecked ? 'Check Complete' : 'Executing' }}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <div class="check-result-body">
+            <!-- Conflict Warning Banner -->
+            <div class="status-banner warning mb-3" *ngIf="hasConflicts">
+              <mat-icon>warning</mat-icon>
+              <span>One or more reaction patterns exist in the database. Choose to replace or rename when storing.</span>
+            </div>
+
+            <!-- Panel 1: Reaction Pattern Existence Table -->
+            <div class="visualizer-card mb-3" *ngIf="existenceCheckItems.length > 0">
+              <h5 class="mb-2">Reaction Pattern Database Existence Report</h5>
+              <table mat-table [dataSource]="existenceCheckItems" class="mat-elevation-z1 generator-table">
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef>Reaction Pattern Name</th>
+                  <td mat-cell *matCellDef="let item"><strong>{{ item.name }}</strong></td>
+                </ng-container>
+
+                <ng-container matColumnDef="substructureMatch">
+                  <th mat-header-cell *matHeaderCellDef>Substructure Matches in DB</th>
+                  <td mat-cell *matCellDef="let item"><code>{{ item.substructureMatch || 'NONE' }}</code></td>
+                </ng-container>
+
+                <ng-container matColumnDef="exactMatch">
+                  <th mat-header-cell *matHeaderCellDef>Exact Match Name</th>
+                  <td mat-cell *matCellDef="let item"><code>{{ item.exactMatch || 'NONE' }}</code></td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef>Database Status</th>
+                  <td mat-cell *matCellDef="let item">
+                    <span class="status-pill" [class.present]="item.inDatabase" [class.new]="!item.inDatabase">
+                      {{ item.status }}
+                    </span>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="suggestedAction">
+                  <th mat-header-cell *matHeaderCellDef>Suggested Action</th>
+                  <td mat-cell *matCellDef="let item">{{ item.suggestedAction }}</td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="rxnPatternCheckDisplayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: rxnPatternCheckDisplayedColumns;"></tr>
+              </table>
+            </div>
+
+            <!-- Panel 2: Scrollable Text Window for Raw Execution Log -->
+            <div class="terminal-log-card mt-3">
+              <div class="terminal-header">
+                <mat-icon class="term-icon">terminal</mat-icon>
+                <span>Raw Execution Log</span>
+              </div>
+              <div class="terminal-body scrollable">
+                <pre class="execution-log-text"><code>{{ checkExecutionLogText || checkRawOutput || '--- Execution Log ---\nNo execution log recorded.' }}</code></pre>
+              </div>
+            </div>
+          </div>
+        </mat-expansion-panel>
+
+      </mat-accordion>
 
     </div>
   </div>

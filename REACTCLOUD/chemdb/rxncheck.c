@@ -36,6 +36,117 @@ static MoleculeInfo *FindMoleculeInSetByID(MoleculeSet *set, INT id) {
 
 
 
+/*F ret = RxnPatternSubstructuresExist(bind, out)
+**
+**  DESCRIPTION
+**    Reads the reaction pattern ASCII file line by line, isolates substructure
+**    names (reactants and products), and checks whether each substructure exists
+**    in SUBSTRUCTURE_DATABASE using DBFindMolSubFromString.
+**    Outputs the substructures and their existence status to the out report file.
+*/
+static INT RxnPatternSubstructuresExist(BindStructure *bind, FILE *out) {
+  CommandMaster *commandmaster;
+  ChemDBMaster *master;
+  DataBaseInformation *dinfo;
+  FILE *file;
+  CHAR *string, *name, *reactants, *products, *line, *next;
+  MoleculeInfo *minfo;
+  INT eout;
+  INT num_checked = 0;
+  INT num_missing = 0;
+
+  commandmaster = GetBoundStructure(bind, BIND_COMMANDMASTER);
+  if (commandmaster == NULL) return SYSTEM_ERROR_RETURN;
+
+  master = GetBoundStructure(bind, BIND_CHEMDBASE);
+  if (master == NULL) return SYSTEM_ERROR_RETURN;
+
+  dinfo = GetDataBaseInfoFromID(master->DatabaseInfo, SUBSTRUCTURE_DATABASE);
+  if (dinfo == NULL) return SYSTEM_ERROR_RETURN;
+
+  file = OpenReadFileFromCurrent(
+      "RxnDirectory", "RootRxnName", RXN_FILE_LIST_SUFFIX, IGNORE,
+      "List of Reactions/Reaction Patterns", commandmaster);
+
+  if (file == NULL) {
+    fprintf(out, "ERROR: Could not open reaction pattern list file.\n");
+    return SYSTEM_ERROR_RETURN;
+  }
+
+  string = AllocateString(LINELENGTH);
+  name = AllocateString(LINELENGTH);
+  reactants = AllocateString(LINELENGTH);
+  minfo = AllocateMoleculeInfo;
+
+  fprintf(out, "\nSubstructures Database Existence Check:\n");
+  fprintf(out, "%-35s %-35s\n", "Substructure_Name", "DB_Status");
+  fprintf(out, "----------------------------------- -----------------------------------\n");
+
+  line = NextNonBlankLine(file, string);
+  while (line != NULL && *line != 0) {
+    EliminateLeadingBlanks(line);
+
+    next = IsolateNextWord(line, name, ' ', LINELENGTH);
+    products = IsolateNextWordFromPhrase(next, reactants, " = ", LINELENGTH);
+
+    /* Process Reactants */
+    next = reactants;
+    while (next != NULL && *next != 0) {
+      next = IsolateNextWord(next, name, ' ', LINELENGTH);
+      if (strcmp(name, "+") == 0 || name[0] == '\0')
+        continue;
+      eout = DBFindMolSubFromString(name, minfo, dinfo);
+      num_checked++;
+      if (eout == 0) {
+        fprintf(out, "%-35.35s %-35s\n", name, "EXISTS");
+      } else {
+        fprintf(out, "%-35.35s %-35s\n", name, "NOT_FOUND");
+        num_missing++;
+      }
+    }
+
+    /* Process Products */
+    next = products;
+    while (next != NULL && *next != 0) {
+      next = IsolateNextWord(next, name, ' ', LINELENGTH);
+      if (strcmp(name, "+") == 0 || name[0] == '\0')
+        continue;
+      eout = DBFindMolSubFromString(name, minfo, dinfo);
+      num_checked++;
+      if (eout == 0) {
+        fprintf(out, "%-35.35s %-35s\n", name, "EXISTS");
+      } else {
+        fprintf(out, "%-35.35s %-35s\n", name, "NOT_FOUND");
+        num_missing++;
+      }
+    }
+
+    /* Skip through the reaction pattern entry until line starts with $$$$ */
+    line = NextNonBlankLine(file, string);
+    while (line != NULL && strncmp(line, "$$$$", 4) != 0) {
+      line = NextNonBlankLine(file, string);
+    }
+    if (line != NULL) {
+      line = NextNonBlankLine(file, string);
+    }
+  }
+
+  fclose(file);
+  Free(string);
+  Free(name);
+  Free(reactants);
+  Free(minfo);
+
+  fprintf(out, "--------------------------------------------------------------------------------\n");
+  if (num_missing > 0) {
+    fprintf(out, "Substructure Check Result: %d of %d substructures NOT found in database.\n\n", num_missing, num_checked);
+    return SYSTEM_ERROR_RETURN;
+  } else {
+    fprintf(out, "Substructure Check Result: All %d substructures exist in database.\n\n", num_checked);
+    return SYSTEM_NORMAL_RETURN;
+  }
+}
+
 /*F ret = ExistenceCheckRxnPatterns(bind)
 **
 **  DESCRIPTION
@@ -71,12 +182,16 @@ extern INT ExistenceCheckRxnPatterns(BindStructure *bind) {
     return SYSTEM_NORMAL_RETURN;
   }
 
+  ret = RxnPatternSubstructuresExist(bind, out);
+  if (ret != SYSTEM_NORMAL_RETURN) {
+    fprintf(out, "Skipping reaction pattern database search because required substructures are missing from database.\n");
+    fprintf(out, "================================================================================\n");
+    if (out != stdout) fclose(out);
+    return SYSTEM_NORMAL_RETURN;
+  }
+
   ReadInRxnPatternsMolsFromDB(bind);
   rxnpatset = GetBoundStructure(bind, BIND_CURRENT_PATTERNS);
-  if (rxnpatset == NULL || rxnpatset->NumberOfReactions == 0 || rxnpatset->Reactions == NULL || rxnpatset->Reactions[0].Name == NULL) {
-    ReadInASCIISetOfRxnPatterns(bind);
-    rxnpatset = GetBoundStructure(bind, BIND_CURRENT_PATTERNS);
-  }
 
   if (rxnpatset == NULL || rxnpatset->NumberOfReactions == 0) {
     fprintf(out, "No reaction patterns currently loaded to check.\n");
@@ -106,15 +221,11 @@ extern INT ExistenceCheckRxnPatterns(BindStructure *bind) {
 
       if (*id >= 0) {
         memset(&dbrxn, 0, sizeof(ReactionInfo));
-        ProduceRxnNameKey(rxn->Name, key);
-        if (key->Name == NULL && rxn->Name != NULL)
-          key->Name = CopyString(rxn->Name);
-        ret = SearchKeyElement(DB_NAME_SEARCH, &dbrxn, key, dinfo);
+        ProduceRxnIDKey(*id, key);
+        ret = SearchKeyElement(DB_ID_SEARCH, &dbrxn, key, dinfo);
         if (ret != SYSTEM_NORMAL_RETURN) {
-          ProduceRxnIDKey(*id, key);
-          if (key->Name == NULL && rxn->Name != NULL)
-            key->Name = CopyString(rxn->Name);
-          ret = SearchKeyElement(DB_ID_SEARCH, &dbrxn, key, dinfo);
+          ProduceRxnNameKey(rxn->Name, key);
+          ret = SearchKeyElement(DB_NAME_SEARCH, &dbrxn, key, dinfo);
         }
 
         if (ret == SYSTEM_NORMAL_RETURN && dbrxn.Name != NULL) {

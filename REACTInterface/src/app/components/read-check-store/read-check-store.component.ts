@@ -12,21 +12,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 import { firstValueFrom } from 'rxjs';
 import { ReactCloudApiService } from '../../services/react-cloud-api.service';
+import { ExistenceCheckService, ExistenceCheckItem } from '../../services/existence-check.service';
 import { CommandTemplatesRegistry } from '../../templates/command-templates.registry';
 import { KetcherViewerComponent } from '../ketcher-viewer/ketcher-viewer.component';
 import { ExecutionOutputParserService, ExecutionOutputSections } from '../../services/execution-output-parser.service';
 
 export type DataTypeOption = 'molecule' | 'substructure' | 'rxn-pattern' | 'reaction';
 export type FormatOption = 'sdf' | 'ascii';
-
-export interface ExistenceCheckItem {
-  id: string;
-  name: string;
-  dbId?: string;
-  inDatabase: boolean;
-  status: 'Present' | 'New' | 'Unknown';
-  suggestedAction: 'Skip' | 'Replace' | 'Add';
-}
 
 export interface StoredRecordItem {
   name: string;
@@ -164,6 +156,7 @@ export class ReadCheckStoreComponent implements OnInit {
   constructor(
     private reactCloudApi: ReactCloudApiService,
     private executionParser: ExecutionOutputParserService,
+    private existenceCheckService: ExistenceCheckService,
     @Optional() public dialogRef?: MatDialogRef<ReadCheckStoreComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: { dataType?: DataTypeOption }
   ) {}
@@ -351,7 +344,7 @@ export class ReadCheckStoreComponent implements OnInit {
 
   // --- Step 2: Database Existence Check ---
   public async executeStep2Check(): Promise<void> {
-    console.log('[ReadCheckStoreComponent] Starting Step 2 Database Check...', {
+    console.log('[ReadCheckStoreComponent] Starting Step 2 Database Check via ExistenceCheckService...', {
       dataType: this.dataType,
       format: this.format,
       rootName: this.rootName
@@ -365,26 +358,23 @@ export class ReadCheckStoreComponent implements OnInit {
     this.errorMessage = '';
 
     try {
-      const commands = CommandTemplatesRegistry.getReadCheckStoreCommands(
+      const result = await this.existenceCheckService.checkDatabaseExistence(
         this.dataType,
-        'check',
         this.format,
-        this.rootName.trim(),
-        `${this.rootName.trim()}_out`
+        this.rootName
       );
 
-      const res = await firstValueFrom(this.reactCloudApi.runCommands(commands, this.rootName.trim()));
-      console.log('[ReadCheckStoreComponent] Step 2 response received:', res);
       this.isExecuting = false;
+      this.step2Log = result.rawOutput;
+      this.step2Lines = result.logLines;
+      this.existenceItems = result.items;
+      this.hasConflicts = result.hasConflicts;
+      this.step2Completed = result.success;
 
-      if (res) {
-        this.step2Log = res.output || 'Step 2 completed.';
-        if (res.error) this.step2Log += `\n--- ERRORS ---\n${res.error}`;
-        this.step2Lines = this.parseLogToLines(this.step2Log);
-
-        this.parseExistenceCheckOutput(res.output);
-        this.step2Completed = true;
+      if (result.success) {
         this.statusMessage = 'Step 2 Database Check completed!';
+      } else {
+        this.errorMessage = 'Step 2 Existence Check reported warnings or exit errors.';
       }
     } catch (err: any) {
       console.error('[ReadCheckStoreComponent] Error executing Step 2 Check:', err);

@@ -260,6 +260,10 @@ export class CommandTemplatesRegistry {
     ];
   }
 
+  /**
+   * Reaction Patterns Existence Check
+   * Based on REACTCLOUD/programs/inputs/ExistenceCheckReactionPatterns.inp
+   */
   public static checkRxnPatternsInDatabase(rootName: string = 'job1', outName: string = 'out1'): string[] {
     return [
       "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
@@ -272,6 +276,14 @@ export class CommandTemplatesRegistry {
       "RxnPatterns", "ExistenceCheck", "Quit",
       "Quit", "Quit"
     ];
+  }
+
+  /**
+   * Alias for checking if a reaction pattern is in the database,
+   * matching REACTCLOUD/programs/inputs/ExistenceCheckReactionPatterns.inp
+   */
+  public static existenceCheckReactionPatterns(rootName: string = 'job1', outName: string = 'out1'): string[] {
+    return this.checkRxnPatternsInDatabase(rootName, outName);
   }
 
   public static storeRxnPatternsInDatabase(rootName: string = 'job1', outName: string = 'out1'): string[] {
