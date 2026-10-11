@@ -123,7 +123,7 @@
           <div class="form-grid-2col">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Root Template Name (Root)</mat-label>
-              <input matInput [(ngModel)]="rootName" (ngModelChange)="onRootNameChange()" placeholder="e.g. AlkOHOODecomposition" />
+              <input matInput [(ngModel)]="rootName" (ngModelChange)="onRootNameChange()" placeholder="e.g. AldehydeHAbstraction or ReactionClass" />
               <mat-hint>Base identifier for the reaction class</mat-hint>
             </mat-form-field>
 
@@ -328,14 +328,68 @@
         </mat-expansion-panel>
 
         <!-- Panel 5: Substructures Panel -->
-        <mat-expansion-panel [expanded]="isGenerated">
+        <mat-expansion-panel [expanded]="moleculeRootItems.length > 0 || isGenerated">
           <mat-expansion-panel-header>
             <mat-panel-title class="card-subtitle">
               <mat-icon>account_tree</mat-icon> 6. Required Class Substructures ({{ substructures.length }})
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <ng-container *ngIf="isGenerated; else generatePrompt6">
-            <div class="substructures-list">
+          <ng-container *ngIf="moleculeRootItems.length > 0 || isGenerated; else generatePrompt6">
+            <!-- Root Names Card (Revealed as soon as template substructures/molecules are identified) -->
+            <div *ngIf="moleculeRootItems.length > 0" class="substructure-roots-card">
+              <div class="roots-header">
+                <mat-icon class="roots-icon">edit_note</mat-icon>
+                <div class="roots-title-group">
+                  <h4>Template Substructure Root Names</h4>
+                  <p class="roots-desc">
+                    Specify root names for each reactant and product from the Ketcher template. Click <strong>Apply</strong> to substitute your custom root names into the substructure set and reaction equations.
+                  </p>
+                </div>
+              </div>
+
+              <div class="roots-grid">
+                <!-- Reactants Column -->
+                <div class="roots-column">
+                  <div class="column-title">
+                    <mat-icon>science</mat-icon>
+                    <span>Reactants ({{ reactantRootItems.length }})</span>
+                  </div>
+                  <div *ngFor="let item of reactantRootItems" class="root-field-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>{{ item.roleLabel }} Root Name ({{ item.formulaOrType }})</mat-label>
+                      <input matInput [(ngModel)]="item.customRoot" [placeholder]="item.defaultRoot" />
+                      <mat-hint>{{ getHintText(item) }}</mat-hint>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <!-- Products Column -->
+                <div class="roots-column">
+                  <div class="column-title product-title">
+                    <mat-icon>auto_awesome</mat-icon>
+                    <span>Products ({{ productRootItems.length }})</span>
+                  </div>
+                  <div *ngFor="let item of productRootItems" class="root-field-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>{{ item.roleLabel }} Root Name ({{ item.formulaOrType }})</mat-label>
+                      <input matInput [(ngModel)]="item.customRoot" [placeholder]="item.defaultRoot" />
+                      <mat-hint>{{ getHintText(item) }}</mat-hint>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+
+              <div class="roots-actions">
+                <button mat-raised-button color="accent" (click)="applySubstructureRoots()" [disabled]="isExecuting">
+                  <mat-icon>check_circle</mat-icon> Apply
+                </button>
+                <button mat-stroked-button (click)="resetSubstructureRoots()" [disabled]="isExecuting">
+                  <mat-icon>restore</mat-icon> Reset Defaults
+                </button>
+              </div>
+            </div>
+
+            <div class="substructures-list" *ngIf="substructures.length > 0">
               <div *ngFor="let item of substructures; let idx = index" class="substructure-row">
                 <div class="substructure-header">
                   <span class="sub-index">#{{ idx + 1 }}</span>
@@ -353,7 +407,7 @@
           <ng-template #generatePrompt6>
             <div class="panel-placeholder-box">
               <mat-icon color="accent">info</mat-icon>
-              <span>Click <strong>'Generate Class'</strong> in the toolbar to define required class substructures and molfiles.</span>
+              <span>Click <strong>'Validate Template'</strong> in the toolbar to identify reactants, products, and required substructures.</span>
             </div>
           </ng-template>
         </mat-expansion-panel>

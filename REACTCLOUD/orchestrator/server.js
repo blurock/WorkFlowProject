@@ -1329,6 +1329,14 @@ app.post('/api/run-commands', authenticateUser, async (req, res) => {
         for (const df of detailFiles) {
           if (df === 'run.inp' || df === 'test.inp' || df === 'mech.lst' || df === 'xxx.lst' || df === 'xxx.mol' || df === 'xxx.rxn' || df === 'execution.log') continue;
           const dfPath = path.join(workspaceDir, df);
+          if (df.endsWith('.sdf')) {
+            const isTargetMatch = targetItemName && df.startsWith(targetItemName);
+            let isFresh = false;
+            try {
+              isFresh = fs.statSync(dfPath).mtimeMs >= (startTime - 500);
+            } catch (e) {}
+            if (!isTargetMatch && !isFresh) continue;
+          }
           const dfContent = fs.readFileSync(dfPath, 'utf8');
           if (dfContent && dfContent.trim()) {
             let sectionTitle = '';
