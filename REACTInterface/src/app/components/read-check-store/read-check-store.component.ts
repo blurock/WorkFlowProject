@@ -195,8 +195,17 @@ export class ReadCheckStoreComponent implements OnInit {
     this.updateFileExtensionLabel();
   }
 
+  public getTargetFileExtension(): string {
+    if (this.dataType === 'rxn-pattern' || this.dataType === 'reaction') {
+      return this.format === 'sdf' ? '.rxn' : '.lst';
+    }
+    return this.format === 'sdf' ? '.sdf' : '.dat';
+  }
+
   private updateFileExtensionLabel(): void {
-    if (this.format === 'sdf') {
+    if (this.dataType === 'rxn-pattern' || this.dataType === 'reaction') {
+      this.fileExtensionLabel = this.format === 'sdf' ? '.rxn / .sdf' : '.lst';
+    } else if (this.format === 'sdf') {
       this.fileExtensionLabel = '.sdf / .mol';
     } else {
       this.fileExtensionLabel = '.dat / .txt / .inp';
@@ -291,7 +300,7 @@ export class ReadCheckStoreComponent implements OnInit {
     try {
       // 1. Upload file to working directory if present
       if (this.selectedFile && this.fileContent !== null) {
-        const ext = this.format === 'sdf' ? '.sdf' : '.dat';
+        const ext = this.getTargetFileExtension();
         const targetFilename = `${this.rootName.trim()}${ext}`;
         console.log(`[ReadCheckStoreComponent] Uploading user file ${targetFilename}...`);
         await firstValueFrom(this.reactCloudApi.uploadUserDataFiles('.', [{ filename: targetFilename, content: this.fileContent }]));
@@ -358,10 +367,18 @@ export class ReadCheckStoreComponent implements OnInit {
     this.errorMessage = '';
 
     try {
+      const ext = this.getTargetFileExtension();
+      const targetFilename = `${this.rootName.trim()}${ext}`;
+      const filesToUpload = (this.selectedFile && this.fileContent !== null)
+        ? [{ filename: targetFilename, content: this.fileContent }]
+        : undefined;
+
       const result = await this.existenceCheckService.checkDatabaseExistence(
         this.dataType,
         this.format,
-        this.rootName
+        this.rootName,
+        `${this.rootName.trim()}_out`,
+        filesToUpload
       );
 
       this.isExecuting = false;
@@ -523,6 +540,13 @@ export class ReadCheckStoreComponent implements OnInit {
     this.orchestratorWarning = false;
 
     try {
+      if (this.selectedFile && this.fileContent !== null) {
+        const ext = this.getTargetFileExtension();
+        const targetFilename = `${this.rootName.trim()}${ext}`;
+        console.log(`[ReadCheckStoreComponent] Uploading user file ${targetFilename} before store...`);
+        await firstValueFrom(this.reactCloudApi.uploadUserDataFiles('.', [{ filename: targetFilename, content: this.fileContent }]));
+      }
+
       const commands = CommandTemplatesRegistry.getReadCheckStoreCommands(
         this.dataType,
         'store',

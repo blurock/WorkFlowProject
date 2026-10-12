@@ -1,0 +1,32 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1
+%%%-------------------------------------------------------------------
+AldehydHAbstraction-(r)\
+       10304102 20203000 = 20203101 10304000
+- ID 0
+- Correspondences
+1 2 3 4                 2 1 4
+5 6 7                   1 1
+1 2 3                   2 1
+5 6 4 7                 1 1 4
+>  <ForwardRxn>
+Standard 2.88e+8   1.00  27000.0 1; From Come Propene
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Set to zero because of multiple products
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1
+%%%-------------------------------------------------------------------
+AldehydHAbstraction-(h)\
+       10304101 20203000 = 20203100 10304000
+- ID 1
+- Correspondences
+1 2 3 4                 2 1 4
+5 6 7                   1 1
+1 2 3                   2 1
+5 6 4 7                 1 1 4
+>  <ForwardRxn>
+Standard 2.88e+8   1.00  27000.0 1; From Come Propene
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Set to zero because of multiple products
+$$$$

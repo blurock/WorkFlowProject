@@ -1269,7 +1269,24 @@ app.post('/api/run-commands', authenticateUser, async (req, res) => {
       for (const df of defaultFiles) {
         const dest = path.join(workspaceDir, df.name);
         if (!fs.existsSync(dest)) {
-          fs.writeFileSync(dest, df.content);
+          const candidatePaths = [
+            path.join(REACTROOT, 'data', 'rxn', 'rxnpats', df.name),
+            path.join(REACTROOT, 'data', 'rxn', df.name),
+            path.join(REACTROOT, 'data', 'mol', 'molsdf', df.name),
+            path.join(REACTROOT, 'data', 'mol', df.name),
+            path.join(REACTROOT, 'data', 'mech', df.name)
+          ];
+          let copied = false;
+          for (const cand of candidatePaths) {
+            if (fs.existsSync(cand)) {
+              fs.copyFileSync(cand, dest);
+              copied = true;
+              break;
+            }
+          }
+          if (!copied) {
+            fs.writeFileSync(dest, df.content);
+          }
         }
       }
     }

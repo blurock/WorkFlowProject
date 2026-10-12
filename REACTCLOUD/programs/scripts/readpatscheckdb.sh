@@ -4,6 +4,7 @@
 # Script to Check Reaction Patterns against the database
 #
 # ---------------------------------------------------------------------------
+set verbose on
 
 if ( $#argv != 1 ) then
   echo "Usage: readpatscheckdb.sh File"
@@ -36,11 +37,19 @@ set CURRDIR = `pwd`
 
 cp $PATTERN.lst $TEMPDIR/$PATTERN.lst
 pushd $TEMPDIR
-$CHEMPROG read < read.prg
+$CHEMPROG read < read.prg > $PATTERN.rawout
 
 rm $TEMPFILE
 rm $TEMPFILE1
+
 popd
-if ( -f $TEMPDIR/$PATTERN.out && "$CURRDIR" != "$TEMPDIR" ) then
-    mv $TEMPDIR/$PATTERN.out $PATTERN.out
+rm $TEMPDIR/$PATTERN.lst
+if ( -f $TEMPDIR/$PATTERN..out && "$CURRDIR" != "$TEMPDIR" ) then
+    mv $TEMPDIR/$PATTERN..out $PATTERN..out
+endif
+if ( -f $TEMPDIR/$PATTERN.Existence.out && "$CURRDIR" != "$TEMPDIR" ) then
+    mv $TEMPDIR/$PATTERN.Existence.out $PATTERN.Existence.out
+endif
+if ( -f $TEMPDIR/$PATTERN.rawout && "$CURRDIR" != "$TEMPDIR" ) then
+    mv $TEMPDIR/$PATTERN.rawout $PATTERN.rawout
 endif

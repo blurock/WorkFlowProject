@@ -3183,10 +3183,14 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
   private buildLstCorrespondencesBlock(): string {
     const lines: string[] = [];
 
-    const isBondChange = (a1: number, a2: number): boolean => {
+    const isBondChange = (a1: number, a2: number, r1?: number, r2?: number): boolean => {
       return this.bondChangeRows.some(bc =>
         (bc.atom1Number === a1 && bc.atom2Number === a2) ||
-        (bc.atom1Number === a2 && bc.atom2Number === a1)
+        (bc.atom1Number === a2 && bc.atom2Number === a1) ||
+        (r1 !== undefined && r2 !== undefined && (
+          (bc.atom1Number === r1 && bc.atom2Number === r2) ||
+          (bc.atom1Number === r2 && bc.atom2Number === r1)
+        ))
       );
     };
 
@@ -3202,7 +3206,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
       const atomNumsStr = atomNums.join(' ');
       if (molBonds.length > 0) {
         const bondTypesStr = molBonds.map(b => {
-          if (isBondChange(b.atom1Number, b.atom2Number) || b.bondType === 4) {
+          if (isBondChange(b.atom1Number, b.atom2Number) || b.bondType === 4 || b.bondType === 104) {
             return '4';
           }
           return (b.bondType || 1).toString();
@@ -3234,7 +3238,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
           const r1 = this.correspondenceRows.find(c => c.productAtomNumber === b.atom1Number)?.reactantAtomNumber ?? b.atom1Number;
           const r2 = this.correspondenceRows.find(c => c.productAtomNumber === b.atom2Number)?.reactantAtomNumber ?? b.atom2Number;
 
-          if (isBondChange(r1, r2) || b.bondType === 4 || b.bondType === 104) {
+          if (isBondChange(b.atom1Number, b.atom2Number, r1, r2) || b.bondType === 4 || b.bondType === 104) {
             return '4';
           }
           return (b.bondType || 1).toString();

@@ -48,7 +48,7 @@
         <div>
           <span class="file-name" *ngIf="selectedFile">{{ selectedFile.name }}</span>
           <span class="upload-prompt" *ngIf="!selectedFile">Select or Drop Source Data File ({{ fileExtensionLabel }})</span>
-          <p class="upload-subtext">Will be read from current working directory as <code>{{ rootName || 'ROOTNAME' }}{{ format === 'sdf' ? '.sdf' : '.dat' }}</code></p>
+          <p class="upload-subtext">Will be read from current working directory as <code>{{ rootName || 'ROOTNAME' }}{{ getTargetFileExtension() }}</code></p>
         </div>
       </div>
       <input type="file" #fileInput (change)="onFileSelected($event)" class="hidden-file-input">
