@@ -163,15 +163,19 @@ export class KetcherViewerComponent implements OnChanges, AfterViewInit {
   }
 
   public sendSdfToKetcher(sdfContent: string, force: boolean = false): void {
-    if (!sdfContent) return;
+    if (!sdfContent) {
+      console.warn(`[KetcherViewer] sendSdfToKetcher called with empty/null structure (title: "${this.title}")`);
+      return;
+    }
     if (!force && this.lastSentMolfile === sdfContent && this.isKetcherLoaded) {
       return;
     }
 
+    console.log(`[KetcherViewer] Raw input structure received (title: "${this.title}", length: ${sdfContent.length}):\n`, sdfContent);
     const formattedSdf = this.ensureValidV2000Molfile(sdfContent);
     this.lastSentMolfile = sdfContent;
 
-    console.log(`[KetcherViewer] Sending structure to Ketcher iframe (title: "${this.title}"):\n`, formattedSdf);
+    console.log(`[KetcherViewer] Sending structure to Ketcher iframe (title: "${this.title}", formattedLength: ${formattedSdf.length}):\n`, formattedSdf);
 
     const sendMessage = (): void => {
       try {

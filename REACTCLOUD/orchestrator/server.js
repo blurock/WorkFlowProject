@@ -1283,6 +1283,9 @@ app.post('/api/run-commands', authenticateUser, async (req, res) => {
     const commandDir = path.join(REACTROOT, 'command');
     const staticFile = path.join(REACTROOT, 'data', 'stat-inf.dat');
 
+    const preExistingFiles = new Set(fs.readdirSync(workspaceDir));
+    const chemdbStartTime = Date.now();
+
     const child = spawn(CHEMDB_BIN, [root || 'test', '0', commandDir, staticFile], {
       cwd: workspaceDir,
       env: {
@@ -1329,13 +1332,20 @@ app.post('/api/run-commands', authenticateUser, async (req, res) => {
         for (const df of detailFiles) {
           if (df === 'run.inp' || df === 'test.inp' || df === 'mech.lst' || df === 'xxx.lst' || df === 'xxx.mol' || df === 'xxx.rxn' || df === 'execution.log') continue;
           const dfPath = path.join(workspaceDir, df);
-          if (df.endsWith('.sdf')) {
-            const isTargetMatch = targetItemName && df.startsWith(targetItemName);
-            let isFresh = false;
+
+          // Only include files that were newly created or modified during chemdb execution
+          let isGeneratedByJob = !preExistingFiles.has(df);
+          if (!isGeneratedByJob) {
             try {
-              isFresh = fs.statSync(dfPath).mtimeMs >= (startTime - 500);
+              isGeneratedByJob = fs.statSync(dfPath).mtimeMs >= chemdbStartTime;
             } catch (e) {}
-            if (!isTargetMatch && !isFresh) continue;
+          }
+          if (!isGeneratedByJob) continue;
+
+          // If querying a specific target item, do not attach unrelated detail files
+          if (targetItemName && (df.endsWith('.sdf') || df.endsWith('.mech') || df.endsWith('.thm'))) {
+            const isTargetMatch = df.startsWith(targetItemName);
+            if (!isTargetMatch) continue;
           }
           const dfContent = fs.readFileSync(dfPath, 'utf8');
           if (dfContent && dfContent.trim()) {

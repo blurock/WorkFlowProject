@@ -136,6 +136,9 @@ export class TaskListViewComponent implements OnChanges {
     this.errorMessage = null;
 
     const catalogService = this.catalogServiceRegistry.getServiceForTask(this.task.id);
+    if (forceRefresh) {
+      catalogService.clearCatalogCache(this.task.id);
+    }
     catalogService.getCatalogList('job1', forceRefresh).subscribe({
       next: (parsedItems) => {
         this.items = (parsedItems || []).sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
@@ -155,6 +158,13 @@ export class TaskListViewComponent implements OnChanges {
   }
 
   public onItemClick(item: CatalogItem, forceRefresh: boolean = false): void {
+    console.log('[TaskListView][onItemClick] Selected item:', {
+      name: item.name,
+      id: item.id,
+      taskId: this.task.id,
+      forceRefresh
+    });
+
     this.selectedItem = item;
     this.itemDetailOutput = null;
     this.moleculeSections = [];
@@ -169,9 +179,12 @@ export class TaskListViewComponent implements OnChanges {
     const catalogService = this.catalogServiceRegistry.getServiceForTask(this.task.id);
     catalogService.getItemDetails(item.name, 'job1', forceRefresh).subscribe({
       next: (detailOutput) => {
+        console.log(`[TaskListView][onItemClick] Raw detailOutput received for '${item.name}' (length=${detailOutput?.length}):\n`, detailOutput);
         this.itemDetailOutput = detailOutput;
-        this.currentSdfContent = this.chemParser.extractSdfContent(detailOutput);
+        this.currentSdfContent = this.chemParser.extractSdfContent(detailOutput, item.name);
+        console.log(`[TaskListView][onItemClick] Extracted currentSdfContent for '${item.name}' (length=${this.currentSdfContent?.length}):\n`, this.currentSdfContent);
         this.moleculeSections = this.taskOutputParser.parseSectionsFromOutput(detailOutput, this.task.id, this.currentSdfContent);
+        console.log(`[TaskListView][onItemClick] Parsed moleculeSections count: ${this.moleculeSections.length}`, this.moleculeSections.map(s => s.title));
         this.isDetailLoading = false;
 
         const rxnHeader = this.chemParser.parseReactionHeader(detailOutput);
@@ -180,6 +193,7 @@ export class TaskListViewComponent implements OnChanges {
         }
       },
       error: (err) => {
+        console.error(`[TaskListView][onItemClick] Error fetching details for '${item.name}':`, err);
         this.isDetailLoading = false;
         this.itemDetailOutput = `Failed to fetch details for ${item.name}: ${err?.error?.error || err.message}`;
         this.moleculeSections = [

@@ -8,8 +8,12 @@ export class ChemStructureParserService {
   /**
    * Extracts single molecule SDF or MDL $RXN structure block from raw output.
    */
-  public extractSdfContent(rawOutput: string): string | null {
-    if (!rawOutput) return null;
+  public extractSdfContent(rawOutput: string, targetName?: string): string | null {
+    if (!rawOutput) {
+      console.log('[ChemStructureParser][extractSdfContent] rawOutput is null or empty');
+      return null;
+    }
+    console.log(`[ChemStructureParser][extractSdfContent] Processing rawOutput (length=${rawOutput.length}, hasRxn=${rawOutput.includes('$RXN')}, hasMEnd=${rawOutput.includes('M  END')})`);
 
     // Check if rawOutput contains an MDL $RXN reaction block
     if (rawOutput.includes('$RXN')) {
@@ -17,7 +21,9 @@ export class ChemStructureParserService {
       const sub = rawOutput.substring(rxnIdx);
       const lastMEnd = sub.lastIndexOf('M  END');
       if (lastMEnd !== -1) {
-        return sub.substring(0, lastMEnd + 6).trim();
+        const res = sub.substring(0, lastMEnd + 6).trim();
+        console.log(`[ChemStructureParser][extractSdfContent] Extracted $RXN content (length=${res.length})`);
+        return res;
       }
       return sub.trim();
     }
@@ -41,20 +47,44 @@ export class ChemStructureParserService {
       }
 
       if (reactantSdfs.length > 0 || productSdfs.length > 0) {
-        return this.buildRxnFileFromSdfBlocks(reactantSdfs, productSdfs);
+        const res = this.buildRxnFileFromSdfBlocks(reactantSdfs, productSdfs);
+        console.log(`[ChemStructureParser][extractSdfContent] Built $RXN from reaction header (length=${res.length})`);
+        return res;
       }
     }
 
     // Fallback to single molecule SDF extraction
     const rawChunks = rawOutput.split(/\r?\n\s*~\s*\r?\n/);
-    for (const chunk of rawChunks) {
+    console.log(`[ChemStructureParser][extractSdfContent] Splitting chunks by '~': found ${rawChunks.length} chunk(s) (targetName: '${targetName || ''}')`);
+
+    let candidateChunks = rawChunks;
+    if (targetName && targetName.trim()) {
+      const cleanTarget = targetName.trim();
+      const targetMatches = rawChunks.filter(c => c.includes(cleanTarget) && c.includes('M  END'));
+      if (targetMatches.length > 0) {
+        candidateChunks = targetMatches;
+        console.log(`[ChemStructureParser][extractSdfContent] Found ${targetMatches.length} candidate chunk(s) matching targetName '${cleanTarget}'`);
+      }
+    }
+
+    for (const chunk of candidateChunks) {
       let trimmed = chunk.trim();
       if (trimmed.includes('M  END')) {
         const lines = trimmed.split(/\r?\n/);
         const countsLineIdx = lines.findIndex(l => /^\s*\d+\s+\d+/.test(l));
 
-        if (countsLineIdx >= 3) {
-          const preamble = lines.slice(countsLineIdx - 3, countsLineIdx);
+        if (countsLineIdx !== -1) {
+          let preamble: string[] = [];
+          if (countsLineIdx >= 3) {
+            preamble = lines.slice(countsLineIdx - 3, countsLineIdx);
+          } else if (countsLineIdx === 0) {
+            preamble = [targetName || 'Molecule', '  REACTCLOUD Generated', ''];
+          } else if (countsLineIdx === 1) {
+            preamble = [targetName || 'Molecule', lines[0], ''];
+          } else if (countsLineIdx === 2) {
+            preamble = [lines[0], lines[1], ''];
+          }
+
           const body = lines.slice(countsLineIdx);
 
           if (!body[0].includes('V2000')) {
@@ -68,12 +98,23 @@ export class ChemStructureParserService {
             }
           }
 
-          return [...preamble, ...body].join('\n');
+          // Truncate at the first M  END line to isolate the single molfile block
+          const mEndIdx = body.findIndex(l => l.trim().startsWith('M  END'));
+          const cleanBody = mEndIdx !== -1 ? body.slice(0, mEndIdx + 1) : body;
+
+          const res = [...preamble, ...cleanBody].join('\n');
+          console.log(`[ChemStructureParser][extractSdfContent] Extracted single MOL block (length=${res.length}, preamble='${preamble.join(' / ')}')`);
+          return res;
         }
 
-        return trimmed;
+        const mEndLineIdx = lines.findIndex(l => l.trim().startsWith('M  END'));
+        const cleanLines = mEndLineIdx !== -1 ? lines.slice(0, mEndLineIdx + 1) : lines;
+        const res = cleanLines.join('\n').trim();
+        console.log(`[ChemStructureParser][extractSdfContent] Extracted trimmed chunk with M END (length=${res.length})`);
+        return res;
       }
     }
+    console.warn('[ChemStructureParser][extractSdfContent] No valid MOL/RXN block found in rawOutput.');
     return null;
   }
 

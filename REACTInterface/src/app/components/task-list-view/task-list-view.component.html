@@ -104,6 +104,9 @@
               <button mat-stroked-button (click)="backToCatalogTab()">
                 <mat-icon>arrow_back</mat-icon> Back to List
               </button>
+              <button mat-stroked-button (click)="onItemClick(selectedItem, true)" [disabled]="isDetailLoading" color="primary">
+                <mat-icon>refresh</mat-icon> Refresh Item
+              </button>
               <button mat-stroked-button (click)="toggleAllSections(true)">
                 <mat-icon>unfold_more</mat-icon> Expand All
               </button>

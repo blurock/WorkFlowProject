@@ -6,17 +6,30 @@ import { ReactCloudApiService, CatalogItem } from '../react-cloud-api.service';
   providedIn: 'root'
 })
 export abstract class BaseCatalogService {
+  private readonly CACHE_VERSION = 'v2';
   private listCacheMap = new Map<string, CatalogItem[]>();
   private detailCacheMap = new Map<string, string>();
 
-  constructor(protected apiService: ReactCloudApiService) {}
+  constructor(protected apiService: ReactCloudApiService) {
+    try {
+      // Automatically purge obsolete or unversioned session cache entries
+      const keysToRemove: string[] = [];
+      for (let i = 0; i < sessionStorage.length; i++) {
+        const key = sessionStorage.key(i);
+        if (key && key.startsWith('reactcloud_') && !key.includes(`_${this.CACHE_VERSION}_`)) {
+          keysToRemove.push(key);
+        }
+      }
+      keysToRemove.forEach(k => sessionStorage.removeItem(k));
+    } catch (e) {}
+  }
 
   private getListStorageKey(taskId: string, rootName: string): string {
-    return `reactcloud_catalog_list_${taskId}_${rootName}`;
+    return `reactcloud_catalog_list_${this.CACHE_VERSION}_${taskId}_${rootName}`;
   }
 
   private getDetailStorageKey(taskId: string, itemName: string, rootName: string): string {
-    return `reactcloud_detail_${taskId}_${rootName}_${itemName}`;
+    return `reactcloud_detail_${this.CACHE_VERSION}_${taskId}_${rootName}_${itemName}`;
   }
 
   /**
@@ -71,24 +84,28 @@ export abstract class BaseCatalogService {
     forceRefresh: boolean = false
   ): Observable<string> {
     const key = this.getDetailStorageKey(taskId, itemName, rootName);
+    console.log(`[BaseCatalogService][fetchItemDetails] Request for task='${taskId}', item='${itemName}', root='${rootName}', forceRefresh=${forceRefresh}, key='${key}'`);
 
     if (!forceRefresh) {
       if (this.detailCacheMap.has(key)) {
-        console.log(`[BaseCatalogService] Returning ${taskId}/${itemName} detail from in-memory cache (0 network calls)`);
-        return of(this.detailCacheMap.get(key)!);
+        const cached = this.detailCacheMap.get(key)!;
+        console.log(`[BaseCatalogService] Cache hit: Returning '${taskId}/${itemName}' from in-memory cache (length=${cached.length}, preview=${cached.substring(0, 100).replace(/\n/g, ' ')})`);
+        return of(cached);
       }
       try {
         const stored = sessionStorage.getItem(key);
         if (stored) {
           this.detailCacheMap.set(key, stored);
-          console.log(`[BaseCatalogService] Returning ${taskId}/${itemName} detail from sessionStorage cache (0 network calls)`);
+          console.log(`[BaseCatalogService] Cache hit: Returning '${taskId}/${itemName}' from sessionStorage cache (length=${stored.length}, preview=${stored.substring(0, 100).replace(/\n/g, ' ')})`);
           return of(stored);
         }
       } catch (e) {}
     }
 
+    console.log(`[BaseCatalogService] Cache miss for '${taskId}/${itemName}'. Calling backend API apiService.fetchItemDetails...`);
     return this.apiService.fetchItemDetails(taskId, itemName, rootName).pipe(
       tap(output => {
+        console.log(`[BaseCatalogService] Received API response for '${taskId}/${itemName}' (length=${output?.length})`);
         if (output) {
           this.detailCacheMap.set(key, output);
           try {

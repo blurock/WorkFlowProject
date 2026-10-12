@@ -177,8 +177,8 @@ else
         npm install
     fi
     
-    ( PORT=${ORCH_PORT} REACTROOT="${REACTROOT}" CCROOT="${CCROOT}" nohup node server.js > "${ORCH_LOG}" 2>&1 & )
-    ORCH_PID=$(get_pid_on_port "$ORCH_PORT")
+    PORT=${ORCH_PORT} REACTROOT="${REACTROOT}" CCROOT="${CCROOT}" nohup node server.js < /dev/null > "${ORCH_LOG}" 2>&1 &
+    ORCH_PID=$!
     disown $ORCH_PID 2>/dev/null || true
     echo "  Spawned Orchestrator (PID: ${ORCH_PID}), logging to ${ORCH_LOG}"
     
@@ -212,7 +212,7 @@ else
         npm run build:standalone
     fi
     
-    nohup npm run serve:standalone > "${KETCHER_LOG}" 2>&1 &
+    nohup npm run serve:standalone < /dev/null > "${KETCHER_LOG}" 2>&1 &
     KETCHER_PID=$!
     disown $KETCHER_PID 2>/dev/null || true
     echo "  Spawned Ketcher Standalone Server (PID: ${KETCHER_PID}), logging to ${KETCHER_LOG}"

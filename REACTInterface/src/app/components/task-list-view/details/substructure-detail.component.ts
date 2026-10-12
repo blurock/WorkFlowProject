@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BaseCatalogDetailComponent } from './base-catalog-detail.component';
 
@@ -61,6 +61,17 @@ import { KetcherViewerComponent } from '../../ketcher-viewer/ketcher-viewer.comp
   styleUrls: ['../task-list-view.component.scss'],
   styles: [':host { display: block; width: 100%; }']
 })
-export class SubstructureDetailComponent extends BaseCatalogDetailComponent {
+export class SubstructureDetailComponent extends BaseCatalogDetailComponent implements OnChanges {
   @Input() sdfContent: string | null = null;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['sdfContent'] || changes['item']) {
+      console.log(`[SubstructureDetailComponent] Displaying substructure: '${this.item?.name}', sdfContent length: ${this.sdfContent?.length}`);
+      if (this.sdfContent) {
+        console.log(`[SubstructureDetailComponent] sdfContent value:\n`, this.sdfContent);
+      } else {
+        console.warn(`[SubstructureDetailComponent] sdfContent is null/empty for item '${this.item?.name}'`);
+      }
+    }
+  }
 }

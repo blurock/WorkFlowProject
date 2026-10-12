@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map, switchMap } from 'rxjs';
+import { Observable, map, switchMap, tap } from 'rxjs';
 import { CommandTemplatesRegistry } from '../templates/command-templates.registry';
 
 export interface CatalogItem {
@@ -30,6 +30,8 @@ export interface ApiRunCommandsResponse {
   root: string;
   exitCode: number;
   output: string;
+  jobId?: string;
+  status?: string;
   error?: string;
   elapsedMs?: number;
 }
@@ -197,7 +199,19 @@ export class ReactCloudApiService {
       payload.fileName = fileName;
     }
 
-    return this.http.post<ApiRunCommandsResponse>(`${this.baseUrl}/api/run-commands`, payload);
+    console.log(`[ReactCloudApi][runCommands] POST /api/run-commands with payload:`, {
+      root: rootName,
+      targetItem,
+      taskId,
+      commandCount: commands.length,
+      firstCommands: commands.slice(0, 5)
+    });
+
+    return this.http.post<ApiRunCommandsResponse>(`${this.baseUrl}/api/run-commands`, payload).pipe(
+      tap(res => {
+        console.log(`[ReactCloudApi][runCommands] Response received: status=${res?.status}, jobId=${res?.jobId}, outputLength=${res?.output?.length}`);
+      })
+    );
   }
 
   /**
@@ -269,8 +283,13 @@ export class ReactCloudApiService {
    */
   public fetchItemDetails(taskId: string, itemName: string, rootName: string = 'job1'): Observable<string> {
     const commands = CommandTemplatesRegistry.getItemDetailCommands(taskId, itemName);
+    console.log(`[ReactCloudApi][fetchItemDetails] Commands for taskId='${taskId}', itemName='${itemName}' (${commands.length} commands):`, commands);
     return this.runCommands(commands, rootName, itemName, taskId).pipe(
-      map(response => response.output || 'No output returned.')
+      map(response => {
+        const out = response.output || 'No output returned.';
+        console.log(`[ReactCloudApi][fetchItemDetails] Output for '${taskId}/${itemName}' (length=${out.length}, preview=${out.substring(0, 150).replace(/\n/g, ' ')})`);
+        return out;
+      })
     );
   }
 
