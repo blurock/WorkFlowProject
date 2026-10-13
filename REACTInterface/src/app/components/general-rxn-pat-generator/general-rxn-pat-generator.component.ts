@@ -20,6 +20,8 @@ import { ReactCloudApiService } from '../../services/react-cloud-api.service';
 import { ExistenceCheckService, ExistenceCheckItem } from '../../services/existence-check.service';
 import { CommandTemplatesRegistry } from '../../templates/command-templates.registry';
 import { KetcherViewerComponent } from '../ketcher-viewer/ketcher-viewer.component';
+import { ChemStructureParserService } from '../../services/chem-structure-parser.service';
+import { SubstructuresService } from '../../services/catalog/substructures.service';
 
 export interface AtomInfo {
   atomNumber: number;
@@ -48,6 +50,7 @@ export interface BondInfo {
 export interface AtomCorrespondenceRow {
   reactantAtomNumber: number;
   reactantSymbol: string;
+  reactantMoleculeIndex?: number;
   productAtomNumber: number | null;
   candidateProductAtoms: { atomNumber: number; label: string }[];
 }
@@ -221,6 +224,11 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
 
   // Internal Parsed Structure Data
   public templateRxnContent: string = '';
+  public originalTemplateRxnContent: string = '';
+  public dbTemplateRxnContent: string = '';
+  public isDbAligned: boolean = false;
+  public activeKetcherMode: 'original' | 'database' = 'original';
+  public alignedSubstructureNames: string[] = [];
   public reactantAtoms: AtomInfo[] = [];
   public productAtoms: AtomInfo[] = [];
   public reactantBonds: BondInfo[] = [];
@@ -230,6 +238,8 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
     private reactCloudApi: ReactCloudApiService,
     private existenceCheckService: ExistenceCheckService,
     private snackBar: MatSnackBar,
+    private chemParser: ChemStructureParserService,
+    private substructuresService: SubstructuresService,
     @Optional() public dialogRef?: MatDialogRef<GeneralRxnPatGeneratorComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: { initialRootName?: string }
   ) { }
@@ -264,6 +274,10 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         this.isExecuting = false;
         return;
       }
+
+      this.originalTemplateRxnContent = this.templateRxnContent;
+      this.isDbAligned = false;
+      this.activeKetcherMode = 'original';
 
       this.parseRxnStructure(this.templateRxnContent);
       const errors = this.performValidationChecks();
@@ -780,6 +794,12 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         this.currentStep = 6;
         this.statusMessage = `Database check complete! Reaction class '${this.rootName.trim()}' checked against database.`;
         this.snackBar.open('Database Check Complete!', 'Dismiss', { duration: 3000 });
+
+        // If pattern is NOT found in DB and we have DB substructures, reconcile template with DB substructures
+        const isNewInDatabase = !this.existenceCheckItems.some(item => item.inDatabase);
+        if (isNewInDatabase && this.substructureDbIdMap.size > 0) {
+          await this.reconcileDatabaseSubstructuresTemplate();
+        }
       } else {
         this.errorMessage = 'Database existence check returned warnings or errors.';
         this.isChecked = true;
@@ -811,6 +831,11 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
       if (!this.isSubstructuresChecked || this.substructureDbIdMap.size === 0) {
         this.statusMessage = `Checking substructures in database first for '${this.rootName.trim()}'...`;
         await this.runSubstructuresCheckInternal();
+      }
+
+      // 2. If not yet aligned with DB substructures, reconcile now before storing
+      if (!this.isDbAligned && this.substructureDbIdMap.size > 0) {
+        await this.reconcileDatabaseSubstructuresTemplate();
       }
 
       const lstContent = this.serializeToLstFile();
@@ -1006,7 +1031,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
           }
 
           const isGeneric = /^R\d*$/i.test(symbol) || symbol === 'A' || symbol === 'X' || symbol === '*' || symbol.startsWith('R');
-          const atomNum = atomMapNumber !== undefined ? atomMapNumber : (isReactant ? atomCounter++ : atomCounter++);
+          const atomNum = atomCounter++;
 
           const atomObj: AtomInfo = {
             atomNumber: atomNum,
@@ -1129,28 +1154,31 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
     }
 
     let reactantAtomCounter = 1;
+    let productAtomCounter = 1;
 
     molBlockStrings.forEach((blockStr, molIdx) => {
       const moleculeIndex = molIdx + 1;
       const isReactant = molIdx < numReactants;
 
       // Start product atom numbering after all reactant atoms (N)
-      const currentAtomCounter = isReactant
-        ? reactantAtomCounter
-        : (this.reactantAtoms.length + this.productAtoms.length + 1);
+      if (!isReactant && productAtomCounter === 1) {
+        productAtomCounter = reactantAtomCounter;
+      }
 
-      console.log(`[RxnPatGenerator] Parsing MOL block #${moleculeIndex} (isReactant=${isReactant})...`);
+      console.log(`[RxnPatGenerator] Parsing MOL block #${moleculeIndex} (isReactant=${isReactant}, startAtom=${isReactant ? reactantAtomCounter : productAtomCounter})...`);
 
       const parsed = this.parseMolBlock(
         blockStr,
         moleculeIndex,
         isReactant,
-        currentAtomCounter,
-        currentAtomCounter
+        reactantAtomCounter,
+        productAtomCounter
       );
 
       if (isReactant) {
         reactantAtomCounter = parsed.nextReactantCounter;
+      } else {
+        productAtomCounter = parsed.nextProductCounter;
       }
 
       parsed.atoms.forEach(a => {
@@ -1176,11 +1204,11 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
       console.warn('[RxnPatGenerator] Product atoms array empty; performing automatic fallback partition...');
       const all = [...this.reactantAtoms];
       if (all.length === 1) {
-        this.productAtoms = [{ ...all[0], atomNumber: 1, isReactant: false }];
+        this.productAtoms = [{ ...all[0], atomNumber: 2, isReactant: false }];
       } else {
         const half = Math.ceil(all.length / 2);
-        this.reactantAtoms = all.slice(0, half).map((a, idx) => ({ ...a, atomNumber: idx, isReactant: true }));
-        this.productAtoms = all.slice(half).map((a, idx) => ({ ...a, atomNumber: half + idx, isReactant: false }));
+        this.reactantAtoms = all.slice(0, half).map((a, idx) => ({ ...a, atomNumber: idx + 1, isReactant: true }));
+        this.productAtoms = all.slice(half).map((a, idx) => ({ ...a, atomNumber: half + idx + 1, isReactant: false }));
       }
     }
 
@@ -1188,11 +1216,11 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
       console.warn('[RxnPatGenerator] Reactant atoms array empty; performing automatic fallback partition...');
       const all = [...this.productAtoms];
       if (all.length === 1) {
-        this.reactantAtoms = [{ ...all[0], atomNumber: 0, isReactant: true }];
+        this.reactantAtoms = [{ ...all[0], atomNumber: 1, isReactant: true }];
       } else {
         const half = Math.ceil(all.length / 2);
-        this.reactantAtoms = all.slice(0, half).map((a, idx) => ({ ...a, atomNumber: idx, isReactant: true }));
-        this.productAtoms = all.slice(half).map((a, idx) => ({ ...a, atomNumber: half + idx, isReactant: false }));
+        this.reactantAtoms = all.slice(0, half).map((a, idx) => ({ ...a, atomNumber: idx + 1, isReactant: true }));
+        this.productAtoms = all.slice(half).map((a, idx) => ({ ...a, atomNumber: half + idx + 1, isReactant: false }));
       }
     }
 
@@ -1339,7 +1367,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
 
             if (symbol && isNaN(Number(symbol))) {
               const isGeneric = /^R\d*$/i.test(symbol) || symbol === 'A' || symbol === 'X' || symbol === '*' || symbol.startsWith('R');
-              const atomNum = atomMapNumber !== undefined ? atomMapNumber : (isReactant ? rCounter++ : pCounter++);
+              const atomNum = isReactant ? rCounter++ : pCounter++;
 
               molAtoms.push({
                 atomNumber: atomNum,
@@ -1447,7 +1475,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
             console.log(`[RxnPatGenerator][parseMolBlock] Block #${moleculeIndex} Atom ${j + 1} (${symbol}): raw cols 37-39='${chrgCol}', parsed radVal=${radVal}, fullLine='${line}'`);
 
             const isGeneric = /^R\d*$/i.test(symbol) || symbol === 'A' || symbol === 'X' || symbol === '*' || symbol.startsWith('R');
-            const atomNum = atomMapNumber !== undefined ? atomMapNumber : (isReactant ? rCounter++ : pCounter++);
+            const atomNum = isReactant ? rCounter++ : pCounter++;
 
             molAtoms.push({
               atomNumber: atomNum,
@@ -1574,7 +1602,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         }
 
         const isGeneric = /^R\d*$/i.test(symbol) || symbol === 'A' || symbol === 'X' || symbol === '*' || symbol.startsWith('R');
-        const atomNum = atomMapNumber !== undefined ? atomMapNumber : (isReactant ? rCounter++ : pCounter++);
+        const atomNum = isReactant ? rCounter++ : pCounter++;
 
         molAtoms.push({
           atomNumber: atomNum,
@@ -1663,37 +1691,129 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
   // --- Helper Routines for Correspondences & Tables ---
 
   private buildCorrespondencesTable(): void {
-    this.correspondenceRows = this.reactantAtoms.map((rAtom, idx) => {
-      const candidates = this.productAtoms
-        .filter(pAtom => pAtom.symbol === rAtom.symbol || (rAtom.isGeneric && pAtom.isGeneric))
-        .map(pAtom => ({
-          atomNumber: pAtom.atomNumber,
-          label: `Atom #${pAtom.atomNumber} (${pAtom.symbol})`
-        }));
+    const assignedProductAtomNums = new Set<number>();
+    const resultMap = new Map<number, number>();
 
-      let matchedProd = rAtom.atomMapNumber !== undefined
-        ? candidates.find(c => c.atomNumber === rAtom.atomMapNumber)
-        : undefined;
-
-      if (!matchedProd) {
-        // Find matching product candidate by relative index within same type
-        const sameTypeReactantIndex = this.reactantAtoms
-          .filter((a, i) => i < idx && (a.symbol === rAtom.symbol || (rAtom.isGeneric && a.isGeneric)))
-          .length;
-
-        if (sameTypeReactantIndex < candidates.length) {
-          matchedProd = candidates[sameTypeReactantIndex];
+    // 1. Explicit atom map numbers take highest priority
+    this.reactantAtoms.forEach(rAtom => {
+      if (rAtom.atomMapNumber !== undefined) {
+        const cand = this.productAtoms.find(p => p.atomMapNumber !== undefined && p.atomMapNumber === rAtom.atomMapNumber && !assignedProductAtomNums.has(p.atomNumber));
+        if (cand) {
+          resultMap.set(rAtom.atomNumber, cand.atomNumber);
+          assignedProductAtomNums.add(cand.atomNumber);
         }
       }
+    });
 
-      if (!matchedProd && candidates.length > 0) {
-        matchedProd = candidates[0];
+    const getCandidateScore = (rAtom: AtomInfo, cand: AtomInfo): number => {
+      let score = 0;
+      const rNeighbors = this.reactantBonds
+        .filter(b => b.atom1Number === rAtom.atomNumber || b.atom2Number === rAtom.atomNumber)
+        .map(b => (b.atom1Number === rAtom.atomNumber ? b.atom2Number : b.atom1Number));
+
+      const pNeighbors = this.productBonds
+        .filter(b => b.atom1Number === cand.atomNumber || b.atom2Number === cand.atomNumber)
+        .map(b => (b.atom1Number === cand.atomNumber ? b.atom2Number : b.atom1Number));
+
+      rNeighbors.forEach(rn => {
+        const matchedP = resultMap.get(rn);
+        if (matchedP !== undefined && pNeighbors.includes(matchedP)) {
+          score += 10; // Preserved bond to matched neighbor
+        }
+      });
+
+      if (cand.moleculeIndex === rAtom.moleculeIndex) {
+        score += 1;
       }
+      return score;
+    };
+
+    // 2. Match non-H atoms first (C, R, O, etc.)
+    const nonHAtoms = this.reactantAtoms.filter(a => a.symbol !== 'H' && !resultMap.has(a.atomNumber));
+    nonHAtoms.forEach(rAtom => {
+      const allCandidates = this.productAtoms.filter(pAtom =>
+        pAtom.symbol === rAtom.symbol || (rAtom.isGeneric && pAtom.isGeneric)
+      );
+      let available = allCandidates.filter(p => !assignedProductAtomNums.has(p.atomNumber));
+      if (available.length === 0) available = allCandidates;
+
+      let bestCand = available[0];
+      let bestScore = -1;
+      available.forEach(cand => {
+        const s = getCandidateScore(rAtom, cand);
+        if (s > bestScore) {
+          bestScore = s;
+          bestCand = cand;
+        }
+      });
+      if (bestCand) {
+        resultMap.set(rAtom.atomNumber, bestCand.atomNumber);
+        assignedProductAtomNums.add(bestCand.atomNumber);
+      }
+    });
+
+    // 3. Match H atoms, prioritizing preserved bonds to existing neighbors
+    const hAtoms = this.reactantAtoms.filter(a => a.symbol === 'H' && !resultMap.has(a.atomNumber));
+    const hScores = hAtoms.map(rAtom => {
+      const allCandidates = this.productAtoms.filter(p => p.symbol === 'H' && !assignedProductAtomNums.has(p.atomNumber));
+      let maxS = 0;
+      allCandidates.forEach(cand => {
+        const s = getCandidateScore(rAtom, cand);
+        if (s > maxS) maxS = s;
+      });
+      return { rAtom, maxS };
+    }).sort((a, b) => b.maxS - a.maxS);
+
+    hScores.forEach(({ rAtom }) => {
+      const available = this.productAtoms.filter(p => p.symbol === 'H' && !assignedProductAtomNums.has(p.atomNumber));
+      let bestCand = available[0];
+      let bestScore = -1;
+      available.forEach(cand => {
+        const s = getCandidateScore(rAtom, cand);
+        if (s > bestScore) {
+          bestScore = s;
+          bestCand = cand;
+        }
+      });
+      if (bestCand) {
+        resultMap.set(rAtom.atomNumber, bestCand.atomNumber);
+        assignedProductAtomNums.add(bestCand.atomNumber);
+      }
+    });
+
+    // 4. Fallback for any unassigned
+    this.reactantAtoms.forEach(rAtom => {
+      if (!resultMap.has(rAtom.atomNumber)) {
+        const allCandidates = this.productAtoms.filter(pAtom =>
+          pAtom.symbol === rAtom.symbol || (rAtom.isGeneric && pAtom.isGeneric)
+        );
+        let available = allCandidates.filter(p => !assignedProductAtomNums.has(p.atomNumber));
+        if (available.length === 0) available = allCandidates;
+        if (available.length > 0) {
+          resultMap.set(rAtom.atomNumber, available[0].atomNumber);
+          assignedProductAtomNums.add(available[0].atomNumber);
+        }
+      }
+    });
+
+    const numReactants = new Set(this.reactantAtoms.map(a => a.moleculeIndex)).size || 1;
+
+    this.correspondenceRows = this.reactantAtoms.map(rAtom => {
+      const candidates = this.productAtoms
+        .filter(pAtom => pAtom.symbol === rAtom.symbol || (rAtom.isGeneric && pAtom.isGeneric))
+        .map(pAtom => {
+          const pMolDisplay = pAtom.moleculeIndex > numReactants ? (pAtom.moleculeIndex - numReactants) : pAtom.moleculeIndex;
+          return {
+            atomNumber: pAtom.atomNumber,
+            label: `Atom #${pAtom.atomNumber} (${pAtom.symbol}) - Product #${pMolDisplay}`
+          };
+        });
 
       return {
         reactantAtomNumber: rAtom.atomNumber,
         reactantSymbol: rAtom.symbol,
-        productAtomNumber: matchedProd ? matchedProd.atomNumber : null,
+        reactantMoleculeIndex: rAtom.moleculeIndex,
+        productAtomNumber: resultMap.get(rAtom.atomNumber) || null,
         candidateProductAtoms: candidates
       };
     });
@@ -2270,7 +2390,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
 
       const radCode = (a.radical && a.radical > 0) ? 4 : 0;
       console.log(`[RxnPatGenerator][buildMolBlockFromAtoms] Formatted atom #${localNum} (${sym}): rad=${a.radical || 0}, radCode=${radCode}`);
-      resultLines.push(this.formatV2000AtomLine(x, y, z, sym, localNum, radCode));
+      resultLines.push(this.formatV2000AtomLine(x, y, z, sym, 0, radCode));
     });
 
     molBonds.forEach(b => {
@@ -2443,8 +2563,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         }
       }
 
-      // Renumber Column 11 atom mapping to 1..N (cols 61-63, index 60-63)
-      const mapStr = atomCounter.toString().padStart(3, ' ');
+      // Ensure Column 11 atom mapping is 0 in standalone substructure molfiles (cols 61-63, index 60-63)
       if (atomLine.length >= 60) {
         let rest = atomLine.length >= 69 ? atomLine.substring(63, 69) : '  0  0';
         const invRet = rest.substring(0, 3);
@@ -2455,7 +2574,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         const safeInv = (!isNaN(invVal) && (invVal === 0 || invVal === 1 || invVal === 2)) ? invRet : '  0';
         const safeExt = (!isNaN(extVal) && (extVal === 0 || extVal === 1)) ? extFlag : '  0';
 
-        atomLine = atomLine.substring(0, 60) + mapStr + safeInv + safeExt;
+        atomLine = atomLine.substring(0, 60) + '  0' + safeInv + safeExt;
       } else {
         const tokens = atomLine.trim().split(/\s+/);
         if (tokens.length >= 12) {
@@ -2670,7 +2789,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
       }
 
       const radCode = (a.radical && a.radical > 0) ? 4 : 0;
-      resultLines.push(this.formatV2000AtomLine(x, y, z, sym, localNum, radCode));
+      resultLines.push(this.formatV2000AtomLine(x, y, z, sym, 0, radCode));
     });
 
     targetBonds.forEach(b => {
@@ -3069,27 +3188,19 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
     return sorted.join('');
   }
 
-  private buildSubstructureEquation(comb: string[]): string {
-    if (this.rGroupRows.length === 0) {
-      return `${this.rootName.toLowerCase()} = ${this.rootName.toLowerCase()}`;
-    }
-
-    const resolveSubId = (name: string): string => {
-      if (this.substructureDbIdMap && this.substructureDbIdMap.has(name)) {
-        return this.substructureDbIdMap.get(name)!;
-      }
-      return name;
-    };
-
+  /**
+   * Resolves the canonical substructure name for a molecule index, taking into account
+   * customizable root names, R-group tags, and fixed formula names.
+   */
+  public getSubstructureNameForMolecule(molIdx: number, isReactant: boolean, comb?: string[]): string {
     const knownSubNames = new Set(this.substructures.map(s => s.name));
+    const rootItem = this.moleculeRootItems.find(i => i.moleculeIndex === molIdx && i.isReactant === isReactant);
+    const baseRoot = (rootItem && rootItem.customRoot && rootItem.customRoot.trim())
+      ? rootItem.customRoot.trim()
+      : (rootItem && rootItem.defaultRoot ? rootItem.defaultRoot.trim() : null);
 
-    // 1. Reactant Substructures
-    const reactantMolIndices = Array.from(new Set(this.reactantAtoms.map(a => a.moleculeIndex))).sort((a, b) => a - b);
-    if (reactantMolIndices.length === 0) reactantMolIndices.push(1);
-
-    const reactantSubNames: string[] = [];
-    reactantMolIndices.forEach(mIdx => {
-      const molAtoms = this.reactantAtoms.filter(a => a.moleculeIndex === mIdx);
+    if (isReactant) {
+      const molAtoms = this.reactantAtoms.filter(a => a.moleculeIndex === molIdx);
       const molAtomNums = molAtoms.map(a => a.atomNumber);
 
       const molGroups = this.rGroupRows.filter(g =>
@@ -3097,13 +3208,9 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         g.rAtomNumbers.some(rNum => molAtomNums.includes(rNum))
       );
 
-      const rootItem = this.moleculeRootItems.find(i => i.moleculeIndex === mIdx && i.isReactant);
-      const baseRoot = (rootItem && rootItem.customRoot && rootItem.customRoot.trim())
-        ? rootItem.customRoot.trim()
-        : null;
-
-      if (molGroups.length > 0) {
-        const subStr = molGroups.map(g => {
+      if (molGroups.length > 0 || (rootItem && rootItem.hasRGroups)) {
+        const groupsToUse = molGroups.length > 0 ? molGroups : this.rGroupRows;
+        return groupsToUse.map(g => {
           const gIdx = this.rGroupRows.indexOf(g);
           const tag = (comb && comb[gIdx]) ? comb[gIdx] : 'r';
           if (baseRoot) {
@@ -3114,21 +3221,11 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
           const sym = (g.centralAtomSymbol || 'C').toLowerCase();
           return `${radPrefix}${sym}(${tag})`;
         }).join('');
-        reactantSubNames.push(resolveSubId(subStr));
       } else {
-        const name = baseRoot || this.getFixedMoleculeName(molAtoms, true);
-        reactantSubNames.push(resolveSubId(name));
+        return baseRoot || this.getFixedMoleculeName(molAtoms, true);
       }
-    });
-
-    // 2. Product Substructures
-    const productMolIndices = Array.from(new Set(this.productAtoms.map(a => a.moleculeIndex))).sort((a, b) => a - b);
-    if (productMolIndices.length === 0) productMolIndices.push(1);
-
-    const productSubNames: string[] = [];
-    productMolIndices.forEach(pIdx => {
-      const pAtoms = this.productAtoms.filter(a => a.moleculeIndex === pIdx);
-
+    } else {
+      const pAtoms = this.productAtoms.filter(a => a.moleculeIndex === molIdx);
       const mappedReactantNums: number[] = [];
       pAtoms.forEach(pa => {
         const corr = this.correspondenceRows.find(c => c.productAtomNumber === pa.atomNumber);
@@ -3144,13 +3241,9 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         g.rAtomNumbers.some(rNum => mappedReactantNums.includes(rNum))
       );
 
-      const rootItem = this.moleculeRootItems.find(i => i.moleculeIndex === pIdx && !i.isReactant);
-      const baseRoot = (rootItem && rootItem.customRoot && rootItem.customRoot.trim())
-        ? rootItem.customRoot.trim()
-        : null;
-
-      if (molGroups.length > 0) {
-        let subStr = molGroups.map(g => {
+      if (molGroups.length > 0 || (rootItem && rootItem.hasRGroups)) {
+        const groupsToUse = molGroups.length > 0 ? molGroups : this.rGroupRows;
+        let subStr = groupsToUse.map(g => {
           const gIdx = this.rGroupRows.indexOf(g);
           const tag = (comb && comb[gIdx]) ? comb[gIdx] : 'r';
           if (baseRoot) {
@@ -3167,17 +3260,208 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         if (!knownSubNames.has(subStr) && knownSubNames.has(`p_${subStr}`)) {
           subStr = `p_${subStr}`;
         }
-        productSubNames.push(resolveSubId(subStr));
+        return subStr;
       } else {
         let name = baseRoot || this.getFixedMoleculeName(pAtoms, false);
         if (!knownSubNames.has(name) && knownSubNames.has(`p_${name}`)) {
           name = `p_${name}`;
         }
-        productSubNames.push(resolveSubId(name));
+        return name;
       }
-    });
+    }
+  }
+
+  private buildSubstructureEquation(comb: string[]): string {
+    if (this.rGroupRows.length === 0) {
+      return `${this.rootName.toLowerCase()} = ${this.rootName.toLowerCase()}`;
+    }
+
+    const resolveSubId = (name: string): string => {
+      if (this.substructureDbIdMap && this.substructureDbIdMap.has(name)) {
+        return this.substructureDbIdMap.get(name)!;
+      }
+      return name;
+    };
+
+    // 1. Reactant Substructures
+    const reactantMolIndices = Array.from(new Set(this.reactantAtoms.map(a => a.moleculeIndex))).sort((a, b) => a - b);
+    if (reactantMolIndices.length === 0) reactantMolIndices.push(1);
+    const reactantSubNames = reactantMolIndices.map(mIdx => resolveSubId(this.getSubstructureNameForMolecule(mIdx, true, comb)));
+
+    // 2. Product Substructures
+    const productMolIndices = Array.from(new Set(this.productAtoms.map(a => a.moleculeIndex))).sort((a, b) => a - b);
+    if (productMolIndices.length === 0) productMolIndices.push(1);
+    const productSubNames = productMolIndices.map(pIdx => resolveSubId(this.getSubstructureNameForMolecule(pIdx, false, comb)));
 
     return `${reactantSubNames.join(' ')} = ${productSubNames.join(' ')}`;
+  }
+
+  /**
+   * Switches the active Ketcher display between Original Template and DB-Aligned Template.
+   */
+  public setKetcherMode(mode: 'original' | 'database'): void {
+    this.activeKetcherMode = mode;
+    const content = mode === 'database' ? this.dbTemplateRxnContent : this.originalTemplateRxnContent;
+    if (this.ketcherCanvas && content) {
+      this.ketcherCanvas.sendSdfToKetcher(content, true);
+    }
+  }
+
+  /**
+   * Toggles between Original Drawn Template and Database Substructures Aligned Template.
+   */
+  public toggleKetcherTemplateMode(): void {
+    this.setKetcherMode(this.activeKetcherMode === 'database' ? 'original' : 'database');
+  }
+
+  /**
+   * Reconciles the reaction template with database substructures when storing a new pattern.
+   * Assembles a DB-backed $RXN multi-mol structure using database molfiles for existing substructures,
+   * then re-runs parsing, atom matching, and bond change detection routines so correspondences and
+   * bond parameter 4 lines in the .lst file match database substructure numbering 100%.
+   */
+  public async reconcileDatabaseSubstructuresTemplate(): Promise<void> {
+    if (this.substructureDbIdMap.size === 0) {
+      console.log('[RxnPatGenerator][reconcileDatabaseSubstructuresTemplate] No DB substructures in map; alignment skipped.');
+      return;
+    }
+
+    try {
+      this.statusMessage = 'Reconciling template and correspondences with database substructures...';
+      console.log('[RxnPatGenerator][reconcileDatabaseSubstructuresTemplate] Starting alignment. substructureDbIdMap:', Array.from(this.substructureDbIdMap.entries()));
+
+      const combinedRawOutput = `${this.checkRawOutput || ''}\n${this.substructureCheckRawOutput || ''}`;
+      const sdfMap = this.chemParser.extractSdfBlockMap(combinedRawOutput);
+      console.log(`[RxnPatGenerator][reconcileDatabaseSubstructuresTemplate] Extracted ${sdfMap.size} SDF blocks from check output.`);
+
+      const firstComb = (this.generatedRxnPatterns.length > 0 && this.generatedRxnPatterns[0].combination)
+        ? this.generatedRxnPatterns[0].combination
+        : undefined;
+
+      const reactantMolfiles: string[] = [];
+      const productMolfiles: string[] = [];
+      const alignedNames: string[] = [];
+
+      // 1. Collect Reactant Molfiles
+      const reactantMolIndices = Array.from(new Set(this.reactantAtoms.map(a => a.moleculeIndex))).sort((a, b) => a - b);
+      if (reactantMolIndices.length === 0 && this.reactantAtoms.length > 0) reactantMolIndices.push(1);
+
+      for (const mIdx of reactantMolIndices) {
+        const subName = this.getSubstructureNameForMolecule(mIdx, true, firstComb);
+        const dbId = this.substructureDbIdMap.get(subName);
+        let molfile: string | undefined;
+
+        if (dbId && (sdfMap.has(dbId) || sdfMap.has(subName))) {
+          molfile = sdfMap.get(dbId) || sdfMap.get(subName);
+          alignedNames.push(`${subName} -> DB#${dbId}`);
+        } else if (dbId) {
+          try {
+            const raw = await firstValueFrom(this.substructuresService.getItemDetails(dbId));
+            const extracted = this.chemParser.extractSdfContent(raw, subName) || raw;
+            if (extracted && extracted.includes('M  END')) {
+              molfile = extracted;
+              alignedNames.push(`${subName} -> DB#${dbId}`);
+            }
+          } catch (e) {
+            console.warn(`[RxnPatGenerator] Could not fetch DB molfile for ${dbId}:`, e);
+          }
+        }
+
+        if (!molfile) {
+          const localSub = this.substructures.find(s => s.name === subName) || this.singleSubstructures.find(s => s.name === subName);
+          if (localSub) {
+            molfile = localSub.molfile;
+          }
+        }
+
+        if (molfile) {
+          reactantMolfiles.push(molfile);
+        } else {
+          console.warn(`[RxnPatGenerator] Warning: No molfile found for reactant molIdx=${mIdx} (name=${subName})`);
+        }
+      }
+
+      // 2. Collect Product Molfiles
+      const productMolIndices = Array.from(new Set(this.productAtoms.map(a => a.moleculeIndex))).sort((a, b) => a - b);
+      if (productMolIndices.length === 0 && this.productAtoms.length > 0) productMolIndices.push(1);
+
+      for (const pIdx of productMolIndices) {
+        const subName = this.getSubstructureNameForMolecule(pIdx, false, firstComb);
+        const dbId = this.substructureDbIdMap.get(subName);
+        let molfile: string | undefined;
+
+        if (dbId && (sdfMap.has(dbId) || sdfMap.has(subName))) {
+          molfile = sdfMap.get(dbId) || sdfMap.get(subName);
+          alignedNames.push(`${subName} -> DB#${dbId}`);
+        } else if (dbId) {
+          try {
+            const raw = await firstValueFrom(this.substructuresService.getItemDetails(dbId));
+            const extracted = this.chemParser.extractSdfContent(raw, subName) || raw;
+            if (extracted && extracted.includes('M  END')) {
+              molfile = extracted;
+              alignedNames.push(`${subName} -> DB#${dbId}`);
+            }
+          } catch (e) {
+            console.warn(`[RxnPatGenerator] Could not fetch DB molfile for ${dbId}:`, e);
+          }
+        }
+
+        if (!molfile) {
+          const localSub = this.substructures.find(s => s.name === subName) || this.singleSubstructures.find(s => s.name === subName);
+          if (localSub) {
+            molfile = localSub.molfile;
+          }
+        }
+
+        if (molfile) {
+          productMolfiles.push(molfile);
+        } else {
+          console.warn(`[RxnPatGenerator] Warning: No molfile found for product molIdx=${pIdx} (name=${subName})`);
+        }
+      }
+
+      if (reactantMolfiles.length === 0 || productMolfiles.length === 0) {
+        console.warn('[RxnPatGenerator] DB template assembly failed: missing reactant or product molfiles.');
+        return;
+      }
+
+      if (alignedNames.length === 0) {
+        console.log('[RxnPatGenerator] No database substructures matched in template assembly; keeping original template.');
+        return;
+      }
+
+      // 3. Assemble DB-backed Reaction Template ($RXN)
+      this.dbTemplateRxnContent = this.chemParser.buildRxnFileFromSdfBlocks(
+        reactantMolfiles,
+        productMolfiles,
+        `${this.rootName.trim()} (DB Aligned Template)`
+      );
+
+      console.log('[RxnPatGenerator][reconcileDatabaseSubstructuresTemplate] Assembled DB template:\n', this.dbTemplateRxnContent);
+
+      // 4. Re-run parsing and matching routines on the DB-aligned template
+      this.parseRxnStructure(this.dbTemplateRxnContent);
+      this.buildCorrespondencesTable();
+      this.buildBondChangesTable();
+
+      this.isDbAligned = true;
+      this.activeKetcherMode = 'database';
+      this.alignedSubstructureNames = alignedNames;
+
+      // 5. Update .lst serialized content
+      this.rxnPatternLstContent = this.serializeToLstFile();
+
+      // 6. Update Ketcher canvas if active
+      if (this.ketcherCanvas && this.dbTemplateRxnContent) {
+        this.ketcherCanvas.sendSdfToKetcher(this.dbTemplateRxnContent, true);
+      }
+
+      this.statusMessage = `Database substructure alignment complete! Reconciled with ${alignedNames.length} database substructure(s).`;
+      this.snackBar.open(`Reconciled with ${alignedNames.length} DB Substructures!`, 'Dismiss', { duration: 3500 });
+    } catch (err: any) {
+      console.error('[RxnPatGenerator] Error reconciling database substructures template:', err);
+      this.errorMessage = err?.message || 'Error reconciling database substructures template.';
+    }
   }
 
   private buildLstCorrespondencesBlock(): string {

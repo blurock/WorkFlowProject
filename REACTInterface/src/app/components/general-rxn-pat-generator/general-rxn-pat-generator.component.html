@@ -29,10 +29,28 @@
   <div class="generator-split-container">
     <!-- Left Column: Ketcher Drawing Canvas -->
     <div class="ketcher-column">
+      <div *ngIf="isDbAligned" class="ketcher-mode-toggle-bar">
+        <span class="mode-label">Template View:</span>
+        <button
+          mat-stroked-button
+          [class.active-mode]="activeKetcherMode === 'original'"
+          (click)="setKetcherMode('original')"
+          matTooltip="Display the original drawn reaction template">
+          Original Template
+        </button>
+        <button
+          mat-stroked-button
+          color="accent"
+          [class.active-mode]="activeKetcherMode === 'database'"
+          (click)="setKetcherMode('database')"
+          matTooltip="Display template assembled from database substructures">
+          <mat-icon>dns</mat-icon> DB-Aligned Template
+        </button>
+      </div>
       <app-ketcher-viewer
         #ketcherCanvas
-        [molfile]="templateRxnContent"
-        title="1. Draw Reaction Template (Ketcher)">
+        [molfile]="activeKetcherMode === 'database' ? dbTemplateRxnContent : templateRxnContent"
+        [title]="activeKetcherMode === 'database' ? 'Reaction Template (Database Substructures Aligned)' : '1. Draw Reaction Template (Ketcher)'">
       </app-ketcher-viewer>
     </div>
 
@@ -199,19 +217,35 @@
         </mat-expansion-panel>
 
         <!-- Panel 3: Atom Correspondences & Bond Changes -->
-        <mat-expansion-panel [expanded]="false">
+        <mat-expansion-panel [expanded]="isDbAligned || false">
           <mat-expansion-panel-header>
             <mat-panel-title class="card-subtitle">
               <mat-icon>compare_arrows</mat-icon> 4. Atom Correspondences & Bond Changes
             </mat-panel-title>
           </mat-expansion-panel-header>
           <ng-container *ngIf="isAssigned || isValidated; else assignPrompt4">
+            <!-- DB Alignment Notification Banner -->
+            <div *ngIf="isDbAligned" class="db-alignment-alert mb-3">
+              <mat-icon color="accent">dns</mat-icon>
+              <div class="db-alignment-text">
+                <strong>Database Substructure Alignment Applied:</strong>
+                <span> Atom numbering and bond changes have been reconciled with database substructures ({{ alignedSubstructureNames.join(', ') }}).</span>
+              </div>
+              <button mat-stroked-button color="accent" class="view-db-ketcher-btn" (click)="toggleKetcherTemplateMode()" matTooltip="Toggle between Original and DB-Aligned Template in Ketcher">
+                <mat-icon>{{ activeKetcherMode === 'database' ? 'visibility' : 'dns' }}</mat-icon>
+                {{ activeKetcherMode === 'database' ? 'View Original Template' : 'View DB Template in Ketcher' }}
+              </button>
+            </div>
+
             <!-- Correspondence Table -->
             <h5>Reactant to Product Atom Mapping</h5>
             <table mat-table [dataSource]="correspondenceRows" class="mat-elevation-z1 generator-table mb-3">
               <ng-container matColumnDef="reactantAtom">
-                <th mat-header-cell *matHeaderCellDef>Reactant Atom #</th>
-                <td mat-cell *matCellDef="let row">Atom #{{ row.reactantAtomNumber }}</td>
+                <th mat-header-cell *matHeaderCellDef>Reactant Atom</th>
+                <td mat-cell *matCellDef="let row">
+                  <strong>Atom #{{ row.reactantAtomNumber }}</strong>
+                  <span class="text-muted ms-1 small">(Reactant #{{ row.reactantMoleculeIndex || 1 }})</span>
+                </td>
               </ng-container>
 
               <ng-container matColumnDef="atomType">
@@ -220,7 +254,7 @@
               </ng-container>
 
               <ng-container matColumnDef="productAtomDropdown">
-                <th mat-header-cell *matHeaderCellDef>Product Atom Dropdown</th>
+                <th mat-header-cell *matHeaderCellDef>Mapped Product Atom</th>
                 <td mat-cell *matCellDef="let row">
                   <mat-select [(ngModel)]="row.productAtomNumber" (selectionChange)="onCorrespondenceChange()" class="table-select">
                     <mat-option *ngFor="let cand of row.candidateProductAtoms" [value]="cand.atomNumber">
@@ -238,8 +272,11 @@
             <h5>Bond Breaking / Formation Changes</h5>
             <table mat-table [dataSource]="bondChangeRows" class="mat-elevation-z1 generator-table">
               <ng-container matColumnDef="molecule">
-                <th mat-header-cell *matHeaderCellDef>Molecule Z</th>
-                <td mat-cell *matCellDef="let row">Molecule #{{ row.moleculeIndex }}</td>
+                <th mat-header-cell *matHeaderCellDef>Molecule</th>
+                <td mat-cell *matCellDef="let row">
+                  Molecule #{{ row.moleculeIndex }}
+                  <span class="text-muted ms-1 small">({{ row.type === 4 ? 'Reactant' : 'Product' }})</span>
+                </td>
               </ng-container>
 
               <ng-container matColumnDef="atomX">

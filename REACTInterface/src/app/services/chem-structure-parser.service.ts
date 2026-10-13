@@ -198,12 +198,14 @@ export class ChemStructureParserService {
   }
 
   /**
-   * Extracts a map of ID -> SDF block from raw output string.
+   * Extracts a map of ID / Name -> SDF block from raw output string.
+   * Handles both standard MDL chunks (with M END) and chemdb PrintPrettyMolFile blocks.
    */
   public extractSdfBlockMap(rawOutput: string): Map<string, string> {
     const map = new Map<string, string>();
     if (!rawOutput) return map;
 
+    // 1. Process standard MDL SDF chunks
     const rawChunks = rawOutput.split(/\r?\n\s*~\s*\r?\n/);
     for (const chunk of rawChunks) {
       const res = this.formatMolBlockForRxn(chunk);
@@ -213,7 +215,123 @@ export class ChemStructureParserService {
         }
       }
     }
+
+    // 2. Process chemdb PrintPrettyMolFile blocks
+    const prettyMap = this.parsePrettyMolfileMap(rawOutput);
+    for (const [key, item] of prettyMap.entries()) {
+      if (!map.has(key)) {
+        map.set(key, item.molBlock);
+      }
+      if (item.molId && !map.has(item.molId)) {
+        map.set(item.molId, item.molBlock);
+      }
+      if (item.molName && !map.has(item.molName)) {
+        map.set(item.molName, item.molBlock);
+      }
+    }
+
     return map;
+  }
+
+  /**
+   * Parses chemdb PrintPrettyMolFile output sections (e.g. from ReadInRxnPatternsMolsFromDB)
+   * into valid MDL V2000 MOL block strings.
+   */
+  public parsePrettyMolfileMap(rawOutput: string): Map<string, { molId: string; molName: string; role: string; molBlock: string }> {
+    const result = new Map<string, { molId: string; molName: string; role: string; molBlock: string }>();
+    if (!rawOutput) return result;
+
+    const atomicSymbols: { [atNum: number]: string } = {
+      1: 'H',
+      6: 'C',
+      7: 'N',
+      8: 'O',
+      9: 'F',
+      15: 'P',
+      16: 'S',
+      17: 'Cl',
+      35: 'Br',
+      53: 'I',
+      221: 'Q',
+      320: 'R#',
+      382: 'X'
+    };
+
+    const molPattern = /(Reactant|Product)\s+Molfile:\s*:MolFile\s+(\d+)\s*:\s*(\d+)\s+Atoms\s*:\s*(\d+)\s+Bonds\s*:\s*([^\n\r]+)/g;
+    let match: RegExpExecArray | null;
+
+    while ((match = molPattern.exec(rawOutput)) !== null) {
+      const role = match[1];
+      const molId = match[2];
+      const nAtoms = parseInt(match[3], 10);
+      const nBonds = parseInt(match[4], 10);
+      const molName = match[5].trim();
+
+      const startIdx = match.index;
+      const following = rawOutput.substring(startIdx);
+      const chunks = following.split(/\r?\n\s*~\s*\r?\n/);
+      if (chunks.length < 3) continue;
+
+      const atomLines = chunks[1].split(/\r?\n/).filter(l => l.includes(':Atom'));
+      const bondLines = chunks[2].split(/\r?\n/).filter(l => l.includes('Bond :'));
+
+      let molBlock = `${molName || molId}\n  -REACTCLOUD- 2D\n\n`;
+      molBlock += `${nAtoms.toString().padStart(3, ' ')}${nBonds.toString().padStart(3, ' ')}  0  0  0  0  0  0  0  0999 V2000\n`;
+
+      const rgpAtoms: number[] = [];
+
+      atomLines.forEach((aline, idx) => {
+        const parts = aline.split(':').map(p => p.trim());
+        const xVal = parts.length > 2 ? parseFloat(parts[2]) : 0;
+        const yVal = parts.length > 3 ? parseFloat(parts[3]) : 0;
+        const zVal = parts.length > 4 ? parseFloat(parts[4]) : 0;
+        const atNum = parts.length > 5 ? parseInt(parts[5], 10) : 6;
+
+        const x = xVal.toFixed(4).padStart(10, ' ');
+        const y = yVal.toFixed(4).padStart(10, ' ');
+        const z = zVal.toFixed(4).padStart(10, ' ');
+        const sym = atomicSymbols[atNum] || 'C';
+
+        if (sym === 'R#' || sym === 'Q') {
+          rgpAtoms.push(idx + 1);
+        }
+
+        molBlock += `${x}${y}${z} ${sym.padEnd(3, ' ')} 0  0  0  0  0  0  0  0  0  0  0  0\n`;
+      });
+
+      bondLines.forEach(bline => {
+        const bparts = bline.split(':').map(p => p.trim());
+        const a1 = (parseInt(bparts[2], 10) + 1).toString().padStart(3, ' ');
+        const a2 = (parseInt(bparts[3], 10) + 1).toString().padStart(3, ' ');
+        let chemBondType = 1;
+        const bdesc = (bparts.length > 1 ? bparts[1] : '').toLowerCase();
+        if (bdesc.includes('double')) {
+          chemBondType = 2;
+        } else if (bdesc.includes('triple')) {
+          chemBondType = 3;
+        } else if (bdesc.includes('aromatic')) {
+          chemBondType = 4;
+        } else {
+          const btypeNum = parseInt(bparts[4], 10);
+          chemBondType = (!isNaN(btypeNum) && btypeNum >= 1 && btypeNum <= 3) ? btypeNum : 1;
+        }
+        const btype = chemBondType.toString().padStart(3, ' ');
+        molBlock += `${a1}${a2}${btype}  0  0  0  0\n`;
+      });
+
+      if (rgpAtoms.length > 0) {
+        rgpAtoms.forEach((aNum, rIdx) => {
+          molBlock += `M  RGP  1${aNum.toString().padStart(4, ' ')}${(rIdx + 1).toString().padStart(4, ' ')}\n`;
+        });
+      }
+      molBlock += 'M  END\n';
+
+      const item = { molId, molName, role, molBlock };
+      if (!result.has(molId)) result.set(molId, item);
+      if (molName && !result.has(molName)) result.set(molName, item);
+    }
+
+    return result;
   }
 
   /**
@@ -226,10 +344,10 @@ export class ChemStructureParserService {
     let rxn = `$RXN\n$MDL\n${title}\n  REACTCLOUD\n\n${rCount}${pCount}\n`;
 
     for (const sdf of reactantSdfs) {
-      rxn += `$MOL\n${sdf}\n`;
+      rxn += `$MOL\n${sdf.trim()}\n`;
     }
     for (const sdf of productSdfs) {
-      rxn += `$MOL\n${sdf}\n`;
+      rxn += `$MOL\n${sdf.trim()}\n`;
     }
 
     return rxn;
