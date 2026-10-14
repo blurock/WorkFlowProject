@@ -188,6 +188,11 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
   public hasRateConstantWarnings: boolean = false;
   public preStoreDialogRef?: MatDialogRef<any>;
 
+  // Execution Logs State in Pre-Store Dialog
+  public substructureExecutionLog: string = '';
+  public patternExecutionLog: string = '';
+  public activeStoreLogTab: 'substructures' | 'patterns' = 'patterns';
+
   // Global State
   public isExecuting: boolean = false;
   public statusMessage: string = '';
@@ -811,10 +816,17 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
     );
 
     this.substructureCheckRawOutput = result.rawOutput;
+    if (this.storePhase === 'idle') {
+      this.substructureExecutionLog = result.rawOutput || '';
+    }
     this.substructureCheckLogLines = result.logLines;
     this.substructureCheckItems = result.items;
     this.substructureHasConflicts = result.hasConflicts;
-    this.substructureDbIdMap = result.dbIdMap;
+    if (result.dbIdMap && result.dbIdMap.size > 0) {
+      for (const [k, v] of result.dbIdMap.entries()) {
+        this.substructureDbIdMap.set(k, v);
+      }
+    }
 
     this.isSubstructuresChecked = true;
     this.currentStep = 5;
@@ -856,6 +868,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
       );
 
       this.checkRawOutput = result.rawOutput;
+      this.patternExecutionLog = result.rawOutput || '';
       this.checkExecutionLogText = result.executionLogText;
       this.checkLogLines = result.logLines;
       this.existenceCheckItems = result.items;
@@ -908,11 +921,16 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
     this.storeProgressText = '';
     this.storeErrorMessage = '';
 
+    // Initialize execution logs with existence check results if already available
+    this.substructureExecutionLog = this.substructureCheckRawOutput || '';
+    this.patternExecutionLog = this.checkRawOutput || '';
+    this.activeStoreLogTab = this.hasPatternErrors() ? 'patterns' : (this.hasSubstructureErrors() ? 'substructures' : 'patterns');
+
     if (this.preStoreDialogTemplate) {
       this.preStoreDialogRef = this.dialog.open(this.preStoreDialogTemplate, {
-        width: '920px',
+        width: '960px',
         maxWidth: '96vw',
-        maxHeight: '92vh',
+        maxHeight: '94vh',
         autoFocus: false
       });
     }
@@ -929,6 +947,56 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
     if (this.rxnPatternLstContent) {
       navigator.clipboard.writeText(this.rxnPatternLstContent);
       this.snackBar.open('ASCII .lst file copied to clipboard!', 'Dismiss', { duration: 2500 });
+    }
+  }
+
+  public setStoreLogTab(tab: 'substructures' | 'patterns'): void {
+    this.activeStoreLogTab = tab;
+  }
+
+  public getActiveStoreLogContent(): string {
+    return this.activeStoreLogTab === 'substructures' ? this.substructureExecutionLog : this.patternExecutionLog;
+  }
+
+  public getActiveStoreLogLineCount(): number {
+    const content = this.getActiveStoreLogContent();
+    if (!content || !content.trim()) return 0;
+    return content.trim().split(/\r?\n/).length;
+  }
+
+  public getLogLineCount(logText?: string): number {
+    if (!logText || !logText.trim()) return 0;
+    return logText.trim().split(/\r?\n/).length;
+  }
+
+  public hasSubstructureErrors(): boolean {
+    return !!this.substructureExecutionLog && (this.substructureExecutionLog.includes('ERROR:') || this.substructureExecutionLog.toLowerCase().includes('error:'));
+  }
+
+  public hasPatternErrors(): boolean {
+    return !!this.patternExecutionLog && (this.patternExecutionLog.includes('ERROR:') || this.patternExecutionLog.toLowerCase().includes('error:'));
+  }
+
+  public copyActiveStoreLog(): void {
+    const log = this.getActiveStoreLogContent();
+    if (log) {
+      navigator.clipboard.writeText(log);
+      const label = this.activeStoreLogTab === 'substructures' ? 'Substructures' : 'Reaction Patterns';
+      this.snackBar.open(`${label} execution log copied to clipboard!`, 'Dismiss', { duration: 2500 });
+    }
+  }
+
+  public copySubstructureLogToClipboard(): void {
+    if (this.substructureExecutionLog) {
+      navigator.clipboard.writeText(this.substructureExecutionLog);
+      this.snackBar.open('Substructures execution log copied to clipboard!', 'Dismiss', { duration: 2500 });
+    }
+  }
+
+  public copyPatternLogToClipboard(): void {
+    if (this.patternExecutionLog) {
+      navigator.clipboard.writeText(this.patternExecutionLog);
+      this.snackBar.open('Reaction Patterns execution log copied to clipboard!', 'Dismiss', { duration: 2500 });
     }
   }
 
@@ -1028,7 +1096,17 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
     this.storeErrorMessage = '';
 
     try {
-      // 1. Audit substructures to see if any are new
+      // Step A: If substructures haven't been checked yet, run check first to discover existing DB IDs
+      if (!this.isSubstructuresChecked || this.substructureDbIdMap.size === 0) {
+        this.storePhase = 'substructures';
+        this.activeStoreLogTab = 'substructures';
+        this.storeProgressText = 'Checking substructures against database...';
+        await this.runSubstructuresCheckInternal();
+        this.substructureExecutionLog = this.substructureCheckRawOutput || '';
+        this.auditSubstructures();
+      }
+
+      // Step B: Audit substructures to see if any are new
       const combinedMap = new Map<string, SubstructureItem>();
       this.singleSubstructures.forEach(s => combinedMap.set(s.name, s));
       this.substructures.forEach(s => combinedMap.set(s.name, s));
@@ -1038,6 +1116,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
       // PHASE 1: Store new substructures if any exist
       if (newSubs.length > 0) {
         this.storePhase = 'substructures';
+        this.activeStoreLogTab = 'substructures';
         this.storeProgressText = `Phase 1: Storing ${newSubs.length} new substructure(s) (${newSubs.map(s => s.name).join(', ')}) in database...`;
 
         const subRootName = `${this.rootName.trim()}_new_subs`;
@@ -1046,8 +1125,8 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
           if (lines.length > 0) {
             lines[0] = (idx + 1).toString();
           }
-          return lines.join('\n') + '\n$$$$\n';
-        }).join('');
+          return lines.join('\n');
+        }).join('\n') + '\n';
 
         const sdfFilename = `${subRootName}.sdf`;
         await firstValueFrom(this.reactCloudApi.uploadUserDataFiles('.', [{ filename: sdfFilename, content: newSubsSdf }]));
@@ -1055,14 +1134,35 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         const subCommands = CommandTemplatesRegistry.storeSubstructuresInDatabase(subRootName);
         const subRes = await firstValueFrom(this.reactCloudApi.runCommands(subCommands, subRootName));
 
-        if (!subRes || subRes.exitCode !== 0) {
-          throw new Error(subRes?.error || `Failed to store new substructures in database (exit code ${subRes?.exitCode}).`);
+        this.substructureExecutionLog = subRes?.output || '';
+
+        const hasSubErrors = !subRes || subRes.exitCode !== 0 || (subRes.output && subRes.output.includes('ERROR:'));
+        if (hasSubErrors) {
+          const firstErr = subRes?.output ? (subRes.output.split(/\r?\n/).find(l => l.includes('ERROR:')) || '') : '';
+          throw new Error(firstErr || subRes?.error || `Failed to store new substructures in database (exit code ${subRes?.exitCode}).`);
+        }
+
+        // Harvest newly assigned IDs directly from subRes.output
+        if (subRes?.output) {
+          const storeRegex = /Store:\s*\d+:([^\s\r\n]+)[\s\S]*?New ID:\s*(\d+)/g;
+          let match: RegExpExecArray | null;
+          while ((match = storeRegex.exec(subRes.output)) !== null) {
+            const name = match[1].trim();
+            const id = match[2].trim();
+            this.substructureDbIdMap.set(name, id);
+          }
         }
 
         // Phase 1b: Re-run existence check to fetch newly assigned database IDs
         this.storePhase = 'alignment';
         this.storeProgressText = 'Phase 1: Retrieving newly assigned Database IDs from database...';
         await this.runSubstructuresCheckInternal();
+        if (this.substructureCheckRawOutput) {
+          this.substructureExecutionLog += `\n\n=== Phase 1b: Substructures Existence Re-Check ===\n${this.substructureCheckRawOutput}`;
+        }
+
+        // Re-audit substructures so the table in the dialog updates with new DB IDs
+        this.auditSubstructures();
 
         // Phase 1c: Reconcile template with new DB IDs and re-serialize .lst
         this.storeProgressText = 'Phase 1: Updating atom correspondences and substituting new DB IDs...';
@@ -1073,6 +1173,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
 
       // PHASE 2: Store Reaction Pattern Class
       this.storePhase = 'patterns';
+      this.activeStoreLogTab = 'patterns';
       this.storeProgressText = `Phase 2: Storing reaction pattern class '${this.rootName.trim()}' in database...`;
 
       // Re-serialize .lst file to ensure all newly assigned DB IDs and current rate constants are included
@@ -1091,20 +1192,26 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
 
       const res = await firstValueFrom(this.reactCloudApi.runCommands(commands, this.rootName.trim()));
 
-      if (res && res.exitCode === 0) {
-        this.isStored = true;
-        this.storePhase = 'complete';
-        this.storeProgressText = `Reaction class '${this.rootName.trim()}' successfully stored in REACTCLOUD database!`;
-        this.statusMessage = `Reaction class '${this.rootName.trim()}' stored successfully in REACTCLOUD database!`;
-        this.snackBar.open('Reaction Class & Substructures Stored Successfully!', 'Dismiss', { duration: 4000 });
-      } else {
-        throw new Error(res?.error || `Error storing reaction pattern class in database (exit code ${res?.exitCode}).`);
+      this.patternExecutionLog = res?.output || '';
+
+      const hasChemdbErrors = !res || res.exitCode !== 0 || (res.output && res.output.includes('ERROR:'));
+      if (hasChemdbErrors) {
+        const errorLines = res?.output ? res.output.split(/\r?\n/).filter(l => l.includes('ERROR:')).slice(0, 3).join(' | ') : '';
+        const errMsg = errorLines || res?.error || `Error storing reaction pattern class in database (exit code ${res?.exitCode}).`;
+        throw new Error(errMsg);
       }
+
+      this.isStored = true;
+      this.storePhase = 'complete';
+      this.storeProgressText = `Reaction class '${this.rootName.trim()}' successfully stored in REACTCLOUD database!`;
+      this.statusMessage = `Reaction class '${this.rootName.trim()}' stored successfully in REACTCLOUD database!`;
+      this.snackBar.open('Reaction Class & Substructures Stored Successfully!', 'Dismiss', { duration: 4000 });
     } catch (err: any) {
       console.error('[RxnPatGenerator] Two-phase store error:', err);
       this.storePhase = 'error';
       this.storeErrorMessage = err?.message || 'Error executing Store Reaction Class task.';
       this.errorMessage = this.storeErrorMessage;
+      this.snackBar.open(this.storeErrorMessage, 'Dismiss', { duration: 6000 });
     } finally {
       this.isExecuting = false;
       this.isStoringClass = false;
@@ -3698,10 +3805,6 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
 
         if (molfile) {
           reactantMolfiles.push(molfile);
-          const subItem = this.substructures.find(s => s.name === subName);
-          if (subItem) subItem.molfile = molfile;
-          const singleItem = this.singleSubstructures.find(s => s.name === subName);
-          if (singleItem) singleItem.molfile = molfile;
         } else {
           console.warn(`[RxnPatGenerator] Warning: No molfile found for reactant molIdx=${mIdx} (name=${subName})`);
         }
@@ -3764,10 +3867,6 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
 
         if (molfile) {
           productMolfiles.push(molfile);
-          const subItem = this.substructures.find(s => s.name === subName);
-          if (subItem) subItem.molfile = molfile;
-          const singleItem = this.singleSubstructures.find(s => s.name === subName);
-          if (singleItem) singleItem.molfile = molfile;
         } else {
           console.warn(`[RxnPatGenerator] Warning: No molfile found for product molIdx=${mIdx} (name=${subName})`);
         }

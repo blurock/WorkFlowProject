@@ -24,22 +24,19 @@ set REFERENCE       = $REACTROOT/programs/inputs/ReadSubsFromFile.inp
 set NEWFILE         = $1
 
 # The combined input file (all the substructures are formed again)
-set STANDARDSUBFILE = standard
-set STANDARD        = $REACTROOT/data/mol/subs/standard.sdf
-
-
 set TEMPDIR         = $REACTROOT/tmp
 set TEMPFILE        = $REACTROOT/tmp/read.prg
 set TEMPOUTFILE     = $REACTROOT/tmp/read.out
 set OUTFILE         = $REACTROOT/tmp/$NEWFILE.rawout
 set INFILE          = $NEWFILE.sdf
+set STANDARD        = $REACTROOT/tmp/$INFILE
 
 #--------------------------------------------------------------------------
 # Modify program and merge input data files
 #--------------------------------------------------------------------------
 sed "s/XXXXX/$NEWFILE/g"\
         $REFERENCE >! $TEMPFILE
-cat $INFILE > $STANDARD
+cp $INFILE $STANDARD
 
 #--------------------------------------------------------------------------
 # Put Substructures in Database

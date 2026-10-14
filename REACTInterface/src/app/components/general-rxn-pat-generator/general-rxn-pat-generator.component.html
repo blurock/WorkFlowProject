@@ -892,6 +892,79 @@
         </div>
         <pre class="lst-preview-code"><code>{{ rxnPatternLstContent }}</code></pre>
       </div>
+
+      <!-- Section 4: Execution Logs (Substructures & Reaction Patterns) -->
+      <div class="audit-section execution-logs-section">
+        <div class="section-title-row">
+          <div class="sec-left">
+            <mat-icon>terminal</mat-icon>
+            <h4>4. Database Execution Logs (Substructures & Reaction Patterns)</h4>
+          </div>
+        </div>
+
+        <div class="audit-hint">
+          <mat-icon class="inline-icon">info</mat-icon>
+          Live database execution logs are separated into dedicated panels below for Substructures (Phase 1) and Reaction Patterns (Phase 2).
+        </div>
+
+        <div class="dual-logs-container">
+          <!-- Panel 1: Substructures Store Execution Log -->
+          <div class="terminal-log-console">
+            <div class="console-meta-header">
+              <div class="meta-left">
+                <span class="console-dot red"></span>
+                <span class="console-dot yellow"></span>
+                <span class="console-dot green"></span>
+                <mat-icon class="panel-icon">folder_special</mat-icon>
+                <strong class="console-title">Substructures Store Execution Log (Phase 1)</strong>
+                <span class="console-filename">{{ rootName.trim() }}_new_subs.sdf</span>
+              </div>
+              <div class="meta-right">
+                <span *ngIf="hasSubstructureErrors()" class="panel-chip error">⚠ Errors</span>
+                <span *ngIf="!hasSubstructureErrors() && substructureExecutionLog" class="panel-chip ok">✓ Output</span>
+                <span *ngIf="!substructureExecutionLog" class="panel-chip pending">Pending</span>
+                <span class="line-count" *ngIf="substructureExecutionLog">{{ getLogLineCount(substructureExecutionLog) }} lines</span>
+                <button mat-icon-button class="mini-copy-btn" (click)="copySubstructureLogToClipboard()" [disabled]="!substructureExecutionLog" matTooltip="Copy Substructures Execution Log">
+                  <mat-icon>content_copy</mat-icon>
+                </button>
+              </div>
+            </div>
+            <pre class="console-output" *ngIf="substructureExecutionLog"><code>{{ substructureExecutionLog }}</code></pre>
+            <div class="console-empty" *ngIf="!substructureExecutionLog">
+              <mat-icon>hourglass_empty</mat-icon>
+              <span>No substructure execution output yet. Output will appear here once Phase 1 executes.</span>
+            </div>
+          </div>
+
+          <!-- Panel 2: Reaction Pattern Store Execution Log -->
+          <div class="terminal-log-console">
+            <div class="console-meta-header">
+              <div class="meta-left">
+                <span class="console-dot red"></span>
+                <span class="console-dot yellow"></span>
+                <span class="console-dot green"></span>
+                <mat-icon class="panel-icon">hub</mat-icon>
+                <strong class="console-title">Reaction Pattern Store Execution Log (Phase 2)</strong>
+                <span class="console-filename">{{ rootName.trim() }}.lst</span>
+              </div>
+              <div class="meta-right">
+                <span *ngIf="hasPatternErrors()" class="panel-chip error">⚠ Errors</span>
+                <span *ngIf="!hasPatternErrors() && patternExecutionLog" class="panel-chip ok">✓ Output</span>
+                <span *ngIf="!patternExecutionLog" class="panel-chip pending">Pending</span>
+                <span class="line-count" *ngIf="patternExecutionLog">{{ getLogLineCount(patternExecutionLog) }} lines</span>
+                <button mat-icon-button class="mini-copy-btn" (click)="copyPatternLogToClipboard()" [disabled]="!patternExecutionLog" matTooltip="Copy Reaction Pattern Execution Log">
+                  <mat-icon>content_copy</mat-icon>
+                </button>
+              </div>
+            </div>
+            <pre class="console-output" *ngIf="patternExecutionLog"><code>{{ patternExecutionLog }}</code></pre>
+            <div class="console-empty" *ngIf="!patternExecutionLog">
+              <mat-icon>hourglass_empty</mat-icon>
+              <span>No reaction pattern execution output yet. Output will appear here once Phase 2 executes.</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Dialog Footer Actions -->

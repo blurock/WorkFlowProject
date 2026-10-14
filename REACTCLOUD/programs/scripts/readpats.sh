@@ -4,7 +4,7 @@
 # Script to Read in a reaction pattern file to the database
 #
 # ---------------------------------------------------------------------------
-#set verbose on
+set verbose on
 
 if ( $#argv != 1 ) then
   echo "Usage: $0 FileRoot"
@@ -17,10 +17,11 @@ endif
 #--------------------------------------------------------------------------
 # Set up inputs, files and program
 #--------------------------------------------------------------------------
+set CURRDIR = `pwd`
 set INFILEROOT      = $1
-set INFILE          = $INFILEROOT.lst
-set OUTFILE         = $INFILEROOT.out
-set RAWOUTFILE       = $REACTROOT/data/rxn/rxnpats/$INFILEROOT.rawout
+set INFILE          = $CURRDIR/$INFILEROOT.lst
+set OUTFILE         = $CURRDIR/$INFILEROOT.out
+set RAWOUTFILE       = $CURRDIR/$INFILEROOT.rawout
 
 set REFERENCE       = $REACTROOT/programs/inputs/ReadReactionPatterns.inp
 set CHEMPROG        = $REACTROOT/bin/runchemprg.sh
@@ -28,7 +29,7 @@ set CHEMPROG        = $REACTROOT/bin/runchemprg.sh
 set TEMPDIR         = $REACTROOT/tmp
 set TEMPFILE        = $REACTROOT/tmp/read.prg
 #set DATAFILE        = $REACTROOT/data/rxn/rxnpats/read.lst
-set DATAFILE        = $REACTROOT/data/rxn/read.lst
+set DATAFILE        = $TEMPDIR/read.lst
 set TEMPOUTFILE     = $REACTROOT/tmp/read.out
 #--------------------------------------------------------------------------
 # Modify Input file
