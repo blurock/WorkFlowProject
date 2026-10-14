@@ -111,20 +111,28 @@
             color="primary"
             (click)="checkDatabase()"
             [disabled]="!isSubstructuresChecked || isExecuting"
-            matTooltip="Check if class already exists in REACTCLOUD database">
-            <mat-icon [class.spinning-icon]="isDatabaseChecking">{{ isDatabaseChecking ? 'sync' : 'pageview' }}</mat-icon>
-            {{ isDatabaseChecking ? 'Checking Database...' : 'Check Database' }}
+            [matTooltip]="hasNewSubstructures ? 'Reaction class check against DB is optional: contains new local substructures' : 'Check if class already exists in REACTCLOUD database'">
+            <mat-icon [class.spinning-icon]="isDatabaseChecking">{{ isDatabaseChecking ? 'sync' : (patternCheckStatus === 'SKIPPED_NEW_SUBS' ? 'verified_user' : 'pageview') }}</mat-icon>
+            {{ isDatabaseChecking ? 'Checking Database...' : (patternCheckStatus === 'SKIPPED_NEW_SUBS' ? 'Check Database (Optional)' : 'Check Database') }}
           </button>
 
           <button
             mat-raised-button
             color="warn"
-            (click)="storeClass()"
+            (click)="openPreStoreDialog()"
             [disabled]="!isChecked || isExecuting"
-            matTooltip="Store reaction class and pattern set in database">
+            matTooltip="Audit rate constants & substructures, preview .lst file, and store class in database">
             <mat-icon [class.spinning-icon]="isStoringClass">{{ isStoringClass ? 'sync' : 'save_alt' }}</mat-icon>
             {{ isStoringClass ? 'Storing Class...' : 'Store Class' }}
           </button>
+
+          <!-- Notification if Reaction Pattern Existence Check was marked optional -->
+          <div *ngIf="patternCheckStatus === 'SKIPPED_NEW_SUBS'" class="toolbar-skip-banner">
+            <mat-icon class="skip-icon">info</mat-icon>
+            <div class="skip-text">
+              <strong>Database Class Check Skipped:</strong> Reaction class contains new local substructures (not yet in database). You can proceed directly to <strong>Store Class</strong>.
+            </div>
+          </div>
         </mat-card-content>
       </mat-card>
 
@@ -720,3 +728,185 @@
     </div>
   </div>
 </div>
+
+<!-- Pre-Store Audit & Confirmation Dialog Modal (Option B) -->
+<ng-template #preStoreDialogTemplate let-dialogRef="dialogRef">
+  <div class="pre-store-dialog-container">
+    <!-- Dialog Header -->
+    <div class="pre-store-header">
+      <div class="title-wrap">
+        <mat-icon color="warn" class="header-warn-icon">verified</mat-icon>
+        <div>
+          <h3>Pre-Store Audit & Confirmation</h3>
+          <p class="subtitle">Reaction Class: <strong>{{ rootName.trim() }}</strong> ({{ generatedRxnPatterns.length }} pattern{{ generatedRxnPatterns.length === 1 ? '' : 's' }})</p>
+        </div>
+      </div>
+      <button mat-icon-button (click)="closePreStoreDialog()" [disabled]="isExecuting" matTooltip="Cancel and Return to Generator">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <!-- Dialog Body (Scrollable) -->
+    <div class="pre-store-body">
+      <!-- Active Execution Status Banner if storing -->
+      <div *ngIf="storePhase !== 'idle'" class="store-phase-banner" [ngClass]="storePhase">
+        <div class="phase-info">
+          <mat-icon [class.spinning-icon]="storePhase !== 'complete' && storePhase !== 'error'">
+            {{ storePhase === 'complete' ? 'check_circle' : (storePhase === 'error' ? 'error' : 'sync') }}
+          </mat-icon>
+          <span class="phase-text">{{ storeProgressText }}</span>
+        </div>
+        <mat-progress-bar *ngIf="storePhase !== 'complete' && storePhase !== 'error'" mode="indeterminate" class="phase-bar"></mat-progress-bar>
+      </div>
+
+      <div *ngIf="storePhase === 'error'" class="store-error-card">
+        <mat-icon color="warn">error</mat-icon>
+        <div>
+          <strong>Storage Error:</strong>
+          <p>{{ storeErrorMessage }}</p>
+        </div>
+      </div>
+
+      <div *ngIf="storePhase === 'complete'" class="store-success-card">
+        <mat-icon>celebration</mat-icon>
+        <div>
+          <strong>Storage Complete!</strong>
+          <p>Reaction class '{{ rootName.trim() }}' and all required substructures are safely stored in REACTCLOUD.</p>
+        </div>
+      </div>
+
+      <!-- Section 1: Storage Workflow Plan -->
+      <div class="audit-section">
+        <div class="section-title-row">
+          <div class="sec-left">
+            <mat-icon>account_tree</mat-icon>
+            <h4>1. Substructures & Database Registration Plan</h4>
+          </div>
+          <span class="plan-chip" [class.two-phase]="hasNewSubstructures" [class.direct]="!hasNewSubstructures">
+            {{ hasNewSubstructures ? '2-Phase Storage Workflow' : 'Direct Reaction Pattern Storage' }}
+          </span>
+        </div>
+
+        <div class="plan-description">
+          <p *ngIf="hasNewSubstructures">
+            <mat-icon class="inline-icon warn-icon">info</mat-icon>
+            <strong>Notice:</strong> This reaction class contains <strong>new local substructure(s)</strong> that do not yet exist in the database.
+            When you click <em>Confirm & Store</em>, the system will automatically perform:
+          </p>
+          <ol *ngIf="hasNewSubstructures" class="phase-steps-list">
+            <li><strong>Phase 1: Substructure Registration</strong> - Register new substructure(s) into <code>SubStructures</code> dbase and retrieve newly assigned DB IDs.</li>
+            <li><strong>Phase 1 Alignment</strong> - Update template atom correspondences and substitute all DB IDs into reaction pattern equations.</li>
+            <li><strong>Phase 2: Pattern Class Storage</strong> - Store finalized reaction class and patterns into <code>ReactionPatterns</code> dbase with complete database IDs.</li>
+          </ol>
+          <p *ngIf="!hasNewSubstructures">
+            <mat-icon class="inline-icon success-icon">check_circle</mat-icon>
+            All substructures are already registered in the database. Reaction patterns will be stored directly into the <code>ReactionPatterns</code> dbase.
+          </p>
+        </div>
+
+        <!-- Substructures Table -->
+        <table class="audit-table">
+          <thead>
+            <tr>
+              <th>Substructure</th>
+              <th>Type / Role</th>
+              <th>Database ID</th>
+              <th>Storage Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let s of substructureAuditItems">
+              <td class="name-cell"><code>{{ s.name }}</code></td>
+              <td>{{ s.isReactant ? 'Reactant Substructure' : 'Product Substructure' }}</td>
+              <td>
+                <span *ngIf="s.dbId" class="db-id-chip">#{{ s.dbId }}</span>
+                <span *ngIf="!s.dbId" class="no-db-chip">None (Local)</span>
+              </td>
+              <td>
+                <span class="action-badge" [ngClass]="s.actionBadgeClass">
+                  {{ s.actionText }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Section 2: Rate Constants Audit -->
+      <div class="audit-section">
+        <div class="section-title-row">
+          <div class="sec-left">
+            <mat-icon>speed</mat-icon>
+            <h4>2. Pre-Flight Rate Constants Audit</h4>
+          </div>
+          <span class="rate-status-chip" [class.warning]="hasRateConstantWarnings" [class.ready]="!hasRateConstantWarnings">
+            {{ hasRateConstantWarnings ? '⚠ Review Recommended' : '✓ Rate Constants Ready' }}
+          </span>
+        </div>
+
+        <div class="audit-hint">
+          <mat-icon class="inline-icon">lightbulb</mat-icon>
+          Changes made to rate constants in the <em>Generated Reaction Pattern Set</em> are automatically synchronized to the <code>.lst</code> file in real-time.
+        </div>
+
+        <div class="rate-audit-list">
+          <div *ngFor="let r of rateAuditItems" class="rate-audit-card" [class.card-warning]="r.hasWarnings">
+            <div class="card-header">
+              <span class="pat-badge">Pattern #{{ r.patternIndex + 1 }}: <strong>{{ r.patternName }}</strong></span>
+              <span *ngIf="r.hasWarnings" class="warn-chip">⚠ Review Rate Constants</span>
+              <span *ngIf="!r.hasWarnings" class="ok-chip">✓ Configured</span>
+            </div>
+
+            <div class="rate-details-grid">
+              <!-- Forward Rate -->
+              <div class="rate-col forward-col">
+                <span class="dir-label forward-label">Forward Rate</span>
+                <div class="val-line"><strong>A:</strong> {{ r.forward.Aconstant.toExponential(2) }} <span *ngIf="r.forward.isPlaceholder" class="placeholder-tag">(Placeholder)</span></div>
+                <div class="val-line"><strong>Ea:</strong> {{ r.forward.Energy }} cal/mol | <strong>n:</strong> {{ r.forward.TempExp }}</div>
+                <div class="val-line text-muted"><strong>Ref:</strong> {{ r.forward.Reference || 'None' }}</div>
+                <div *ngIf="r.forward.warning" class="warning-text">⚠ {{ r.forward.warning }}</div>
+              </div>
+
+              <!-- Reverse Rate -->
+              <div class="rate-col reverse-col">
+                <span class="dir-label reverse-label">Reverse Rate</span>
+                <div class="val-line"><strong>A:</strong> {{ r.reverse.Aconstant.toExponential(2) }} <span *ngIf="r.reverse.isZeroOrIrreversible" class="info-tag">(Irreversible / ~0)</span></div>
+                <div class="val-line"><strong>Ea:</strong> {{ r.reverse.Energy }} cal/mol | <strong>n:</strong> {{ r.reverse.TempExp }}</div>
+                <div class="val-line text-muted"><strong>Ref:</strong> {{ r.reverse.Reference || 'None' }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: ASCII .lst File Preview -->
+      <div class="audit-section">
+        <div class="section-title-row">
+          <div class="sec-left">
+            <mat-icon>code</mat-icon>
+            <h4>3. Reaction Pattern ASCII File Preview (<code>{{ rootName.trim() }}.lst</code>)</h4>
+          </div>
+          <button mat-button color="accent" class="copy-btn" (click)="copyLstToClipboard()">
+            <mat-icon>content_copy</mat-icon> Copy .lst
+          </button>
+        </div>
+        <pre class="lst-preview-code"><code>{{ rxnPatternLstContent }}</code></pre>
+      </div>
+    </div>
+
+    <!-- Dialog Footer Actions -->
+    <div class="pre-store-footer">
+      <button mat-stroked-button (click)="closePreStoreDialog()" [disabled]="isExecuting">
+        {{ storePhase === 'complete' ? 'Close' : 'Cancel & Go Back to Edit' }}
+      </button>
+      <button *ngIf="storePhase !== 'complete'"
+              mat-raised-button
+              color="warn"
+              (click)="executeTwoPhaseStore()"
+              [disabled]="isExecuting">
+        <mat-icon [class.spinning-icon]="isExecuting">{{ isExecuting ? 'sync' : 'cloud_upload' }}</mat-icon>
+        {{ isExecuting ? 'Storing in Progress...' : 'Confirm & Store to Database' }}
+      </button>
+    </div>
+  </div>
+</ng-template>

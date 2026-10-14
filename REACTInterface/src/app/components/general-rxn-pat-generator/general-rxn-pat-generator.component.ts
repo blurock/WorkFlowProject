@@ -1,7 +1,7 @@
-import { Component, Inject, Input, Optional, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, Input, Optional, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -22,6 +22,39 @@ import { CommandTemplatesRegistry } from '../../templates/command-templates.regi
 import { KetcherViewerComponent } from '../ketcher-viewer/ketcher-viewer.component';
 import { ChemStructureParserService } from '../../services/chem-structure-parser.service';
 import { SubstructuresService } from '../../services/catalog/substructures.service';
+
+export interface SubstructureAuditItem {
+  name: string;
+  isReactant: boolean;
+  dbId?: string;
+  inDatabase: boolean;
+  actionText: string;
+  actionBadgeClass: string;
+}
+
+export interface RateConstantAuditItem {
+  patternIndex: number;
+  patternName: string;
+  forward: {
+    Aconstant: number;
+    Energy: number;
+    TempExp: number;
+    SymmetryFactor: number;
+    Reference: string;
+    isPlaceholder: boolean;
+    warning?: string;
+  };
+  reverse: {
+    Aconstant: number;
+    Energy: number;
+    TempExp: number;
+    SymmetryFactor: number;
+    Reference: string;
+    isZeroOrIrreversible: boolean;
+    warning?: string;
+  };
+  hasWarnings: boolean;
+}
 
 export interface AtomInfo {
   atomNumber: number;
@@ -94,6 +127,7 @@ export interface SubstructureItem {
   name: string;
   molfile: string;
   isExpanded?: boolean;
+  isReactant?: boolean;
 }
 
 export interface RxnPatternItem {
@@ -132,6 +166,7 @@ export interface RxnPatternItem {
 })
 export class GeneralRxnPatGeneratorComponent implements OnInit {
   @ViewChild('ketcherCanvas') ketcherCanvas!: KetcherViewerComponent;
+  @ViewChild('preStoreDialogTemplate') public preStoreDialogTemplate!: TemplateRef<any>;
 
   // Workflow Steps: 1=Validate, 2=Assign, 3=Generate, 4=Check Substructures, 5=Check DB, 6=Store DB
   public currentStep: number = 1;
@@ -141,6 +176,17 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
   public isSubstructuresChecked: boolean = false;
   public isChecked: boolean = false;
   public isStored: boolean = false;
+
+  // Option B: Pre-Store & Two-Phase Storage State
+  public hasNewSubstructures: boolean = false;
+  public patternCheckStatus: 'IDLE' | 'SKIPPED_NEW_SUBS' | 'CHECKED_IN_DB' = 'IDLE';
+  public storePhase: 'idle' | 'substructures' | 'alignment' | 'patterns' | 'complete' | 'error' = 'idle';
+  public storeProgressText: string = '';
+  public storeErrorMessage: string = '';
+  public rateAuditItems: RateConstantAuditItem[] = [];
+  public substructureAuditItems: SubstructureAuditItem[] = [];
+  public hasRateConstantWarnings: boolean = false;
+  public preStoreDialogRef?: MatDialogRef<any>;
 
   // Global State
   public isExecuting: boolean = false;
@@ -244,6 +290,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
     private snackBar: MatSnackBar,
     private chemParser: ChemStructureParserService,
     private substructuresService: SubstructuresService,
+    private dialog: MatDialog,
     @Optional() public dialogRef?: MatDialogRef<GeneralRxnPatGeneratorComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: { initialRootName?: string }
   ) { }
@@ -565,10 +612,23 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
       this.initMoleculeRootItems();
       await this.runSubstructuresCheckInternal();
       const matchedCount = this.substructureDbIdMap.size;
-      this.statusMessage = `Substructures database check complete! Matched ${matchedCount} substructure(s) in DB and substituted Database IDs into reaction pattern equations.`;
-      this.snackBar.open(`Substructure Check Complete! (${matchedCount} DB IDs substituted)`, 'Dismiss', { duration: 3500 });
       if (this.substructureDbIdMap.size > 0) {
         await this.reconcileDatabaseSubstructuresTemplate();
+      }
+
+      // Option B: Audit whether new substructures exist that are not yet in the DB
+      this.auditSubstructures();
+      if (this.hasNewSubstructures) {
+        // Pattern existence check in DB is logically unnecessary because pattern contains new substructures not in DB.
+        this.isChecked = true;
+        this.patternCheckStatus = 'SKIPPED_NEW_SUBS';
+        const newCount = this.substructureAuditItems.filter(s => !s.inDatabase).length;
+        this.statusMessage = `Substructures check complete! Matched ${matchedCount} in DB, ${newCount} new local substructure(s). Pattern DB check skipped (optional). Ready to store!`;
+        this.snackBar.open(`Substructure Check Complete! (${matchedCount} in DB, ${newCount} new. Pattern DB check optional)`, 'Dismiss', { duration: 4000 });
+      } else {
+        this.patternCheckStatus = 'CHECKED_IN_DB';
+        this.statusMessage = `Substructures database check complete! Matched ${matchedCount} substructure(s) in DB and substituted Database IDs into reaction pattern equations.`;
+        this.snackBar.open(`Substructure Check Complete! (${matchedCount} DB IDs substituted)`, 'Dismiss', { duration: 3500 });
       }
     } catch (err: any) {
       console.error('[RxnPatGenerator] Check substructures error:', err);
@@ -803,6 +863,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
 
       if (result.success) {
         this.isChecked = true;
+        this.patternCheckStatus = 'CHECKED_IN_DB';
         this.currentStep = 6;
         this.statusMessage = `Database check complete! Reaction class '${this.rootName.trim()}' checked against database.`;
         this.snackBar.open('Database Check Complete!', 'Dismiss', { duration: 3000 });
@@ -814,6 +875,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
       } else {
         this.errorMessage = 'Database existence check returned warnings or errors.';
         this.isChecked = true;
+        this.patternCheckStatus = 'CHECKED_IN_DB';
         if (this.substructureDbIdMap.size > 0) {
           await this.reconcileDatabaseSubstructuresTemplate();
         }
@@ -830,31 +892,194 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
 
   /**
    * Button 6: 'Store Class' (StoreRxnClassFromTemplate)
+   * Opens the Pre-Store Audit & Confirmation Dialog (Option B).
    */
   public async storeClass(): Promise<void> {
+    this.openPreStoreDialog();
+  }
+
+  public openPreStoreDialog(): void {
+    if (!this.isGenerated) return;
+
+    this.generateCheckDataFiles();
+    this.auditRateConstants();
+    this.auditSubstructures();
+    this.storePhase = 'idle';
+    this.storeProgressText = '';
+    this.storeErrorMessage = '';
+
+    if (this.preStoreDialogTemplate) {
+      this.preStoreDialogRef = this.dialog.open(this.preStoreDialogTemplate, {
+        width: '920px',
+        maxWidth: '96vw',
+        maxHeight: '92vh',
+        autoFocus: false
+      });
+    }
+  }
+
+  public closePreStoreDialog(): void {
+    if (this.preStoreDialogRef) {
+      this.preStoreDialogRef.close();
+      this.preStoreDialogRef = undefined;
+    }
+  }
+
+  public copyLstToClipboard(): void {
+    if (this.rxnPatternLstContent) {
+      navigator.clipboard.writeText(this.rxnPatternLstContent);
+      this.snackBar.open('ASCII .lst file copied to clipboard!', 'Dismiss', { duration: 2500 });
+    }
+  }
+
+  public auditRateConstants(): void {
+    this.rateAuditItems = [];
+    let warningsFound = false;
+
+    this.generatedRxnPatterns.forEach((pat, idx) => {
+      const f = pat.forwardRate;
+      const r = pat.reverseRate;
+
+      let forwardWarning: string | undefined;
+      const isFwdPlaceholder = f.Aconstant <= 0 || f.Aconstant === 1.0e-40 || (f.Energy === 0 && f.TempExp === 0 && f.Aconstant === 1.0e-40);
+      if (f.Aconstant <= 0) {
+        forwardWarning = 'Forward A constant is 0 or negative.';
+        warningsFound = true;
+      } else if (f.Aconstant === 1.0e-40) {
+        forwardWarning = 'Forward A constant is set to default placeholder (1.00e-40).';
+        warningsFound = true;
+      }
+
+      const isRevZero = r.Aconstant <= 1.0e-35;
+
+      this.rateAuditItems.push({
+        patternIndex: idx,
+        patternName: pat.name,
+        forward: {
+          Aconstant: f.Aconstant,
+          Energy: f.Energy,
+          TempExp: f.TempExp,
+          SymmetryFactor: f.SymmetryFactor,
+          Reference: f.Reference || '',
+          isPlaceholder: isFwdPlaceholder,
+          warning: forwardWarning
+        },
+        reverse: {
+          Aconstant: r.Aconstant,
+          Energy: r.Energy,
+          TempExp: r.TempExp,
+          SymmetryFactor: r.SymmetryFactor,
+          Reference: r.Reference || '',
+          isZeroOrIrreversible: isRevZero
+        },
+        hasWarnings: !!forwardWarning
+      });
+    });
+
+    this.hasRateConstantWarnings = warningsFound;
+  }
+
+  public auditSubstructures(): void {
+    const combinedMap = new Map<string, SubstructureItem>();
+    this.singleSubstructures.forEach(s => combinedMap.set(s.name, s));
+    this.substructures.forEach(s => combinedMap.set(s.name, s));
+
+    this.substructureAuditItems = [];
+    let newCount = 0;
+
+    const reactantRoots = new Set(this.reactantRootItems.map(r => r.customRoot.toLowerCase()).filter(r => !!r));
+
+    for (const [name, item] of combinedMap.entries()) {
+      const dbId = this.getDbIdForSubstructureName(name);
+      const inDatabase = !!dbId;
+      const lowerName = name.toLowerCase();
+      const isReactant = item.isReactant ?? (lowerName.includes('-(r)') || lowerName.endsWith('(r)') || Array.from(reactantRoots).some(r => lowerName.startsWith(r)));
+
+      if (!inDatabase) {
+        newCount++;
+        this.substructureAuditItems.push({
+          name,
+          isReactant,
+          dbId: undefined,
+          inDatabase: false,
+          actionText: 'Register in DB (Phase 1)',
+          actionBadgeClass: 'badge-new'
+        });
+      } else {
+        this.substructureAuditItems.push({
+          name,
+          isReactant,
+          dbId,
+          inDatabase: true,
+          actionText: `Reusing DB Record (#${dbId})`,
+          actionBadgeClass: 'badge-reused'
+        });
+      }
+    }
+
+    this.hasNewSubstructures = newCount > 0;
+  }
+
+  public async executeTwoPhaseStore(): Promise<void> {
     if (!this.isGenerated) return;
 
     this.isExecuting = true;
     this.isStoringClass = true;
-    this.statusMessage = `Storing reaction class '${this.rootName.trim()}' in database... Please wait.`;
-    this.errorMessage = '';
-    this.snackBar.open(`Storing reaction class '${this.rootName.trim()}' in database...`, 'Dismiss', { duration: 4000 });
+    this.storeErrorMessage = '';
 
     try {
-      // 1. Ensure substructures are checked first so DB IDs are substituted into .lst equations
-      if (!this.isSubstructuresChecked || this.substructureDbIdMap.size === 0) {
-        this.statusMessage = `Checking substructures in database first for '${this.rootName.trim()}'...`;
+      // 1. Audit substructures to see if any are new
+      const combinedMap = new Map<string, SubstructureItem>();
+      this.singleSubstructures.forEach(s => combinedMap.set(s.name, s));
+      this.substructures.forEach(s => combinedMap.set(s.name, s));
+      const allSubs = Array.from(combinedMap.values());
+      const newSubs = allSubs.filter(s => !this.getDbIdForSubstructureName(s.name));
+
+      // PHASE 1: Store new substructures if any exist
+      if (newSubs.length > 0) {
+        this.storePhase = 'substructures';
+        this.storeProgressText = `Phase 1: Storing ${newSubs.length} new substructure(s) (${newSubs.map(s => s.name).join(', ')}) in database...`;
+
+        const subRootName = `${this.rootName.trim()}_new_subs`;
+        const newSubsSdf = newSubs.map((s, idx) => {
+          const lines = s.molfile.trim().split(/\r?\n/);
+          if (lines.length > 0) {
+            lines[0] = (idx + 1).toString();
+          }
+          return lines.join('\n') + '\n$$$$\n';
+        }).join('');
+
+        const sdfFilename = `${subRootName}.sdf`;
+        await firstValueFrom(this.reactCloudApi.uploadUserDataFiles('.', [{ filename: sdfFilename, content: newSubsSdf }]));
+
+        const subCommands = CommandTemplatesRegistry.storeSubstructuresInDatabase(subRootName);
+        const subRes = await firstValueFrom(this.reactCloudApi.runCommands(subCommands, subRootName));
+
+        if (!subRes || subRes.exitCode !== 0) {
+          throw new Error(subRes?.error || `Failed to store new substructures in database (exit code ${subRes?.exitCode}).`);
+        }
+
+        // Phase 1b: Re-run existence check to fetch newly assigned database IDs
+        this.storePhase = 'alignment';
+        this.storeProgressText = 'Phase 1: Retrieving newly assigned Database IDs from database...';
         await this.runSubstructuresCheckInternal();
+
+        // Phase 1c: Reconcile template with new DB IDs and re-serialize .lst
+        this.storeProgressText = 'Phase 1: Updating atom correspondences and substituting new DB IDs...';
+        if (this.substructureDbIdMap.size > 0) {
+          await this.reconcileDatabaseSubstructuresTemplate();
+        }
       }
 
-      // 2. If not yet aligned with DB substructures, reconcile now before storing
-      if (!this.isDbAligned && this.substructureDbIdMap.size > 0) {
-        await this.reconcileDatabaseSubstructuresTemplate();
-      }
+      // PHASE 2: Store Reaction Pattern Class
+      this.storePhase = 'patterns';
+      this.storeProgressText = `Phase 2: Storing reaction pattern class '${this.rootName.trim()}' in database...`;
 
+      // Re-serialize .lst file to ensure all newly assigned DB IDs and current rate constants are included
       const lstContent = this.serializeToLstFile();
-      const filename = `${this.rootName.trim()}.lst`;
-      await firstValueFrom(this.reactCloudApi.uploadUserDataFiles('.', [{ filename, content: lstContent }]));
+      this.rxnPatternLstContent = lstContent;
+      const lstFilename = `${this.rootName.trim()}.lst`;
+      await firstValueFrom(this.reactCloudApi.uploadUserDataFiles('.', [{ filename: lstFilename, content: lstContent }]));
 
       const commands = CommandTemplatesRegistry.getReadCheckStoreCommands(
         'rxn-pattern',
@@ -868,14 +1093,18 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
 
       if (res && res.exitCode === 0) {
         this.isStored = true;
+        this.storePhase = 'complete';
+        this.storeProgressText = `Reaction class '${this.rootName.trim()}' successfully stored in REACTCLOUD database!`;
         this.statusMessage = `Reaction class '${this.rootName.trim()}' stored successfully in REACTCLOUD database!`;
-        this.snackBar.open('Reaction Class Stored Successfully!', 'Dismiss', { duration: 4000 });
+        this.snackBar.open('Reaction Class & Substructures Stored Successfully!', 'Dismiss', { duration: 4000 });
       } else {
-        this.errorMessage = res?.error || 'Error storing reaction class in database.';
+        throw new Error(res?.error || `Error storing reaction pattern class in database (exit code ${res?.exitCode}).`);
       }
     } catch (err: any) {
-      console.error('[RxnPatGenerator] Store class error:', err);
-      this.errorMessage = err?.message || 'Error executing Store Reaction Class task.';
+      console.error('[RxnPatGenerator] Two-phase store error:', err);
+      this.storePhase = 'error';
+      this.storeErrorMessage = err?.message || 'Error executing Store Reaction Class task.';
+      this.errorMessage = this.storeErrorMessage;
     } finally {
       this.isExecuting = false;
       this.isStoringClass = false;
