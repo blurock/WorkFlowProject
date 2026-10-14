@@ -259,6 +259,8 @@ export class ChemStructureParserService {
 
     const molPattern = /(Reactant|Product)\s+Molfile:\s*:MolFile\s+(\d+)\s*:\s*(\d+)\s+Atoms\s*:\s*(\d+)\s+Bonds\s*:\s*([^\n\r]+)/g;
     let match: RegExpExecArray | null;
+    let reactantIndex = 0;
+    let productIndex = 0;
 
     while ((match = molPattern.exec(rawOutput)) !== null) {
       const role = match[1];
@@ -279,6 +281,7 @@ export class ChemStructureParserService {
       molBlock += `${nAtoms.toString().padStart(3, ' ')}${nBonds.toString().padStart(3, ' ')}  0  0  0  0  0  0  0  0999 V2000\n`;
 
       const rgpAtoms: number[] = [];
+      const atomNumList: number[] = [];
 
       atomLines.forEach((aline, idx) => {
         const parts = aline.split(':').map(p => p.trim());
@@ -286,6 +289,7 @@ export class ChemStructureParserService {
         const yVal = parts.length > 3 ? parseFloat(parts[3]) : 0;
         const zVal = parts.length > 4 ? parseFloat(parts[4]) : 0;
         const atNum = parts.length > 5 ? parseInt(parts[5], 10) : 6;
+        atomNumList.push(atNum);
 
         const x = xVal.toFixed(4).padStart(10, ' ');
         const y = yVal.toFixed(4).padStart(10, ' ');
@@ -299,10 +303,14 @@ export class ChemStructureParserService {
         molBlock += `${x}${y}${z} ${sym.padEnd(3, ' ')} 0  0  0  0  0  0  0  0  0  0  0  0\n`;
       });
 
+      const bondOrderSums = new Array(nAtoms + 1).fill(0);
+
       bondLines.forEach(bline => {
         const bparts = bline.split(':').map(p => p.trim());
-        const a1 = (parseInt(bparts[2], 10) + 1).toString().padStart(3, ' ');
-        const a2 = (parseInt(bparts[3], 10) + 1).toString().padStart(3, ' ');
+        const a1Num = parseInt(bparts[2], 10) + 1;
+        const a2Num = parseInt(bparts[3], 10) + 1;
+        const a1 = a1Num.toString().padStart(3, ' ');
+        const a2 = a2Num.toString().padStart(3, ' ');
         let chemBondType = 1;
         const bdesc = (bparts.length > 1 ? bparts[1] : '').toLowerCase();
         if (bdesc.includes('double')) {
@@ -315,8 +323,29 @@ export class ChemStructureParserService {
           const btypeNum = parseInt(bparts[4], 10);
           chemBondType = (!isNaN(btypeNum) && btypeNum >= 1 && btypeNum <= 3) ? btypeNum : 1;
         }
+
+        if (a1Num <= nAtoms) bondOrderSums[a1Num] += chemBondType;
+        if (a2Num <= nAtoms) bondOrderSums[a2Num] += chemBondType;
+
         const btype = chemBondType.toString().padStart(3, ' ');
         molBlock += `${a1}${a2}${btype}  0  0  0  0\n`;
+      });
+
+      // Detect radical centers: Carbon with 3 bonds, Oxygen with 1 bond, Nitrogen with 2 bonds
+      const radAtoms: number[] = [];
+      atomNumList.forEach((atNum, aIdx) => {
+        const atom1Idx = aIdx + 1;
+        const orderSum = bondOrderSums[atom1Idx] || 0;
+        if (atNum === 6 && orderSum === 3) {
+          radAtoms.push(atom1Idx);
+        } else if (atNum === 8 && orderSum === 1) {
+          radAtoms.push(atom1Idx);
+        } else if (atNum === 7 && orderSum === 2) {
+          radAtoms.push(atom1Idx);
+        } else if (molName.includes(`.${atomicSymbols[atNum]?.toLowerCase() || ''}`) ||
+                   molName.includes(`(${atomicSymbols[atNum]?.toLowerCase() || ''}.)`)) {
+          radAtoms.push(atom1Idx);
+        }
       });
 
       if (rgpAtoms.length > 0) {
@@ -324,31 +353,129 @@ export class ChemStructureParserService {
           molBlock += `M  RGP  1${aNum.toString().padStart(4, ' ')}${(rIdx + 1).toString().padStart(4, ' ')}\n`;
         });
       }
+      if (radAtoms.length > 0) {
+        radAtoms.forEach(aNum => {
+          molBlock += `M  RAD  1${aNum.toString().padStart(4, ' ')}   2\n`;
+        });
+      }
       molBlock += 'M  END\n';
 
       const item = { molId, molName, role, molBlock };
       if (!result.has(molId)) result.set(molId, item);
       if (molName && !result.has(molName)) result.set(molName, item);
+
+      if (role.toLowerCase().startsWith('react')) {
+        reactantIndex++;
+        result.set(`Reactant_${reactantIndex}`, item);
+      } else {
+        productIndex++;
+        result.set(`Product_${productIndex}`, item);
+      }
     }
 
     return result;
   }
 
   /**
+   * Cleans and formats an individual MOL block for inclusion inside an MDL $RXN file.
+   * Ensures exactly 3 preamble lines before the counts line, strips leading $MOL or trailing $$$$,
+   * and optionally applies an X-coordinate shift so multiple molecules in the reaction do not overlap.
+   */
+  public formatSingleMolForRxn(sdfStr: string, fallbackName: string = 'Molecule', xShift: number = 0): string {
+    if (!sdfStr) return '';
+    let clean = sdfStr.trim();
+
+    // Strip leading $MOL delimiters if present
+    clean = clean.replace(/^\$MOL\r?\n(\d+\r?\n)?/i, '').trim();
+
+    // Strip trailing $$$$ and everything after M END
+    const mEndIdx = clean.lastIndexOf('M  END');
+    if (mEndIdx >= 0) {
+      clean = clean.substring(0, mEndIdx + 6).trim();
+    } else {
+      clean = clean.replace(/\$\$\$\$.*$/s, '').trim();
+    }
+
+    const lines = clean.split(/\r?\n/).map(l => l.trimEnd());
+    const countsLineIdx = lines.findIndex(l => /V2000|V3000/i.test(l) || /^\s*\d{1,3}\s+\d{1,3}\s+\d{1,3}/.test(l));
+    if (countsLineIdx < 0) return clean;
+
+    const rawName = lines[0] ? lines[0].trim() : '';
+    const molName = (rawName && !rawName.includes('$') && rawName.length < 80) ? rawName : fallbackName;
+
+    // Exactly 3 preamble lines required before counts line in MDL spec
+    const preamble = [
+      molName,
+      '  -REACTCLOUD- 2D',
+      ''
+    ];
+
+    const body = lines.slice(countsLineIdx);
+    if (body.length > 0 && !body[0].includes('V2000') && !body[0].includes('V3000')) {
+      const countsMatch = body[0].match(/^\s*(\d+)\s+(\d+)/);
+      if (countsMatch) {
+        const nAtoms = parseInt(countsMatch[1], 10);
+        const nBonds = parseInt(countsMatch[2], 10);
+        const formattedAtoms = nAtoms.toString().padStart(3, ' ');
+        const formattedBonds = nBonds.toString().padStart(3, ' ');
+        body[0] = `${formattedAtoms}${formattedBonds}  0  0  0  0  0  0  0  0999 V2000`;
+      }
+    }
+
+    // Apply X-shift to atom lines if xShift !== 0
+    if (xShift !== 0 && body.length > 0) {
+      const countsMatch = body[0].match(/^\s*(\d+)\s+(\d+)/);
+      if (countsMatch) {
+        const nAtoms = parseInt(countsMatch[1], 10);
+        for (let j = 1; j <= nAtoms && j < body.length; j++) {
+          const atomLine = body[j];
+          if (atomLine.length >= 10) {
+            const xVal = parseFloat(atomLine.substring(0, 10).trim());
+            if (!isNaN(xVal)) {
+              const shiftedX = (xVal + xShift).toFixed(4).padStart(10, ' ');
+              body[j] = shiftedX + atomLine.substring(10);
+            }
+          }
+        }
+      }
+    }
+
+    return [...preamble, ...body].join('\n');
+  }
+
+  /**
    * Builds an MDL $RXN file string from lists of reactant and product SDF blocks.
+   * Guarantees exact MDL RXN header specifications required by Ketcher and standard chemistry toolkits:
+   * Line 0: $RXN
+   * Line 1: Title
+   * Line 2: Program / Date
+   * Line 3: Comments
+   * Line 4: Counts line (Reactant Count, Product Count)
    */
   public buildRxnFileFromSdfBlocks(reactantSdfs: string[], productSdfs: string[], title: string = 'Reaction Pattern'): string {
     const rCount = reactantSdfs.length.toString().padStart(3, ' ');
     const pCount = productSdfs.length.toString().padStart(3, ' ');
 
-    let rxn = `$RXN\n$MDL\n${title}\n  REACTCLOUD\n\n${rCount}${pCount}\n`;
+    // Exactly 4 header lines before counts line (line 4)
+    let rxn = `$RXN\n${title}\n  -REACTCLOUD- 2D\n\n${rCount}${pCount}\n`;
 
-    for (const sdf of reactantSdfs) {
-      rxn += `$MOL\n${sdf.trim()}\n`;
-    }
-    for (const sdf of productSdfs) {
-      rxn += `$MOL\n${sdf.trim()}\n`;
-    }
+    let currentX = 0;
+    const spacing = 4.5;
+
+    reactantSdfs.forEach((sdf, idx) => {
+      const cleanMol = this.formatSingleMolForRxn(sdf, `Reactant_${idx + 1}`, currentX);
+      rxn += `$MOL\n${cleanMol}\n`;
+      currentX += spacing;
+    });
+
+    // Separation between reactants and products (reaction arrow gap)
+    currentX += 3.0;
+
+    productSdfs.forEach((sdf, idx) => {
+      const cleanMol = this.formatSingleMolForRxn(sdf, `Product_${idx + 1}`, currentX);
+      rxn += `$MOL\n${cleanMol}\n`;
+      currentX += spacing;
+    });
 
     return rxn;
   }

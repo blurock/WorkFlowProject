@@ -162,7 +162,7 @@ export class KetcherViewerComponent implements OnChanges, AfterViewInit {
     }
   }
 
-  public sendSdfToKetcher(sdfContent: string, force: boolean = false): void {
+  public sendSdfToKetcher(sdfContent: string, force: boolean = false, doLayout?: boolean): void {
     if (!sdfContent) {
       console.warn(`[KetcherViewer] sendSdfToKetcher called with empty/null structure (title: "${this.title}")`);
       return;
@@ -177,6 +177,9 @@ export class KetcherViewerComponent implements OnChanges, AfterViewInit {
 
     console.log(`[KetcherViewer] Sending structure to Ketcher iframe (title: "${this.title}", formattedLength: ${formattedSdf.length}):\n`, formattedSdf);
 
+    const isRxn = formattedSdf.includes('$RXN');
+    const effectiveDoLayout = doLayout !== undefined ? doLayout : !isRxn;
+
     const sendMessage = (): void => {
       try {
         const iframeWin = this.ketcherIframe?.nativeElement?.contentWindow;
@@ -184,7 +187,7 @@ export class KetcherViewerComponent implements OnChanges, AfterViewInit {
           iframeWin.postMessage({
             eventType: 'SET_STRUCTURE',
             molfile: formattedSdf,
-            doLayout: true
+            doLayout: effectiveDoLayout
           }, '*');
         }
       } catch (err) {
@@ -200,7 +203,10 @@ export class KetcherViewerComponent implements OnChanges, AfterViewInit {
   private ensureValidV2000Molfile(rawSdf: string): string {
     if (!rawSdf) return '';
     let trimmed = rawSdf.trim();
-    if (trimmed.includes('$RXN')) return trimmed; // MDL $RXN reaction format
+    if (trimmed.includes('$RXN')) {
+      const rxnIdx = trimmed.indexOf('$RXN');
+      return trimmed.substring(rxnIdx).trim();
+    }
 
     if (trimmed.includes('$$$$')) {
       const sdfBlocks = trimmed

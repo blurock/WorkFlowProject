@@ -229,6 +229,10 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
   public isDbAligned: boolean = false;
   public activeKetcherMode: 'original' | 'database' = 'original';
   public alignedSubstructureNames: string[] = [];
+  public originalNumReactants: number = 0;
+  public originalNumProducts: number = 0;
+  public originalReactantMolIndices: number[] = [];
+  public originalProductMolIndices: number[] = [];
   public reactantAtoms: AtomInfo[] = [];
   public productAtoms: AtomInfo[] = [];
   public reactantBonds: BondInfo[] = [];
@@ -280,6 +284,11 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
       this.activeKetcherMode = 'original';
 
       this.parseRxnStructure(this.templateRxnContent);
+      this.originalNumReactants = new Set(this.reactantAtoms.map(a => a.moleculeIndex)).size || 1;
+      this.originalNumProducts = new Set(this.productAtoms.map(a => a.moleculeIndex)).size || 1;
+      this.originalReactantMolIndices = Array.from(new Set(this.reactantAtoms.map(a => a.moleculeIndex))).sort((a, b) => a - b);
+      this.originalProductMolIndices = Array.from(new Set(this.productAtoms.map(a => a.moleculeIndex))).sort((a, b) => a - b);
+
       const errors = this.performValidationChecks();
 
       if (errors.length > 0) {
@@ -558,6 +567,9 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
       const matchedCount = this.substructureDbIdMap.size;
       this.statusMessage = `Substructures database check complete! Matched ${matchedCount} substructure(s) in DB and substituted Database IDs into reaction pattern equations.`;
       this.snackBar.open(`Substructure Check Complete! (${matchedCount} DB IDs substituted)`, 'Dismiss', { duration: 3500 });
+      if (this.substructureDbIdMap.size > 0) {
+        await this.reconcileDatabaseSubstructuresTemplate();
+      }
     } catch (err: any) {
       console.error('[RxnPatGenerator] Check substructures error:', err);
       this.errorMessage = err?.message || 'Error executing Substructure Existence Check.';
@@ -795,14 +807,16 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         this.statusMessage = `Database check complete! Reaction class '${this.rootName.trim()}' checked against database.`;
         this.snackBar.open('Database Check Complete!', 'Dismiss', { duration: 3000 });
 
-        // If pattern is NOT found in DB and we have DB substructures, reconcile template with DB substructures
-        const isNewInDatabase = !this.existenceCheckItems.some(item => item.inDatabase);
-        if (isNewInDatabase && this.substructureDbIdMap.size > 0) {
+        // Reconcile template and correspondences with DB substructures whenever matching database substructures exist
+        if (this.substructureDbIdMap.size > 0) {
           await this.reconcileDatabaseSubstructuresTemplate();
         }
       } else {
         this.errorMessage = 'Database existence check returned warnings or errors.';
         this.isChecked = true;
+        if (this.substructureDbIdMap.size > 0) {
+          await this.reconcileDatabaseSubstructuresTemplate();
+        }
       }
     } catch (err: any) {
       console.error('[RxnPatGenerator] Check database error:', err);
@@ -3195,9 +3209,9 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
   public getSubstructureNameForMolecule(molIdx: number, isReactant: boolean, comb?: string[]): string {
     const knownSubNames = new Set(this.substructures.map(s => s.name));
     const rootItem = this.moleculeRootItems.find(i => i.moleculeIndex === molIdx && i.isReactant === isReactant);
-    const baseRoot = (rootItem && rootItem.customRoot && rootItem.customRoot.trim())
+    const customRoot = (rootItem && rootItem.customRoot && rootItem.customRoot.trim())
       ? rootItem.customRoot.trim()
-      : (rootItem && rootItem.defaultRoot ? rootItem.defaultRoot.trim() : null);
+      : null;
 
     if (isReactant) {
       const molAtoms = this.reactantAtoms.filter(a => a.moleculeIndex === molIdx);
@@ -3213,8 +3227,8 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         return groupsToUse.map(g => {
           const gIdx = this.rGroupRows.indexOf(g);
           const tag = (comb && comb[gIdx]) ? comb[gIdx] : 'r';
-          if (baseRoot) {
-            return `${baseRoot.replace(/-$/, '')}-(${tag})`;
+          if (customRoot) {
+            return `${customRoot.replace(/-$/, '')}-(${tag})`;
           }
           const centralAtom = molAtoms.find(a => a.atomNumber === g.centralAtomNumber);
           const radPrefix = (centralAtom && centralAtom.radical && centralAtom.radical > 0) ? '.' : '';
@@ -3222,7 +3236,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
           return `${radPrefix}${sym}(${tag})`;
         }).join('');
       } else {
-        return baseRoot || this.getFixedMoleculeName(molAtoms, true);
+        return customRoot || this.getFixedMoleculeName(molAtoms, true);
       }
     } else {
       const pAtoms = this.productAtoms.filter(a => a.moleculeIndex === molIdx);
@@ -3246,8 +3260,8 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         let subStr = groupsToUse.map(g => {
           const gIdx = this.rGroupRows.indexOf(g);
           const tag = (comb && comb[gIdx]) ? comb[gIdx] : 'r';
-          if (baseRoot) {
-            return `${baseRoot.replace(/-$/, '')}-(${tag})`;
+          if (customRoot) {
+            return `${customRoot.replace(/-$/, '')}-(${tag})`;
           }
           const centralAtom = pAtoms.find(a => {
             const corr = this.correspondenceRows.find(c => c.productAtomNumber === a.atomNumber);
@@ -3262,7 +3276,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         }
         return subStr;
       } else {
-        let name = baseRoot || this.getFixedMoleculeName(pAtoms, false);
+        let name = customRoot || this.getFixedMoleculeName(pAtoms, false);
         if (!knownSubNames.has(name) && knownSubNames.has(`p_${name}`)) {
           name = `p_${name}`;
         }
@@ -3271,25 +3285,53 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
     }
   }
 
+  /**
+   * Resolves a substructure name against substructureDbIdMap flexibly,
+   * checking exact match, with/without hyphen (e.g. c-(r) vs c(r)), and normalized strings.
+   */
+  public getDbIdForSubstructureName(name: string): string | undefined {
+    if (!name || !this.substructureDbIdMap) return undefined;
+    if (this.substructureDbIdMap.has(name)) {
+      return this.substructureDbIdMap.get(name);
+    }
+    const withoutHyphen = name.replace(/-(\([a-z0-9]+\))/, '$1');
+    if (this.substructureDbIdMap.has(withoutHyphen)) {
+      return this.substructureDbIdMap.get(withoutHyphen);
+    }
+    const withHyphen = name.replace(/([a-zA-Z0-9\.]+)(\([a-z0-9]+\))/, '$1-$2');
+    if (this.substructureDbIdMap.has(withHyphen)) {
+      return this.substructureDbIdMap.get(withHyphen);
+    }
+    const cleanNoParens = name.replace(/[\(\)\-]/g, '').toLowerCase();
+    for (const [key, val] of this.substructureDbIdMap.entries()) {
+      if (key.replace(/[\(\)\-]/g, '').toLowerCase() === cleanNoParens) {
+        return val;
+      }
+    }
+    return undefined;
+  }
+
   private buildSubstructureEquation(comb: string[]): string {
     if (this.rGroupRows.length === 0) {
       return `${this.rootName.toLowerCase()} = ${this.rootName.toLowerCase()}`;
     }
 
     const resolveSubId = (name: string): string => {
-      if (this.substructureDbIdMap && this.substructureDbIdMap.has(name)) {
-        return this.substructureDbIdMap.get(name)!;
-      }
-      return name;
+      const dbId = this.getDbIdForSubstructureName(name);
+      return dbId ? dbId : name;
     };
 
     // 1. Reactant Substructures
-    const reactantMolIndices = Array.from(new Set(this.reactantAtoms.map(a => a.moleculeIndex))).sort((a, b) => a - b);
+    const reactantMolIndices = (this.originalReactantMolIndices && this.originalReactantMolIndices.length > 0)
+      ? this.originalReactantMolIndices
+      : Array.from(new Set(this.reactantAtoms.map(a => a.moleculeIndex))).sort((a, b) => a - b);
     if (reactantMolIndices.length === 0) reactantMolIndices.push(1);
     const reactantSubNames = reactantMolIndices.map(mIdx => resolveSubId(this.getSubstructureNameForMolecule(mIdx, true, comb)));
 
     // 2. Product Substructures
-    const productMolIndices = Array.from(new Set(this.productAtoms.map(a => a.moleculeIndex))).sort((a, b) => a - b);
+    const productMolIndices = (this.originalProductMolIndices && this.originalProductMolIndices.length > 0)
+      ? this.originalProductMolIndices
+      : Array.from(new Set(this.productAtoms.map(a => a.moleculeIndex))).sort((a, b) => a - b);
     if (productMolIndices.length === 0) productMolIndices.push(1);
     const productSubNames = productMolIndices.map(pIdx => resolveSubId(this.getSubstructureNameForMolecule(pIdx, false, comb)));
 
@@ -3297,13 +3339,20 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
   }
 
   /**
-   * Switches the active Ketcher display between Original Template and DB-Aligned Template.
+   * Switches the active Ketcher display between Original Template and DB-Aligned Template,
+   * synchronizing atom correspondences, bond changes, and .lst serializations.
    */
   public setKetcherMode(mode: 'original' | 'database'): void {
     this.activeKetcherMode = mode;
     const content = mode === 'database' ? this.dbTemplateRxnContent : this.originalTemplateRxnContent;
+    if (content) {
+      this.parseRxnStructure(content);
+      this.buildCorrespondencesTable();
+      this.buildBondChangesTable();
+      this.rxnPatternLstContent = this.serializeToLstFile();
+    }
     if (this.ketcherCanvas && content) {
-      this.ketcherCanvas.sendSdfToKetcher(content, true);
+      this.ketcherCanvas.sendSdfToKetcher(content, true, false);
     }
   }
 
@@ -3317,7 +3366,8 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
   /**
    * Reconciles the reaction template with database substructures when storing a new pattern.
    * Assembles a DB-backed $RXN multi-mol structure using database molfiles for existing substructures,
-   * then re-runs parsing, atom matching, and bond change detection routines so correspondences and
+   * while preserving all non-database molecules from the drawn template.
+   * Re-runs parsing, atom matching, and bond change detection routines so correspondences and
    * bond parameter 4 lines in the .lst file match database substructure numbering 100%.
    */
   public async reconcileDatabaseSubstructuresTemplate(): Promise<void> {
@@ -3338,85 +3388,159 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         ? this.generatedRxnPatterns[0].combination
         : undefined;
 
+      const numReactants = this.originalNumReactants || (new Set(this.reactantAtoms.map(a => a.moleculeIndex)).size || 1);
+      const numProducts = this.originalNumProducts || (new Set(this.productAtoms.map(a => a.moleculeIndex)).size || 1);
+
+      const reactantMolIndices = (this.originalReactantMolIndices && this.originalReactantMolIndices.length > 0)
+        ? this.originalReactantMolIndices
+        : Array.from(new Set(this.reactantAtoms.map(a => a.moleculeIndex))).sort((a, b) => a - b);
+      if (reactantMolIndices.length === 0) {
+        for (let i = 1; i <= numReactants; i++) reactantMolIndices.push(i);
+      }
+
+      const productMolIndices = (this.originalProductMolIndices && this.originalProductMolIndices.length > 0)
+        ? this.originalProductMolIndices
+        : Array.from(new Set(this.productAtoms.map(a => a.moleculeIndex))).sort((a, b) => a - b);
+      if (productMolIndices.length === 0) {
+        for (let i = 1; i <= numProducts; i++) productMolIndices.push(numReactants + i);
+      }
+
       const reactantMolfiles: string[] = [];
       const productMolfiles: string[] = [];
       const alignedNames: string[] = [];
 
-      // 1. Collect Reactant Molfiles
-      const reactantMolIndices = Array.from(new Set(this.reactantAtoms.map(a => a.moleculeIndex))).sort((a, b) => a - b);
-      if (reactantMolIndices.length === 0 && this.reactantAtoms.length > 0) reactantMolIndices.push(1);
+      const sourceRxn = (this.generatedRxnPatterns.length > 0 && this.generatedRxnPatterns[0].molfile)
+        ? this.generatedRxnPatterns[0].molfile
+        : (this.originalTemplateRxnContent || this.templateRxnContent);
 
-      for (const mIdx of reactantMolIndices) {
+      // 1. Collect Reactant Molfiles
+      for (let rIdx = 0; rIdx < reactantMolIndices.length; rIdx++) {
+        const mIdx = reactantMolIndices[rIdx];
         const subName = this.getSubstructureNameForMolecule(mIdx, true, firstComb);
-        const dbId = this.substructureDbIdMap.get(subName);
+        const dbId = this.getDbIdForSubstructureName(subName);
         let molfile: string | undefined;
 
-        if (dbId && (sdfMap.has(dbId) || sdfMap.has(subName))) {
-          molfile = sdfMap.get(dbId) || sdfMap.get(subName);
-          alignedNames.push(`${subName} -> DB#${dbId}`);
-        } else if (dbId) {
-          try {
-            const raw = await firstValueFrom(this.substructuresService.getItemDetails(dbId));
-            const extracted = this.chemParser.extractSdfContent(raw, subName) || raw;
-            if (extracted && extracted.includes('M  END')) {
-              molfile = extracted;
-              alignedNames.push(`${subName} -> DB#${dbId}`);
+        if (dbId) {
+          if (sdfMap.has(dbId)) {
+            molfile = sdfMap.get(dbId);
+            alignedNames.push(`${subName} -> DB#${dbId}`);
+          } else {
+            try {
+              let raw: string | null = null;
+              try {
+                raw = await firstValueFrom(this.substructuresService.getItemDetails(dbId));
+              } catch {
+                raw = await firstValueFrom(this.substructuresService.getItemDetails(subName));
+              }
+              if (raw) {
+                const pretty = this.chemParser.parsePrettyMolfileMap(raw);
+                const found = pretty.get(dbId) || pretty.get(subName) || Array.from(pretty.values())[0];
+                if (found?.molBlock && found.molBlock.includes('M  END')) {
+                  molfile = found.molBlock;
+                  alignedNames.push(`${subName} -> DB#${dbId}`);
+                } else {
+                  const extracted = this.chemParser.extractSdfContent(raw, subName);
+                  if (extracted && extracted.includes('M  END')) {
+                    molfile = extracted;
+                    alignedNames.push(`${subName} -> DB#${dbId}`);
+                  }
+                }
+              }
+            } catch (e) {
+              console.warn(`[RxnPatGenerator] Could not fetch DB molfile for ${dbId}:`, e);
             }
-          } catch (e) {
-            console.warn(`[RxnPatGenerator] Could not fetch DB molfile for ${dbId}:`, e);
           }
         }
 
+        // Fallback 1: Local substructures list
         if (!molfile) {
-          const localSub = this.substructures.find(s => s.name === subName) || this.singleSubstructures.find(s => s.name === subName);
-          if (localSub) {
+          const localSub = this.substructures.find(s => s.name === subName) ||
+                           this.singleSubstructures.find(s => s.name === subName) ||
+                           this.substructures.find(s => s.name.replace(/[\(\)\-]/g, '') === subName.replace(/[\(\)\-]/g, ''));
+          if (localSub && localSub.molfile && localSub.molfile.includes('M  END')) {
             molfile = localSub.molfile;
           }
         }
 
+        // Fallback 2: Extract original mol block directly from the reaction template
+        if (!molfile) {
+          molfile = this.extractMolBlockForMolecule(sourceRxn, rIdx + 1);
+        }
+
         if (molfile) {
           reactantMolfiles.push(molfile);
+          const subItem = this.substructures.find(s => s.name === subName);
+          if (subItem) subItem.molfile = molfile;
+          const singleItem = this.singleSubstructures.find(s => s.name === subName);
+          if (singleItem) singleItem.molfile = molfile;
         } else {
           console.warn(`[RxnPatGenerator] Warning: No molfile found for reactant molIdx=${mIdx} (name=${subName})`);
         }
       }
 
       // 2. Collect Product Molfiles
-      const productMolIndices = Array.from(new Set(this.productAtoms.map(a => a.moleculeIndex))).sort((a, b) => a - b);
-      if (productMolIndices.length === 0 && this.productAtoms.length > 0) productMolIndices.push(1);
-
-      for (const pIdx of productMolIndices) {
-        const subName = this.getSubstructureNameForMolecule(pIdx, false, firstComb);
-        const dbId = this.substructureDbIdMap.get(subName);
+      for (let pIdx = 0; pIdx < productMolIndices.length; pIdx++) {
+        const mIdx = productMolIndices[pIdx];
+        const subName = this.getSubstructureNameForMolecule(mIdx, false, firstComb);
+        const dbId = this.getDbIdForSubstructureName(subName);
         let molfile: string | undefined;
 
-        if (dbId && (sdfMap.has(dbId) || sdfMap.has(subName))) {
-          molfile = sdfMap.get(dbId) || sdfMap.get(subName);
-          alignedNames.push(`${subName} -> DB#${dbId}`);
-        } else if (dbId) {
-          try {
-            const raw = await firstValueFrom(this.substructuresService.getItemDetails(dbId));
-            const extracted = this.chemParser.extractSdfContent(raw, subName) || raw;
-            if (extracted && extracted.includes('M  END')) {
-              molfile = extracted;
-              alignedNames.push(`${subName} -> DB#${dbId}`);
+        if (dbId) {
+          if (sdfMap.has(dbId)) {
+            molfile = sdfMap.get(dbId);
+            alignedNames.push(`${subName} -> DB#${dbId}`);
+          } else {
+            try {
+              let raw: string | null = null;
+              try {
+                raw = await firstValueFrom(this.substructuresService.getItemDetails(dbId));
+              } catch {
+                raw = await firstValueFrom(this.substructuresService.getItemDetails(subName));
+              }
+              if (raw) {
+                const pretty = this.chemParser.parsePrettyMolfileMap(raw);
+                const found = pretty.get(dbId) || pretty.get(subName) || Array.from(pretty.values())[0];
+                if (found?.molBlock && found.molBlock.includes('M  END')) {
+                  molfile = found.molBlock;
+                  alignedNames.push(`${subName} -> DB#${dbId}`);
+                } else {
+                  const extracted = this.chemParser.extractSdfContent(raw, subName);
+                  if (extracted && extracted.includes('M  END')) {
+                    molfile = extracted;
+                    alignedNames.push(`${subName} -> DB#${dbId}`);
+                  }
+                }
+              }
+            } catch (e) {
+              console.warn(`[RxnPatGenerator] Could not fetch DB molfile for ${dbId}:`, e);
             }
-          } catch (e) {
-            console.warn(`[RxnPatGenerator] Could not fetch DB molfile for ${dbId}:`, e);
           }
         }
 
+        // Fallback 1: Local substructures list
         if (!molfile) {
-          const localSub = this.substructures.find(s => s.name === subName) || this.singleSubstructures.find(s => s.name === subName);
-          if (localSub) {
+          const localSub = this.substructures.find(s => s.name === subName) ||
+                           this.singleSubstructures.find(s => s.name === subName) ||
+                           this.substructures.find(s => s.name.replace(/[\(\)\-]/g, '') === subName.replace(/[\(\)\-]/g, ''));
+          if (localSub && localSub.molfile && localSub.molfile.includes('M  END')) {
             molfile = localSub.molfile;
           }
         }
 
+        // Fallback 2: Extract original mol block directly from the reaction template
+        if (!molfile) {
+          const blockIdx = numReactants + pIdx + 1;
+          molfile = this.extractMolBlockForMolecule(sourceRxn, blockIdx);
+        }
+
         if (molfile) {
           productMolfiles.push(molfile);
+          const subItem = this.substructures.find(s => s.name === subName);
+          if (subItem) subItem.molfile = molfile;
+          const singleItem = this.singleSubstructures.find(s => s.name === subName);
+          if (singleItem) singleItem.molfile = molfile;
         } else {
-          console.warn(`[RxnPatGenerator] Warning: No molfile found for product molIdx=${pIdx} (name=${subName})`);
+          console.warn(`[RxnPatGenerator] Warning: No molfile found for product molIdx=${mIdx} (name=${subName})`);
         }
       }
 
@@ -3425,10 +3549,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         return;
       }
 
-      if (alignedNames.length === 0) {
-        console.log('[RxnPatGenerator] No database substructures matched in template assembly; keeping original template.');
-        return;
-      }
+      const effectiveAlignedNames = alignedNames.length > 0 ? alignedNames : Array.from(this.substructureDbIdMap.entries()).map(([k, v]) => `${k} -> DB#${v}`);
 
       // 3. Assemble DB-backed Reaction Template ($RXN)
       this.dbTemplateRxnContent = this.chemParser.buildRxnFileFromSdfBlocks(
@@ -3446,18 +3567,18 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
 
       this.isDbAligned = true;
       this.activeKetcherMode = 'database';
-      this.alignedSubstructureNames = alignedNames;
+      this.alignedSubstructureNames = effectiveAlignedNames;
 
       // 5. Update .lst serialized content
       this.rxnPatternLstContent = this.serializeToLstFile();
 
-      // 6. Update Ketcher canvas if active
+      // 6. Update Ketcher canvas if active (doLayout: false preserves computed layout)
       if (this.ketcherCanvas && this.dbTemplateRxnContent) {
-        this.ketcherCanvas.sendSdfToKetcher(this.dbTemplateRxnContent, true);
+        this.ketcherCanvas.sendSdfToKetcher(this.dbTemplateRxnContent, true, false);
       }
 
-      this.statusMessage = `Database substructure alignment complete! Reconciled with ${alignedNames.length} database substructure(s).`;
-      this.snackBar.open(`Reconciled with ${alignedNames.length} DB Substructures!`, 'Dismiss', { duration: 3500 });
+      this.statusMessage = `Database substructure alignment complete! Reconciled with ${effectiveAlignedNames.length} database substructure(s).`;
+      this.snackBar.open(`Reconciled with ${effectiveAlignedNames.length} DB Substructures!`, 'Dismiss', { duration: 3500 });
     } catch (err: any) {
       console.error('[RxnPatGenerator] Error reconciling database substructures template:', err);
       this.errorMessage = err?.message || 'Error reconciling database substructures template.';
@@ -3479,8 +3600,9 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
     };
 
     // 1. Reactant Molecules
-    const reactantMolIndices = Array.from(new Set(this.reactantAtoms.map(a => a.moleculeIndex))).sort((a, b) => a - b);
-    if (reactantMolIndices.length === 0 && this.reactantAtoms.length > 0) reactantMolIndices.push(1);
+    const reactantMolIndices = (this.reactantAtoms.length > 0)
+      ? Array.from(new Set(this.reactantAtoms.map(a => a.moleculeIndex))).sort((a, b) => a - b)
+      : (this.originalReactantMolIndices && this.originalReactantMolIndices.length > 0 ? this.originalReactantMolIndices : [1]);
 
     reactantMolIndices.forEach(mIdx => {
       const molAtoms = this.reactantAtoms.filter(a => a.moleculeIndex === mIdx);
@@ -3503,8 +3625,9 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
     });
 
     // 2. Product Molecules
-    const productMolIndices = Array.from(new Set(this.productAtoms.map(a => a.moleculeIndex))).sort((a, b) => a - b);
-    if (productMolIndices.length === 0 && this.productAtoms.length > 0) productMolIndices.push(1);
+    const productMolIndices = (this.productAtoms.length > 0)
+      ? Array.from(new Set(this.productAtoms.map(a => a.moleculeIndex))).sort((a, b) => a - b)
+      : (this.originalProductMolIndices && this.originalProductMolIndices.length > 0 ? this.originalProductMolIndices : [1]);
 
     productMolIndices.forEach(pIdx => {
       const pAtoms = this.productAtoms.filter(a => a.moleculeIndex === pIdx);
