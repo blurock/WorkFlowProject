@@ -219,7 +219,7 @@ extern INT ExistenceCheckRxnPatterns(BindStructure *bind) {
       CHAR *lvl1_str = "NONE";
       CHAR *lvl2_str = "NONE";
 
-      if (*id >= 0) {
+      if (*id != 0) {
         memset(&dbrxn, 0, sizeof(ReactionInfo));
         ProduceRxnIDKey(*id, key);
         ret = SearchKeyElement(DB_ID_SEARCH, &dbrxn, key, dinfo);
@@ -368,10 +368,10 @@ extern INT ExistenceCheckReactions(BindStructure *bind) {
     } else {
       strcpy(mol_status, "ALL_MOLECULES_IN_DB");
 
-      INT match_id = (id != NULL) ? *id : -1;
+      INT match_id = (id != NULL) ? *id : 0;
       ret = SYSTEM_ERROR_RETURN;
 
-      if (match_id > 0) {
+      if (match_id != 0) {
         memset(&dbrxn, 0, sizeof(ReactionInfo));
         ProduceRxnIDKey(match_id, key);
         if (key->Name == NULL && rxn->Name != NULL)
@@ -391,7 +391,7 @@ extern INT ExistenceCheckReactions(BindStructure *bind) {
 
       if (ret == SYSTEM_NORMAL_RETURN && dbrxn.Name != NULL) {
         snprintf(rxn_status, sizeof(rxn_status), "%s", dbrxn.Name);
-      } else if (match_id > 0) {
+      } else if (match_id != 0) {
         snprintf(rxn_status, sizeof(rxn_status), "%s (ID %d)", rxn->Name ? rxn->Name : "EXISTS", match_id);
       } else {
         strcpy(rxn_status, "NEW_REACTION");

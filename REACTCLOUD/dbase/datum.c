@@ -666,7 +666,7 @@ extern INT FetchElement(VOID element,
      ret = FetchElementFromFirestore(element, keyword, dinfo);
      if (ret != SYSTEM_NORMAL_RETURN)
 	  {
-	  Error(0,"Element Not Found");
+	  /* Normal control flow: caller determines whether not-found is an error or expected */
 	  ret = SYSTEM_ERROR_RETURN;
 	  }
      

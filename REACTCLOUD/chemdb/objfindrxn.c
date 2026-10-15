@@ -510,8 +510,7 @@ extern INT PutReactionInDatabaseClass(ReactionInfo *reaction, INT classid,
                                   classification->Description->Database);
     class = FindOrCreateObjectIDClass((VOID)reaction, classification->Description,
                                       classification->TreeOfObjects);
-    if (reaction->ID <= 0)
-      reaction->ID = class->ID + class->NumberOfKeys;
+    reaction->ID = class->ID + class->NumberOfKeys;
 
     keytype = FindKeyTypeFromID(classification->Description->KeyType, dinfo);
     key = AllocateDbaseKeyword;
@@ -523,7 +522,7 @@ extern INT PutReactionInDatabaseClass(ReactionInfo *reaction, INT classid,
     if (key->Name == NULL && reaction->Name != NULL) {
       key->Name = CopyString(reaction->Name);
     }
-    if (reaction->ID > 0) {
+    if (reaction->ID != 0) {
       key->ID = reaction->ID;
     }
     id = AddIDKeyToClass(key, class);

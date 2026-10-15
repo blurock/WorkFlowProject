@@ -387,7 +387,7 @@ static INT SearchForObjectInDatabase(ObjectIDClass *class,
 	   currKey = skey[count].Search;
 
 	 newobject = (*(dinfo->AllocateElement))();
-	 if (currKey != NULL && currKey->ID > 0)
+	 if (currKey != NULL && currKey->ID != 0)
 	   {
 	     DbaseKeyword idkey;
 	     memset(&idkey, 0, sizeof(DbaseKeyword));
@@ -405,7 +405,7 @@ static INT SearchForObjectInDatabase(ObjectIDClass *class,
 	   {
 	     compare = (*(classification->Equivalence))(newobject,object);
 	     if(compare == 0)
-	       done = (newobject != NULL && ((ReactionInfo *)newobject)->ID > 0) ? ((ReactionInfo *)newobject)->ID : ((currKey != NULL && currKey->ID != 0) ? currKey->ID : (count + 1));
+	       done = (newobject != NULL && ((ReactionInfo *)newobject)->ID != 0) ? ((ReactionInfo *)newobject)->ID : ((currKey != NULL && currKey->ID != 0) ? currKey->ID : (count + 1));
 	     (*(dinfo->FreeElement))(newobject);
 	   }
 	 else
