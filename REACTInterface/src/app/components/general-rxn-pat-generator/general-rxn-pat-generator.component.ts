@@ -658,14 +658,13 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
       const molAtoms = this.reactantAtoms.filter(a => a.moleculeIndex === mIdx);
       const molAtomNums = molAtoms.map(a => a.atomNumber);
       const groupsOnMol = this.rGroupRows.filter(g =>
-        (g.centralAtomNumber !== undefined && molAtomNums.includes(g.centralAtomNumber)) ||
-        g.rAtomNumbers.some(rNum => molAtomNums.includes(rNum))
+        g.centralAtomNumber !== undefined ? molAtomNums.includes(g.centralAtomNumber) : g.rAtomNumbers.some(rNum => molAtomNums.includes(rNum))
       );
       const hasRGroups = groupsOnMol.length > 0;
       let defaultRoot = '';
       if (hasRGroups) {
-        const centralAtom = molAtoms.find(a => a.atomNumber === groupsOnMol[0].centralAtomNumber);
-        const radPrefix = (centralAtom && centralAtom.radical && centralAtom.radical > 0) ? '.' : '';
+        const hasRad = molAtoms.some(a => a.radical && a.radical > 0);
+        const radPrefix = hasRad ? '.' : '';
         const symbol = (groupsOnMol[0].centralAtomSymbol || 'C').toLowerCase();
         defaultRoot = `${radPrefix}${symbol}`;
       } else {
@@ -699,17 +698,13 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
       });
 
       const groupsOnMol = this.rGroupRows.filter(g =>
-        (g.centralAtomNumber !== undefined && mappedReactantNums.includes(g.centralAtomNumber)) ||
-        g.rAtomNumbers.some(rNum => mappedReactantNums.includes(rNum))
+        g.centralAtomNumber !== undefined ? mappedReactantNums.includes(g.centralAtomNumber) : g.rAtomNumbers.some(rNum => mappedReactantNums.includes(rNum))
       );
       const hasRGroups = groupsOnMol.length > 0;
       let defaultRoot = '';
       if (hasRGroups) {
-        const centralAtom = pAtoms.find(a => {
-          const corr = this.correspondenceRows.find(c => c.productAtomNumber === a.atomNumber);
-          return corr ? corr.reactantAtomNumber === groupsOnMol[0].centralAtomNumber : a.atomNumber === groupsOnMol[0].centralAtomNumber;
-        });
-        const radPrefix = (centralAtom && centralAtom.radical && centralAtom.radical > 0) ? '.' : '';
+        const hasRad = pAtoms.some(a => a.radical && a.radical > 0);
+        const radPrefix = hasRad ? '.' : '';
         const symbol = (groupsOnMol[0].centralAtomSymbol || 'C').toLowerCase();
         defaultRoot = `${radPrefix}${symbol}`;
       } else {
@@ -749,11 +744,17 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
     const hasCustom = !!(item.customRoot && item.customRoot.trim());
     const root = hasCustom ? item.customRoot.trim() : item.defaultRoot;
     if (item.hasRGroups) {
+      const molAtoms = (item.isReactant ? this.reactantAtoms : this.productAtoms).filter(a => a.moleculeIndex === item.moleculeIndex);
+      const molAtomNums = molAtoms.map(a => a.atomNumber);
+      const groupsOnMol = this.rGroupRows.filter(g =>
+        g.centralAtomNumber !== undefined ? molAtomNums.includes(g.centralAtomNumber) : g.rAtomNumbers.some(rNum => molAtomNums.includes(rNum))
+      );
+      const sampleTags = groupsOnMol.map(g => `(${g.rAtomNumbers.length > 1 ? 'r'.repeat(g.rAtomNumbers.length) : 'r'})`).join('');
       if (hasCustom) {
         const clean = root.replace(/-$/, '');
-        return `Generates: ${clean}-(h), ${clean}-(r)...`;
+        return `Generates: ${clean}-${sampleTags}...`;
       } else {
-        return `Default: ${item.defaultRoot}(h), ${item.defaultRoot}(r)...`;
+        return `Default: ${item.defaultRoot}${sampleTags}...`;
       }
     } else {
       return hasCustom ? `Custom name: ${root}` : `Default name: ${item.defaultRoot}`;
@@ -3250,8 +3251,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
       const molAtoms = this.reactantAtoms.filter(a => a.moleculeIndex === mIdx);
       const molAtomNums = molAtoms.map(a => a.atomNumber);
       const groupsOnMol = this.rGroupRows.filter(g =>
-        (g.centralAtomNumber !== undefined && molAtomNums.includes(g.centralAtomNumber)) ||
-        g.rAtomNumbers.some(rNum => molAtomNums.includes(rNum))
+        g.centralAtomNumber !== undefined ? molAtomNums.includes(g.centralAtomNumber) : g.rAtomNumbers.some(rNum => molAtomNums.includes(rNum))
       );
 
       console.log(`[RxnPatGenerator][defineSubstructures] Reactant molIdx=${mIdx}: molAtoms=`, molAtoms.map(a => ({ num: a.atomNumber, sym: a.symbol, rad: a.radical })), `hasRGroups=${groupsOnMol.length > 0}`);
@@ -3262,26 +3262,38 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         : null;
 
       if (groupsOnMol.length > 0) {
-        // Generate permutations for R-groups on this reactant
-        groupsOnMol.forEach(g => {
+        // Generate Cartesian product across all R-groups on this reactant molecule
+        const molGroupOptions: string[][] = groupsOnMol.map(g => {
           const options = g.assignmentOptions.split(',').map(o => o.trim().toLowerCase()).filter(o => o);
           const k = g.rAtomNumbers.length;
-          const combos = this.generateCombinationsWithRepetition(options.length > 0 ? options : ['h', 'r'], k);
+          return this.generateCombinationsWithRepetition(options.length > 0 ? options : ['h', 'r'], k);
+        });
 
-          const centralAtom = molAtoms.find(a => a.atomNumber === g.centralAtomNumber);
-          const radPrefix = (centralAtom && centralAtom.radical && centralAtom.radical > 0) ? '.' : '';
-          const symbol = (g.centralAtomSymbol || 'C').toLowerCase();
+        const cartesian = (arrays: string[][]): string[][] => {
+          return arrays.reduce<string[][]>(
+            (acc, curr) => acc.flatMap(x => curr.map(y => [...x, y])),
+            [[]]
+          );
+        };
 
-          combos.forEach(tag => {
-            let subName = '';
-            if (baseRoot) {
-              const cleanRoot = baseRoot.replace(/-$/, '');
-              subName = `${cleanRoot}-(${tag})`;
-            } else {
-              subName = `${radPrefix}${symbol}(${tag})`;
-            }
+        const molCombos = cartesian(molGroupOptions);
+        const hasRad = molAtoms.some(a => a.radical && a.radical > 0);
+        const radPrefix = hasRad ? '.' : '';
+        const symbol = (groupsOnMol[0].centralAtomSymbol || 'C').toLowerCase();
 
-            const substitutions = new Map<number, string>();
+        molCombos.forEach(comb => {
+          const tagSuffix = comb.map(c => `(${c})`).join('');
+          let subName = '';
+          if (baseRoot) {
+            const cleanRoot = baseRoot.replace(/-+$/, '');
+            subName = `${cleanRoot}-${tagSuffix}`;
+          } else {
+            subName = `${radPrefix}${symbol}${tagSuffix}`;
+          }
+
+          const substitutions = new Map<number, string>();
+          comb.forEach((tag, gIdx) => {
+            const g = groupsOnMol[gIdx];
             for (let i = 0; i < g.rAtomNumbers.length && i < tag.length; i++) {
               const rAtomNum = g.rAtomNumbers[i];
               const subChar = tag[i];
@@ -3293,11 +3305,11 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
                 substitutions.set(corr.productAtomNumber, newSym);
               }
             }
-
-            const molfile = this.generateSubstructureMolfile(subName, substitutions, mIdx, subCounter++);
-            singleSubstructs.push({ name: subName, molfile });
-            addSubstruct(subName, molfile);
           });
+
+          const molfile = this.generateSubstructureMolfile(subName, substitutions, mIdx, subCounter++);
+          singleSubstructs.push({ name: subName, molfile });
+          addSubstruct(subName, molfile);
         });
       } else {
         // Fixed reactant molecule without R-groups
@@ -3324,8 +3336,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
       });
 
       const groupsOnMol = this.rGroupRows.filter(g =>
-        (g.centralAtomNumber !== undefined && mappedReactantNums.includes(g.centralAtomNumber)) ||
-        g.rAtomNumbers.some(rNum => mappedReactantNums.includes(rNum))
+        g.centralAtomNumber !== undefined ? mappedReactantNums.includes(g.centralAtomNumber) : g.rAtomNumbers.some(rNum => mappedReactantNums.includes(rNum))
       );
 
       console.log(`[RxnPatGenerator][defineSubstructures] Product molIdx=${pIdx}: pAtoms=`, pAtoms.map(a => ({ num: a.atomNumber, sym: a.symbol, rad: a.radical })), `hasRGroups=${groupsOnMol.length > 0}`);
@@ -3336,32 +3347,42 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         : null;
 
       if (groupsOnMol.length > 0) {
-        // Generate permutations for R-groups on this product
-        groupsOnMol.forEach(g => {
+        // Generate Cartesian product across all R-groups on this product molecule
+        const molGroupOptions: string[][] = groupsOnMol.map(g => {
           const options = g.assignmentOptions.split(',').map(o => o.trim().toLowerCase()).filter(o => o);
           const k = g.rAtomNumbers.length;
-          const combos = this.generateCombinationsWithRepetition(options.length > 0 ? options : ['h', 'r'], k);
+          return this.generateCombinationsWithRepetition(options.length > 0 ? options : ['h', 'r'], k);
+        });
 
-          combos.forEach(tag => {
-            let subName = '';
-            if (baseRoot) {
-              const cleanRoot = baseRoot.replace(/-$/, '');
-              subName = `${cleanRoot}-(${tag})`;
-            } else {
-              const centralAtom = pAtoms.find(a => {
-                const corr = this.correspondenceRows.find(c => c.productAtomNumber === a.atomNumber);
-                return corr ? corr.reactantAtomNumber === g.centralAtomNumber : a.atomNumber === g.centralAtomNumber;
-              });
-              const radPrefix = (centralAtom && centralAtom.radical && centralAtom.radical > 0) ? '.' : '';
-              const symbol = (g.centralAtomSymbol || 'C').toLowerCase();
-              subName = `${radPrefix}${symbol}(${tag})`;
-            }
+        const cartesian = (arrays: string[][]): string[][] => {
+          return arrays.reduce<string[][]>(
+            (acc, curr) => acc.flatMap(x => curr.map(y => [...x, y])),
+            [[]]
+          );
+        };
 
-            if (seenNames.has(subName)) {
-              subName = `p_${subName}`;
-            }
+        const molCombos = cartesian(molGroupOptions);
+        const hasRad = pAtoms.some(a => a.radical && a.radical > 0);
+        const radPrefix = hasRad ? '.' : '';
+        const symbol = (groupsOnMol[0].centralAtomSymbol || 'C').toLowerCase();
 
-            const substitutions = new Map<number, string>();
+        molCombos.forEach(comb => {
+          const tagSuffix = comb.map(c => `(${c})`).join('');
+          let subName = '';
+          if (baseRoot) {
+            const cleanRoot = baseRoot.replace(/-+$/, '');
+            subName = `${cleanRoot}-${tagSuffix}`;
+          } else {
+            subName = `${radPrefix}${symbol}${tagSuffix}`;
+          }
+
+          if (seenNames.has(subName)) {
+            subName = `p_${subName}`;
+          }
+
+          const substitutions = new Map<number, string>();
+          comb.forEach((tag, gIdx) => {
+            const g = groupsOnMol[gIdx];
             for (let i = 0; i < g.rAtomNumbers.length && i < tag.length; i++) {
               const rAtomNum = g.rAtomNumbers[i];
               const subChar = tag[i];
@@ -3373,10 +3394,10 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
                 substitutions.set(corr.productAtomNumber, newSym);
               }
             }
-
-            const molfile = this.generateSubstructureMolfile(subName, substitutions, pIdx, subCounter++);
-            addSubstruct(subName, molfile);
           });
+
+          const molfile = this.generateSubstructureMolfile(subName, substitutions, pIdx, subCounter++);
+          addSubstruct(subName, molfile);
         });
       } else {
         // Fixed product molecule without R-groups
@@ -3554,23 +3575,23 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
       const molAtomNums = molAtoms.map(a => a.atomNumber);
 
       const molGroups = this.rGroupRows.filter(g =>
-        (g.centralAtomNumber !== undefined && molAtomNums.includes(g.centralAtomNumber)) ||
-        g.rAtomNumbers.some(rNum => molAtomNums.includes(rNum))
+        g.centralAtomNumber !== undefined ? molAtomNums.includes(g.centralAtomNumber) : g.rAtomNumbers.some(rNum => molAtomNums.includes(rNum))
       );
 
-      if (molGroups.length > 0 || (rootItem && rootItem.hasRGroups)) {
-        const groupsToUse = molGroups.length > 0 ? molGroups : this.rGroupRows;
-        return groupsToUse.map(g => {
+      if (molGroups.length > 0) {
+        const tagSuffix = molGroups.map(g => {
           const gIdx = this.rGroupRows.indexOf(g);
           const tag = (comb && comb[gIdx]) ? comb[gIdx] : 'r';
-          if (customRoot) {
-            return `${customRoot.replace(/-$/, '')}-(${tag})`;
-          }
-          const centralAtom = molAtoms.find(a => a.atomNumber === g.centralAtomNumber);
-          const radPrefix = (centralAtom && centralAtom.radical && centralAtom.radical > 0) ? '.' : '';
-          const sym = (g.centralAtomSymbol || 'C').toLowerCase();
-          return `${radPrefix}${sym}(${tag})`;
+          return `(${tag})`;
         }).join('');
+
+        if (customRoot) {
+          return `${customRoot.replace(/-+$/, '')}-${tagSuffix}`;
+        }
+        const hasRad = molAtoms.some(a => a.radical && a.radical > 0);
+        const radPrefix = hasRad ? '.' : '';
+        const sym = (molGroups[0].centralAtomSymbol || 'C').toLowerCase();
+        return `${radPrefix}${sym}${tagSuffix}`;
       } else {
         return customRoot || this.getFixedMoleculeName(molAtoms, true);
       }
@@ -3587,26 +3608,26 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
       });
 
       const molGroups = this.rGroupRows.filter(g =>
-        (g.centralAtomNumber !== undefined && mappedReactantNums.includes(g.centralAtomNumber)) ||
-        g.rAtomNumbers.some(rNum => mappedReactantNums.includes(rNum))
+        g.centralAtomNumber !== undefined ? mappedReactantNums.includes(g.centralAtomNumber) : g.rAtomNumbers.some(rNum => mappedReactantNums.includes(rNum))
       );
 
-      if (molGroups.length > 0 || (rootItem && rootItem.hasRGroups)) {
-        const groupsToUse = molGroups.length > 0 ? molGroups : this.rGroupRows;
-        let subStr = groupsToUse.map(g => {
+      if (molGroups.length > 0) {
+        const tagSuffix = molGroups.map(g => {
           const gIdx = this.rGroupRows.indexOf(g);
           const tag = (comb && comb[gIdx]) ? comb[gIdx] : 'r';
-          if (customRoot) {
-            return `${customRoot.replace(/-$/, '')}-(${tag})`;
-          }
-          const centralAtom = pAtoms.find(a => {
-            const corr = this.correspondenceRows.find(c => c.productAtomNumber === a.atomNumber);
-            return corr ? corr.reactantAtomNumber === g.centralAtomNumber : a.atomNumber === g.centralAtomNumber;
-          });
-          const radPrefix = (centralAtom && centralAtom.radical && centralAtom.radical > 0) ? '.' : '';
-          const sym = (g.centralAtomSymbol || 'C').toLowerCase();
-          return `${radPrefix}${sym}(${tag})`;
+          return `(${tag})`;
         }).join('');
+
+        let subStr = '';
+        if (customRoot) {
+          subStr = `${customRoot.replace(/-+$/, '')}-${tagSuffix}`;
+        } else {
+          const hasRad = pAtoms.some(a => a.radical && a.radical > 0);
+          const radPrefix = hasRad ? '.' : '';
+          const sym = (molGroups[0].centralAtomSymbol || 'C').toLowerCase();
+          subStr = `${radPrefix}${sym}${tagSuffix}`;
+        }
+
         if (!knownSubNames.has(subStr) && knownSubNames.has(`p_${subStr}`)) {
           subStr = `p_${subStr}`;
         }
@@ -3630,11 +3651,11 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
     if (this.substructureDbIdMap.has(name)) {
       return this.substructureDbIdMap.get(name);
     }
-    const withoutHyphen = name.replace(/-(\([a-z0-9]+\))/, '$1');
+    const withoutHyphen = name.replace(/-(?=\()/g, '');
     if (this.substructureDbIdMap.has(withoutHyphen)) {
       return this.substructureDbIdMap.get(withoutHyphen);
     }
-    const withHyphen = name.replace(/([a-zA-Z0-9\.]+)(\([a-z0-9]+\))/, '$1-$2');
+    const withHyphen = name.replace(/^([^\(-]+)(\()/, '$1-$2');
     if (this.substructureDbIdMap.has(withHyphen)) {
       return this.substructureDbIdMap.get(withHyphen);
     }
@@ -3642,6 +3663,35 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
     for (const [key, val] of this.substructureDbIdMap.entries()) {
       if (key.replace(/[\(\)\-]/g, '').toLowerCase() === cleanNoParens) {
         return val;
+      }
+    }
+    // Check known common molecule formula/name aliases
+    const commonAliases: { [key: string]: string[] } = {
+      'h2o': ['water'],
+      'water': ['h2o'],
+      'oh.': ['oh', 'hydroxyl-radical'],
+      'oh': ['oh.', 'hydroxyl-radical'],
+      'hydroxyl-radical': ['oh.', 'oh'],
+      'hooh': ['h2o2', 'hydrogen-peroxide'],
+      'h2o2': ['hooh', 'hydrogen-peroxide'],
+      'hydrogen-peroxide': ['hooh', 'h2o2'],
+      'co2': ['carbondioxide'],
+      'carbondioxide': ['co2'],
+      'co': ['carbonmonoxide'],
+      'carbonmonoxide': ['co'],
+      'ch4': ['methane'],
+      'methane': ['ch4'],
+      'o2': ['oxygen'],
+      'oxygen': ['o2'],
+      'h2': ['hydrogen'],
+      'hydrogen': ['h2']
+    };
+    const norm = name.toLowerCase().trim();
+    if (commonAliases[norm]) {
+      for (const alias of commonAliases[norm]) {
+        if (this.substructureDbIdMap.has(alias)) {
+          return this.substructureDbIdMap.get(alias);
+        }
       }
     }
     return undefined;
