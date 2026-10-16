@@ -21,7 +21,8 @@ echo "------------------------------------"
 
 $CHEMPROG test < $INPPRINT >! substructure.out
 cat test.out
-
+rm substructure.out
+rm xxx.mol
 #rm test.out
 #rm xxx.mol
 popd

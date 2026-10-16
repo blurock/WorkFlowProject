@@ -101,6 +101,32 @@ extern int PostJSONToOrchestrator(const char *path, const char *json_body, char 
     return 0;
 }
 
+static int IsIntegerKeyword(DbaseKeyword *keyword)
+{
+    if (keyword == NULL || keyword->KeyWord == NULL || keyword->Size != sizeof(int)) {
+        return 0;
+    }
+    /* If Name is non-empty and matches KeyWord as a string, it is definitely a string name (e.g. "h2o") */
+    if (keyword->Name != NULL && strlen(keyword->Name) > 0 &&
+        strcmp(keyword->Name, (char *)keyword->KeyWord) == 0) {
+        return 0;
+    }
+    /* If the 4 bytes form a null-terminated 3-character ASCII string */
+    if (((char *)keyword->KeyWord)[sizeof(int) - 1] == '\0' &&
+        cJSON_IsASCIIBuffer((char *)keyword->KeyWord, sizeof(int) - 1)) {
+        /* If Name is set, it is a string name (e.g. "h2o", "oh.", "ch4") */
+        if (keyword->Name != NULL && strlen(keyword->Name) > 0) {
+            return 0;
+        }
+        /* Even if Name is NULL, a string of printable ASCII ending with '\0'
+           is a string unless it was explicitly an ID key where keyword->ID != 0 and keyword->Name == NULL */
+        if (keyword->ID == 0) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
 extern INT StoreElementToFirestore(DbaseKeyword *keyword, CHAR *json_str, DataBaseInformation *info)
 {
     CHAR *body;
@@ -119,7 +145,7 @@ extern INT StoreElementToFirestore(DbaseKeyword *keyword, CHAR *json_str, DataBa
     key_id = keyword->ID;
 
     if (keyword->KeyWord != NULL && keyword->Size > 0) {
-        if (keyword->Size == sizeof(int) && (keyword->Name == NULL || !cJSON_IsASCIIBuffer(keyword->KeyWord, (size_t)keyword->Size))) {
+        if (IsIntegerKeyword(keyword)) {
             int key_val;
             memcpy(&key_val, keyword->KeyWord, sizeof(int));
             snprintf(key_name, sizeof(key_name), "%d", key_val);
@@ -183,7 +209,7 @@ extern INT FetchElementFromFirestore(VOID element, DbaseKeyword *keyword, DataBa
     }
 
     if (keyword->KeyWord != NULL && keyword->Size > 0) {
-        if (keyword->Size == sizeof(int) && (keyword->Name == NULL || !cJSON_IsASCIIBuffer(keyword->KeyWord, (size_t)keyword->Size))) {
+        if (IsIntegerKeyword(keyword)) {
             int key_val;
             memcpy(&key_val, keyword->KeyWord, sizeof(int));
             snprintf(body, sizeof(body), "{\"uid\":\"%s\",\"dbName\":\"%s\",\"type\":\"int\",\"key\":%d}",

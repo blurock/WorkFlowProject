@@ -461,13 +461,23 @@ extern DataSubSet *DetermineRxnPatternDatabaseCorrespondence(ReactionSet *rxnset
   reaction = rxnset->Reactions;
   id = corrset->Points;
   LOOPi(rxnset->NumberOfReactions) {
-    if (reaction->ID >= 0) {
-      *id = DetermineObjectID((VOID)reaction, classid, DATABASE_CLASSIFICATIONS,
-                              bind);
-      if (*id == 0)
+    INT det_id = 0;
+    printf("[DetermineRxnPatternDatabaseCorrespondence DEBUG] Reaction %d/%d: '%s' (reaction->ID=%d)\n",
+           i + 1, rxnset->NumberOfReactions,
+           reaction->Name ? reaction->Name : "NULL", reaction->ID);
+    if (reaction != NULL && reaction->Name != NULL) {
+      det_id = DetermineObjectID((VOID)reaction, classid, DATABASE_CLASSIFICATIONS, bind);
+      printf("[DetermineRxnPatternDatabaseCorrespondence DEBUG] Reaction '%s': DetermineObjectID returned %d\n",
+             reaction->Name, det_id);
+      if (det_id == 0)
         *id = -1;
-    } else
+      else
+        *id = det_id;
+    } else {
       *id = -1;
+    }
+    printf("[DetermineRxnPatternDatabaseCorrespondence DEBUG] Reaction '%s': Set corrset point *id = %d\n",
+           reaction->Name ? reaction->Name : "NULL", *id);
     id++;
     reaction++;
   }

@@ -219,7 +219,10 @@ extern INT ExistenceCheckRxnPatterns(BindStructure *bind) {
       CHAR *lvl1_str = "NONE";
       CHAR *lvl2_str = "NONE";
 
-      if (*id != 0) {
+      printf("[ExistenceCheckRxnPatterns DEBUG] Reaction %d/%d: '%s', corrset *id = %d\n",
+             i + 1, rxnpatset->NumberOfReactions, rxn->Name ? rxn->Name : "NULL", *id);
+
+      if (*id != 0 && *id != -1) {
         memset(&dbrxn, 0, sizeof(ReactionInfo));
         ProduceRxnIDKey(*id, key);
         ret = SearchKeyElement(DB_ID_SEARCH, &dbrxn, key, dinfo);
@@ -236,6 +239,9 @@ extern INT ExistenceCheckRxnPatterns(BindStructure *bind) {
           lvl2_str = rxn->Name ? rxn->Name : "MATCH_FOUND";
         }
         FreeDbaseKeyword(key);
+      } else {
+        printf("[ExistenceCheckRxnPatterns DEBUG] Reaction '%s': *id is %d (not found in DB), reporting NONE\n",
+               rxn->Name ? rxn->Name : "NULL", *id);
       }
 
       fprintf(out, "%-35.35s %-35.35s %-35.35s\n",
@@ -368,10 +374,10 @@ extern INT ExistenceCheckReactions(BindStructure *bind) {
     } else {
       strcpy(mol_status, "ALL_MOLECULES_IN_DB");
 
-      INT match_id = (id != NULL) ? *id : 0;
+      INT match_id = (id != NULL) ? *id : -1;
       ret = SYSTEM_ERROR_RETURN;
 
-      if (match_id != 0) {
+      if (match_id != 0 && match_id != -1) {
         memset(&dbrxn, 0, sizeof(ReactionInfo));
         ProduceRxnIDKey(match_id, key);
         if (key->Name == NULL && rxn->Name != NULL)
@@ -380,7 +386,7 @@ extern INT ExistenceCheckReactions(BindStructure *bind) {
         FreeDbaseKeyword(key);
       }
 
-      if (ret != SYSTEM_NORMAL_RETURN) {
+      if (ret != SYSTEM_NORMAL_RETURN && match_id != 0 && match_id != -1) {
         memset(&dbrxn, 0, sizeof(ReactionInfo));
         ProduceRxnNameKey(rxn->Name, key);
         if (key->Name == NULL && rxn->Name != NULL)
@@ -391,7 +397,7 @@ extern INT ExistenceCheckReactions(BindStructure *bind) {
 
       if (ret == SYSTEM_NORMAL_RETURN && dbrxn.Name != NULL) {
         snprintf(rxn_status, sizeof(rxn_status), "%s", dbrxn.Name);
-      } else if (match_id != 0) {
+      } else if (match_id != 0 && match_id != -1) {
         snprintf(rxn_status, sizeof(rxn_status), "%s (ID %d)", rxn->Name ? rxn->Name : "EXISTS", match_id);
       } else {
         strcpy(rxn_status, "NEW_REACTION");

@@ -1,0 +1,32 @@
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1
+%%%-------------------------------------------------------------------
+AldehydeAbsCN-(r)\
+       10304102 20102100 = 20203101 10203100
+- ID 0
+- Correspondences
+1 2 3 4                 2 1 4
+5 6                     3
+1 2 3                   2 1
+5 4 6                   4 3
+>  <ForwardRxn>
+Standard 2.88e+8   1.00  27000.0 1; From Come Propene
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Set to zero because of multiple products
+$$$$
+%%%-------------------------------------------------------------------
+%%% Symmetry: 1
+%%%-------------------------------------------------------------------
+AldehydeAbsCN-(h)\
+       10304101 20102100 = 20203100 10203100
+- ID 1
+- Correspondences
+1 2 3 4                 2 1 4
+5 6                     3
+1 2 3                   2 1
+5 4 6                   4 3
+>  <ForwardRxn>
+Standard 2.88e+8   1.00  27000.0 1; From Come Propene
+>  <ReverseRxn>
+Standard 1.00e-40 0.0 0.00   1; Set to zero because of multiple products
+$$$$

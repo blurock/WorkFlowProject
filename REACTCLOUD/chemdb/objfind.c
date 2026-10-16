@@ -376,6 +376,12 @@ static INT SearchForObjectInDatabase(ObjectIDClass *class,
            }
        }
 
+     printf("[SearchForObjectInDatabase DEBUG] Prepared search: numKeys=%d, done=%d, count=%d\n", numKeys, done, count);
+     if (numKeys == 0)
+       {
+         printf("[SearchForObjectInDatabase DEBUG] numKeys == 0 (no keys in classification class), while-loop skipped, returning done=%d\n", done);
+       }
+
      while(done == 0 && count < numKeys)
        {
 	 DbaseKeyword *currKey;
@@ -386,6 +392,10 @@ static INT SearchForObjectInDatabase(ObjectIDClass *class,
 	 else
 	   currKey = skey[count].Search;
 
+	 printf("[SearchForObjectInDatabase DEBUG] Loop count=%d/%d: currKey=%p, ID=%d, Name='%s'\n",
+		count, numKeys, (void *)currKey, currKey ? currKey->ID : 0,
+		(currKey && currKey->Name) ? currKey->Name : "NULL");
+
 	 newobject = (*(dinfo->AllocateElement))();
 	 if (currKey != NULL && currKey->ID != 0)
 	   {
@@ -393,19 +403,32 @@ static INT SearchForObjectInDatabase(ObjectIDClass *class,
 	     memset(&idkey, 0, sizeof(DbaseKeyword));
 	     ProduceRxnIDKey(currKey->ID, &idkey);
 	     if (currKey->Name != NULL) idkey.Name = CopyString(currKey->Name);
+	     printf("[SearchForObjectInDatabase DEBUG] Calling SearchKeyElement(DB_ID_SEARCH=%d, idkey.ID=%d, idkey.Name='%s')\n",
+		    DB_ID_SEARCH, idkey.ID, idkey.Name ? idkey.Name : "NULL");
 	     ret = SearchKeyElement(DB_ID_SEARCH, newobject, &idkey, dinfo);
+	     printf("[SearchForObjectInDatabase DEBUG] SearchKeyElement(DB_ID_SEARCH) returned: %d (%s)\n",
+		    ret, (ret == SYSTEM_NORMAL_RETURN) ? "SYSTEM_NORMAL_RETURN" : "SYSTEM_ERROR_RETURN");
 	     FreeDbaseKeyword(&idkey);
 	   }
 	 else
 	   {
+	     printf("[SearchForObjectInDatabase DEBUG] Calling SearchKeyElement(KeyType=%d, currKey ID=%d, Name='%s')\n",
+		    classification->Description ? classification->Description->KeyType : -1,
+		    currKey ? currKey->ID : 0, (currKey && currKey->Name) ? currKey->Name : "NULL");
 	     ret = SearchKeyElement(classification->Description->KeyType, newobject, currKey, dinfo);
+	     printf("[SearchForObjectInDatabase DEBUG] SearchKeyElement(KeyType) returned: %d (%s)\n",
+		    ret, (ret == SYSTEM_NORMAL_RETURN) ? "SYSTEM_NORMAL_RETURN" : "SYSTEM_ERROR_RETURN");
 	   }
 
 	 if(ret == SYSTEM_NORMAL_RETURN)
 	   {
 	     compare = (*(classification->Equivalence))(newobject,object);
+	     printf("[SearchForObjectInDatabase DEBUG] Equivalence function returned: %d (0 means equivalent match)\n", compare);
 	     if(compare == 0)
-	       done = (newobject != NULL && ((ReactionInfo *)newobject)->ID != 0) ? ((ReactionInfo *)newobject)->ID : ((currKey != NULL && currKey->ID != 0) ? currKey->ID : (count + 1));
+	       {
+	         done = (newobject != NULL && ((ReactionInfo *)newobject)->ID != 0) ? ((ReactionInfo *)newobject)->ID : ((currKey != NULL && currKey->ID != 0) ? currKey->ID : (count + 1));
+	         printf("[SearchForObjectInDatabase DEBUG] Match found! done set to ID: %d\n", done);
+	       }
 	     (*(dinfo->FreeElement))(newobject);
 	   }
 	 else
@@ -416,6 +439,9 @@ static INT SearchForObjectInDatabase(ObjectIDClass *class,
 	 Free(newobject);
 	 count++;
        }
+     printf("[SearchForObjectInDatabase DEBUG] Finished search in class '%s', returning done = %d\n",
+	    classification->Name ? classification->Name : "NULL", done);
+     fflush(stdout);
      return(done);
      }
 /*S Classifications
