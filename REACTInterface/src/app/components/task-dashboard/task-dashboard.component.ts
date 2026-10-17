@@ -21,6 +21,7 @@ import { CombineSubmechanismsComponent } from '../combine-submechanisms/combine-
 import { GenericFileInputComponent } from '../generic-file-input/generic-file-input.component';
 import { ReadCheckStoreComponent } from '../read-check-store/read-check-store.component';
 import { GeneralRxnPatGeneratorComponent } from '../general-rxn-pat-generator/general-rxn-pat-generator.component';
+import { GraphicalMoleculeInputComponent } from '../graphical-molecule-input/graphical-molecule-input.component';
 
 @Component({
   selector: 'app-task-dashboard',
@@ -43,7 +44,8 @@ import { GeneralRxnPatGeneratorComponent } from '../general-rxn-pat-generator/ge
     CombineSubmechanismsComponent,
     GenericFileInputComponent,
     ReadCheckStoreComponent,
-    GeneralRxnPatGeneratorComponent
+    GeneralRxnPatGeneratorComponent,
+    GraphicalMoleculeInputComponent
   ],
   templateUrl: './task-dashboard.component.html',
   styleUrls: ['./task-dashboard.component.scss']

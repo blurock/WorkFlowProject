@@ -1,0 +1,334 @@
+<div class="graphical-molecule-container">
+  
+  <!-- Header Bar -->
+  <div class="interface-header-bar">
+    <div class="title-cluster">
+      <mat-icon color="accent" class="header-icon">bubble_chart</mat-icon>
+      <div>
+        <h2 class="main-title">Graphical Molecule & Substructure Input</h2>
+        <span class="subtitle-text">Draw 2D chemical structures with Ketcher, configure alternative names and thermodynamic data, and register in the REACTCLOUD database.</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button mat-stroked-button color="warn" (click)="resetAll()" matTooltip="Reset all panels and clear canvas">
+        <mat-icon>restart_alt</mat-icon> Reset All
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Split Layout (Left: Ketcher Canvas, Right: Panels 1-6) -->
+  <div class="generator-split-container">
+
+    <!-- ==================== LEFT COLUMN: KETCHER DRAWING PANEL ==================== -->
+    <div class="ketcher-column">
+      <app-ketcher-viewer
+        #ketcherCanvas
+        [title]="'Ketcher 2D Drawing Panel: ' + (structureName || 'Unnamed Structure')">
+      </app-ketcher-viewer>
+    </div>
+
+    <!-- ==================== RIGHT COLUMN: PANELS 1 TO 6 ==================== -->
+    <div class="panels-column">
+
+      <!-- ==================== PANEL 1: MOLECULE / SUBSTRUCTURE ==================== -->
+      <mat-card class="panel-card mat-elevation-z2">
+        <div class="card-subtitle">
+          <mat-icon color="primary">category</mat-icon>
+          <span>Panel 1: Molecule / Substructure Selection</span>
+        </div>
+
+        <!-- Line 1: Radio Buttons for Molecule, Substructure -->
+        <div class="field-row mb-3">
+          <label class="field-label">Structure Classification:</label>
+          <mat-radio-group [(ngModel)]="structureType" (change)="onStructureTypeChange()" class="radio-row" color="accent">
+            <mat-radio-button value="Molecule">Molecule</mat-radio-button>
+            <mat-radio-button value="Substructure">Substructure</mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <!-- Line 2: Name of Structure -->
+        <div class="field-row">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Structure Name</mat-label>
+            <input
+              matInput
+              [(ngModel)]="structureName"
+              placeholder="e.g., ethane, cyclopentane, c(rhh)c(hh)"
+              required
+              autocomplete="off" />
+            <mat-icon matPrefix>edit</mat-icon>
+            <mat-hint>Enter unique identifier for the {{ structureType | lowercase }} in the database.</mat-hint>
+          </mat-form-field>
+        </div>
+      </mat-card>
+
+      <!-- ==================== PANEL 2: ALTERNATIVE NAME INFORMATION (Molecules only) ==================== -->
+      <mat-card class="panel-card mat-elevation-z2" *ngIf="isMolecule">
+        <div class="card-subtitle between">
+          <div class="title-with-icon">
+            <mat-icon color="primary">label</mat-icon>
+            <span>Panel 2: Molecule Alternative Name Information</span>
+          </div>
+          <button mat-stroked-button color="accent" size="small" (click)="addAlternativeNameRow()" matTooltip="Add alternative name entry">
+            <mat-icon>add</mat-icon> Add Name
+          </button>
+        </div>
+
+        <p class="panel-hint mb-2">Specify naming aliases used in CHEMKIN mechanisms, short formulas, or stoichiometric notations.</p>
+
+        <div class="table-container mat-elevation-z1">
+          <table mat-table [dataSource]="alternativeNames" class="custom-mat-table">
+            
+            <!-- Type Column -->
+            <ng-container matColumnDef="type">
+              <th mat-header-cell *matHeaderCellDef style="width: 35%;"> Type </th>
+              <td mat-cell *matCellDef="let element; let i = index">
+                <mat-form-field appearance="outline" class="compact-form-field w-100">
+                  <mat-select [(ngModel)]="element.type">
+                    <mat-option *ngFor="let opt of altNameTypes" [value]="opt">{{ opt }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef> Name </th>
+              <td mat-cell *matCellDef="let element; let i = index">
+                <mat-form-field appearance="outline" class="compact-form-field w-100">
+                  <input matInput [(ngModel)]="element.name" placeholder="Name for this type" />
+                </mat-form-field>
+              </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef style="width: 50px;"></th>
+              <td mat-cell *matCellDef="let element; let i = index" class="text-center">
+                <button mat-icon-button color="warn" (click)="removeAlternativeNameRow(i)" matTooltip="Remove row">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="altNameColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: altNameColumns;"></tr>
+          </table>
+        </div>
+      </mat-card>
+
+      <!-- ==================== PANEL 3: THERMODYNAMIC INFORMATION (Molecules only) ==================== -->
+      <mat-card class="panel-card mat-elevation-z2" *ngIf="isMolecule">
+        <div class="card-subtitle">
+          <mat-icon color="primary">thermostat</mat-icon>
+          <span>Panel 3: Thermodynamic Information</span>
+        </div>
+
+        <!-- Top Line: Pulldown selecting thermodynamic method -->
+        <div class="field-row mb-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Thermodynamic Method</mat-label>
+            <mat-select [(ngModel)]="thermoMethod">
+              <mat-option value="NASA">1. NASA (7-Coefficient Polynomial Block)</mat-option>
+              <mat-option value="Benson Table">2. Benson Table (Group Additivity Constants)</mat-option>
+            </mat-select>
+            <mat-hint>Choose thermodynamic data source to register with this molecule.</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <!-- ==================== PANEL 3A: NASA THERMODYNAMIC INFORMATION ==================== -->
+        <div class="nested-thermo-box" *ngIf="thermoMethod === 'NASA'">
+          <div class="nested-box-header">
+            <mat-icon color="accent">code</mat-icon>
+            <span class="nested-box-title">Panel 3a: NASA Thermodynamic Information (CHEMKIN Format)</span>
+          </div>
+          <p class="panel-hint">Paste standard 4-line CHEMKIN thermodynamic polynomial data in Courier font:</p>
+          <mat-form-field appearance="outline" class="w-100 font-monospace-field">
+            <mat-label>CHEMKIN Polynomial Data (Courier, 4 lines)</mat-label>
+            <textarea
+              matInput
+              rows="4"
+              class="courier-font-textarea"
+              [(ngModel)]="nasaTextBlock"
+              placeholder="ETHANE            121286C   2H   6    0G   200.000  6000.000 1000.000      1&#10; 4.10300000E+00 1.55600000E-02-5.78000000E-06 1.01000000E-09-6.68000000E-14    2&#10;-1.13400000E+04 2.21000000E+00 1.34000000E+00 2.22000000E-02-1.39000000E-05    3&#10; 4.09000000E-09-4.52000000E-13-1.04000000E+04 1.62000000E+01                   4"></textarea>
+          </mat-form-field>
+        </div>
+
+        <!-- ==================== PANEL 3B: BENSON THERMODYNAMIC INFORMATION ==================== -->
+        <div class="nested-thermo-box" *ngIf="thermoMethod === 'Benson Table'">
+          <div class="nested-box-header">
+            <mat-icon color="accent">table_chart</mat-icon>
+            <span class="nested-box-title">Panel 3b: Benson Thermodynamic Information</span>
+          </div>
+
+          <!-- Top Line: 1. Unit Type, 2. Enthalpy value, 3. Entropy value -->
+          <div class="benson-top-grid mb-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Unit Type</mat-label>
+              <mat-select [(ngModel)]="bensonUnit">
+                <mat-option value="Calorie">Calorie (cal/mol)</mat-option>
+                <mat-option value="Joule">Joule (J/mol)</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Enthalpy (ΔH°f)</mat-label>
+              <input matInput type="number" [(ngModel)]="bensonEnthalpy" placeholder="e.g. -20.24" />
+              <span matSuffix class="field-suffix">{{ bensonUnit === 'Calorie' ? 'kcal/mol' : 'kJ/mol' }}</span>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Entropy (S°)</mat-label>
+              <input matInput type="number" [(ngModel)]="bensonEntropy" placeholder="e.g. 54.85" />
+              <span matSuffix class="field-suffix">{{ bensonUnit === 'Calorie' ? 'cal/mol·K' : 'J/mol·K' }}</span>
+            </mat-form-field>
+          </div>
+
+          <!-- Temperature and Value Table -->
+          <div class="card-subtitle between mt-2">
+            <span class="sub-header-title">Heat Capacities (Cp) Across Temperatures</span>
+            <button mat-stroked-button color="accent" size="small" (click)="addBensonTempRow()" matTooltip="Add temperature row">
+              <mat-icon>add</mat-icon> Add Temperature
+            </button>
+          </div>
+
+          <div class="table-container mat-elevation-z1">
+            <table mat-table [dataSource]="bensonTemperatures" class="custom-mat-table">
+              
+              <!-- Temperature Column -->
+              <ng-container matColumnDef="temperature">
+                <th mat-header-cell *matHeaderCellDef style="width: 45%;"> Temperature (K) </th>
+                <td mat-cell *matCellDef="let element">
+                  <mat-form-field appearance="outline" class="compact-form-field w-100">
+                    <input matInput type="number" [(ngModel)]="element.temperature" />
+                  </mat-form-field>
+                </td>
+              </ng-container>
+
+              <!-- Value Column -->
+              <ng-container matColumnDef="value">
+                <th mat-header-cell *matHeaderCellDef style="width: 45%;"> Value (Cp) </th>
+                <td mat-cell *matCellDef="let element">
+                  <mat-form-field appearance="outline" class="compact-form-field w-100">
+                    <input matInput type="number" [(ngModel)]="element.value" />
+                  </mat-form-field>
+                </td>
+              </ng-container>
+
+              <!-- Actions Column -->
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef style="width: 50px;"></th>
+                <td mat-cell *matCellDef="let element; let i = index" class="text-center">
+                  <button mat-icon-button color="warn" (click)="removeBensonTempRow(i)" matTooltip="Delete row">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="bensonColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: bensonColumns;"></tr>
+            </table>
+          </div>
+        </div>
+      </mat-card>
+
+      <!-- ==================== PANEL 4: ACTION PANEL ==================== -->
+      <mat-card class="panel-card action-card mat-elevation-z3">
+        <div class="card-subtitle">
+          <mat-icon color="accent">play_arrow</mat-icon>
+          <span>Panel 4: Action Panel</span>
+        </div>
+
+        <div class="action-buttons-row">
+          
+          <!-- Step 1 Button: Check Database -->
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="checkDatabase()"
+            [disabled]="isChecking || isStoring"
+            class="action-btn">
+            <mat-icon>{{ isChecking ? 'hourglass_top' : 'search' }}</mat-icon>
+            {{ isChecking ? 'Checking Existence...' : 'Check Database' }}
+          </button>
+
+          <!-- Step 2 Button: Store in Database (Appears ONLY if NOT in database) -->
+          <button
+            *ngIf="checkCompleted && !inDatabase"
+            mat-flat-button
+            color="accent"
+            (click)="storeInDatabase()"
+            [disabled]="isStoring"
+            class="action-btn store-btn">
+            <mat-icon>{{ isStoring ? 'hourglass_bottom' : 'cloud_upload' }}</mat-icon>
+            {{ isStoring ? 'Storing Structure...' : 'Store in Database' }}
+          </button>
+        </div>
+
+        <!-- Status & Feedback Messages -->
+        <div class="status-feedback mt-3" *ngIf="statusMessage || errorMessage">
+          <div *ngIf="statusMessage" class="feedback-badge" [class.success]="checkCompleted && !inDatabase" [class.warning]="inDatabase">
+            <mat-icon>{{ inDatabase ? 'warning' : 'check_circle' }}</mat-icon>
+            <span>{{ statusMessage }}</span>
+          </div>
+
+          <div *ngIf="errorMessage" class="feedback-badge error">
+            <mat-icon>error</mat-icon>
+            <span>{{ errorMessage }}</span>
+          </div>
+        </div>
+
+        <mat-progress-bar *ngIf="isChecking || isStoring" mode="indeterminate" class="mt-3"></mat-progress-bar>
+      </mat-card>
+
+      <!-- ==================== PANEL 5: EXECUTION LOG PANEL ==================== -->
+      <mat-card class="panel-card mat-elevation-z2" *ngIf="executionLogText">
+        <div class="card-subtitle between" (click)="logExpanded = !logExpanded" style="cursor: pointer;">
+          <div class="title-with-icon">
+            <mat-icon color="primary">terminal</mat-icon>
+            <span>Panel 5: Execution Log Panel</span>
+          </div>
+          <button mat-icon-button (click)="$event.stopPropagation(); logExpanded = !logExpanded">
+            <mat-icon>{{ logExpanded ? 'expand_less' : 'expand_more' }}</mat-icon>
+          </button>
+        </div>
+
+        <div class="execution-log-container" *ngIf="logExpanded">
+          <pre class="terminal-log-output"><code>{{ executionLogText }}</code></pre>
+        </div>
+      </mat-card>
+
+      <!-- ==================== PANEL 6: MOLECULE INFORMATION PANEL ==================== -->
+      <mat-card class="panel-card molecule-info-card mat-elevation-z2" *ngIf="electronicSection || atomicRadiiSection">
+        <div class="card-subtitle between" (click)="moleculeInfoExpanded = !moleculeInfoExpanded" style="cursor: pointer;">
+          <div class="title-with-icon">
+            <mat-icon color="accent">insights</mat-icon>
+            <span>Panel 6: Molecule Information Panel (Semi-Empirical Calculations)</span>
+          </div>
+          <button mat-icon-button (click)="$event.stopPropagation(); moleculeInfoExpanded = !moleculeInfoExpanded">
+            <mat-icon>{{ moleculeInfoExpanded ? 'expand_less' : 'expand_more' }}</mat-icon>
+          </button>
+        </div>
+
+        <div class="molecule-info-body" *ngIf="moleculeInfoExpanded">
+          <div class="molecule-tables-container sections-grid">
+            <!-- Table 1: Electronic Properties & Shells -->
+            <app-electronic-properties-card
+              *ngIf="electronicSection"
+              [section]="electronicSection"
+              (copy)="onCopySection($event)">
+            </app-electronic-properties-card>
+
+            <!-- Table 2: Atomic Radii, Electronegativity & Charge Factors -->
+            <app-atomic-radii-card
+              *ngIf="atomicRadiiSection"
+              [section]="atomicRadiiSection"
+              (copy)="onCopySection($event)">
+            </app-atomic-radii-card>
+          </div>
+        </div>
+      </mat-card>
+
+    </div>
+  </div>
+</div>

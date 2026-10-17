@@ -133,7 +133,7 @@ export class TaskCategoryRegistry {
           title: 'Molecule Creator & Editor',
           description: 'Draw 2D chemical structures in Ketcher and register in REACT database',
           icon: 'add_circle',
-          type: 'interactive-creator'
+          type: 'graphical-molecule-input'
         }
       ]
     },

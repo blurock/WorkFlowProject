@@ -109,6 +109,11 @@
           <app-general-rxn-pat-generator></app-general-rxn-pat-generator>
         </ng-container>
 
+        <!-- 8. Graphical Molecule Input Task -->
+        <ng-container *ngIf="selectedTask.type === 'graphical-molecule-input' || selectedTask.id === 'create-molecule'">
+          <app-graphical-molecule-input></app-graphical-molecule-input>
+        </ng-container>
+
         <!-- 3. Interactive Creator / Generator Tasks (Create & Generate) -->
         <ng-container *ngIf="selectedTask.type === 'interactive-creator'">
           <mat-card class="creator-placeholder-card mat-elevation-z2">

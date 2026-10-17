@@ -29,7 +29,7 @@ set CHEMPROG        = $REACTROOT/bin/runchemprg.sh
 set TEMPDIR         = $REACTROOT/tmp
 set TEMPFILE        = $REACTROOT/tmp/read.prg
 #set DATAFILE        = $REACTROOT/data/rxn/rxnpats/read.lst
-set DATAFILE        = $TEMPDIR/read.lst
+set DATAFILE        = $TEMPDIR/$INFILEROOT.lst
 set TEMPOUTFILE     = $REACTROOT/tmp/read.out
 #--------------------------------------------------------------------------
 # Modify Input file

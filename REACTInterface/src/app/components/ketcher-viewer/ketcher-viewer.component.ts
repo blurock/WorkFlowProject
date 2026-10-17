@@ -78,6 +78,8 @@ export class KetcherViewerComponent implements OnChanges, AfterViewInit {
 
   private getStructureResolve: ((structure: string) => void) | null = null;
 
+  private requestedFormat: 'mol' | 'rxn' = 'rxn';
+
   @HostListener('window:message', ['$event'])
   onWindowMessage(event: MessageEvent): void {
     const iframeWin = this.ketcherIframe?.nativeElement?.contentWindow;
@@ -96,7 +98,12 @@ export class KetcherViewerComponent implements OnChanges, AfterViewInit {
       event.data?.eventType === 'EXPORT_STRUCTURE_RESPONSE'
     ) {
       if (this.getStructureResolve) {
-        const resultStr = event.data.rxn || event.data.molfile || event.data.smiles || event.data.structure || '';
+        let resultStr = '';
+        if (this.requestedFormat === 'mol') {
+          resultStr = event.data.molfile || event.data.structure || event.data.rxn || event.data.smiles || '';
+        } else {
+          resultStr = event.data.rxn || event.data.molfile || event.data.smiles || event.data.structure || '';
+        }
         this.getStructureResolve(resultStr);
         this.getStructureResolve = null;
       }
@@ -112,6 +119,7 @@ export class KetcherViewerComponent implements OnChanges, AfterViewInit {
           return;
         }
 
+        this.requestedFormat = format;
         this.getStructureResolve = resolve;
         iframeWin.postMessage({ eventType: 'GET_STRUCTURE', format }, '*');
 

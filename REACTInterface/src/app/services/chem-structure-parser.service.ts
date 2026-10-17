@@ -479,4 +479,84 @@ export class ChemStructureParserService {
 
     return rxn;
   }
+
+  /**
+   * Translates a raw Ketcher molfile drawing into a canonical REACTCLOUD SDF block.
+   * Ensures:
+   * - 3-line preamble: [ID, program info, structureName]
+   * - standard V2000 counts line
+   * - atom and bond blocks preserved
+   * - M  END line
+   * - SDF properties block (> <AlternativeNames> ...) if provided
+   * - concluding $$$$ delimiter
+   */
+  public translateKetcherToSdf(
+    rawMolfile: string,
+    structureName: string,
+    structureType: 'Molecule' | 'Reactant' | 'Product' | 'Substructure' = 'Molecule',
+    alternativeNames: { type: string; name: string }[] = [],
+    id: number = 1
+  ): string {
+    if (!rawMolfile || !rawMolfile.trim()) {
+      return '';
+    }
+
+    const cleanName = (structureName || 'Molecule').trim();
+    const lines = rawMolfile.trim().split(/\r?\n/).map(l => l.trimEnd());
+
+    // Locate counts line (V2000 / V3000 or counts pattern)
+    let countsLineIdx = lines.findIndex(l => /V2000|V3000/i.test(l) || /^\s*\d{1,3}\s+\d{1,3}\s+\d{1,3}/.test(l));
+    if (countsLineIdx < 0) {
+      countsLineIdx = lines.findIndex(l => /^\s*\d+\s+\d+/.test(l));
+    }
+
+    if (countsLineIdx < 0) {
+      return '';
+    }
+
+    // 1. Build canonical 3-line preamble
+    const preamble: string[] = [
+      id.toString(),
+      `  -REACTCLOUD-  ${structureType}`,
+      cleanName
+    ];
+
+    // 2. Format Counts Line
+    const bodyLines = lines.slice(countsLineIdx);
+    if (bodyLines.length > 0 && !bodyLines[0].includes('V2000') && !bodyLines[0].includes('V3000')) {
+      const countsMatch = bodyLines[0].match(/^\s*(\d+)\s+(\d+)/);
+      if (countsMatch) {
+        const nAtoms = parseInt(countsMatch[1], 10);
+        const nBonds = parseInt(countsMatch[2], 10);
+        const formattedAtoms = nAtoms.toString().padStart(3, ' ');
+        const formattedBonds = nBonds.toString().padStart(3, ' ');
+        bodyLines[0] = `${formattedAtoms}${formattedBonds}  0  0  0  0  0  0  0  0999 V2000`;
+      }
+    }
+
+    // 3. Find M  END
+    const mEndIdx = bodyLines.findIndex(l => l.trim() === 'M  END' || l.trim().startsWith('M  END') || l.trim().startsWith('M END'));
+    let coreBody: string[] = [];
+    if (mEndIdx >= 0) {
+      coreBody = bodyLines.slice(0, mEndIdx + 1);
+    } else {
+      coreBody = [...bodyLines, 'M  END'];
+    }
+
+    // 4. Append Alternative Names property blocks (only for Reactant / Product)
+    const propertyLines: string[] = [];
+    if (structureType !== 'Substructure' && alternativeNames && alternativeNames.length > 0) {
+      for (const alt of alternativeNames) {
+        if (alt.name && alt.name.trim()) {
+          propertyLines.push('>  <AlternativeNames>');
+          propertyLines.push(`${alt.type.trim()} ${alt.name.trim()}`);
+          propertyLines.push('');
+        }
+      }
+    }
+
+    // 5. Conclude with $$$$
+    return [...preamble, ...coreBody, ...propertyLines, '$$$$'].join('\n');
+  }
 }
+
