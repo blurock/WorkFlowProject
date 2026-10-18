@@ -12,11 +12,20 @@ import { MatTableModule } from '@angular/material/table';
 
 import { forkJoin, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { ReactCloudApiService, CatalogItem, CatalogTask } from '../../services/react-cloud-api.service';
 import { TaskOutputParserService } from '../../services/task-output-parser.service';
 import { ChemStructureParserService } from '../../services/chem-structure-parser.service';
 import { CatalogServiceRegistry } from '../../services/catalog/catalog-service-registry.service';
 import { MoleculesService } from '../../services/catalog/molecules.service';
+import { RxnPatternTreeService } from '../../services/rxn-pattern-tree.service';
+import {
+  ReactionPatternClassNode,
+  ReactionPatternLeafNode,
+  ReactionPatternPrefixGroupNode
+} from '../../models/rxn-pattern-tree.models';
 
 import type {
   AtomElectronicRow,
@@ -67,6 +76,9 @@ import { MechCorrsCardComponent } from './cards/mech-corrs-card.component';
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatCardModule,
     MatButtonModule,
     MatListModule,
@@ -109,12 +121,19 @@ export class TaskListViewComponent implements OnChanges {
   public selectedTabIndex: number = 0;
   public currentSdfContent: string | null = null;
 
+  // Reaction Pattern Tree State (Level 1: Prefix Group, Level 2: Class, Level 3: Specific Patterns)
+  public rxnPatternTree: ReactionPatternPrefixGroupNode[] = [];
+  public filteredRxnPatternTree: ReactionPatternPrefixGroupNode[] = [];
+  public rxnPatternFilterQuery: string = '';
+  public rxnPatternViewMode: 'tree' | 'flat' = 'tree';
+
   constructor(
     private apiService: ReactCloudApiService,
     private catalogServiceRegistry: CatalogServiceRegistry,
     private moleculesService: MoleculesService,
     private taskOutputParser: TaskOutputParserService,
     private chemParser: ChemStructureParserService,
+    private rxnPatternTreeService: RxnPatternTreeService,
     private snackBar: MatSnackBar
   ) {}
 
@@ -125,6 +144,10 @@ export class TaskListViewComponent implements OnChanges {
       this.moleculeSections = [];
       this.currentSdfContent = null;
       this.selectedTabIndex = 0;
+      this.rxnPatternFilterQuery = '';
+      this.rxnPatternViewMode = 'tree';
+      this.rxnPatternTree = [];
+      this.filteredRxnPatternTree = [];
       this.loadTaskData(false);
     }
   }
@@ -142,6 +165,13 @@ export class TaskListViewComponent implements OnChanges {
     catalogService.getCatalogList('job1', forceRefresh).subscribe({
       next: (parsedItems) => {
         this.items = (parsedItems || []).sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
+        if (this.task?.id === 'rxn-patterns') {
+          this.rxnPatternTree = this.rxnPatternTreeService.buildTree(this.items, false);
+          this.onRxnPatternFilterChange();
+        } else {
+          this.rxnPatternTree = [];
+          this.filteredRxnPatternTree = [];
+        }
         this.isLoading = false;
         this.hasExecuted = true;
       },
@@ -155,6 +185,34 @@ export class TaskListViewComponent implements OnChanges {
         });
       }
     });
+  }
+
+  public onRxnPatternFilterChange(): void {
+    this.filteredRxnPatternTree = this.rxnPatternTreeService.filterTree(this.rxnPatternTree, this.rxnPatternFilterQuery);
+  }
+
+  public clearRxnPatternFilter(): void {
+    this.rxnPatternFilterQuery = '';
+    this.onRxnPatternFilterChange();
+  }
+
+  public getTotalClassCount(): number {
+    return this.filteredRxnPatternTree.reduce((sum, g) => sum + g.classes.length, 0);
+  }
+
+  public toggleRxnPatternPrefixGroup(groupNode: ReactionPatternPrefixGroupNode): void {
+    groupNode.isExpanded = !groupNode.isExpanded;
+  }
+
+  public toggleRxnPatternClass(classNode: ReactionPatternClassNode, event?: MouseEvent): void {
+    if (event) {
+      event.stopPropagation();
+    }
+    classNode.isExpanded = !classNode.isExpanded;
+  }
+
+  public toggleAllRxnPatternClasses(expanded: boolean): void {
+    this.rxnPatternTreeService.expandAll(this.filteredRxnPatternTree, expanded);
   }
 
   public onItemClick(item: CatalogItem, forceRefresh: boolean = false): void {

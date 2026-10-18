@@ -35,19 +35,81 @@
   <!-- Multi-Tab View Layout -->
   <mat-tab-group [(selectedIndex)]="selectedTabIndex" class="task-tab-group" animationDuration="200ms">
     
-    <!-- Tab 1: Catalog Molecules List -->
+    <!-- Tab 1: Catalog List / Reaction Patterns Tree -->
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon class="tab-icon">format_list_bulleted</mat-icon>
-        <span>Molecules List</span>
+        <mat-icon class="tab-icon">{{ task.id === 'rxn-patterns' ? 'account_tree' : 'format_list_bulleted' }}</mat-icon>
+        <span>{{ task.id === 'rxn-patterns' ? 'Reaction Patterns Tree' : (task.title ? task.title + ' List' : 'Catalog List') }}</span>
       </ng-template>
 
       <div class="tab-content-area">
         <mat-card class="list-card">
           <mat-card-header>
-            <mat-card-title>Catalog Items</mat-card-title>
-            <mat-card-subtitle>Click any item to view detailed section cards in the Molecule Information tab</mat-card-subtitle>
+            <mat-card-title>{{ task.id === 'rxn-patterns' ? 'Reaction Patterns by Class' : 'Catalog Items' }}</mat-card-title>
+            <mat-card-subtitle>
+              {{ task.id === 'rxn-patterns' ? 'Three-level hierarchy grouped by prefix terms and generalized reaction pattern class. Expand a category prefix, then a class to select a specific pattern.' : 'Click any item to view detailed section cards in the Information tab.' }}
+            </mat-card-subtitle>
           </mat-card-header>
+
+          <!-- Reaction Pattern Tree Controls Toolbar (rxn-patterns only) -->
+          <div class="rxn-pattern-toolbar px-3 pt-3" *ngIf="task.id === 'rxn-patterns' && !isLoading && items.length > 0">
+            <div class="toolbar-search-row">
+              <mat-form-field appearance="outline" class="rxn-search-field">
+                <mat-label>Search categories, classes or patterns</mat-label>
+                <input
+                  matInput
+                  [(ngModel)]="rxnPatternFilterQuery"
+                  (ngModelChange)="onRxnPatternFilterChange()"
+                  placeholder="Filter by prefix group, class or pattern (e.g. Aldehyde, HO2, (XX))..." />
+                <mat-icon matPrefix color="primary">search</mat-icon>
+                <button
+                  mat-icon-button
+                  matSuffix
+                  *ngIf="rxnPatternFilterQuery"
+                  (click)="clearRxnPatternFilter()"
+                  matTooltip="Clear search filter">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+
+              <div class="toolbar-actions">
+                <!-- View Mode Toggle -->
+                <div class="view-mode-toggle-group">
+                  <button
+                    mat-stroked-button
+                    type="button"
+                    [class.active-mode]="rxnPatternViewMode === 'tree'"
+                    (click)="rxnPatternViewMode = 'tree'"
+                    matTooltip="Three-level hierarchy grouped by prefix terms and generalized class">
+                    <mat-icon>account_tree</mat-icon> Tree View
+                  </button>
+                  <button
+                    mat-stroked-button
+                    type="button"
+                    [class.active-mode]="rxnPatternViewMode === 'flat'"
+                    (click)="rxnPatternViewMode = 'flat'"
+                    matTooltip="Flat list of all specific reaction patterns">
+                    <mat-icon>view_list</mat-icon> Flat List
+                  </button>
+                </div>
+
+                <!-- Expand / Collapse All (Tree mode only) -->
+                <ng-container *ngIf="rxnPatternViewMode === 'tree'">
+                  <button mat-stroked-button (click)="toggleAllRxnPatternClasses(true)" matTooltip="Expand all groups and classes">
+                    <mat-icon>unfold_more</mat-icon> Expand All
+                  </button>
+                  <button mat-stroked-button (click)="toggleAllRxnPatternClasses(false)" matTooltip="Collapse all groups and classes">
+                    <mat-icon>unfold_less</mat-icon> Collapse All
+                  </button>
+                </ng-container>
+
+                <!-- Count Badge -->
+                <span class="rxn-stats-badge">
+                  <strong>{{ filteredRxnPatternTree.length }}</strong> categories &middot; <strong>{{ getTotalClassCount() }}</strong> classes &middot; <strong>{{ items.length }}</strong> patterns
+                </span>
+              </div>
+            </div>
+          </div>
 
           <mat-card-content class="scrollable-list-area">
             <!-- Empty State -->
@@ -62,8 +124,81 @@
               <p>Piping client-side template commands into REACTCLOUD STDIN...</p>
             </div>
 
-            <!-- Parsed Items Action List -->
-            <mat-action-list *ngIf="!isLoading && items.length > 0" class="catalog-action-list">
+            <!-- Reaction Patterns Three-Level Tree View -->
+            <div *ngIf="task.id === 'rxn-patterns' && rxnPatternViewMode === 'tree' && !isLoading && filteredRxnPatternTree.length > 0" class="rxn-tree-container">
+              
+              <!-- Level 1: Prefix Group Node -->
+              <div *ngFor="let groupNode of filteredRxnPatternTree" class="rxn-prefix-group-node">
+                
+                <!-- Level 1 Header -->
+                <div class="rxn-group-header" (click)="toggleRxnPatternPrefixGroup(groupNode)">
+                  <mat-icon class="expand-icon" [class.rotated]="groupNode.isExpanded">
+                    {{ groupNode.isExpanded ? 'expand_more' : 'chevron_right' }}
+                  </mat-icon>
+                  <mat-icon class="group-icon" [class.q-icon]="groupNode.isQGroup">folder</mat-icon>
+                  <div class="group-name-cluster">
+                    <span class="group-prefix-title">{{ groupNode.prefix }}</span>
+                    <span class="q-badge" *ngIf="groupNode.isQGroup" matTooltip="Contains QOOH / peroxy radical reaction pattern classes">Q-Family</span>
+                  </div>
+                  <span class="spacer"></span>
+                  <span class="group-stats-badge">
+                    {{ groupNode.classes.length }} class{{ groupNode.classes.length === 1 ? '' : 'es' }} &middot; {{ groupNode.patternCount }} pat{{ groupNode.patternCount === 1 ? '' : 's' }}
+                  </span>
+                </div>
+
+                <!-- Level 2: Classes inside this Prefix Group -->
+                <div class="rxn-group-classes-container" *ngIf="groupNode.isExpanded">
+                  <div *ngFor="let classNode of groupNode.classes" class="rxn-class-node">
+                    
+                    <!-- Level 2: Class Header -->
+                    <div class="rxn-class-header" (click)="toggleRxnPatternClass(classNode, $event)">
+                      <mat-icon class="expand-icon small-icon" [class.rotated]="classNode.isExpanded">
+                        {{ classNode.isExpanded ? 'expand_more' : 'chevron_right' }}
+                      </mat-icon>
+                      <mat-icon class="class-icon" [class.q-icon]="classNode.isQClass">schema</mat-icon>
+                      <div class="class-name-cluster">
+                        <code class="class-name">{{ classNode.className }}</code>
+                        <span class="q-badge" *ngIf="classNode.isQClass" matTooltip="QOOH / peroxy radical reaction pattern class">Q-Class</span>
+                      </div>
+                      <span class="spacer"></span>
+                      <span class="pattern-count-badge">{{ classNode.patterns.length }} pattern{{ classNode.patterns.length === 1 ? '' : 's' }}</span>
+                    </div>
+
+                    <!-- Level 3: Specific Reaction Patterns in this Class -->
+                    <div class="rxn-patterns-leaf-list" *ngIf="classNode.isExpanded">
+                      <button
+                        mat-list-item
+                        *ngFor="let pattern of classNode.patterns"
+                        (click)="onItemClick(pattern)"
+                        [class.selected-item]="selectedItem?.id === pattern.id"
+                        class="rxn-pattern-leaf-item">
+                        <mat-icon matListItemIcon color="primary">label</mat-icon>
+                        <div matListItemTitle class="pattern-name">
+                          <code>{{ pattern.name }}</code>
+                        </div>
+                        <div matListItemLine class="pattern-id-line">ID: #{{ pattern.id }}</div>
+                        <mat-icon class="arrow-right-icon">chevron_right</mat-icon>
+                      </button>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- Search Filter Empty State for Tree -->
+            <div class="empty-state" *ngIf="task.id === 'rxn-patterns' && rxnPatternViewMode === 'tree' && !isLoading && filteredRxnPatternTree.length === 0 && rxnPatternTree.length > 0">
+              <mat-icon class="empty-icon">search_off</mat-icon>
+              <p>No reaction pattern categories match "<strong>{{ rxnPatternFilterQuery }}</strong>".</p>
+              <button mat-stroked-button color="primary" (click)="clearRxnPatternFilter()">
+                <mat-icon>clear</mat-icon> Clear Filter
+              </button>
+            </div>
+
+            <!-- Standard Flat Catalog List (Molecules, Substructures, Mechanisms, Benson, or Flat Reaction Patterns) -->
+            <mat-action-list *ngIf="!isLoading && items.length > 0 && (task.id !== 'rxn-patterns' || rxnPatternViewMode === 'flat')" class="catalog-action-list">
               <button
                 mat-list-item
                 *ngFor="let item of items"
