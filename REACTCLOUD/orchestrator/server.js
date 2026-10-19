@@ -1411,6 +1411,344 @@ app.post('/api/run-commands', authenticateUser, async (req, res) => {
 });
 
 /**
+ * Save LSR file (/api/save-lsr)
+ */
+app.post('/api/save-lsr', authenticateUser, async (req, res) => {
+  const rootName = req.body.rootName || req.body.name;
+  const content = req.body.content;
+  const uid = req.user?.uid || 'user_default_local';
+
+  if (!rootName || !content) {
+    return res.status(400).json({ error: "Request body must contain non-empty 'rootName' and 'content' fields." });
+  }
+
+  const cleanRootName = path.basename(rootName.replace(/\.lsr$/i, ''));
+  const mechsDir = path.join(REACTROOT, 'data', 'mechs', 'submechanisms');
+  fs.mkdirSync(mechsDir, { recursive: true });
+
+  const destPath = path.join(mechsDir, `${cleanRootName}.lsr`);
+  const dataPath = path.join(REACTROOT, 'data', `${cleanRootName}.lsr`);
+  const tmpDir = path.join(REACTROOT, 'tmp');
+  fs.mkdirSync(tmpDir, { recursive: true });
+  const tmpPath = path.join(tmpDir, `${cleanRootName}.lsr`);
+
+  try {
+    fs.writeFileSync(destPath, content, 'utf8');
+    fs.writeFileSync(dataPath, content, 'utf8');
+    fs.writeFileSync(tmpPath, content, 'utf8');
+
+    const logMsg = `[Save LSR] User ${uid} saved ${cleanRootName}.lsr to data/mechs/submechanisms/${cleanRootName}.lsr (${content.length} chars)`;
+    console.log(logMsg);
+
+    try {
+      const execLog = path.join(tmpDir, 'execution.log');
+      fs.appendFileSync(execLog, `${logMsg}\n`);
+    } catch (e) {}
+
+    res.json({
+      success: true,
+      rootName: cleanRootName,
+      path: `data/mechs/submechanisms/${cleanRootName}.lsr`,
+      bytesWritten: Buffer.byteLength(content, 'utf8')
+    });
+  } catch (err) {
+    console.error('[Save LSR Error]', err);
+    res.status(500).json({ error: `Failed to save LSR file: ${err.message}` });
+  }
+});
+
+/**
+ * List available submechanism paths (/api/submechanisms)
+ */
+app.get('/api/submechanisms', (req, res) => {
+  try {
+    const mechsDir = path.join(REACTROOT, 'data', 'mechs', 'submechanisms');
+    if (!fs.existsSync(mechsDir)) {
+      return res.json([]);
+    }
+    const files = fs.readdirSync(mechsDir)
+      .filter(f => f.endsWith('.lsr') && !f.startsWith('#') && !f.endsWith('~'))
+      .map(f => f.slice(0, -4))
+      .sort();
+    res.json(files);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * Run submechanism from path (/api/run-submechanism)
+ */
+app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
+  const { molecule, rootName, supplement, runRoot } = req.body;
+  if (!molecule || !rootName) {
+    return res.status(400).json({ error: "Request body must contain non-empty 'molecule' and 'rootName' fields." });
+  }
+
+  const customMechName = req.body.mechName;
+  const mechName = (customMechName && customMechName.trim())
+    ? customMechName.trim()
+    : `${molecule}-${rootName}`;
+
+  const actualRunRoot = runRoot || 'read';
+  const initialMolecules = (supplement && supplement.trim())
+    ? `${molecule},${supplement.trim()}`
+    : molecule;
+
+  const uid = req.user?.uid || 'user_default_local';
+  const sessionId = req.body.sessionId || req.headers['x-session-id'] || 'default_session';
+  const jobId = `job_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+  const workspaceDir = path.join('/tmp', 'reactcloud', 'users', uid, jobId);
+
+  try {
+    await hydrateUserWorkspace(uid, workspaceDir);
+
+    const searchDirs = [
+      path.join(REACTROOT, 'data', 'mechs', 'submechanisms', `${rootName}.lsr`),
+      path.join(REACTROOT, 'data', 'mechs', 'submechanisms', rootName),
+      path.join(REACTROOT, 'data', `${rootName}.lsr`),
+      path.join(REACTROOT, 'data', rootName),
+      path.join(REACTROOT, 'data', 'mechs', 'rxnpattests', `${rootName}.lsr`),
+      path.join(REACTROOT, 'data', 'runs', `${rootName}.lsr`),
+      path.join(REACTROOT, 'data', 'mechs', 'submechanism-orig', `${rootName}.lsr`)
+    ];
+
+    let lsrPath = null;
+    for (const cand of searchDirs) {
+      if (fs.existsSync(cand) && fs.statSync(cand).isFile()) {
+        lsrPath = cand;
+        break;
+      }
+    }
+
+    if (!lsrPath) {
+      cleanupWorkspace(workspaceDir);
+      return res.status(404).json({ error: `Could not find path chain definition (.lsr) file for '${rootName}'.` });
+    }
+
+    const lsrContent = fs.readFileSync(lsrPath, 'utf8');
+    fs.writeFileSync(path.join(workspaceDir, `${actualRunRoot}.lsr`), lsrContent);
+    fs.writeFileSync(path.join(REACTROOT, 'data', `${actualRunRoot}.lsr`), lsrContent);
+    const tmpDir = path.join(REACTROOT, 'tmp');
+    fs.mkdirSync(tmpDir, { recursive: true });
+    fs.writeFileSync(path.join(tmpDir, `${actualRunRoot}.lsr`), lsrContent);
+
+    const templatePath = path.join(REACTROOT, 'programs', 'inputs', 'CallChain.inp');
+    let callChainTemplate = fs.readFileSync(templatePath, 'utf8');
+    callChainTemplate = callChainTemplate.split('XXXXXXXXXX').join(initialMolecules);
+    callChainTemplate = callChainTemplate.split('YYYYYYYYYY').join(mechName);
+
+    const jobInpFile = path.join(workspaceDir, `${actualRunRoot}.api.inp`);
+    fs.writeFileSync(jobInpFile, callChainTemplate);
+
+    let stdout = '';
+    let stderr = '';
+    const logFilePath = path.join(workspaceDir, 'execution.log');
+    const logStream = fs.createWriteStream(logFilePath, { flags: 'a' });
+
+    const lsrLogNote = `[Submechanism Run] Target Molecule: ${molecule}, Supplement: ${supplement || 'none'}, LSR: ${rootName}.lsr (${lsrPath}), Mechanism: ${mechName}\n`;
+    logStream.write(lsrLogNote);
+    stdout += lsrLogNote;
+
+    const commandDir = path.join(REACTROOT, 'command');
+    const staticFile = path.join(REACTROOT, 'data', 'stat-inf.dat');
+    const startTime = Date.now();
+
+    const child = spawn(CHEMDB_BIN, [actualRunRoot, '0', commandDir, staticFile], {
+      cwd: workspaceDir,
+      env: {
+        ...process.env,
+        REACTROOT,
+        CCROOT: REACTROOT,
+        REACT_USER_ID: uid,
+        REACT_USER_UID: uid,
+        REACT_SESSION_ID: sessionId,
+        GCS_BUCKET: BUCKET_NAME
+      }
+    });
+
+    child.stdin.write(callChainTemplate);
+    child.stdin.end();
+
+    const MAX_MEM_LOG_BYTES = 5 * 1024 * 1024;
+    child.stdout.on('data', data => {
+      const str = data.toString();
+      if (stdout.length < MAX_MEM_LOG_BYTES) {
+        stdout += str.slice(0, MAX_MEM_LOG_BYTES - stdout.length);
+      }
+      logStream.write(str);
+    });
+    child.stderr.on('data', data => {
+      const str = data.toString();
+      if (stderr.length < MAX_MEM_LOG_BYTES) {
+        stderr += str.slice(0, MAX_MEM_LOG_BYTES - stderr.length);
+      }
+      logStream.write(str);
+    });
+
+    child.on('close', exitCode => {
+      logStream.end();
+      const elapsed = Date.now() - startTime;
+      console.log(`[Submechanism Run Complete] ${jobId} finished in ${elapsed}ms (exitCode: ${exitCode})`);
+
+      let combinedOutput = '';
+      const readDetail = (ext, title) => {
+        const fileInWs = path.join(workspaceDir, `${mechName}${ext}`);
+        const fileInTmp = path.join(REACTROOT, 'tmp', `${mechName}${ext}`);
+        let content = '';
+        if (fs.existsSync(fileInWs)) {
+          content = fs.readFileSync(fileInWs, 'utf8');
+        } else if (fs.existsSync(fileInTmp)) {
+          content = fs.readFileSync(fileInTmp, 'utf8');
+        }
+        if (content && content.trim()) {
+          combinedOutput += `--- ${title} ---\n` + content + '\n\n';
+        }
+      };
+
+      readDetail('.mech', 'Mechanism Reactions');
+      readDetail('.sdf', 'Molecule Structures');
+      readDetail('.thm', 'Molecule Thermodynamics');
+      readDetail('.corrs', 'Name Correspondences');
+
+      combinedOutput += `--- Execution Log ---\n` + stdout;
+
+      res.json({
+        molecule,
+        rootName,
+        mechName,
+        exitCode,
+        output: combinedOutput,
+        error: stderr
+      });
+
+      const classification = classifyJob(req.body, callChainTemplate, '');
+      persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classification, [])
+        .catch(e => console.warn(`[GCS Persist Warning] ${e.message}`))
+        .finally(() => cleanupWorkspace(workspaceDir));
+    });
+  } catch (err) {
+    cleanupWorkspace(workspaceDir);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * Run combine submechanisms task (/api/run-combine-submechanisms)
+ */
+app.post('/api/run-combine-submechanisms', authenticateUser, async (req, res) => {
+  const { rootName, mechName, submechanisms } = req.body;
+  if (!rootName || !mechName || !Array.isArray(submechanisms) || submechanisms.length === 0) {
+    return res.status(400).json({ error: "Request body must contain 'rootName', 'mechName', and non-empty 'submechanisms' array." });
+  }
+
+  const uid = req.user?.uid || 'user_default_local';
+  const sessionId = req.body.sessionId || req.headers['x-session-id'] || 'default_session';
+  const jobId = `job_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+  const workspaceDir = path.join('/tmp', 'reactcloud', 'users', uid, jobId);
+
+  try {
+    await hydrateUserWorkspace(uid, workspaceDir);
+
+    const templatePath = path.join(REACTROOT, 'programs', 'inputs', 'CombineMechanisms.inp');
+    let templateContent = fs.readFileSync(templatePath, 'utf8');
+
+    const submechLines = submechanisms.join('\n') + '\nQuit';
+    templateContent = templateContent.split('XXXXXXXXXX').join(submechLines);
+    templateContent = templateContent.split('YYYYYYYYYY').join(mechName);
+
+    const jobInpFile = path.join(workspaceDir, 'combine.inp');
+    fs.writeFileSync(jobInpFile, templateContent);
+
+    let stdout = '';
+    let stderr = '';
+    const logFilePath = path.join(workspaceDir, 'execution.log');
+    const logStream = fs.createWriteStream(logFilePath, { flags: 'a' });
+
+    const commandDir = path.join(REACTROOT, 'command');
+    const staticFile = path.join(REACTROOT, 'data', 'stat-inf.dat');
+    const startTime = Date.now();
+
+    const child = spawn(CHEMDB_BIN, ['read', '0', commandDir, staticFile], {
+      cwd: workspaceDir,
+      env: {
+        ...process.env,
+        REACTROOT,
+        CCROOT: REACTROOT,
+        REACT_USER_ID: uid,
+        REACT_USER_UID: uid,
+        REACT_SESSION_ID: sessionId,
+        GCS_BUCKET: BUCKET_NAME
+      }
+    });
+
+    child.stdin.write(templateContent);
+    child.stdin.end();
+
+    const MAX_MEM_LOG_BYTES = 5 * 1024 * 1024;
+    child.stdout.on('data', data => {
+      const str = data.toString();
+      if (stdout.length < MAX_MEM_LOG_BYTES) {
+        stdout += str.slice(0, MAX_MEM_LOG_BYTES - stdout.length);
+      }
+      logStream.write(str);
+    });
+    child.stderr.on('data', data => {
+      const str = data.toString();
+      if (stderr.length < MAX_MEM_LOG_BYTES) {
+        stderr += str.slice(0, MAX_MEM_LOG_BYTES - stderr.length);
+      }
+      logStream.write(str);
+    });
+
+    child.on('close', exitCode => {
+      logStream.end();
+      const elapsed = Date.now() - startTime;
+      console.log(`[Combine Run Complete] ${jobId} finished in ${elapsed}ms (exitCode: ${exitCode})`);
+
+      let combinedOutput = '';
+      const readDetail = (ext, title) => {
+        const fileInWs = path.join(workspaceDir, `${mechName}${ext}`);
+        const fileInTmp = path.join(REACTROOT, 'tmp', `${mechName}${ext}`);
+        let content = '';
+        if (fs.existsSync(fileInWs)) {
+          content = fs.readFileSync(fileInWs, 'utf8');
+        } else if (fs.existsSync(fileInTmp)) {
+          content = fs.readFileSync(fileInTmp, 'utf8');
+        }
+        if (content && content.trim()) {
+          combinedOutput += `--- Combined ${title} ---\n` + content + '\n\n';
+        }
+      };
+
+      readDetail('.mech', 'Mechanism Reactions (.mech)');
+      readDetail('.sdf', 'Molecule Structures (.sdf)');
+      readDetail('.thm', 'Molecule Thermodynamics (.thm)');
+      readDetail('.corrs', 'Name Correspondences (.corrs)');
+
+      combinedOutput += `--- Execution Log ---\n` + stdout;
+
+      res.json({
+        rootName,
+        mechName,
+        count: submechanisms.length,
+        exitCode,
+        output: combinedOutput,
+        error: stderr
+      });
+
+      const classification = classifyJob(req.body, templateContent, '');
+      persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classification, [])
+        .catch(e => console.warn(`[GCS Persist Warning] ${e.message}`))
+        .finally(() => cleanupWorkspace(workspaceDir));
+    });
+  } catch (err) {
+    cleanupWorkspace(workspaceDir);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+/**
  * Database Storage APIs (Phase 1 Firestore Integration)
  */
 function convertBytesObjectsToBlobs(val) {

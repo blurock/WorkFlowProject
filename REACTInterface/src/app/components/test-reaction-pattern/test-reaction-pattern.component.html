@@ -1,0 +1,279 @@
+<div class="test-rxn-pattern-container">
+  <!-- Header Card -->
+  <mat-card class="header-card mat-elevation-z2">
+    <div class="header-content">
+      <div class="header-icon-box">
+        <mat-icon class="main-icon">biotech</mat-icon>
+      </div>
+      <div class="header-text">
+        <h1 class="page-title">Test Reaction Pattern</h1>
+        <p class="page-subtitle">
+          Execute and validate reaction patterns on a target molecule, generating mechanism coefficients, reaction classes, and 3D/2D chemical structures.
+        </p>
+      </div>
+    </div>
+  </mat-card>
+
+  <!-- Main Tabs -->
+  <mat-card class="content-card mat-elevation-z1 mt-3">
+    <mat-tab-group [(selectedIndex)]="selectedTabIndex" animationDuration="200ms" class="main-tabs">
+      
+      <!-- TAB 1: Task Inputs & Setup -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">tune</mat-icon>
+          Task Inputs & Setup
+        </ng-template>
+
+        <div class="tab-body-container">
+          
+          <!-- SECTION 1: Reaction Pattern Selection -->
+          <div class="setup-section-card">
+            <div class="section-card-header">
+              <mat-icon class="sec-icon" color="primary">schema</mat-icon>
+              <div class="sec-title-group">
+                <span class="sec-title">1. Reaction Patterns</span>
+                <span class="sec-desc">Choose one or more reaction pattern classes to execute</span>
+              </div>
+              <div class="sec-actions">
+                <button
+                  mat-flat-button
+                  color="primary"
+                  (click)="openPatternSelectionDialog()"
+                  class="select-patterns-btn">
+                  <mat-icon>checklist</mat-icon>
+                  Select Reaction Patterns...
+                </button>
+                <button
+                  mat-stroked-button
+                  class="preview-lsr-btn"
+                  (click)="toggleLsrPreview()"
+                  [matTooltip]="showLsrPreview ? 'Hide generated LSR file' : 'Preview generated LSR file'">
+                  <mat-icon>{{ showLsrPreview ? 'visibility_off' : 'description' }}</mat-icon>
+                  {{ showLsrPreview ? 'Hide LSR' : 'Preview LSR' }}
+                </button>
+              </div>
+            </div>
+
+            <!-- Selected Patterns Chips -->
+            <div class="selected-patterns-summary mt-2">
+              <div class="summary-meta">
+                <span class="meta-count-badge">
+                  {{ selectedPatterns.length }} pattern{{ selectedPatterns.length === 1 ? '' : 's' }} selected
+                </span>
+                <span *ngIf="selectedPatterns.length === 0" class="text-muted ml-2">
+                  No patterns selected yet. Click "Select Reaction Patterns..." to choose.
+                </span>
+              </div>
+
+              <div *ngIf="selectedPatterns.length > 0" class="pattern-chips-wrapper mt-2">
+                <div *ngFor="let pat of selectedPatterns" class="pattern-chip">
+                  <span class="chip-name font-mono">{{ pat }}</span>
+                  <button mat-icon-button class="remove-chip-btn" (click)="removePattern(pat)" matTooltip="Remove pattern">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Optional Collapsible LSR Preview -->
+            <div *ngIf="showLsrPreview" class="lsr-preview-box mt-3">
+              <div class="lsr-box-header">
+                <span class="lsr-box-title">Generated LSR File (data/mechs/submechanisms/{{ rootName }}.lsr)</span>
+              </div>
+              <pre class="lsr-code-block">{{ generatedLsrContent }}</pre>
+            </div>
+          </div>
+
+          <!-- SECTION 2: Target Molecule (Ketcher Window) -->
+          <div class="setup-section-card mt-3">
+            <div class="section-card-header">
+              <mat-icon class="sec-icon" color="accent">science</mat-icon>
+              <div class="sec-title-group">
+                <span class="sec-title">2. Target Molecule</span>
+                <span class="sec-desc">Draw the reactant molecule in Ketcher or select a preset</span>
+              </div>
+              <div class="sec-actions">
+                <button
+                  mat-stroked-button
+                  color="accent"
+                  (click)="onCheckTargetMolecule()"
+                  [disabled]="isCheckingMolecule">
+                  <mat-icon>fact_check</mat-icon>
+                  Check DB Status
+                </button>
+              </div>
+            </div>
+
+            <!-- Target Name Input & Presets -->
+            <div class="target-config-row mt-2">
+              <mat-form-field appearance="outline" class="target-name-field">
+                <mat-label>Target Molecule Name</mat-label>
+                <input
+                  matInput
+                  [(ngModel)]="targetMoleculeName"
+                  (ngModelChange)="updateLsrPreview()"
+                  placeholder="Defaults to 'Temporary'" />
+                <mat-hint>Name to store/use in REACT database (defaults to 'Temporary')</mat-hint>
+              </mat-form-field>
+
+              <div class="preset-molecules-group">
+                <span class="preset-label">Presets:</span>
+                <button
+                  *ngFor="let preset of presetMolecules"
+                  type="button"
+                  class="preset-btn"
+                  (click)="loadPresetMolecule(preset)">
+                  {{ preset.name }}
+                </button>
+              </div>
+            </div>
+
+            <!-- Status Indicator -->
+            <div class="status-banner mt-2" [class.in-db]="targetCheckResult?.isExisting">
+              <mat-icon class="status-icon">
+                {{ targetCheckResult?.isExisting ? 'check_circle' : 'info' }}
+              </mat-icon>
+              <span class="status-text">{{ moleculeStatusMessage }}</span>
+            </div>
+
+            <!-- Ketcher Viewer Canvas -->
+            <div class="ketcher-canvas-wrapper mt-3">
+              <app-ketcher-viewer
+                #ketcherCanvas
+                [molfile]="targetMolfile"
+                title="Target Molecule Canvas">
+              </app-ketcher-viewer>
+            </div>
+          </div>
+
+          <!-- SECTION 3: Auxiliary Molecules -->
+          <div class="setup-section-card mt-3">
+            <div class="section-card-header">
+              <mat-icon class="sec-icon" color="primary">grain</mat-icon>
+              <div class="sec-title-group">
+                <span class="sec-title">3. Auxiliary (Small) Molecules</span>
+                <span class="sec-desc">Select radicals and small molecules needed for the reaction patterns</span>
+              </div>
+            </div>
+
+            <div class="aux-selector-wrapper mt-2">
+              <app-auxiliary-molecules-selector
+                [selectedMolecules]="auxiliaryMolecules"
+                (selectionChange)="onAuxiliaryMoleculesChange($event)">
+              </app-auxiliary-molecules-selector>
+            </div>
+          </div>
+
+          <!-- SECTION 4: Execution Configuration & Action Button -->
+          <div class="setup-section-card execution-config-card mt-3">
+            <div class="section-card-header">
+              <mat-icon class="sec-icon" color="primary">play_circle</mat-icon>
+              <div class="sec-title-group">
+                <span class="sec-title">4. Execution Parameters</span>
+                <span class="sec-desc">Verify parameters and run the reaction pattern test</span>
+              </div>
+            </div>
+
+            <div class="exec-inputs-grid mt-2">
+              <mat-form-field appearance="outline" class="config-field">
+                <mat-label>ROOTNAME (.lsr filename)</mat-label>
+                <input
+                  matInput
+                  [(ngModel)]="rootName"
+                  (ngModelChange)="updateLsrPreview()"
+                  placeholder="ReactionPatternTest" />
+                <mat-hint>Name of the generated .lsr file</mat-hint>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="config-field">
+                <mat-label>MECHNAME (Mechanism Name)</mat-label>
+                <input
+                  matInput
+                  [(ngModel)]="mechName"
+                  placeholder="TestMechanism" />
+                <mat-hint>Option to customize the generated mechanism name</mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div *ngIf="errorMessage" class="error-banner mt-3">
+              <mat-icon>error_outline</mat-icon>
+              <span>{{ errorMessage }}</span>
+            </div>
+
+            <mat-progress-bar *ngIf="isExecuting" mode="indeterminate" class="mt-3"></mat-progress-bar>
+
+            <div class="exec-action-row mt-3">
+              <button
+                mat-flat-button
+                color="primary"
+                class="run-test-btn"
+                (click)="executeTestReactionPattern()"
+                [disabled]="isExecuting || selectedPatterns.length === 0">
+                <mat-icon>{{ isExecuting ? 'hourglass_top' : 'rocket_launch' }}</mat-icon>
+                {{ isExecuting ? 'Running Reaction Pattern Test...' : 'Execute Reaction Pattern Test' }}
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </mat-tab>
+
+      <!-- TAB 2: Output Mechanism Details & Tables -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">table_view</mat-icon>
+          Mechanism Output & Details
+          <span *ngIf="hasExecuted" class="badge-tab-success">Ready</span>
+        </ng-template>
+
+        <div class="tab-body-container">
+          <div *ngIf="!hasExecuted && !isExecuting" class="empty-state-card">
+            <mat-icon class="empty-state-icon">science</mat-icon>
+            <h3>No Output Yet</h3>
+            <p>Configure task inputs and click "Execute Reaction Pattern Test" to generate mechanism tables and structures.</p>
+          </div>
+
+          <mat-progress-bar *ngIf="isExecuting" mode="indeterminate" class="my-3"></mat-progress-bar>
+
+          <ng-container *ngIf="hasExecuted">
+            <app-benson-group-detail
+              [item]="{ id: '1', name: mechName, rawLine: ': --> 1: ' + mechName }"
+              [rawOutput]="itemDetailOutput"
+              [sections]="moleculeSections"
+              (copyOutput)="copyOutput()"
+              (toggleAll)="toggleAllSections($event)">
+            </app-benson-group-detail>
+          </ng-container>
+        </div>
+      </mat-tab>
+
+      <!-- TAB 3: Execution Log -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">terminal</mat-icon>
+          Execution Log
+        </ng-template>
+
+        <div class="tab-body-container">
+          <div class="log-actions-bar mb-2">
+            <span class="log-title">Server Execution Log:</span>
+            <button
+              mat-stroked-button
+              (click)="copyOutput()"
+              [disabled]="!executionLog"
+              class="copy-log-btn">
+              <mat-icon>content_copy</mat-icon>
+              Copy Log
+            </button>
+          </div>
+
+          <div class="terminal-window">
+            <pre class="terminal-text">{{ executionLog || 'No execution log available. Run a task to view output.' }}</pre>
+          </div>
+        </div>
+      </mat-tab>
+
+    </mat-tab-group>
+  </mat-card>
+</div>

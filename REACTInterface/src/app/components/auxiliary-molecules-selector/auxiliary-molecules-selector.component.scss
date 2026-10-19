@@ -1,0 +1,132 @@
+.aux-selector-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.preset-section {
+  .section-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .preset-chips-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .preset-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: 16px;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    color: #334155;
+    font-size: 0.78rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+
+    .chip-icon {
+      font-size: 14px;
+      width: 14px;
+      height: 14px;
+    }
+
+    &:hover {
+      background: #e2e8f0;
+      border-color: #94a3b8;
+    }
+
+    &.active {
+      background: #0284c7;
+      color: #ffffff;
+      border-color: #0284c7;
+    }
+  }
+}
+
+.filter-bar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+
+  .aux-search-field {
+    flex-grow: 1;
+    margin-bottom: -1.25em;
+  }
+
+  .selection-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .selection-badge {
+    background: #e0f2fe;
+    color: #0369a1;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 12px;
+    white-space: nowrap;
+  }
+
+  .clear-btn {
+    font-size: 0.78rem;
+    height: 28px;
+    line-height: 28px;
+    padding: 0 8px;
+  }
+}
+
+.molecules-scroll-list {
+  max-height: 240px;
+  min-height: 140px;
+  overflow-y: auto;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #ffffff;
+  padding: 4px;
+  margin-top: 8px;
+}
+
+.empty-list {
+  padding: 24px;
+  text-align: center;
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.molecule-item-row {
+  display: flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  user-select: none;
+  gap: 8px;
+  transition: background-color 0.12s ease;
+
+  &:hover {
+    background-color: #f1f5f9;
+  }
+
+  &.selected {
+    background-color: #e0f2fe;
+  }
+
+  .mol-name {
+    font-size: 0.84rem;
+    color: #1e293b;
+  }
+}

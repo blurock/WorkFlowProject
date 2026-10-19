@@ -114,6 +114,11 @@
           <app-graphical-molecule-input></app-graphical-molecule-input>
         </ng-container>
 
+        <!-- 9. Test Reaction Pattern Task -->
+        <ng-container *ngIf="selectedTask.type === 'test-reaction-pattern'">
+          <app-test-reaction-pattern></app-test-reaction-pattern>
+        </ng-container>
+
         <!-- 3. Interactive Creator / Generator Tasks (Create & Generate) -->
         <ng-container *ngIf="selectedTask.type === 'interactive-creator'">
           <mat-card class="creator-placeholder-card mat-elevation-z2">

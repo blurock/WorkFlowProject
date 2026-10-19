@@ -112,7 +112,7 @@ import { MechFileData, MechCoefficientRow, MechReactionClassGroup, MechReactionI
                 (click)="classGroup.isExpanded = !classGroup.isExpanded">
                 <mat-icon mat-card-avatar color="primary" class="rxn-class-icon">schema</mat-icon>
                 <mat-card-title class="rxn-class-card-title">
-                  <code>{{ classGroup.className }}</code>
+                  <code>REACTIONCLASS {{ classGroup.className }}</code>
                 </mat-card-title>
                 <mat-card-subtitle class="rxn-class-card-subtitle">
                   {{ classGroup.reactions.length }} reaction{{ classGroup.reactions.length === 1 ? '' : 's' }}
@@ -121,8 +121,8 @@ import { MechFileData, MechCoefficientRow, MechReactionClassGroup, MechReactionI
                   <button
                     mat-icon-button
                     (click)="$event.stopPropagation(); classGroup.isExpanded = !classGroup.isExpanded"
-                    [matTooltip]="classGroup.isExpanded ? 'Collapse reactions' : 'Expand reactions'">
-                    <mat-icon>{{ classGroup.isExpanded ? 'expand_less' : 'expand_more' }}</mat-icon>
+                    [matTooltip]="classGroup.isExpanded ? 'Hide reaction details' : 'View reaction details'">
+                    <mat-icon>{{ classGroup.isExpanded ? 'visibility' : 'visibility_off' }}</mat-icon>
                   </button>
                 </div>
               </mat-card-header>

@@ -22,6 +22,7 @@ import { GenericFileInputComponent } from '../generic-file-input/generic-file-in
 import { ReadCheckStoreComponent } from '../read-check-store/read-check-store.component';
 import { GeneralRxnPatGeneratorComponent } from '../general-rxn-pat-generator/general-rxn-pat-generator.component';
 import { GraphicalMoleculeInputComponent } from '../graphical-molecule-input/graphical-molecule-input.component';
+import { TestReactionPatternComponent } from '../test-reaction-pattern/test-reaction-pattern.component';
 
 @Component({
   selector: 'app-task-dashboard',
@@ -45,7 +46,8 @@ import { GraphicalMoleculeInputComponent } from '../graphical-molecule-input/gra
     GenericFileInputComponent,
     ReadCheckStoreComponent,
     GeneralRxnPatGeneratorComponent,
-    GraphicalMoleculeInputComponent
+    GraphicalMoleculeInputComponent,
+    TestReactionPatternComponent
   ],
   templateUrl: './task-dashboard.component.html',
   styleUrls: ['./task-dashboard.component.scss']

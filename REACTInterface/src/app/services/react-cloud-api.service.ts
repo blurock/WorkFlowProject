@@ -247,15 +247,30 @@ export class ReactCloudApiService {
 
 
   /**
+   * Save LSR submechanism chain definition file (/api/save-lsr)
+   */
+  public saveLsrFile(rootName: string, content: string, category: string = 'submechanisms'): Observable<{ success: boolean; rootName: string; path: string; bytesWritten?: number }> {
+    const payload = {
+      rootName: rootName,
+      content: content,
+      category: category
+    };
+    return this.http.post<{ success: boolean; rootName: string; path: string; bytesWritten?: number }>(`${this.baseUrl}/api/save-lsr`, payload);
+  }
+
+  /**
    * Run submechanism from path task (/api/run-submechanism)
    */
-  public runSubmechanismFromPath(molecule: string, rootName: string, supplement: string = '', runRoot: string = 'read'): Observable<ApiRunSubmechanismResponse> {
-    const payload = {
+  public runSubmechanismFromPath(molecule: string, rootName: string, supplement: string = '', runRoot: string = 'read', mechName?: string): Observable<ApiRunSubmechanismResponse> {
+    const payload: any = {
       molecule: molecule,
       supplement: supplement,
       rootName: rootName,
       runRoot: runRoot
     };
+    if (mechName) {
+      payload.mechName = mechName;
+    }
     return this.http.post<ApiRunSubmechanismResponse>(`${this.baseUrl}/api/run-submechanism`, payload);
   }
 

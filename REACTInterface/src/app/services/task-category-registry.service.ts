@@ -92,6 +92,14 @@ export class TaskCategoryRegistry {
           type: 'combine-submechanisms'
         },
         {
+          id: 'test-reaction-pattern',
+          title: 'Test Reaction Pattern',
+          inpFile: 'CallChain.inp',
+          description: 'Execute and test reaction patterns on a drawn molecule with auxiliary radicals',
+          icon: 'biotech',
+          type: 'test-reaction-pattern'
+        },
+        {
           id: 'generate-mechanism',
           title: 'Mechanism Generator',
           description: 'Generate kinetic mechanisms from reactant sets and elementary rules',

@@ -1,0 +1,75 @@
+<div class="aux-selector-container">
+  <!-- Preset Radical Chips -->
+  <div class="preset-section mb-2">
+    <div class="section-label">Common Radical & Auxiliary Presets:</div>
+    <div class="preset-chips-list">
+      <button
+        *ngFor="let preset of presetRadicals"
+        type="button"
+        class="preset-chip"
+        [class.active]="isSelected(preset)"
+        (click)="togglePreset(preset)">
+        <mat-icon class="chip-icon">{{ isSelected(preset) ? 'check' : 'add' }}</mat-icon>
+        {{ preset }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Search & Filter Bar -->
+  <div class="filter-bar-row">
+    <mat-form-field appearance="outline" class="aux-search-field">
+      <mat-label>Search auxiliary molecules...</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <input
+        matInput
+        [(ngModel)]="searchQuery"
+        (ngModelChange)="onSearchChange($event)"
+        placeholder="e.g. oxygen, radical, water..." />
+      <button
+        *ngIf="searchQuery"
+        matSuffix
+        mat-icon-button
+        (click)="clearSearch()"
+        matTooltip="Clear search">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <div class="selection-actions">
+      <span class="selection-badge">
+        {{ selectedMolecules.length }} selected
+      </span>
+      <button
+        *ngIf="selectedMolecules.length > 0"
+        mat-button
+        color="warn"
+        class="clear-btn"
+        (click)="clearAll()">
+        Clear
+      </button>
+    </div>
+  </div>
+
+  <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+
+  <!-- Scrollable Checklist -->
+  <div class="molecules-scroll-list">
+    <div *ngIf="!isLoading && filteredMolecules.length === 0" class="empty-list">
+      No molecules found matching "{{ searchQuery }}".
+    </div>
+
+    <div
+      *ngFor="let mol of filteredMolecules"
+      class="molecule-item-row"
+      [class.selected]="isSelected(mol.name)"
+      (click)="toggleMolecule(mol.name)">
+      <mat-checkbox
+        class="mol-checkbox"
+        [checked]="isSelected(mol.name)"
+        (click)="$event.stopPropagation()"
+        (change)="toggleMolecule(mol.name)">
+      </mat-checkbox>
+      <span class="mol-name font-mono">{{ mol.name }}</span>
+    </div>
+  </div>
+</div>

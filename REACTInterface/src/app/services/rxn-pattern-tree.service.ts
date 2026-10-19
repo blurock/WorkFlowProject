@@ -1,5 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
+import { Observable, map } from 'rxjs';
 import { CatalogItem } from './react-cloud-api.service';
+import { RxnPatternsService } from './catalog/rxn-patterns.service';
 import {
   ReactionPatternClassNode,
   ReactionPatternLeafNode,
@@ -10,6 +12,20 @@ import {
   providedIn: 'root'
 })
 export class RxnPatternTreeService {
+
+  constructor(@Optional() private rxnPatternsService?: RxnPatternsService) {}
+
+  /**
+   * Fetches reaction patterns from database catalog and builds three-level tree.
+   */
+  public getThreeLevelTree(forceRefresh: boolean = false): Observable<ReactionPatternPrefixGroupNode[]> {
+    if (!this.rxnPatternsService) {
+      throw new Error('RxnPatternsService is not available.');
+    }
+    return this.rxnPatternsService.getCatalogList('job1', forceRefresh).pipe(
+      map(items => this.buildTree(items))
+    );
+  }
 
   /**
    * Maps a specific reaction pattern name to its generalized class name.

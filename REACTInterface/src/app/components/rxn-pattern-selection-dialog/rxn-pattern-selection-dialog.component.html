@@ -1,0 +1,146 @@
+<div class="rxn-pattern-dialog-container">
+  <div class="dialog-header">
+    <div class="header-title-row">
+      <mat-icon color="primary" class="header-icon">schema</mat-icon>
+      <h2 mat-dialog-title class="dialog-title">
+        {{ data?.title || 'Select Reaction Patterns' }}
+      </h2>
+      <span class="selection-counter-badge">
+        {{ selectedPatternNames.size }} / {{ totalPatternCount }} selected
+      </span>
+    </div>
+
+    <!-- Search input -->
+    <div class="search-row">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Search category, class, or pattern</mat-label>
+        <mat-icon matPrefix>search</mat-icon>
+        <input
+          matInput
+          [(ngModel)]="searchQuery"
+          (ngModelChange)="onSearchChange($event)"
+          placeholder="e.g. H-Abstraction, Decomp, Olefin..." />
+        <button
+          *ngIf="searchQuery"
+          matSuffix
+          mat-icon-button
+          (click)="clearSearch()"
+          matTooltip="Clear search">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+
+    <!-- Quick toolbar actions -->
+    <div class="toolbar-actions">
+      <button mat-stroked-button (click)="selectAll()" class="action-btn">
+        <mat-icon>select_all</mat-icon>
+        Select All
+      </button>
+      <button mat-stroked-button (click)="clearAll()" class="action-btn">
+        <mat-icon>deselect</mat-icon>
+        Clear All
+      </button>
+      <button mat-button (click)="expandAll()" class="action-btn-text">
+        <mat-icon>unfold_more</mat-icon>
+        Expand All
+      </button>
+      <button mat-button (click)="collapseAll()" class="action-btn-text">
+        <mat-icon>unfold_less</mat-icon>
+        Collapse All
+      </button>
+    </div>
+  </div>
+
+  <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+
+  <mat-dialog-content class="dialog-scroll-content">
+    <div *ngIf="!isLoading && filteredGroups.length === 0" class="empty-state">
+      <mat-icon class="empty-icon">search_off</mat-icon>
+      <p>No reaction patterns found matching "{{ searchQuery }}".</p>
+    </div>
+
+    <div *ngIf="!isLoading" class="tree-container">
+      <!-- Level 1: Category / Prefix Groups -->
+      <div *ngFor="let group of filteredGroups" class="prefix-group-card">
+        <div class="group-header" (click)="group.isExpanded = !group.isExpanded">
+          <button
+            mat-icon-button
+            class="toggle-chevron"
+            (click)="$event.stopPropagation(); group.isExpanded = !group.isExpanded"
+            [matTooltip]="group.isExpanded ? 'Collapse Category' : 'Expand Category'">
+            <mat-icon>{{ group.isExpanded ? 'expand_more' : 'chevron_right' }}</mat-icon>
+          </button>
+
+          <mat-checkbox
+            class="group-checkbox"
+            [checked]="isPrefixGroupChecked(group)"
+            [indeterminate]="isPrefixGroupIndeterminate(group)"
+            (click)="$event.stopPropagation()"
+            (change)="togglePrefixGroup(group)">
+          </mat-checkbox>
+
+          <span class="group-title">{{ group.prefix }}</span>
+          <span class="group-badges">
+            <span class="badge badge-classes">{{ group.classCount }} classes</span>
+            <span class="badge badge-patterns">{{ group.patternCount }} patterns</span>
+          </span>
+        </div>
+
+        <!-- Level 2: Classes inside Prefix Group -->
+        <div *ngIf="group.isExpanded" class="group-classes-list">
+          <div *ngFor="let cls of group.classes" class="class-node-card">
+            <div class="class-header" (click)="cls.isExpanded = !cls.isExpanded">
+              <button
+                mat-icon-button
+                class="toggle-chevron small"
+                (click)="$event.stopPropagation(); cls.isExpanded = !cls.isExpanded"
+                [matTooltip]="cls.isExpanded ? 'Collapse Class' : 'Expand Class'">
+                <mat-icon>{{ cls.isExpanded ? 'expand_more' : 'chevron_right' }}</mat-icon>
+              </button>
+
+              <mat-checkbox
+                class="class-checkbox"
+                [checked]="isClassChecked(cls)"
+                [indeterminate]="isClassIndeterminate(cls)"
+                (click)="$event.stopPropagation()"
+                (change)="toggleClass(cls)">
+              </mat-checkbox>
+
+              <span class="class-name font-mono">{{ cls.className }}</span>
+              <span class="badge badge-count">{{ cls.count }}</span>
+            </div>
+
+            <!-- Level 3: Leaf Patterns inside Class -->
+            <div *ngIf="cls.isExpanded" class="class-patterns-list">
+              <div
+                *ngFor="let pat of cls.patterns"
+                class="pattern-item-row"
+                [class.selected]="isPatternSelected(pat.name)"
+                (click)="togglePattern(pat.name)">
+                <mat-checkbox
+                  class="pattern-checkbox"
+                  [checked]="isPatternSelected(pat.name)"
+                  (click)="$event.stopPropagation()"
+                  (change)="togglePattern(pat.name)">
+                </mat-checkbox>
+                <span class="pattern-name font-mono">{{ pat.name }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+
+  <div mat-dialog-actions class="dialog-actions-row">
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="onConfirm()"
+      [disabled]="selectedPatternNames.size === 0">
+      Confirm ({{ selectedPatternNames.size }} Selected)
+    </button>
+  </div>
+</div>

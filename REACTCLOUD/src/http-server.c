@@ -1640,6 +1640,7 @@ static int handle_run_submechanism_request(int client_fd, const char *body)
     char *supplement = NULL;
     char *root_name = NULL;
     char *run_root = NULL;
+    char *custom_mech_name = NULL;
     char initial_molecules[MAX_PATH_LENGTH];
     char mech_name[MAX_PATH_LENGTH];
     char lsr_src_path[MAX_PATH_LENGTH];
@@ -1663,12 +1664,14 @@ static int handle_run_submechanism_request(int client_fd, const char *body)
     parse_json_field_string(body, "supplement", &supplement);
     parse_json_field_string(body, "rootName", &root_name);
     parse_json_field_string(body, "runRoot", &run_root);
+    parse_json_field_string(body, "mechName", &custom_mech_name);
 
     if (molecule == NULL || *molecule == '\0' || root_name == NULL || *root_name == '\0') {
         if (molecule) free(molecule);
         if (supplement) free(supplement);
         if (root_name) free(root_name);
         if (run_root) free(run_root);
+        if (custom_mech_name) free(custom_mech_name);
         return send_response(client_fd, 400, "application/json",
             "{\"error\":\"Request body must contain non-empty 'molecule' and 'rootName' fields.\"}");
     }
@@ -1683,7 +1686,12 @@ static int handle_run_submechanism_request(int client_fd, const char *body)
         snprintf(initial_molecules, sizeof(initial_molecules), "%s", molecule);
     }
 
-    snprintf(mech_name, sizeof(mech_name), "%s-%s", molecule, root_name);
+    if (custom_mech_name != NULL && *custom_mech_name != '\0') {
+        strncpy(mech_name, custom_mech_name, sizeof(mech_name) - 1);
+        mech_name[sizeof(mech_name) - 1] = '\0';
+    } else {
+        snprintf(mech_name, sizeof(mech_name), "%s-%s", molecule, root_name);
+    }
 
     lsr_src_path[0] = '\0';
     const char *search_dirs[] = {
@@ -2177,6 +2185,100 @@ static int handle_list_submechanism_paths_request(int client_fd)
     return status;
 }
 
+static int handle_save_lsr_request(int client_fd, const char *body)
+{
+    const char *reactroot = reactroot_env();
+    char *root_name = NULL;
+    char *content = NULL;
+    char *category = NULL;
+    char target_path[MAX_PATH_LENGTH];
+    char root_target_path[MAX_PATH_LENGTH];
+    char tmp_target_path[MAX_PATH_LENGTH];
+    char mechs_dir[MAX_PATH_LENGTH];
+    char *response = NULL;
+    int status;
+
+    parse_json_field_string(body, "rootName", &root_name);
+    if (root_name == NULL || *root_name == '\0') {
+        parse_json_field_string(body, "name", &root_name);
+    }
+    parse_json_field_string(body, "content", &content);
+    parse_json_field_string(body, "category", &category);
+
+    if (root_name == NULL || *root_name == '\0' || content == NULL) {
+        if (root_name) free(root_name);
+        if (content) free(content);
+        if (category) free(category);
+        return send_response(client_fd, 400, "application/json",
+            "{\"error\":\"Request body must contain non-empty 'rootName' and 'content' fields.\"}");
+    }
+
+    /* Strip .lsr suffix if provided */
+    size_t root_len = strlen(root_name);
+    if (root_len > 4 && strcmp(root_name + root_len - 4, ".lsr") == 0) {
+        root_name[root_len - 4] = '\0';
+    }
+
+    /* Sanitize root_name against path traversal */
+    if (strstr(root_name, "..") != NULL || strchr(root_name, '/') != NULL || strchr(root_name, '\\') != NULL) {
+        free(root_name);
+        free(content);
+        if (category) free(category);
+        return send_response(client_fd, 400, "application/json",
+            "{\"error\":\"Invalid rootName. Subdirectory paths not allowed.\"}");
+    }
+
+    snprintf(mechs_dir, sizeof(mechs_dir), "%s/data/mechs/submechanisms", reactroot);
+    ensure_directory_exists(mechs_dir);
+
+    snprintf(target_path, sizeof(target_path), "%s/data/mechs/submechanisms/%s.lsr", reactroot, root_name);
+    snprintf(root_target_path, sizeof(root_target_path), "%s/data/%s.lsr", reactroot, root_name);
+    snprintf(tmp_target_path, sizeof(tmp_target_path), "%s/tmp/%s.lsr", reactroot, root_name);
+
+    if (write_text_file(target_path, content) != 0) {
+        free(root_name);
+        free(content);
+        if (category) free(category);
+        return send_response(client_fd, 500, "application/json",
+            "{\"error\":\"Failed to save LSR file to destination path.\"}");
+    }
+
+    /* Also write to data/ and tmp/ for convenience */
+    write_text_file(root_target_path, content);
+    write_text_file(tmp_target_path, content);
+
+    /* Note file in server log & append to tmp/execution.log */
+    printf("[Save LSR] Saved %s.lsr to %s (%zu bytes)\n", root_name, target_path, strlen(content));
+    fflush(stdout);
+
+    char log_path[MAX_PATH_LENGTH];
+    snprintf(log_path, sizeof(log_path), "%s/tmp/execution.log", reactroot);
+    FILE *log_file = fopen(log_path, "a");
+    if (log_file != NULL) {
+        fprintf(log_file, "[Save LSR] Saved %s.lsr to data/mechs/submechanisms/%s.lsr (%zu bytes)\n",
+                root_name, root_name, strlen(content));
+        fclose(log_file);
+    }
+
+    char *escaped_path = json_escape(target_path);
+    response = build_json_message(
+        "{\"success\":true,\"rootName\":\"%s\",\"path\":\"%s\",\"bytesWritten\":%zu}",
+        root_name, escaped_path ? escaped_path : target_path, strlen(content));
+
+    if (escaped_path) free(escaped_path);
+    free(root_name);
+    free(content);
+    if (category) free(category);
+
+    if (response == NULL) {
+        return send_response(client_fd, 500, "application/json", "{\"error\":\"Unable to build response.\"}");
+    }
+
+    status = send_response(client_fd, 200, "application/json", response);
+    free(response);
+    return status;
+}
+
 static int handle_request(int client_fd)
 {
     char *request = NULL;
@@ -2218,9 +2320,9 @@ static int handle_request(int client_fd)
             client_fd,
             200,
             "application/json",
-            "{\"service\":\"chemdb\",\"endpoints\":[\"GET /health\",\"GET /api/submechanisms\",\"POST /api/run\",\"POST /api/run-input\",\"POST /api/run-commands\",\"POST /api/run-submechanism\",\"POST /api/run-combine-submechanisms\"],"
-            "\"examples\":{\"run\":{\"args\":[\"--help\"]},\"runInput\":{\"inputFile\":\"PrintRxnPatternsList.inp\",\"root\":\"job1\"},\"runCommands\":{\"commands\":[\"CreateOpenClose\",\"Start\",\"Quit\"]},\"runSubmechanism\":{\"molecule\":\"propane\",\"rootName\":\"BasicLowTemp\"},\"runCombineSubmechanisms\":{\"rootName\":\"job1\",\"mechName\":\"CombinedMech\",\"submechanisms\":[\"propane-BasicLowTemp\"]}}}");
-    } else if (strcmp(method, "POST") == 0 && (strcmp(path, "/api/run") == 0 || strcmp(path, "/api/run-input") == 0 || strcmp(path, "/api/run-commands") == 0 || strcmp(path, "/api/run-submechanism") == 0 || strcmp(path, "/api/run-combine-submechanisms") == 0)) {
+            "{\"service\":\"chemdb\",\"endpoints\":[\"GET /health\",\"GET /api/submechanisms\",\"POST /api/run\",\"POST /api/run-input\",\"POST /api/run-commands\",\"POST /api/run-submechanism\",\"POST /api/run-combine-submechanisms\",\"POST /api/save-lsr\"],"
+            "\"examples\":{\"run\":{\"args\":[\"--help\"]},\"runInput\":{\"inputFile\":\"PrintRxnPatternsList.inp\",\"root\":\"job1\"},\"runCommands\":{\"commands\":[\"CreateOpenClose\",\"Start\",\"Quit\"]},\"runSubmechanism\":{\"molecule\":\"propane\",\"rootName\":\"BasicLowTemp\"},\"runCombineSubmechanisms\":{\"rootName\":\"job1\",\"mechName\":\"CombinedMech\",\"submechanisms\":[\"propane-BasicLowTemp\"]},\"saveLsr\":{\"rootName\":\"ReactionPatternTest\",\"content\":\"Title\\nNONE\\nPattern1\"}}}");
+    } else if (strcmp(method, "POST") == 0 && (strcmp(path, "/api/run") == 0 || strcmp(path, "/api/run-input") == 0 || strcmp(path, "/api/run-commands") == 0 || strcmp(path, "/api/run-submechanism") == 0 || strcmp(path, "/api/run-combine-submechanisms") == 0 || strcmp(path, "/api/save-lsr") == 0)) {
         if (!is_authenticated(request)) {
             result = send_response(
                 client_fd,
@@ -2235,6 +2337,8 @@ static int handle_request(int client_fd)
             result = handle_run_submechanism_request(client_fd, body);
         } else if (strcmp(path, "/api/run-combine-submechanisms") == 0) {
             result = handle_run_combine_submechanisms_request(client_fd, body);
+        } else if (strcmp(path, "/api/save-lsr") == 0) {
+            result = handle_save_lsr_request(client_fd, body);
         } else {
             result = handle_run_commands_request(client_fd, body);
         }
