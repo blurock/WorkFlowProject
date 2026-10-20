@@ -4,13 +4,13 @@
 %%% Symmetry: 6*6=36
 %%%-------------------------------------------------------------------
 AlkoxyFromPeroxyAndAlkylRadical-(hhh)(hhh) \
-       (h)(h)(h)coo. methane-carbon-radical  =  .oc(hhh) .oc(hhh)
+       (h)(h)(h)coo. methane-carbon-radical  =  c(h)(h)(h)(o.) c(h)(h)(h)(o.)
 - ID 17301
 - Correspondences
 1 2 3 4 5 6      2 4 2 2 2
 7 8 9 10         2 2 2
-1 2 4 5 6        2 2 2 2
-7 3 8 9 10       4 2 2 2
+2 1 4 5 6        2 2 2 2
+3 7 8 9 10       4 2 2 2
 >  <ForwardRxn>
 Standard 7.0e+12 0.0 -1000.0  36; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
 >  <ReverseRxn>
@@ -20,13 +20,13 @@ $$$$
 %%% Symmetry: 2*6=12
 %%%-------------------------------------------------------------------
 AlkoxyFromPeroxyAndAlkylRadical-(rhh)(hhh) \
-      (h)(h)(r)coo. methane-carbon-radical  =  .oc(rhh) .oc(hhh)
+      (h)(h)(r)coo. methane-carbon-radical  =  c(r)(h)(h)(o.) c(h)(h)(h)(o.)
 - ID 17302
 - Correspondences
 1 2 3 4 5 6      2 4 2 2 2
 7 8 9 10         2 2 2
-1 2 4 5 6        2 2 2 2
-7 3 8 9 10       4 2 2 2
+2 1 4 5 6        2 2 2 2
+3 7 8 9 10       4 2 2 2
 >  <ForwardRxn>
 Standard 7.0e+12 0.0 -1000.0  12; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
 >  <ReverseRxn>
@@ -36,13 +36,13 @@ $$$$
 %%% Symmetry: 2*6=12
 %%%-------------------------------------------------------------------
 AlkoxyFromPeroxyAndAlkylRadical-(rrh)(hhh) \
-      (h)(r)(r)coo. methane-carbon-radical  =  .oc(rrh) .oc(hhh)
+      (h)(r)(r)coo. methane-carbon-radical  =  c(r)(r)(h)(o.) c(h)(h)(h)(o.)
 - ID 17303
 - Correspondences
 1 2 3 4 5 6      2 4 2 2 2
 7 8 9 10         2 2 2
-1 2 4 5 6        2 2 2 2
-7 3 8 9 10       4 2 2 2
+2 1 4 5 6        2 2 2 2
+3 7 8 9 10       4 2 2 2
 >  <ForwardRxn>
 Standard 7.0e+12 0.0 -1000.0  12; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
 >  <ReverseRxn>
@@ -52,13 +52,13 @@ $$$$
 %%% Symmetry: 6*6=36
 %%%-------------------------------------------------------------------
 AlkoxyFromPeroxyAndAlkylRadical-(rrr)(hhh) \
-      (r)(r)(r)coo. methane-carbon-radical  =  .oc(rrr) .oc(hhh)
+      (r)(r)(r)coo. methane-carbon-radical  =  c(r)(r)(r)(o.) c(h)(h)(h)(o.)
 - ID 17304
 - Correspondences
 1 2 3 4 5 6      2 4 2 2 2
 7 8 9 10         2 2 2
-1 2 4 5 6        2 2 2 2
-7 3 8 9 10       4 2 2 2
+2 1 4 5 6        2 2 2 2
+3 7 8 9 10       4 2 2 2
 >  <ForwardRxn>
 Standard 7.0e+12 0.0 -1000.0  36; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
 >  <ReverseRxn>
@@ -68,13 +68,13 @@ $$$$
 %%% Symmetry: 6*2=12
 %%%-------------------------------------------------------------------
 AlkoxyFromPeroxyAndAlkylRadical-(hhh)(rhh) \
-      (h)(h)(h)coo. primary-carbon-radical  =  .oc(hhh) .oc(rhh)
+      (h)(h)(h)coo. primary-carbon-radical  =  c(h)(h)(h)(o.) c(r)(h)(h)(o.)
 - ID 17305
 - Correspondences
 1 2 3 4 5 6      2 4 2 2 2
 7 8 9 10         2 2 2
-1 2 4 5 6        2 2 2 2
-7 3 8 9 10       4 2 2 2
+2 1 4 5 6        2 2 2 2
+3 7 8 9 10       4 2 2 2
 >  <ForwardRxn>
 Standard 7.0e+12 0.0 -1000.0  12; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
 >  <ReverseRxn>
@@ -84,13 +84,13 @@ $$$$
 %%% Symmetry: 2*2=4
 %%%-------------------------------------------------------------------
 AlkoxyFromPeroxyAndAlkylRadical-(rhh)(rhh) \
-      (h)(h)(r)coo. primary-carbon-radical  =  .oc(rhh) .oc(rhh)
+      (h)(h)(r)coo. primary-carbon-radical  =  c(r)(h)(h)(o.) c(r)(h)(h)(o.)
 - ID 17306
 - Correspondences
 1 2 3 4 5 6      2 4 2 2 2
 7 8 9 10         2 2 2
-1 2 4 5 6        2 2 2 2
-7 3 8 9 10       4 2 2 2
+2 1 4 5 6        2 2 2 2
+3 7 8 9 10       4 2 2 2
 >  <ForwardRxn>
 Standard 7.0e+12 0.0 -1000.0  4; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
 >  <ReverseRxn>
@@ -100,13 +100,13 @@ $$$$
 %%% Symmetry: 2*2=4
 %%%-------------------------------------------------------------------
 AlkoxyFromPeroxyAndAlkylRadical-(rrh)(rhh) \
-      (h)(r)(r)coo. primary-carbon-radical  =  .oc(rrh) .oc(rhh)
+      (h)(r)(r)coo. primary-carbon-radical  =  c(r)(r)(h)(o.) c(r)(h)(h)(o.)
 - ID 17307
 - Correspondences
 1 2 3 4 5 6      2 4 2 2 2
 7 8 9 10         2 2 2
-1 2 4 5 6        2 2 2 2
-7 3 8 9 10       4 2 2 2
+2 1 4 5 6        2 2 2 2
+3 7 8 9 10       4 2 2 2
 >  <ForwardRxn>
 Standard 7.0e+12 0.0 -1000.0  4; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
 >  <ReverseRxn>
@@ -116,13 +116,13 @@ $$$$
 %%% Symmetry: 6*2=12 
 %%%-------------------------------------------------------------------
 AlkoxyFromPeroxyAndAlkylRadical-(rrr)(rhh) \
-      (r)(r)(r)coo. primary-carbon-radical  =  .oc(rrr) .oc(rhh)
+      (r)(r)(r)coo. primary-carbon-radical  =  c(r)(r)(r)(o.) c(r)(h)(h)(o.)
 - ID 17308
 - Correspondences
 1 2 3 4 5 6      2 4 2 2 2
 7 8 9 10         2 2 2
-1 2 4 5 6        2 2 2 2
-7 3 8 9 10       4 2 2 2
+2 1 4 5 6        2 2 2 2
+3 7 8 9 10       4 2 2 2
 >  <ForwardRxn>
 Standard 7.0e+12 0.0 -1000.0  12; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
 >  <ReverseRxn>
@@ -132,13 +132,13 @@ $$$$
 %%% Symmetry: 6*2=12
 %%%-------------------------------------------------------------------
 AlkoxyFromPeroxyAndAlkylRadical-(hhh)(rrh) \
-      (h)(h)(h)coo. secondary-carbon-radical  =  .oc(hhh) .oc(rrh)
+      (h)(h)(h)coo. secondary-carbon-radical  =  c(h)(h)(h)(o.) c(r)(r)(h)(o.)
 - ID 17309
 - Correspondences
 1 2 3 4 5 6      2 4 2 2 2
 7 8 9 10         2 2 2
-1 2 4 5 6        2 2 2 2
-7 3 8 9 10       4 2 2 2
+2 1 4 5 6        2 2 2 2
+3 7 8 9 10       4 2 2 2
 >  <ForwardRxn>
 Standard 7.0e+12 0.0 -1000.0  12; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
 >  <ReverseRxn>
@@ -148,13 +148,13 @@ $$$$
 %%% Symmetry: 2*2=4
 %%%-------------------------------------------------------------------
 AlkoxyFromPeroxyAndAlkylRadical-(rhh)(rrh) \
-      (h)(h)(r)coo. secondary-carbon-radical  =  .oc(rhh) .oc(rrh)
+      (h)(h)(r)coo. secondary-carbon-radical  =  c(r)(h)(h)(o.) c(r)(r)(h)(o.)
 - ID 17310
 - Correspondences
 1 2 3 4 5 6      2 4 2 2 2
 7 8 9 10         2 2 2
-1 2 4 5 6        2 2 2 2
-7 3 8 9 10       4 2 2 2
+2 1 4 5 6        2 2 2 2
+3 7 8 9 10       4 2 2 2
 >  <ForwardRxn>
 Standard 7.0e+12 0.0 -1000.0  4; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
 >  <ReverseRxn>
@@ -164,13 +164,13 @@ $$$$
 %%% Symmetry: 2*2=4
 %%%-------------------------------------------------------------------
 AlkoxyFromPeroxyAndAlkylRadical-(rrh)(rrh) \
-      (h)(r)(r)coo. secondary-carbon-radical  =  .oc(rrh) .oc(rrh)
+      (h)(r)(r)coo. secondary-carbon-radical  =  c(r)(r)(h)(o.) c(r)(r)(h)(o.)
 - ID 17311
 - Correspondences
 1 2 3 4 5 6      2 4 2 2 2
 7 8 9 10         2 2 2
-1 2 4 5 6        2 2 2 2
-7 3 8 9 10       4 2 2 2
+2 1 4 5 6        2 2 2 2
+3 7 8 9 10       4 2 2 2
 >  <ForwardRxn>
 Standard 7.0e+12 0.0 -1000.0  4; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
 >  <ReverseRxn>
@@ -180,13 +180,13 @@ $$$$
 %%% Symmetry: 2*2=4
 %%%-------------------------------------------------------------------
 AlkoxyFromPeroxyAndAlkylRadical-(rrr)(rrh) \
-      (r)(r)(r)coo. secondary-carbon-radical  =  .oc(rrr) .oc(rrh)
+      (r)(r)(r)coo. secondary-carbon-radical  =  c(r)(r)(r)(o.) c(r)(r)(h)(o.)
 - ID 17312
 - Correspondences
 1 2 3 4 5 6      2 4 2 2 2
 7 8 9 10         2 2 2
-1 2 4 5 6        2 2 2 2
-7 3 8 9 10       4 2 2 2
+2 1 4 5 6        2 2 2 2
+3 7 8 9 10       4 2 2 2
 >  <ForwardRxn>
 Standard 7.0e+12 0.0 -1000.0  4; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
 >  <ReverseRxn>
@@ -196,13 +196,13 @@ $$$$
 %%% Symmetry: 6*6=36
 %%%-------------------------------------------------------------------
 AlkoxyFromPeroxyAndAlkylRadical-(hhh)(rrr) \
-      (h)(h)(h)coo. tertiary-carbon-radical  =  .oc(hhh) .oc(rrr)
+      (h)(h)(h)coo. tertiary-carbon-radical  =  c(h)(h)(h)(o.) c(r)(r)(r)(o.)
 - ID 17313
 - Correspondences
 1 2 3 4 5 6      2 4 2 2 2
 7 8 9 10         2 2 2
-1 2 4 5 6        2 2 2 2
-7 3 8 9 10       4 2 2 2
+2 1 4 5 6        2 2 2 2
+3 7 8 9 10       4 2 2 2
 >  <ForwardRxn>
 Standard 7.0e+12 0.0 -1000.0  36; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
 >  <ReverseRxn>
@@ -212,13 +212,13 @@ $$$$
 %%% Symmetry: 2*6=12
 %%%-------------------------------------------------------------------
 AlkoxyFromPeroxyAndAlkylRadical-(rhh)(rrr) \
-     (h)(h)(r)coo. tertiary-carbon-radical  =  .oc(rhh) .oc(rrr)
+     (h)(h)(r)coo. tertiary-carbon-radical  =  c(r)(h)(h)(o.) c(r)(r)(r)(o.)
 - ID 17314
 - Correspondences
 1 2 3 4 5 6      2 4 2 2 2
 7 8 9 10         2 2 2
-1 2 4 5 6        2 2 2 2
-7 3 8 9 10       4 2 2 2
+2 1 4 5 6        2 2 2 2
+3 7 8 9 10       4 2 2 2
 >  <ForwardRxn>
 Standard 7.0e+12 0.0 -1000.0  12; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
 >  <ReverseRxn>
@@ -228,13 +228,13 @@ $$$$
 %%% Symmetry: 2*6=12
 %%%-------------------------------------------------------------------
 AlkoxyFromPeroxyAndAlkylRadical-(rrh)(rrr) \
-      (h)(r)(r)coo. tertiary-carbon-radical  =  .oc(rrh) .oc(rrr)
+      (h)(r)(r)coo. tertiary-carbon-radical  =  c(r)(r)(h)(o.) c(r)(r)(r)(o.)
 - ID 17315
 - Correspondences
 1 2 3 4 5 6      2 4 2 2 2
 7 8 9 10         2 2 2
-1 2 4 5 6        2 2 2 2
-7 3 8 9 10       4 2 2 2
+2 1 4 5 6        2 2 2 2
+3 7 8 9 10       4 2 2 2
 >  <ForwardRxn>
 Standard 7.0e+12 0.0 -1000.0  12; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
 >  <ReverseRxn>
@@ -244,13 +244,13 @@ $$$$
 %%% Symmetry: 6*6=36
 %%%-------------------------------------------------------------------
 AlkoxyFromPeroxyAndAlkylRadical-(rrr)(rrr) \
-      (r)(r)(r)coo. tertiary-carbon-radical  =  .oc(rrr) .oc(rrr)
+      (r)(r)(r)coo. tertiary-carbon-radical  =  c(r)(r)(r)(o.) c(r)(r)(r)(o.)
 - ID 17316
 - Correspondences
 1 2 3 4 5 6      2 4 2 2 2
 7 8 9 10         2 2 2
-1 2 4 5 6        2 2 2 2
-7 3 8 9 10       4 2 2 2
+2 1 4 5 6        2 2 2 2
+3 7 8 9 10       4 2 2 2
 >  <ForwardRxn>
 Standard 7.0e+12 0.0 -1000.0  36; Type XI (Curran isooctane paper) ; Combustion and Flame, 129, 253-280 (2002)
 >  <ReverseRxn>

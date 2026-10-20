@@ -1632,26 +1632,26 @@
     <td class="sub-item">(h)(h)(h)coo.</td>
     <td class="sub-item">methane-carbon-radical</td>
     <td class="sub-item"></td>
-    <td class="sub-item">.oc(hhh)</td>
-    <td class="sub-item">.oc(hhh)</td>
+    <td class="sub-item">c(h)(h)(h)(o.)</td>
+    <td class="sub-item">c(h)(h)(h)(o.)</td>
     <td class="sub-item"></td>
   </tr>
   <tr>
     <td class="pname">AlkoxyFromPeroxyAndAlkylRadical-(rhh)(hhh)</td>
-    <td class="sub-item">(r)(h)(h)coo.</td>
+    <td class="sub-item">(h)(h)(r)coo.</td>
     <td class="sub-item">methane-carbon-radical</td>
     <td class="sub-item"></td>
-    <td class="sub-item">.oc(rhh)</td>
-    <td class="sub-item">.oc(hhh)</td>
+    <td class="sub-item">c(r)(h)(h)(o.)</td>
+    <td class="sub-item">c(h)(h)(h)(o.)</td>
     <td class="sub-item"></td>
   </tr>
   <tr>
     <td class="pname">AlkoxyFromPeroxyAndAlkylRadical-(rrh)(hhh)</td>
-    <td class="sub-item">(r)(r)(h)coo.</td>
+    <td class="sub-item">(h)(r)(r)coo.</td>
     <td class="sub-item">methane-carbon-radical</td>
     <td class="sub-item"></td>
-    <td class="sub-item">.oc(rrh)</td>
-    <td class="sub-item">.oc(hhh)</td>
+    <td class="sub-item">c(r)(r)(h)(o.)</td>
+    <td class="sub-item">c(h)(h)(h)(o.)</td>
     <td class="sub-item"></td>
   </tr>
   <tr>
@@ -1659,8 +1659,8 @@
     <td class="sub-item">(r)(r)(r)coo.</td>
     <td class="sub-item">methane-carbon-radical</td>
     <td class="sub-item"></td>
-    <td class="sub-item">.oc(rrr)</td>
-    <td class="sub-item">.oc(hhh)</td>
+    <td class="sub-item">c(r)(r)(r)(o.)</td>
+    <td class="sub-item">c(h)(h)(h)(o.)</td>
     <td class="sub-item"></td>
   </tr>
   <tr>
@@ -1668,26 +1668,26 @@
     <td class="sub-item">(h)(h)(h)coo.</td>
     <td class="sub-item">primary-carbon-radical</td>
     <td class="sub-item"></td>
-    <td class="sub-item">.oc(hhh)</td>
-    <td class="sub-item">.oc(rhh)</td>
+    <td class="sub-item">c(h)(h)(h)(o.)</td>
+    <td class="sub-item">c(r)(h)(h)(o.)</td>
     <td class="sub-item"></td>
   </tr>
   <tr>
     <td class="pname">AlkoxyFromPeroxyAndAlkylRadical-(rhh)(rhh)</td>
-    <td class="sub-item">(r)(h)(h)coo.</td>
+    <td class="sub-item">(h)(h)(r)coo.</td>
     <td class="sub-item">primary-carbon-radical</td>
     <td class="sub-item"></td>
-    <td class="sub-item">.oc(rhh)</td>
-    <td class="sub-item">.oc(rhh)</td>
+    <td class="sub-item">c(r)(h)(h)(o.)</td>
+    <td class="sub-item">c(r)(h)(h)(o.)</td>
     <td class="sub-item"></td>
   </tr>
   <tr>
     <td class="pname">AlkoxyFromPeroxyAndAlkylRadical-(rrh)(rhh)</td>
-    <td class="sub-item">(r)(r)(h)coo.</td>
+    <td class="sub-item">(h)(r)(r)coo.</td>
     <td class="sub-item">primary-carbon-radical</td>
     <td class="sub-item"></td>
-    <td class="sub-item">.oc(rrh)</td>
-    <td class="sub-item">.oc(rhh)</td>
+    <td class="sub-item">c(r)(r)(h)(o.)</td>
+    <td class="sub-item">c(r)(h)(h)(o.)</td>
     <td class="sub-item"></td>
   </tr>
   <tr>
@@ -1695,8 +1695,8 @@
     <td class="sub-item">(r)(r)(r)coo.</td>
     <td class="sub-item">primary-carbon-radical</td>
     <td class="sub-item"></td>
-    <td class="sub-item">.oc(rrr)</td>
-    <td class="sub-item">.oc(rhh)</td>
+    <td class="sub-item">c(r)(r)(r)(o.)</td>
+    <td class="sub-item">c(r)(h)(h)(o.)</td>
     <td class="sub-item"></td>
   </tr>
   <tr>
@@ -1704,26 +1704,26 @@
     <td class="sub-item">(h)(h)(h)coo.</td>
     <td class="sub-item">secondary-carbon-radical</td>
     <td class="sub-item"></td>
-    <td class="sub-item">.oc(hhh)</td>
-    <td class="sub-item">.oc(rrh)</td>
+    <td class="sub-item">c(h)(h)(h)(o.)</td>
+    <td class="sub-item">c(r)(r)(h)(o.)</td>
     <td class="sub-item"></td>
   </tr>
   <tr>
     <td class="pname">AlkoxyFromPeroxyAndAlkylRadical-(rhh)(rrh)</td>
-    <td class="sub-item">(r)(h)(h)coo.</td>
+    <td class="sub-item">(h)(h)(r)coo.</td>
     <td class="sub-item">secondary-carbon-radical</td>
     <td class="sub-item"></td>
-    <td class="sub-item">.oc(rhh)</td>
-    <td class="sub-item">.oc(rrh)</td>
+    <td class="sub-item">c(r)(h)(h)(o.)</td>
+    <td class="sub-item">c(r)(r)(h)(o.)</td>
     <td class="sub-item"></td>
   </tr>
   <tr>
     <td class="pname">AlkoxyFromPeroxyAndAlkylRadical-(rrh)(rrh)</td>
-    <td class="sub-item">(r)(r)(h)coo.</td>
+    <td class="sub-item">(h)(r)(r)coo.</td>
     <td class="sub-item">secondary-carbon-radical</td>
     <td class="sub-item"></td>
-    <td class="sub-item">.oc(rrh)</td>
-    <td class="sub-item">.oc(rrh)</td>
+    <td class="sub-item">c(r)(r)(h)(o.)</td>
+    <td class="sub-item">c(r)(r)(h)(o.)</td>
     <td class="sub-item"></td>
   </tr>
   <tr>
@@ -1731,8 +1731,8 @@
     <td class="sub-item">(r)(r)(r)coo.</td>
     <td class="sub-item">secondary-carbon-radical</td>
     <td class="sub-item"></td>
-    <td class="sub-item">.oc(rrr)</td>
-    <td class="sub-item">.oc(rrh)</td>
+    <td class="sub-item">c(r)(r)(r)(o.)</td>
+    <td class="sub-item">c(r)(r)(h)(o.)</td>
     <td class="sub-item"></td>
   </tr>
   <tr>
@@ -1740,26 +1740,26 @@
     <td class="sub-item">(h)(h)(h)coo.</td>
     <td class="sub-item">tertiary-carbon-radical</td>
     <td class="sub-item"></td>
-    <td class="sub-item">.oc(hhh)</td>
-    <td class="sub-item">.oc(rrr)</td>
+    <td class="sub-item">c(h)(h)(h)(o.)</td>
+    <td class="sub-item">c(r)(r)(r)(o.)</td>
     <td class="sub-item"></td>
   </tr>
   <tr>
     <td class="pname">AlkoxyFromPeroxyAndAlkylRadical-(rhh)(rrr)</td>
-    <td class="sub-item">(r)(h)(h)coo.</td>
+    <td class="sub-item">(h)(h)(r)coo.</td>
     <td class="sub-item">tertiary-carbon-radical</td>
     <td class="sub-item"></td>
-    <td class="sub-item">.oc(rhh)</td>
-    <td class="sub-item">.oc(rrr)</td>
+    <td class="sub-item">c(r)(h)(h)(o.)</td>
+    <td class="sub-item">c(r)(r)(r)(o.)</td>
     <td class="sub-item"></td>
   </tr>
   <tr>
     <td class="pname">AlkoxyFromPeroxyAndAlkylRadical-(rrh)(rrr)</td>
-    <td class="sub-item">(r)(r)(h)coo.</td>
+    <td class="sub-item">(h)(r)(r)coo.</td>
     <td class="sub-item">tertiary-carbon-radical</td>
     <td class="sub-item"></td>
-    <td class="sub-item">.oc(rrh)</td>
-    <td class="sub-item">.oc(rrr)</td>
+    <td class="sub-item">c(r)(r)(h)(o.)</td>
+    <td class="sub-item">c(r)(r)(r)(o.)</td>
     <td class="sub-item"></td>
   </tr>
   <tr>
@@ -1767,8 +1767,8 @@
     <td class="sub-item">(r)(r)(r)coo.</td>
     <td class="sub-item">tertiary-carbon-radical</td>
     <td class="sub-item"></td>
-    <td class="sub-item">.oc(rrr)</td>
-    <td class="sub-item">.oc(rrr)</td>
+    <td class="sub-item">c(r)(r)(r)(o.)</td>
+    <td class="sub-item">c(r)(r)(r)(o.)</td>
     <td class="sub-item"></td>
   </tr>
   <tr>
@@ -4005,10 +4005,10 @@
   </tr>
   <tr>
     <td class="pname">e%%%-------------------------------------------------------------------</td>
-    <td class="sub-item">c=ccoocccc(r)(rhh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
-    <td class="sub-item">c=ccoohcccc(r)(rh)</td>
+    <td class="sub-item"></td>
+    <td class="sub-item"></td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
   </tr>
@@ -5328,11 +5328,11 @@
   </tr>
   <tr>
     <td class="pname">HAbstractionFromOlefin-(hh)(h)</td>
-    <td class="sub-item">olefin-(hh)(hh)</td>
-    <td class="sub-item">oxygen</td>
     <td class="sub-item"></td>
-    <td class="sub-item">olefin-(hh)</td>
-    <td class="sub-item">peroxyl-radical</td>
+    <td class="sub-item"></td>
+    <td class="sub-item"></td>
+    <td class="sub-item"></td>
+    <td class="sub-item"></td>
     <td class="sub-item"></td>
   </tr>
   <tr>
@@ -5589,38 +5589,38 @@
   </tr>
   <tr>
     <td class="pname">HLossDecomposition-(hhh)</td>
-    <td class="sub-item">methane</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
-    <td class="sub-item">methane-carbon-radical</td>
-    <td class="sub-item">hydrogen-radical</td>
+    <td class="sub-item"></td>
+    <td class="sub-item"></td>
+    <td class="sub-item"></td>
     <td class="sub-item"></td>
   </tr>
   <tr>
     <td class="pname">HLossDecomposition-(rhh)</td>
-    <td class="sub-item">primary-carbon-hydrogen-bond</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
-    <td class="sub-item">primary-carbon-radical</td>
-    <td class="sub-item">hydrogen-radical</td>
+    <td class="sub-item"></td>
+    <td class="sub-item"></td>
+    <td class="sub-item"></td>
     <td class="sub-item"></td>
   </tr>
   <tr>
     <td class="pname">HLossDecomposition-(rrh)</td>
-    <td class="sub-item">secondary-carbon-hydrogen-bond</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
-    <td class="sub-item">secondary-carbon-radical</td>
-    <td class="sub-item">hydrogen-radical</td>
+    <td class="sub-item"></td>
+    <td class="sub-item"></td>
+    <td class="sub-item"></td>
     <td class="sub-item"></td>
   </tr>
   <tr>
     <td class="pname">HLossDecomposition-(rrr)</td>
-    <td class="sub-item">tertiary-carbon-hydrogen-bond</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
-    <td class="sub-item">tertiary-carbon-radical</td>
-    <td class="sub-item">hydrogen-radical</td>
+    <td class="sub-item"></td>
+    <td class="sub-item"></td>
+    <td class="sub-item"></td>
     <td class="sub-item"></td>
   </tr>
   <tr>
@@ -6579,11 +6579,11 @@
   </tr>
   <tr>
     <td class="pname">KetoneAdditionOH-Alpha-(h)(hh)</td>
-    <td class="sub-item">c(qqq)coc(h)c(hh)</td>
-    <td class="sub-item">hydroxyl-radical</td>
     <td class="sub-item"></td>
-    <td class="sub-item">c(qqq)coc(hh)</td>
-    <td class="sub-item">(h)(h)c(o)</td>
+    <td class="sub-item"></td>
+    <td class="sub-item"></td>
+    <td class="sub-item"></td>
+    <td class="sub-item"></td>
     <td class="sub-item"></td>
   </tr>
   <tr>
@@ -7911,163 +7911,163 @@
   </tr>
   <tr>
     <td class="pname">OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(hh)(hhh)</td>
-    <td class="sub-item">c=ccooc(h)(hh)(hhh)</td>
+    <td class="sub-item">c=ccoocc(h)(hh)(hhh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
-    <td class="sub-item">c=ccoohc(h)(hh)(hh)</td>
+    <td class="sub-item">c=ccoohcc(h)(hh)(hh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
   </tr>
   <tr>
     <td class="pname">OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(hh)(hhh)</td>
-    <td class="sub-item">c=ccooc(r)(hh)(hhh)</td>
+    <td class="sub-item">c=ccoocc(r)(hh)(hhh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
-    <td class="sub-item">c=ccoohc(r)(hh)(hh)</td>
+    <td class="sub-item">c=ccoohcc(r)(hh)(hh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
   </tr>
   <tr>
     <td class="pname">OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rh)(hhh)</td>
-    <td class="sub-item">c=ccooc(h)(rh)(hhh)</td>
+    <td class="sub-item">c=ccoocc(h)(rh)(hhh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
-    <td class="sub-item">c=ccoohc(h)(rh)(hh)</td>
+    <td class="sub-item">c=ccoohcc(h)(rh)(hh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
   </tr>
   <tr>
     <td class="pname">OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rh)(hhh)</td>
-    <td class="sub-item">c=ccooc(r)(rh)(hhh)</td>
+    <td class="sub-item">c=ccoocc(r)(rh)(hhh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
-    <td class="sub-item">c=ccoohc(r)(rh)(hh)</td>
+    <td class="sub-item">c=ccoohcc(r)(rh)(hh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
   </tr>
   <tr>
     <td class="pname">OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rr)(hhh)</td>
-    <td class="sub-item">c=ccooc(h)(rr)(hhh)</td>
+    <td class="sub-item">c=ccoocc(h)(rr)(hhh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
-    <td class="sub-item">c=ccoohc(h)(rr)(hh)</td>
+    <td class="sub-item">c=ccoohcc(h)(rr)(hh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
   </tr>
   <tr>
     <td class="pname">OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rr)(hhh)</td>
-    <td class="sub-item">c=ccooc(r)(rr)(hhh)</td>
+    <td class="sub-item">c=ccoocc(r)(rr)(hhh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
-    <td class="sub-item">c=ccoohc(r)(rr)(hh)</td>
+    <td class="sub-item">c=ccoohcc(r)(rr)(hh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
   </tr>
   <tr>
     <td class="pname">OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(hh)(rhh)</td>
-    <td class="sub-item">c=ccooc(h)(hh)(rhh)</td>
+    <td class="sub-item">c=ccoocc(h)(hh)(rhh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
-    <td class="sub-item">c=ccoohc(h)(hh)(rh)</td>
+    <td class="sub-item">c=ccoohcc(h)(hh)(rh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
   </tr>
   <tr>
     <td class="pname">OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(hh)(rhh)</td>
-    <td class="sub-item">c=ccooc(r)(hh)(rhh)</td>
+    <td class="sub-item">c=ccoocc(r)(hh)(rhh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
-    <td class="sub-item">c=ccoohc(r)(hh)(rh)</td>
+    <td class="sub-item">c=ccoohcc(r)(hh)(rh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
   </tr>
   <tr>
     <td class="pname">OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rh)(rhh)</td>
-    <td class="sub-item">c=ccooc(h)(rh)(rhh)</td>
+    <td class="sub-item">c=ccoocc(h)(rh)(rhh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
-    <td class="sub-item">c=ccoohc(h)(rh)(rh)</td>
+    <td class="sub-item">c=ccoohcc(h)(rh)(rh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
   </tr>
   <tr>
     <td class="pname">OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rh)(rhh)</td>
-    <td class="sub-item">c=ccooc(r)(rh)(rhh)</td>
+    <td class="sub-item">c=ccoocc(r)(rh)(rhh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
-    <td class="sub-item">c=ccoohc(r)(rh)(rh)</td>
+    <td class="sub-item">c=ccoohcc(r)(rh)(rh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
   </tr>
   <tr>
     <td class="pname">OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rr)(rhh)</td>
-    <td class="sub-item">c=ccooc(h)(rr)(rhh)</td>
+    <td class="sub-item">c=ccoocc(h)(rr)(rhh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
-    <td class="sub-item">c=ccoohc(h)(rr)(rh)</td>
+    <td class="sub-item">c=ccoohcc(h)(rr)(rh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
   </tr>
   <tr>
     <td class="pname">OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rr)(rhh)</td>
-    <td class="sub-item">c=ccooc(r)(rr)(rhh)</td>
+    <td class="sub-item">c=ccoocc(r)(rr)(rhh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
-    <td class="sub-item">c=ccoohc(r)(rr)(rh)</td>
+    <td class="sub-item">c=ccoohcc(r)(rr)(rh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
   </tr>
   <tr>
     <td class="pname">OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(hh)(rrh)</td>
-    <td class="sub-item">c=ccooc(h)(hh)(rrh)</td>
+    <td class="sub-item">c=ccoocc(h)(hh)(rrh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
-    <td class="sub-item">c=ccoohc(h)(hh)(rr)</td>
+    <td class="sub-item">c=ccoohcc(h)(hh)(rr)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
   </tr>
   <tr>
     <td class="pname">OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(hh)(rrh)</td>
-    <td class="sub-item">c=ccooc(r)(hh)(rrh)</td>
+    <td class="sub-item">c=ccoocc(r)(hh)(rrh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
-    <td class="sub-item">c=ccoohc(r)(hh)(rr)</td>
+    <td class="sub-item">c=ccoohcc(r)(hh)(rr)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
   </tr>
   <tr>
     <td class="pname">OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rh)(rrh)</td>
-    <td class="sub-item">c=ccooc(h)(rh)(rrh)</td>
+    <td class="sub-item">c=ccoocc(h)(rh)(rrh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
-    <td class="sub-item">c=ccoohc(h)(rh)(rr)</td>
+    <td class="sub-item">c=ccoohcc(h)(rh)(rr)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
   </tr>
   <tr>
     <td class="pname">OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rh)(rrh)</td>
-    <td class="sub-item">c=ccooc(r)(rh)(rrh)</td>
+    <td class="sub-item">c=ccoocc(r)(rh)(rrh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
-    <td class="sub-item">c=ccoohc(r)(rh)(rr)</td>
+    <td class="sub-item">c=ccoohcc(r)(rh)(rr)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
   </tr>
   <tr>
     <td class="pname">OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rr)(rrh)</td>
-    <td class="sub-item">c=ccooc(h)(rr)(rrh)</td>
+    <td class="sub-item">c=ccoocc(h)(rr)(rrh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
-    <td class="sub-item">c=ccoohc(h)(rr)(rr)</td>
+    <td class="sub-item">c=ccoohcc(h)(rr)(rr)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
   </tr>
   <tr>
     <td class="pname">OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rr)(rrh)</td>
-    <td class="sub-item">c=ccooc(r)(rr)(rrh)</td>
+    <td class="sub-item">c=ccoocc(r)(rr)(rrh)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
-    <td class="sub-item">c=ccoohc(r)(rr)(rr)</td>
+    <td class="sub-item">c=ccoohcc(r)(rr)(rr)</td>
     <td class="sub-item"></td>
     <td class="sub-item"></td>
   </tr>
@@ -10749,8 +10749,8 @@
     <td class="sub-item">(q)(q)(q)coo.</td>
     <td class="sub-item">(q)(q)(q)coo.</td>
     <td class="sub-item"></td>
-    <td class="sub-item">.oc(qqq)</td>
-    <td class="sub-item">.oc(qqq)</td>
+    <td class="sub-item">c(q)(q)(q)(o.)</td>
+    <td class="sub-item">c(q)(q)(q)(o.)</td>
     <td class="sub-item">oxygen</td>
   </tr>
   <tr>
@@ -10758,8 +10758,8 @@
     <td class="sub-item">(h)(h)(h)coo.</td>
     <td class="sub-item">(h)(h)(h)coo.</td>
     <td class="sub-item"></td>
-    <td class="sub-item">.oc(hhh)</td>
-    <td class="sub-item">.oc(hhh)</td>
+    <td class="sub-item">c(h)(h)(h)(o.)</td>
+    <td class="sub-item">c(h)(h)(h)(o.)</td>
     <td class="sub-item">oxygen</td>
   </tr>
   <tr>
@@ -10767,8 +10767,8 @@
     <td class="sub-item">(h)(h)(h)coo.</td>
     <td class="sub-item">(h)(h)(r)coo.</td>
     <td class="sub-item"></td>
-    <td class="sub-item">.oc(hhh)</td>
-    <td class="sub-item">.oc(rhh)</td>
+    <td class="sub-item">c(h)(h)(h)(o.)</td>
+    <td class="sub-item">c(r)(h)(h)(o.)</td>
     <td class="sub-item">oxygen</td>
   </tr>
   <tr>
@@ -10776,8 +10776,8 @@
     <td class="sub-item">(h)(h)(h)coo.</td>
     <td class="sub-item">(h)(r)(r)coo.</td>
     <td class="sub-item"></td>
-    <td class="sub-item">.oc(hhh)</td>
-    <td class="sub-item">.oc(rrh)</td>
+    <td class="sub-item">c(h)(h)(h)(o.)</td>
+    <td class="sub-item">c(r)(r)(h)(o.)</td>
     <td class="sub-item">oxygen</td>
   </tr>
   <tr>
@@ -10785,8 +10785,8 @@
     <td class="sub-item">(h)(h)(h)coo.</td>
     <td class="sub-item">(r)(r)(r)coo.</td>
     <td class="sub-item"></td>
-    <td class="sub-item">.oc(hhh)</td>
-    <td class="sub-item">.oc(rrr)</td>
+    <td class="sub-item">c(h)(h)(h)(o.)</td>
+    <td class="sub-item">c(r)(r)(r)(o.)</td>
     <td class="sub-item">oxygen</td>
   </tr>
   <tr>
@@ -10794,8 +10794,8 @@
     <td class="sub-item">(h)(h)(r)coo.</td>
     <td class="sub-item">(h)(h)(r)coo.</td>
     <td class="sub-item"></td>
-    <td class="sub-item">.oc(rhh)</td>
-    <td class="sub-item">.oc(rhh)</td>
+    <td class="sub-item">c(r)(h)(h)(o.)</td>
+    <td class="sub-item">c(r)(h)(h)(o.)</td>
     <td class="sub-item">oxygen</td>
   </tr>
   <tr>
@@ -10803,8 +10803,8 @@
     <td class="sub-item">(h)(h)(r)coo.</td>
     <td class="sub-item">(h)(r)(r)coo.</td>
     <td class="sub-item"></td>
-    <td class="sub-item">.oc(rhh)</td>
-    <td class="sub-item">.oc(rrh)</td>
+    <td class="sub-item">c(r)(h)(h)(o.)</td>
+    <td class="sub-item">c(r)(r)(h)(o.)</td>
     <td class="sub-item">oxygen</td>
   </tr>
   <tr>
@@ -10812,8 +10812,8 @@
     <td class="sub-item">(h)(h)(r)coo.</td>
     <td class="sub-item">(r)(r)(r)coo.</td>
     <td class="sub-item"></td>
-    <td class="sub-item">.oc(rhh)</td>
-    <td class="sub-item">.oc(rrr)</td>
+    <td class="sub-item">c(r)(h)(h)(o.)</td>
+    <td class="sub-item">c(r)(r)(r)(o.)</td>
     <td class="sub-item">oxygen</td>
   </tr>
   <tr>
@@ -10821,8 +10821,8 @@
     <td class="sub-item">(h)(r)(r)coo.</td>
     <td class="sub-item">(h)(r)(r)coo.</td>
     <td class="sub-item"></td>
-    <td class="sub-item">.oc(rrh)</td>
-    <td class="sub-item">.oc(rrh)</td>
+    <td class="sub-item">c(r)(r)(h)(o.)</td>
+    <td class="sub-item">c(r)(r)(h)(o.)</td>
     <td class="sub-item">oxygen</td>
   </tr>
   <tr>
@@ -10830,8 +10830,8 @@
     <td class="sub-item">(h)(r)(r)coo.</td>
     <td class="sub-item">(r)(r)(r)coo.</td>
     <td class="sub-item"></td>
-    <td class="sub-item">.oc(rrh)</td>
-    <td class="sub-item">.oc(rrr)</td>
+    <td class="sub-item">c(r)(r)(h)(o.)</td>
+    <td class="sub-item">c(r)(r)(r)(o.)</td>
     <td class="sub-item">oxygen</td>
   </tr>
   <tr>
@@ -10839,8 +10839,8 @@
     <td class="sub-item">(r)(r)(r)coo.</td>
     <td class="sub-item">(r)(r)(r)coo.</td>
     <td class="sub-item"></td>
-    <td class="sub-item">.oc(rrr)</td>
-    <td class="sub-item">.oc(rrr)</td>
+    <td class="sub-item">c(r)(r)(r)(o.)</td>
+    <td class="sub-item">c(r)(r)(r)(o.)</td>
     <td class="sub-item">oxygen</td>
   </tr>
   <tr>

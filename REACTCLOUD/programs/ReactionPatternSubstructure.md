@@ -180,22 +180,22 @@
 | AlkoxyFromPeroxy-RHH | c(r)(h)(h)(ooh) |  |  | c(r)(h)(h)(o.) | hydroxyl-radical |  |
 | AlkoxyFromPeroxy-RRH | c(r)(r)(h)(ooh) |  |  | c(r)(r)(h)(o.) | hydroxyl-radical |  |
 | AlkoxyFromPeroxy-RRR | c(r)(r)(r)(ooh) |  |  | c(r)(r)(r)(o.) | hydroxyl-radical |  |
-| AlkoxyFromPeroxyAndAlkylRadical-(hhh)(hhh) | (h)(h)(h)coo. | methane-carbon-radical |  | .oc(hhh) | .oc(hhh) |  |
-| AlkoxyFromPeroxyAndAlkylRadical-(rhh)(hhh) | (r)(h)(h)coo. | methane-carbon-radical |  | .oc(rhh) | .oc(hhh) |  |
-| AlkoxyFromPeroxyAndAlkylRadical-(rrh)(hhh) | (r)(r)(h)coo. | methane-carbon-radical |  | .oc(rrh) | .oc(hhh) |  |
-| AlkoxyFromPeroxyAndAlkylRadical-(rrr)(hhh) | (r)(r)(r)coo. | methane-carbon-radical |  | .oc(rrr) | .oc(hhh) |  |
-| AlkoxyFromPeroxyAndAlkylRadical-(hhh)(rhh) | (h)(h)(h)coo. | primary-carbon-radical |  | .oc(hhh) | .oc(rhh) |  |
-| AlkoxyFromPeroxyAndAlkylRadical-(rhh)(rhh) | (r)(h)(h)coo. | primary-carbon-radical |  | .oc(rhh) | .oc(rhh) |  |
-| AlkoxyFromPeroxyAndAlkylRadical-(rrh)(rhh) | (r)(r)(h)coo. | primary-carbon-radical |  | .oc(rrh) | .oc(rhh) |  |
-| AlkoxyFromPeroxyAndAlkylRadical-(rrr)(rhh) | (r)(r)(r)coo. | primary-carbon-radical |  | .oc(rrr) | .oc(rhh) |  |
-| AlkoxyFromPeroxyAndAlkylRadical-(hhh)(rrh) | (h)(h)(h)coo. | secondary-carbon-radical |  | .oc(hhh) | .oc(rrh) |  |
-| AlkoxyFromPeroxyAndAlkylRadical-(rhh)(rrh) | (r)(h)(h)coo. | secondary-carbon-radical |  | .oc(rhh) | .oc(rrh) |  |
-| AlkoxyFromPeroxyAndAlkylRadical-(rrh)(rrh) | (r)(r)(h)coo. | secondary-carbon-radical |  | .oc(rrh) | .oc(rrh) |  |
-| AlkoxyFromPeroxyAndAlkylRadical-(rrr)(rrh) | (r)(r)(r)coo. | secondary-carbon-radical |  | .oc(rrr) | .oc(rrh) |  |
-| AlkoxyFromPeroxyAndAlkylRadical-(hhh)(rrr) | (h)(h)(h)coo. | tertiary-carbon-radical |  | .oc(hhh) | .oc(rrr) |  |
-| AlkoxyFromPeroxyAndAlkylRadical-(rhh)(rrr) | (r)(h)(h)coo. | tertiary-carbon-radical |  | .oc(rhh) | .oc(rrr) |  |
-| AlkoxyFromPeroxyAndAlkylRadical-(rrh)(rrr) | (r)(r)(h)coo. | tertiary-carbon-radical |  | .oc(rrh) | .oc(rrr) |  |
-| AlkoxyFromPeroxyAndAlkylRadical-(rrr)(rrr) | (r)(r)(r)coo. | tertiary-carbon-radical |  | .oc(rrr) | .oc(rrr) |  |
+| AlkoxyFromPeroxyAndAlkylRadical-(hhh)(hhh) | (h)(h)(h)coo. | methane-carbon-radical |  | c(h)(h)(h)(o.) | c(h)(h)(h)(o.) |  |
+| AlkoxyFromPeroxyAndAlkylRadical-(rhh)(hhh) | (h)(h)(r)coo. | methane-carbon-radical |  | c(r)(h)(h)(o.) | c(h)(h)(h)(o.) |  |
+| AlkoxyFromPeroxyAndAlkylRadical-(rrh)(hhh) | (h)(r)(r)coo. | methane-carbon-radical |  | c(r)(r)(h)(o.) | c(h)(h)(h)(o.) |  |
+| AlkoxyFromPeroxyAndAlkylRadical-(rrr)(hhh) | (r)(r)(r)coo. | methane-carbon-radical |  | c(r)(r)(r)(o.) | c(h)(h)(h)(o.) |  |
+| AlkoxyFromPeroxyAndAlkylRadical-(hhh)(rhh) | (h)(h)(h)coo. | primary-carbon-radical |  | c(h)(h)(h)(o.) | c(r)(h)(h)(o.) |  |
+| AlkoxyFromPeroxyAndAlkylRadical-(rhh)(rhh) | (h)(h)(r)coo. | primary-carbon-radical |  | c(r)(h)(h)(o.) | c(r)(h)(h)(o.) |  |
+| AlkoxyFromPeroxyAndAlkylRadical-(rrh)(rhh) | (h)(r)(r)coo. | primary-carbon-radical |  | c(r)(r)(h)(o.) | c(r)(h)(h)(o.) |  |
+| AlkoxyFromPeroxyAndAlkylRadical-(rrr)(rhh) | (r)(r)(r)coo. | primary-carbon-radical |  | c(r)(r)(r)(o.) | c(r)(h)(h)(o.) |  |
+| AlkoxyFromPeroxyAndAlkylRadical-(hhh)(rrh) | (h)(h)(h)coo. | secondary-carbon-radical |  | c(h)(h)(h)(o.) | c(r)(r)(h)(o.) |  |
+| AlkoxyFromPeroxyAndAlkylRadical-(rhh)(rrh) | (h)(h)(r)coo. | secondary-carbon-radical |  | c(r)(h)(h)(o.) | c(r)(r)(h)(o.) |  |
+| AlkoxyFromPeroxyAndAlkylRadical-(rrh)(rrh) | (h)(r)(r)coo. | secondary-carbon-radical |  | c(r)(r)(h)(o.) | c(r)(r)(h)(o.) |  |
+| AlkoxyFromPeroxyAndAlkylRadical-(rrr)(rrh) | (r)(r)(r)coo. | secondary-carbon-radical |  | c(r)(r)(r)(o.) | c(r)(r)(h)(o.) |  |
+| AlkoxyFromPeroxyAndAlkylRadical-(hhh)(rrr) | (h)(h)(h)coo. | tertiary-carbon-radical |  | c(h)(h)(h)(o.) | c(r)(r)(r)(o.) |  |
+| AlkoxyFromPeroxyAndAlkylRadical-(rhh)(rrr) | (h)(h)(r)coo. | tertiary-carbon-radical |  | c(r)(h)(h)(o.) | c(r)(r)(r)(o.) |  |
+| AlkoxyFromPeroxyAndAlkylRadical-(rrh)(rrr) | (h)(r)(r)coo. | tertiary-carbon-radical |  | c(r)(r)(h)(o.) | c(r)(r)(r)(o.) |  |
+| AlkoxyFromPeroxyAndAlkylRadical-(rrr)(rrr) | (r)(r)(r)coo. | tertiary-carbon-radical |  | c(r)(r)(r)(o.) | c(r)(r)(r)(o.) |  |
 | AlkylIsomerization4Ring-(hh)(hh) | .c(hh)cc(hhh) |  |  | .c(hh)cc(hhh) |  |  |
 | AlkylIsomerization4Ring-(hh)(rh) | .c(hh)cc(rhh) |  |  | .c(rh)cc(hhh) |  |  |
 | AlkylIsomerization4Ring-(hh)(rr) | .c(hh)cc(rrh) |  |  | .c(rh)cc(hhh) |  |  |
@@ -444,7 +444,7 @@
 | DiKetoAldDecomp-RRHR | co(r)c(rh)co(r) |  |  | .c(r)(h)co(r) | (r).c(o) |  |
 | DiKetoAldDecomp-HRRR | co(r)c(rr)co(h) |  |  | .c(r)(r)co(h) | (r).c(o) |  |
 | DiKetoAldDecomp-RRRR | co(r)c(rr)co(r) |  |  | .c(r)(r)co(r) | (r).c(o) |  |
-| e%%%------------------------------------------------------------------- | c=ccoocccc(r)(rhh) |  |  | c=ccoohcccc(r)(rh) |  |  |
+| e%%%------------------------------------------------------------------- |  |  |  |  |  |  |
 | EightRing-(ooh)-h-isomerization | .ccccccc(ooh)(h) |  |  | .c(ooh)cccccc(h) |  |  |
 | EightRing-chain-h-isomerization | .ccccccc(h) |  |  | .ccccccc(h) |  |  |
 | ethyl-radical(hh)(hhh)-oxidation-to-olefin | ethyl-radical-(hh)(hhh) | oxygen |  | olefin-(hh)(hh) | peroxyl-radical |  |
@@ -591,7 +591,7 @@
 | HAbstractionBetaAlkenylToDieneO2-(r)(rh) | c=ccc(r)(rhh) | oxygen |  | c=cc=c(r)(rh) | peroxyl-radical |  |
 | HAbstractionBetaAlkenylToDieneO2-(h)(rr) | c=ccc(h)(rrh) | oxygen |  | c=cc=c(h)(rr) | peroxyl-radical |  |
 | HAbstractionBetaAlkenylToDieneO2-(r)(hh) | c=ccc(r)(hhh) | oxygen |  | c=cc=c(r)(hh) | peroxyl-radical |  |
-| HAbstractionFromOlefin-(hh)(h) | olefin-(hh)(hh) | oxygen |  | olefin-(hh) | peroxyl-radical |  |
+| HAbstractionFromOlefin-(hh)(h) |  |  |  |  |  |  |
 | HAbstractionToEthynyl-hydroxyl-radical-(h) | ethyne-(h)(h) | hydroxyl-radical |  | ethyne-radical-(h) | water |  |
 | HAbstractionToEthynyl-hydroxyl-radical-(r) | ethyne-(r)(h) | hydroxyl-radical |  | ethyne-radical-(r) | water |  |
 | HAbstractionToEthynyl-oxygen-(h) | ethyne-(h)(h) | oxygen |  | ethyne-radical-(h) | peroxyl-radical |  |
@@ -620,10 +620,10 @@
 | HLossDecomposition-(rhh) | primary-carbon-hydrogen-bond |  |  | primary-carbon-radical | hydrogen-radical |  |
 | HLossDecomposition-(rrh) | secondary-carbon-hydrogen-bond |  |  | secondary-carbon-radical | hydrogen-radical |  |
 | HLossDecomposition-(rrr) | tertiary-carbon-hydrogen-bond |  |  | tertiary-carbon-radical | hydrogen-radical |  |
-| HLossDecomposition-(hhh) | methane |  |  | methane-carbon-radical | hydrogen-radical |  |
-| HLossDecomposition-(rhh) | primary-carbon-hydrogen-bond |  |  | primary-carbon-radical | hydrogen-radical |  |
-| HLossDecomposition-(rrh) | secondary-carbon-hydrogen-bond |  |  | secondary-carbon-radical | hydrogen-radical |  |
-| HLossDecomposition-(rrr) | tertiary-carbon-hydrogen-bond |  |  | tertiary-carbon-radical | hydrogen-radical |  |
+| HLossDecomposition-(hhh) |  |  |  |  |  |  |
+| HLossDecomposition-(rhh) |  |  |  |  |  |  |
+| HLossDecomposition-(rrh) |  |  |  |  |  |  |
+| HLossDecomposition-(rrr) |  |  |  |  |  |  |
 | HLossEthenylToEthyne-(hh) | alkenyl-(hh)(h) |  |  | ethyne-(h)(h) | hydrogen-radical |  |
 | HLossEthenylToEthyne-(rh) | alkenyl-(rh)(h) |  |  | ethyne-(r)(h) | hydrogen-radical |  |
 | HLossEthenylToEthyne-(rr) | alkenyl-(rh)(r) |  |  | ethyne-(r)(r) | hydrogen-radical |  |
@@ -730,7 +730,7 @@
 | KetoneAdditionOH-Alpha-(r)(rh) | c(qqq)coc(r)c(rh) | hydroxyl-radical |  | c(rhh)rc(o) | c(qqq).c(o) |  |
 | KetoneAdditionOH-Alpha-(h)(rr) | c(qqq)coc(h)c(rr) | hydroxyl-radical |  | c(rrh)hc(o) | c(qqq).c(o) |  |
 | KetoneAdditionOH-Alpha-(r)(rr) | c(qqq)coc(r)c(rr) | hydroxyl-radical |  | c(rrh)rc(o) | c(qqq).c(o) |  |
-| KetoneAdditionOH-Alpha-(h)(hh) | c(qqq)coc(h)c(hh) | hydroxyl-radical |  | c(qqq)coc(hh) | (h)(h)c(o) |  |
+| KetoneAdditionOH-Alpha-(h)(hh) |  |  |  |  |  |  |
 | KetoneDecompToAlkene-Alkenyl-(hh)(hh) | c(qq)c(q)coc(hh)c(hh) |  |  | c(qq)c(q)co | olefin-(hh)(hh) |  |
 | KetoneDecompToAlkene-Alkenyl-(rh)(hh) | c(qq)c(q)coc(rh)c(hh) |  |  | c(qq)c(q)co | olefin-(rh)(hh) |  |
 | KetoneDecompToAlkene-Alkenyl-(rr)(hh) | c(qq)c(q)coc(rr)c(hh) |  |  | c(qq)c(q)co | olefin-(rr)(hh) |  |
@@ -878,24 +878,24 @@
 | OlefinAlphaPeroxyIntraHAbstraction5Ring-(r)(rhh) | c=ccooc(r)(rhh) |  |  | c=ccoohc(r)(rh) |  |  |
 | OlefinAlphaPeroxyIntraHAbstraction5Ring-(h)(rrh) | c=ccooc(h)(rrh) |  |  | c=ccoohc(h)(rr) |  |  |
 | OlefinAlphaPeroxyIntraHAbstraction5Ring-(r)(rrh) | c=ccooc(r)(rrh) |  |  | c=ccoohc(r)(rr) |  |  |
-| OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(hh)(hhh) | c=ccooc(h)(hh)(hhh) |  |  | c=ccoohc(h)(hh)(hh) |  |  |
-| OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(hh)(hhh) | c=ccooc(r)(hh)(hhh) |  |  | c=ccoohc(r)(hh)(hh) |  |  |
-| OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rh)(hhh) | c=ccooc(h)(rh)(hhh) |  |  | c=ccoohc(h)(rh)(hh) |  |  |
-| OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rh)(hhh) | c=ccooc(r)(rh)(hhh) |  |  | c=ccoohc(r)(rh)(hh) |  |  |
-| OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rr)(hhh) | c=ccooc(h)(rr)(hhh) |  |  | c=ccoohc(h)(rr)(hh) |  |  |
-| OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rr)(hhh) | c=ccooc(r)(rr)(hhh) |  |  | c=ccoohc(r)(rr)(hh) |  |  |
-| OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(hh)(rhh) | c=ccooc(h)(hh)(rhh) |  |  | c=ccoohc(h)(hh)(rh) |  |  |
-| OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(hh)(rhh) | c=ccooc(r)(hh)(rhh) |  |  | c=ccoohc(r)(hh)(rh) |  |  |
-| OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rh)(rhh) | c=ccooc(h)(rh)(rhh) |  |  | c=ccoohc(h)(rh)(rh) |  |  |
-| OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rh)(rhh) | c=ccooc(r)(rh)(rhh) |  |  | c=ccoohc(r)(rh)(rh) |  |  |
-| OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rr)(rhh) | c=ccooc(h)(rr)(rhh) |  |  | c=ccoohc(h)(rr)(rh) |  |  |
-| OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rr)(rhh) | c=ccooc(r)(rr)(rhh) |  |  | c=ccoohc(r)(rr)(rh) |  |  |
-| OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(hh)(rrh) | c=ccooc(h)(hh)(rrh) |  |  | c=ccoohc(h)(hh)(rr) |  |  |
-| OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(hh)(rrh) | c=ccooc(r)(hh)(rrh) |  |  | c=ccoohc(r)(hh)(rr) |  |  |
-| OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rh)(rrh) | c=ccooc(h)(rh)(rrh) |  |  | c=ccoohc(h)(rh)(rr) |  |  |
-| OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rh)(rrh) | c=ccooc(r)(rh)(rrh) |  |  | c=ccoohc(r)(rh)(rr) |  |  |
-| OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rr)(rrh) | c=ccooc(h)(rr)(rrh) |  |  | c=ccoohc(h)(rr)(rr) |  |  |
-| OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rr)(rrh) | c=ccooc(r)(rr)(rrh) |  |  | c=ccoohc(r)(rr)(rr) |  |  |
+| OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(hh)(hhh) | c=ccoocc(h)(hh)(hhh) |  |  | c=ccoohcc(h)(hh)(hh) |  |  |
+| OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(hh)(hhh) | c=ccoocc(r)(hh)(hhh) |  |  | c=ccoohcc(r)(hh)(hh) |  |  |
+| OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rh)(hhh) | c=ccoocc(h)(rh)(hhh) |  |  | c=ccoohcc(h)(rh)(hh) |  |  |
+| OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rh)(hhh) | c=ccoocc(r)(rh)(hhh) |  |  | c=ccoohcc(r)(rh)(hh) |  |  |
+| OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rr)(hhh) | c=ccoocc(h)(rr)(hhh) |  |  | c=ccoohcc(h)(rr)(hh) |  |  |
+| OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rr)(hhh) | c=ccoocc(r)(rr)(hhh) |  |  | c=ccoohcc(r)(rr)(hh) |  |  |
+| OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(hh)(rhh) | c=ccoocc(h)(hh)(rhh) |  |  | c=ccoohcc(h)(hh)(rh) |  |  |
+| OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(hh)(rhh) | c=ccoocc(r)(hh)(rhh) |  |  | c=ccoohcc(r)(hh)(rh) |  |  |
+| OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rh)(rhh) | c=ccoocc(h)(rh)(rhh) |  |  | c=ccoohcc(h)(rh)(rh) |  |  |
+| OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rh)(rhh) | c=ccoocc(r)(rh)(rhh) |  |  | c=ccoohcc(r)(rh)(rh) |  |  |
+| OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rr)(rhh) | c=ccoocc(h)(rr)(rhh) |  |  | c=ccoohcc(h)(rr)(rh) |  |  |
+| OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rr)(rhh) | c=ccoocc(r)(rr)(rhh) |  |  | c=ccoohcc(r)(rr)(rh) |  |  |
+| OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(hh)(rrh) | c=ccoocc(h)(hh)(rrh) |  |  | c=ccoohcc(h)(hh)(rr) |  |  |
+| OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(hh)(rrh) | c=ccoocc(r)(hh)(rrh) |  |  | c=ccoohcc(r)(hh)(rr) |  |  |
+| OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rh)(rrh) | c=ccoocc(h)(rh)(rrh) |  |  | c=ccoohcc(h)(rh)(rr) |  |  |
+| OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rh)(rrh) | c=ccoocc(r)(rh)(rrh) |  |  | c=ccoohcc(r)(rh)(rr) |  |  |
+| OlefinAlphaPeroxyIntraHAbstraction6Ring-(h)(rr)(rrh) | c=ccoocc(h)(rr)(rrh) |  |  | c=ccoohcc(h)(rr)(rr) |  |  |
+| OlefinAlphaPeroxyIntraHAbstraction6Ring-(r)(rr)(rrh) | c=ccoocc(r)(rr)(rrh) |  |  | c=ccoohcc(r)(rr)(rr) |  |  |
 | OlefinAlphaPeroxyIntraHAbstraction7Ring-(h)(hhh) | c=ccooccc(h)(hhh) |  |  | c=ccoohccc(h)(hh) |  |  |
 | OlefinAlphaPeroxyIntraHAbstraction7Ring-(r)(hhh) | c=ccooccc(r)(hhh) |  |  | c=ccoohccc(r)(hh) |  |  |
 | OlefinAlphaPeroxyIntraHAbstraction7Ring-(h)(rhh) | c=ccooccc(h)(rhh) |  |  | c=ccoohccc(h)(rh) |  |  |
@@ -1193,17 +1193,17 @@
 | RO2IsomerizationCyclohexane-6RingTertiary | peroxycyclohexane-3-radical-HRH |  |  | hydroperoxycyclohexane-3-radical-HR |  |  |
 | RO2IsomerizationCyclohexane-7RingSecondary | peroxycyclohexane-4-radical-HHH |  |  | hydroperoxycyclohexane-4-radical-HH |  |  |
 | RO2IsomerizationCyclohexane-7RingTertiary | peroxycyclohexane-4-radical-HRH |  |  | hydroperoxycyclohexane-4-radical-HR |  |  |
-| RO2ToAlkoxy-(qqq)(qqq) | (q)(q)(q)coo. | (q)(q)(q)coo. |  | .oc(qqq) | .oc(qqq) | oxygen |
-| RO2ToAlkoxy-(hhh)(hhh) | (h)(h)(h)coo. | (h)(h)(h)coo. |  | .oc(hhh) | .oc(hhh) | oxygen |
-| RO2ToAlkoxy-(hhh)(rhh) | (h)(h)(h)coo. | (h)(h)(r)coo. |  | .oc(hhh) | .oc(rhh) | oxygen |
-| RO2ToAlkoxy-(hhh)(rrh) | (h)(h)(h)coo. | (h)(r)(r)coo. |  | .oc(hhh) | .oc(rrh) | oxygen |
-| RO2ToAlkoxy-(hhh)(rrr) | (h)(h)(h)coo. | (r)(r)(r)coo. |  | .oc(hhh) | .oc(rrr) | oxygen |
-| RO2ToAlkoxy-(rhh)(rhh) | (h)(h)(r)coo. | (h)(h)(r)coo. |  | .oc(rhh) | .oc(rhh) | oxygen |
-| RO2ToAlkoxy-(rhh)(rrh) | (h)(h)(r)coo. | (h)(r)(r)coo. |  | .oc(rhh) | .oc(rrh) | oxygen |
-| RO2ToAlkoxy-(rhh)(rrr) | (h)(h)(r)coo. | (r)(r)(r)coo. |  | .oc(rhh) | .oc(rrr) | oxygen |
-| RO2ToAlkoxy-(rrh)(rrh) | (h)(r)(r)coo. | (h)(r)(r)coo. |  | .oc(rrh) | .oc(rrh) | oxygen |
-| RO2ToAlkoxy-(rrh)(rrr) | (h)(r)(r)coo. | (r)(r)(r)coo. |  | .oc(rrh) | .oc(rrr) | oxygen |
-| RO2ToAlkoxy-(rrr)(rrr) | (r)(r)(r)coo. | (r)(r)(r)coo. |  | .oc(rrr) | .oc(rrr) | oxygen |
+| RO2ToAlkoxy-(qqq)(qqq) | (q)(q)(q)coo. | (q)(q)(q)coo. |  | c(q)(q)(q)(o.) | c(q)(q)(q)(o.) | oxygen |
+| RO2ToAlkoxy-(hhh)(hhh) | (h)(h)(h)coo. | (h)(h)(h)coo. |  | c(h)(h)(h)(o.) | c(h)(h)(h)(o.) | oxygen |
+| RO2ToAlkoxy-(hhh)(rhh) | (h)(h)(h)coo. | (h)(h)(r)coo. |  | c(h)(h)(h)(o.) | c(r)(h)(h)(o.) | oxygen |
+| RO2ToAlkoxy-(hhh)(rrh) | (h)(h)(h)coo. | (h)(r)(r)coo. |  | c(h)(h)(h)(o.) | c(r)(r)(h)(o.) | oxygen |
+| RO2ToAlkoxy-(hhh)(rrr) | (h)(h)(h)coo. | (r)(r)(r)coo. |  | c(h)(h)(h)(o.) | c(r)(r)(r)(o.) | oxygen |
+| RO2ToAlkoxy-(rhh)(rhh) | (h)(h)(r)coo. | (h)(h)(r)coo. |  | c(r)(h)(h)(o.) | c(r)(h)(h)(o.) | oxygen |
+| RO2ToAlkoxy-(rhh)(rrh) | (h)(h)(r)coo. | (h)(r)(r)coo. |  | c(r)(h)(h)(o.) | c(r)(r)(h)(o.) | oxygen |
+| RO2ToAlkoxy-(rhh)(rrr) | (h)(h)(r)coo. | (r)(r)(r)coo. |  | c(r)(h)(h)(o.) | c(r)(r)(r)(o.) | oxygen |
+| RO2ToAlkoxy-(rrh)(rrh) | (h)(r)(r)coo. | (h)(r)(r)coo. |  | c(r)(r)(h)(o.) | c(r)(r)(h)(o.) | oxygen |
+| RO2ToAlkoxy-(rrh)(rrr) | (h)(r)(r)coo. | (r)(r)(r)coo. |  | c(r)(r)(h)(o.) | c(r)(r)(r)(o.) | oxygen |
+| RO2ToAlkoxy-(rrr)(rrr) | (r)(r)(r)coo. | (r)(r)(r)coo. |  | c(r)(r)(r)(o.) | c(r)(r)(r)(o.) | oxygen |
 | ROOHFromPeroxy-HHH | (h)(h)(h)coo. | peroxyl-radical |  | c(h)(h)(h)(ooh) | oxygen |  |
 | ROOHFromPeroxy-RHH | (h)(h)(r)coo. | peroxyl-radical |  | c(r)(h)(h)(ooh) | oxygen |  |
 | ROOHFromPeroxy-RRH | (h)(r)(r)coo. | peroxyl-radical |  | c(r)(r)(h)(ooh) | oxygen |  |
