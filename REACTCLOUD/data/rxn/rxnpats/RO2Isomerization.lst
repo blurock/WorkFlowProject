@@ -22,7 +22,7 @@ $$$$
 %%%-------------------------------------------------------------------
 %%% 2*1 = 2
 %%%-------------------------------------------------------------------
-RO2-Isomerization-5RingSecondary c(r)(h)(h)(coo.) = .c(r)(h)(cooh)
+RO2-Isomerization-5RingSecondary c(h)(h)(r)(coo.) = .c(r)(h)(cooh)
 - ID 3122
 - Correspondences
 1 2 3 4 5 6 7    4 2 2 2 2 2
@@ -35,7 +35,7 @@ $$$$
 %%%-------------------------------------------------------------------
 %%% 2*1 = 2
 %%%-------------------------------------------------------------------
-RO2-Isomerization-5RingTertiary c(r)(r)(h)(coo.) = .c(r)(r)(cooh)
+RO2-Isomerization-5RingTertiary c(r)(h)(r)(coo.) = .c(r)(r)(cooh)
 - ID 3123
 - Correspondences
 1 2 3 4 5 6 7    4 2 2 2 2 2
@@ -61,7 +61,7 @@ $$$$
 %%%-------------------------------------------------------------------
 %%% Symmetry  2*1 = 2
 %%%-------------------------------------------------------------------
-RO2-Isomerization-6RingSecondary c(r)(h)(h)(ccoo.) = .c(r)(h)(ccooh)
+RO2-Isomerization-6RingSecondary c(h)(h)(r)(ccoo.) = .c(r)(h)(ccooh)
 - ID 3125
 - Correspondences
 1 2 3 4 5 6 7 8   4 2 2 2 2 2 2
@@ -74,7 +74,7 @@ $$$$
 %%%-------------------------------------------------------------------
 %%% Symmetry  2*1 = 2
 %%%-------------------------------------------------------------------
-RO2-Isomerization-6RingTertiary c(r)(r)(h)(ccoo.) = .c(r)(r)(ccooh)
+RO2-Isomerization-6RingTertiary c(r)(h)(r)(ccoo.) = .c(r)(r)(ccooh)
 - ID 3126
 - Correspondences
 1 2 3 4 5 6 7 8   4 2 2 2 2 2 2
@@ -100,7 +100,7 @@ $$$$
 %%%-------------------------------------------------------------------
 %%% Symmetry = 2*1 = 2
 %%%-------------------------------------------------------------------
-RO2-Isomerization-7RingSecondary c(r)(h)(h)(cccoo.) = .c(r)(h)(cccooh)
+RO2-Isomerization-7RingSecondary c(h)(h)(r)(cccoo.) = .c(r)(h)(cccooh)
 - ID 3128
 - Correspondences
 1 2 3 4 5 6 7 8 9  4 2 2 2 2 2 2 2
@@ -113,7 +113,7 @@ $$$$
 %%%-------------------------------------------------------------------
 %%% Symmetry = 2*1 = 2
 %%%-------------------------------------------------------------------
-RO2-Isomerization-7RingTertiary c(r)(r)(h)(cccoo.) = .c(r)(r)(cccooh)
+RO2-Isomerization-7RingTertiary c(r)(h)(r)(cccoo.) = .c(r)(r)(cccooh)
 - ID 3129
 - Correspondences
 1 2 3 4 5 6 7 8 9  4 2 2 2 2 2 2 2

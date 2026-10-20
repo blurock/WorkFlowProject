@@ -17,12 +17,12 @@ $$$$
 %%% Symmetry: 2*2 = 4
 %%%-------------------------------------------------------------------
 PeroxyAllylFormation(rh)(h)(hh)\
-    alphaolefin-radical(rh)(h)(hh) oxygen = peroxypropene-radical-(rh)(h)(hh)
+    alphaolefin-radical(hh)(h)(rh) oxygen = peroxypropene-radical-(rh)(h)(hh)
 - ID 70902
 - Correspondences
 1 2 3 4 5 6 7 8           2 2 2 2 2 2 2
 9 10                      2
-1 2 3 4 5 6 7 8 9 10      2 2 2 2 2 2 2 4 2
+3 2 1 7 8 6 4 5 9 10      2 2 2 2 2 2 2 4 2
 >  <ForwardRxn>
 Standard 2.2D+19  -2.500  0.0  4; Heyberger et. al., Int. J. Chem Kinet. 34:666-677 (2002)
 >  <ReverseRxn>

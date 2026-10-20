@@ -20,13 +20,13 @@ $$$$
 %%%   Symmetry 1*1*2 = 2
 %%%-------------------------------------------------------------------
 AlphaOlefinRadicalDecompOH-(rh)(h)(hh) \
-     alphaolefin-radical(rh)(h)(hh) hydroxyl-radical = olefin-(rh)(hh) (h)(h)c(o) 
+     alphaolefin-radical(hh)(h)(rh) hydroxyl-radical = olefin-(rh)(hh) (h)(h)c(o) 
 - ID 43202
 - Correspondences
 1 2 3 4 5 6 7 8      2 4 2 2 2 2 2
 10 9                 4
-1 2 4 5 6 10         2 2 2 2 4
-3 9 7 8              4 2 2
+3 2 7 8 6 10         2 2 2 2 4
+1 9 4 5              4 2 2
 >  <ForwardRxn>
 Standard 1.5e+13 0.0 0.0 2; aC3H5 + OH = C2H4 + HCHO ;  Tsang, J. Phys. Chem. Ref Data, 20, 221 (1991)
 >  <ReverseRxn>
