@@ -20,10 +20,11 @@ cat xxx.mol
 echo "------------------------------------"
 
 $CHEMPROG test < $INPPRINT >! substructure.out
-cat test.out
+if ( -f molecule.out ) then
+    cat molecule.out
+    rm molecule.out
+endif
 rm substructure.out
 rm xxx.mol
-#rm test.out
-#rm xxx.mol
 popd
 echo "EndOfOutput"

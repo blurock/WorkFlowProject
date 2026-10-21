@@ -40,11 +40,11 @@ $$$$
 %%%   Symmetry 2*2 = 4
 %%%-------------------------------------------------------------------
 PropenylIsomerization-(rh)(r)(hh) \
-   alphaolefin-radical(rh)(r)(hh) = alphaolefin-radical(r)(r)(hhh)
+   alphaolefin-radical(hh)(r)(rh) = alphaolefin-radical(r)(r)(hhh)
 - ID 42704
 - Correspondences
 1 2 3 4 5 6 7 8          2 2 2 4 2 2 2
-1 2 3 4 6 7 8 5          2 2 2 2 2 2 4
+3 2 1 7 6 4 5 8          2 2 2 2 2 2 4
 >  <ReverseRxn>
 Standard 5.01e+13 0.0 37000 4; Come Value ; Estimate  Come Propene chchch3 = ch2chch2
 $$$$

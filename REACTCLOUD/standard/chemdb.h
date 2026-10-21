@@ -188,6 +188,9 @@ extern INT ReadInASCIIMols(INT dbflag,
 			   BindStructure *bind);
 extern INT ReadInASCIISetOfReactions(BindStructure *bind);
 extern INT ReadInASCIISetOfRxnPatterns(BindStructure *bind);
+extern ASCIIReactionSet *ReadInASCIIReactionsWithDBCheck(FILE *file, INT max,
+                                                        INT dbflag,
+                                                        BindStructure *bind);
 extern INT FormatCheckASCIIReactions(BindStructure *bind);
 extern INT FormatCheckASCIIRxnPatterns(BindStructure *bind);
 extern INT FormatCheckReactions(BindStructure *bind);

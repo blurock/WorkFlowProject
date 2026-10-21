@@ -116,6 +116,17 @@ static INT ReadInRxnsMolsFromDB(DataBaseInformation *dinfo,
       EliminateLeadingBlanks(line);
       error = ReactionMolfileUsingDB(count, line, dinfo, rxnmolf);
       printf("[DEBUG ReadInRxnsMolsFromDB] ReactionMolfileUsingDB returned error=%d\n", error);
+      if (error != SYSTEM_NORMAL_RETURN) {
+        while (line != NULL && strncmp(line, "$$$$", 4) != 0) {
+          line = NextNonBlankLine(file, string);
+        }
+        if (line != NULL) {
+          line = NextNonBlankLine(file, string);
+        }
+        FreeMolFileReaction(rxnmolf);
+        memset(rxnmolf, 0, sizeof(MolFileReaction));
+        continue;
+      }
       error1 = ReadRxnID(file, rxnmolf);
       printf("[DEBUG ReadInRxnsMolsFromDB] ReadRxnID returned error1=%d, rxnID=%d\n", error1, rxnmolf->ID);
       error2 = ReadCorrespondences(file, rxnmolf);
@@ -136,6 +147,7 @@ static INT ReadInRxnsMolsFromDB(DataBaseInformation *dinfo,
         printf("ERROR: Reaction %s\n", rxnmolf->Name);
 
       FreeMolFileReaction(rxnmolf);
+      memset(rxnmolf, 0, sizeof(MolFileReaction));
 
       printf("End "
              "Reaction---------------------------------------------------------"
@@ -311,7 +323,7 @@ static int ReadMolCorrespondences(FILE *file, MolFileMolecule *mol) {
 static int ReactionMolfileUsingDB(int id, char *line,
                                   DataBaseInformation *dinfo,
                                   MolFileReaction *rxn) {
-  char *reactants, *products, *name, *next;
+  char *reactants, *products, *name, *next, *rxn_name;
   MolFileReaction *readrxn;
   MoleculeInfo *minfo;
   MolFileMolecule *mlf;
@@ -327,6 +339,7 @@ static int ReactionMolfileUsingDB(int id, char *line,
 
   next = IsolateNextWord(line, name, ' ', LINELENGTH);
   printf("Reaction Name: %s\n", name);
+  rxn_name = CopyString(name);
   /*
   products = IsolateNextWord(next,reactants,'=',LINELENGTH);
   */
@@ -353,7 +366,7 @@ static int ReactionMolfileUsingDB(int id, char *line,
         break;
       }
     } else {
-      printf("ERROR: Reactant substructure not found: '%s'\n", name);
+      printf("ERROR Substructure in Reaction Pattern not found: %s not found in %s\n", name, rxn_name);
       error = SYSTEM_ERROR_RETURN;
     }
   }
@@ -373,12 +386,18 @@ static int ReactionMolfileUsingDB(int id, char *line,
         break;
       }
     } else {
-      printf("ERROR: Product substructure not found: '%s'\n", name);
+      printf("ERROR Substructure in Reaction Pattern not found: %s not found in %s\n", name, rxn_name);
       error = SYSTEM_ERROR_RETURN;
     }
   }
-  CopyFullMolFileReaction(rxn, readrxn);
+  if (error == SYSTEM_NORMAL_RETURN) {
+    CopyFullMolFileReaction(rxn, readrxn);
+  }
   FreeMolFileReaction(readrxn);
   Free(readrxn);
+  Free(minfo);
+  Free(name);
+  Free(reactants);
+  Free(rxn_name);
   return error;
 }

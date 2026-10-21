@@ -88,7 +88,6 @@ $PROGRAM subsLongerRadicalChains5Carbons
 $PROGRAM subsLongerRadicalChains6Carbons
 $PROGRAM subsLongerRadicalChainsAlkene
 $PROGRAM subsPropenylRadical3
-$PROGRAM subsAlkoxyRadical
 $PROGRAM subsAlkoxyRadical2
 $PROGRAM subsPeroxyCyclohexane
 $PROGRAM cyclohexaneSubstructures
