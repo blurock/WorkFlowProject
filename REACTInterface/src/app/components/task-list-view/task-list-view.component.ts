@@ -127,6 +127,9 @@ export class TaskListViewComponent implements OnChanges {
   public rxnPatternFilterQuery: string = '';
   public rxnPatternViewMode: 'tree' | 'flat' = 'tree';
 
+  // Flat Catalog Search Query (Substructures, Molecules, Benson Groups, Mechanisms)
+  public searchQuery: string = '';
+
   constructor(
     private apiService: ReactCloudApiService,
     private catalogServiceRegistry: CatalogServiceRegistry,
@@ -144,12 +147,64 @@ export class TaskListViewComponent implements OnChanges {
       this.moleculeSections = [];
       this.currentSdfContent = null;
       this.selectedTabIndex = 0;
+      this.searchQuery = '';
       this.rxnPatternFilterQuery = '';
       this.rxnPatternViewMode = 'tree';
       this.rxnPatternTree = [];
       this.filteredRxnPatternTree = [];
       this.loadTaskData(false);
     }
+  }
+
+  public get filteredItems(): CatalogItem[] {
+    if (this.task?.id === 'rxn-patterns') {
+      if (!this.rxnPatternFilterQuery || !this.rxnPatternFilterQuery.trim()) {
+        return this.items;
+      }
+      const q = this.rxnPatternFilterQuery.trim().toLowerCase();
+      return this.items.filter(item => item.name.toLowerCase().includes(q));
+    }
+
+    if (!this.searchQuery || !this.searchQuery.trim()) {
+      return this.items;
+    }
+    const q = this.searchQuery.trim().toLowerCase();
+    const tokens = q.split(/\s+/).filter(t => t.length > 0);
+    return this.items.filter(item => {
+      const nameLower = item.name.toLowerCase();
+      const idStr = item.id !== undefined && item.id !== null ? item.id.toString() : '';
+      if (nameLower.includes(q) || idStr.includes(q)) {
+        return true;
+      }
+      if (tokens.length > 1) {
+        return tokens.every(token => nameLower.includes(token) || idStr.includes(token));
+      }
+      return false;
+    });
+  }
+
+  public clearSearchQuery(): void {
+    this.searchQuery = '';
+  }
+
+  public getSearchLabel(): string {
+    if (this.task?.id === 'substructures') {
+      return 'Search substructures by name';
+    } else if (this.task?.id === 'molecules') {
+      return 'Search molecules by name';
+    } else if (this.task?.id === 'benson-groups') {
+      return 'Search Benson groups by name';
+    } else if (this.task?.id === 'mechanisms') {
+      return 'Search mechanisms by name';
+    }
+    return 'Search items by name';
+  }
+
+  public getSearchPlaceholder(): string {
+    if (this.task?.id === 'substructures') {
+      return 'Filter by substring (e.g. radical, peroxy, (rh), c=c)...';
+    }
+    return 'Filter by substring...';
   }
 
   public loadTaskData(forceRefresh: boolean = false): void {

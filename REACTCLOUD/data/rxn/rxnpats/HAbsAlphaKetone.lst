@@ -196,13 +196,13 @@ $$$$
 %%%   Symmetry (6*6) = 36
 %%%-------------------------------------------------------------------
 H-Abstraction-AlphaToKetoneCH3O2-(h)(hh)\
-     c(hhh)hc(o) + (h)(h)(h)coo. = .c(h)(h)co(h) + (h)(h)(h)cooh
+     c(hhh)hc(o) + (h)(h)(h)coo. = .c(h)(h)co(h) + c(h)(h)(h)(ooh)
 - ID 3471
 - Correspondences
 1 2 3 4 5 6 7      2 2 2 2 2 4
 8 9 10 11 12 13    2 2 2 2 2
 3 1 2 4 5 6        2 2 2 2 2
-8 9 10 7 11 12 13  2 2 4 2 2 2
+7 10 9 8 11 12 13  4 2 2 2 2 2
 >  <ForwardRxn>
 Standard 3.010E+12  0.00  1.193E+04 36; Westbrook heptane mechanism; ch3o2+ch3cho  =  ch3o2h+ch3co
 >  <ReverseRxn>
@@ -212,13 +212,13 @@ $$$$
 %%%   Symmetry (6*6) = 36
 %%%-------------------------------------------------------------------
 H-Abstraction-AlphaToKetoneCH3O2-(r)(hh)\
-     c(hhh)rc(o) + (h)(h)(h)coo. = .c(h)(h)co(r) + (h)(h)(h)cooh
+     c(hhh)rc(o) + (h)(h)(h)coo. = .c(h)(h)co(r) + c(h)(h)(h)(ooh)
 - ID 3472
 - Correspondences
 1 2 3 4 5 6 7      2 2 2 2 2 4
 8 9 10 11 12 13    2 2 2 2 2
 3 1 2 4 5 6        2 2 2 2 2
-8 9 10 7 11 12 13  2 2 4 2 2 2
+7 10 9 8 11 12 13  4 2 2 2 2 2
 >  <ForwardRxn>
 Standard  3.010E+12  0.00  1.758E+04 36; Westbrook heptane mechanism;  nc4h9coch3+ch3o2  =  nc4h9coch2+ch3o2h
 >  <ReverseRxn>
@@ -228,13 +228,13 @@ $$$$
 %%%   Symmetry (6*2) = 12
 %%%-------------------------------------------------------------------
 H-Abstraction-AlphaToKetoneCH3O2-(h)(rh)\
-     c(rhh)hc(o) + (h)(h)(h)coo. = .c(r)(h)co(h) + (h)(h)(h)cooh
+     c(rhh)hc(o) + (h)(h)(h)coo. = .c(r)(h)co(h) + c(h)(h)(h)(ooh)
 - ID 3473
 - Correspondences
 1 2 3 4 5 6 7      2 2 2 2 2 4
 8 9 10 11 12 13    2 2 2 2 2
 3 1 2 4 5 6        2 2 2 2 2
-8 9 10 7 11 12 13  2 2 4 2 2 2
+7 10 9 8 11 12 13  4 2 2 2 2 2
 >  <ForwardRxn>
 Standard 3.980E+12   0.00  1.705E+04 12; Westbrook heptane mechanism;  nc5h11cho+ch3o2 = c5h10cho-5+ch3o2h
 >  <ReverseRxn>
@@ -244,13 +244,13 @@ $$$$
 %%%   Symmetry (6*2) = 2
 %%%-------------------------------------------------------------------
 H-Abstraction-AlphaToKetoneCH3O2-(r)(rh)\
-     c(rhh)rc(o) + (h)(h)(h)coo. = .c(r)(h)co(r) + (h)(h)(h)cooh
+     c(rhh)rc(o) + (h)(h)(h)coo. = .c(r)(h)co(r) + c(h)(h)(h)(ooh)
 - ID 3474
 - Correspondences
 1 2 3 4 5 6 7      2 2 2 2 2 4
 8 9 10 11 12 13    2 2 2 2 2
 3 1 2 4 5 6        2 2 2 2 2
-8 9 10 7 11 12 13  2 2 4 2 2 2
+7 10 9 8 11 12 13  4 2 2 2 2 2
 >  <ForwardRxn>
 Standard  2.000E+12  0.00  1.525E+04 12; Westbrook heptane mechanism;  nc3h7coc2h5+ch3o2  =  nc3h7coc2h4s+ch3o2h
 >  <ReverseRxn>
@@ -260,13 +260,13 @@ $$$$
 %%%   Symmetry (6*2) = 12
 %%%-------------------------------------------------------------------
 H-Abstraction-AlphaToKetoneCH3O2-(h)(rr)\
-     c(rrh)hc(o) + (h)(h)(h)coo. = .c(r)(r)co(h) + (h)(h)(h)cooh
+     c(rrh)hc(o) + (h)(h)(h)coo. = .c(r)(r)co(h) + c(h)(h)(h)(ooh)
 - ID 3475
 - Correspondences
 1 2 3 4 5 6 7      2 2 2 2 2 4
 8 9 10 11 12 13    2 2 2 2 2
 3 1 2 4 5 6        2 2 2 2 2
-8 9 10 7 11 12 13  2 2 4 2 2 2
+7 10 9 8 11 12 13  4 2 2 2 2 2
 >  <ForwardRxn>
 Standard 4.760E+04  2.55  1.649E+04 12; Westbrook heptane mechanism;   ic3h7cho+ch3o2  =  ic3h6cho+ch3o2h
 >  <ReverseRxn>
@@ -276,13 +276,13 @@ $$$$
 %%%   Symmetry (6*2) = 12
 %%%-------------------------------------------------------------------
 H-Abstraction-AlphaToKetoneCH3O2-(r)(rr)\
-     c(rrh)rc(o) + (h)(h)(h)coo. = .c(r)(r)co(r) + (h)(h)(h)cooh
+     c(rrh)rc(o) + (h)(h)(h)coo. = .c(r)(r)co(r) + c(h)(h)(h)(ooh)
 - ID 3476
 - Correspondences
 1 2 3 4 5 6 7      2 2 2 2 2 4
 8 9 10 11 12 13    2 2 2 2 2
 3 1 2 4 5 6        2 2 2 2 2
-8 9 10 7 11 12 13  2 2 4 2 2 2
+7 10 9 8 11 12 13  4 2 2 2 2 2
 >  <ForwardRxn>
 Standard 3.610E+03  2.55  8.032E+03 12; Westbrook heptane mechanism;  ic3h7coc2h5+ch3o2  =  tc3h6coc2h5+ch3o2h
 >  <ReverseRxn>

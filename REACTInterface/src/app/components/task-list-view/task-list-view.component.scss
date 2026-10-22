@@ -659,6 +659,7 @@
 /* ==========================================================================
    Reaction Patterns Two-Level Tree Toolbar & Tree Nodes
    ========================================================================== */
+.catalog-search-toolbar,
 .rxn-pattern-toolbar {
   background: #ffffff;
   border-bottom: 1px solid #e2e8f0;
@@ -671,6 +672,7 @@
     gap: 12px;
     margin-bottom: 8px;
 
+    .catalog-search-field,
     .rxn-search-field {
       flex: 1 1 300px;
       min-width: 260px;
@@ -715,6 +717,7 @@
         }
       }
 
+      .catalog-stats-badge,
       .rxn-stats-badge {
         font-size: 0.85rem;
         color: #475569;

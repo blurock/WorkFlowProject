@@ -18,11 +18,11 @@ $$$$
 %%% Symmetry: 1*1 = 1
 %%%-------------------------------------------------------------------
 cyclohexane-13-cyclicetherformation-RH\
- hydroperoxycyclohexane-3-radical-RH = cyclohexane-13-CyclicEther-RH hydroxyl-radical
+ hydroperoxycyclohexane-3-radical-RH = cyclohexane-13-CyclicEther-HR hydroxyl-radical
 - ID 19011
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11              2 2 2 2 2 2 2 2 4 2 2
-1 2 3 4 5 6 7 8 11                   2 2 2 2 2 2 2 2 4 2
+3 2 1 4 5 6 7 8 11                   2 2 2 2 2 2 2 2 4 2
 10 9                                 2
 
 >  <ForwardRxn>
@@ -82,11 +82,11 @@ $$$$
 %%% Symmetry: 1*1 = 1
 %%%-------------------------------------------------------------------
 cyclohexane-14-cyclicetherformation-RH\
- hydroperoxycyclohexane-4-radical-RH = cyclohexane-14-CyclicEther-RH hydroxyl-radical
+ hydroperoxycyclohexane-4-radical-RH = cyclohexane-14-CyclicEther-HR hydroxyl-radical
 - ID 19015
 - Correspondences
 1 2 3 4 5 6 7 8 9 10 11              2 2 2 2 2 2 2 2 4 2 2
-1 2 3 4 5 6 7 8 11                   2 2 2 2 2 2 2 2 4 2
+4 3 2 1 5 6 11 8 7                   2 2 2 2 2 2 2 2 4 2
 10 9                                 2
 
 >  <ForwardRxn>

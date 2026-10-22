@@ -45,11 +45,42 @@
       <div class="tab-content-area">
         <mat-card class="list-card">
           <mat-card-header>
-            <mat-card-title>{{ task.id === 'rxn-patterns' ? 'Reaction Patterns by Class' : 'Catalog Items' }}</mat-card-title>
+            <mat-card-title>{{ task.id === 'rxn-patterns' ? 'Reaction Patterns by Class' : (task.title || 'Catalog Items') }}</mat-card-title>
             <mat-card-subtitle>
-              {{ task.id === 'rxn-patterns' ? 'Three-level hierarchy grouped by prefix terms and generalized reaction pattern class. Expand a category prefix, then a class to select a specific pattern.' : 'Click any item to view detailed section cards in the Information tab.' }}
+              {{ task.id === 'rxn-patterns' ? 'Three-level hierarchy grouped by prefix terms and generalized reaction pattern class. Expand a category prefix, then a class to select a specific pattern.' : 'Click any ' + (task.id === 'substructures' ? 'substructure' : 'item') + ' to view detailed section cards in the Information tab.' }}
             </mat-card-subtitle>
           </mat-card-header>
+
+          <!-- Flat Catalog List Search Toolbar (Substructures, Molecules, Benson Groups, Mechanisms) -->
+          <div class="catalog-search-toolbar px-3 pt-3" *ngIf="task.id !== 'rxn-patterns' && !isLoading && items.length > 0">
+            <div class="toolbar-search-row">
+              <mat-form-field appearance="outline" class="catalog-search-field">
+                <mat-label>{{ getSearchLabel() }}</mat-label>
+                <input
+                  matInput
+                  [(ngModel)]="searchQuery"
+                  [placeholder]="getSearchPlaceholder()" />
+                <mat-icon matPrefix color="primary">search</mat-icon>
+                <button
+                  mat-icon-button
+                  matSuffix
+                  *ngIf="searchQuery"
+                  (click)="clearSearchQuery()"
+                  matTooltip="Clear search filter">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+
+              <div class="toolbar-actions">
+                <span class="catalog-stats-badge" *ngIf="searchQuery">
+                  Showing <strong>{{ filteredItems.length }}</strong> of <strong>{{ items.length }}</strong> {{ task.id === 'substructures' ? 'substructures' : 'items' }}
+                </span>
+                <span class="catalog-stats-badge" *ngIf="!searchQuery">
+                  <strong>{{ items.length }}</strong> {{ task.id === 'substructures' ? 'substructures' : 'items' }}
+                </span>
+              </div>
+            </div>
+          </div>
 
           <!-- Reaction Pattern Tree Controls Toolbar (rxn-patterns only) -->
           <div class="rxn-pattern-toolbar px-3 pt-3" *ngIf="task.id === 'rxn-patterns' && !isLoading && items.length > 0">
@@ -198,10 +229,10 @@
             </div>
 
             <!-- Standard Flat Catalog List (Molecules, Substructures, Mechanisms, Benson, or Flat Reaction Patterns) -->
-            <mat-action-list *ngIf="!isLoading && items.length > 0 && (task.id !== 'rxn-patterns' || rxnPatternViewMode === 'flat')" class="catalog-action-list">
+            <mat-action-list *ngIf="!isLoading && filteredItems.length > 0 && (task.id !== 'rxn-patterns' || rxnPatternViewMode === 'flat')" class="catalog-action-list">
               <button
                 mat-list-item
-                *ngFor="let item of items"
+                *ngFor="let item of filteredItems"
                 (click)="onItemClick(item)"
                 [class.selected-item]="selectedItem?.id === item.id"
                 class="catalog-item-button">
@@ -211,6 +242,24 @@
                 <mat-icon class="arrow-right-icon">chevron_right</mat-icon>
               </button>
             </mat-action-list>
+
+            <!-- Search Filter Empty State for Flat Catalog List -->
+            <div class="empty-state" *ngIf="task.id !== 'rxn-patterns' && !isLoading && filteredItems.length === 0 && items.length > 0 && searchQuery">
+              <mat-icon class="empty-icon">search_off</mat-icon>
+              <p>No {{ task.id === 'substructures' ? 'substructures' : 'items' }} match substring "<strong>{{ searchQuery }}</strong>".</p>
+              <button mat-stroked-button color="primary" (click)="clearSearchQuery()">
+                <mat-icon>clear</mat-icon> Clear Filter
+              </button>
+            </div>
+
+            <!-- Search Filter Empty State for Flat Reaction Patterns -->
+            <div class="empty-state" *ngIf="task.id === 'rxn-patterns' && rxnPatternViewMode === 'flat' && !isLoading && filteredItems.length === 0 && items.length > 0 && rxnPatternFilterQuery">
+              <mat-icon class="empty-icon">search_off</mat-icon>
+              <p>No reaction patterns match "<strong>{{ rxnPatternFilterQuery }}</strong>".</p>
+              <button mat-stroked-button color="primary" (click)="clearRxnPatternFilter()">
+                <mat-icon>clear</mat-icon> Clear Filter
+              </button>
+            </div>
           </mat-card-content>
         </mat-card>
       </div>

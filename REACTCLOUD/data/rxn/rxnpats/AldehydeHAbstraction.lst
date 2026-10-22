@@ -211,13 +211,13 @@ $$$$
 %%%-------------------------------------------------------------------
 %%% Symmetry: 2*6 = 12
 %%%-------------------------------------------------------------------
-AldehydeHAbstractionCH3O2-(hh)    (h)(h)c(o) (h)(h)(h)coo. = (h).c(o) (h)(h)(h)cooh
+AldehydeHAbstractionCH3O2-(hh)    (h)(h)c(o) (h)(h)(h)coo. = (h).c(o) c(h)(h)(h)(ooh)
 - ID 3315
 - Correspondences
 1 2 3 4               2 2 4
 5 6 7 8 9 10          2 2 2 2 2
 1 2 3                 2 2
-5 6 7 4 8 9 10        2 2 4 2 2 2
+4 7 6 5 8 9 10        4 2 2 2 2 2
 >  <ForwardRxn>
 Standard 5.600E+12   0.00  1.360E+04 12; Curran Heptane; Curran ch3o2+ch2o = ch3o2h+hco 
 >  <ReverseRxn>
@@ -226,13 +226,13 @@ $$$$
 %%%-------------------------------------------------------------------
 %%% Symmetry: 6 = 6
 %%%-------------------------------------------------------------------
-AldehydeHAbstractionCH3O2-(rh)    (r)(h)c(o) (h)(h)(h)coo. = (r).c(o) (h)(h)(h)cooh
+AldehydeHAbstractionCH3O2-(rh)    (r)(h)c(o) (h)(h)(h)coo. = (r).c(o) c(h)(h)(h)(ooh)
 - ID 3316
 - Correspondences
 1 2 3 4               2 2 4
 5 6 7 8 9 10          2 2 2 2 2
 1 2 3                 2 2
-5 6 7 4 8 9 10        2 2 4 2 2 2
+4 7 6 5 8 9 10        4 2 2 2 2 2
 >  <ForwardRxn>
 Standard 1.000E+12   0.00  9.500E+03 6; Curran Heptane; nc5h11cho+ch3o2 = nc5h11co+ch3o2h
 >  <ReverseRxn>
