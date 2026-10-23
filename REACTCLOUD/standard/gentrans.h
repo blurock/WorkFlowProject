@@ -73,6 +73,8 @@ extern ChainSequence *ReadInChainSequenceList(CHAR *dir,
 					      INT rxnflag,
 					      BindStructure *bind);
 extern ReadChainSet *ReadInChainDefinition(BindStructure *bind);
+extern void DetermineSetOfMolecules(ReadChainSet *set);
+extern void DetermineSetOfReactions(ReadChainSet *set);
 /*P  . . . PROTOTYPES . . . . . . . . . . . . . . . . . . . . . . . . setup.c
 */
 extern SetOfPerformedRxnInfo *SetUpChainAdjustments(ChainSequenceElement *element,

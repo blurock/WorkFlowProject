@@ -180,7 +180,7 @@ extern FunctionList *MergeFunctDBReaction(FunctionList *old)
      Free(old);
      return(new);
      }
-#define NUMBER_MECHDB_FUNCTIONS 6
+#define NUMBER_MECHDB_FUNCTIONS 8
 
 static FunctionInfo MECHDB_FUNCTION_LIST[NUMBER_MECHDB_FUNCTIONS] = {
      {1,"ReadInMechanism",(INT (*)(void)) ReadInMechanism},
@@ -188,7 +188,9 @@ static FunctionInfo MECHDB_FUNCTION_LIST[NUMBER_MECHDB_FUNCTIONS] = {
      {3,"StoreSetOfMechanismsInDatabase",(INT (*)(void)) StoreSetOfMechanismsInDatabase},
      {4,"GenerateChainMechanism",(INT (*)(void)) GenerateChainMechanism},
      {5,"InitializeMechanismDataBase",(INT (*)(void)) InitializeMechanismDataBase},
-     {6,"CombineToTotalMechanism",(INT (*)(void)) CombineToTotalMechanism}
+     {6,"CombineToTotalMechanism",(INT (*)(void)) CombineToTotalMechanism},
+     {7,"DBReadCheckChain",(INT (*)(void)) DBReadCheckChain},
+     {8,"DBReadStoreChain",(INT (*)(void)) DBReadStoreChain}
      };
     
 static FunctionList MECHDB_FUNCTIONS = {

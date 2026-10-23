@@ -26,6 +26,7 @@ $PROGRAM subsAlphaOlefin2
 $PROGRAM subsBetaOlefin
 $PROGRAM subsLongerRadicalChains
 $PROGRAM subsAldKetone
+$PROGRAM subsPeroxy
 $PROGRAM subsPeroxy2
 $PROGRAM subsAldPeroxy
 $PROGRAM subsAldPeroxy2

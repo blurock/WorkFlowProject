@@ -240,6 +240,10 @@ extern DetailedMechanism
 extern MoleculeSet *ReadSetOfMoleculesFromParameters(CHAR *parameter,
 						     BindStructure *bind);
 extern INT GenerateChainMechanism(BindStructure *bind);
+extern INT DBReadCheckChain(BindStructure *bind);
+extern INT DBReadStoreChain(BindStructure *bind);
+extern ReadChainSet *FetchReadChainSetFromFirestore(const char *name, BindStructure *bind);
+extern INT StoreReadChainSetToFirestore(ReadChainSet *readchain, BindStructure *bind);
 extern DataSubSet *ReplaceMoleculesFromDatabase(MoleculeSet *molset,
 					 BindStructure *bind); 
 /*P  . . . PROTOTYPES  . . . . . . . . . . . . . . . . . . . . objfind.c

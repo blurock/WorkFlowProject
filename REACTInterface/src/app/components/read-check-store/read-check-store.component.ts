@@ -17,7 +17,7 @@ import { CommandTemplatesRegistry } from '../../templates/command-templates.regi
 import { KetcherViewerComponent } from '../ketcher-viewer/ketcher-viewer.component';
 import { ExecutionOutputParserService, ExecutionOutputSections } from '../../services/execution-output-parser.service';
 
-export type DataTypeOption = 'molecule' | 'substructure' | 'rxn-pattern' | 'reaction';
+export type DataTypeOption = 'molecule' | 'substructure' | 'rxn-pattern' | 'reaction' | 'mechanism-pathway';
 export type FormatOption = 'sdf' | 'ascii';
 
 export interface StoredRecordItem {
@@ -182,7 +182,13 @@ export class ReadCheckStoreComponent implements OnInit {
   }
 
   private updateFormatDefaults(): void {
-    if (this.dataType === 'molecule' || this.dataType === 'substructure') {
+    if (this.dataType === 'mechanism-pathway') {
+      this.format = 'ascii';
+      this.supportedFormats = [{ value: 'ascii', label: 'Mechanism Pathway (.lsr)' }];
+      if (this.rootName === '22dimethylC3C4') {
+        this.rootName = 'AldehydeDecomposition';
+      }
+    } else if (this.dataType === 'molecule' || this.dataType === 'substructure') {
       this.format = 'sdf';
       this.supportedFormats = [{ value: 'sdf', label: 'SDF / Molfile' }];
     } else {
@@ -196,6 +202,9 @@ export class ReadCheckStoreComponent implements OnInit {
   }
 
   public getTargetFileExtension(): string {
+    if (this.dataType === 'mechanism-pathway') {
+      return '.lsr';
+    }
     if (this.dataType === 'rxn-pattern' || this.dataType === 'reaction') {
       return this.format === 'sdf' ? '.rxn' : '.lst';
     }
@@ -203,7 +212,9 @@ export class ReadCheckStoreComponent implements OnInit {
   }
 
   private updateFileExtensionLabel(): void {
-    if (this.dataType === 'rxn-pattern' || this.dataType === 'reaction') {
+    if (this.dataType === 'mechanism-pathway') {
+      this.fileExtensionLabel = '.lsr';
+    } else if (this.dataType === 'rxn-pattern' || this.dataType === 'reaction') {
       this.fileExtensionLabel = this.format === 'sdf' ? '.rxn / .sdf' : '.lst';
     } else if (this.format === 'sdf') {
       this.fileExtensionLabel = '.sdf / .mol';

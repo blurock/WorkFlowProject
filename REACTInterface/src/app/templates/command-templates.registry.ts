@@ -389,6 +389,41 @@ export class CommandTemplatesRegistry {
     ];
   }
 
+  // 5. Mechanism Pathway (.lsr)
+  public static readMechanismPathway(rootName: string = 'AldehydeDecomposition', outName: string = 'out1'): string[] {
+    return [
+      "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
+      "MetaAtoms", "Read", "Quit", "Quit",
+      "CreateOpenClose", "Start", "Quit",
+      "DbaseOps", "Chain",
+      "Parameters",
+      "TransformDir", "Input", ".", "Quit",
+      "TransformRxn", "Input", rootName, "Quit",
+      "Quit",
+      "ReadCheck", "Quit",
+      "Quit", "Quit"
+    ];
+  }
+
+  public static checkMechanismPathwayInDatabase(rootName: string = 'AldehydeDecomposition', outName: string = 'out1'): string[] {
+    return this.readMechanismPathway(rootName, outName);
+  }
+
+  public static storeMechanismPathwayInDatabase(rootName: string = 'AldehydeDecomposition', outName: string = 'out1'): string[] {
+    return [
+      "Mol", "Parameters", "RootMolName", "Input", "StandardMeta", "Quit", "Quit",
+      "MetaAtoms", "Read", "Quit", "Quit",
+      "CreateOpenClose", "Start", "Quit",
+      "DbaseOps", "Chain",
+      "Parameters",
+      "TransformDir", "Input", ".", "Quit",
+      "TransformRxn", "Input", rootName, "Quit",
+      "Quit",
+      "ReadStore", "Quit",
+      "Quit", "Quit"
+    ];
+  }
+
   /**
    * Universal Dispatcher for 3-Step Read-Check-Store Commands
    */
@@ -430,6 +465,13 @@ export class CommandTemplatesRegistry {
         }
         if (step === 'check') return this.checkReactionsInDatabase(rootName, outName);
         return this.storeReactionsInDatabase(rootName, outName);
+
+      case 'mechanism-pathway':
+      case 'pathway':
+      case 'chain':
+        if (step === 'read') return this.readMechanismPathway(rootName, outName);
+        if (step === 'check') return this.checkMechanismPathwayInDatabase(rootName, outName);
+        return this.storeMechanismPathwayInDatabase(rootName, outName);
 
       default:
         return this.readMoleculesFromFile(rootName, outName);

@@ -22,6 +22,7 @@
 #include "rxn.h"
 #include "gentrans.h"
 #include "chemdb.h"
+#include "cJSON.h"
 
 #include <math.h> 
 
@@ -73,7 +74,7 @@ extern INT GenerateChainMechanism(BindStructure *bind)
   ChainSequence *chainseq;
   SetOfGraphMetaAtoms *graphmetaatoms;
   SetOfMolFileMetaAtoms *metaatomset;
-  CHAR *string,*name;
+  CHAR *string,*name,*transformName;
   INT length;
   SetOfTables *tables;
      
@@ -82,7 +83,24 @@ extern INT GenerateChainMechanism(BindStructure *bind)
   metaatomset = GetMetaAtomMaster(bind);
   mechset = GetBoundStructure(bind,BIND_CURRENT_MECHANISMS);
   graphmetaatoms = TranslateSetOfMolfileMetaAtoms(metaatomset);
-  readchain = ReadInChainDefinition(bind);
+
+  transformName = GetCurrentStringArgument("TransformRxn", commandmaster);
+  readchain = NULL;
+  if (transformName != NULL && strlen(transformName) > 0) {
+    printf("Checking Firestore for MechanismPathway '%s'...\n", transformName);
+    readchain = FetchReadChainSetFromFirestore(transformName, bind);
+  }
+  if (readchain == NULL) {
+    printf("MechanismPathway '%s' not found in Firestore. Reading from file definition...\n",
+           transformName ? transformName : "UNKNOWN");
+    readchain = ReadInChainDefinition(bind);
+  }
+  if (readchain == NULL) {
+    printf("ERROR: Could not find or load MechanismPathway '%s' from Firestore or file.\n",
+           transformName ? transformName : "UNKNOWN");
+    return SYSTEM_ERROR_RETURN;
+  }
+
   tables = GetBoundStructure(bind,BIND_THERMO_TABLES);
 
   rxnset = DetermineReactionSetFromASCII(readchain->Reactions,PATTERN_DATABASE,bind);
@@ -569,3 +587,387 @@ static MechanismMoleculeSet *TransferMoleculesToMechanism(MoleculeSet *molecules
     }
   return(mechmolset);
 }
+
+/*S FirestoreChainInterface
+*/
+
+/*F FetchReadChainSetFromFirestore(name, bind)
+**
+**  DESCRIPTION
+**    Fetches a MechanismPathway JSON record from Firestore via the Orchestrator
+**    endpoint /api/db/fetch (collection: users/<uid>/databases/MechanismPathway/records/<name>).
+**    Deserializes into a ReadChainSet structure and ensures total Molecules and Reactions
+**    sets are calculated.
+*/
+extern ReadChainSet *FetchReadChainSetFromFirestore(const char *name, BindStructure *bind)
+{
+  CHAR body[1024];
+  CHAR *resp;
+  size_t resp_size = 4194304; /* 4 MB buffer */
+  const char *uid;
+  ReadChainSet *readchain = NULL;
+
+  if (name == NULL || *name == '\0') return NULL;
+
+  uid = getenv("REACT_USER_UID");
+  if (uid == NULL || *uid == '\0') {
+    uid = "user_default_local";
+  }
+
+  snprintf(body, sizeof(body),
+           "{\"uid\":\"%s\",\"dbName\":\"MechanismPathway\",\"type\":\"string\",\"key\":\"%s\"}",
+           uid, name);
+
+  resp = (CHAR *) Malloc(resp_size);
+  if (resp == NULL) return NULL;
+
+  if (PostJSONToOrchestrator("/api/db/fetch", body, resp, resp_size) == 0) {
+    char *json_body = strstr(resp, "\r\n\r\n");
+    if (json_body != NULL) {
+      json_body += 4;
+      cJSON *parsed = cJSON_Parse(json_body);
+      if (parsed != NULL) {
+        cJSON *found = cJSON_GetObjectItemCaseSensitive(parsed, "found");
+        cJSON *data = cJSON_GetObjectItemCaseSensitive(parsed, "data");
+        if (found != NULL && !cJSON_IsNull(found) && (found->type == cJSON_True || found->valueint != 0) && data != NULL) {
+          char *data_str = cJSON_PrintUnformatted(data);
+          if (data_str != NULL) {
+            readchain = AllocateReadChainSet;
+            memset(readchain, 0, sizeof(ReadChainSet));
+            if (ReadJSONReadChainSetFromString(readchain, data_str) == STRUCTURE_READ) {
+              if (readchain->Molecules == NULL) {
+                DetermineSetOfMolecules(readchain);
+              }
+              if (readchain->Reactions == NULL) {
+                DetermineSetOfReactions(readchain);
+              }
+              printf("[Firestore Fetch] Successfully fetched MechanismPathway '%s' from Firestore.\n", name);
+            } else {
+              printf("[Firestore Fetch Error] Failed to parse MechanismPathway '%s' JSON.\n", name);
+              FreeReadChainSet(readchain);
+              Free(readchain);
+              readchain = NULL;
+            }
+            cJSON_free(data_str);
+          }
+        }
+        cJSON_Delete(parsed);
+      }
+    }
+  }
+  Free(resp);
+  return readchain;
+}
+
+/*F StoreReadChainSetToFirestore(readchain, bind)
+**
+**  DESCRIPTION
+**    Serializes a ReadChainSet structure to JSON and saves it in Firestore via Orchestrator
+**    endpoint /api/db/store under dbName 'MechanismPathway' and key readchain->Name.
+*/
+extern INT StoreReadChainSetToFirestore(ReadChainSet *readchain, BindStructure *bind)
+{
+  CHAR *json_str;
+  CHAR *body;
+  size_t len;
+  const char *uid;
+  int res = SYSTEM_ERROR_RETURN;
+
+  if (readchain == NULL || readchain->Name == NULL || *readchain->Name == '\0')
+    return SYSTEM_ERROR_RETURN;
+
+  uid = getenv("REACT_USER_UID");
+  if (uid == NULL || *uid == '\0') {
+    uid = "user_default_local";
+  }
+
+  if (readchain->Molecules == NULL) DetermineSetOfMolecules(readchain);
+  if (readchain->Reactions == NULL) DetermineSetOfReactions(readchain);
+
+  json_str = WriteJSONReadChainSetToString(readchain);
+  if (json_str == NULL) return SYSTEM_ERROR_RETURN;
+
+  len = strlen(uid) + strlen("MechanismPathway") + strlen(readchain->Name) + strlen(json_str) + 512;
+  body = (CHAR *) Malloc(len);
+  if (body == NULL) {
+    cJSON_free(json_str);
+    return SYSTEM_ERROR_RETURN;
+  }
+
+  sprintf(body, "{\"uid\":\"%s\",\"dbName\":\"MechanismPathway\",\"key\":\"%s\",\"keyId\":%d,\"jsonStr\":%s}",
+          uid, readchain->Name, readchain->ID, json_str);
+
+  if (PostJSONToOrchestrator("/api/db/store", body, NULL, 0) == 0) {
+    printf("[Firestore Store] Successfully stored MechanismPathway '%s' in Firestore.\n", readchain->Name);
+    res = SYSTEM_NORMAL_RETURN;
+  } else {
+    printf("[Firestore Store Error] Failed to store MechanismPathway '%s' in Firestore.\n", readchain->Name);
+  }
+
+  Free(body);
+  cJSON_free(json_str);
+  return res;
+}
+
+/*S ReadCheckAndStoreChain
+*/
+
+/*F DBReadCheckChain(bind)
+**
+**  DESCRIPTION
+**    Reads a ReadChainSet pathway definition from the specified file (TransformDir/TransformRxn.lsr),
+**    validates its formatting (non-empty name, NumberOfSteps > 0), and verifies that all molecules
+**    exist in SUBSTRUCTURE_DATABASE and all reaction patterns exist in PATTERN_DATABASE.
+**    Writes a formatted report table to <TransformDir>/<TransformRxn>_Check.out and stdout.
+*/
+extern INT DBReadCheckChain(BindStructure *bind)
+{
+  CommandMaster *commandmaster;
+  ChemDBMaster *master;
+  DataBaseInformation *subsdinfo, *patdinfo;
+  FILE *out;
+  ReadChainSet *readchain;
+  MoleculeInfo minfo;
+  ReactionInfo rinfo;
+  INT i, ret;
+  INT num_missing_mols = 0, num_checked_mols = 0;
+  INT num_missing_rxns = 0, num_checked_rxns = 0;
+  CHAR *pathwayName;
+
+  commandmaster = GetBoundStructure(bind, BIND_COMMANDMASTER);
+  if (commandmaster == NULL) return SYSTEM_ERROR_RETURN;
+
+  master = GetBoundStructure(bind, BIND_CHEMDBASE);
+  if (master == NULL) {
+    printf("ERROR: ChemDBMaster (BIND_CHEMDBASE) is NULL. Initialize database first.\n");
+    return SYSTEM_ERROR_RETURN;
+  }
+
+  subsdinfo = GetDataBaseInfoFromID(master->DatabaseInfo, SUBSTRUCTURE_DATABASE);
+  patdinfo = GetDataBaseInfoFromID(master->DatabaseInfo, PATTERN_DATABASE);
+
+  out = OpenWriteFileFromCurrent("TransformDir", "TransformRxn", "Check.out", IGNORE,
+                                 "Mechanism Pathway Check Report", commandmaster);
+  if (out == NULL) out = stdout;
+
+  fprintf(out, "================================================================================\n");
+  fprintf(out, "Mechanism Pathway Definition Check Report\n");
+  fprintf(out, "================================================================================\n");
+
+  readchain = ReadInChainDefinition(bind);
+  if (readchain == NULL) {
+    fprintf(out, "ERROR: Could not read Mechanism Pathway definition from file.\n");
+    if (out != stdout) {
+      printf("ERROR: Could not read Mechanism Pathway definition from file.\n");
+      fclose(out);
+    }
+    return SYSTEM_ERROR_RETURN;
+  }
+
+  pathwayName = readchain->Name ? readchain->Name : "UNKNOWN";
+  fprintf(out, "Pathway Name: %s\n", pathwayName);
+  fprintf(out, "Number of Steps: %d\n", readchain->NumberOfSteps);
+  if (readchain->ExtraMolecules != NULL) {
+    fprintf(out, "Auxiliary Molecules for all steps: %d\n", readchain->ExtraMolecules->NumberOfMolecules);
+  }
+  fprintf(out, "--------------------------------------------------------------------------------\n");
+
+  /* 1. Format check */
+  if (readchain->NumberOfSteps <= 0 || readchain->Steps == NULL) {
+    fprintf(out, "ERROR: Mechanism Pathway contains no steps (NumberOfSteps = %d).\n", readchain->NumberOfSteps);
+    if (out != stdout) {
+      printf("ERROR: Mechanism Pathway '%s' contains no steps.\n", pathwayName);
+      fclose(out);
+    }
+    FreeReadChainSet(readchain);
+    Free(readchain);
+    return SYSTEM_ERROR_RETURN;
+  }
+
+  /* 2. Check Molecules in SUBSTRUCTURE_DATABASE */
+  fprintf(out, "\n[1] Molecule Existence Check (SUBSTRUCTURE_DATABASE):\n");
+  fprintf(out, "%-40s %-20s\n", "Molecule_Name", "Database_Status");
+  fprintf(out, "---------------------------------------- --------------------\n");
+
+  if (readchain->Molecules != NULL && readchain->Molecules->NumberOfMolecules > 0) {
+    ReadInMolecule *mol = readchain->Molecules->Molecules;
+    LOOPi(readchain->Molecules->NumberOfMolecules) {
+      num_checked_mols++;
+      memset(&minfo, 0, sizeof(MoleculeInfo));
+      ret = DBFindMolSubFromString(mol->Name, &minfo, subsdinfo);
+      if (ret == SYSTEM_NORMAL_RETURN) {
+        fprintf(out, "%-40.40s %-20s\n", mol->Name ? mol->Name : "", "EXISTS");
+      } else {
+        fprintf(out, "%-40.40s %-20s\n", mol->Name ? mol->Name : "", "NOT_FOUND");
+        num_missing_mols++;
+      }
+      mol++;
+    }
+  } else {
+    fprintf(out, "No molecules defined in pathway.\n");
+  }
+
+  /* 3. Check Reaction Patterns in PATTERN_DATABASE */
+  fprintf(out, "\n[2] Reaction Pattern Existence Check (PATTERN_DATABASE):\n");
+  fprintf(out, "%-40s %-20s\n", "Reaction_Pattern_Name", "Database_Status");
+  fprintf(out, "---------------------------------------- --------------------\n");
+
+  if (readchain->Reactions != NULL && readchain->Reactions->NumberOfReactions > 0) {
+    ReadInReaction *rxn = readchain->Reactions->Reactions;
+    LOOPi(readchain->Reactions->NumberOfReactions) {
+      num_checked_rxns++;
+      memset(&rinfo, 0, sizeof(ReactionInfo));
+      ret = DBFindRxnSetFromString(rxn->Name, &rinfo, patdinfo);
+      if (ret == SYSTEM_NORMAL_RETURN) {
+        fprintf(out, "%-40.40s %-20s\n", rxn->Name ? rxn->Name : "", "EXISTS");
+      } else {
+        fprintf(out, "%-40.40s %-20s\n", rxn->Name ? rxn->Name : "", "NOT_FOUND");
+        num_missing_rxns++;
+      }
+      rxn++;
+    }
+  } else {
+    fprintf(out, "No reaction patterns defined in pathway.\n");
+  }
+
+  fprintf(out, "\n--------------------------------------------------------------------------------\n");
+  fprintf(out, "Summary for Pathway '%s':\n", pathwayName);
+  fprintf(out, "  Molecules Checked: %d (Missing: %d)\n", num_checked_mols, num_missing_mols);
+  fprintf(out, "  Reaction Patterns Checked: %d (Missing: %d)\n", num_checked_rxns, num_missing_rxns);
+
+  if (num_missing_mols == 0 && num_missing_rxns == 0) {
+    fprintf(out, "RESULT: SUCCESS - All molecules and reaction patterns exist in database.\n");
+    fprintf(out, "================================================================================\n");
+    printf("ReadCheckChain: SUCCESS - Mechanism Pathway '%s' is valid (%d mols, %d patterns).\n",
+           pathwayName, num_checked_mols, num_checked_rxns);
+    ret = SYSTEM_NORMAL_RETURN;
+  } else {
+    fprintf(out, "RESULT: FAILED - Missing %d molecules and %d reaction patterns in database.\n",
+            num_missing_mols, num_missing_rxns);
+    fprintf(out, "================================================================================\n");
+    printf("ReadCheckChain: FAILED - Mechanism Pathway '%s' has missing items (%d mols missing, %d patterns missing).\n",
+           pathwayName, num_missing_mols, num_missing_rxns);
+    ret = SYSTEM_ERROR_RETURN;
+  }
+
+  if (out != stdout) fclose(out);
+  FreeReadChainSet(readchain);
+  Free(readchain);
+
+  return ret;
+}
+
+/*F DBReadStoreChain(bind)
+**
+**  DESCRIPTION
+**    Reads a ReadChainSet pathway definition from file (TransformDir/TransformRxn.lsr),
+**    verifies that all molecules and reaction patterns exist in the database, and if so,
+**    stores the pathway in Firestore under collection users/<uid>/databases/MechanismPathway.
+**    Writes a status report to <TransformDir>/<TransformRxn>_Store.out and stdout.
+*/
+extern INT DBReadStoreChain(BindStructure *bind)
+{
+  CommandMaster *commandmaster;
+  ChemDBMaster *master;
+  DataBaseInformation *subsdinfo, *patdinfo;
+  FILE *out;
+  ReadChainSet *readchain;
+  MoleculeInfo minfo;
+  ReactionInfo rinfo;
+  INT i, ret;
+  INT num_missing_mols = 0, num_checked_mols = 0;
+  INT num_missing_rxns = 0, num_checked_rxns = 0;
+  CHAR *pathwayName;
+
+  commandmaster = GetBoundStructure(bind, BIND_COMMANDMASTER);
+  if (commandmaster == NULL) return SYSTEM_ERROR_RETURN;
+
+  master = GetBoundStructure(bind, BIND_CHEMDBASE);
+  if (master == NULL) {
+    printf("ERROR: ChemDBMaster (BIND_CHEMDBASE) is NULL. Initialize database first.\n");
+    return SYSTEM_ERROR_RETURN;
+  }
+
+  subsdinfo = GetDataBaseInfoFromID(master->DatabaseInfo, SUBSTRUCTURE_DATABASE);
+  patdinfo = GetDataBaseInfoFromID(master->DatabaseInfo, PATTERN_DATABASE);
+
+  out = OpenWriteFileFromCurrent("TransformDir", "TransformRxn", "Store.out", IGNORE,
+                                 "Mechanism Pathway Store Report", commandmaster);
+  if (out == NULL) out = stdout;
+
+  fprintf(out, "================================================================================\n");
+  fprintf(out, "Mechanism Pathway Firestore Store Report\n");
+  fprintf(out, "================================================================================\n");
+
+  readchain = ReadInChainDefinition(bind);
+  if (readchain == NULL) {
+    fprintf(out, "ERROR: Could not read Mechanism Pathway definition from file.\n");
+    if (out != stdout) {
+      printf("ERROR: Could not read Mechanism Pathway definition from file.\n");
+      fclose(out);
+    }
+    return SYSTEM_ERROR_RETURN;
+  }
+
+  pathwayName = readchain->Name ? readchain->Name : "UNKNOWN";
+  fprintf(out, "Pathway Name: %s\n", pathwayName);
+  fprintf(out, "Number of Steps: %d\n", readchain->NumberOfSteps);
+
+  /* Verify all molecules and reaction patterns exist in database before storing */
+  if (readchain->Molecules != NULL && readchain->Molecules->NumberOfMolecules > 0) {
+    ReadInMolecule *mol = readchain->Molecules->Molecules;
+    LOOPi(readchain->Molecules->NumberOfMolecules) {
+      num_checked_mols++;
+      memset(&minfo, 0, sizeof(MoleculeInfo));
+      ret = DBFindMolSubFromString(mol->Name, &minfo, subsdinfo);
+      if (ret != SYSTEM_NORMAL_RETURN) {
+        num_missing_mols++;
+      }
+      mol++;
+    }
+  }
+
+  if (readchain->Reactions != NULL && readchain->Reactions->NumberOfReactions > 0) {
+    ReadInReaction *rxn = readchain->Reactions->Reactions;
+    LOOPi(readchain->Reactions->NumberOfReactions) {
+      num_checked_rxns++;
+      memset(&rinfo, 0, sizeof(ReactionInfo));
+      ret = DBFindRxnSetFromString(rxn->Name, &rinfo, patdinfo);
+      if (ret != SYSTEM_NORMAL_RETURN) {
+        num_missing_rxns++;
+      }
+      rxn++;
+    }
+  }
+
+  if (num_missing_mols > 0 || num_missing_rxns > 0) {
+    fprintf(out, "ERROR: Cannot store pathway in Firestore: %d molecules and %d reaction patterns are missing from database.\n",
+            num_missing_mols, num_missing_rxns);
+    fprintf(out, "RESULT: FAILED - Run ReadCheck first to identify missing database records.\n");
+    fprintf(out, "================================================================================\n");
+    printf("ReadStoreChain: FAILED - Missing database records (%d mols, %d patterns).\n",
+           num_missing_mols, num_missing_rxns);
+    if (out != stdout) fclose(out);
+    FreeReadChainSet(readchain);
+    Free(readchain);
+    return SYSTEM_ERROR_RETURN;
+  }
+
+  ret = StoreReadChainSetToFirestore(readchain, bind);
+  if (ret == SYSTEM_NORMAL_RETURN) {
+    fprintf(out, "RESULT: SUCCESS - Mechanism Pathway '%s' stored in Firestore.\n", pathwayName);
+    fprintf(out, "Firestore Collection: users/<uid>/databases/MechanismPathway/records/%s\n", pathwayName);
+    printf("ReadStoreChain: SUCCESS - Mechanism Pathway '%s' stored in Firestore.\n", pathwayName);
+  } else {
+    fprintf(out, "RESULT: FAILED - Error storing Mechanism Pathway '%s' in Firestore.\n", pathwayName);
+    printf("ReadStoreChain: FAILED - Firestore storage error for '%s'.\n", pathwayName);
+  }
+  fprintf(out, "================================================================================\n");
+
+  if (out != stdout) fclose(out);
+  FreeReadChainSet(readchain);
+  Free(readchain);
+
+  return ret;
+}
+

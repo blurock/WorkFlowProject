@@ -1955,6 +1955,22 @@ app.post('/api/db/listSummary', async (req, res) => {
   }
 });
 
+app.post('/api/db/delete', async (req, res) => {
+  try {
+    const { uid = 'user_default_local', dbName, key } = req.body;
+    if (!dbName || !key) {
+      return res.status(400).json({ error: 'Missing required parameters: dbName, key' });
+    }
+    const docPath = `users/${uid}/databases/${dbName}/records/${key}`;
+    await firestore.doc(docPath).delete();
+    console.log(`[Firestore DB Delete] Deleted record: ${docPath}`);
+    return res.json({ status: 'OK', path: docPath });
+  } catch (err) {
+    console.error('[Firestore DB Delete Error]', err.message);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
 
 
 app.post('/api/db/storeSearchKeys', async (req, res) => {

@@ -44,8 +44,8 @@ static TransformSet *GetSetOfStepReactions(CHAR *rxns,
 					   INT rxnflag,
 					   BindStructure *bind);
 static void FillInReactionStep(CHAR *line, ReadChainReactionStep *step);
-static void DetermineSetOfMolecules(ReadChainSet *set);
-static void DetermineSetOfReactions(ReadChainSet *set);
+extern void DetermineSetOfMolecules(ReadChainSet *set);
+extern void DetermineSetOfReactions(ReadChainSet *set);
 static INT ReactionNotInSet(ReadInReactionSet *rxnset, ReadInReaction *addrxn);
 static void MergeToTotalReadInReactionSets(ReadInReactionSet *total, 
 					   ReadInReactionSet *toadd);
@@ -299,6 +299,8 @@ extern ReadChainSet *ReadInChainDefinition(BindStructure *bind)
 	  line = NextNonBlankLine(in,string);
 	  EliminateBlanks(line);
 	  name = CopyString(line);
+	  if(strlen(name) > 0 && name[strlen(name)-1] == ':')
+	       name[strlen(name)-1] = '\0';
 	  
 	  set = AllocateReadChainSet;
 	  CreateReadChainSet(set,0,name,
@@ -379,7 +381,7 @@ static void FillInReactionStep(CHAR *line, ReadChainReactionStep *step) {
 **  REMARKS
 **
 */
-static void DetermineSetOfMolecules(ReadChainSet *set)
+extern void DetermineSetOfMolecules(ReadChainSet *set)
      {
      INT i;
      ReadChainReactionStep *step;
@@ -413,7 +415,7 @@ static void DetermineSetOfMolecules(ReadChainSet *set)
 **  REMARKS
 **
 */
-static void DetermineSetOfReactions(ReadChainSet *set)
+extern void DetermineSetOfReactions(ReadChainSet *set)
      {
      INT i;
      ReadChainReactionStep *step;

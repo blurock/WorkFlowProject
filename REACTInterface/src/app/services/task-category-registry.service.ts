@@ -121,6 +121,13 @@ export class TaskCategoryRegistry {
           type: 'read-check-store'
         },
         {
+          id: 'mechanism-pathway-creator',
+          title: 'Mechanism Pathway Creator',
+          description: 'Visually create, edit, check, and store reaction mechanism pathways in Firestore',
+          icon: 'polyline',
+          type: 'mechanism-pathway-creator'
+        },
+        {
           id: 'read-mol-properties',
           title: 'Read Molecule Properties from File',
           inpFile: 'ReadInMoleculeProperties.inp',

@@ -23,6 +23,7 @@ import { ReadCheckStoreComponent } from '../read-check-store/read-check-store.co
 import { GeneralRxnPatGeneratorComponent } from '../general-rxn-pat-generator/general-rxn-pat-generator.component';
 import { GraphicalMoleculeInputComponent } from '../graphical-molecule-input/graphical-molecule-input.component';
 import { TestReactionPatternComponent } from '../test-reaction-pattern/test-reaction-pattern.component';
+import { MechanismPathwayCreatorComponent } from '../mechanism-pathway-creator/mechanism-pathway-creator.component';
 
 @Component({
   selector: 'app-task-dashboard',
@@ -47,7 +48,8 @@ import { TestReactionPatternComponent } from '../test-reaction-pattern/test-reac
     ReadCheckStoreComponent,
     GeneralRxnPatGeneratorComponent,
     GraphicalMoleculeInputComponent,
-    TestReactionPatternComponent
+    TestReactionPatternComponent,
+    MechanismPathwayCreatorComponent
   ],
   templateUrl: './task-dashboard.component.html',
   styleUrls: ['./task-dashboard.component.scss']

@@ -474,6 +474,14 @@ COMMAND DbaseOps OPERATIONSDATABASE
                          TITLE Generate the chain mechanism
                          FUNCTION GenerateChainMechanism
                     ENDCOMMAND
+                    COMMAND ReadCheck READCHECKCHAIN
+                         TITLE Read and check chain definition
+                         FUNCTION DBReadCheckChain
+                    ENDCOMMAND
+                    COMMAND ReadStore READSTORECHAIN
+                         TITLE Read and store chain definition to Firestore
+                         FUNCTION DBReadStoreChain
+                    ENDCOMMAND
           ENDCOMMAND
 ENDCOMMAND
 DONE
