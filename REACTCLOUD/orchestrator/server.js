@@ -2064,14 +2064,39 @@ app.post('/api/db/purgeCollection', async (req, res) => {
       }
     }
 
-    // 3. Reset counter
+    // 3. Reset counter & initialize metadata
     if (resetCounter) {
       const counterRef = firestore.doc(`users/${uid}/databases/${dbName}/metadata/counter`);
       await counterRef.set({
         nextID: Number(startAt),
         lastAllocatedID: 0,
+        description: `Monotonically increasing unique integer ID counter for ${dbName} database`,
         updatedAt: new Date().toISOString()
       });
+
+      const infoRef = firestore.doc(`users/${uid}/databases/${dbName}/metadata/databaseInfo`);
+      await infoRef.set({
+        dbName: String(dbName),
+        classificationName: String(classColName || ''),
+        startAt: Number(startAt),
+        description: `REACTCLOUD ${dbName} database with unique sequential IDs`,
+        status: 'INITIALIZED',
+        recordCount: 0,
+        classificationCount: 0,
+        initializedAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      }, { merge: true });
+    }
+
+    // 4. Optionally clear search keys
+    try {
+      const searchKeyRef = firestore.doc(`users/${uid}/searchkeys/${dbName}`);
+      const skSnap = await searchKeyRef.get();
+      if (skSnap.exists) {
+        await searchKeyRef.delete();
+      }
+    } catch (e) {
+      console.warn(`[Firestore PurgeCollection] SearchKeys cleanup warning for ${dbName}:`, e.message);
     }
 
     console.log(`[Firestore PurgeCollection] dbName='${dbName}', deletedRecords=${deletedRecordsCount}, deletedClassDocs=${deletedClassCount}`);
@@ -2079,7 +2104,8 @@ app.post('/api/db/purgeCollection', async (req, res) => {
       success: true,
       dbName,
       deletedRecords: deletedRecordsCount,
-      deletedClassDocs: deletedClassCount
+      deletedClassDocs: deletedClassCount,
+      counterResetTo: Number(startAt)
     });
   } catch (err) {
     console.error('[Firestore PurgeCollection Error]', err.message);
