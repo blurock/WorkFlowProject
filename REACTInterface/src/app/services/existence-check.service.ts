@@ -8,6 +8,7 @@ export interface ExistenceCheckItem {
   name: string;
   substructureMatch?: string;
   exactMatch?: string;
+  matchedName?: string;
   dbId?: string;
   inDatabase: boolean;
   status: 'Present' | 'New' | 'Unknown' | string;
@@ -249,10 +250,19 @@ export class ExistenceCheckService {
             (dbId !== '' && dbId !== '---' && dbId !== 'NOT_FOUND' && /^\d+$/.test(dbId))
           );
 
+          let matchedName: string | undefined = undefined;
+          const parenMatch = statusStr.match(/\(([^)]+)\)/);
+          if (parenMatch && parenMatch[1]) {
+            matchedName = parenMatch[1].trim();
+          }
+
           if (isPresent) {
             hasConflicts = true;
             if (dbId && /^\d+$/.test(dbId)) {
               dbIdMap.set(name, dbId);
+              if (matchedName) {
+                dbIdMap.set(matchedName, dbId);
+              }
             }
           }
 
@@ -260,6 +270,8 @@ export class ExistenceCheckService {
             id: `ITEM-${items.length + 1}`,
             name: name,
             dbId: dbId,
+            matchedName: matchedName,
+            exactMatch: matchedName,
             inDatabase: isPresent,
             status: isPresent ? 'Present' : 'New',
             suggestedAction: isPresent ? 'Replace' : 'Add'

@@ -18,6 +18,9 @@ export interface TargetMoleculeCheckResult {
   providedIn: 'root'
 })
 export class TargetMoleculeService {
+  public pendingMolfileForEditor: string | null = null;
+  public pendingStructureNameForEditor: string | null = null;
+  public pendingStructureTypeForEditor: 'Molecule' | 'Substructure' = 'Molecule';
 
   constructor(
     private chemParser: ChemStructureParserService,

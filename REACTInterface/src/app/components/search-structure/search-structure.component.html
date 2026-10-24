@@ -1,0 +1,254 @@
+<div class="search-structure-container">
+
+  <!-- ==================== TOP HEADER BAR ==================== -->
+  <div class="header-bar">
+    <div class="title-group">
+      <mat-icon class="header-icon">saved_search</mat-icon>
+      <div>
+        <div class="title-with-badge">
+          <h2>Database Structure Search</h2>
+          <span class="type-badge">{{ searchType === 'substructure' ? 'Substructure' : 'Molecule' }} Search</span>
+        </div>
+        <p class="subtitle">
+          Draw a 2D chemical structure in Ketcher to query the REACT database for exact isomorphism, view matched ID and Name, or proceed to Molecule Creator & Editor.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SEARCH CONFIGURATION CONTROL BAR ==================== -->
+  <div class="search-controls-card">
+    <div class="control-row">
+
+      <!-- 1. Search Mode Switcher (Substructure vs Molecule) -->
+      <div class="toggle-group-wrapper">
+        <label class="control-label">Search Database In:</label>
+        <mat-button-toggle-group
+          [(ngModel)]="searchType"
+          (change)="onSearchTypeChange()"
+          class="custom-toggle-group">
+          <mat-button-toggle value="substructure" class="toggle-btn">
+            <mat-icon class="toggle-icon">grain</mat-icon>
+            <span>Substructures</span>
+          </mat-button-toggle>
+          <mat-button-toggle value="molecule" class="toggle-btn">
+            <mat-icon class="toggle-icon">science</mat-icon>
+            <span>Molecules</span>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <!-- 2. Structure / Query Name Input -->
+      <mat-form-field appearance="outline" class="query-name-field">
+        <mat-label>Query Name (Label)</mat-label>
+        <input matInput [(ngModel)]="structureName" placeholder="e.g. QueryStructure" [disabled]="isSearching">
+        <mat-hint>Identifier used in check report and logs</mat-hint>
+      </mat-form-field>
+
+      <!-- 3. Primary Action Buttons -->
+      <div class="action-buttons-group">
+        <button
+          mat-raised-button
+          color="primary"
+          class="find-btn"
+          [disabled]="isSearching"
+          (click)="findStructure()"
+          matTooltip="Search database for drawn structure">
+          <mat-icon *ngIf="!isSearching">search</mat-icon>
+          <mat-icon *ngIf="isSearching" class="spin-icon">autorenew</mat-icon>
+          <span>{{ isSearching ? 'Searching...' : 'Find in Database' }}</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== ERROR BANNER ==================== -->
+  <div *ngIf="errorMessage" class="error-banner">
+    <mat-icon class="banner-icon">error_outline</mat-icon>
+    <div class="banner-content">
+      <strong>Error:</strong> {{ errorMessage }}
+    </div>
+  </div>
+
+  <!-- ==================== MAIN SPLIT LAYOUT ==================== -->
+  <div class="split-layout-grid">
+
+    <!-- LEFT COLUMN: KETCHER DRAWING CANVAS -->
+    <div class="canvas-column">
+      <app-ketcher-viewer
+        #ketcherCanvas
+        [title]="'Ketcher 2D Drawing Canvas: ' + (structureName || 'Query Structure')">
+      </app-ketcher-viewer>
+    </div>
+
+    <!-- RIGHT COLUMN: SEARCH RESULTS & DATABASE MATCH DETAILS -->
+    <div class="results-column">
+
+      <!-- 1. Progress State -->
+      <mat-card *ngIf="isSearching" class="status-card searching-card">
+        <div class="card-header-line">
+          <mat-icon class="spin-icon text-primary">autorenew</mat-icon>
+          <h3 class="m-0">Querying Database...</h3>
+        </div>
+        <mat-progress-bar mode="indeterminate" class="my-3"></mat-progress-bar>
+        <p class="status-detail-text">{{ statusMessage }}</p>
+      </mat-card>
+
+      <!-- 2. Match Found State -->
+      <mat-card *ngIf="searchCompleted && foundInDatabase" class="status-card match-found-card">
+        <div class="card-header-line">
+          <mat-icon class="status-icon text-success">check_circle</mat-icon>
+          <div>
+            <h3 class="m-0 text-success">Exact Match Found in Database!</h3>
+            <span class="match-subtitle">The drawn structure corresponds to an existing record.</span>
+          </div>
+        </div>
+
+        <mat-divider class="my-3"></mat-divider>
+
+        <div class="match-info-table">
+          <div class="info-row">
+            <span class="info-label">Database Name:</span>
+            <span class="info-value highlight-name">{{ matchedDatabaseName }}</span>
+          </div>
+
+          <div class="info-row">
+            <span class="info-label">Database ID:</span>
+            <div class="id-badge-container">
+              <span class="dbid-chip">{{ matchedDatabaseId }}</span>
+              <button
+                mat-icon-button
+                (click)="copyDbIdToClipboard()"
+                matTooltip="Copy Database ID to clipboard"
+                class="copy-btn">
+                <mat-icon>content_copy</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <span class="info-label">Database Type:</span>
+            <span class="info-value">{{ searchType === 'substructure' ? 'Substructures Database' : 'Molecules Database' }}</span>
+          </div>
+
+          <div class="info-row">
+            <span class="info-label">Status:</span>
+            <span class="status-chip exists-chip">EXISTS IN DATABASE</span>
+          </div>
+        </div>
+
+        <div class="action-footer mt-4">
+          <button
+            mat-stroked-button
+            color="primary"
+            (click)="findStructure()"
+            [disabled]="isSearching">
+            <mat-icon>refresh</mat-icon> Re-Check Canvas
+          </button>
+        </div>
+      </mat-card>
+
+      <!-- 3. Match Not Found State -->
+      <mat-card *ngIf="searchCompleted && !foundInDatabase" class="status-card match-not-found-card">
+        <div class="card-header-line">
+          <mat-icon class="status-icon text-amber">info</mat-icon>
+          <div>
+            <h3 class="m-0 text-amber">Structure Not Found in Database</h3>
+            <span class="match-subtitle">This chemical structure is NEW and not registered yet.</span>
+          </div>
+        </div>
+
+        <mat-divider class="my-3"></mat-divider>
+
+        <div class="not-found-content">
+          <p class="description-text">
+            No exact isomorphism match was found for this structure in the 
+            <strong>{{ searchType === 'substructure' ? 'Substructures' : 'Molecules' }}</strong> 
+            database.
+          </p>
+
+          <div class="callout-box">
+            <mat-icon class="callout-icon">lightbulb</mat-icon>
+            <div class="callout-body">
+              <strong>Next Step:</strong> You can open this structure directly in the 
+              <strong>Molecule Creator & Editor</strong> with your drawing pre-populated, 
+              configure thermodynamic data and alternative names, and register it in the database.
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <button
+              mat-raised-button
+              color="accent"
+              class="open-creator-btn"
+              (click)="openInMoleculeCreator()">
+              <mat-icon>add_circle</mat-icon>
+              <span>Open in Molecule Creator & Editor</span>
+            </button>
+          </div>
+        </div>
+      </mat-card>
+
+      <!-- 4. Initial Idle Guidance State -->
+      <mat-card *ngIf="!searchCompleted && !isSearching" class="status-card guidance-card">
+        <div class="card-header-line">
+          <mat-icon class="status-icon text-muted">touch_app</mat-icon>
+          <div>
+            <h3 class="m-0">Structure Search Instructions</h3>
+            <span class="match-subtitle">Quickly verify molecules or substructures before generating mechanisms</span>
+          </div>
+        </div>
+
+        <mat-divider class="my-3"></mat-divider>
+
+        <div class="steps-list">
+          <div class="step-item">
+            <span class="step-num">1</span>
+            <div class="step-desc">
+              <strong>Draw Structure:</strong> Use the Ketcher canvas on the left to draw your target molecule or sub-structure.
+            </div>
+          </div>
+
+          <div class="step-item">
+            <span class="step-num">2</span>
+            <div class="step-desc">
+              <strong>Choose Database:</strong> Select whether you are searching in <strong>Substructures</strong> (default) or <strong>Molecules</strong>.
+            </div>
+          </div>
+
+          <div class="step-item">
+            <span class="step-num">3</span>
+            <div class="step-desc">
+              <strong>Press 'Find in Database':</strong> The backend checks canonical isomorphism against all database records.
+            </div>
+          </div>
+
+          <div class="step-item">
+            <span class="step-num">4</span>
+            <div class="step-desc">
+              <strong>Found or Not Found:</strong> If found, the database name and ID are reported. If not found, click to open and edit in <strong>Molecule Creator & Editor</strong> with drawing pre-loaded!
+            </div>
+          </div>
+        </div>
+      </mat-card>
+
+      <!-- 5. Collapsible Backend Execution Log Panel -->
+      <div *ngIf="rawExecutionOutput" class="collapsible-log-section mt-3">
+        <button
+          mat-button
+          class="toggle-log-btn"
+          (click)="toggleRawOutput()">
+          <mat-icon>{{ isRawOutputExpanded ? 'expand_less' : 'expand_more' }}</mat-icon>
+          <span>{{ isRawOutputExpanded ? 'Hide Raw Backend Output' : 'View Raw Backend Output & Log' }}</span>
+        </button>
+
+        <div *ngIf="isRawOutputExpanded" class="raw-output-card mt-2">
+          <pre class="terminal-output">{{ rawExecutionOutput }}</pre>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

@@ -21,6 +21,7 @@ import { ExistenceCheckService } from '../../services/existence-check.service';
 import { ExecutionOutputParserService, ExecutionOutputSections, MoleculeSubSection } from '../../services/execution-output-parser.service';
 import { TaskOutputParserService } from '../../services/task-output-parser.service';
 import { ChemStructureParserService } from '../../services/chem-structure-parser.service';
+import { TargetMoleculeService } from '../../services/target-molecule.service';
 import { CommandTemplatesRegistry } from '../../templates/command-templates.registry';
 import { MoleculeSection } from '../../models/task-list.models';
 import { ElectronicPropertiesCardComponent } from '../task-list-view/cards/electronic-properties-card.component';
@@ -66,6 +67,8 @@ export interface BensonTempRow {
 })
 export class GraphicalMoleculeInputComponent implements OnInit {
   @ViewChild('ketcherCanvas') ketcherCanvas!: KetcherViewerComponent;
+
+  public initialMolfile: string | null = null;
 
   // Panel 1: Structure Type and Name
   public structureType: StructureType = 'Molecule';
@@ -127,11 +130,25 @@ export class GraphicalMoleculeInputComponent implements OnInit {
     private outputParserService: ExecutionOutputParserService,
     private taskOutputParser: TaskOutputParserService,
     private chemParser: ChemStructureParserService,
+    private targetMoleculeService: TargetMoleculeService,
     private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
     this.resetThermodynamicDefaults();
+
+    if (this.targetMoleculeService?.pendingMolfileForEditor) {
+      this.initialMolfile = this.targetMoleculeService.pendingMolfileForEditor;
+      if (this.targetMoleculeService.pendingStructureTypeForEditor) {
+        this.structureType = this.targetMoleculeService.pendingStructureTypeForEditor;
+      }
+      if (this.targetMoleculeService.pendingStructureNameForEditor) {
+        this.structureName = this.targetMoleculeService.pendingStructureNameForEditor;
+      }
+      this.targetMoleculeService.pendingMolfileForEditor = null;
+      this.targetMoleculeService.pendingStructureNameForEditor = null;
+      this.snackBar.open('Structure successfully imported into Molecule Creator & Editor', 'Dismiss', { duration: 3000 });
+    }
   }
 
   // --- Helpers for Panel 1 ---

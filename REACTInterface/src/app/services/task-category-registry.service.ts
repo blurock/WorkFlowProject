@@ -59,6 +59,31 @@ export class TaskCategoryRegistry {
       ]
     },
     {
+      id: 'db-operations',
+      title: 'Database Operations',
+      description: 'Search, verify, and register chemical structures and database records',
+      icon: 'dns',
+      badge: 'DATABASE',
+      badgeColor: 'primary',
+      isExpanded: true,
+      tasks: [
+        {
+          id: 'search-structure-db',
+          title: 'Search Structure in Database',
+          description: 'Draw 2D chemical structure in Ketcher to query database for exact isomorphism and retrieve ID/Name',
+          icon: 'saved_search',
+          type: 'search-structure'
+        },
+        {
+          id: 'read-check-store-db',
+          title: 'Read, Check & Store Database Input',
+          description: 'Upload source files, verify existence, and commit structures to database in 3 steps',
+          icon: 'cloud_upload',
+          type: 'read-check-store'
+        }
+      ]
+    },
+    {
       id: 'create',
       title: 'Create & Generate',
       description: 'Generate reaction mechanisms, build reaction pathways, and define custom species',

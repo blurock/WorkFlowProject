@@ -23,6 +23,7 @@
     <div class="ketcher-column">
       <app-ketcher-viewer
         #ketcherCanvas
+        [molfile]="initialMolfile"
         [title]="'Ketcher 2D Drawing Panel: ' + (structureName || 'Unnamed Structure')">
       </app-ketcher-viewer>
     </div>

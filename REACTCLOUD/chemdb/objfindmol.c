@@ -531,6 +531,9 @@ extern INT SubStructureEquivalence(VOID mol1, VOID mol2) {
 */
 static INT StructureExistsInDatabase(BindStructure *bind, INT classid) {
   CommandMaster *commandmaster;
+  ChemDBMaster *dbmaster;
+  ObjectClassification *classification;
+  DataBaseInformation *dinfo = NULL;
   MoleculeSet *set;
   DataSubSet *corrset;
   FILE *out;
@@ -539,6 +542,14 @@ static INT StructureExistsInDatabase(BindStructure *bind, INT classid) {
   INT bind_key = (classid == MOLECULE_DATABASE) ? BIND_CURRENT_MOLECULES : BIND_CURRENT_SUBSTRUCTURES;
 
   commandmaster = GetBoundStructure(bind, BIND_COMMANDMASTER);
+  dbmaster = GetBoundStructure(bind, BIND_CHEMDBASE);
+  if (dbmaster != NULL) {
+    classification = FindClassification(classid, DATABASE_CLASSIFICATIONS, bind);
+    if (classification != NULL && classification->Description != NULL) {
+      dinfo = GetDataBaseInfoFromID(dbmaster->DatabaseInfo, classification->Description->Database);
+    }
+  }
+
   out = OpenWriteFileFromCurrent("MolOutDir", "MolOutName", "Existence.out", IGNORE,
                                  "Structure Database Existence Check", commandmaster);
 
@@ -586,9 +597,24 @@ static INT StructureExistsInDatabase(BindStructure *bind, INT classid) {
     const char *name = (mol->Name != NULL) ? mol->Name : "UNNAMED";
 
     if (dbid > 0) {
-      printf("%-5d %-40s %-15d EXISTS\n", i + 1, name, dbid);
-      if (out != NULL && out != stdout) {
-        fprintf(out, "%-5d %-40s %-15d EXISTS\n", i + 1, name, dbid);
+      MoleculeInfo dbmol;
+      char idstr[32];
+      const char *dbname = NULL;
+      memset(&dbmol, 0, sizeof(MoleculeInfo));
+      sprintf(idstr, "%d", dbid);
+      if (dinfo != NULL && DBFindMolSubFromString(idstr, &dbmol, dinfo) == SYSTEM_NORMAL_RETURN && dbmol.Name != NULL) {
+        dbname = dbmol.Name;
+      }
+      if (dbname != NULL && strlen(dbname) > 0) {
+        printf("%-5d %-40s %-15d EXISTS (%s)\n", i + 1, name, dbid, dbname);
+        if (out != NULL && out != stdout) {
+          fprintf(out, "%-5d %-40s %-15d EXISTS (%s)\n", i + 1, name, dbid, dbname);
+        }
+      } else {
+        printf("%-5d %-40s %-15d EXISTS\n", i + 1, name, dbid);
+        if (out != NULL && out != stdout) {
+          fprintf(out, "%-5d %-40s %-15d EXISTS\n", i + 1, name, dbid);
+        }
       }
       found_count++;
     } else {

@@ -24,6 +24,7 @@ import { GeneralRxnPatGeneratorComponent } from '../general-rxn-pat-generator/ge
 import { GraphicalMoleculeInputComponent } from '../graphical-molecule-input/graphical-molecule-input.component';
 import { TestReactionPatternComponent } from '../test-reaction-pattern/test-reaction-pattern.component';
 import { MechanismPathwayCreatorComponent } from '../mechanism-pathway-creator/mechanism-pathway-creator.component';
+import { SearchStructureComponent } from '../search-structure/search-structure.component';
 
 @Component({
   selector: 'app-task-dashboard',
@@ -49,7 +50,8 @@ import { MechanismPathwayCreatorComponent } from '../mechanism-pathway-creator/m
     GeneralRxnPatGeneratorComponent,
     GraphicalMoleculeInputComponent,
     TestReactionPatternComponent,
-    MechanismPathwayCreatorComponent
+    MechanismPathwayCreatorComponent,
+    SearchStructureComponent
   ],
   templateUrl: './task-dashboard.component.html',
   styleUrls: ['./task-dashboard.component.scss']
@@ -72,6 +74,17 @@ export class TaskDashboardComponent {
   public selectTask(category: TaskCategory, task: CatalogTask): void {
     this.selectedCategory = category;
     this.selectedTask = task;
+  }
+
+  public selectTaskById(taskId: string): void {
+    for (const cat of this.categories) {
+      const found = cat.tasks.find(t => t.id === taskId);
+      if (found) {
+        this.selectedCategory = cat;
+        this.selectedTask = found;
+        return;
+      }
+    }
   }
 
   public onLogout(): void {
