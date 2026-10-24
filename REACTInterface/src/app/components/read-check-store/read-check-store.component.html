@@ -1,4 +1,4 @@
-<div class="read-check-store-container dark-theme">
+<div class="read-check-store-container light-theme">
   <!-- Header Bar -->
   <div class="header-bar">
     <div class="title-group">
@@ -117,147 +117,502 @@
         </div>
       </div>
 
-      <!-- 3-Section Collapsible Output View (Input Data, Parsed Data Structures, Execution Log) -->
+      <!-- 4-Panel Output View for Mechanism Pathway OR Standard 3-Section Output View -->
       <div class="output-sections-wrapper" *ngIf="step1Completed || step1Lines.length > 0">
 
-        <!-- ==================== SECTION 1: INPUT DATA / SDF INFORMATION ==================== -->
-        <div class="output-section-card" *ngIf="step1OutputSections.inputDataText">
-          <!-- 1. Collapsed Bar -->
-          <div class="one-line-summary-row" *ngIf="!step1Section1Expanded">
-            <div class="one-line-summary-text">
-              <mat-icon color="primary">description</mat-icon>
-              <span class="one-line-summary-badge badge-blue">Input Data / SDF</span>
-              <span class="one-line-summary-title">Source File Format Content</span>
-            </div>
-            <button type="button" mat-icon-button (click)="step1Section1Expanded = true" matTooltip="Expand Input Data">
-              <mat-icon>visibility</mat-icon>
-            </button>
-          </div>
+        <!-- ==================== MECHANISM PATHWAY: 4-PANEL ARCHITECTURE ==================== -->
+        <ng-container *ngIf="dataType === 'mechanism-pathway' && pathwayReport; else standardSections">
 
-          <!-- 2. Expanded View -->
-          <div class="one-line-summary-card" *ngIf="step1Section1Expanded">
-            <div class="one-line-summary-card-header">
-              <div class="one-line-summary-card-title">
-                <mat-icon color="primary">description</mat-icon>
-                <span>Input File Information (SDF / Format)</span>
+          <!-- PANEL 1: SUMMARY OF WHAT WAS READ IN (First two blocks & Summary for Pathway) -->
+          <div class="output-section-card pathway-panel-card">
+            <!-- Collapsed Bar -->
+            <div class="one-line-summary-row" *ngIf="!pathwayPanel1Expanded">
+              <div class="one-line-summary-text">
+                <mat-icon color="primary">summarize</mat-icon>
+                <span class="one-line-summary-badge badge-blue">Panel 1: Pathway Summary</span>
+                <span class="one-line-summary-title">{{ pathwayReport.pathwayName }} ({{ pathwayReport.numberOfSteps }} Steps)</span>
+                <span class="one-line-summary-badge" [class.badge-green]="pathwayReport.resultSuccess" [class.badge-amber]="!pathwayReport.resultSuccess">
+                  {{ pathwayReport.resultSuccess ? 'ALL ITEMS EXIST' : (pathwayReport.moleculesMissing + pathwayReport.patternsMissing) + ' ITEMS MISSING' }}
+                </span>
               </div>
-              <button type="button" mat-icon-button (click)="step1Section1Expanded = false" matTooltip="Collapse Section">
-                <mat-icon>visibility_off</mat-icon>
+              <button type="button" mat-icon-button (click)="pathwayPanel1Expanded = true" matTooltip="Expand Pathway Summary">
+                <mat-icon>visibility</mat-icon>
               </button>
             </div>
-            <div class="scrollable-text-box">
-              <pre><code>{{ step1OutputSections.inputDataText }}</code></pre>
-            </div>
-          </div>
-        </div>
 
-        <!-- ==================== SECTION 2: PARSED DATA STRUCTURES ==================== -->
-        <div class="output-section-card" *ngIf="step1OutputSections.parsedDataStructures.length > 0">
-          <!-- 1. Collapsed Bar -->
-          <div class="one-line-summary-row" *ngIf="!step1Section2Expanded">
-            <div class="one-line-summary-text">
-              <mat-icon color="accent">schema</mat-icon>
-              <span class="one-line-summary-badge badge-green">Parsed Objects</span>
-              <span class="one-line-summary-title">{{ step1OutputSections.parsedDataStructures.length }} {{ dataType | titlecase }} Item(s) Parsed</span>
-            </div>
-            <button type="button" mat-icon-button (click)="step1Section2Expanded = true" matTooltip="Expand Data Structures">
-              <mat-icon>visibility</mat-icon>
-            </button>
-          </div>
-
-          <!-- 2. Expanded View (Component Dispatcher) -->
-          <div class="one-line-summary-card" *ngIf="step1Section2Expanded">
-            <div class="one-line-summary-card-header">
-              <div class="one-line-summary-card-title">
-                <mat-icon color="accent">schema</mat-icon>
-                <span>Parsed Data Structures ({{ step1OutputSections.parsedDataStructures.length }} Items)</span>
+            <!-- Expanded Card -->
+            <div class="one-line-summary-card" *ngIf="pathwayPanel1Expanded">
+              <div class="one-line-summary-card-header">
+                <div class="one-line-summary-card-title">
+                  <mat-icon color="primary">summarize</mat-icon>
+                  <span>Panel 1: Pathway Definition & Validation Summary</span>
+                </div>
+                <button type="button" mat-icon-button (click)="pathwayPanel1Expanded = false" matTooltip="Collapse Section">
+                  <mat-icon>visibility_off</mat-icon>
+                </button>
               </div>
-              <button type="button" mat-icon-button (click)="step1Section2Expanded = false" matTooltip="Collapse Section">
-                <mat-icon>visibility_off</mat-icon>
-              </button>
-            </div>
-            
-            <div class="parsed-objects-grid">
-              <div *ngFor="let item of step1OutputSections.parsedDataStructures; let i = index" class="parsed-item-wrapper">
-                
-                <!-- 1. Collapsed Item Line Summary (Default Collapsed View) -->
-                <div class="one-line-summary-row item-summary-row" *ngIf="!isParsedItemExpanded(i)" (click)="toggleParsedItem(i)">
-                  <div class="one-line-summary-text">
-                    <mat-icon color="accent" class="item-type-icon">bubble_chart</mat-icon>
-                    <span class="one-line-summary-badge badge-green">#{{ item.index || (i + 1) }}</span>
-                    <span class="one-line-summary-title">{{ getMoleculeName(item, i + 1) }}</span>
+
+              <!-- Result Status Alert -->
+              <div class="pathway-alert" [class.success]="pathwayReport.resultSuccess" [class.warning]="!pathwayReport.resultSuccess">
+                <mat-icon>{{ pathwayReport.resultSuccess ? 'check_circle' : 'warning' }}</mat-icon>
+                <div class="pathway-alert-content">
+                  <strong>RESULT: {{ pathwayReport.resultSuccess ? 'SUCCESS' : 'FAILED' }}</strong>
+                  <span>{{ pathwayReport.resultMessage }}</span>
+                </div>
+              </div>
+
+              <!-- Key Metrics Summary Grid -->
+              <div class="metrics-cards-grid">
+                <div class="metric-card">
+                  <div class="metric-icon blue"><mat-icon>account_tree</mat-icon></div>
+                  <div class="metric-body">
+                    <span class="metric-label">Pathway Name</span>
+                    <span class="metric-value">{{ pathwayReport.pathwayName }}</span>
                   </div>
-                  <button type="button" mat-icon-button (click)="$event.stopPropagation(); toggleParsedItem(i)" matTooltip="Expand Molecule Card & Ketcher 2D Viewer">
-                    <mat-icon>visibility</mat-icon>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-icon indigo"><mat-icon>format_list_numbered</mat-icon></div>
+                  <div class="metric-body">
+                    <span class="metric-label">Total Steps</span>
+                    <span class="metric-value">{{ pathwayReport.numberOfSteps }} Steps</span>
+                  </div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-icon purple"><mat-icon>widgets</mat-icon></div>
+                  <div class="metric-body">
+                    <span class="metric-label">Auxiliary Molecules</span>
+                    <span class="metric-value">{{ pathwayReport.auxiliaryMolecules }} Molecule(s)</span>
+                  </div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-icon" [ngClass]="pathwayReport.moleculesMissing === 0 ? 'green' : 'amber'">
+                    <mat-icon>science</mat-icon>
+                  </div>
+                  <div class="metric-body">
+                    <span class="metric-label">Molecules in DB</span>
+                    <span class="metric-value">{{ moleculesInDbCount }} / {{ pathwayReport.moleculesChecked }}</span>
+                    <span class="metric-subtext" [class.text-green]="pathwayReport.moleculesMissing === 0" [class.text-amber]="pathwayReport.moleculesMissing > 0">
+                      {{ pathwayReport.moleculesMissing === 0 ? 'All Exist' : pathwayReport.moleculesMissing + ' Missing' }}
+                    </span>
+                  </div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-icon" [ngClass]="pathwayReport.patternsMissing === 0 ? 'green' : 'amber'">
+                    <mat-icon>transform</mat-icon>
+                  </div>
+                  <div class="metric-body">
+                    <span class="metric-label">Reaction Patterns in DB</span>
+                    <span class="metric-value">{{ patternsInDbCount }} / {{ pathwayReport.patternsChecked }}</span>
+                    <span class="metric-subtext" [class.text-green]="pathwayReport.patternsMissing === 0" [class.text-amber]="pathwayReport.patternsMissing > 0">
+                      {{ pathwayReport.patternsMissing === 0 ? 'All Exist' : pathwayReport.patternsMissing + ' Missing' }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Raw Delimited Summary Text Box -->
+              <div class="summary-text-container">
+                <div class="summary-block-header">
+                  <mat-icon>receipt_long</mat-icon>
+                  <span>Summary Text (Initial Blocks & Summary for Pathway)</span>
+                </div>
+                <pre class="summary-text-box"><code>{{ getFormattedSummaryText() }}</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- PANEL 2: TABLE OF MOLECULES AND WHETHER THEY ARE IN THE DATABASE -->
+          <div class="output-section-card pathway-panel-card">
+            <!-- Collapsed Bar -->
+            <div class="one-line-summary-row" *ngIf="!pathwayPanel2Expanded">
+              <div class="one-line-summary-text">
+                <mat-icon color="accent">science</mat-icon>
+                <span class="one-line-summary-badge badge-green">Panel 2: Molecules</span>
+                <span class="one-line-summary-title">Molecules Database Existence ({{ pathwayReport.molecules.length }} items)</span>
+                <span class="one-line-summary-badge" [class.badge-green]="pathwayReport.moleculesMissing === 0" [class.badge-amber]="pathwayReport.moleculesMissing > 0">
+                  {{ moleculesInDbCount }} / {{ pathwayReport.molecules.length }} in DB
+                </span>
+              </div>
+              <button type="button" mat-icon-button (click)="pathwayPanel2Expanded = true" matTooltip="Expand Molecules Table">
+                <mat-icon>visibility</mat-icon>
+              </button>
+            </div>
+
+            <!-- Expanded Card -->
+            <div class="one-line-summary-card" *ngIf="pathwayPanel2Expanded">
+              <div class="one-line-summary-card-header">
+                <div class="one-line-summary-card-title">
+                  <mat-icon color="accent">science</mat-icon>
+                  <span>Panel 2: Table of Molecules and Database Existence ({{ pathwayReport.molecules.length }})</span>
+                </div>
+                <button type="button" mat-icon-button (click)="pathwayPanel2Expanded = false" matTooltip="Collapse Section">
+                  <mat-icon>visibility_off</mat-icon>
+                </button>
+              </div>
+
+              <!-- Toolbar: Search & Filter -->
+              <div class="table-toolbar">
+                <div class="search-box">
+                  <mat-icon class="search-icon">search</mat-icon>
+                  <input
+                    type="text"
+                    placeholder="Filter molecules by name..."
+                    [(ngModel)]="moleculeSearchText"
+                    class="search-input"
+                  />
+                  <button *ngIf="moleculeSearchText" mat-icon-button (click)="moleculeSearchText = ''" class="clear-btn">
+                    <mat-icon>close</mat-icon>
                   </button>
                 </div>
+                <div class="filter-pills">
+                  <button
+                    type="button"
+                    class="filter-pill"
+                    [class.active]="moleculeStatusFilter === 'ALL'"
+                    (click)="moleculeStatusFilter = 'ALL'"
+                  >
+                    All ({{ pathwayReport.molecules.length }})
+                  </button>
+                  <button
+                    type="button"
+                    class="filter-pill pill-green"
+                    [class.active]="moleculeStatusFilter === 'EXISTS'"
+                    (click)="moleculeStatusFilter = 'EXISTS'"
+                  >
+                    In Database ({{ moleculesInDbCount }})
+                  </button>
+                  <button
+                    type="button"
+                    class="filter-pill pill-amber"
+                    [class.active]="moleculeStatusFilter === 'NOT_FOUND'"
+                    (click)="moleculeStatusFilter = 'NOT_FOUND'"
+                  >
+                    Missing ({{ pathwayReport.moleculesMissing }})
+                  </button>
+                </div>
+              </div>
 
-                <!-- 2. Expanded Item Details Card (Lazy Ketcher Instance + Sub-sections) -->
-                <div class="one-line-summary-card item-expanded-card" *ngIf="isParsedItemExpanded(i)">
-                  <div class="one-line-summary-card-header">
-                    <div class="one-line-summary-card-title">
-                      <mat-icon color="accent">bubble_chart</mat-icon>
-                      <span>#{{ item.index || (i + 1) }} - {{ getMoleculeName(item, i + 1) }}</span>
+              <!-- Table -->
+              <div class="pathway-table-container">
+                <table class="pathway-table">
+                  <thead>
+                    <tr>
+                      <th class="col-num">#</th>
+                      <th>Molecule Name</th>
+                      <th class="col-status">Database Status</th>
+                      <th class="col-desc">Database Requirement</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let m of filteredPathwayMolecules" [class.row-missing]="!m.inDatabase">
+                      <td class="col-num">{{ m.index }}</td>
+                      <td class="col-name"><code>{{ m.name }}</code></td>
+                      <td class="col-status">
+                        <span class="status-badge" [class.exists]="m.inDatabase" [class.not-found]="!m.inDatabase">
+                          <mat-icon>{{ m.inDatabase ? 'check_circle' : 'cancel' }}</mat-icon>
+                          {{ m.status }}
+                        </span>
+                      </td>
+                      <td class="col-desc">
+                        <span class="desc-text" [class.text-green]="m.inDatabase" [class.text-amber]="!m.inDatabase">
+                          {{ m.inDatabase ? 'Available in MOLECULE_DATABASE' : 'Must be stored in database prior to pathway store' }}
+                        </span>
+                      </td>
+                    </tr>
+                    <tr *ngIf="filteredPathwayMolecules.length === 0">
+                      <td colspan="4" class="no-records">No molecules matching filter criteria.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- PANEL 3: THE REACTION PATTERNS AND WHETHER THEY EXIST IN THE DATABASE -->
+          <div class="output-section-card pathway-panel-card">
+            <!-- Collapsed Bar -->
+            <div class="one-line-summary-row" *ngIf="!pathwayPanel3Expanded">
+              <div class="one-line-summary-text">
+                <mat-icon color="accent">transform</mat-icon>
+                <span class="one-line-summary-badge badge-indigo">Panel 3: Reaction Patterns</span>
+                <span class="one-line-summary-title">Reaction Patterns Database Existence ({{ pathwayReport.reactionPatterns.length }} items)</span>
+                <span class="one-line-summary-badge" [class.badge-green]="pathwayReport.patternsMissing === 0" [class.badge-amber]="pathwayReport.patternsMissing > 0">
+                  {{ patternsInDbCount }} / {{ pathwayReport.reactionPatterns.length }} in DB
+                </span>
+              </div>
+              <button type="button" mat-icon-button (click)="pathwayPanel3Expanded = true" matTooltip="Expand Reaction Patterns Table">
+                <mat-icon>visibility</mat-icon>
+              </button>
+            </div>
+
+            <!-- Expanded Card -->
+            <div class="one-line-summary-card" *ngIf="pathwayPanel3Expanded">
+              <div class="one-line-summary-card-header">
+                <div class="one-line-summary-card-title">
+                  <mat-icon color="accent">transform</mat-icon>
+                  <span>Panel 3: Table of Reaction Patterns and Database Existence ({{ pathwayReport.reactionPatterns.length }})</span>
+                </div>
+                <button type="button" mat-icon-button (click)="pathwayPanel3Expanded = false" matTooltip="Collapse Section">
+                  <mat-icon>visibility_off</mat-icon>
+                </button>
+              </div>
+
+              <!-- Toolbar: Search & Filter -->
+              <div class="table-toolbar">
+                <div class="search-box">
+                  <mat-icon class="search-icon">search</mat-icon>
+                  <input
+                    type="text"
+                    placeholder="Filter reaction patterns by name..."
+                    [(ngModel)]="patternSearchText"
+                    class="search-input"
+                  />
+                  <button *ngIf="patternSearchText" mat-icon-button (click)="patternSearchText = ''" class="clear-btn">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </div>
+                <div class="filter-pills">
+                  <button
+                    type="button"
+                    class="filter-pill"
+                    [class.active]="patternStatusFilter === 'ALL'"
+                    (click)="patternStatusFilter = 'ALL'"
+                  >
+                    All ({{ pathwayReport.reactionPatterns.length }})
+                  </button>
+                  <button
+                    type="button"
+                    class="filter-pill pill-green"
+                    [class.active]="patternStatusFilter === 'EXISTS'"
+                    (click)="patternStatusFilter = 'EXISTS'"
+                  >
+                    In Database ({{ patternsInDbCount }})
+                  </button>
+                  <button
+                    type="button"
+                    class="filter-pill pill-amber"
+                    [class.active]="patternStatusFilter === 'NOT_FOUND'"
+                    (click)="patternStatusFilter = 'NOT_FOUND'"
+                  >
+                    Missing ({{ pathwayReport.patternsMissing }})
+                  </button>
+                </div>
+              </div>
+
+              <!-- Table -->
+              <div class="pathway-table-container scrollable-table">
+                <table class="pathway-table">
+                  <thead>
+                    <tr>
+                      <th class="col-num">#</th>
+                      <th>Reaction Pattern Name</th>
+                      <th class="col-status">Database Status</th>
+                      <th class="col-desc">Database Requirement</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let p of filteredPathwayPatterns" [class.row-missing]="!p.inDatabase">
+                      <td class="col-num">{{ p.index }}</td>
+                      <td class="col-name"><code>{{ p.name }}</code></td>
+                      <td class="col-status">
+                        <span class="status-badge" [class.exists]="p.inDatabase" [class.not-found]="!p.inDatabase">
+                          <mat-icon>{{ p.inDatabase ? 'check_circle' : 'cancel' }}</mat-icon>
+                          {{ p.status }}
+                        </span>
+                      </td>
+                      <td class="col-desc">
+                        <span class="desc-text" [class.text-green]="p.inDatabase" [class.text-amber]="!p.inDatabase">
+                          {{ p.inDatabase ? 'Available in PATTERN_DATABASE' : 'Must be stored in database prior to pathway store' }}
+                        </span>
+                      </td>
+                    </tr>
+                    <tr *ngIf="filteredPathwayPatterns.length === 0">
+                      <td colspan="4" class="no-records">No reaction patterns matching filter criteria.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- PANEL 4: THE LOG INFORMATION (AFTER '===================' LINE) -->
+          <div class="output-section-card pathway-panel-card" *ngIf="step1Lines.length > 0">
+            <!-- Collapsed Bar -->
+            <div class="one-line-summary-row" *ngIf="!pathwayPanel4Expanded">
+              <div class="one-line-summary-text">
+                <mat-icon>terminal</mat-icon>
+                <span class="one-line-summary-badge badge-gray">Panel 4: Execution Log</span>
+                <span class="one-line-summary-title">Command Terminal Output & Log ({{ step1Lines.length }} lines)</span>
+              </div>
+              <button type="button" mat-icon-button (click)="pathwayPanel4Expanded = true" matTooltip="Expand Execution Log">
+                <mat-icon>visibility</mat-icon>
+              </button>
+            </div>
+
+            <!-- Expanded View -->
+            <div class="one-line-summary-card" *ngIf="pathwayPanel4Expanded">
+              <div class="one-line-summary-card-header">
+                <div class="one-line-summary-card-title">
+                  <mat-icon>terminal</mat-icon>
+                  <span>Panel 4: Log Information (After Check Report Delimiter)</span>
+                </div>
+                <button type="button" mat-icon-button (click)="pathwayPanel4Expanded = false" matTooltip="Collapse Section">
+                  <mat-icon>visibility_off</mat-icon>
+                </button>
+              </div>
+              <div class="terminal-body scrollable">
+                <div *ngFor="let lineObj of step1Lines" [class.error-line]="lineObj.isError">
+                  {{ lineObj.text }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </ng-container>
+
+        <!-- ==================== STANDARD 3-SECTION FALLBACK (FOR MOLECULES/SUBS/ETC) ==================== -->
+        <ng-template #standardSections>
+
+          <!-- SECTION 1: INPUT DATA / SDF INFORMATION -->
+          <div class="output-section-card" *ngIf="step1OutputSections.inputDataText">
+            <!-- 1. Collapsed Bar -->
+            <div class="one-line-summary-row" *ngIf="!step1Section1Expanded">
+              <div class="one-line-summary-text">
+                <mat-icon color="primary">description</mat-icon>
+                <span class="one-line-summary-badge badge-blue">Input Data / SDF</span>
+                <span class="one-line-summary-title">Source File Format Content</span>
+              </div>
+              <button type="button" mat-icon-button (click)="step1Section1Expanded = true" matTooltip="Expand Input Data">
+                <mat-icon>visibility</mat-icon>
+              </button>
+            </div>
+
+            <!-- 2. Expanded View -->
+            <div class="one-line-summary-card" *ngIf="step1Section1Expanded">
+              <div class="one-line-summary-card-header">
+                <div class="one-line-summary-card-title">
+                  <mat-icon color="primary">description</mat-icon>
+                  <span>Input File Information (SDF / Format)</span>
+                </div>
+                <button type="button" mat-icon-button (click)="step1Section1Expanded = false" matTooltip="Collapse Section">
+                  <mat-icon>visibility_off</mat-icon>
+                </button>
+              </div>
+              <div class="scrollable-text-box">
+                <pre><code>{{ step1OutputSections.inputDataText }}</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 2: PARSED DATA STRUCTURES -->
+          <div class="output-section-card" *ngIf="step1OutputSections.parsedDataStructures.length > 0">
+            <!-- 1. Collapsed Bar -->
+            <div class="one-line-summary-row" *ngIf="!step1Section2Expanded">
+              <div class="one-line-summary-text">
+                <mat-icon color="accent">schema</mat-icon>
+                <span class="one-line-summary-badge badge-green">Parsed Objects</span>
+                <span class="one-line-summary-title">{{ step1OutputSections.parsedDataStructures.length }} {{ dataType | titlecase }} Item(s) Parsed</span>
+              </div>
+              <button type="button" mat-icon-button (click)="step1Section2Expanded = true" matTooltip="Expand Data Structures">
+                <mat-icon>visibility</mat-icon>
+              </button>
+            </div>
+
+            <!-- 2. Expanded View (Component Dispatcher) -->
+            <div class="one-line-summary-card" *ngIf="step1Section2Expanded">
+              <div class="one-line-summary-card-header">
+                <div class="one-line-summary-card-title">
+                  <mat-icon color="accent">schema</mat-icon>
+                  <span>Parsed Data Structures ({{ step1OutputSections.parsedDataStructures.length }} Items)</span>
+                </div>
+                <button type="button" mat-icon-button (click)="step1Section2Expanded = false" matTooltip="Collapse Section">
+                  <mat-icon>visibility_off</mat-icon>
+                </button>
+              </div>
+              
+              <div class="parsed-objects-grid">
+                <div *ngFor="let item of step1OutputSections.parsedDataStructures; let i = index" class="parsed-item-wrapper">
+                  
+                  <!-- 1. Collapsed Item Line Summary (Default Collapsed View) -->
+                  <div class="one-line-summary-row item-summary-row" *ngIf="!isParsedItemExpanded(i)" (click)="toggleParsedItem(i)">
+                    <div class="one-line-summary-text">
+                      <mat-icon color="accent" class="item-type-icon">bubble_chart</mat-icon>
+                      <span class="one-line-summary-badge badge-green">#{{ item.index || (i + 1) }}</span>
+                      <span class="one-line-summary-title">{{ getMoleculeName(item, i + 1) }}</span>
                     </div>
-                    <button type="button" mat-icon-button (click)="toggleParsedItem(i)" matTooltip="Collapse Item">
-                      <mat-icon>visibility_off</mat-icon>
+                    <button type="button" mat-icon-button (click)="$event.stopPropagation(); toggleParsedItem(i)" matTooltip="Expand Molecule Card & Ketcher 2D Viewer">
+                      <mat-icon>visibility</mat-icon>
                     </button>
                   </div>
 
-                  <!-- Ketcher 2D Chemical Structure Viewer -->
-                  <div class="molecule-ketcher-box" *ngIf="item.sdfContent">
-                    <app-ketcher-viewer [molfile]="item.sdfContent" [title]="'2D Chemical Structure: ' + getMoleculeName(item, i + 1)"></app-ketcher-viewer>
-                  </div>
-
-                  <!-- Molecule Sub-sections (Electronic Properties, Atomic Radii, etc.) -->
-                  <div class="molecule-subsections-grid" *ngIf="item.subSections && item.subSections.length > 0">
-                    <div *ngFor="let subSec of item.subSections" class="sub-section-card">
-                      <div class="sub-section-card-header">
-                        <mat-icon color="primary">{{ subSec.icon }}</mat-icon>
-                        <span>{{ subSec.title }}</span>
+                  <!-- 2. Expanded Item Details Card (Lazy Ketcher Instance + Sub-sections) -->
+                  <div class="one-line-summary-card item-expanded-card" *ngIf="isParsedItemExpanded(i)">
+                    <div class="one-line-summary-card-header">
+                      <div class="one-line-summary-card-title">
+                        <mat-icon color="accent">bubble_chart</mat-icon>
+                        <span>#{{ item.index || (i + 1) }} - {{ getMoleculeName(item, i + 1) }}</span>
                       </div>
-                      <pre class="sub-section-card-body">{{ subSec.content }}</pre>
+                      <button type="button" mat-icon-button (click)="toggleParsedItem(i)" matTooltip="Collapse Item">
+                        <mat-icon>visibility_off</mat-icon>
+                      </button>
+                    </div>
+
+                    <!-- Ketcher 2D Chemical Structure Viewer -->
+                    <div class="molecule-ketcher-box" *ngIf="item.sdfContent">
+                      <app-ketcher-viewer [molfile]="item.sdfContent" [title]="'2D Chemical Structure: ' + getMoleculeName(item, i + 1)"></app-ketcher-viewer>
+                    </div>
+
+                    <!-- Molecule Sub-sections (Electronic Properties, Atomic Radii, etc.) -->
+                    <div class="molecule-subsections-grid" *ngIf="item.subSections && item.subSections.length > 0">
+                      <div *ngFor="let subSec of item.subSections" class="sub-section-card">
+                        <div class="sub-section-card-header">
+                          <mat-icon color="primary">{{ subSec.icon }}</mat-icon>
+                          <span>{{ subSec.title }}</span>
+                        </div>
+                        <pre class="sub-section-card-body">{{ subSec.content }}</pre>
+                      </div>
                     </div>
                   </div>
+
                 </div>
-
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- ==================== SECTION 3: RAW EXECUTION LOG ==================== -->
-        <div class="output-section-card" *ngIf="step1Lines.length > 0">
-          <!-- 1. Collapsed Bar -->
-          <div class="one-line-summary-row" *ngIf="!step1Section3Expanded">
-            <div class="one-line-summary-text">
-              <mat-icon>terminal</mat-icon>
-              <span class="one-line-summary-badge badge-gray">Execution Log</span>
-              <span class="one-line-summary-title">Raw Command Terminal Output ({{ step1Lines.length }} lines)</span>
-            </div>
-            <button type="button" mat-icon-button (click)="step1Section3Expanded = true" matTooltip="Expand Execution Log">
-              <mat-icon>visibility</mat-icon>
-            </button>
-          </div>
-
-          <!-- 2. Expanded View -->
-          <div class="one-line-summary-card" *ngIf="step1Section3Expanded">
-            <div class="one-line-summary-card-header">
-              <div class="one-line-summary-card-title">
+          <!-- SECTION 3: RAW EXECUTION LOG -->
+          <div class="output-section-card" *ngIf="step1Lines.length > 0">
+            <!-- 1. Collapsed Bar -->
+            <div class="one-line-summary-row" *ngIf="!step1Section3Expanded">
+              <div class="one-line-summary-text">
                 <mat-icon>terminal</mat-icon>
-                <span>Raw Command Terminal Output</span>
+                <span class="one-line-summary-badge badge-gray">Execution Log</span>
+                <span class="one-line-summary-title">Raw Command Terminal Output ({{ step1Lines.length }} lines)</span>
               </div>
-              <button type="button" mat-icon-button (click)="step1Section3Expanded = false" matTooltip="Collapse Section">
-                <mat-icon>visibility_off</mat-icon>
+              <button type="button" mat-icon-button (click)="step1Section3Expanded = true" matTooltip="Expand Execution Log">
+                <mat-icon>visibility</mat-icon>
               </button>
             </div>
-            <div class="terminal-body scrollable">
-              <div *ngFor="let lineObj of step1Lines" [class.error-line]="lineObj.isError">
-                {{ lineObj.text }}
+
+            <!-- 2. Expanded View -->
+            <div class="one-line-summary-card" *ngIf="step1Section3Expanded">
+              <div class="one-line-summary-card-header">
+                <div class="one-line-summary-card-title">
+                  <mat-icon>terminal</mat-icon>
+                  <span>Raw Command Terminal Output</span>
+                </div>
+                <button type="button" mat-icon-button (click)="step1Section3Expanded = false" matTooltip="Collapse Section">
+                  <mat-icon>visibility_off</mat-icon>
+                </button>
+              </div>
+              <div class="terminal-body scrollable">
+                <div *ngFor="let lineObj of step1Lines" [class.error-line]="lineObj.isError">
+                  {{ lineObj.text }}
+                </div>
               </div>
             </div>
           </div>
-        </div>
+
+        </ng-template>
 
       </div>
 

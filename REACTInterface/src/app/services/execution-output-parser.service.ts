@@ -16,11 +16,38 @@ export interface ParsedMoleculeItem {
   subSections: MoleculeSubSection[];
 }
 
+export interface PathwayItemStatus {
+  index: number;
+  name: string;
+  status: 'EXISTS' | 'NOT_FOUND' | string;
+  inDatabase: boolean;
+}
+
+export interface MechanismPathwayReport {
+  title: string;
+  pathwayName: string;
+  numberOfSteps: number;
+  auxiliaryMolecules: number;
+  headerSummaryLines: string[];
+  summaryBlockLines: string[];
+  molecules: PathwayItemStatus[];
+  reactionPatterns: PathwayItemStatus[];
+  moleculesChecked: number;
+  moleculesMissing: number;
+  patternsChecked: number;
+  patternsMissing: number;
+  resultSuccess: boolean;
+  resultMessage: string;
+  logText: string;
+  logLines: { text: string; isError: boolean }[];
+}
+
 export interface ExecutionOutputSections {
   inputDataText: string;               // Section 1: Raw SDF / Input File Information
   parsedDataStructures: ParsedMoleculeItem[]; // Section 2: Array of parsed Molecule items
   executionLogText: string;            // Section 3: Raw Execution Log stdout
-  dataType: string;                    // molecule | substructure | rxn-pattern | thermo | reaction
+  dataType: string;                    // molecule | substructure | rxn-pattern | thermo | reaction | mechanism-pathway
+  pathwayReport?: MechanismPathwayReport | null; // Dedicated report for mechanism-pathway
 }
 
 @Injectable({
@@ -34,8 +61,27 @@ export class ExecutionOutputParserService {
         inputDataText: '',
         parsedDataStructures: [],
         executionLogText: '',
-        dataType
+        dataType,
+        pathwayReport: null
       };
+    }
+
+    // Check if this is a mechanism pathway check report
+    if (
+      dataType === 'mechanism-pathway' ||
+      rawOutput.includes('Mechanism Pathway Definition Check Report') ||
+      (rawOutput.includes('Molecule Existence Check') && rawOutput.includes('Reaction Pattern Existence Check'))
+    ) {
+      const pathwayReport = this.parseMechanismPathwayReport(rawOutput);
+      if (pathwayReport) {
+        return {
+          inputDataText: '',
+          parsedDataStructures: [],
+          executionLogText: pathwayReport.logText,
+          dataType,
+          pathwayReport
+        };
+      }
     }
 
     let inputDataText = '';
@@ -81,7 +127,230 @@ export class ExecutionOutputParserService {
       inputDataText,
       parsedDataStructures,
       executionLogText,
-      dataType
+      dataType,
+      pathwayReport: null
+    };
+  }
+
+  /**
+   * Parse Mechanism Pathway Definition Check Report output into 4 structured sections:
+   * 1. Summary of what was read in (header blocks and last block 'Summary for Pathway')
+   * 2. Table of Molecules and their database existence status
+   * 3. Table of Reaction Patterns and their database existence status
+   * 4. Execution log information after closing delimiter
+   */
+  public parseMechanismPathwayReport(rawText: string): MechanismPathwayReport | null {
+    if (!rawText) return null;
+    if (
+      !rawText.includes('Mechanism Pathway Definition Check Report') &&
+      !rawText.includes('[1] Molecule Existence Check') &&
+      !rawText.includes('Summary for Pathway')
+    ) {
+      return null;
+    }
+
+    const lines = rawText.split(/\r?\n/);
+    let title = 'Mechanism Pathway Definition Check Report';
+    let pathwayName = '';
+    let numberOfSteps = 0;
+    let auxiliaryMolecules = 0;
+    const headerSummaryLines: string[] = [];
+    const summaryBlockLines: string[] = [];
+    const molecules: PathwayItemStatus[] = [];
+    const reactionPatterns: PathwayItemStatus[] = [];
+    let moleculesChecked = 0;
+    let moleculesMissing = 0;
+    let patternsChecked = 0;
+    let patternsMissing = 0;
+    let resultMessage = '';
+    let resultSuccess = false;
+
+    type SectionState = 'INIT' | 'HEADER_BLOCK' | 'MOLS' | 'PATTERNS' | 'SUMMARY' | 'LOG';
+    let state: SectionState = 'INIT';
+    const logLinesArr: string[] = [];
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      const trimmed = line.trim();
+
+      // Detect closing boundary line of Summary block (delimiter before log)
+      if (state === 'SUMMARY' && trimmed.startsWith('====')) {
+        state = 'LOG';
+        continue;
+      }
+
+      if (state === 'LOG') {
+        logLinesArr.push(line);
+        continue;
+      }
+
+      // Detect start of sections
+      if (trimmed.includes('[1] Molecule Existence Check') || trimmed.includes('Molecule Existence Check')) {
+        state = 'MOLS';
+        continue;
+      }
+
+      if (trimmed.includes('[2] Reaction Pattern Existence Check') || trimmed.includes('Reaction Pattern Existence Check')) {
+        state = 'PATTERNS';
+        continue;
+      }
+
+      if (trimmed.startsWith('Summary for Pathway')) {
+        state = 'SUMMARY';
+        summaryBlockLines.push(trimmed);
+        const nameMatch = trimmed.match(/Summary for Pathway ['"]?([^'":]+)/i);
+        if (nameMatch && !pathwayName) {
+          pathwayName = nameMatch[1].trim();
+        }
+        continue;
+      }
+
+      // Process line based on current state
+      if (state === 'INIT') {
+        if (trimmed.includes('Mechanism Pathway Definition Check Report')) {
+          title = trimmed;
+          state = 'HEADER_BLOCK';
+          headerSummaryLines.push(trimmed);
+          continue;
+        }
+        if (trimmed.startsWith('Pathway Name:')) {
+          state = 'HEADER_BLOCK';
+        }
+      }
+
+      if (state === 'HEADER_BLOCK') {
+        if (trimmed.startsWith('----') || trimmed.startsWith('====')) {
+          continue;
+        }
+        if (trimmed.startsWith('Pathway Name:')) {
+          pathwayName = trimmed.replace(/^Pathway Name:\s*/i, '').replace(/[:\s]+$/, '').trim();
+          headerSummaryLines.push(trimmed);
+        } else if (trimmed.startsWith('Number of Steps:')) {
+          const numMatch = trimmed.match(/\d+/);
+          if (numMatch) numberOfSteps = parseInt(numMatch[0], 10);
+          headerSummaryLines.push(trimmed);
+        } else if (trimmed.includes('Auxiliary Molecules')) {
+          const numMatch = trimmed.match(/\d+/);
+          if (numMatch) auxiliaryMolecules = parseInt(numMatch[0], 10);
+          headerSummaryLines.push(trimmed);
+        } else if (trimmed) {
+          headerSummaryLines.push(trimmed);
+        }
+        continue;
+      }
+
+      if (state === 'MOLS') {
+        if (trimmed.startsWith('----') || trimmed.startsWith('====') || trimmed.startsWith('Molecule_Name')) {
+          continue;
+        }
+        if (!trimmed) continue;
+        if (trimmed.startsWith('[2]')) {
+          state = 'PATTERNS';
+          continue;
+        }
+        if (trimmed.startsWith('Summary for Pathway') || trimmed.startsWith('RESULT:')) {
+          state = 'SUMMARY';
+          summaryBlockLines.push(trimmed);
+          continue;
+        }
+        // Table row e.g. "hydroxyl-radical                         NOT_FOUND"
+        const tokens = trimmed.split(/\s+/);
+        if (tokens.length >= 2) {
+          const mName = tokens[0];
+          const mStatus = tokens[tokens.length - 1];
+          const isExists = mStatus.toUpperCase() === 'EXISTS';
+          molecules.push({
+            index: molecules.length + 1,
+            name: mName,
+            status: mStatus,
+            inDatabase: isExists
+          });
+        }
+        continue;
+      }
+
+      if (state === 'PATTERNS') {
+        if (trimmed.startsWith('----') || trimmed.startsWith('====') || trimmed.startsWith('Reaction_Pattern_Name')) {
+          continue;
+        }
+        if (!trimmed) continue;
+        if (trimmed.startsWith('Summary for Pathway') || trimmed.startsWith('RESULT:')) {
+          state = 'SUMMARY';
+          summaryBlockLines.push(trimmed);
+          continue;
+        }
+        // Table row e.g. "H-Abstraction-Oxygen-Primary             NOT_FOUND"
+        const tokens = trimmed.split(/\s+/);
+        if (tokens.length >= 2) {
+          const pName = tokens[0];
+          const pStatus = tokens[tokens.length - 1];
+          const isExists = pStatus.toUpperCase() === 'EXISTS';
+          reactionPatterns.push({
+            index: reactionPatterns.length + 1,
+            name: pName,
+            status: pStatus,
+            inDatabase: isExists
+          });
+        }
+        continue;
+      }
+
+      if (state === 'SUMMARY') {
+        if (trimmed.startsWith('----')) continue;
+        summaryBlockLines.push(trimmed);
+
+        if (trimmed.includes('Molecules Checked:')) {
+          const chkMatch = trimmed.match(/Molecules Checked:\s*(\d+)/i);
+          if (chkMatch) moleculesChecked = parseInt(chkMatch[1], 10);
+          const misMatch = trimmed.match(/Missing:\s*(\d+)/i);
+          if (misMatch) moleculesMissing = parseInt(misMatch[1], 10);
+        } else if (trimmed.includes('Reaction Patterns Checked:')) {
+          const chkMatch = trimmed.match(/Reaction Patterns Checked:\s*(\d+)/i);
+          if (chkMatch) patternsChecked = parseInt(chkMatch[1], 10);
+          const misMatch = trimmed.match(/Missing:\s*(\d+)/i);
+          if (misMatch) patternsMissing = parseInt(misMatch[1], 10);
+        } else if (trimmed.startsWith('RESULT:')) {
+          resultMessage = trimmed.replace(/^RESULT:\s*/i, '').trim();
+          resultSuccess = resultMessage.toUpperCase().includes('SUCCESS');
+        }
+        continue;
+      }
+    }
+
+    // Default counts if not captured in summary block
+    if (moleculesChecked === 0 && molecules.length > 0) {
+      moleculesChecked = molecules.length;
+      moleculesMissing = molecules.filter(m => !m.inDatabase).length;
+    }
+    if (patternsChecked === 0 && reactionPatterns.length > 0) {
+      patternsChecked = reactionPatterns.length;
+      patternsMissing = reactionPatterns.filter(p => !p.inDatabase).length;
+    }
+
+    const logText = logLinesArr.join('\n').trim();
+    const logLines = logText ? logText.split(/\r?\n/).map(l => {
+      const lower = l.toLowerCase();
+      const isError = lower.includes('error') || lower.includes('fail') || lower.includes('cannot open');
+      return { text: l, isError };
+    }) : [];
+
+    return {
+      title,
+      pathwayName: pathwayName || 'Mechanism Pathway',
+      numberOfSteps,
+      auxiliaryMolecules,
+      headerSummaryLines,
+      summaryBlockLines,
+      molecules,
+      reactionPatterns,
+      moleculesChecked,
+      moleculesMissing,
+      patternsChecked,
+      patternsMissing,
+      resultSuccess,
+      resultMessage: resultMessage || (moleculesMissing === 0 && patternsMissing === 0 ? 'SUCCESS' : 'FAILED'),
+      logText,
+      logLines
     };
   }
 

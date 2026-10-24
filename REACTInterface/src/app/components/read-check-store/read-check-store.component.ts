@@ -15,7 +15,12 @@ import { ReactCloudApiService } from '../../services/react-cloud-api.service';
 import { ExistenceCheckService, ExistenceCheckItem } from '../../services/existence-check.service';
 import { CommandTemplatesRegistry } from '../../templates/command-templates.registry';
 import { KetcherViewerComponent } from '../ketcher-viewer/ketcher-viewer.component';
-import { ExecutionOutputParserService, ExecutionOutputSections } from '../../services/execution-output-parser.service';
+import {
+  ExecutionOutputParserService,
+  ExecutionOutputSections,
+  MechanismPathwayReport,
+  PathwayItemStatus
+} from '../../services/execution-output-parser.service';
 
 export type DataTypeOption = 'molecule' | 'substructure' | 'rxn-pattern' | 'reaction' | 'mechanism-pathway';
 export type FormatOption = 'sdf' | 'ascii';
@@ -89,6 +94,81 @@ export class ReadCheckStoreComponent implements OnInit {
   public step1Section1Expanded: boolean = false; // Input Data (SDF): Collapsed by default
   public step1Section2Expanded: boolean = true;  // Parsed Objects: Expanded by default
   public step1Section3Expanded: boolean = false; // Execution Log: Collapsed by default
+
+  // Mechanism Pathway Report 4-Panel State
+  public pathwayReport: MechanismPathwayReport | null = null;
+  public pathwayPanel1Expanded: boolean = true;  // Summary: Expanded by default
+  public pathwayPanel2Expanded: boolean = true;  // Molecules Table: Expanded by default
+  public pathwayPanel3Expanded: boolean = true;  // Reaction Patterns Table: Expanded by default
+  public pathwayPanel4Expanded: boolean = false; // Log Information: Collapsed by default
+
+  // Search & Filter State for Panels 2 & 3
+  public moleculeSearchText: string = '';
+  public moleculeStatusFilter: 'ALL' | 'EXISTS' | 'NOT_FOUND' = 'ALL';
+  public patternSearchText: string = '';
+  public patternStatusFilter: 'ALL' | 'EXISTS' | 'NOT_FOUND' = 'ALL';
+
+  public get filteredPathwayMolecules(): PathwayItemStatus[] {
+    if (!this.pathwayReport || !this.pathwayReport.molecules) return [];
+    const search = this.moleculeSearchText.trim().toLowerCase();
+    return this.pathwayReport.molecules.filter(m => {
+      const matchesSearch = !search || m.name.toLowerCase().includes(search);
+      const matchesStatus =
+        this.moleculeStatusFilter === 'ALL' ||
+        (this.moleculeStatusFilter === 'EXISTS' && m.inDatabase) ||
+        (this.moleculeStatusFilter === 'NOT_FOUND' && !m.inDatabase);
+      return matchesSearch && matchesStatus;
+    });
+  }
+
+  public get filteredPathwayPatterns(): PathwayItemStatus[] {
+    if (!this.pathwayReport || !this.pathwayReport.reactionPatterns) return [];
+    const search = this.patternSearchText.trim().toLowerCase();
+    return this.pathwayReport.reactionPatterns.filter(p => {
+      const matchesSearch = !search || p.name.toLowerCase().includes(search);
+      const matchesStatus =
+        this.patternStatusFilter === 'ALL' ||
+        (this.patternStatusFilter === 'EXISTS' && p.inDatabase) ||
+        (this.patternStatusFilter === 'NOT_FOUND' && !p.inDatabase);
+      return matchesSearch && matchesStatus;
+    });
+  }
+
+  public get moleculesInDbCount(): number {
+    if (!this.pathwayReport || !this.pathwayReport.molecules) return 0;
+    return this.pathwayReport.molecules.filter(m => m.inDatabase).length;
+  }
+
+  public get patternsInDbCount(): number {
+    if (!this.pathwayReport || !this.pathwayReport.reactionPatterns) return 0;
+    return this.pathwayReport.reactionPatterns.filter(p => p.inDatabase).length;
+  }
+
+  public getFormattedSummaryText(): string {
+    if (!this.pathwayReport) return '';
+    const parts: string[] = [];
+    if (this.pathwayReport.headerSummaryLines && this.pathwayReport.headerSummaryLines.length > 0) {
+      parts.push(this.pathwayReport.headerSummaryLines.join('\n'));
+    } else {
+      parts.push(`Pathway Name: ${this.pathwayReport.pathwayName}`);
+      parts.push(`Number of Steps: ${this.pathwayReport.numberOfSteps}`);
+      if (this.pathwayReport.auxiliaryMolecules > 0) {
+        parts.push(`Auxiliary Molecules for all steps: ${this.pathwayReport.auxiliaryMolecules}`);
+      }
+    }
+
+    if (this.pathwayReport.summaryBlockLines && this.pathwayReport.summaryBlockLines.length > 0) {
+      parts.push('--------------------------------------------------------------------------------');
+      parts.push(this.pathwayReport.summaryBlockLines.join('\n'));
+    } else {
+      parts.push('--------------------------------------------------------------------------------');
+      parts.push(`Summary for Pathway '${this.pathwayReport.pathwayName}':`);
+      parts.push(`  Molecules Checked: ${this.pathwayReport.moleculesChecked} (Missing: ${this.pathwayReport.moleculesMissing})`);
+      parts.push(`  Reaction Patterns Checked: ${this.pathwayReport.patternsChecked} (Missing: ${this.pathwayReport.patternsMissing})`);
+      parts.push(`RESULT: ${this.pathwayReport.resultMessage}`);
+    }
+    return parts.join('\n');
+  }
 
   // Lazy Molecule Render State
   public expandedParsedItems: { [index: number]: boolean } = {};
@@ -267,6 +347,11 @@ export class ReadCheckStoreComponent implements OnInit {
     this.statusMessage = '';
     this.orchestratorWarning = false;
     this.expandedParsedItems = {};
+    this.pathwayReport = null;
+    this.moleculeSearchText = '';
+    this.moleculeStatusFilter = 'ALL';
+    this.patternSearchText = '';
+    this.patternStatusFilter = 'ALL';
   }
 
   /**
@@ -332,27 +417,42 @@ export class ReadCheckStoreComponent implements OnInit {
       this.isExecuting = false;
 
       if (res) {
-        // Parse into 3 distinct sections (Input SDF, Parsed Objects, Execution Log)
+        // Parse into distinct sections (Input SDF, Parsed Objects, Execution Log, Pathway Report)
         this.step1OutputSections = this.executionParser.parseExecutionOutput(res.output || '', this.dataType);
         this.expandedParsedItems = {};
         if (this.fileContent && !this.step1OutputSections.inputDataText) {
           this.step1OutputSections.inputDataText = this.fileContent;
         }
 
-        // Section 3 Raw Terminal Output: Only include output after '--- Execution Log ---'
-        let rawLogText = this.step1OutputSections.executionLogText || '';
-        if (res.error) {
-          rawLogText += (rawLogText ? '\n--- ERRORS ---\n' : '') + res.error;
-        }
-        this.step1Log = rawLogText;
-        this.step1Lines = this.parseLogToLines(this.step1Log);
-
-        if (res.exitCode === 0 && !res.output.includes('ERROR:')) {
+        // Check if a dedicated Mechanism Pathway Check Report was generated
+        if (this.step1OutputSections.pathwayReport) {
+          this.pathwayReport = this.step1OutputSections.pathwayReport;
           this.step1Completed = true;
-          this.statusMessage = 'Step 1 Read & Format Check successful!';
-          this.parsedStructuresCount = this.step1OutputSections.parsedDataStructures.length || (res.output.match(/:Mol|:Rxn|:Sub/g) || []).length || 1;
+          this.parsedStructuresCount = this.pathwayReport.numberOfSteps;
+          if (this.pathwayReport.resultSuccess) {
+            this.statusMessage = 'Step 1 Read & Format Check successful! All molecules and reaction patterns exist in database.';
+          } else {
+            this.statusMessage = `Step 1 Read successful: Pathway format validated (${this.pathwayReport.numberOfSteps} steps). Found ${this.pathwayReport.moleculesMissing} missing molecule(s) and ${this.pathwayReport.patternsMissing} missing reaction pattern(s) in database.`;
+          }
+          this.step1Log = this.pathwayReport.logText;
+          this.step1Lines = this.pathwayReport.logLines;
         } else {
-          this.errorMessage = 'Format error detected during Step 1 Read. Check output log.';
+          this.pathwayReport = null;
+          // Section 3 Raw Terminal Output: Only include output after '--- Execution Log ---'
+          let rawLogText = this.step1OutputSections.executionLogText || '';
+          if (res.error) {
+            rawLogText += (rawLogText ? '\n--- ERRORS ---\n' : '') + res.error;
+          }
+          this.step1Log = rawLogText;
+          this.step1Lines = this.parseLogToLines(this.step1Log);
+
+          if (res.exitCode === 0 && !res.output.includes('ERROR:')) {
+            this.step1Completed = true;
+            this.statusMessage = 'Step 1 Read & Format Check successful!';
+            this.parsedStructuresCount = this.step1OutputSections.parsedDataStructures.length || (res.output.match(/:Mol|:Rxn|:Sub/g) || []).length || 1;
+          } else {
+            this.errorMessage = 'Format error detected during Step 1 Read. Check output log.';
+          }
         }
       }
     } catch (err: any) {
@@ -364,7 +464,7 @@ export class ReadCheckStoreComponent implements OnInit {
 
   // --- Step 2: Database Existence Check ---
   public async executeStep2Check(): Promise<void> {
-    console.log('[ReadCheckStoreComponent] Starting Step 2 Database Check via ExistenceCheckService...', {
+    console.log('[ReadCheckStoreComponent] Starting Step 2 Database Check...', {
       dataType: this.dataType,
       format: this.format,
       rootName: this.rootName
@@ -395,14 +495,42 @@ export class ReadCheckStoreComponent implements OnInit {
       this.isExecuting = false;
       this.step2Log = result.rawOutput;
       this.step2Lines = result.logLines;
-      this.existenceItems = result.items;
-      this.hasConflicts = result.hasConflicts;
-      this.step2Completed = result.success;
 
-      if (result.success) {
+      // For mechanism pathways, populate existence items from report
+      if (this.dataType === 'mechanism-pathway' && this.pathwayReport) {
+        const items: ExistenceCheckItem[] = [];
+        this.pathwayReport.molecules.forEach(m => {
+          items.push({
+            id: `MOL-${m.index}`,
+            name: m.name,
+            inDatabase: m.inDatabase,
+            status: m.inDatabase ? 'Present' : 'New',
+            suggestedAction: m.inDatabase ? 'Exists in DB' : 'Needs to be Added'
+          });
+        });
+        this.pathwayReport.reactionPatterns.forEach(p => {
+          items.push({
+            id: `PAT-${p.index}`,
+            name: p.name,
+            inDatabase: p.inDatabase,
+            status: p.inDatabase ? 'Present' : 'New',
+            suggestedAction: p.inDatabase ? 'Exists in DB' : 'Needs to be Added'
+          });
+        });
+        this.existenceItems = items;
+        this.hasConflicts = this.pathwayReport.moleculesMissing > 0 || this.pathwayReport.patternsMissing > 0;
+        this.step2Completed = true;
         this.statusMessage = 'Step 2 Database Check completed!';
       } else {
-        this.errorMessage = 'Step 2 Existence Check reported warnings or exit errors.';
+        this.existenceItems = result.items;
+        this.hasConflicts = result.hasConflicts;
+        this.step2Completed = result.success;
+
+        if (result.success) {
+          this.statusMessage = 'Step 2 Database Check completed!';
+        } else {
+          this.errorMessage = 'Step 2 Existence Check reported warnings or exit errors.';
+        }
       }
     } catch (err: any) {
       console.error('[ReadCheckStoreComponent] Error executing Step 2 Check:', err);

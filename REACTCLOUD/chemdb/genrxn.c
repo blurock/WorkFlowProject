@@ -717,14 +717,14 @@ extern INT StoreReadChainSetToFirestore(ReadChainSet *readchain, BindStructure *
 **  DESCRIPTION
 **    Reads a ReadChainSet pathway definition from the specified file (TransformDir/TransformRxn.lsr),
 **    validates its formatting (non-empty name, NumberOfSteps > 0), and verifies that all molecules
-**    exist in SUBSTRUCTURE_DATABASE and all reaction patterns exist in PATTERN_DATABASE.
+**    exist in MOLECULE_DATABASE and all reaction patterns exist in PATTERN_DATABASE.
 **    Writes a formatted report table to <TransformDir>/<TransformRxn>_Check.out and stdout.
 */
 extern INT DBReadCheckChain(BindStructure *bind)
 {
   CommandMaster *commandmaster;
   ChemDBMaster *master;
-  DataBaseInformation *subsdinfo, *patdinfo;
+  DataBaseInformation *moldinfo, *patdinfo;
   FILE *out;
   ReadChainSet *readchain;
   MoleculeInfo minfo;
@@ -743,7 +743,7 @@ extern INT DBReadCheckChain(BindStructure *bind)
     return SYSTEM_ERROR_RETURN;
   }
 
-  subsdinfo = GetDataBaseInfoFromID(master->DatabaseInfo, SUBSTRUCTURE_DATABASE);
+  moldinfo = GetDataBaseInfoFromID(master->DatabaseInfo, MOLECULE_DATABASE);
   patdinfo = GetDataBaseInfoFromID(master->DatabaseInfo, PATTERN_DATABASE);
 
   out = OpenWriteFileFromCurrent("TransformDir", "TransformRxn", "Check.out", IGNORE,
@@ -784,8 +784,8 @@ extern INT DBReadCheckChain(BindStructure *bind)
     return SYSTEM_ERROR_RETURN;
   }
 
-  /* 2. Check Molecules in SUBSTRUCTURE_DATABASE */
-  fprintf(out, "\n[1] Molecule Existence Check (SUBSTRUCTURE_DATABASE):\n");
+  /* 2. Check Molecules in MOLECULE_DATABASE */
+  fprintf(out, "\n[1] Molecule Existence Check (MOLECULE_DATABASE):\n");
   fprintf(out, "%-40s %-20s\n", "Molecule_Name", "Database_Status");
   fprintf(out, "---------------------------------------- --------------------\n");
 
@@ -794,7 +794,8 @@ extern INT DBReadCheckChain(BindStructure *bind)
     LOOPi(readchain->Molecules->NumberOfMolecules) {
       num_checked_mols++;
       memset(&minfo, 0, sizeof(MoleculeInfo));
-      ret = DBFindMolSubFromString(mol->Name, &minfo, subsdinfo);
+      /* Check MOLECULE_DATABASE strictly (no substructure fallback) */
+      ret = DBFindMolSubFromString(mol->Name, &minfo, moldinfo);
       if (ret == SYSTEM_NORMAL_RETURN) {
         fprintf(out, "%-40.40s %-20s\n", mol->Name ? mol->Name : "", "EXISTS");
       } else {
@@ -869,7 +870,7 @@ extern INT DBReadStoreChain(BindStructure *bind)
 {
   CommandMaster *commandmaster;
   ChemDBMaster *master;
-  DataBaseInformation *subsdinfo, *patdinfo;
+  DataBaseInformation *moldinfo, *patdinfo;
   FILE *out;
   ReadChainSet *readchain;
   MoleculeInfo minfo;
@@ -888,7 +889,7 @@ extern INT DBReadStoreChain(BindStructure *bind)
     return SYSTEM_ERROR_RETURN;
   }
 
-  subsdinfo = GetDataBaseInfoFromID(master->DatabaseInfo, SUBSTRUCTURE_DATABASE);
+  moldinfo = GetDataBaseInfoFromID(master->DatabaseInfo, MOLECULE_DATABASE);
   patdinfo = GetDataBaseInfoFromID(master->DatabaseInfo, PATTERN_DATABASE);
 
   out = OpenWriteFileFromCurrent("TransformDir", "TransformRxn", "Store.out", IGNORE,
@@ -919,7 +920,8 @@ extern INT DBReadStoreChain(BindStructure *bind)
     LOOPi(readchain->Molecules->NumberOfMolecules) {
       num_checked_mols++;
       memset(&minfo, 0, sizeof(MoleculeInfo));
-      ret = DBFindMolSubFromString(mol->Name, &minfo, subsdinfo);
+      /* Check MOLECULE_DATABASE strictly (no substructure fallback) */
+      ret = DBFindMolSubFromString(mol->Name, &minfo, moldinfo);
       if (ret != SYSTEM_NORMAL_RETURN) {
         num_missing_mols++;
       }
