@@ -106,6 +106,7 @@ extern INT FetchDatabaseRecordSummaries(DataBaseInformation *dinfo,
 					 struct cJSON **out_records);
 extern INT PrintDatabaseRecordSummaries(DataBaseInformation *dinfo,
 					 const char *fmt_str);
+extern INT FetchNextDatabaseIDFromFirestore(const CHAR *dbName);
 
 
 

@@ -1053,8 +1053,12 @@ extern INT AddObjectToIDClass(VOID object,
        key->Name = NULL;
        key->Size = INTSize;
        key->KeyWord = (VOID)AllocateINT;
-       id = class->ID + class->NumberOfKeys;
+       id = FetchNextDatabaseIDFromFirestore(dinfo ? dinfo->Name : classification->Name);
+       key->ID = id;
        memcpy((char *)key->KeyWord, (char *)&(id), (unsigned int)key->Size);
+     }
+     if (key->ID == 0) {
+       key->ID = FetchNextDatabaseIDFromFirestore(dinfo ? dinfo->Name : classification->Name);
      }
      id = AddIDKeyToClass(key,class);
      
@@ -1083,7 +1087,11 @@ extern INT AddIDKeyToClass(DbaseKeyword *key, ObjectIDClass *class)
      newnum = class->NumberOfKeys + 1;
      oldsize = class->NumberOfKeys * DbaseKeywordSize;
      
-     id = class->ID + class->NumberOfKeys;
+     if (key != NULL && key->ID != 0) {
+       id = key->ID;
+     } else {
+       id = class->ID + class->NumberOfKeys;
+     }
 
      newclass = AllocateObjectIDClass;
      CreateObjectIDClass(newclass,class->ID,class->Name,

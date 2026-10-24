@@ -169,7 +169,7 @@ extern INT PutMoleculeInDatabaseClass(MoleculeInfo *molecule, INT classid,
                                   classification->Description->Database);
     class = FindOrCreateObjectIDClass(molecule, classification->Description,
                                       classification->TreeOfObjects);
-    molecule->ID = class->ID + class->NumberOfKeys;
+    molecule->ID = FetchNextDatabaseIDFromFirestore(dinfo ? dinfo->Name : "Molecules");
     keytype = FindKeyTypeFromID(classification->Description->KeyType, dinfo);
     key = AllocateDbaseKeyword;
     if (keytype != NULL && keytype->InsertKey != NULL) {
@@ -179,6 +179,9 @@ extern INT PutMoleculeInDatabaseClass(MoleculeInfo *molecule, INT classid,
     }
     if (key->Name == NULL && molecule->Name != NULL) {
       key->Name = CopyString(molecule->Name);
+    }
+    if (molecule->ID != 0) {
+      key->ID = molecule->ID;
     }
     id = AddIDKeyToClass(key, class);
 

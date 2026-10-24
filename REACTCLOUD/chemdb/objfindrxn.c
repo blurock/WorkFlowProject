@@ -520,7 +520,7 @@ extern INT PutReactionInDatabaseClass(ReactionInfo *reaction, INT classid,
                                   classification->Description->Database);
     class = FindOrCreateObjectIDClass((VOID)reaction, classification->Description,
                                       classification->TreeOfObjects);
-    reaction->ID = class->ID + class->NumberOfKeys;
+    reaction->ID = FetchNextDatabaseIDFromFirestore(dinfo ? dinfo->Name : "ReactionPatterns");
 
     keytype = FindKeyTypeFromID(classification->Description->KeyType, dinfo);
     key = AllocateDbaseKeyword;

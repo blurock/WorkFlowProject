@@ -941,3 +941,51 @@ extern INT WriteGenericElement(DbaseLinkedList *link,
      return(SYSTEM_NORMAL_RETURN);
      }
 
+/*F id = FetchNextDatabaseIDFromFirestore(dbName)
+**
+**  DESCRIPTION
+**    Requests an atomically incremented, guaranteed-unique ID from the Orchestrator
+**    for the given database collection (ReactionPatterns, Molecules, Substructures, etc.).
+*/
+extern INT FetchNextDatabaseIDFromFirestore(const CHAR *dbName) {
+    CHAR body[256];
+    CHAR resp[1024];
+    const char *uid;
+    INT allocatedId = 0;
+
+    uid = getenv("REACT_USER_UID");
+    if (uid == NULL || *uid == '\0') {
+        uid = "user_default_local";
+    }
+
+    snprintf(body, sizeof(body), "{\"uid\":\"%s\",\"dbName\":\"%s\",\"startAt\":10000}",
+             uid, dbName ? dbName : "Unknown");
+
+    if (PostJSONToOrchestrator("/api/db/generateNextID", body, resp, sizeof(resp)) == 0) {
+        char *json_body = strstr(resp, "\r\n\r\n");
+        if (json_body != NULL) {
+            json_body += 4;
+            cJSON *parsed = cJSON_Parse(json_body);
+            if (parsed != NULL) {
+                cJSON *idObj = cJSON_GetObjectItemCaseSensitive(parsed, "id");
+                if (idObj != NULL && cJSON_IsNumber(idObj)) {
+                    allocatedId = (INT)idObj->valueint;
+                }
+                cJSON_Delete(parsed);
+            }
+        }
+    }
+
+    if (allocatedId <= 0) {
+        static INT fallbackCounter = 10000;
+        allocatedId = fallbackCounter++;
+        printf("[FetchNextDatabaseIDFromFirestore Warning] Fallback counter used for dbName='%s': ID=%d\n",
+               dbName ? dbName : "NULL", allocatedId);
+    } else {
+        printf("[FetchNextDatabaseIDFromFirestore] Allocated unique ID=%d for dbName='%s'\n",
+               allocatedId, dbName ? dbName : "NULL");
+    }
+
+    return allocatedId;
+}
+

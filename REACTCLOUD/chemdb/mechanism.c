@@ -1522,13 +1522,8 @@ extern INT StoreSetOfMechanismsInDatabase(BindStructure *bind)
 
   LOOPi(mechset->NumberOfMechanisms)
     {
-      if (mechanism->Reactions != 0 && mechanism->Molecules != 0) {
-        mechanism->ID = 
-	  mechanism->Reactions->NumberOfReactions * 1000 +
-	  mechanism->Molecules->NumberOfMolecules;
-      } else {
-        printf("DEBUG: WARNING: mechanism->Reactions or mechanism->Molecules is NULL for mechanism index %d\n", i);
-        mechanism->ID = i;
+      if (mechanism->ID <= 0) {
+        mechanism->ID = FetchNextDatabaseIDFromFirestore("Mechanisms");
       }
       printf("Mechanism to Store: %10d: %s\n", mechanism->ID, mechanism->Name ? mechanism->Name : "(null)");
       StoreMechanismToDatabase(mechanism, master);

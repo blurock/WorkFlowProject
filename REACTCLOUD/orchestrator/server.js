@@ -1971,6 +1971,122 @@ app.post('/api/db/delete', async (req, res) => {
   }
 });
 
+/**
+ * Atomic Unique ID Generator
+ * Allocates monotonically increasing unique integer IDs per database collection.
+ */
+app.post('/api/db/generateNextID', async (req, res) => {
+  try {
+    const { uid = 'user_default_local', dbName, startAt = 10000 } = req.body;
+    if (!dbName) {
+      return res.status(400).json({ error: 'Missing required parameter: dbName' });
+    }
+
+    const counterRef = firestore.doc(`users/${uid}/databases/${dbName}/metadata/counter`);
+
+    let allocatedId = 0;
+    await firestore.runTransaction(async (transaction) => {
+      const counterSnap = await transaction.get(counterRef);
+      let currentId = Number(startAt) - 1;
+      if (counterSnap.exists) {
+        const data = counterSnap.data();
+        if (typeof data.nextID === 'number') {
+          currentId = data.nextID - 1;
+        }
+      }
+      allocatedId = currentId + 1;
+      if (allocatedId < Number(startAt)) {
+        allocatedId = Number(startAt);
+      }
+      transaction.set(counterRef, {
+        nextID: allocatedId + 1,
+        lastAllocatedID: allocatedId,
+        updatedAt: new Date().toISOString()
+      }, { merge: true });
+    });
+
+    console.log(`[Firestore GenerateNextID] dbName='${dbName}', allocatedId=${allocatedId}, uid='${uid}'`);
+    return res.json({ id: allocatedId, dbName });
+  } catch (err) {
+    console.error('[Firestore GenerateNextID Error]', err.message);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * Purges all records and/or classifications for a database collection.
+ */
+app.post('/api/db/purgeCollection', async (req, res) => {
+  try {
+    const {
+      uid = 'user_default_local',
+      dbName,
+      purgeClassifications = true,
+      classificationName,
+      resetCounter = true,
+      startAt = 10000
+    } = req.body;
+
+    if (!dbName) {
+      return res.status(400).json({ error: 'Missing required parameter: dbName' });
+    }
+
+    // 1. Delete all records under users/${uid}/databases/${dbName}/records
+    const recordsCol = firestore.collection(`users/${uid}/databases/${dbName}/records`);
+    const recordsSnap = await recordsCol.get();
+    let deletedRecordsCount = 0;
+    const batchSize = 400;
+    for (let i = 0; i < recordsSnap.docs.length; i += batchSize) {
+      const batch = firestore.batch();
+      recordsSnap.docs.slice(i, i + batchSize).forEach(doc => batch.delete(doc.ref));
+      await batch.commit();
+      deletedRecordsCount += recordsSnap.docs.slice(i, i + batchSize).length;
+    }
+
+    // 2. Optionally delete classifications
+    let deletedClassCount = 0;
+    if (purgeClassifications) {
+      const classColName = classificationName || (
+        dbName === 'ReactionPatterns' ? 'DB-Index-PatternIDs' :
+        (dbName === 'Molecules' ? 'DB-Index-MoleculeIDs' :
+        (dbName === 'Substructures' ? 'DB-Index-SubStructureIDs' :
+        (dbName === 'Reactions' ? 'DB-Index-ReactionIDs' : '')))
+      );
+      if (classColName) {
+        const classCol = firestore.collection(`users/${uid}/classifications/database/${classColName}`);
+        const classSnap = await classCol.get();
+        for (let i = 0; i < classSnap.docs.length; i += batchSize) {
+          const batch = firestore.batch();
+          classSnap.docs.slice(i, i + batchSize).forEach(doc => batch.delete(doc.ref));
+          await batch.commit();
+          deletedClassCount += classSnap.docs.slice(i, i + batchSize).length;
+        }
+      }
+    }
+
+    // 3. Reset counter
+    if (resetCounter) {
+      const counterRef = firestore.doc(`users/${uid}/databases/${dbName}/metadata/counter`);
+      await counterRef.set({
+        nextID: Number(startAt),
+        lastAllocatedID: 0,
+        updatedAt: new Date().toISOString()
+      });
+    }
+
+    console.log(`[Firestore PurgeCollection] dbName='${dbName}', deletedRecords=${deletedRecordsCount}, deletedClassDocs=${deletedClassCount}`);
+    return res.json({
+      success: true,
+      dbName,
+      deletedRecords: deletedRecordsCount,
+      deletedClassDocs: deletedClassCount
+    });
+  } catch (err) {
+    console.error('[Firestore PurgeCollection Error]', err.message);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
 
 
 app.post('/api/db/storeSearchKeys', async (req, res) => {
