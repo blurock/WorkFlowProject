@@ -278,7 +278,9 @@ extern INT WriteAllDBSearchKeys(DataBaseInformation *dinfo) {
   if (dinfo->Keys != 0) {
     keytype = dinfo->Keys->KeyTypes;
     LOOPi(dinfo->Keys->NumberOfKeyTypes) {
-      WriteDBSearchType(keytype->ID, keytype->Keys, dinfo);
+      if (keytype->Keys != NULL && keytype->Keys->NumberOfKeys > 0) {
+        WriteDBSearchType(keytype->ID, keytype->Keys, dinfo);
+      }
       keytype++;
     }
   } else

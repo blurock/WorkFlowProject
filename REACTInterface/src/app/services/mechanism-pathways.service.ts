@@ -299,6 +299,9 @@ export class MechanismPathwaysService {
       if (line.startsWith(':')) {
         // Auxiliary molecules for current step
         const mols = line.substring(1).split(',').map(m => m.trim()).filter(Boolean);
+        if (currentPatterns.length === 0) {
+          console.warn(`[MechanismPathwaysService] Format error on line ${i + 1}: Line begins with ':' without preceding reaction patterns (missing continuation character '\\' on previous line?)`);
+        }
         currentStepMols.push(...mols);
         flushStep();
         continue;

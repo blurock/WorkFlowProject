@@ -85,7 +85,8 @@ static CHAR *BatchGetCommandKeyWord(BindStructure *bind)
      fflush(source->StandardOut->OutputFile);
      Free(name);
      
-     NextNonBlankLine(source->File,&(source->Command->Line[0]));
+     if(NextNonBlankLine(source->File,&(source->Command->Line[0])) == NULL)
+          return "Quit";
      source->Command->Rest = &(source->Command->Line[0]);
      type = CommandIsolateString(source->Command,COLON);
      return(type);
@@ -107,7 +108,8 @@ extern void AskQuestionBatch(CHAR *name,
      fprintf(source->StandardOut->OutputFile,"Enter: %s>> ",name);
      fflush(source->StandardOut->OutputFile);
      
-     NextNonBlankLine(source->File,&(source->Command->Line[0]));
+     if(NextNonBlankLine(source->File,&(source->Command->Line[0])) == NULL)
+          return;
      source->Command->Rest = &(source->Command->Line[0]);
      string = CommandIsolateString(source->Command,BLANK);
 

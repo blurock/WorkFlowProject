@@ -320,7 +320,9 @@
                       </td>
                     </tr>
                     <tr *ngIf="filteredPathwayMolecules.length === 0">
-                      <td colspan="4" class="no-records">No molecules matching filter criteria.</td>
+                      <td colspan="4" class="no-records">
+                        {{ pathwayReport.molecules.length === 0 ? 'No auxiliary molecules defined in this mechanism pathway.' : 'No molecules matching filter criteria.' }}
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -427,7 +429,9 @@
                       </td>
                     </tr>
                     <tr *ngIf="filteredPathwayPatterns.length === 0">
-                      <td colspan="4" class="no-records">No reaction patterns matching filter criteria.</td>
+                      <td colspan="4" class="no-records">
+                        {{ pathwayReport.reactionPatterns.length === 0 ? 'No reaction patterns defined in this mechanism pathway.' : 'No reaction patterns matching filter criteria.' }}
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -618,8 +622,11 @@
 
 
       <div class="pane-footer" *ngIf="step1Completed">
-        <button mat-raised-button color="accent" (click)="executeStep2Check()">
+        <button mat-stroked-button color="primary" (click)="executeStep2Check()" *ngIf="dataType !== 'mechanism-pathway' || !pathwayReport?.resultSuccess">
           Proceed to Step 2: Database Check <mat-icon>arrow_forward</mat-icon>
+        </button>
+        <button mat-raised-button color="accent" (click)="activeStep = 3" *ngIf="dataType === 'mechanism-pathway' && pathwayReport?.resultSuccess">
+          Proceed to Step 3: Database Store <mat-icon>arrow_forward</mat-icon>
         </button>
       </div>
     </div>

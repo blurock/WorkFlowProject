@@ -37,7 +37,7 @@ H-Abstraction-MethylPeroxyl-Secondary,\
 H-Abstraction-MethylPeroxyl-Tertiary,\
 H-Abstraction-Methyl-Primary,\
 H-Abstraction-Methyl-Secondary,\
-H-Abstraction-Methyl-Tertiary
+H-Abstraction-Methyl-Tertiary,\
 : hydrogen-radical,oxygen-radical,oxygen,\
 methyl-radical,peroxyl-radical,methoxy-radical,\
-ethyl-radical,ethenyl-radical,methylperoxy-radical 
+ethyl-radical,ethenyl-radical,methylperoxy-radical

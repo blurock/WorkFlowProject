@@ -756,9 +756,11 @@ extern INT DBReadCheckChain(BindStructure *bind)
 
   readchain = ReadInChainDefinition(bind);
   if (readchain == NULL) {
-    fprintf(out, "ERROR: Could not read Mechanism Pathway definition from file.\n");
+    fprintf(out, "ERROR: Format error detected while reading Mechanism Pathway definition from file.\n");
+    fprintf(out, "RESULT: FAILED - Format error in Mechanism Pathway definition.\n");
+    fprintf(out, "================================================================================\n");
     if (out != stdout) {
-      printf("ERROR: Could not read Mechanism Pathway definition from file.\n");
+      printf("ReadCheckChain: FAILED - Format error in Mechanism Pathway definition.\n");
       fclose(out);
     }
     return SYSTEM_ERROR_RETURN;
@@ -775,6 +777,8 @@ extern INT DBReadCheckChain(BindStructure *bind)
   /* 1. Format check */
   if (readchain->NumberOfSteps <= 0 || readchain->Steps == NULL) {
     fprintf(out, "ERROR: Mechanism Pathway contains no steps (NumberOfSteps = %d).\n", readchain->NumberOfSteps);
+    fprintf(out, "RESULT: FAILED - Mechanism Pathway contains no steps.\n");
+    fprintf(out, "================================================================================\n");
     if (out != stdout) {
       printf("ERROR: Mechanism Pathway '%s' contains no steps.\n", pathwayName);
       fclose(out);
@@ -782,6 +786,26 @@ extern INT DBReadCheckChain(BindStructure *bind)
     FreeReadChainSet(readchain);
     Free(readchain);
     return SYSTEM_ERROR_RETURN;
+  }
+
+  {
+    INT step_format_error = 0;
+    LOOPi(readchain->NumberOfSteps) {
+      ReadChainReactionStep *s = readchain->Steps + i;
+      if (s->Reactions == NULL || s->Reactions->NumberOfReactions == 0) {
+        fprintf(out, "ERROR: Step %d contains 0 reaction patterns (Format error: missing continuation character '\\' before auxiliary molecules?).\n", i + 1);
+        step_format_error = 1;
+      }
+    }
+    if (step_format_error) {
+      fprintf(out, "RESULT: FAILED - Format error: One or more steps contain 0 reaction patterns.\n");
+      fprintf(out, "================================================================================\n");
+      printf("ReadCheckChain: FAILED - Format error: One or more steps contain 0 reaction patterns.\n");
+      if (out != stdout) fclose(out);
+      FreeReadChainSet(readchain);
+      Free(readchain);
+      return SYSTEM_ERROR_RETURN;
+    }
   }
 
   /* 2. Check Molecules in MOLECULE_DATABASE */
@@ -902,9 +926,11 @@ extern INT DBReadStoreChain(BindStructure *bind)
 
   readchain = ReadInChainDefinition(bind);
   if (readchain == NULL) {
-    fprintf(out, "ERROR: Could not read Mechanism Pathway definition from file.\n");
+    fprintf(out, "ERROR: Format error detected while reading Mechanism Pathway definition from file.\n");
+    fprintf(out, "RESULT: FAILED - Format error in Mechanism Pathway definition.\n");
+    fprintf(out, "================================================================================\n");
     if (out != stdout) {
-      printf("ERROR: Could not read Mechanism Pathway definition from file.\n");
+      printf("ReadStoreChain: FAILED - Format error in Mechanism Pathway definition from file.\n");
       fclose(out);
     }
     return SYSTEM_ERROR_RETURN;
@@ -913,6 +939,38 @@ extern INT DBReadStoreChain(BindStructure *bind)
   pathwayName = readchain->Name ? readchain->Name : "UNKNOWN";
   fprintf(out, "Pathway Name: %s\n", pathwayName);
   fprintf(out, "Number of Steps: %d\n", readchain->NumberOfSteps);
+
+  /* Step format check */
+  if (readchain->NumberOfSteps <= 0 || readchain->Steps == NULL) {
+    fprintf(out, "ERROR: Mechanism Pathway contains no steps (NumberOfSteps = %d).\n", readchain->NumberOfSteps);
+    fprintf(out, "RESULT: FAILED - Mechanism Pathway contains no steps.\n");
+    fprintf(out, "================================================================================\n");
+    if (out != stdout) fclose(out);
+    FreeReadChainSet(readchain);
+    Free(readchain);
+    return SYSTEM_ERROR_RETURN;
+  }
+
+  {
+    INT step_format_error = 0;
+    LOOPi(readchain->NumberOfSteps) {
+      ReadChainReactionStep *s = readchain->Steps + i;
+      if (s->Reactions == NULL || s->Reactions->NumberOfReactions == 0) {
+        fprintf(out, "ERROR: Step %d contains 0 reaction patterns (Format error: missing continuation character '\\' before auxiliary molecules?).\n", i + 1);
+        step_format_error = 1;
+      }
+    }
+    if (step_format_error) {
+      fprintf(out, "ERROR: Cannot store pathway in Firestore: format errors detected.\n");
+      fprintf(out, "RESULT: FAILED - Run ReadCheck first to resolve formatting errors.\n");
+      fprintf(out, "================================================================================\n");
+      printf("ReadStoreChain: FAILED - Format errors detected (steps with 0 reaction patterns).\n");
+      if (out != stdout) fclose(out);
+      FreeReadChainSet(readchain);
+      Free(readchain);
+      return SYSTEM_ERROR_RETURN;
+    }
+  }
 
   /* Verify all molecules and reaction patterns exist in database before storing */
   if (readchain->Molecules != NULL && readchain->Molecules->NumberOfMolecules > 0) {

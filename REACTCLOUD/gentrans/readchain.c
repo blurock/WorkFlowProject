@@ -278,13 +278,74 @@ static TransformSet *GetSetOfStepReactions(CHAR *rxns,
 **  HEADERFILE
 **
 */
+/* Helper to read non-blank, non-comment lines while handling '\\' continuation and tracking line numbers */
+static char *NextChainLineWithLineNumber(FILE *in, char *line, int maxlen, int *currentLine, int *startLine) {
+  char raw[LINELENGTH];
+  int is_first = 1;
+  int pos = 0;
+
+  line[0] = '\0';
+
+  while (fgets(raw, sizeof(raw), in) != NULL) {
+    (*currentLine)++;
+
+    /* Remove trailing \r and \n */
+    size_t len = strlen(raw);
+    while (len > 0 && (raw[len - 1] == '\n' || raw[len - 1] == '\r')) {
+      raw[--len] = '\0';
+    }
+
+    char *lead = EliminateLeadingBlanks(raw);
+
+    /* If this is the start of a logical line and it's a comment or empty, skip */
+    if (is_first) {
+      if (*lead == '\0' || !strncmp(lead, "%%", 2)) {
+        continue;
+      }
+      *startLine = *currentLine;
+      is_first = 0;
+    } else {
+      /* If continuing from previous line with '\', skip pure comment lines */
+      if (!strncmp(lead, "%%", 2)) {
+        continue;
+      }
+    }
+
+    /* Check if this raw line ends with a continuation character '\' */
+    len = strlen(lead);
+    int has_cont = (len > 0 && lead[len - 1] == '\\');
+    if (has_cont) {
+      lead[--len] = '\0'; /* Remove trailing backslash */
+    }
+
+    /* Append to line buffer */
+    if (pos + len < (size_t)maxlen - 1) {
+      strcpy(line + pos, lead);
+      pos += len;
+    }
+
+    /* If not continued with '\', this logical line is complete */
+    if (!has_cont) {
+      return line;
+    }
+  }
+
+  if (!is_first && pos > 0) {
+    return line;
+  }
+  return NULL;
+}
+
 extern ReadChainSet *ReadInChainDefinition(BindStructure *bind)
      {
      CommandMaster *commandmaster;
      FILE *in;
      ReadChainSet *set;
      ReadChainReactionStep *step;
-     CHAR *line,*word,*string,*rest,*name;
+     CHAR *line,*word,*string,*rest,*name,*lead;
+     int currentLine = 0;
+     int startLine = 0;
+     int format_error = 0;
      
      commandmaster = GetBoundStructure(bind,BIND_COMMANDMASTER);
      in = OpenReadFileFromCurrent("TransformDir","TransformRxn",
@@ -296,11 +357,27 @@ extern ReadChainSet *ReadInChainDefinition(BindStructure *bind)
 	  string = AllocateString(40*LINELENGTH);
 	  word = AllocateString(40*LINELENGTH);
 	  
-	  line = NextNonBlankLine(in,string);
-	  EliminateBlanks(line);
-	  name = CopyString(line);
-	  if(strlen(name) > 0 && name[strlen(name)-1] == ':')
-	       name[strlen(name)-1] = '\0';
+	  /* Line 1: Pathway Name */
+	  line = NextChainLineWithLineNumber(in, string, 40*LINELENGTH, &currentLine, &startLine);
+	  if(line == NULL) {
+	       printf("ERROR: Empty chain definition file.\n");
+	       fclose(in);
+	       Free(string);
+	       Free(word);
+	       return NULL;
+	  }
+
+	  /* Extract name before ':' if present (strip descriptions like ': Hydrogen Abstraction from fuel alkane') */
+	  rest = IsolateNextWord(line, word, COLON, 40*LINELENGTH);
+	  EliminateBlanks(word);
+	  if(strlen(word) > 0) {
+	       name = CopyString(word);
+	  } else {
+	       EliminateBlanks(line);
+	       name = CopyString(line);
+	       if(strlen(name) > 0 && name[strlen(name)-1] == ':')
+	            name[strlen(name)-1] = '\0';
+	  }
 	  
 	  set = AllocateReadChainSet;
 	  CreateReadChainSet(set,0,name,
@@ -309,32 +386,70 @@ extern ReadChainSet *ReadInChainDefinition(BindStructure *bind)
 	  
 	  set->NumberOfSteps = 0;
 	  
-	  line = NextNonBlankLine(in,string);
+	  /* Line 2: ExtraMolecules (Global Auxiliary Molecules) */
+	  line = NextChainLineWithLineNumber(in, string, 40*LINELENGTH, &currentLine, &startLine);
+	  if(line != NULL) {
+	       set->ExtraMolecules = ReadInMoleculesFromLine(line,',',MAX_NUMBER_OF_MOLECULES);
+	  }
 	  
-	  set->ExtraMolecules = ReadInMoleculesFromLine(line,',',MAX_NUMBER_OF_MOLECULES);
-	  
-	  line = NextNonBlankLine(in,string);
+	  /* Step lines */
+	  line = NextChainLineWithLineNumber(in, string, 40*LINELENGTH, &currentLine, &startLine);
 	  step = set->Steps;
 	  while(line != 0)
 	       {
+	       lead = EliminateLeadingBlanks(line);
+
+	       /* Check for syntax error: line starts with ':' without reaction patterns */
+	       if(*lead == ':') {
+	            printf("================================================================================\n");
+	            printf("FORMAT ERROR on line %d in Chain Definition '%s':\n", startLine, name);
+	            printf("  Line begins with ':' (auxiliary molecules) without preceding reaction patterns:\n");
+	            printf("  '%s'\n", line);
+	            printf("  Step %d has 0 reaction patterns. Missing continuation character '\\' on line %d?\n",
+	                   set->NumberOfSteps + 1, startLine - 1);
+	            printf("================================================================================\n");
+	            format_error = 1;
+	            break;
+	       }
+
 	       CreateReadChainReactionStep(step,set->NumberOfSteps,0,0,0);
 
 	       rest = IsolateNextWord(line,word,COLON,40*LINELENGTH);
 	       FillInReactionStep(word,step);
-	       printf("Molecules of Chain Step:\n%s\n",rest);
+
+	       if(step->Reactions == NULL || step->Reactions->NumberOfReactions == 0) {
+	            printf("================================================================================\n");
+	            printf("FORMAT ERROR on line %d in Chain Definition '%s':\n", startLine, name);
+	            printf("  Step %d contains 0 reaction patterns!\n", set->NumberOfSteps + 1);
+	            printf("  Line content: '%s'\n", line);
+	            if(strlen(rest) > 0) {
+	                 printf("  Auxiliary molecules were found ('%s'), but no reaction patterns were specified.\n", rest);
+	                 printf("  Check if the preceding reaction pattern line is missing a trailing continuation character '\\'.\n");
+	            }
+	            printf("================================================================================\n");
+	            format_error = 1;
+	            break;
+	       }
+
 	       step->Molecules = ReadInMoleculesFromLine(rest,',',MAX_NUMBER_OF_MOLECULES);
 	       
 	       step++;
 	       set->NumberOfSteps += 1;
-	       line = NextNonBlankLine(in,string);
+	       line = NextChainLineWithLineNumber(in, string, 40*LINELENGTH, &currentLine, &startLine);
 	       }
 	  fclose(in);
 
-	  DetermineSetOfMolecules(set);
-	  DetermineSetOfReactions(set);
-	  
 	  Free(string);
 	  Free(word);
+
+	  if(format_error) {
+	       FreeReadChainSet(set);
+	       Free(set);
+	       return NULL;
+	  }
+
+	  DetermineSetOfMolecules(set);
+	  DetermineSetOfReactions(set);
 	  }
      return(set);
      }
@@ -366,12 +481,14 @@ static void FillInReactionStep(CHAR *line, ReadChainReactionStep *step) {
   while(strlen(rest) != 0 && reactions->NumberOfReactions < MAX_NUMBER_OF_REACTIONS) {
     rest = IsolateNextWord(rest,word,COMMA,LINELENGTH);
     IsolateNextWord(word,wordnoblanks,BLANK,LINELENGTH);
-    
-    CreateReadInReaction(reaction,reactions->NumberOfReactions,wordnoblanks);
-    reactions->NumberOfReactions += 1;
-    reaction++;
+    if(strlen(wordnoblanks) > 0) {
+      CreateReadInReaction(reaction,reactions->NumberOfReactions,wordnoblanks);
+      reactions->NumberOfReactions += 1;
+      reaction++;
+    }
   }
   Free(word);
+  Free(wordnoblanks);
 }
  
 /*f DetermineSetOfMolecules(set)

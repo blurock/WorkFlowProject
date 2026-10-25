@@ -430,9 +430,10 @@ export class ReadCheckStoreComponent implements OnInit {
           this.step1Completed = true;
           this.parsedStructuresCount = this.pathwayReport.numberOfSteps;
           if (this.pathwayReport.resultSuccess) {
+            this.step2Completed = true;
             this.statusMessage = 'Step 1 Read & Format Check successful! All molecules and reaction patterns exist in database.';
           } else {
-            this.statusMessage = `Step 1 Read successful: Pathway format validated (${this.pathwayReport.numberOfSteps} steps). Found ${this.pathwayReport.moleculesMissing} missing molecule(s) and ${this.pathwayReport.patternsMissing} missing reaction pattern(s) in database.`;
+            this.statusMessage = `Step 1 Read: Found ${this.pathwayReport.moleculesMissing} missing molecule(s) and ${this.pathwayReport.patternsMissing} missing reaction pattern(s) in database.`;
           }
           this.step1Log = this.pathwayReport.logText;
           this.step1Lines = this.pathwayReport.logLines;

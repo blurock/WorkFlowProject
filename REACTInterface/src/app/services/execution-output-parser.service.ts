@@ -184,6 +184,15 @@ export class ExecutionOutputParserService {
         continue;
       }
 
+      // Capture format error lines anywhere in the report
+      if (trimmed.includes('FORMAT ERROR') || trimmed.includes('Format error:')) {
+        headerSummaryLines.push(trimmed);
+        summaryBlockLines.push(trimmed);
+        if (!resultMessage) {
+          resultMessage = trimmed;
+        }
+      }
+
       // Detect start of sections
       if (trimmed.includes('[1] Molecule Existence Check') || trimmed.includes('Molecule Existence Check')) {
         state = 'MOLS';
@@ -244,6 +253,9 @@ export class ExecutionOutputParserService {
           continue;
         }
         if (!trimmed) continue;
+        if (trimmed.startsWith('No molecules') || trimmed.includes('No molecules defined')) {
+          continue;
+        }
         if (trimmed.startsWith('[2]')) {
           state = 'PATTERNS';
           continue;
@@ -258,13 +270,16 @@ export class ExecutionOutputParserService {
         if (tokens.length >= 2) {
           const mName = tokens[0];
           const mStatus = tokens[tokens.length - 1];
-          const isExists = mStatus.toUpperCase() === 'EXISTS';
-          molecules.push({
-            index: molecules.length + 1,
-            name: mName,
-            status: mStatus,
-            inDatabase: isExists
-          });
+          const upperStatus = mStatus.toUpperCase();
+          if (upperStatus === 'EXISTS' || upperStatus === 'NOT_FOUND') {
+            const isExists = upperStatus === 'EXISTS';
+            molecules.push({
+              index: molecules.length + 1,
+              name: mName,
+              status: mStatus,
+              inDatabase: isExists
+            });
+          }
         }
         continue;
       }
@@ -274,6 +289,9 @@ export class ExecutionOutputParserService {
           continue;
         }
         if (!trimmed) continue;
+        if (trimmed.startsWith('No reaction') || trimmed.includes('No reaction patterns defined')) {
+          continue;
+        }
         if (trimmed.startsWith('Summary for Pathway') || trimmed.startsWith('RESULT:')) {
           state = 'SUMMARY';
           summaryBlockLines.push(trimmed);
@@ -284,13 +302,16 @@ export class ExecutionOutputParserService {
         if (tokens.length >= 2) {
           const pName = tokens[0];
           const pStatus = tokens[tokens.length - 1];
-          const isExists = pStatus.toUpperCase() === 'EXISTS';
-          reactionPatterns.push({
-            index: reactionPatterns.length + 1,
-            name: pName,
-            status: pStatus,
-            inDatabase: isExists
-          });
+          const upperStatus = pStatus.toUpperCase();
+          if (upperStatus === 'EXISTS' || upperStatus === 'NOT_FOUND') {
+            const isExists = upperStatus === 'EXISTS';
+            reactionPatterns.push({
+              index: reactionPatterns.length + 1,
+              name: pName,
+              status: pStatus,
+              inDatabase: isExists
+            });
+          }
         }
         continue;
       }
