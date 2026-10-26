@@ -29,7 +29,7 @@ import { environment } from '../../../environments/environment';
         </div>
       </div>
       <mat-card-content class="section-card-content p-0">
-        <div class="ketcher-iframe-container">
+        <div class="ketcher-iframe-container" [style.height]="height || '520px'" [style.minHeight]="height || '520px'">
           <iframe
             #ketcherIframe
             [src]="ketcherSafeUrl"
@@ -44,7 +44,7 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['../task-list-view/task-list-view.component.scss'],
   styles: [`
     :host { display: block; width: 100%; }
-    .ketcher-card { height: 100%; min-height: 520px; display: flex; flex-direction: column; margin-bottom: 12px; }
+    .ketcher-card { height: 100%; display: flex; flex-direction: column; margin-bottom: 12px; }
     .section-card-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
     .header-title-group { display: flex; align-items: center; gap: 10px; }
     .section-card-title { font-weight: 600; font-size: 1.05rem; }
@@ -56,6 +56,7 @@ import { environment } from '../../../environments/environment';
 export class KetcherViewerComponent implements OnChanges, AfterViewInit {
   @Input() molfile: string | null = null;
   @Input() title: string = '2D Chemical Structure (Ketcher Viewer)';
+  @Input() height?: string;
 
   @ViewChild('ketcherIframe') ketcherIframe!: ElementRef<HTMLIFrameElement>;
 

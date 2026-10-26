@@ -382,4 +382,20 @@ export class ReactCloudApiService {
 
     return catalogItems;
   }
+
+  /**
+   * Searches Reaction Patterns in Firestore matching reactive center encodings.
+   */
+  public searchRxnPatternsByCenter(params: {
+    uid?: string;
+    reactionCenterKey?: string;
+    reactionBrokenBonds?: string | string[];
+    reactionFormedBonds?: string | string[];
+  }): Observable<{ success: boolean; count: number; records: any[] }> {
+    return this.http.post<{ success: boolean; count: number; records: any[] }>(
+      `${this.baseUrl}/api/db/searchRxnPatternsByCenter`,
+      params
+    );
+  }
 }
+

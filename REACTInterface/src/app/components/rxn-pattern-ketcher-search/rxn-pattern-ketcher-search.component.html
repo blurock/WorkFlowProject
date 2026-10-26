@@ -1,0 +1,171 @@
+<div class="ketcher-search-container">
+  <!-- Presets & Toolbar -->
+  <div class="presets-toolbar">
+    <div class="presets-label">
+      <mat-icon>tune</mat-icon>
+      <span>Quick Templates:</span>
+    </div>
+    <div class="presets-chips">
+      <button
+        *ngFor="let p of PRESET_QUICK_PATTERNS"
+        type="button"
+        mat-stroked-button
+        class="preset-btn"
+        (click)="loadPreset(p.rxn)"
+        [disabled]="isSearching">
+        {{ p.label }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Ketcher Drawing Area -->
+  <div class="ketcher-viewport-wrapper">
+    <app-ketcher-viewer
+      #ketcherCanvas
+      [height]="'360px'">
+    </app-ketcher-viewer>
+  </div>
+
+  <!-- Action Bar -->
+  <div class="search-action-bar">
+    <button
+      type="button"
+      mat-raised-button
+      color="primary"
+      class="find-patterns-btn"
+      (click)="findReactionPatterns()"
+      [disabled]="isSearching">
+      <mat-icon>{{ isSearching ? 'hourglass_empty' : 'manage_search' }}</mat-icon>
+      <span>{{ isSearching ? 'Searching Database...' : 'Find Matching Reaction Patterns' }}</span>
+    </button>
+
+    <div *ngIf="centerResult && centerResult.hasChanges" class="reactive-center-chips">
+      <span class="center-badge broken" *ngFor="let b of centerResult.reactionBrokenBonds" matTooltip="Broken Bond">
+        <mat-icon>content_cut</mat-icon> Breaks: {{ b }}
+      </span>
+      <span class="center-badge formed" *ngFor="let f of centerResult.reactionFormedBonds" matTooltip="Formed Bond">
+        <mat-icon>add_link</mat-icon> Forms: {{ f }}
+      </span>
+    </div>
+  </div>
+
+  <mat-progress-bar *ngIf="isSearching" mode="indeterminate" class="search-progress"></mat-progress-bar>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="error-banner">
+    <mat-icon>warning</mat-icon>
+    <span>{{ errorMessage }}</span>
+  </div>
+
+  <!-- Results Section -->
+  <div *ngIf="searchPerformed" class="results-section">
+    <div class="results-header">
+      <div class="header-left">
+        <mat-icon color="primary">fact_check</mat-icon>
+        <span class="results-title">Matching Reaction Patterns</span>
+        <span class="count-pill">{{ matchingPatterns.length }} found</span>
+      </div>
+      <div class="header-actions" *ngIf="matchingPatterns.length > 0">
+        <button type="button" mat-button class="action-btn-sm" (click)="selectAllMatches()">Select All</button>
+        <button type="button" mat-button class="action-btn-sm" (click)="clearSelection()">Clear</button>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="matchingPatterns.length === 0 && !isSearching" class="empty-state">
+      <mat-icon>search_off</mat-icon>
+      <p>No reaction patterns in the database match this reactive center encoding.</p>
+      <span class="subtext">Try drawing a more generic skeleton or check the reaction arrow.</span>
+    </div>
+
+    <!-- Match List (One-Line Summary rows) -->
+    <div *ngIf="matchingPatterns.length > 0" class="patterns-list">
+      <div
+        *ngFor="let item of matchingPatterns"
+        class="pattern-row"
+        [class.selected]="item.isSelected"
+        [class.expanded]="item.isExpanded">
+
+        <!-- One-line summary bar -->
+        <div class="row-summary-bar">
+          <mat-checkbox
+            [checked]="item.isSelected"
+            (change)="togglePatternSelection(item)"
+            class="pattern-checkbox"
+            color="primary">
+          </mat-checkbox>
+
+          <span class="pattern-name" (click)="togglePatternSelection(item)">
+            {{ item.name }}
+          </span>
+
+          <span class="pattern-equation" (click)="togglePatternSelection(item)">
+            <span class="reactants">{{ item.reactants.join(' + ') }}</span>
+            <mat-icon class="eq-arrow">arrow_forward</mat-icon>
+            <span class="products">{{ item.products.join(' + ') }}</span>
+          </span>
+
+          <span class="id-pill">ID: {{ item.id }}</span>
+
+          <button
+            type="button"
+            mat-icon-button
+            class="eye-btn"
+            (click)="toggleExpand(item)"
+            [matTooltip]="item.isExpanded ? 'Hide Details' : 'View Details & Substructures'">
+            <mat-icon>{{ item.isExpanded ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </div>
+
+        <!-- Collapsible Details Panel -->
+        <div *ngIf="item.isExpanded" class="row-details-panel">
+          <div class="details-grid">
+            <div class="detail-col">
+              <span class="col-title">Reactant Substructures:</span>
+              <ul class="sub-list">
+                <li *ngFor="let r of item.reactants">{{ r }}</li>
+              </ul>
+            </div>
+            <div class="detail-col">
+              <span class="col-title">Product Substructures:</span>
+              <ul class="sub-list">
+                <li *ngFor="let p of item.products">{{ p }}</li>
+              </ul>
+            </div>
+            <div class="detail-col center-col">
+              <span class="col-title">Reactive Center Encoding:</span>
+              <div class="enc-pill" *ngIf="item.reactionBrokenBonds && item.reactionBrokenBonds.length > 0">
+                <strong>Broken:</strong> {{ item.reactionBrokenBonds.join(', ') }}
+              </div>
+              <div class="enc-pill" *ngIf="item.reactionFormedBonds && item.reactionFormedBonds.length > 0">
+                <strong>Formed:</strong> {{ item.reactionFormedBonds.join(', ') }}
+              </div>
+              <div class="source-file" *ngIf="item.sourceFile">
+                Source: <code>{{ item.sourceFile }}</code>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Selection Bar -->
+  <div *ngIf="showAddButton && matchingPatterns.length > 0" class="selection-footer-bar">
+    <div class="selected-count">
+      <mat-icon color="primary">checklist</mat-icon>
+      <strong>{{ selectedPatternNames.size }}</strong> reaction pattern(s) selected
+    </div>
+    <button
+      type="button"
+      mat-raised-button
+      color="accent"
+      class="add-selected-btn"
+      (click)="emitAddSelected()"
+      [disabled]="selectedPatternNames.size === 0">
+      <mat-icon>add_circle</mat-icon>
+      <span>Add Selected Reaction Patterns</span>
+    </button>
+  </div>
+</div>

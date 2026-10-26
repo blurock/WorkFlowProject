@@ -10,8 +10,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { RxnPatternTreeService } from '../../services/rxn-pattern-tree.service';
+import { RxnPatternKetcherSearchComponent } from '../rxn-pattern-ketcher-search/rxn-pattern-ketcher-search.component';
 import {
   ReactionPatternPrefixGroupNode,
   ReactionPatternClassNode,
@@ -21,6 +23,7 @@ import {
 export interface RxnPatternSelectionDialogData {
   preselectedPatterns?: string[];
   title?: string;
+  initialTab?: 'list' | 'pattern';
 }
 
 @Component({
@@ -37,7 +40,9 @@ export interface RxnPatternSelectionDialogData {
     MatInputModule,
     MatBadgeModule,
     MatTooltipModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatTabsModule,
+    RxnPatternKetcherSearchComponent
   ],
   templateUrl: './rxn-pattern-selection-dialog.component.html',
   styleUrls: ['./rxn-pattern-selection-dialog.component.scss']
@@ -49,6 +54,7 @@ export class RxnPatternSelectionDialogComponent implements OnInit {
   public searchQuery: string = '';
   public isLoading: boolean = true;
   public totalPatternCount: number = 0;
+  public selectedTabIndex: number = 0;
 
   constructor(
     private treeService: RxnPatternTreeService,
@@ -57,6 +63,9 @@ export class RxnPatternSelectionDialogComponent implements OnInit {
   ) {
     if (data?.preselectedPatterns && Array.isArray(data.preselectedPatterns)) {
       data.preselectedPatterns.forEach(p => this.selectedPatternNames.add(p.trim()));
+    }
+    if (data?.initialTab === 'pattern') {
+      this.selectedTabIndex = 1;
     }
   }
 
@@ -232,6 +241,16 @@ export class RxnPatternSelectionDialogComponent implements OnInit {
         cls.isExpanded = false;
       }
     }
+  }
+
+  public onKetcherSelectionChange(names: string[]): void {
+    if (Array.isArray(names)) {
+      names.forEach(n => this.selectedPatternNames.add(n));
+    }
+  }
+
+  public getSelectedPatternsArray(): string[] {
+    return Array.from(this.selectedPatternNames);
   }
 
   public onConfirm(): void {

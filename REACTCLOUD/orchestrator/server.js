@@ -1955,6 +1955,66 @@ app.post('/api/db/listSummary', async (req, res) => {
   }
 });
 
+/**
+ * Search Reaction Patterns by Reactive Center Encodings
+ * Supports:
+ *   - reactionCenterKey (exact composite match)
+ *   - reactionBrokenBonds (array-contains)
+ *   - reactionFormedBonds (array-contains)
+ *   - hybrid broken + formed (array-contains + in-memory filter)
+ */
+app.post('/api/db/searchRxnPatternsByCenter', async (req, res) => {
+  try {
+    const {
+      uid = 'user_default_local',
+      reactionCenterKey,
+      reactionBrokenBonds,
+      reactionFormedBonds
+    } = req.body;
+
+    const colRef = firestore.collection(`users/${uid}/databases/ReactionPatterns/records`);
+    let querySnap;
+
+    const bBond = Array.isArray(reactionBrokenBonds) ? reactionBrokenBonds[0] : reactionBrokenBonds;
+    const fBond = Array.isArray(reactionFormedBonds) ? reactionFormedBonds[0] : reactionFormedBonds;
+
+    if (reactionCenterKey) {
+      querySnap = await colRef.where('reactionCenterKey', '==', String(reactionCenterKey)).get();
+    } else if (bBond) {
+      querySnap = await colRef.where('reactionBrokenBonds', 'array-contains', String(bBond)).get();
+    } else if (fBond) {
+      querySnap = await colRef.where('reactionFormedBonds', 'array-contains', String(fBond)).get();
+    } else {
+      return res.status(400).json({
+        error: 'Must provide at least one search parameter: reactionCenterKey, reactionBrokenBonds, or reactionFormedBonds'
+      });
+    }
+
+    let records = [];
+    querySnap.forEach(doc => {
+      records.push({ id: doc.id, ...doc.data() });
+    });
+
+    // In-memory filter if both broken and formed were provided without a composite center key
+    if (!reactionCenterKey && bBond && fBond) {
+      records = records.filter(d =>
+        Array.isArray(d.reactionFormedBonds) && d.reactionFormedBonds.includes(String(fBond))
+      );
+    }
+
+    console.log(`[Firestore SearchRxnPatternsByCenter] Query: center='${reactionCenterKey || ''}', broken='${bBond || ''}', formed='${fBond || ''}', count=${records.length}, uid='${uid}'`);
+
+    return res.json({
+      success: true,
+      count: records.length,
+      records: records
+    });
+  } catch (err) {
+    console.error('[Firestore SearchRxnPatternsByCenter Error]', err.message);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
 app.post('/api/db/delete', async (req, res) => {
   try {
     const { uid = 'user_default_local', dbName, key } = req.body;
