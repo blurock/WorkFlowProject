@@ -99,6 +99,8 @@ export class RxnPatternKetcherSearchComponent {
 
     try {
       const rxnContent = await this.ketcherCanvas.exportStructureFromKetcher('rxn');
+      console.log('[RxnPatternKetcherSearch] Exported structure from Ketcher:\n', rxnContent);
+
       if (!rxnContent || !rxnContent.trim()) {
         this.errorMessage = 'Please draw a reaction template or load a preset in Ketcher first.';
         this.snackBar.open(this.errorMessage, 'Close', { duration: 3000 });
@@ -108,6 +110,7 @@ export class RxnPatternKetcherSearchComponent {
 
       // 1. Analyze reaction and extract reactive center
       const analysis = this.reactiveCenterService.analyzeReaction(rxnContent);
+      console.log('[RxnPatternKetcherSearch] Analysis result:', analysis);
       this.centerResult = analysis;
 
       if (!analysis.hasChanges) {

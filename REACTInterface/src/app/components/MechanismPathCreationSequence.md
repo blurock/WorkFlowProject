@@ -1,7 +1,7 @@
 *** goal
-The goal of this interface is to create, modeify and test a mechanism pathway. It will be a step by step procedure with checks along the way. 
+The goal of this interface is to create, modify and test a mechanism pathway. It will be a step by step procedure with checks along the way. 
 
-the goal of the interface is to be able to run visualize the mechanism path, modifying the path, reaction patterns, individual steps, and the results of running (consective) individual steps and visualizing the results without getting confused by excess information on the screen. Parts that are not being examined at the time should be minimized or not visible. One of the design decisions is how to present this information. is tabs a useful alternative, since things are done sucessively. Other aspects is reducing panels to single lines if they are not being used. Several alternative Recomendations should be made to find the optimal solution. 
+The goal of the interface is to be able to run visualize the mechanism path, modifying the path, reaction patterns, individual steps, and the results of running (consective) individual steps and visualizing the results without getting confused by excess information on the screen. Parts that are not being examined at the time should be minimized or not visible. One of the design decisions is how to present this information. Are tabs a useful alternative, since things are done sucessively? Other aspects is reducing panels to single lines if they are not being used. Several alternative Recomendations should be made to find the optimal solution. 
 
 The goal is to be able to create and then immediately test the step. Basically, this is going step by step through the mechanism generation procedure. The goal is to be able to see the application of the reaction patterns at each step. 
 
@@ -14,7 +14,7 @@ When the panel is initialially opened there will be fields for the following inf
       b: Create a new mechanism path
 5. a: In read in a mechanism path, the path is read in and the steps are created in the interface. 
    b: A new empty mechanism step is set up and shown. 
-6. At this point a button is alway shownm 'Add Step'
+6. At this point a button is alway shown 'Add Step'
 
 After this point the emphasis is on creating, modifying and testing individual steps. Information outside the focus of what one is doing should be minimized. If adding reaction patterns is the focus, then displaying test results should be minimized. And when testing is underway
 
