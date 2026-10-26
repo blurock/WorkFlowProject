@@ -110,7 +110,8 @@
             (ngModelChange)="filterTargetMolecules()"
             [matAutocomplete]="autoTarget"
             placeholder="Search or type target molecule..."
-            (keydown.enter)="setTargetMolecule(customTargetInput)">
+            (keydown.enter)="setTargetMolecule(customTargetInput)"
+            (blur)="setTargetMolecule(customTargetInput)">
           <mat-icon matPrefix>science</mat-icon>
           <mat-autocomplete #autoTarget="matAutocomplete" (optionSelected)="setTargetMolecule($event.option.value)">
             <mat-option *ngFor="let m of filteredTargetMolecules" [value]="m.name">

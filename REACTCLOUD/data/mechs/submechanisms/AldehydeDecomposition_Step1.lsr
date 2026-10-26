@@ -1,8 +1,7 @@
 Step 1: Primary H Abstraction
-hydroxyl-radical,hydrogen-radical
+hydrogen-radical
 %%% ----------------------------------------------------
-H-Abstraction-Oxygen-Primary,\
 H-Abstraction-Hydrogen-Radical-Primary,\
 H-Abstraction-Hydrogen-Radical-Secondary,\
 H-Abstraction-Hydrogen-Radical-Tertiary,\
-:hydroxyl-radical,hydrogen-radical
+:hydrogen-radical

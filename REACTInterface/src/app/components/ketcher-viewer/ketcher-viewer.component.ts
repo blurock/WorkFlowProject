@@ -242,7 +242,7 @@ export class KetcherViewerComponent implements OnChanges, AfterViewInit {
     cleanMol = cleanMol.replace(/^\$MOL\r?\n(\d+\r?\n)?/i, '').trim();
 
     const lines = cleanMol.split(/\r?\n/);
-    const countsLineIdx = lines.findIndex(l => /V2000|V3000/i.test(l) || /^\s*\d{1,3}\s+\d{1,3}\s+\d{1,3}/.test(l));
+    const countsLineIdx = lines.findIndex(l => /V2000|V3000/i.test(l) || /^\s*\d{1,3}\s+\d{1,3}(?:\s+\d{1,3})?/.test(l));
     if (countsLineIdx < 0) return cleanMol;
 
     // Ensure exactly 3 preamble lines before the counts line as mandated by MDL MOL spec
@@ -310,6 +310,11 @@ export class KetcherViewerComponent implements OnChanges, AfterViewInit {
           body.push('M  END');
         }
       }
+    }
+
+    const hasMEnd = body.some(l => l.trim() === 'M  END' || l.startsWith('M  END'));
+    if (!hasMEnd) {
+      body.push('M  END');
     }
 
     return [...preamble, ...body].join('\n');

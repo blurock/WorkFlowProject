@@ -28,6 +28,7 @@ import { MoleculesService } from '../../services/catalog/molecules.service';
 import { CatalogItem, ReactCloudApiService } from '../../services/react-cloud-api.service';
 import { ReactionPatternLsrService } from '../../services/reaction-pattern-lsr.service';
 import { TaskOutputParserService } from '../../services/task-output-parser.service';
+import { MechanismOutputParser } from '../../services/parsers/mechanism-output-parser';
 import { ChemStructureParserService } from '../../services/chem-structure-parser.service';
 import { MechReactionClassGroup, MechSdfBlock } from '../../models/task-list.models';
 import { KetcherViewerComponent } from '../ketcher-viewer/ketcher-viewer.component';
@@ -127,6 +128,7 @@ export class MechanismPathwayCreatorComponent implements OnInit {
     private reactCloudApi: ReactCloudApiService,
     private lsrService: ReactionPatternLsrService,
     private taskOutputParser: TaskOutputParserService,
+    private mechanismParser: MechanismOutputParser,
     private chemParser: ChemStructureParserService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
@@ -243,12 +245,29 @@ export class MechanismPathwayCreatorComponent implements OnInit {
   public setTargetMolecule(name: string): void {
     const clean = (name || '').trim();
     if (!clean) return;
+    const oldTarget = this.targetMolecule;
     this.targetMolecule = clean;
     this.customTargetInput = clean;
 
-    // Keep Step 1 input synchronized if still in draft
-    if (this.steps.length > 0 && this.steps[0].status === 'draft') {
-      this.steps[0].inputMolecules = [this.targetMolecule, ...this.overallAuxMolecules];
+    if (this.steps.length > 0) {
+      const step0 = this.steps[0];
+      if (step0.inputMolecules && step0.inputMolecules.length > 0) {
+        step0.inputMolecules = step0.inputMolecules.map(m => m.toLowerCase() === oldTarget.toLowerCase() ? clean : m);
+        if (!step0.inputMolecules.some(m => m.toLowerCase() === clean.toLowerCase())) {
+          step0.inputMolecules.unshift(clean);
+        }
+      } else {
+        step0.inputMolecules = [clean, ...this.overallAuxMolecules];
+      }
+      // If target molecule changed, reset Step 1 state to draft so testing runs with new target
+      if (oldTarget.toLowerCase() !== clean.toLowerCase()) {
+        step0.status = 'draft';
+        step0.hasExecuted = false;
+        step0.executionError = null;
+        step0.generatedReactions = [];
+        step0.generatedMolecules = [];
+        this.snackBar.open(`Target molecule changed to '${clean}'. Step 1 reset to Draft.`, '', { duration: 2500 });
+      }
     }
   }
 
@@ -290,18 +309,36 @@ export class MechanismPathwayCreatorComponent implements OnInit {
   public getEffectiveInputMolecules(stepIndex: number): string[] {
     const step = this.steps[stepIndex];
     if (!step) return [];
-    if (step.inputMolecules && step.inputMolecules.length > 0) {
-      return step.inputMolecules;
-    }
     if (stepIndex === 0) {
       const target = this.targetMolecule || 'butane';
+      if (step.inputMolecules && step.inputMolecules.length > 0) {
+        const nonTarget = step.inputMolecules.filter(m => m.toLowerCase() !== target.toLowerCase());
+        return [target, ...nonTarget];
+      }
       return [target, ...this.overallAuxMolecules].filter(Boolean);
+    }
+    if (step.inputMolecules && step.inputMolecules.length > 0) {
+      return step.inputMolecules;
     }
     const prevStep = this.steps[stepIndex - 1];
     if (prevStep?.generatedMolecules && prevStep.generatedMolecules.length > 0) {
       return prevStep.generatedMolecules.map(m => m.moleculeName).filter(Boolean);
     }
     return [this.targetMolecule || 'butane', ...this.overallAuxMolecules].filter(Boolean);
+  }
+
+  /**
+   * Cleans a raw reaction product token into a molecule name without stripping
+   * chemical position numbers (e.g. '1-butyl-radical', '2-butyl-radical', '1,2-butadiene').
+   */
+  public cleanProductMoleculeName(tok: string): string {
+    if (!tok) return '';
+    let clean = tok.trim().replace(/[{}]/g, '').trim();
+    // Strip stoichiometric multiplier followed by space or asterisk (e.g. "2 H2" -> "H2", "2*H2" -> "H2", "(2) H2" -> "H2")
+    // Preserves IUPAC/common position prefixes like "1-butyl-radical", "2-butyl-radical", "1,2-butadiene"
+    clean = clean.replace(/^\(?\d+\)?\s*[\*]\s*/, '').trim();
+    clean = clean.replace(/^\(?\d+\)?\s+/, '').trim();
+    return clean;
   }
 
   public addStepInputMolecule(stepIndex: number, mol: string): void {
@@ -434,8 +471,13 @@ export class MechanismPathwayCreatorComponent implements OnInit {
     step.generatedMolecules = [];
 
     const effectiveInputs = this.getEffectiveInputMolecules(stepIndex);
-    const primaryInput = effectiveInputs[0] || this.targetMolecule || 'Temporary';
     const combinedAux = Array.from(new Set([...this.overallAuxMolecules, ...step.auxMolecules]));
+
+    // Separate main input molecules from auxiliary radicals
+    const targetInputs = effectiveInputs.filter(m => !combinedAux.includes(m));
+    const finalInputs = targetInputs.length > 0 ? targetInputs : [this.targetMolecule || 'Temporary'];
+    const inputMolsString = finalInputs.join(',');
+
     const stepRoot = `${(this.pathwayName || 'Pathway').trim()}_Step${stepIndex + 1}`;
     const mechName = `${(this.pathwayName || 'Pathway').trim()}_M${stepIndex + 1}`;
 
@@ -443,17 +485,17 @@ export class MechanismPathwayCreatorComponent implements OnInit {
       step.name || `Step ${stepIndex + 1}`,
       combinedAux,
       step.reactionPatterns,
-      primaryInput
+      inputMolsString
     );
 
     try {
       this.snackBar.open(`Saving step config '${stepRoot}.lsr'...`, '', { duration: 1500 });
       await firstValueFrom(this.reactCloudApi.saveLsrFile(stepRoot, lsrContent));
 
-      this.snackBar.open(`Executing Step ${stepIndex + 1} with ${primaryInput}...`, '', { duration: 3000 });
+      this.snackBar.open(`Executing Step ${stepIndex + 1} with ${inputMolsString}...`, '', { duration: 3000 });
       const res = await firstValueFrom(
         this.reactCloudApi.runSubmechanismFromPath(
-          primaryInput,
+          inputMolsString,
           stepRoot,
           combinedAux.join(','),
           'read',
@@ -474,25 +516,127 @@ export class MechanismPathwayCreatorComponent implements OnInit {
 
       const currentSdf = this.chemParser.extractSdfContent(res?.output || '');
       const sections = this.taskOutputParser.parseSectionsFromOutput(res?.output || '', 'mechanisms', currentSdf);
-      const mechSection = sections.find(s => s.mechFileData);
+      
+      const rxnSection = sections.find(s => s.title === 'Mechanism Reactions' || (s.mechFileData?.reactionClasses && s.mechFileData.reactionClasses.length > 0));
+      const structSection = sections.find(s => s.title === 'Molecule Structures' || (s.mechFileData?.sdfBlocks && s.mechFileData.sdfBlocks.length > 0));
 
-      if (mechSection?.mechFileData) {
-        step.generatedReactions = mechSection.mechFileData.reactionClasses || [];
-        step.generatedMolecules = mechSection.mechFileData.sdfBlocks || [];
+      if (rxnSection?.mechFileData?.reactionClasses) {
+        step.generatedReactions = rxnSection.mechFileData.reactionClasses;
       }
 
-      // Fallback: populate generatedMolecules from SDF block map if not in mechFileData
-      if (!step.generatedMolecules || step.generatedMolecules.length === 0) {
-        const blockMap = this.chemParser.extractSdfBlockMap(res?.output || '');
-        const molBlocks: MechSdfBlock[] = [];
-        blockMap.forEach((sdf, name) => {
-          if (!name.startsWith('Reactant') && !name.startsWith('Product') && !molBlocks.some(b => b.moleculeName === name)) {
-            molBlocks.push({ moleculeName: name, sdfContent: sdf });
+      // Build available SDF structure map (moleculeName -> sdfContent)
+      const availableSdfMap = new Map<string, string>();
+
+      // 1. Populate from Molecule Structures section
+      if (structSection?.mechFileData?.sdfBlocks) {
+        for (const block of structSection.mechFileData.sdfBlocks) {
+          if (block.moleculeName && block.sdfContent) {
+            availableSdfMap.set(block.moleculeName.toLowerCase(), block.sdfContent);
+            availableSdfMap.set(block.moleculeName, block.sdfContent);
+          }
+        }
+      }
+
+      // 2. Parse directly from raw output '--- Molecule Structures ---' if present
+      const rawOut = res?.output || '';
+      const structMarker = '--- Molecule Structures ---';
+      const structPos = rawOut.indexOf(structMarker);
+      if (structPos !== -1) {
+        const afterStruct = rawOut.substring(structPos + structMarker.length);
+        const nextMarkerMatch = afterStruct.search(/\n---\s+([^-]+)\s+---/);
+        const structText = nextMarkerMatch !== -1 ? afterStruct.substring(0, nextMarkerMatch) : afterStruct;
+        const parsedBlocks = this.mechanismParser.parseSdfBlocks(structText);
+        for (const block of parsedBlocks) {
+          if (block.moleculeName && block.sdfContent) {
+            availableSdfMap.set(block.moleculeName.toLowerCase(), block.sdfContent);
+            availableSdfMap.set(block.moleculeName, block.sdfContent);
+          }
+        }
+      }
+
+      // 3. Extract from chemParser.extractSdfBlockMap (excluding reaction patterns)
+      const blockMap = this.chemParser.extractSdfBlockMap(rawOut);
+      blockMap.forEach((sdf, name) => {
+        const isPatternName = step.reactionPatterns.some(p => {
+          const cleanP = p.replace(/\*$/, '').toLowerCase();
+          return name.toLowerCase().includes(cleanP);
+        });
+        if (!isPatternName && !name.startsWith('Reactant') && !name.startsWith('Product')) {
+          if (!availableSdfMap.has(name.toLowerCase())) {
+            availableSdfMap.set(name.toLowerCase(), sdf);
+            availableSdfMap.set(name, sdf);
+          }
+        }
+      });
+
+      // Build exclusion set: initial inputs, overall target, auxiliaries, and small inorganics
+      const excludedNames = new Set<string>();
+      for (const inp of finalInputs) {
+        excludedNames.add(inp.toLowerCase());
+      }
+      if (this.targetMolecule) {
+        excludedNames.add(this.targetMolecule.toLowerCase());
+      }
+      for (const aux of combinedAux) {
+        excludedNames.add(aux.toLowerCase());
+      }
+      const inorganic = ['h', 'h2', 'o', 'o2', 'oh', 'ho2', 'h2o', 'water', 'co', 'co2', 'h2o2', 'none'];
+      for (const inorg of inorganic) {
+        excludedNames.add(inorg);
+      }
+
+      // Extract generated intermediate product molecules from all reaction equations
+      const intermediateMolNames = new Set<string>();
+      if (step.generatedReactions && step.generatedReactions.length > 0) {
+        for (const grp of step.generatedReactions) {
+          for (const rxn of grp.reactions) {
+            const eq = rxn.equation || '';
+            const sides = eq.split(/=>|->|<=>|=/);
+            if (sides.length >= 2) {
+              const productsSide = sides[1];
+              const tokens = productsSide.split('+');
+              for (const tok of tokens) {
+                const cleanName = this.cleanProductMoleculeName(tok);
+                if (cleanName && !excludedNames.has(cleanName.toLowerCase())) {
+                  intermediateMolNames.add(cleanName);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      const generatedMols: MechSdfBlock[] = [];
+      if (intermediateMolNames.size > 0) {
+        for (const molName of intermediateMolNames) {
+          const sdf = availableSdfMap.get(molName.toLowerCase()) || 
+                      availableSdfMap.get(molName) || 
+                      availableSdfMap.get(molName.replace(/-/g, ' ')) ||
+                      availableSdfMap.get(molName.replace(/\s+/g, '-')) ||
+                      '';
+          generatedMols.push({
+            moleculeName: molName,
+            sdfContent: sdf,
+            isExpanded: false
+          });
+        }
+      } else if (structSection?.mechFileData?.sdfBlocks && structSection.mechFileData.sdfBlocks.length > 0) {
+        // Fallback to sdfBlocks from Molecule Structures section that are not initial reactants
+        for (const block of structSection.mechFileData.sdfBlocks) {
+          if (!excludedNames.has(block.moleculeName.toLowerCase())) {
+            generatedMols.push(block);
+          }
+        }
+      } else {
+        // Fallback to non-pattern entries from availableSdfMap
+        availableSdfMap.forEach((sdf, name) => {
+          if (!excludedNames.has(name.toLowerCase()) && !generatedMols.some(m => m.moleculeName.toLowerCase() === name.toLowerCase())) {
+            generatedMols.push({ moleculeName: name, sdfContent: sdf, isExpanded: false });
           }
         });
-        step.generatedMolecules = molBlocks;
       }
 
+      step.generatedMolecules = generatedMols;
       step.status = 'tested';
       const totalRxns = this.getTotalReactionsCount(step);
       this.snackBar.open(
@@ -585,6 +729,24 @@ export class MechanismPathwayCreatorComponent implements OnInit {
 
     this.previewModalMolName = cleanName;
     this.previewModalSdf = '';
+
+    if (!directSdf || !directSdf.trim()) {
+      for (const step of this.steps) {
+        const foundMol = step.generatedMolecules?.find(m => m.moleculeName.toLowerCase() === cleanName.toLowerCase() && m.sdfContent);
+        if (foundMol && foundMol.sdfContent) {
+          directSdf = foundMol.sdfContent;
+          break;
+        }
+        if (step.executionOutput) {
+          const parsed = this.mechanismParser.parseSdfBlocks(step.executionOutput);
+          const found = parsed.find(b => b.moleculeName.toLowerCase() === cleanName.toLowerCase() && b.sdfContent);
+          if (found && found.sdfContent) {
+            directSdf = found.sdfContent;
+            break;
+          }
+        }
+      }
+    }
 
     if (directSdf && directSdf.trim()) {
       this.previewModalSdf = directSdf.trim();

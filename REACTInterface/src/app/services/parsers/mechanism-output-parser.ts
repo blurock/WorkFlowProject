@@ -189,18 +189,18 @@ export class MechanismOutputParser extends BaseTaskOutputParser {
     const blocks: MechSdfBlock[] = [];
     if (!content) return blocks;
 
-    const rawChunks = content.split(/M\s+END/);
+    const rawChunks = content.split(/\$\$\$\$|M\s+END/);
     for (const rawChunk of rawChunks) {
       const trimmed = rawChunk.trim();
       if (!trimmed) continue;
 
-      const lines = trimmed.split(/\r?\n/);
+      const lines = trimmed.split(/\r?\n/).filter(l => l.trim() !== '$$$$');
       let moleculeName = 'Molecule';
-      if (lines.length >= 3) {
-        const line3 = lines[2].trim();
-        if (line3.length > 0) {
-          moleculeName = line3;
-        }
+      // In chemdb SDF format: line 1 = ID, line 2 = Program info, line 3 = moleculeName
+      if (lines.length >= 3 && lines[2].trim().length > 0 && !lines[2].includes('V2000') && !/^\s*\d+\s+\d+/.test(lines[2])) {
+        moleculeName = lines[2].trim();
+      } else if (lines.length >= 1 && lines[0].trim().length > 0 && !lines[0].includes('V2000') && !/^\s*\d+\s+\d+/.test(lines[0])) {
+        moleculeName = lines[0].trim();
       }
 
       const sdfContent = `${trimmed}\nM  END`;
