@@ -1,21 +1,32 @@
 <div class="pathway-creator-container light-theme">
-  <!-- Top Navigation & Action Header -->
+  <!-- Top Navigation & Configuration Header -->
   <mat-card class="header-card mat-elevation-z1">
     <div class="header-content">
       <div class="title-group">
-        <mat-icon class="header-icon">polyline</mat-icon>
+        <mat-icon class="header-icon">alt_route</mat-icon>
         <div>
-          <h2>Mechanism Pathway Creator</h2>
+          <h2>Mechanism Pathway Editor</h2>
           <p class="subtitle">
-            Define multi-step chain sequences, assign pattern classes & auxiliary radicals, and sync to Firestore
+            Progressive multi-step pathway designer with pattern classes, cascade intermediates, and live step execution
           </p>
         </div>
       </div>
 
       <div class="header-actions">
+        <!-- Dual Initial Action Buttons -->
+        <button mat-flat-button color="primary" class="action-btn" (click)="createNewPathway()" matTooltip="Initialize a clean pathway">
+          <mat-icon>add_circle</mat-icon>
+          <span>Create New Pathway</span>
+        </button>
+
+        <button mat-stroked-button color="primary" class="action-btn" (click)="toggleExistingLoader()" matTooltip="Browse stored pathways in Firestore">
+          <mat-icon>folder_open</mat-icon>
+          <span>Read Existing Pathway</span>
+        </button>
+
         <button
           mat-flat-button
-          color="primary"
+          color="accent"
           class="action-btn"
           (click)="saveToFirestore()"
           [disabled]="isSaving || !pathwayName">
@@ -23,13 +34,13 @@
           <span>{{ isSaving ? 'Saving...' : 'Save to Firestore' }}</span>
         </button>
 
-        <button mat-stroked-button color="accent" class="action-btn" (click)="exportLsrFile()">
+        <button mat-stroked-button class="action-btn" (click)="exportLsrFile()" matTooltip="Export as REACT .lsr file">
           <mat-icon>file_download</mat-icon>
           <span>Export .lsr</span>
         </button>
 
         <input type="file" #lsrFileInput (change)="onImportLsrFile($event)" accept=".lsr,.txt" style="display: none;">
-        <button mat-stroked-button class="action-btn" (click)="lsrFileInput.click()">
+        <button mat-stroked-button class="action-btn" (click)="lsrFileInput.click()" matTooltip="Import from local .lsr file">
           <mat-icon>file_upload</mat-icon>
           <span>Import .lsr</span>
         </button>
@@ -42,15 +53,15 @@
     </div>
 
     <!-- Pathway Name & Existing Cloud Loader Row -->
-    <div class="name-loader-row">
+    <div class="config-row name-loader-row">
       <mat-form-field appearance="outline" class="pathway-name-field">
         <mat-label>Pathway Name (Firestore Document ID)</mat-label>
         <input matInput [(ngModel)]="pathwayName" placeholder="e.g. AldehydeDecomposition" required>
         <mat-icon matPrefix>edit</mat-icon>
-        <mat-hint>Used as document key in /users/&#123;uid&#125;/databases/MechanismPathway</mat-hint>
+        <mat-hint>Identifier for storage and chemdb execution scripts</mat-hint>
       </mat-form-field>
 
-      <div class="loader-group">
+      <div class="loader-group" [class.highlighted]="showExistingLoader">
         <mat-form-field appearance="outline" class="select-existing-field">
           <mat-label>Load Stored Pathway from Firestore</mat-label>
           <mat-select [(ngModel)]="selectedPathwayToLoad" placeholder="Select stored pathway">
@@ -63,7 +74,7 @@
 
         <button
           mat-stroked-button
-          color="accent"
+          color="primary"
           (click)="loadSelectedPathway()"
           [disabled]="!selectedPathwayToLoad || isSaving"
           matTooltip="Load selected pathway into editor">
@@ -87,126 +98,185 @@
         </button>
       </div>
     </div>
-  </mat-card>
 
-  <!-- Panel 1: Overall Auxiliary Molecules (ExtraMolecules) -->
-  <mat-card class="section-card mat-elevation-z2">
-    <div class="section-header">
-      <div class="section-title">
-        <mat-icon color="accent">grain</mat-icon>
-        <h3>Auxiliary Molecules (Global to All Steps)</h3>
-      </div>
-      <span class="count-badge">{{ overallAuxMolecules.length }} Selected</span>
-    </div>
-    <p class="section-desc">
-      Molecules present in every reaction step of this mechanism pathway (e.g. radicals or molecular oxygen).
-    </p>
-
-    <!-- Preset Radicals Palette -->
-    <div class="presets-row">
-      <span class="preset-label">Quick Add Common Radicals:</span>
-      <div class="preset-chips">
-        <button
-          *ngFor="let rad of presetRadicals"
-          type="button"
-          class="preset-chip"
-          [class.selected]="overallAuxMolecules.includes(rad)"
-          (click)="addOverallAuxMolecule(rad)">
-          <mat-icon>{{ overallAuxMolecules.includes(rad) ? 'check' : 'add' }}</mat-icon>
-          <span>{{ rad }}</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- Active Chips & Custom Input -->
-    <div class="chips-editor-box">
-      <mat-chip-grid #overallChipGrid aria-label="Auxiliary molecules">
-        <mat-chip-row
-          *ngFor="let mol of overallAuxMolecules"
-          (removed)="removeOverallAuxMolecule(mol)">
-          {{ mol }}
-          <button matChipRemove aria-label="'remove ' + mol">
-            <mat-icon>cancel</mat-icon>
-          </button>
-        </mat-chip-row>
-      </mat-chip-grid>
-
-      <div class="add-custom-input-row">
-        <mat-form-field appearance="outline" class="compact-input">
-          <mat-label>Add Custom Molecule from Database</mat-label>
+    <!-- Target Molecule Selector Row -->
+    <div class="config-row target-molecule-row">
+      <div class="target-field-wrapper">
+        <mat-form-field appearance="outline" class="target-input-field">
+          <mat-label>Target Molecule (Primary Reactant to Test Pathway)</mat-label>
           <input
             matInput
-            [(ngModel)]="customAuxInput"
-            (ngModelChange)="filterMolecules()"
-            [matAutocomplete]="autoOverall"
-            placeholder="Type molecule name..."
-            (keydown.enter)="addOverallAuxMolecule(customAuxInput)">
-          <mat-autocomplete #autoOverall="matAutocomplete" (optionSelected)="addOverallAuxMolecule($event.option.value)">
-            <mat-option *ngFor="let m of filteredMolecules" [value]="m.name">
+            [(ngModel)]="customTargetInput"
+            (ngModelChange)="filterTargetMolecules()"
+            [matAutocomplete]="autoTarget"
+            placeholder="Search or type target molecule..."
+            (keydown.enter)="setTargetMolecule(customTargetInput)">
+          <mat-icon matPrefix>science</mat-icon>
+          <mat-autocomplete #autoTarget="matAutocomplete" (optionSelected)="setTargetMolecule($event.option.value)">
+            <mat-option *ngFor="let m of filteredTargetMolecules" [value]="m.name">
               {{ m.name }}
             </mat-option>
           </mat-autocomplete>
+          <button
+            mat-icon-button
+            matSuffix
+            color="accent"
+            (click)="previewMoleculeStructure(targetMolecule)"
+            [disabled]="!targetMolecule"
+            matTooltip="Preview 2D structure in Ketcher modal">
+            <mat-icon>visibility</mat-icon>
+          </button>
         </mat-form-field>
+
         <button
           mat-flat-button
-          color="accent"
-          (click)="addOverallAuxMolecule(customAuxInput)"
-          [disabled]="!customAuxInput.trim()">
-          <mat-icon>add</mat-icon> Add
+          color="primary"
+          class="apply-target-btn"
+          (click)="setTargetMolecule(customTargetInput)"
+          [disabled]="!customTargetInput.trim()">
+          Set Target
         </button>
+      </div>
+
+      <!-- Quick Preset Target Molecules -->
+      <div class="target-presets-container">
+        <span class="preset-label">Quick Presets:</span>
+        <div class="preset-chips">
+          <button
+            *ngFor="let p of targetPresets"
+            type="button"
+            class="preset-chip"
+            [class.selected]="targetMolecule === p"
+            (click)="setTargetMolecule(p)">
+            <mat-icon>{{ targetMolecule === p ? 'check' : 'add' }}</mat-icon>
+            <span>{{ p }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Overall Auxiliary Radicals (Global ExtraMolecules) Row -->
+    <div class="config-row global-aux-row">
+      <div class="global-aux-header">
+        <div class="aux-title-wrap">
+          <mat-icon color="accent">grain</mat-icon>
+          <span class="aux-heading">Global Auxiliary Molecules (Present in All Steps)</span>
+        </div>
+        <span class="count-badge">{{ overallAuxMolecules.length }} Active</span>
+      </div>
+
+      <!-- Quick Add Common Radicals -->
+      <div class="preset-chips-wrap">
+        <span class="preset-label">Quick Add Common Radicals:</span>
+        <div class="preset-chips">
+          <button
+            *ngFor="let rad of presetRadicals"
+            type="button"
+            class="preset-chip small"
+            [class.selected]="overallAuxMolecules.includes(rad)"
+            (click)="overallAuxMolecules.includes(rad) ? removeOverallAuxMolecule(rad) : addOverallAuxMolecule(rad)">
+            <mat-icon>{{ overallAuxMolecules.includes(rad) ? 'check' : 'add' }}</mat-icon>
+            <span>{{ rad }}</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Active Global Radical Chips & Custom Input -->
+      <div class="chips-editor-box">
+        <mat-chip-grid #overallChipGrid aria-label="Auxiliary molecules">
+          <mat-chip-row
+            *ngFor="let mol of overallAuxMolecules"
+            (removed)="removeOverallAuxMolecule(mol)">
+            {{ mol }}
+            <button matChipRemove aria-label="'remove ' + mol">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+        </mat-chip-grid>
+
+        <div class="add-custom-input-row">
+          <mat-form-field appearance="outline" class="compact-input">
+            <mat-label>Add Custom Auxiliary Molecule from Database</mat-label>
+            <input
+              matInput
+              [(ngModel)]="customAuxInput"
+              (ngModelChange)="filterMolecules()"
+              [matAutocomplete]="autoOverall"
+              placeholder="Type molecule name..."
+              (keydown.enter)="addOverallAuxMolecule(customAuxInput)">
+            <mat-autocomplete #autoOverall="matAutocomplete" (optionSelected)="addOverallAuxMolecule($event.option.value)">
+              <mat-option *ngFor="let m of filteredMolecules" [value]="m.name">
+                {{ m.name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <button
+            mat-flat-button
+            color="accent"
+            (click)="addOverallAuxMolecule(customAuxInput)"
+            [disabled]="!customAuxInput.trim()">
+            <mat-icon>add</mat-icon> Add
+          </button>
+        </div>
       </div>
     </div>
   </mat-card>
 
-  <!-- Panel 2: Pathway Steps Sequence -->
+  <!-- Panel 2: Sequential Step Pipeline (Progressive Accordion) -->
   <mat-card class="section-card mat-elevation-z2">
     <div class="section-header">
       <div class="section-title">
         <mat-icon color="primary">format_list_numbered</mat-icon>
-        <h3>Pathway Steps Definition ({{ steps.length }} Steps &bull; {{ getTotalPatternsCount() }} Reaction Patterns)</h3>
+        <h3>Pathway Steps Pipeline ({{ steps.length }} Steps &bull; {{ getTotalPatternsCount() }} Reaction Patterns)</h3>
       </div>
       <button mat-raised-button color="primary" (click)="addStep()">
         <mat-icon>add</mat-icon> Add Step
       </button>
     </div>
     <p class="section-desc">
-      Each step consists of one or more reaction patterns (individual or whole pattern classes) and optional step-specific auxiliary molecules.
+      Each step progresses the reaction chain. Completed or inactive steps collapse to a clean single line summary, while the active step provides a focused 3-stage workbench.
     </p>
 
     <!-- Empty State -->
     <div class="empty-steps" *ngIf="steps.length === 0">
       <mat-icon class="empty-icon">alt_route</mat-icon>
-      <p>No steps defined yet. Click "Add Step" to begin building your pathway.</p>
+      <p>No reaction steps defined yet. Click "Add Step" to configure the first step in this mechanism pathway.</p>
       <button mat-raised-button color="primary" (click)="addStep()">Add First Step</button>
     </div>
 
     <!-- Steps List -->
-    <div class="steps-list" *ngIf="steps.length > 0">
-      <div
-        *ngFor="let step of steps; let sIdx = index"
-        class="step-item-card"
-        [class.is-expanded]="step.isExpanded">
+    <div class="steps-timeline" *ngIf="steps.length > 0">
+      <div *ngFor="let step of steps; let sIdx = index" class="step-wrapper">
 
-        <!-- Step Header Bar -->
-        <div class="step-card-header" (click)="step.isExpanded = !step.isExpanded">
-          <div class="step-header-left">
-            <span class="step-badge">Step {{ sIdx + 1 }}</span>
-            <input
-              matInput
-              [(ngModel)]="step.name"
-              (click)="$event.stopPropagation()"
-              class="step-name-input"
-              placeholder="Step name (e.g. H Abstraction)">
+        <!-- 1. COLLAPSED STATE (One-Line Summary Skill Pattern) -->
+        <div
+          *ngIf="!step.isExpanded"
+          class="one-line-summary-row"
+          [ngClass]="step.status"
+          (click)="toggleStep(step)">
+          <div class="one-line-summary-text">
+            <span class="one-line-summary-badge" [ngClass]="getStatusBadgeClass(step.status)">
+              {{ step.status }}
+            </span>
+            <span class="step-num-pill">Step {{ sIdx + 1 }}</span>
+            <span class="one-line-summary-title">{{ step.name || ('Step ' + (sIdx + 1)) }}</span>
+
+            <!-- Compact Statistics -->
+            <span class="summary-stat-chip">
+              <mat-icon>schema</mat-icon> {{ step.reactionPatterns.length }} Pattern{{ step.reactionPatterns.length === 1 ? '' : 's' }}
+            </span>
+
+            <span class="summary-stat-chip rxn-stat" *ngIf="step.status === 'tested' || step.status === 'accepted'">
+              <mat-icon>science</mat-icon> {{ getTotalReactionsCount(step) }} Rxns &bull; {{ step.generatedMolecules?.length || 0 }} Mols
+            </span>
+
+            <span class="summary-stat-chip aux-chip" *ngIf="step.auxMolecules.length > 0">
+              <mat-icon>grain</mat-icon> {{ step.auxMolecules.length }} Step Radicals
+            </span>
           </div>
 
-          <div class="step-header-right" (click)="$event.stopPropagation()">
-            <span class="step-stat">
-              <mat-icon>schema</mat-icon> {{ step.reactionPatterns.length }} Patterns
-            </span>
-            <span class="step-stat" *ngIf="step.auxMolecules.length > 0">
-              <mat-icon>grain</mat-icon> {{ step.auxMolecules.length }} Radicals
-            </span>
-
+          <!-- Collapsed Row Action Controls -->
+          <div class="one-line-summary-actions" (click)="$event.stopPropagation()">
             <button
               mat-icon-button
               (click)="moveStepUp(sIdx)"
@@ -236,83 +306,332 @@
             </button>
             <button
               mat-icon-button
-              (click)="step.isExpanded = !step.isExpanded"
-              [matTooltip]="step.isExpanded ? 'Collapse' : 'Expand'">
-              <mat-icon>{{ step.isExpanded ? 'expand_less' : 'expand_more' }}</mat-icon>
+              (click)="toggleStep(step)"
+              matTooltip="Expand step workbench">
+              <mat-icon>visibility</mat-icon>
             </button>
           </div>
         </div>
 
-        <!-- Step Body (Collapsible) -->
-        <div class="step-card-body" *ngIf="step.isExpanded">
-          <!-- 1. Reaction Patterns for this Step -->
-          <div class="sub-section">
-            <div class="sub-header">
-              <span class="sub-title">
-                <mat-icon>schema</mat-icon> Reaction Patterns ({{ step.reactionPatterns.length }})
+        <!-- 2. EXPANDED STATE (Active Working Step - 3-Stage Vertical Flow) -->
+        <div *ngIf="step.isExpanded" class="step-expanded-card" [ngClass]="step.status">
+          <!-- Expanded Card Header -->
+          <div class="expanded-card-header">
+            <div class="header-left">
+              <span class="one-line-summary-badge" [ngClass]="getStatusBadgeClass(step.status)">
+                {{ step.status }}
               </span>
+              <span class="step-num-pill">Step {{ sIdx + 1 }}</span>
+              <input
+                matInput
+                [(ngModel)]="step.name"
+                class="step-name-input"
+                placeholder="Step title (e.g. Primary H Abstraction)">
+            </div>
+
+            <div class="header-right">
               <button
-                mat-stroked-button
-                color="primary"
-                (click)="openPatternSelectionDialog(sIdx)">
-                <mat-icon>list</mat-icon> Select Whole Classes / Patterns
+                mat-icon-button
+                (click)="moveStepUp(sIdx)"
+                [disabled]="sIdx === 0"
+                matTooltip="Move step up">
+                <mat-icon>arrow_upward</mat-icon>
               </button>
-            </div>
-
-            <div class="patterns-chips-box" *ngIf="step.reactionPatterns.length > 0">
-              <div class="pattern-chip" *ngFor="let pat of step.reactionPatterns">
-                <span class="pat-name" [matTooltip]="pat">{{ pat }}</span>
-                <button
-                  type="button"
-                  class="remove-pat-btn"
-                  (click)="removePatternFromStep(sIdx, pat)"
-                  matTooltip="Remove pattern">
-                  <mat-icon>close</mat-icon>
-                </button>
-              </div>
-            </div>
-
-            <div class="empty-patterns-hint" *ngIf="step.reactionPatterns.length === 0">
-              <mat-icon>info</mat-icon>
-              <span>No reaction patterns selected yet. Click "Select Whole Classes / Patterns" to choose templates.</span>
+              <button
+                mat-icon-button
+                (click)="moveStepDown(sIdx)"
+                [disabled]="sIdx === steps.length - 1"
+                matTooltip="Move step down">
+                <mat-icon>arrow_downward</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                (click)="duplicateStep(sIdx)"
+                matTooltip="Duplicate step">
+                <mat-icon>content_copy</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                color="warn"
+                (click)="removeStep(sIdx)"
+                matTooltip="Delete step">
+                <mat-icon>delete</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                (click)="toggleStep(step)"
+                matTooltip="Collapse step to one-line summary">
+                <mat-icon>visibility_off</mat-icon>
+              </button>
             </div>
           </div>
 
-          <!-- 2. Step Auxiliary Molecules -->
-          <div class="sub-section">
-            <div class="sub-header">
-              <span class="sub-title">
-                <mat-icon>grain</mat-icon> Step-Specific Auxiliary Radicals (Optional)
-              </span>
-            </div>
+          <div class="expanded-card-body">
+            <!-- STAGE 1: Current Input Molecules -->
+            <div class="stage-section stage-inputs">
+              <div class="stage-header">
+                <div class="stage-title-wrap">
+                  <span class="stage-number">Stage 1</span>
+                  <h4>Current Input Molecules for Step {{ sIdx + 1 }}</h4>
+                </div>
+                <span class="stage-hint">Cascaded from previous intermediate products & target molecule</span>
+              </div>
 
-            <div class="step-radicals-row">
-              <div class="preset-chips">
-                <button
-                  *ngFor="let rad of presetRadicals"
-                  type="button"
-                  class="preset-chip small"
-                  [class.selected]="step.auxMolecules.includes(rad)"
-                  (click)="step.auxMolecules.includes(rad) ? removeStepAuxMolecule(sIdx, rad) : addStepAuxMolecule(sIdx, rad)">
-                  <mat-icon>{{ step.auxMolecules.includes(rad) ? 'check' : 'add' }}</mat-icon>
-                  <span>{{ rad }}</span>
-                </button>
+              <div class="stage-content">
+                <div class="input-molecules-chips">
+                  <div
+                    *ngFor="let mol of getEffectiveInputMolecules(sIdx)"
+                    class="molecule-chip-card"
+                    (click)="previewMoleculeStructure(mol)"
+                    matTooltip="Click to inspect 2D chemical structure in Ketcher">
+                    <mat-icon class="mol-icon">hub</mat-icon>
+                    <span class="mol-name">{{ mol }}</span>
+                    <button
+                      type="button"
+                      class="view-2d-btn"
+                      (click)="$event.stopPropagation(); previewMoleculeStructure(mol)"
+                      matTooltip="View 2D Structure">
+                      <mat-icon>visibility</mat-icon>
+                    </button>
+                    <button
+                      type="button"
+                      class="remove-mol-btn"
+                      *ngIf="getEffectiveInputMolecules(sIdx).length > 1"
+                      (click)="$event.stopPropagation(); removeStepInputMolecule(sIdx, mol)"
+                      matTooltip="Remove input molecule">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Add Extra Input Molecule to this Step -->
+                <div class="add-input-mol-row">
+                  <mat-form-field appearance="outline" class="compact-input">
+                    <mat-label>Add Additional Molecule to this Step</mat-label>
+                    <input
+                      matInput
+                      #extraMolInput
+                      placeholder="Type molecule name..."
+                      (keydown.enter)="addStepInputMolecule(sIdx, extraMolInput.value); extraMolInput.value = ''">
+                  </mat-form-field>
+                  <button
+                    mat-stroked-button
+                    color="primary"
+                    (click)="addStepInputMolecule(sIdx, extraMolInput.value); extraMolInput.value = ''"
+                    [disabled]="!extraMolInput.value">
+                    <mat-icon>add</mat-icon> Add Input
+                  </button>
+                </div>
               </div>
             </div>
 
-            <div class="step-active-chips" *ngIf="step.auxMolecules.length > 0">
-              <span class="active-label">Active Step Radicals:</span>
-              <mat-chip-row
-                *ngFor="let mol of step.auxMolecules"
-                (removed)="removeStepAuxMolecule(sIdx, mol)">
-                {{ mol }}
-                <button matChipRemove><mat-icon>cancel</mat-icon></button>
-              </mat-chip-row>
+            <!-- STAGE 2: Reaction Patterns & Step Auxiliaries -->
+            <div class="stage-section stage-patterns">
+              <div class="stage-header">
+                <div class="stage-title-wrap">
+                  <span class="stage-number">Stage 2</span>
+                  <h4>Reaction Patterns & Step Auxiliaries</h4>
+                </div>
+                <button
+                  mat-flat-button
+                  color="primary"
+                  (click)="openPatternSelectionDialog(sIdx)">
+                  <mat-icon>checklist</mat-icon> Select Whole Classes / Patterns
+                </button>
+              </div>
+
+              <div class="stage-content">
+                <!-- Patterns Chips Box -->
+                <div class="patterns-chips-box" *ngIf="step.reactionPatterns.length > 0">
+                  <div class="pattern-chip" *ngFor="let pat of step.reactionPatterns">
+                    <span class="pat-name" [matTooltip]="pat">{{ pat }}</span>
+                    <button
+                      type="button"
+                      class="remove-pat-btn"
+                      (click)="removePatternFromStep(sIdx, pat)"
+                      matTooltip="Remove pattern">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="empty-patterns-hint" *ngIf="step.reactionPatterns.length === 0">
+                  <mat-icon>info</mat-icon>
+                  <span>No reaction patterns selected for this step yet. Click "Select Whole Classes / Patterns" to pick reaction classes or draw in Ketcher.</span>
+                </div>
+
+                <!-- Step-Specific Auxiliary Radicals -->
+                <div class="step-radicals-section">
+                  <span class="sub-label">Step-Specific Auxiliary Radicals (Optional):</span>
+                  <div class="preset-chips">
+                    <button
+                      *ngFor="let rad of presetRadicals"
+                      type="button"
+                      class="preset-chip small"
+                      [class.selected]="step.auxMolecules.includes(rad)"
+                      (click)="step.auxMolecules.includes(rad) ? removeStepAuxMolecule(sIdx, rad) : addStepAuxMolecule(sIdx, rad)">
+                      <mat-icon>{{ step.auxMolecules.includes(rad) ? 'check' : 'add' }}</mat-icon>
+                      <span>{{ rad }}</span>
+                    </button>
+                  </div>
+
+                  <div class="active-step-radicals" *ngIf="step.auxMolecules.length > 0">
+                    <span class="active-tag">Active for this step:</span>
+                    <mat-chip-row
+                      *ngFor="let m of step.auxMolecules"
+                      (removed)="removeStepAuxMolecule(sIdx, m)">
+                      {{ m }}
+                      <button matChipRemove><mat-icon>cancel</mat-icon></button>
+                    </mat-chip-row>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STAGE 3: Step Execution & Testing Workbench -->
+            <div class="stage-section stage-execution">
+              <div class="stage-header">
+                <div class="stage-title-wrap">
+                  <span class="stage-number">Stage 3</span>
+                  <h4>Step Execution & Live Testing</h4>
+                </div>
+
+                <button
+                  mat-flat-button
+                  color="accent"
+                  class="test-step-btn"
+                  (click)="runStepTest(sIdx)"
+                  [disabled]="step.isExecuting || step.reactionPatterns.length === 0">
+                  <mat-icon>{{ step.isExecuting ? 'hourglass_top' : 'play_arrow' }}</mat-icon>
+                  <span>{{ step.isExecuting ? 'Running Step...' : 'Run / Test Step' }}</span>
+                </button>
+              </div>
+
+              <div class="stage-content">
+                <!-- Running Progress Bar -->
+                <div class="running-indicator" *ngIf="step.isExecuting">
+                  <mat-progress-bar mode="indeterminate" color="accent"></mat-progress-bar>
+                  <p class="running-text">Running chemdb submechanism for Step {{ sIdx + 1 }}...</p>
+                </div>
+
+                <!-- Execution Error Alert -->
+                <div class="execution-error-alert" *ngIf="step.executionError">
+                  <mat-icon>error_outline</mat-icon>
+                  <div class="error-text">
+                    <strong>Step Execution Failed:</strong>
+                    <span>{{ step.executionError }}</span>
+                  </div>
+                </div>
+
+                <!-- Results Presentation Workbench -->
+                <div class="results-workbench" *ngIf="step.hasExecuted && !step.isExecuting && !step.executionError">
+                  <div class="results-summary-bar">
+                    <span class="summary-pill green">
+                      <mat-icon>check_circle</mat-icon>
+                      {{ getTotalReactionsCount(step) }} Reaction{{ getTotalReactionsCount(step) === 1 ? '' : 's' }} Generated
+                    </span>
+                    <span class="summary-pill blue">
+                      <mat-icon>bubble_chart</mat-icon>
+                      {{ step.generatedMolecules?.length || 0 }} Intermediate Molecule{{ (step.generatedMolecules?.length || 0) === 1 ? '' : 's' }} Created
+                    </span>
+                  </div>
+
+                  <!-- Two Results Columns: Reactions & Generated Molecules -->
+                  <div class="results-grid">
+                    <!-- Column A: Generated Reactions -->
+                    <div class="results-column reactions-col">
+                      <div class="col-header">
+                        <mat-icon color="primary">science</mat-icon>
+                        <h5>Generated Reactions ({{ getTotalReactionsCount(step) }})</h5>
+                      </div>
+
+                      <div class="reactions-list" *ngIf="step.generatedReactions && step.generatedReactions.length > 0">
+                        <div *ngFor="let grp of step.generatedReactions" class="rxn-class-group">
+                          <div class="rxn-class-title">{{ grp.className }}</div>
+                          <div *ngFor="let rxn of grp.reactions" class="reaction-equation-row">
+                            <span class="multiplicity-badge" *ngIf="rxn.multiplicity">{{ rxn.multiplicity }}&times;</span>
+                            <span class="equation-text">{{ rxn.convertedEquation || rxn.equation }}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="empty-results-hint" *ngIf="getTotalReactionsCount(step) === 0">
+                        <span>No reactions were generated with the given input molecules and patterns.</span>
+                      </div>
+                    </div>
+
+                    <!-- Column B: Generated Molecules (Intermediate Products) -->
+                    <div class="results-column molecules-col">
+                      <div class="col-header">
+                        <mat-icon color="accent">hub</mat-icon>
+                        <h5>Created Intermediate Molecules ({{ step.generatedMolecules?.length || 0 }})</h5>
+                      </div>
+
+                      <div class="molecules-grid" *ngIf="step.generatedMolecules && step.generatedMolecules.length > 0">
+                        <div
+                          *ngFor="let mol of step.generatedMolecules"
+                          class="product-molecule-card"
+                          (click)="previewMoleculeStructure(mol.moleculeName, mol.sdfContent)">
+                          <div class="card-top">
+                            <mat-icon>hub</mat-icon>
+                            <span class="card-name" [matTooltip]="mol.moleculeName">{{ mol.moleculeName }}</span>
+                          </div>
+                          <button
+                            type="button"
+                            class="card-preview-action"
+                            (click)="$event.stopPropagation(); previewMoleculeStructure(mol.moleculeName, mol.sdfContent)">
+                            <mat-icon>visibility</mat-icon> 2D Ketcher View
+                          </button>
+                        </div>
+                      </div>
+
+                      <div class="empty-results-hint" *ngIf="!step.generatedMolecules || step.generatedMolecules.length === 0">
+                        <span>No new intermediate molecules created in this step.</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Decision Footer: Accept & Proceed vs Reject & Adjust -->
+                  <div class="decision-footer">
+                    <button
+                      mat-flat-button
+                      class="accept-btn"
+                      (click)="acceptStep(sIdx)"
+                      matTooltip="Lock in this step and advance intermediate molecules to Step {{ sIdx + 2 }}">
+                      <mat-icon>check_circle</mat-icon>
+                      <span>Accept Step & Proceed to Step {{ sIdx + 2 }}</span>
+                    </button>
+
+                    <button
+                      mat-stroked-button
+                      color="warn"
+                      class="reject-btn"
+                      (click)="rejectStep(sIdx)"
+                      matTooltip="Discard execution results and keep editing patterns/auxiliaries">
+                      <mat-icon>replay</mat-icon>
+                      <span>Reject & Adjust</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Pre-execution Hint -->
+                <div class="pre-exec-hint" *ngIf="!step.hasExecuted && !step.isExecuting">
+                  <mat-icon>lightbulb</mat-icon>
+                  <span>Click "Run / Test Step" to execute chemdb and visualize the resulting reactions and newly generated intermediate molecules.</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
       </div>
+    </div>
+
+    <!-- Bottom Add Step Action Bar -->
+    <div class="bottom-add-step-bar" *ngIf="steps.length > 0">
+      <button mat-stroked-button color="primary" (click)="addStep()">
+        <mat-icon>add</mat-icon> Add Another Step to Pathway
+      </button>
     </div>
   </mat-card>
 
@@ -329,13 +648,13 @@
         <div class="tab-pane visual-flow-pane">
           <div class="flow-header">
             <h4>{{ pathwayName }}: Visual Execution Pipeline</h4>
-            <span class="global-aux-pill">Global Radicals: {{ overallAuxMolecules.join(', ') || 'NONE' }}</span>
+            <span class="global-aux-pill">Target: {{ targetMolecule }} &bull; Global Radicals: {{ overallAuxMolecules.join(', ') || 'NONE' }}</span>
           </div>
 
           <div class="flow-container">
             <div class="flow-step-node" *ngFor="let step of steps; let sIdx = index">
-              <div class="flow-node-card">
-                <div class="node-badge">Step {{ sIdx + 1 }}</div>
+              <div class="flow-node-card" [ngClass]="step.status">
+                <div class="node-badge" [ngClass]="getStatusBadgeClass(step.status)">Step {{ sIdx + 1 }} &bull; {{ step.status }}</div>
                 <div class="node-title">{{ step.name }}</div>
                 <div class="node-patterns-count">
                   <mat-icon>schema</mat-icon> {{ step.reactionPatterns.length }} Pattern{{ step.reactionPatterns.length === 1 ? '' : 's' }}
@@ -346,6 +665,9 @@
                 </div>
                 <div class="node-aux" *ngIf="step.auxMolecules.length > 0">
                   <mat-icon>grain</mat-icon> Aux: {{ step.auxMolecules.join(', ') }}
+                </div>
+                <div class="node-results-badge" *ngIf="step.status === 'tested' || step.status === 'accepted'">
+                  <mat-icon>check</mat-icon> {{ getTotalReactionsCount(step) }} Rxns &bull; {{ step.generatedMolecules?.length || 0 }} Mols
                 </div>
               </div>
 
@@ -394,3 +716,25 @@
     </mat-tab-group>
   </mat-card>
 </div>
+
+<!-- Modal Dialog Template: Ketcher 2D Structure Preview -->
+<ng-template #moleculePreviewDialog>
+  <div class="molecule-preview-modal">
+    <div class="modal-header">
+      <div class="modal-title-group">
+        <mat-icon color="accent">hub</mat-icon>
+        <h3>2D Chemical Structure: {{ previewModalMolName }}</h3>
+      </div>
+      <button mat-icon-button mat-dialog-close matTooltip="Close preview">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div class="modal-body">
+      <app-ketcher-viewer
+        [molfile]="previewModalSdf"
+        [title]="previewModalMolName"
+        height="500px">
+      </app-ketcher-viewer>
+    </div>
+  </div>
+</ng-template>

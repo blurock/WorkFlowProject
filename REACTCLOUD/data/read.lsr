@@ -1,12 +1,6 @@
-ReactionPatternTest: 9 patterns
-NONE
+Step 2: Olefin Formation
+hydroxyl-radical
 %%% ----------------------------------------------------
-Decomp-(rhh)(hhh),\
-Decomp-(rhh)(rhh),\
-Decomp-(rrh)(hhh),\
-Decomp-(rrh)(rhh),\
-Decomp-(rrh)(rrh),\
-Decomp-(rrr)(hhh),\
-Decomp-(rrr)(rhh),\
-Decomp-(rrr)(rrh),\
-Decomp-(rrr)(rrr)
+HLoss-ethyl-radical(hh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(hhh)-to-olefin,\
+:hydroxyl-radical

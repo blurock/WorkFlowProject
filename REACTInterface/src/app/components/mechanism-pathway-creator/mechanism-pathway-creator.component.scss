@@ -1,3 +1,8 @@
+:host {
+  display: block;
+  width: 100% !important;
+}
+
 .pathway-creator-container {
   display: flex;
   flex-direction: column;
@@ -6,7 +11,9 @@
   color: #1e293b;
 }
 
-/* Header Card */
+/* ==========================================================================
+   Header Card & Configuration Rows
+   ========================================================================== */
 .header-card {
   background: #ffffff;
   border: 1px solid #e2e8f0;
@@ -65,13 +72,17 @@
     }
   }
 
+  .config-row {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 16px;
+    margin-top: 14px;
+  }
+
   .name-loader-row {
     display: flex;
     align-items: center;
     gap: 16px;
     flex-wrap: wrap;
-    border-top: 1px solid #e2e8f0;
-    padding-top: 16px;
 
     .pathway-name-field {
       flex: 1 1 320px;
@@ -82,15 +93,182 @@
       align-items: center;
       gap: 8px;
       flex: 1 1 360px;
+      padding: 4px 8px;
+      border-radius: 8px;
+      transition: background 0.2s ease;
+
+      &.highlighted {
+        background: #f0f9ff;
+        outline: 2px dashed #0284c7;
+      }
 
       .select-existing-field {
         flex: 1;
       }
     }
   }
+
+  .target-molecule-row {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .target-field-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .target-input-field {
+        flex: 1;
+        margin-bottom: -1.25em;
+      }
+
+      .apply-target-btn {
+        height: 52px;
+        font-weight: 600;
+        border-radius: 8px;
+      }
+    }
+
+    .target-presets-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+
+      .preset-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+    }
+  }
+
+  .global-aux-row {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .global-aux-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .aux-title-wrap {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .aux-heading {
+          font-weight: 600;
+          font-size: 14px;
+          color: #1e293b;
+        }
+      }
+
+      .count-badge {
+        background: #e0f2fe;
+        color: #0284c7;
+        border: 1px solid #bae6fd;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 700;
+      }
+    }
+  }
 }
 
-/* General Section Cards */
+/* ==========================================================================
+   Presets & Chips Styling
+   ========================================================================== */
+.preset-chips-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+
+  .preset-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+.preset-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  .preset-chip {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    color: #334155;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+
+    mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+    }
+
+    &:hover {
+      background: #f1f5f9;
+      border-color: #94a3b8;
+      color: #0f172a;
+    }
+
+    &.selected {
+      background: #e0f2fe;
+      border-color: #0284c7;
+      color: #0369a1;
+      font-weight: 600;
+    }
+
+    &.small {
+      padding: 4px 10px;
+      font-size: 12px;
+    }
+  }
+}
+
+.chips-editor-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px 16px;
+
+  mat-chip-grid {
+    margin-bottom: 8px;
+  }
+
+  .add-custom-input-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+
+    .compact-input {
+      flex: 1;
+      margin-bottom: -1.25em;
+    }
+  }
+}
+
+/* ==========================================================================
+   Section Cards General
+   ========================================================================== */
 .section-card {
   background: #ffffff;
   border: 1px solid #e2e8f0;
@@ -116,16 +294,6 @@
         color: #0f172a;
       }
     }
-
-    .count-badge {
-      background: #e0f2fe;
-      color: #0284c7;
-      border: 1px solid #bae6fd;
-      padding: 4px 10px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 600;
-    }
   }
 
   .section-desc {
@@ -135,90 +303,9 @@
   }
 }
 
-/* Preset Radicals */
-.presets-row {
-  margin-bottom: 16px;
-
-  .preset-label {
-    display: block;
-    font-size: 12px;
-    font-weight: 600;
-    color: #475569;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 8px;
-  }
-
-  .preset-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-
-    .preset-chip {
-      background: #f8fafc;
-      border: 1px solid #cbd5e1;
-      color: #334155;
-      border-radius: 20px;
-      padding: 6px 14px;
-      font-size: 13px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
-
-      mat-icon {
-        font-size: 16px;
-        width: 16px;
-        height: 16px;
-      }
-
-      &:hover {
-        background: #f1f5f9;
-        border-color: #94a3b8;
-        color: #0f172a;
-      }
-
-      &.selected {
-        background: #e0f2fe;
-        border-color: #0284c7;
-        color: #0369a1;
-        font-weight: 600;
-      }
-
-      &.small {
-        padding: 4px 10px;
-        font-size: 12px;
-      }
-    }
-  }
-}
-
-/* Chips Editor Box */
-.chips-editor-box {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  padding: 12px 16px;
-
-  mat-chip-grid {
-    margin-bottom: 8px;
-  }
-
-  .add-custom-input-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-top: 8px;
-
-    .compact-input {
-      flex: 1;
-      margin-bottom: -1.25em;
-    }
-  }
-}
-
-/* Steps List */
+/* ==========================================================================
+   Sequential Step Pipeline & One-Line Summary Rows
+   ========================================================================== */
 .empty-steps {
   text-align: center;
   padding: 40px 20px;
@@ -240,41 +327,155 @@
   }
 }
 
-.steps-list {
+.steps-timeline {
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
 
-.step-item-card {
+.step-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+/* One-Line Summary Collapsed State (Skill Class Extended) */
+.one-line-summary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
   background: #ffffff;
   border: 1px solid #e2e8f0;
-  border-radius: 10px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-  overflow: hidden;
-  transition: border-color 0.2s ease;
+  border-left: 4px solid #0284c7;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+  user-select: none;
+  cursor: pointer;
 
-  &.is-expanded {
-    border-color: #0284c7;
+  &.accepted {
+    border-left-color: #10b981;
+    background: #fcfdfc;
   }
 
-  .step-card-header {
+  &.tested {
+    border-left-color: #6366f1;
+    background: #fafaff;
+  }
+
+  &.running {
+    border-left-color: #f59e0b;
+    background: #fffdfa;
+  }
+
+  &.draft {
+    border-left-color: #0284c7;
+  }
+
+  &:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+  }
+
+  .step-num-pill {
+    background: #f1f5f9;
+    color: #334155;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+  }
+
+  .summary-stat-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: #475569;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 2px 8px;
+    border-radius: 12px;
+
+    mat-icon {
+      font-size: 14px;
+      width: 14px;
+      height: 14px;
+      color: #64748b;
+    }
+
+    &.rxn-stat {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+      color: #1d4ed8;
+
+      mat-icon {
+        color: #2563eb;
+      }
+    }
+
+    &.aux-chip {
+      background: #f5f3ff;
+      border-color: #ddd6fe;
+      color: #6d28d9;
+
+      mat-icon {
+        color: #7c3aed;
+      }
+    }
+  }
+
+  .one-line-summary-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+/* ==========================================================================
+   Expanded Active Working Step Card (3-Stage Vertical Flow)
+   ========================================================================== */
+.step-expanded-card {
+  background: #ffffff;
+  border: 1px solid #0284c7;
+  border-left: 5px solid #0284c7;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.08);
+  overflow: hidden;
+
+  &.accepted {
+    border-color: #10b981;
+    border-left-color: #10b981;
+  }
+
+  &.tested {
+    border-color: #6366f1;
+    border-left-color: #6366f1;
+  }
+
+  &.running {
+    border-color: #f59e0b;
+    border-left-color: #f59e0b;
+  }
+
+  .expanded-card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 12px 18px;
     background: #f8fafc;
     border-bottom: 1px solid #e2e8f0;
-    cursor: pointer;
-    user-select: none;
 
-    .step-header-left {
+    .header-left {
       display: flex;
       align-items: center;
       gap: 12px;
       flex: 1;
 
-      .step-badge {
+      .step-num-pill {
         background: #0284c7;
         color: #ffffff;
         font-weight: 700;
@@ -290,9 +491,9 @@
         border: none;
         border-bottom: 1px solid transparent;
         color: #0f172a;
-        font-size: 15px;
-        font-weight: 600;
-        width: 320px;
+        font-size: 16px;
+        font-weight: 700;
+        width: 360px;
         outline: none;
 
         &:focus {
@@ -301,54 +502,462 @@
       }
     }
 
-    .step-header-right {
+    .header-right {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 4px;
+    }
+  }
 
-      .step-stat {
-        display: inline-flex;
+  .expanded-card-body {
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+}
+
+/* Stage Sections General */
+.stage-section {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
+
+  .stage-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    .stage-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .stage-number {
+        background: #0284c7;
+        color: #ffffff;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 2px 7px;
+        border-radius: 4px;
+        text-transform: uppercase;
+      }
+
+      h4 {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 700;
+        color: #0f172a;
+      }
+    }
+
+    .stage-hint {
+      font-size: 12px;
+      color: #64748b;
+      font-style: italic;
+    }
+  }
+
+  .stage-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+/* Stage 1: Input Molecules */
+.stage-inputs {
+  border-left: 3px solid #0284c7;
+
+  .input-molecules-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    .molecule-chip-card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 20px;
+      padding: 6px 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      .mol-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+        color: #0284c7;
+      }
+
+      .mol-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: #0f172a;
+      }
+
+      .view-2d-btn, .remove-mol-btn {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        display: flex;
         align-items: center;
-        gap: 4px;
-        font-size: 12px;
         color: #64748b;
-        margin-right: 6px;
 
         mat-icon {
           font-size: 16px;
           width: 16px;
           height: 16px;
-          color: #94a3b8;
+        }
+
+        &:hover {
+          color: #0284c7;
+        }
+      }
+
+      .remove-mol-btn:hover {
+        color: #ef4444;
+      }
+
+      &:hover {
+        background: #f0f9ff;
+        border-color: #0284c7;
+      }
+    }
+  }
+
+  .add-input-mol-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 4px;
+
+    .compact-input {
+      flex: 1;
+      margin-bottom: -1.25em;
+    }
+  }
+}
+
+/* Stage 2: Patterns & Auxiliaries */
+.stage-patterns {
+  border-left: 3px solid #6366f1;
+
+  .patterns-chips-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding-right: 6px;
+
+    .pattern-chip {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      color: #0f172a;
+      border-radius: 6px;
+      padding: 4px 8px 4px 10px;
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: monospace;
+
+      .remove-pat-btn {
+        background: transparent;
+        border: none;
+        color: #94a3b8;
+        cursor: pointer;
+        padding: 0;
+        display: flex;
+        align-items: center;
+
+        mat-icon {
+          font-size: 14px;
+          width: 14px;
+          height: 14px;
+        }
+
+        &:hover {
+          color: #ef4444;
         }
       }
     }
   }
 
-  .step-card-body {
-    padding: 16px 18px;
+  .empty-patterns-hint {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #64748b;
+    font-size: 13px;
+    font-style: italic;
+
+    mat-icon {
+      color: #6366f1;
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .step-radicals-section {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 10px;
     display: flex;
     flex-direction: column;
+    gap: 8px;
+
+    .sub-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #475569;
+    }
+
+    .active-step-radicals {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+
+      .active-tag {
+        font-size: 12px;
+        color: #64748b;
+      }
+    }
+  }
+}
+
+/* Stage 3: Execution & Testing Workbench */
+.stage-execution {
+  border-left: 3px solid #10b981;
+
+  .test-step-btn {
+    font-weight: 700;
+    border-radius: 8px;
+  }
+
+  .running-indicator {
+    padding: 12px 0;
+
+    .running-text {
+      margin: 8px 0 0;
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 500;
+      text-align: center;
+    }
+  }
+
+  .execution-error-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: #991b1b;
+
+    mat-icon {
+      color: #dc2626;
+      font-size: 22px;
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+
+    .error-text {
+      font-size: 13px;
+      line-height: 1.4;
+
+      strong {
+        display: block;
+        margin-bottom: 2px;
+      }
+    }
+  }
+
+  .pre-exec-hint {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #64748b;
+    font-size: 13px;
+    font-style: italic;
+
+    mat-icon {
+      color: #10b981;
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+/* Results Workbench */
+.results-workbench {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .results-summary-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+
+    .summary-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+
+      mat-icon {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+      }
+
+      &.green {
+        background: #dcfce7;
+        color: #15803d;
+        border: 1px solid #bbf7d0;
+      }
+
+      &.blue {
+        background: #e0f2fe;
+        color: #0284c7;
+        border: 1px solid #bae6fd;
+      }
+    }
+  }
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 16px;
 
-    .sub-section {
-      background: #f8fafc;
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+    }
+
+    .results-column {
+      background: #ffffff;
       border: 1px solid #e2e8f0;
       border-radius: 8px;
-      padding: 14px 16px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
 
-      .sub-header {
+      .col-header {
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        margin-bottom: 12px;
+        gap: 8px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #f1f5f9;
 
-        .sub-title {
-          display: inline-flex;
+        h5 {
+          margin: 0;
+          font-size: 13px;
+          font-weight: 700;
+          color: #0f172a;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+      }
+
+      .empty-results-hint {
+        color: #94a3b8;
+        font-size: 12px;
+        font-style: italic;
+        padding: 12px 0;
+        text-align: center;
+      }
+    }
+
+    /* Reactions Column */
+    .reactions-list {
+      max-height: 240px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .rxn-class-group {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        .rxn-class-title {
+          font-size: 11px;
+          font-weight: 700;
+          color: #64748b;
+          text-transform: uppercase;
+        }
+
+        .reaction-equation-row {
+          background: #f8fafc;
+          border: 1px solid #e2e8f0;
+          border-radius: 4px;
+          padding: 6px 10px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-family: monospace;
+          font-size: 12px;
+          color: #0f172a;
+
+          .multiplicity-badge {
+            background: #e2e8f0;
+            color: #475569;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 1px 4px;
+            border-radius: 3px;
+          }
+
+          .equation-text {
+            word-break: break-word;
+          }
+        }
+      }
+    }
+
+    /* Molecules Column */
+    .molecules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
+      max-height: 240px;
+      overflow-y: auto;
+
+      .product-molecule-card {
+        background: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        .card-top {
+          display: flex;
           align-items: center;
           gap: 6px;
-          font-weight: 600;
-          font-size: 14px;
-          color: #1e293b;
 
           mat-icon {
             font-size: 18px;
@@ -356,85 +965,88 @@
             height: 18px;
             color: #0284c7;
           }
-        }
-      }
 
-      .patterns-chips-box {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        max-height: 220px;
-        overflow-y: auto;
-        padding-right: 6px;
-
-        .pattern-chip {
-          background: #ffffff;
-          border: 1px solid #cbd5e1;
-          color: #0f172a;
-          border-radius: 6px;
-          padding: 4px 8px 4px 10px;
-          font-size: 12px;
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          font-family: monospace;
-
-          .remove-pat-btn {
-            background: transparent;
-            border: none;
-            color: #94a3b8;
-            cursor: pointer;
-            padding: 0;
-            display: flex;
-            align-items: center;
-
-            mat-icon {
-              font-size: 14px;
-              width: 14px;
-              height: 14px;
-            }
-
-            &:hover {
-              color: #ef4444;
-            }
+          .card-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: #0f172a;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
         }
-      }
 
-      .empty-patterns-hint {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        color: #64748b;
-        font-size: 13px;
-        font-style: italic;
-
-        mat-icon {
+        .card-preview-action {
+          background: #ffffff;
+          border: 1px solid #bae6fd;
           color: #0284c7;
-          font-size: 18px;
-          width: 18px;
-          height: 18px;
-        }
-      }
-
-      .step-active-chips {
-        margin-top: 10px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        flex-wrap: wrap;
-
-        .active-label {
-          font-size: 12px;
-          color: #475569;
+          border-radius: 4px;
+          padding: 4px 8px;
+          font-size: 11px;
           font-weight: 600;
+          cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 4px;
+          transition: all 0.2s ease;
+
+          mat-icon {
+            font-size: 14px;
+            width: 14px;
+            height: 14px;
+          }
+
+          &:hover {
+            background: #e0f2fe;
+          }
+        }
+
+        &:hover {
+          border-color: #0284c7;
+          transform: translateY(-1px);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
       }
     }
   }
+
+  /* Decision Footer */
+  .decision-footer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #e2e8f0;
+    flex-wrap: wrap;
+
+    .accept-btn {
+      background: #10b981;
+      color: #ffffff;
+      font-weight: 700;
+      border-radius: 8px;
+
+      &:hover {
+        background: #059669;
+      }
+    }
+
+    .reject-btn {
+      font-weight: 600;
+      border-radius: 8px;
+    }
+  }
 }
 
-/* Preview Card */
+.bottom-add-step-bar {
+  display: flex;
+  justify-content: center;
+  padding: 12px 0 4px;
+}
+
+/* ==========================================================================
+   Preview Card & Tabs
+   ========================================================================== */
 .preview-card {
   background: #ffffff;
   border: 1px solid #e2e8f0;
@@ -456,6 +1068,8 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 10px;
 
       h4 {
         margin: 0;
@@ -488,7 +1102,7 @@
         flex-shrink: 0;
 
         .flow-node-card {
-          width: 220px;
+          width: 230px;
           background: #ffffff;
           border: 1px solid #cbd5e1;
           box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
@@ -498,9 +1112,19 @@
           flex-direction: column;
           gap: 6px;
 
+          &.accepted {
+            border-top: 3px solid #10b981;
+          }
+
+          &.tested {
+            border-top: 3px solid #6366f1;
+          }
+
+          &.draft {
+            border-top: 3px solid #0284c7;
+          }
+
           .node-badge {
-            background: #0284c7;
-            color: #ffffff;
             font-size: 10px;
             font-weight: 700;
             padding: 2px 6px;
@@ -562,6 +1186,24 @@
               color: #0284c7;
             }
           }
+
+          .node-results-badge {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #15803d;
+            background: #dcfce7;
+            padding: 2px 6px;
+            border-radius: 4px;
+
+            mat-icon {
+              font-size: 12px;
+              width: 12px;
+              height: 12px;
+            }
+          }
         }
 
         .flow-arrow {
@@ -611,6 +1253,44 @@
       overflow-y: auto;
       margin: 0;
     }
+  }
+}
+
+/* ==========================================================================
+   Molecule 2D Ketcher Preview Modal
+   ========================================================================== */
+.molecule-preview-modal {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+
+    .modal-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      h3 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 700;
+        color: #0f172a;
+      }
+    }
+  }
+
+  .modal-body {
+    padding: 16px;
+    background: #f1f5f9;
   }
 }
 
