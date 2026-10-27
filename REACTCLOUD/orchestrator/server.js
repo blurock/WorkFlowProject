@@ -1458,26 +1458,82 @@ app.post('/api/save-lsr', authenticateUser, async (req, res) => {
 });
 
 /**
- * List available submechanism paths (/api/submechanisms)
+ * Helper to serialize a Firestore ReadChainSet document into standard .lsr text syntax
  */
-app.get('/api/submechanisms', (req, res) => {
-  try {
-    const mechsDir = path.join(REACTROOT, 'data', 'mechs', 'submechanisms');
-    if (!fs.existsSync(mechsDir)) {
-      return res.json([]);
+function generateLsrFromReadChainSet(pathway) {
+  const lines = [];
+  const name = (pathway.Title || pathway.Name || pathway.key || 'MechanismPathway').trim();
+  lines.push(`${name}:`);
+
+  const extraMols = (pathway.ExtraMolecules?.Molecules || []).map(m => (m.Name || '').trim()).filter(Boolean);
+  if (extraMols.length > 0) {
+    lines.push(extraMols.join(','));
+  } else {
+    lines.push('NONE');
+  }
+
+  (pathway.Steps || []).forEach((step, index) => {
+    lines.push('%%% ----------------------------------------------------');
+    lines.push(`%%% Step ${index + 1}: ${step.Name || 'Reaction Step'}`);
+    lines.push('%%% ----------------------------------------------------');
+
+    const rxns = (step.Reactions?.Reactions || []).map(r => (r.Name || '').trim()).filter(Boolean);
+    const stepMols = (step.Molecules?.Molecules || []).map(m => (m.Name || '').trim()).filter(Boolean);
+
+    if (rxns.length === 0) {
+      lines.push('%%% (No reaction patterns)');
+    } else {
+      for (let i = 0; i < rxns.length; i++) {
+        const isLast = (i === rxns.length - 1);
+        if (isLast) {
+          if (stepMols.length > 0) {
+            lines.push(`${rxns[i]}\\`);
+            lines.push(`:${stepMols.join(',')}`);
+          } else {
+            lines.push(rxns[i]);
+          }
+        } else {
+          lines.push(`${rxns[i]},\\`);
+        }
+      }
     }
-    const files = fs.readdirSync(mechsDir)
-      .filter(f => f.endsWith('.lsr') && !f.startsWith('#') && !f.endsWith('~'))
-      .map(f => f.slice(0, -4))
-      .sort();
-    res.json(files);
+  });
+
+  lines.push('');
+  return lines.join('\n');
+}
+
+/**
+ * List available submechanism paths (/api/submechanisms)
+ * ALWAYS loads from Firestore (users/{uid}/databases/MechanismPathway/records)
+ */
+app.get('/api/submechanisms', async (req, res) => {
+  try {
+    const uid = req.user?.uid || 'user_default_local';
+    const colRef = firestore.collection(`users/${uid}/databases/MechanismPathway/records`);
+    const snap = await colRef.select('Name', 'key', 'Title').get();
+
+    const pathways = [];
+    snap.forEach(doc => {
+      const d = doc.data();
+      const name = d.Name || d.key || doc.id;
+      if (name && !pathways.includes(name)) {
+        pathways.push(name);
+      }
+    });
+
+    pathways.sort();
+    console.log(`[Firestore API /api/submechanisms] Returned ${pathways.length} pathways for uid='${uid}'`);
+    res.json(pathways);
   } catch (err) {
+    console.error('[Firestore API /api/submechanisms Error]', err.message);
     res.status(500).json({ error: err.message });
   }
 });
 
 /**
  * Run submechanism from path (/api/run-submechanism)
+ * ALWAYS loads pathway definition from Firestore (users/{uid}/databases/MechanismPathway/records)
  */
 app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
   const { molecule, rootName, supplement, runRoot } = req.body;
@@ -1490,6 +1546,7 @@ app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
     ? customMechName.trim()
     : `${molecule}-${rootName}`;
 
+  const cleanRootName = path.basename(rootName.replace(/\.lsr$/i, ''));
   const actualRunRoot = runRoot || 'read';
   const initialMolecules = (supplement && supplement.trim())
     ? `${molecule},${supplement.trim()}`
@@ -1503,31 +1560,37 @@ app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
   try {
     await hydrateUserWorkspace(uid, workspaceDir);
 
-    const searchDirs = [
-      path.join(REACTROOT, 'data', 'mechs', 'submechanisms', `${rootName}.lsr`),
-      path.join(REACTROOT, 'data', 'mechs', 'submechanisms', rootName),
-      path.join(REACTROOT, 'data', `${rootName}.lsr`),
-      path.join(REACTROOT, 'data', rootName),
-      path.join(REACTROOT, 'data', 'mechs', 'rxnpattests', `${rootName}.lsr`),
-      path.join(REACTROOT, 'data', 'runs', `${rootName}.lsr`),
-      path.join(REACTROOT, 'data', 'mechs', 'submechanism-orig', `${rootName}.lsr`)
-    ];
+    // 1. Fetch Mechanism Pathway strictly from Firestore (Single Source of Truth)
+    const colRef = firestore.collection(`users/${uid}/databases/MechanismPathway/records`);
+    let docSnap = await colRef.doc(cleanRootName).get();
+    let pathwayData = null;
 
-    let lsrPath = null;
-    for (const cand of searchDirs) {
-      if (fs.existsSync(cand) && fs.statSync(cand).isFile()) {
-        lsrPath = cand;
-        break;
+    if (docSnap.exists) {
+      pathwayData = docSnap.data();
+    } else {
+      // Query by Name or key field
+      let querySnap = await colRef.where('Name', '==', cleanRootName).limit(1).get();
+      if (querySnap.empty) {
+        querySnap = await colRef.where('key', '==', cleanRootName).limit(1).get();
+      }
+      if (!querySnap.empty) {
+        pathwayData = querySnap.docs[0].data();
       }
     }
 
-    if (!lsrPath) {
+    if (!pathwayData) {
       cleanupWorkspace(workspaceDir);
-      return res.status(404).json({ error: `Could not find path chain definition (.lsr) file for '${rootName}'.` });
+      return res.status(404).json({
+        error: `Mechanism pathway '${cleanRootName}' not found in Firestore database (users/${uid}/databases/MechanismPathway/records). Loading a mechanism path always comes from Firestore.`
+      });
     }
 
-    const lsrContent = fs.readFileSync(lsrPath, 'utf8');
+    // 2. Generate standard .lsr syntax from the Firestore document
+    const lsrContent = generateLsrFromReadChainSet(pathwayData);
+
+    // 3. Hydrate ephemeral workspace for chemdb execution
     fs.writeFileSync(path.join(workspaceDir, `${actualRunRoot}.lsr`), lsrContent);
+    fs.writeFileSync(path.join(workspaceDir, `${cleanRootName}.lsr`), lsrContent);
     fs.writeFileSync(path.join(REACTROOT, 'data', `${actualRunRoot}.lsr`), lsrContent);
     const tmpDir = path.join(REACTROOT, 'tmp');
     fs.mkdirSync(tmpDir, { recursive: true });
@@ -1546,7 +1609,7 @@ app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
     const logFilePath = path.join(workspaceDir, 'execution.log');
     const logStream = fs.createWriteStream(logFilePath, { flags: 'a' });
 
-    const lsrLogNote = `[Submechanism Run] Target Molecule: ${molecule}, Supplement: ${supplement || 'none'}, LSR: ${rootName}.lsr (${lsrPath}), Mechanism: ${mechName}\n`;
+    const lsrLogNote = `[Submechanism Run] Target Molecule: ${molecule}, Supplement: ${supplement || 'none'}, Pathway: ${cleanRootName} (Source: Firestore), Mechanism: ${mechName}\n`;
     logStream.write(lsrLogNote);
     stdout += lsrLogNote;
 

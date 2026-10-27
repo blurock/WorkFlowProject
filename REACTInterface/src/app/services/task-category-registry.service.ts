@@ -96,7 +96,7 @@ export class TaskCategoryRegistry {
           id: 'submechanism-from-path',
           title: 'Submechanism from Path',
           inpFile: 'CallChain.inp',
-          description: 'Generate complete mechanism from molecule and chain path file (.lsr)',
+          description: 'Generate complete mechanism from molecule and mechanism pathway in Firestore',
           icon: 'alt_route',
           type: 'submechanism-creator'
         },
@@ -104,7 +104,7 @@ export class TaskCategoryRegistry {
           id: 'submechanism-path-set',
           title: 'Submechanism Path Set',
           inpFile: 'CallChain.inp',
-          description: 'Generate a set of submechanisms for a molecule across multiple pathway root files (.lsr)',
+          description: 'Generate a set of submechanisms for a molecule across multiple mechanism pathways in Firestore',
           icon: 'account_tree',
           type: 'submechanism-path-set'
         },

@@ -11,7 +11,7 @@
 
     <mat-card-content class="banner-description">
       <p>
-        Generates a whole set of chemical reaction submechanisms for a target molecule by running the REACT chain generator pipeline across a set of pathway root files (<code>.lsr</code>). Select a molecule and customize the path set below.
+        Generates a whole set of chemical reaction submechanisms for a target molecule by running the REACT chain generator pipeline across a set of mechanism pathways in Firestore. Select a molecule and customize the path set below.
       </p>
     </mat-card-content>
   </mat-card>
@@ -136,7 +136,7 @@
                 <span>2. Submechanism Path Set</span>
                 <span class="path-count-badge">{{ selectedPaths.length }} Paths Selected</span>
               </mat-card-title>
-              <mat-card-subtitle>Manage list of pathway roots (.lsr files) to generate submechanisms for</mat-card-subtitle>
+              <mat-card-subtitle>Manage list of mechanism pathways from Firestore to generate submechanisms for</mat-card-subtitle>
             </mat-card-header>
 
             <mat-card-content class="form-content">
@@ -166,7 +166,7 @@
               <!-- Add Path Input & Button -->
               <div class="add-path-row">
                 <mat-form-field appearance="outline" class="add-path-field">
-                  <mat-label>Add Path to Set (.lsr root)</mat-label>
+                  <mat-label>Add Mechanism Pathway (Firestore)</mat-label>
                   <input
                     matInput
                     [ngModel]="newPathInput"

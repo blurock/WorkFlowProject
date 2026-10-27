@@ -38,7 +38,7 @@
         <mat-card class="input-form-card">
           <mat-card-header>
             <mat-card-title>Submechanism Parameters</mat-card-title>
-            <mat-card-subtitle>Define input molecule and pathway root name (.lsr file)</mat-card-subtitle>
+            <mat-card-subtitle>Define input molecule and mechanism pathway from Firestore</mat-card-subtitle>
           </mat-card-header>
 
           <mat-card-content class="form-content">
@@ -85,7 +85,7 @@
                     [ngModel]="rootName"
                     (ngModelChange)="onPathInputChange($event)"
                     [matAutocomplete]="autoPath"
-                    placeholder="Type or select path root (e.g. AlphaHHydroPeroxylIsomerization)..."
+                    placeholder="Type or select pathway from Firestore..."
                     required />
                   <mat-icon matSuffix color="primary">alt_route</mat-icon>
 
@@ -98,12 +98,12 @@
 
                   <mat-hint>
                     <span class="validation-badge valid" *ngIf="isPathInDatabase(rootName)">
-                      <mat-icon>check_circle</mat-icon> Valid Path Chain (.lsr)
+                      <mat-icon>check_circle</mat-icon> Pathway in Firestore
                     </span>
                     <span class="validation-badge invalid" *ngIf="rootName && !isPathInDatabase(rootName)">
-                      <mat-icon>warning</mat-icon> Path file not found in submechanisms
+                      <mat-icon>warning</mat-icon> Not found in Firestore MechanismPathway collection
                     </span>
-                    <span *ngIf="!rootName">Root name of path definition file (ROOTNAME.lsr)</span>
+                    <span *ngIf="!rootName">Pathway name stored in Firestore database</span>
                   </mat-hint>
                 </mat-form-field>
               </div>
