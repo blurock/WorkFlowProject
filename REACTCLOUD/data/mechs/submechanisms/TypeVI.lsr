@@ -3,7 +3,7 @@ hydroxyl-radical,oxygen,hydrogen-radical,methyl-radical
 %%% ----------------------------------------------------
 H-Abstraction-Oxygen-Tertiary,\
 H-Abstraction-Oxygen-Secondary,\
-H-Abstraction-Oxygen-Primary,\
+H-Abstraction-Oxygen-Primary\
 :oxygen
 %%% ----------------------------------------------------
 HLoss-ethyl-radical(hh)(hhh)-to-olefin,\
@@ -69,5 +69,5 @@ BetaOlefinDecomp(qq)(q)(rh)(rrh),\
 BetaOlefinDecomp(qq)(q)(rr)(rrh),\
 BetaOlefinDecomp(qq)(q)(hh)(rrr),\
 BetaOlefinDecomp(qq)(q)(rh)(rrr),\
-BetaOlefinDecomp(qq)(q)(rr)(rrr)
+BetaOlefinDecomp(qq)(q)(rr)(rrr)\
 :hydrogen,oxygen-radical,hydroxyl-radical,methyl-radical

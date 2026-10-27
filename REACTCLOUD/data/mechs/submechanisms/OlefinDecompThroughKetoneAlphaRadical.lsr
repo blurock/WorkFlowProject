@@ -3,7 +3,7 @@ oxygen,oxygen-radical,hydroxyl-radical
 %%% ----------------------------------------------------
 H-Abstraction-Oxygen-Tertiary,\
 H-Abstraction-Oxygen-Secondary,\
-H-Abstraction-Oxygen-Primary,\
+H-Abstraction-Oxygen-Primary\
 :oxygen
 %%% ----------------------------------------------------
 HLoss-ethyl-radical(hh)(hhh)-to-olefin,\
@@ -57,5 +57,5 @@ AddHydroxylToPropene-(rh)(h)(rrr),\
 AddHydroxylToPropene-(rr)(h)(rrr),\
 AddHydroxylToPropene-(hh)(r)(rrr),\
 AddHydroxylToPropene-(rh)(r)(rrr),\
-AddHydroxylToPropene-(rr)(r)(rrr)
+AddHydroxylToPropene-(rr)(r)(rrr)\
 :oxygen-radical,hydroxyl-radical

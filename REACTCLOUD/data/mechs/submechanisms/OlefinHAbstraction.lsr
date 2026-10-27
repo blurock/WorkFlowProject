@@ -6,7 +6,7 @@ methylperoxy-radical
 %%% ----------------------------------------------------
 H-Abstraction-Oxygen-Tertiary,\
 H-Abstraction-Oxygen-Secondary,\
-H-Abstraction-Oxygen-Primary,\
+H-Abstraction-Oxygen-Primary\
 :oxygen
 %%% ----------------------------------------------------
 %%% Type III: Radical Decomposition to Olefin
@@ -65,7 +65,7 @@ ethyl-radical(rh)(rhh)-oxidation-to-olefin,\
 ethyl-radical(hh)(rrh)-oxidation-to-olefin,\
 ethyl-radical(rr)(rhh)-oxidation-to-olefin,\
 ethyl-radical(rh)(rrh)-oxidation-to-olefin,\
-ethyl-radical(rr)(rrh)-oxidation-to-olefin
+ethyl-radical(rr)(rrh)-oxidation-to-olefin\
 :oxygen
 %%% ----------------------------------------------------
 %%%  Type VI: H Abstraction from Olefin

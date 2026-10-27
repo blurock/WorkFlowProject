@@ -6,7 +6,7 @@ methyl-radical,peroxyl-radical
 %%% Step 1      TypeI: H-Abstraction
 H-Abstraction-Oxygen-Radical-Primary,\
 H-Abstraction-Oxygen-Radical-Secondary,\
-H-Abstraction-Oxygen-Radical-Tertiary,\
+H-Abstraction-Oxygen-Radical-Tertiary\
 :oxygen
 %%% ----------------------------------------------------
 %%% This is the production of the Alkene starting point
@@ -144,7 +144,7 @@ KeteneFormation-(rh),\
 KeteneFormation-(rr),\
 AldehydeHAbstractionH-(rh),\
 AldehydeHAbstractionOH-(rh),\
-AldehydeHAbstractionCH3-(rh)
+AldehydeHAbstractionCH3-(rh)\
 :oxygen,hydroxyl-radical,methyl-radical
 %%% ----------------------------------------------------
 %%% KetoneRadicalDecomp:
