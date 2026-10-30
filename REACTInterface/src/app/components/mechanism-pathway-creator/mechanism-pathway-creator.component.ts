@@ -514,8 +514,31 @@ export class MechanismPathwayCreatorComponent implements OnInit {
         return;
       }
 
-      const currentSdf = this.chemParser.extractSdfContent(res?.output || '');
-      const sections = this.taskOutputParser.parseSectionsFromOutput(res?.output || '', 'mechanisms', currentSdf);
+      let rawOut = res?.output || '';
+      let currentSdf = '';
+      const sdfFile = res?.files?.find(f => f.fileType === 'sdf');
+      const mechFile = res?.files?.find(f => f.fileType === 'mech');
+
+      if (sdfFile?.downloadUrl) {
+        try {
+          currentSdf = await firstValueFrom(this.reactCloudApi.fetchAsciiFileContent(sdfFile.downloadUrl));
+        } catch (_) {}
+      } else {
+        currentSdf = this.chemParser.extractSdfContent(rawOut) || '';
+      }
+
+      let mechContent = '';
+      if (mechFile?.downloadUrl) {
+        try {
+          mechContent = await firstValueFrom(this.reactCloudApi.fetchAsciiFileContent(mechFile.downloadUrl));
+        } catch (_) {}
+      }
+
+      const combinedText = (mechContent ? `--- Mechanism Reactions ---\n${mechContent}\n\n` : '') +
+                           (currentSdf ? `--- Molecule Structures ---\n${currentSdf}\n\n` : '') +
+                           rawOut;
+
+      const sections = this.taskOutputParser.parseSectionsFromOutput(combinedText, 'mechanisms', currentSdf);
       
       const rxnSection = sections.find(s => s.title === 'Mechanism Reactions' || (s.mechFileData?.reactionClasses && s.mechFileData.reactionClasses.length > 0));
       const structSection = sections.find(s => s.title === 'Molecule Structures' || (s.mechFileData?.sdfBlocks && s.mechFileData.sdfBlocks.length > 0));
@@ -537,15 +560,9 @@ export class MechanismPathwayCreatorComponent implements OnInit {
         }
       }
 
-      // 2. Parse directly from raw output '--- Molecule Structures ---' if present
-      const rawOut = res?.output || '';
-      const structMarker = '--- Molecule Structures ---';
-      const structPos = rawOut.indexOf(structMarker);
-      if (structPos !== -1) {
-        const afterStruct = rawOut.substring(structPos + structMarker.length);
-        const nextMarkerMatch = afterStruct.search(/\n---\s+([^-]+)\s+---/);
-        const structText = nextMarkerMatch !== -1 ? afterStruct.substring(0, nextMarkerMatch) : afterStruct;
-        const parsedBlocks = this.mechanismParser.parseSdfBlocks(structText);
+      // 2. Parse from loaded SDF content
+      if (currentSdf) {
+        const parsedBlocks = this.mechanismParser.parseSdfBlocks(currentSdf);
         for (const block of parsedBlocks) {
           if (block.moleculeName && block.sdfContent) {
             availableSdfMap.set(block.moleculeName.toLowerCase(), block.sdfContent);
@@ -787,45 +804,102 @@ export class MechanismPathwayCreatorComponent implements OnInit {
   // --- ReadChainSet Conversion ---
 
   public buildReadChainSet(): ReadChainSet {
-    const readSteps: ReadChainReactionStep[] = this.steps.map((s, idx) => ({
-      ID: idx,
-      Name: s.name,
-      Reactions: {
-        NumberOfReactions: s.reactionPatterns.length,
-        Reactions: s.reactionPatterns.map((p, pIdx) => ({ ID: pIdx, Name: p }))
-      },
-      Molecules: {
-        NumberOfMolecules: s.auxMolecules.length,
-        Molecules: s.auxMolecules.map((m, mIdx) => ({ ID: mIdx, Name: m }))
+    const cleanTarget = (this.customTargetInput || this.targetMolecule || '').trim();
+    const cleanPathwayName = (this.pathwayName || 'NewPathway').trim();
+
+    const readSteps: ReadChainReactionStep[] = this.steps.map((s, idx) => {
+      // Gather unique step molecules from Stage 2 (auxMolecules) and Stage 1 (inputMolecules)
+      const stepMolsSet = new Set<string>();
+
+      // 1. Auxiliary radicals from Stage 2
+      (s.auxMolecules || []).forEach(m => {
+        const clean = (m || '').trim();
+        if (clean) stepMolsSet.add(clean);
+      });
+
+      // 2. Custom input molecules added in Stage 1 (excluding overall target and global radicals)
+      if (s.inputMolecules && s.inputMolecules.length > 0) {
+        s.inputMolecules.forEach(m => {
+          const clean = (m || '').trim();
+          if (clean && clean.toLowerCase() !== cleanTarget.toLowerCase() && !this.overallAuxMolecules.includes(clean)) {
+            stepMolsSet.add(clean);
+          }
+        });
       }
-    }));
+
+      const stepMols = Array.from(stepMolsSet);
+
+      return {
+        ID: idx,
+        Name: (s.name || `Step ${idx + 1}`).trim(),
+        Reactions: {
+          NumberOfReactions: s.reactionPatterns.length,
+          Reactions: s.reactionPatterns.map((p, pIdx) => ({ ID: pIdx, Name: p.trim() }))
+        },
+        Molecules: {
+          NumberOfMolecules: stepMols.length,
+          Molecules: stepMols.map((m, mIdx) => ({ ID: mIdx, Name: m }))
+        }
+      };
+    });
 
     const pathway: ReadChainSet = {
-      Name: (this.pathwayName || 'NewPathway').trim(),
+      Name: cleanPathwayName,
       NumberOfSteps: readSteps.length,
+      TargetMolecule: cleanTarget,
       ExtraMolecules: {
         NumberOfMolecules: this.overallAuxMolecules.length,
-        Molecules: this.overallAuxMolecules.map((m, idx) => ({ ID: idx, Name: m }))
+        Molecules: this.overallAuxMolecules.map((m, idx) => ({ ID: idx, Name: m.trim() }))
       },
       Steps: readSteps
     };
 
-    return this.pathwayService.compileTotals(pathway);
+    const compiled = this.pathwayService.compileTotals(pathway);
+
+    // Formatted printout to console for debugging and transparency
+    console.log('============================================================');
+    console.log(`[MechanismPathwayCreator] Created Mechanism Path: '${cleanPathwayName}'`);
+    console.log('Target Molecule:', cleanTarget || '(None)');
+    console.log('Global Auxiliary Molecules:', this.overallAuxMolecules);
+    console.log(`Total Steps (${compiled.NumberOfSteps}):`, compiled.Steps.map((s, i) => ({
+      step: i + 1,
+      name: s.Name,
+      reactionCount: s.Reactions?.NumberOfReactions || 0,
+      reactionPatterns: s.Reactions?.Reactions.map(r => r.Name) || [],
+      moleculeCount: s.Molecules?.NumberOfMolecules || 0,
+      stepMolecules: s.Molecules?.Molecules.map(m => m.Name) || []
+    })));
+    console.log('Total Compiled Reactions:', compiled.Reactions?.NumberOfReactions || 0);
+    console.log('Total Compiled Molecules:', compiled.Molecules?.NumberOfMolecules || 0);
+    console.log('Full Mechanism Path Object:', compiled);
+    console.log('Mechanism Path JSON String:\n' + JSON.stringify(compiled, null, 2));
+    console.log('============================================================');
+
+    return compiled;
   }
 
   public populateFromReadChainSet(pathway: ReadChainSet): void {
     this.pathwayName = pathway.Name || 'NewPathway';
+    if (pathway.TargetMolecule) {
+      this.targetMolecule = pathway.TargetMolecule;
+      this.customTargetInput = pathway.TargetMolecule;
+    }
     this.overallAuxMolecules = (pathway.ExtraMolecules?.Molecules || []).map(m => m.Name);
 
-    this.steps = (pathway.Steps || []).map((s, idx) => ({
-      id: idx + 1,
-      name: s.Name || `Step ${idx + 1}`,
-      reactionPatterns: (s.Reactions?.Reactions || []).map(r => r.Name),
-      auxMolecules: (s.Molecules?.Molecules || []).map(m => m.Name),
-      inputMolecules: idx === 0 ? [this.targetMolecule, ...this.overallAuxMolecules] : [],
-      isExpanded: false,
-      status: 'draft' as const
-    }));
+    this.steps = (pathway.Steps || []).map((s, idx) => {
+      const stepMols = (s.Molecules?.Molecules || []).map(m => m.Name);
+      return {
+        id: idx + 1,
+        name: s.Name || `Step ${idx + 1}`,
+        reactionPatterns: (s.Reactions?.Reactions || []).map(r => r.Name),
+        auxMolecules: stepMols,
+        inputMolecules: idx === 0
+          ? [this.targetMolecule, ...stepMols, ...this.overallAuxMolecules].filter((v, i, a) => v && a.indexOf(v) === i)
+          : [...stepMols],
+        isExpanded: false,
+        status: 'draft' as const
+      };
+    });
 
     if (this.steps.length === 0) {
       this.initDefaultSteps();
@@ -846,6 +920,7 @@ export class MechanismPathwayCreatorComponent implements OnInit {
     this.pathwayService.storePathway(pathway).subscribe({
       next: () => {
         this.isSaving = false;
+        this.selectedPathwayToLoad = this.pathwayName;
         this.snackBar.open(`Mechanism Pathway '${this.pathwayName}' successfully saved to Firestore!`, 'Close', {
           duration: 4000
         });

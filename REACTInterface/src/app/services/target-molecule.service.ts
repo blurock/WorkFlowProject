@@ -96,16 +96,25 @@ export class TargetMoleculeService {
     sdfContent: string
   ): Promise<{ success: boolean; output: string; error?: string }> {
     const cleanName = (moleculeName || 'Temporary').trim();
+    const sdfFilename = `${cleanName}.sdf`;
 
-    // Ensure .sdf is available in user files if needed
-    await firstValueFrom(
-      this.reactCloudApi.uploadUserDataFiles('', [
-        { filename: `${cleanName}.sdf`, content: sdfContent }
-      ])
-    );
+    // Ensure .sdf is available via Cloud Storage
+    let fileUrl: string | undefined = undefined;
+    try {
+      const uploadRes = await firstValueFrom(
+        this.reactCloudApi.uploadFileToStorage({ filename: sdfFilename, content: sdfContent }, '')
+      );
+      if (uploadRes?.gcsPath) fileUrl = uploadRes.gcsPath;
+    } catch (e) {
+      await firstValueFrom(
+        this.reactCloudApi.uploadUserDataFiles('', [
+          { filename: sdfFilename, content: sdfContent }
+        ])
+      );
+    }
 
     const storeCommands = CommandTemplatesRegistry.storeMoleculesInDatabase(cleanName, `${cleanName}_out`);
-    const res = await firstValueFrom(this.reactCloudApi.runCommands(storeCommands, cleanName));
+    const res = await firstValueFrom(this.reactCloudApi.runCommands(storeCommands, cleanName, undefined, undefined, fileUrl, sdfFilename));
 
     const isSuccess = (res?.exitCode ?? 0) === 0;
     return {

@@ -1130,10 +1130,16 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         }).join('\n') + '\n';
 
         const sdfFilename = `${subRootName}.sdf`;
-        await firstValueFrom(this.reactCloudApi.uploadUserDataFiles('.', [{ filename: sdfFilename, content: newSubsSdf }]));
+        let subFileUrl: string | undefined = undefined;
+        try {
+          const uploadRes = await firstValueFrom(this.reactCloudApi.uploadFileToStorage({ filename: sdfFilename, content: newSubsSdf }, '.'));
+          if (uploadRes?.gcsPath) subFileUrl = uploadRes.gcsPath;
+        } catch (e) {
+          await firstValueFrom(this.reactCloudApi.uploadUserDataFiles('.', [{ filename: sdfFilename, content: newSubsSdf }]));
+        }
 
         const subCommands = CommandTemplatesRegistry.storeSubstructuresInDatabase(subRootName);
-        const subRes = await firstValueFrom(this.reactCloudApi.runCommands(subCommands, subRootName));
+        const subRes = await firstValueFrom(this.reactCloudApi.runCommands(subCommands, subRootName, undefined, undefined, subFileUrl, sdfFilename));
 
         this.substructureExecutionLog = subRes?.output || '';
 
@@ -1181,7 +1187,13 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
       const lstContent = this.serializeToLstFile();
       this.rxnPatternLstContent = lstContent;
       const lstFilename = `${this.rootName.trim()}.lst`;
-      await firstValueFrom(this.reactCloudApi.uploadUserDataFiles('.', [{ filename: lstFilename, content: lstContent }]));
+      let lstFileUrl: string | undefined = undefined;
+      try {
+        const uploadRes = await firstValueFrom(this.reactCloudApi.uploadFileToStorage({ filename: lstFilename, content: lstContent }, '.'));
+        if (uploadRes?.gcsPath) lstFileUrl = uploadRes.gcsPath;
+      } catch (e) {
+        await firstValueFrom(this.reactCloudApi.uploadUserDataFiles('.', [{ filename: lstFilename, content: lstContent }]));
+      }
 
       const commands = CommandTemplatesRegistry.getReadCheckStoreCommands(
         'rxn-pattern',
@@ -1191,7 +1203,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
         `${this.rootName.trim()}_store`
       );
 
-      const res = await firstValueFrom(this.reactCloudApi.runCommands(commands, this.rootName.trim()));
+      const res = await firstValueFrom(this.reactCloudApi.runCommands(commands, this.rootName.trim(), undefined, undefined, lstFileUrl, lstFilename));
 
       this.patternExecutionLog = res?.output || '';
 

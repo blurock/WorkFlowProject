@@ -66,6 +66,7 @@ export class ReadCheckStoreComponent implements OnInit {
   public rootName: string = '22dimethylC3C4';
   public selectedFile: File | null = null;
   public fileContent: string | null = null;
+  public uploadedGcsUrl: string = '';
 
   // Cached Options & Labels for Stable Template Rendering
   public supportedFormats: { value: FormatOption; label: string }[] = [];
@@ -343,6 +344,7 @@ export class ReadCheckStoreComponent implements OnInit {
     this.storedRecords = [];
     this.parsedStructuresCount = 0;
     this.hasConflicts = false;
+    this.uploadedGcsUrl = '';
     this.errorMessage = '';
     this.statusMessage = '';
     this.orchestratorWarning = false;
@@ -394,12 +396,17 @@ export class ReadCheckStoreComponent implements OnInit {
     this.errorMessage = '';
 
     try {
-      // 1. Upload file to working directory if present
-      if (this.selectedFile && this.fileContent !== null) {
-        const ext = this.getTargetFileExtension();
-        const targetFilename = `${this.rootName.trim()}${ext}`;
-        console.log(`[ReadCheckStoreComponent] Uploading user file ${targetFilename}...`);
-        await firstValueFrom(this.reactCloudApi.uploadUserDataFiles('.', [{ filename: targetFilename, content: this.fileContent }]));
+      // 1. Upload file to Cloud Storage (Zero-POST direct upload)
+      const ext = this.getTargetFileExtension();
+      const targetFilename = `${this.rootName.trim()}${ext}`;
+
+      if (this.selectedFile || this.fileContent !== null) {
+        console.log(`[ReadCheckStoreComponent] Uploading user file ${targetFilename} via Cloud Storage...`);
+        const payload = this.selectedFile || { filename: targetFilename, content: this.fileContent as string };
+        const uploadRes = await firstValueFrom(this.reactCloudApi.uploadFileToStorage(payload, '.'));
+        if (uploadRes && uploadRes.gcsPath) {
+          this.uploadedGcsUrl = uploadRes.gcsPath;
+        }
       }
 
       // 2. Execute Step 1 Commands
@@ -412,7 +419,14 @@ export class ReadCheckStoreComponent implements OnInit {
       );
 
       console.log('[ReadCheckStoreComponent] Dispatching runCommands:', commands);
-      const res = await firstValueFrom(this.reactCloudApi.runCommands(commands, this.rootName.trim()));
+      const res = await firstValueFrom(this.reactCloudApi.runCommands(
+        commands,
+        this.rootName.trim(),
+        undefined,
+        undefined,
+        this.uploadedGcsUrl || undefined,
+        targetFilename
+      ));
       console.log('[ReadCheckStoreComponent] Step 1 response received:', res);
       this.isExecuting = false;
 
@@ -481,7 +495,7 @@ export class ReadCheckStoreComponent implements OnInit {
     try {
       const ext = this.getTargetFileExtension();
       const targetFilename = `${this.rootName.trim()}${ext}`;
-      const filesToUpload = (this.selectedFile && this.fileContent !== null)
+      const filesToUpload = (!this.uploadedGcsUrl && this.selectedFile && this.fileContent !== null)
         ? [{ filename: targetFilename, content: this.fileContent }]
         : undefined;
 
@@ -490,7 +504,9 @@ export class ReadCheckStoreComponent implements OnInit {
         this.format,
         this.rootName,
         `${this.rootName.trim()}_out`,
-        filesToUpload
+        filesToUpload,
+        this.uploadedGcsUrl || undefined,
+        targetFilename
       );
 
       this.isExecuting = false;
@@ -680,11 +696,14 @@ export class ReadCheckStoreComponent implements OnInit {
     this.orchestratorWarning = false;
 
     try {
-      if (this.selectedFile && this.fileContent !== null) {
-        const ext = this.getTargetFileExtension();
-        const targetFilename = `${this.rootName.trim()}${ext}`;
-        console.log(`[ReadCheckStoreComponent] Uploading user file ${targetFilename} before store...`);
-        await firstValueFrom(this.reactCloudApi.uploadUserDataFiles('.', [{ filename: targetFilename, content: this.fileContent }]));
+      const ext = this.getTargetFileExtension();
+      const targetFilename = `${this.rootName.trim()}${ext}`;
+      if (!this.uploadedGcsUrl && (this.selectedFile || this.fileContent !== null)) {
+        const payload = this.selectedFile || { filename: targetFilename, content: this.fileContent as string };
+        const uploadRes = await firstValueFrom(this.reactCloudApi.uploadFileToStorage(payload, '.'));
+        if (uploadRes && uploadRes.gcsPath) {
+          this.uploadedGcsUrl = uploadRes.gcsPath;
+        }
       }
 
       const commands = CommandTemplatesRegistry.getReadCheckStoreCommands(
@@ -695,7 +714,14 @@ export class ReadCheckStoreComponent implements OnInit {
         `${this.rootName.trim()}_out`
       );
 
-      const res = await firstValueFrom(this.reactCloudApi.runCommands(commands, this.rootName.trim()));
+      const res = await firstValueFrom(this.reactCloudApi.runCommands(
+        commands,
+        this.rootName.trim(),
+        undefined,
+        undefined,
+        this.uploadedGcsUrl || undefined,
+        targetFilename
+      ));
       console.log('[ReadCheckStoreComponent] Step 3 response received:', res);
       this.isExecuting = false;
 

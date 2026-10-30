@@ -188,16 +188,25 @@
       </div>
     </mat-tab>
 
-    <!-- Tab 1: Database Mechanism Details -->
+    <!-- Tab 1: Mechanism Artifacts & Details -->
     <mat-tab>
       <ng-template mat-tab-label>
         <mat-icon class="tab-icon">account_tree</mat-icon>
-        <span>{{ mechName ? mechName : 'Mechanism Details' }}</span>
+        <span>{{ mechName ? mechName : 'Mechanism Artifacts' }}</span>
       </ng-template>
 
       <div class="tab-content-area">
-        <!-- Detail Top Toolbar -->
-        <mat-card class="detail-header-card" *ngIf="mechName">
+        <!-- Storage Artifacts Viewer (Direct from Firebase Storage) -->
+        <div *ngIf="storageFiles.length > 0">
+          <app-mechanism-artifact-viewer
+            [mechName]="mechName"
+            [storageDirectory]="storageDirectory"
+            [files]="storageFiles">
+          </app-mechanism-artifact-viewer>
+        </div>
+
+        <!-- Detail Top Toolbar (Database Catalog lookup if desired) -->
+        <mat-card class="detail-header-card" *ngIf="mechName && storageFiles.length === 0">
           <div class="detail-header-toolbar">
             <div class="detail-title-group">
               <mat-icon class="header-mol-icon" color="accent">account_tree</mat-icon>
@@ -211,17 +220,8 @@
               <button mat-stroked-button (click)="selectedTabIndex = 0">
                 <mat-icon>arrow_back</mat-icon> Back to Inputs
               </button>
-              <button mat-stroked-button (click)="toggleAllSections(true)">
-                <mat-icon>unfold_more</mat-icon> Expand All
-              </button>
-              <button mat-stroked-button (click)="toggleAllSections(false)">
-                <mat-icon>unfold_less</mat-icon> Collapse All
-              </button>
-              <button mat-stroked-button (click)="selectedTabIndex = 2" color="accent">
-                <mat-icon>terminal</mat-icon> View Raw STDOUT
-              </button>
-              <button mat-flat-button color="primary" (click)="copyFullOutput()">
-                <mat-icon>content_copy</mat-icon> Copy Full Output
+              <button mat-flat-button color="accent" (click)="fetchGeneratedMechanismDetails()" [disabled]="isDetailLoading">
+                <mat-icon>science</mat-icon> Load 2D Catalog Details
               </button>
             </div>
           </div>
@@ -229,7 +229,7 @@
         </mat-card>
 
         <!-- Unexecuted / Empty State -->
-        <mat-card class="empty-detail-card" *ngIf="!itemDetailOutput && !isDetailLoading">
+        <mat-card class="empty-detail-card" *ngIf="storageFiles.length === 0 && !itemDetailOutput && !isDetailLoading">
           <mat-card-content class="empty-state">
             <mat-icon class="empty-icon">alt_route</mat-icon>
             <h3>No Submechanism Generated Yet</h3>
@@ -240,7 +240,7 @@
           </mat-card-content>
         </mat-card>
 
-        <!-- Database Detail View Section Cards -->
+        <!-- Database Detail View Section Cards (optional 2D structures) -->
         <div *ngIf="itemDetailOutput && !isDetailLoading">
           <app-benson-group-detail
             [item]="selectedItem!"

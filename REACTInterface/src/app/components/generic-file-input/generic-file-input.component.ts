@@ -12,6 +12,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ReactCloudApiService } from '../../services/react-cloud-api.service';
 import { KetcherViewerComponent } from '../ketcher-viewer/ketcher-viewer.component';
 import { ExecutionOutputParserService, ExecutionOutputSections } from '../../services/execution-output-parser.service';
+import { firstValueFrom } from 'rxjs';
 
 export interface FileSlotConfig {
   extension: string;          // e.g. '-names.lst', '.mol', '.sdf'
@@ -423,20 +424,15 @@ export class GenericFileInputComponent implements OnInit {
       let primaryFileName = '';
 
       if (!resolvedFileUrl) {
-        // 1. Prepare files payload from local files
-        const uploadPayload = this.fileItems
-          .filter(item => item.file && item.content !== null)
-          .map(item => ({
-            filename: item.expectedFilename,
-            content: item.content as string
-          }));
-
-        if (uploadPayload.length > 0) {
-          primaryFileName = uploadPayload[0].filename;
-          const uploadRes = await this.reactCloudApi.uploadUserDataFiles(this.config.targetDirectory, uploadPayload).toPromise();
-          console.log('[GenericFileInput] Upload response:', uploadRes);
-          if (uploadRes?.files && uploadRes.files.length > 0) {
-            resolvedFileUrl = uploadRes.files[0].gcsPath || '';
+        // 1. Stream files directly to Cloud Storage
+        for (const item of this.fileItems) {
+          if (item.file || item.content !== null) {
+            const payload = item.file || { filename: item.expectedFilename, content: item.content as string };
+            const uploadRes = await firstValueFrom(this.reactCloudApi.uploadFileToStorage(payload, this.config.targetDirectory));
+            if (!primaryFileName) primaryFileName = uploadRes.filename || item.expectedFilename;
+            if (!resolvedFileUrl && uploadRes.gcsPath) {
+              resolvedFileUrl = uploadRes.gcsPath;
+            }
           }
         }
       }

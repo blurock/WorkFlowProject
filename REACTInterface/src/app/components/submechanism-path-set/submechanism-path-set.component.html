@@ -304,8 +304,17 @@
           </mat-card-content>
         </mat-card>
 
-        <!-- Selected Mechanism Detail View Section Cards -->
-        <div *ngIf="selectedSubmechanism && selectedItem && selectedSubmechanism.detailOutput">
+        <!-- Selected Mechanism Storage Artifacts Viewer (From Firebase Storage) -->
+        <div *ngIf="selectedSubmechanism && selectedSubmechanism.files && selectedSubmechanism.files.length > 0">
+          <app-mechanism-artifact-viewer
+            [mechName]="selectedSubmechanism.mechName"
+            [storageDirectory]="selectedSubmechanism.storageDirectory || ''"
+            [files]="selectedSubmechanism.files">
+          </app-mechanism-artifact-viewer>
+        </div>
+
+        <!-- Selected Mechanism Detail View Section Cards (if catalog details loaded) -->
+        <div *ngIf="selectedSubmechanism && selectedItem && selectedSubmechanism.detailOutput && (!selectedSubmechanism.files || selectedSubmechanism.files.length === 0)">
           <app-benson-group-detail
             [item]="selectedItem"
             [sections]="selectedSubmechanism.moleculeSections || []"

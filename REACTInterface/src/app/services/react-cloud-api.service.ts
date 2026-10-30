@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map, switchMap, tap } from 'rxjs';
+import { Observable, of, map, switchMap, tap, catchError, from } from 'rxjs';
 import { CommandTemplatesRegistry } from '../templates/command-templates.registry';
 
 export interface CatalogItem {
@@ -36,6 +36,16 @@ export interface ApiRunCommandsResponse {
   elapsedMs?: number;
 }
 
+export interface MechanismStorageFile {
+  filename: string;
+  label: string;
+  fileType: 'mech' | 'sdf' | 'thm' | 'corrs' | 'log' | 'lsr' | 'zip' | string;
+  sizeBytes: number;
+  downloadUrl: string;
+  content?: string;
+  isLoading?: boolean;
+}
+
 export interface ApiRunSubmechanismResponse {
   molecule: string;
   rootName: string;
@@ -43,6 +53,9 @@ export interface ApiRunSubmechanismResponse {
   exitCode: number;
   output: string;
   error?: string;
+  storageDirectory?: string;
+  gcsPrefix?: string;
+  files?: MechanismStorageFile[];
 }
 
 export interface ApiRunCombineSubmechanismResponse {
@@ -52,6 +65,9 @@ export interface ApiRunCombineSubmechanismResponse {
   exitCode: number;
   output: string;
   error?: string;
+  storageDirectory?: string;
+  gcsPrefix?: string;
+  files?: MechanismStorageFile[];
 }
 
 @Injectable({
@@ -113,28 +129,106 @@ export class ReactCloudApiService {
     subcategory: string;
     categoryPath: string;
     filename: string;
+    fallback?: boolean;
+    error?: string;
   }> {
     const payload = { filename, targetDir, contentType };
     return this.http.post<any>(`${this.baseUrl}/api/upload/get-signed-url`, payload);
   }
 
   /**
-   * Direct Client-to-GCS File Upload via Signed Upload URL
+   * Modern Zero-POST Direct Cloud Storage Upload
+   * Streams file or raw text content directly to Google Cloud Storage using pre-signed V4 PUT URL.
+   * If direct GCS upload is unavailable (offline / mock / credentials), transparently falls back
+   * to /api/upload-data-files.
    */
-  public uploadFileDirectToGcs(file: File, targetDir?: string): Observable<{ gcsPath: string; relativePath: string; category: string; subcategory: string }> {
-    return this.getSignedUploadUrl(file.name, targetDir, file.type || 'application/octet-stream').pipe(
+  public uploadFileToStorage(
+    fileOrPayload: File | { filename: string; content: string },
+    targetDir: string = '.'
+  ): Observable<{
+    success: boolean;
+    gcsPath: string;
+    relativePath: string;
+    category?: string;
+    subcategory?: string;
+    filename: string;
+    fallbackUsed?: boolean;
+  }> {
+    const isFile = fileOrPayload instanceof File;
+    const filename = isFile ? fileOrPayload.name : fileOrPayload.filename;
+    const contentType = isFile ? (fileOrPayload.type || 'text/plain') : 'text/plain;charset=utf-8';
+    const body: any = isFile ? fileOrPayload : new Blob([fileOrPayload.content], { type: contentType });
+
+    return this.getSignedUploadUrl(filename, targetDir, contentType).pipe(
       switchMap(res => {
-        return this.http.put(res.uploadUrl, file, {
-          headers: { 'Content-Type': file.type || 'application/octet-stream' }
+        if (!res || !res.success || !res.uploadUrl || res.fallback) {
+          throw new Error(res?.error || 'Direct GCS upload not supported by backend');
+        }
+        return this.http.put(res.uploadUrl, body, {
+          headers: { 'Content-Type': contentType }
         }).pipe(
           map(() => ({
+            success: true,
             gcsPath: res.gcsPath,
             relativePath: res.relativePath,
             category: res.category,
-            subcategory: res.subcategory
+            subcategory: res.subcategory,
+            filename: filename,
+            fallbackUsed: false
           }))
         );
+      }),
+      catchError(err => {
+        console.warn(`[ReactCloudApi] Direct GCS upload failed or unavailable (${err.message}). Falling back to /api/upload-data-files.`);
+        if (isFile) {
+          return from(fileOrPayload.text()).pipe(
+            switchMap(text => {
+              return this.uploadUserDataFiles(targetDir, [{ filename, content: text }]);
+            }),
+            map(uploadRes => {
+              const fileInfo = uploadRes.files?.[0];
+              return {
+                success: true,
+                gcsPath: fileInfo?.gcsPath || '',
+                relativePath: fileInfo?.relativePath || filename,
+                category: fileInfo?.category,
+                subcategory: fileInfo?.subcategory,
+                filename: filename,
+                fallbackUsed: true
+              };
+            })
+          );
+        } else {
+          return this.uploadUserDataFiles(targetDir, [fileOrPayload]).pipe(
+            map(uploadRes => {
+              const fileInfo = uploadRes.files?.[0];
+              return {
+                success: true,
+                gcsPath: fileInfo?.gcsPath || '',
+                relativePath: fileInfo?.relativePath || filename,
+                category: fileInfo?.category,
+                subcategory: fileInfo?.subcategory,
+                filename: filename,
+                fallbackUsed: true
+              };
+            })
+          );
+        }
       })
+    );
+  }
+
+  /**
+   * Direct Client-to-GCS File Upload via Signed Upload URL
+   */
+  public uploadFileDirectToGcs(file: File, targetDir?: string): Observable<{ gcsPath: string; relativePath: string; category: string; subcategory: string }> {
+    return this.uploadFileToStorage(file, targetDir).pipe(
+      map(res => ({
+        gcsPath: res.gcsPath,
+        relativePath: res.relativePath,
+        category: res.category || '',
+        subcategory: res.subcategory || ''
+      }))
     );
   }
 
@@ -395,6 +489,32 @@ export class ReactCloudApiService {
     return this.http.post<{ success: boolean; count: number; records: any[] }>(
       `${this.baseUrl}/api/db/searchRxnPatternsByCenter`,
       params
+    );
+  }
+
+  /**
+   * In-memory cache for downloaded ASCII artifact contents (URL -> text)
+   */
+  private asciiContentCache: Map<string, string> = new Map();
+
+  /**
+   * Fetch ASCII file content from Cloud Storage via download URL with in-memory caching
+   */
+  public fetchAsciiFileContent(downloadUrl: string): Observable<string> {
+    if (!downloadUrl) return of('');
+    if (this.asciiContentCache.has(downloadUrl)) {
+      return of(this.asciiContentCache.get(downloadUrl)!);
+    }
+    return this.http.get(downloadUrl, { responseType: 'text' }).pipe(
+      tap(content => {
+        if (content) {
+          this.asciiContentCache.set(downloadUrl, content);
+        }
+      }),
+      catchError(err => {
+        console.warn(`[ReactCloudApi] Failed to fetch ASCII content from ${downloadUrl}:`, err);
+        return of(`[Error loading artifact content: ${err?.message || 'Download failed'}]`);
+      })
     );
   }
 }

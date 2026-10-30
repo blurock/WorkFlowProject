@@ -5,7 +5,7 @@ const path = require('path');
 const crypto = require('crypto');
 const http = require('http');
 const https = require('https');
-const { spawn } = require('child_process');
+const { spawn, execSync } = require('child_process');
 const admin = require('firebase-admin');
 const { Storage } = require('@google-cloud/storage');
 const { Firestore } = require('@google-cloud/firestore');
@@ -233,7 +233,7 @@ function getGcsTaxonomyInfo(uid, filename = '', targetDir = '') {
  * cache (/tmp/reactcloud/users/{uid}/cache/data/{targetFilename})
  */
 
-async function resolveAndCacheInputFile(uid, fileUrl, customFileName = '') {
+async function resolveAndCacheInputFile(uid, fileUrl, customFileName = '', workspaceDir = null) {
   if (!fileUrl || typeof fileUrl !== 'string') return null;
 
   const userCacheDataDir = path.join('/tmp', 'reactcloud', 'users', uid, 'cache', 'data');
@@ -252,6 +252,30 @@ async function resolveAndCacheInputFile(uid, fileUrl, customFileName = '') {
   const localFilePath = path.join(userCacheDataDir, targetFileName);
   const taxonomy = getGcsTaxonomyInfo(uid, targetFileName);
 
+  const copyToWorkspace = (srcPath) => {
+    if (workspaceDir && fs.existsSync(workspaceDir) && fs.existsSync(srcPath)) {
+      const wsDest = path.join(workspaceDir, targetFileName);
+      fs.copyFileSync(srcPath, wsDest);
+      const wsDataDir = path.join(workspaceDir, 'data');
+      fs.mkdirSync(wsDataDir, { recursive: true });
+      fs.copyFileSync(srcPath, path.join(wsDataDir, targetFileName));
+
+      if (targetFileName.endsWith('.lst')) {
+        const rootBase = targetFileName.replace(/\.lst$/, '');
+        const molSrc = path.join(userCacheDataDir, `${rootBase}.mol`);
+        const sdfSrc = path.join(userCacheDataDir, `${rootBase}.sdf`);
+        if (fs.existsSync(molSrc)) {
+          fs.copyFileSync(molSrc, path.join(workspaceDir, `${rootBase}.mol`));
+          fs.copyFileSync(molSrc, path.join(wsDataDir, `${rootBase}.mol`));
+        }
+        if (fs.existsSync(sdfSrc)) {
+          fs.copyFileSync(sdfSrc, path.join(workspaceDir, `${rootBase}.sdf`));
+          fs.copyFileSync(sdfSrc, path.join(wsDataDir, `${rootBase}.sdf`));
+        }
+      }
+    }
+  };
+
   if (fileUrl.startsWith('gs://')) {
     const rawPath = fileUrl.replace('gs://', '');
     const slashIdx = rawPath.indexOf('/');
@@ -268,32 +292,21 @@ async function resolveAndCacheInputFile(uid, fileUrl, customFileName = '') {
     }
 
     // Check MD5 cache match if local file already exists
+    let needDownload = true;
     if (fs.existsSync(localFilePath) && metadata && metadata.md5Hash) {
       const existingBuf = fs.readFileSync(localFilePath);
       const existingMd5 = crypto.createHash('md5').update(existingBuf).digest('base64');
       if (existingMd5 === metadata.md5Hash) {
         console.log(`[File Link Cache Hit] ${targetFileName} matches GCS MD5 (${metadata.md5Hash})`);
-        const downloadUrl = await getSignedDownloadUrl(bucketName, objectPath);
-        return {
-          fileName: targetFileName,
-          localFilePath,
-          fileSource: 'gcs',
-          fileUrl,
-          downloadUrl,
-          gcsPath: fileUrl,
-          category: taxonomy.category,
-          subcategory: taxonomy.subcategory,
-          categoryPath: taxonomy.categoryPath,
-          sizeBytes: metadata.size ? Number(metadata.size) : fs.statSync(localFilePath).size,
-          md5Hash: metadata.md5Hash
-        };
+        needDownload = false;
       }
     }
 
-    // Download from GCS
-    await file.download({ destination: localFilePath });
-    console.log(`[File Link Downloaded] Saved GCS ${fileUrl} -> ${localFilePath}`);
-    const downloadUrl = await getSignedDownloadUrl(bucketName, objectPath);
+    if (needDownload) {
+      // Download from GCS
+      await file.download({ destination: localFilePath });
+      console.log(`[File Link Downloaded] Saved GCS ${fileUrl} -> ${localFilePath}`);
+    }
 
     // Auto-create matching companion files for .lst files
     if (targetFileName.endsWith('.lst')) {
@@ -303,6 +316,9 @@ async function resolveAndCacheInputFile(uid, fileUrl, customFileName = '') {
       if (!fs.existsSync(molPath)) fs.writeFileSync(molPath, `1 ${rootBase}\n`);
       if (!fs.existsSync(sdfPath)) fs.writeFileSync(sdfPath, `${rootBase}\n  -OEChem-\n\n  0  0  0     0  0  0  0  0  0999 V2000\nM  END\n$$$$\n`);
     }
+
+    copyToWorkspace(localFilePath);
+    const downloadUrl = await getSignedDownloadUrl(bucketName, objectPath);
 
     return {
       fileName: targetFileName,
@@ -348,6 +364,8 @@ async function resolveAndCacheInputFile(uid, fileUrl, customFileName = '') {
       if (!fs.existsSync(sdfPath)) fs.writeFileSync(sdfPath, `${rootBase}\n  -OEChem-\n\n  0  0  0     0  0  0  0  0  0999 V2000\nM  END\n$$$$\n`);
     }
 
+    copyToWorkspace(localFilePath);
+
     return {
       fileName: targetFileName,
       localFilePath,
@@ -360,8 +378,21 @@ async function resolveAndCacheInputFile(uid, fileUrl, customFileName = '') {
       categoryPath: taxonomy.categoryPath,
       sizeBytes: fs.statSync(localFilePath).size
     };
+  } else {
+    // If local file path or cache reference
+    if (fs.existsSync(localFilePath)) {
+      copyToWorkspace(localFilePath);
+      return {
+        fileName: targetFileName,
+        localFilePath,
+        fileSource: 'cache',
+        fileUrl: taxonomy.fullGcsUri,
+        category: taxonomy.category,
+        subcategory: taxonomy.subcategory,
+        sizeBytes: fs.statSync(localFilePath).size
+      };
+    }
   }
-
 
   return null;
 }
@@ -440,7 +471,7 @@ function classifyJob(reqBody = {}, commandText = '', inputFile = '') {
  * users/<uid>/logs/<access-mode>/<YYYY>/<MM>/<DD>/<job-category>/<job-id>/
  * Filenames are formatted as: <YYYYMMDD>_<HHMMSS>_<jobCategory>_<jobId>_<file>
  */
-async function persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classificationInput = true, inputFileManifest = []) {
+async function persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classificationInput = true, inputFileManifest = [], mechanismMetadata = null) {
   const bucket = storage.bucket(BUCKET_NAME);
   const activeSessionId = sessionId || 'default_session';
 
@@ -504,6 +535,15 @@ async function persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classif
     }
   }));
 
+  // Include mechanism files in manifest if provided
+  if (mechanismMetadata?.files && Array.isArray(mechanismMetadata.files)) {
+    for (const mf of mechanismMetadata.files) {
+      if (!fileManifest.some(f => f.filename === mf.filename)) {
+        fileManifest.push(mf);
+      }
+    }
+  }
+
   // Record Firestore Job Document
   const execLogFile = fileManifest.find(f => f.filename === 'execution.log');
   const artifactPaths = fileManifest.map(f => f.gcsPath);
@@ -534,7 +574,8 @@ async function persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classif
       inputFiles: Array.isArray(inputFileManifest) ? inputFileManifest : [],
       executionLog: execLogFile || null,
       files: fileManifest,
-      artifacts: artifactPaths
+      artifacts: artifactPaths,
+      ...(mechanismMetadata ? { mechanism: mechanismMetadata } : {})
     };
 
 
@@ -941,10 +982,11 @@ app.post('/api/logs/prune', authenticateUser, async (req, res) => {
 
 /**
  * POST /api/upload/get-signed-url
+ * POST /api/storage/upload-url
  * Generates a GCS V4 Signed Upload URL for direct frontend client uploads to GCS
  * obeying the Target GCS Taxonomy Path: users/{uid}/data/{category}/{subcategory}/{filename}
  */
-app.post('/api/upload/get-signed-url', authenticateUser, async (req, res) => {
+const handleGetSignedUploadUrl = async (req, res) => {
   try {
     const { filename, targetDir, categoryPath, contentType } = req.body || {};
     const uid = req.user.uid;
@@ -962,7 +1004,7 @@ app.post('/api/upload/get-signed-url', authenticateUser, async (req, res) => {
       version: 'v4',
       action: 'write',
       expires: Date.now() + 15 * 60 * 1000,
-      contentType: contentType || 'application/octet-stream'
+      contentType: contentType || 'text/plain'
     });
 
     return res.json({
@@ -976,10 +1018,18 @@ app.post('/api/upload/get-signed-url', authenticateUser, async (req, res) => {
       filename
     });
   } catch (err) {
-    console.error('[Get Signed Upload URL Error]', err);
-    return res.status(500).json({ error: err.message });
+    console.warn('[Get Signed Upload URL Fallback]', err.message);
+    return res.json({
+      success: false,
+      fallback: true,
+      error: err.message,
+      message: 'Direct GCS upload not available; fallback to /api/upload-data-files supported'
+    });
   }
-});
+};
+
+app.post('/api/upload/get-signed-url', authenticateUser, handleGetSignedUploadUrl);
+app.post('/api/storage/upload-url', authenticateUser, handleGetSignedUploadUrl);
 
 app.post('/api/upload-data-files', authenticateUser, async (req, res) => {
   try {
@@ -1088,19 +1138,32 @@ app.post('/api/run-input', authenticateUser, async (req, res) => {
   console.log(`[Job Start] ${jobId} (Session: ${sessionId}) for User ${uid}`);
 
   try {
-    // Resolve any input file link (GCS or HTTPS) into user session cache prior to workspace hydration
+    // Resolve any input file links (GCS, HTTPS, or manifest) directly into isolated workspace
+    await hydrateUserWorkspace(uid, workspaceDir);
+
     const inputFileManifest = [];
-    const incomingFileUrl = req.body.fileUrl || req.body.inputFileUrl || req.body.gcsUrl;
-    if (incomingFileUrl) {
+    const incomingFileUrls = [];
+    if (req.body.fileUrl) incomingFileUrls.push({ url: req.body.fileUrl, name: req.body.fileName });
+    if (req.body.inputFileUrl) incomingFileUrls.push({ url: req.body.inputFileUrl, name: req.body.fileName });
+    if (req.body.gcsUrl) incomingFileUrls.push({ url: req.body.gcsUrl, name: req.body.fileName });
+    if (req.body.gcsUri) incomingFileUrls.push({ url: req.body.gcsUri, name: req.body.fileName });
+    if (Array.isArray(req.body.files)) {
+      for (const f of req.body.files) {
+        if (typeof f === 'string') incomingFileUrls.push({ url: f });
+        else if (f && (f.fileUrl || f.gcsPath || f.url)) {
+          incomingFileUrls.push({ url: f.fileUrl || f.gcsPath || f.url, name: f.fileName || f.filename });
+        }
+      }
+    }
+
+    for (const item of incomingFileUrls) {
       try {
-        const resolved = await resolveAndCacheInputFile(uid, incomingFileUrl, req.body.fileName);
+        const resolved = await resolveAndCacheInputFile(uid, item.url, item.name, workspaceDir);
         if (resolved) inputFileManifest.push(resolved);
       } catch (linkErr) {
         console.warn(`[File Link Ingestion Warning] ${linkErr.message}`);
       }
     }
-
-    await hydrateUserWorkspace(uid, workspaceDir);
 
 
     // Locate or copy template input file
@@ -1233,19 +1296,32 @@ app.post('/api/run-commands', authenticateUser, async (req, res) => {
   const startTime = Date.now();
 
   try {
-    // Resolve any input file link (GCS or HTTPS) into user session cache prior to workspace hydration
+    // Resolve any input file links (GCS, HTTPS, or manifest) directly into isolated workspace
+    await hydrateUserWorkspace(uid, workspaceDir);
+
     const inputFileManifest = [];
-    const incomingFileUrl = req.body.fileUrl || req.body.inputFileUrl || req.body.gcsUrl;
-    if (incomingFileUrl) {
+    const incomingFileUrls = [];
+    if (req.body.fileUrl) incomingFileUrls.push({ url: req.body.fileUrl, name: req.body.fileName });
+    if (req.body.inputFileUrl) incomingFileUrls.push({ url: req.body.inputFileUrl, name: req.body.fileName });
+    if (req.body.gcsUrl) incomingFileUrls.push({ url: req.body.gcsUrl, name: req.body.fileName });
+    if (req.body.gcsUri) incomingFileUrls.push({ url: req.body.gcsUri, name: req.body.fileName });
+    if (Array.isArray(req.body.files)) {
+      for (const f of req.body.files) {
+        if (typeof f === 'string') incomingFileUrls.push({ url: f });
+        else if (f && (f.fileUrl || f.gcsPath || f.url)) {
+          incomingFileUrls.push({ url: f.fileUrl || f.gcsPath || f.url, name: f.fileName || f.filename });
+        }
+      }
+    }
+
+    for (const item of incomingFileUrls) {
       try {
-        const resolved = await resolveAndCacheInputFile(uid, incomingFileUrl, req.body.fileName);
+        const resolved = await resolveAndCacheInputFile(uid, item.url, item.name, workspaceDir);
         if (resolved) inputFileManifest.push(resolved);
       } catch (linkErr) {
         console.warn(`[File Link Ingestion Warning] ${linkErr.message}`);
       }
     }
-
-    await hydrateUserWorkspace(uid, workspaceDir);
 
 
     const commandText = Array.isArray(commands) ? commands.join('\n') : (commands || '');
@@ -1532,6 +1608,134 @@ app.get('/api/submechanisms', async (req, res) => {
 });
 
 /**
+ * Upload Generated Mechanism Artifacts to GCS under users/{uid}/mechanisms/{mechName}/
+ */
+async function uploadMechanismArtifacts(uid, mechName, workspaceDir, actualRunRoot = 'read') {
+  const bucket = storage.bucket(BUCKET_NAME);
+  const mechPrefix = `users/${uid}/mechanisms/${mechName}`;
+  const filesManifest = [];
+  const candidateArtifacts = [];
+
+  const candidates = [
+    { ext: '.mech', label: 'Mechanism Reactions (.mech)', fileType: 'mech' },
+    { ext: '.sdf', label: 'Molecule Structures (.sdf)', fileType: 'sdf' },
+    { ext: '.thm', label: 'Molecule Thermodynamics (.thm)', fileType: 'thm' },
+    { ext: '.corrs', label: 'Name Correspondences (.corrs)', fileType: 'corrs' }
+  ];
+
+  for (const item of candidates) {
+    const filename = `${mechName}${item.ext}`;
+    const fileInWs = path.join(workspaceDir, filename);
+    const fileInTmp = path.join(REACTROOT, 'tmp', filename);
+    let targetPath = null;
+    if (fs.existsSync(fileInWs)) {
+      targetPath = fileInWs;
+    } else if (fs.existsSync(fileInTmp)) {
+      targetPath = fileInTmp;
+      try { fs.copyFileSync(fileInTmp, fileInWs); } catch (_) {}
+    }
+
+    if (targetPath && fs.existsSync(targetPath)) {
+      const stats = fs.statSync(targetPath);
+      if (stats.size > 0) {
+        candidateArtifacts.push({
+          filePath: targetPath,
+          filename,
+          label: item.label,
+          fileType: item.fileType,
+          sizeBytes: stats.size
+        });
+      }
+    }
+  }
+
+  // Check for execution.log
+  const logFilePath = path.join(workspaceDir, 'execution.log');
+  if (fs.existsSync(logFilePath)) {
+    const logStats = fs.statSync(logFilePath);
+    if (logStats.size > 0) {
+      candidateArtifacts.push({
+        filePath: logFilePath,
+        filename: 'execution.log',
+        label: 'Execution Console Log',
+        fileType: 'log',
+        sizeBytes: logStats.size
+      });
+    }
+  }
+
+  // Check for .lsr file
+  const lsrFilePath = path.join(workspaceDir, `${actualRunRoot}.lsr`);
+  if (fs.existsSync(lsrFilePath)) {
+    const lsrStats = fs.statSync(lsrFilePath);
+    if (lsrStats.size > 0) {
+      candidateArtifacts.push({
+        filePath: lsrFilePath,
+        filename: `${actualRunRoot}.lsr`,
+        label: 'Pathway Definition (.lsr)',
+        fileType: 'lsr',
+        sizeBytes: lsrStats.size
+      });
+    }
+  }
+
+  // Create zip bundle if we have artifacts
+  if (candidateArtifacts.length > 0) {
+    try {
+      const zipFilename = `${mechName}_artifacts.zip`;
+      const zipFilePath = path.join(workspaceDir, zipFilename);
+      const filesToZip = candidateArtifacts.map(a => `"${path.basename(a.filePath)}"`).join(' ');
+      execSync(`zip -j "${zipFilePath}" ${filesToZip}`, { cwd: workspaceDir });
+      if (fs.existsSync(zipFilePath)) {
+        candidateArtifacts.push({
+          filePath: zipFilePath,
+          filename: zipFilename,
+          label: 'Complete Mechanism Artifacts (.zip)',
+          fileType: 'zip',
+          sizeBytes: fs.statSync(zipFilePath).size
+        });
+      }
+    } catch (zipErr) {
+      console.warn(`[Mechanism Zip Warning] Failed to create zip bundle: ${zipErr.message}`);
+    }
+  }
+
+  // Upload candidate artifacts to GCS in parallel
+  await Promise.all(candidateArtifacts.map(async (art) => {
+    const gcsPath = `${mechPrefix}/${art.filename}`;
+    try {
+      await bucket.upload(art.filePath, {
+        destination: gcsPath,
+        gzip: true,
+        metadata: {
+          contentType: art.fileType === 'zip' ? 'application/zip' : 'text/plain; charset=utf-8'
+        }
+      });
+      const downloadUrl = await getSignedDownloadUrl(BUCKET_NAME, gcsPath);
+      filesManifest.push({
+        filename: art.filename,
+        label: art.label,
+        fileType: art.fileType,
+        sizeBytes: art.sizeBytes,
+        gcsPath: `gs://${BUCKET_NAME}/${gcsPath}`,
+        downloadUrl
+      });
+    } catch (uploadErr) {
+      console.warn(`[Mechanism GCS Upload Error] ${art.filename}: ${uploadErr.message}`);
+    }
+  }));
+
+  const orderMap = { mech: 1, sdf: 2, thm: 3, corrs: 4, log: 5, lsr: 6, zip: 7 };
+  filesManifest.sort((a, b) => (orderMap[a.fileType] || 99) - (orderMap[b.fileType] || 99));
+
+  return {
+    storageDirectory: mechPrefix,
+    gcsPrefix: `gs://${BUCKET_NAME}/${mechPrefix}/`,
+    files: filesManifest
+  };
+}
+
+/**
  * Run submechanism from path (/api/run-submechanism)
  * ALWAYS loads pathway definition from Firestore (users/{uid}/databases/MechanismPathway/records)
  */
@@ -1575,6 +1779,18 @@ app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
       }
       if (!querySnap.empty) {
         pathwayData = querySnap.docs[0].data();
+      }
+    }
+
+    if (!pathwayData && uid !== 'user_default_local') {
+      const defaultColRef = firestore.collection('users/user_default_local/databases/MechanismPathway/records');
+      let defSnap = await defaultColRef.doc(cleanRootName).get();
+      if (defSnap.exists) {
+        pathwayData = defSnap.data();
+      } else {
+        let defQuery = await defaultColRef.where('Name', '==', cleanRootName).limit(1).get();
+        if (defQuery.empty) defQuery = await defaultColRef.where('key', '==', cleanRootName).limit(1).get();
+        if (!defQuery.empty) pathwayData = defQuery.docs[0].data();
       }
     }
 
@@ -1649,44 +1865,37 @@ app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
       logStream.write(str);
     });
 
-    child.on('close', exitCode => {
+    child.on('close', async exitCode => {
       logStream.end();
       const elapsed = Date.now() - startTime;
       console.log(`[Submechanism Run Complete] ${jobId} finished in ${elapsed}ms (exitCode: ${exitCode})`);
 
-      let combinedOutput = '';
-      const readDetail = (ext, title) => {
-        const fileInWs = path.join(workspaceDir, `${mechName}${ext}`);
-        const fileInTmp = path.join(REACTROOT, 'tmp', `${mechName}${ext}`);
-        let content = '';
-        if (fs.existsSync(fileInWs)) {
-          content = fs.readFileSync(fileInWs, 'utf8');
-        } else if (fs.existsSync(fileInTmp)) {
-          content = fs.readFileSync(fileInTmp, 'utf8');
-        }
-        if (content && content.trim()) {
-          combinedOutput += `--- ${title} ---\n` + content + '\n\n';
-        }
-      };
-
-      readDetail('.mech', 'Mechanism Reactions');
-      readDetail('.sdf', 'Molecule Structures');
-      readDetail('.thm', 'Molecule Thermodynamics');
-      readDetail('.corrs', 'Name Correspondences');
-
-      combinedOutput += `--- Execution Log ---\n` + stdout;
+      // Upload generated artifacts to GCS under users/{uid}/mechanisms/{mechName}/
+      const artifactResult = await uploadMechanismArtifacts(uid, mechName, workspaceDir, actualRunRoot).catch(err => {
+        console.warn(`[Mechanism Upload Warning]: ${err.message}`);
+        return { storageDirectory: `users/${uid}/mechanisms/${mechName}`, gcsPrefix: '', files: [] };
+      });
 
       res.json({
         molecule,
         rootName,
         mechName,
         exitCode,
-        output: combinedOutput,
+        storageDirectory: artifactResult.storageDirectory,
+        gcsPrefix: artifactResult.gcsPrefix,
+        files: artifactResult.files,
+        output: `[Submechanism Generated: ${mechName}] Artifacts stored in Cloud Storage: ${artifactResult.storageDirectory} (${artifactResult.files.length} files).`,
         error: stderr
       });
 
       const classification = classifyJob(req.body, callChainTemplate, '');
-      persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classification, [])
+      persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classification, [], {
+        mechName,
+        molecule,
+        rootName,
+        storageDirectory: artifactResult.storageDirectory,
+        files: artifactResult.files
+      })
         .catch(e => console.warn(`[GCS Persist Warning] ${e.message}`))
         .finally(() => cleanupWorkspace(workspaceDir));
     });
@@ -1764,44 +1973,37 @@ app.post('/api/run-combine-submechanisms', authenticateUser, async (req, res) =>
       logStream.write(str);
     });
 
-    child.on('close', exitCode => {
+    child.on('close', async exitCode => {
       logStream.end();
       const elapsed = Date.now() - startTime;
       console.log(`[Combine Run Complete] ${jobId} finished in ${elapsed}ms (exitCode: ${exitCode})`);
 
-      let combinedOutput = '';
-      const readDetail = (ext, title) => {
-        const fileInWs = path.join(workspaceDir, `${mechName}${ext}`);
-        const fileInTmp = path.join(REACTROOT, 'tmp', `${mechName}${ext}`);
-        let content = '';
-        if (fs.existsSync(fileInWs)) {
-          content = fs.readFileSync(fileInWs, 'utf8');
-        } else if (fs.existsSync(fileInTmp)) {
-          content = fs.readFileSync(fileInTmp, 'utf8');
-        }
-        if (content && content.trim()) {
-          combinedOutput += `--- Combined ${title} ---\n` + content + '\n\n';
-        }
-      };
-
-      readDetail('.mech', 'Mechanism Reactions (.mech)');
-      readDetail('.sdf', 'Molecule Structures (.sdf)');
-      readDetail('.thm', 'Molecule Thermodynamics (.thm)');
-      readDetail('.corrs', 'Name Correspondences (.corrs)');
-
-      combinedOutput += `--- Execution Log ---\n` + stdout;
+      // Upload generated artifacts to GCS under users/{uid}/mechanisms/{mechName}/
+      const artifactResult = await uploadMechanismArtifacts(uid, mechName, workspaceDir, 'combine').catch(err => {
+        console.warn(`[Combine Upload Warning]: ${err.message}`);
+        return { storageDirectory: `users/${uid}/mechanisms/${mechName}`, gcsPrefix: '', files: [] };
+      });
 
       res.json({
         rootName,
         mechName,
         count: submechanisms.length,
         exitCode,
-        output: combinedOutput,
+        storageDirectory: artifactResult.storageDirectory,
+        gcsPrefix: artifactResult.gcsPrefix,
+        files: artifactResult.files,
+        output: `[Combined Mechanism Generated: ${mechName}] Artifacts stored in Cloud Storage: ${artifactResult.storageDirectory} (${artifactResult.files.length} files).`,
         error: stderr
       });
 
       const classification = classifyJob(req.body, templateContent, '');
-      persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classification, [])
+      persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classification, [], {
+        mechName,
+        rootName,
+        submechanisms,
+        storageDirectory: artifactResult.storageDirectory,
+        files: artifactResult.files
+      })
         .catch(e => console.warn(`[GCS Persist Warning] ${e.message}`))
         .finally(() => cleanupWorkspace(workspaceDir));
     });
@@ -1882,7 +2084,22 @@ function convertBlobsToBytesObjects(val) {
  */
 app.post('/api/db/store', async (req, res) => {
   try {
-    const { uid = 'user_default_local', dbName, key, keyId, jsonStr } = req.body;
+    let authUid = null;
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.split('Bearer ')[1];
+      if (token.startsWith('reactcloud-bearer-token')) {
+        const match = token.match(/reactcloud-bearer-token-(.+)/);
+        authUid = match && match[1] ? match[1].replace(/[^a-zA-Z0-9_-]/g, '_') : 'default';
+      } else if (firebaseInitialized) {
+        try {
+          const decoded = await admin.auth().verifyIdToken(token);
+          authUid = decoded.uid;
+        } catch (_) {}
+      }
+    }
+
+    const { uid = (authUid || 'user_default_local'), dbName, key, keyId, jsonStr } = req.body;
     if (!dbName || !key) {
       return res.status(400).json({ error: 'Missing required parameters: dbName, key' });
     }
@@ -1911,6 +2128,14 @@ app.post('/api/db/store', async (req, res) => {
 
     await docRef.set(recordDoc, { merge: true });
     console.log(`[Firestore DB Store] Saved record: ${docPath}`);
+
+    // If saving MechanismPathway under a specific user UID, also sync to user_default_local
+    if (dbName === 'MechanismPathway' && uid !== 'user_default_local') {
+      const defaultDocPath = `users/user_default_local/databases/${dbName}/records/${key}`;
+      await firestore.doc(defaultDocPath).set(recordDoc, { merge: true });
+      console.log(`[Firestore DB Store] Synced record to: ${defaultDocPath}`);
+    }
+
     return res.json({ status: 'OK', path: docPath });
   } catch (err) {
     console.error('[Firestore DB Store Error]', err.message);
@@ -1920,7 +2145,22 @@ app.post('/api/db/store', async (req, res) => {
 
 app.post('/api/db/fetch', async (req, res) => {
   try {
-    const { uid = 'user_default_local', dbName, type, key } = req.body;
+    let authUid = null;
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.split('Bearer ')[1];
+      if (token.startsWith('reactcloud-bearer-token')) {
+        const match = token.match(/reactcloud-bearer-token-(.+)/);
+        authUid = match && match[1] ? match[1].replace(/[^a-zA-Z0-9_-]/g, '_') : 'default';
+      } else if (firebaseInitialized) {
+        try {
+          const decoded = await admin.auth().verifyIdToken(token);
+          authUid = decoded.uid;
+        } catch (_) {}
+      }
+    }
+
+    const { uid = (authUid || 'user_default_local'), dbName, type, key } = req.body;
     if (!dbName || key === undefined || key === null) {
       return res.status(400).json({ error: 'Missing required parameters: dbName, key' });
     }
@@ -1929,34 +2169,27 @@ app.post('/api/db/fetch', async (req, res) => {
     const keyStr = String(key);
     const keyNum = Number(key);
 
-    const colRef = firestore.collection(`users/${uid}/databases/${dbName}/records`);
+    const findInCollection = async (targetUid) => {
+      const colRef = firestore.collection(`users/${targetUid}/databases/${dbName}/records`);
+      const directRef = colRef.doc(keyStr);
+      const directSnap = await directRef.get();
+      if (directSnap.exists) return directSnap.data();
 
-    let docData = null;
-
-    // 1. Direct document ID lookup
-    const directRef = colRef.doc(keyStr);
-    const directSnap = await directRef.get();
-    if (directSnap.exists) {
-      docData = directSnap.data();
-    } else {
-      // 2. Query collection based on type
       if (isInt) {
-        let querySnap = await colRef.where('ID', '==', keyNum).get();
-        if (querySnap.empty) {
-          querySnap = await colRef.where('keyId', '==', keyNum).get();
-        }
-        if (!querySnap.empty) {
-          docData = querySnap.docs[0].data();
-        }
+        let q = await colRef.where('ID', '==', keyNum).limit(1).get();
+        if (q.empty) q = await colRef.where('keyId', '==', keyNum).limit(1).get();
+        if (!q.empty) return q.docs[0].data();
       } else {
-        let querySnap = await colRef.where('Name', '==', keyStr).get();
-        if (querySnap.empty) {
-          querySnap = await colRef.where('key', '==', keyStr).get();
-        }
-        if (!querySnap.empty) {
-          docData = querySnap.docs[0].data();
-        }
+        let q = await colRef.where('Name', '==', keyStr).limit(1).get();
+        if (q.empty) q = await colRef.where('key', '==', keyStr).limit(1).get();
+        if (!q.empty) return q.docs[0].data();
       }
+      return null;
+    };
+
+    let docData = await findInCollection(uid);
+    if (!docData && uid !== 'user_default_local') {
+      docData = await findInCollection('user_default_local');
     }
 
     if (!docData) {

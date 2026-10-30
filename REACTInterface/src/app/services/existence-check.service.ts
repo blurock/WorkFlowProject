@@ -45,14 +45,22 @@ export class ExistenceCheckService {
     format: string,
     rootName: string,
     outName?: string,
-    filesToUpload?: { filename: string; content: string }[]
+    filesToUpload?: { filename: string; content: string }[],
+    fileUrl?: string,
+    fileName?: string
   ): Promise<ExistenceCheckResult> {
     const trimmedRoot = rootName.trim();
     const effectiveOutName = outName ? outName.trim() : `${trimmedRoot}_out`;
 
-    // 1. Upload any data files required for check (e.g. .sdf or .lst)
-    if (filesToUpload && filesToUpload.length > 0) {
-      await firstValueFrom(this.reactCloudApi.uploadUserDataFiles('.', filesToUpload));
+    let effectiveFileUrl = fileUrl;
+    // 1. Upload any data files required for check if not already uploaded
+    if (!effectiveFileUrl && filesToUpload && filesToUpload.length > 0) {
+      try {
+        const uploadRes = await firstValueFrom(this.reactCloudApi.uploadFileToStorage(filesToUpload[0], '.'));
+        if (uploadRes?.gcsPath) effectiveFileUrl = uploadRes.gcsPath;
+      } catch (e) {
+        await firstValueFrom(this.reactCloudApi.uploadUserDataFiles('.', filesToUpload));
+      }
     }
 
     // 2. Build command sequence from CommandTemplatesRegistry
@@ -65,7 +73,15 @@ export class ExistenceCheckService {
     );
 
     // 3. Execute backend commands
-    const res = await firstValueFrom(this.reactCloudApi.runCommands(commands, trimmedRoot));
+    const effectiveFileName = fileName || (filesToUpload && filesToUpload[0] ? filesToUpload[0].filename : undefined);
+    const res = await firstValueFrom(this.reactCloudApi.runCommands(
+      commands,
+      trimmedRoot,
+      undefined,
+      undefined,
+      effectiveFileUrl,
+      effectiveFileName
+    ));
 
     const rawOutput = res?.output || res?.error || '';
     const exitCode = res?.exitCode ?? 0;

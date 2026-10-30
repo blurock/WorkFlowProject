@@ -13,13 +13,14 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatChipsModule } from '@angular/material/chips';
 
-import { ReactCloudApiService, CatalogItem } from '../../services/react-cloud-api.service';
+import { ReactCloudApiService, CatalogItem, MechanismStorageFile } from '../../services/react-cloud-api.service';
 import { MechanismsService } from '../../services/catalog/mechanisms.service';
 import { MoleculesService } from '../../services/catalog/molecules.service';
 import { TaskOutputParserService } from '../../services/task-output-parser.service';
 import { ChemStructureParserService } from '../../services/chem-structure-parser.service';
 import { MoleculeSection } from '../../models/task-list.models';
 import { BensonGroupDetailComponent } from '../task-list-view/details/benson-group-detail.component';
+import { MechanismArtifactViewerComponent } from '../mechanism-artifact-viewer/mechanism-artifact-viewer.component';
 
 @Component({
   selector: 'app-submechanism-creator',
@@ -38,7 +39,8 @@ import { BensonGroupDetailComponent } from '../task-list-view/details/benson-gro
     MatSnackBarModule,
     MatTabsModule,
     MatChipsModule,
-    BensonGroupDetailComponent
+    BensonGroupDetailComponent,
+    MechanismArtifactViewerComponent
   ],
   templateUrl: './submechanism-creator.component.html',
   styleUrls: ['./submechanism-creator.component.scss']
@@ -87,6 +89,9 @@ export class SubmechanismCreatorComponent implements OnInit {
   public moleculeSections: MoleculeSection[] = [];
   public currentSdfContent: string | null = null;
   public selectedTabIndex: number = 0;
+
+  public storageDirectory: string = '';
+  public storageFiles: MechanismStorageFile[] = [];
 
   constructor(
     private apiService: ReactCloudApiService,
@@ -249,13 +254,15 @@ export class SubmechanismCreatorComponent implements OnInit {
         this.hasExecuted = true;
         this.mechName = res.mechName || `${this.molecule}-${this.rootName}`;
         this.executionLog = res.output;
+        this.storageDirectory = res.storageDirectory || '';
+        this.storageFiles = res.files || [];
 
         if (res.exitCode !== 0 && res.error) {
           this.errorMessage = res.error;
           this.snackBar.open(`Task returned error: ${res.error}`, 'Close', { duration: 5000 });
         } else {
-          this.snackBar.open(`Submechanism ${this.mechName} generated! Fetching database details...`, 'OK', { duration: 3000 });
-          this.fetchGeneratedMechanismDetails();
+          this.snackBar.open(`Submechanism ${this.mechName} artifacts saved to Storage!`, 'OK', { duration: 3000 });
+          this.selectedTabIndex = 1;
         }
       },
       error: (err) => {

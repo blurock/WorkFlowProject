@@ -14,13 +14,14 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatBadgeModule } from '@angular/material/badge';
 
-import { ReactCloudApiService, CatalogItem } from '../../services/react-cloud-api.service';
+import { ReactCloudApiService, CatalogItem, MechanismStorageFile } from '../../services/react-cloud-api.service';
 import { MechanismsService } from '../../services/catalog/mechanisms.service';
 import { MoleculesService } from '../../services/catalog/molecules.service';
 import { TaskOutputParserService } from '../../services/task-output-parser.service';
 import { ChemStructureParserService } from '../../services/chem-structure-parser.service';
 import { MoleculeSection } from '../../models/task-list.models';
 import { BensonGroupDetailComponent } from '../task-list-view/details/benson-group-detail.component';
+import { MechanismArtifactViewerComponent } from '../mechanism-artifact-viewer/mechanism-artifact-viewer.component';
 
 export interface CreatedSubmechanism {
   mechName: string;
@@ -30,6 +31,8 @@ export interface CreatedSubmechanism {
   exitCode: number;
   output: string;
   error?: string;
+  storageDirectory?: string;
+  files?: MechanismStorageFile[];
   detailOutput?: string;
   moleculeSections?: MoleculeSection[];
   sdfContent?: string | null;
@@ -54,7 +57,8 @@ export interface CreatedSubmechanism {
     MatTabsModule,
     MatChipsModule,
     MatBadgeModule,
-    BensonGroupDetailComponent
+    BensonGroupDetailComponent,
+    MechanismArtifactViewerComponent
   ],
   templateUrl: './submechanism-path-set.component.html',
   styleUrls: ['./submechanism-path-set.component.scss']
@@ -322,13 +326,14 @@ export class SubmechanismPathSetComponent implements OnInit {
           exitCode: res.exitCode,
           output: res.output,
           error: res.error,
-          isDetailLoading: true
+          storageDirectory: res.storageDirectory,
+          files: res.files || [],
+          isDetailLoading: false
         };
 
         this.createdSubmechanisms.push(createdItem);
 
-        // Fetch detailed mechanism output from catalog database asynchronously
-        this.fetchDetailsForCreatedItem(createdItem);
+        // Move to next path in batch
 
         // Move to next path
         this.currentExecutionIndex++;

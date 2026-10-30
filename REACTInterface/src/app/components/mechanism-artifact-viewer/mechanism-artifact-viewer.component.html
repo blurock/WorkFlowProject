@@ -1,0 +1,133 @@
+<div class="artifact-viewer-container">
+  <!-- Top Control Header -->
+  <div class="viewer-header">
+    <div class="header-info">
+      <div class="title-row">
+        <mat-icon class="title-icon">cloud_done</mat-icon>
+        <span class="mech-title">{{ mechName || 'Mechanism Artifacts' }}</span>
+        <mat-chip-set class="status-chips">
+          <mat-chip *ngIf="files?.length" class="file-count-chip">
+            <mat-icon matChipAvatar>folder</mat-icon>
+            {{ files.length }} Files in Storage
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+      <div *ngIf="storageDirectory" class="storage-path">
+        <mat-icon class="path-icon">folder_open</mat-icon>
+        <code>{{ storageDirectory }}</code>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="header-actions">
+      <!-- Download All (.zip) -->
+      <button 
+        *ngIf="getZipFile()" 
+        mat-raised-button 
+        color="primary" 
+        class="zip-btn"
+        (click)="downloadFile(getZipFile()!)"
+        matTooltip="Download all artifacts as a .zip archive">
+        <mat-icon>folder_zip</mat-icon>
+        Download All (.zip)
+      </button>
+
+      <!-- Copy Content -->
+      <button 
+        mat-stroked-button 
+        (click)="copyActiveContent()"
+        [disabled]="!activeContent || activeFile?.fileType === 'zip'"
+        matTooltip="Copy current file content to clipboard">
+        <mat-icon>content_copy</mat-icon>
+        Copy
+      </button>
+
+      <!-- Toggle Line Wrap -->
+      <button 
+        mat-stroked-button 
+        (click)="toggleLineWrap()"
+        [color]="isLineWrapEnabled ? 'accent' : ''"
+        matTooltip="Toggle line wrapping">
+        <mat-icon>{{ isLineWrapEnabled ? 'wrap_text' : 'format_align_left' }}</mat-icon>
+        {{ isLineWrapEnabled ? 'Wrapped' : 'No-Wrap' }}
+      </button>
+
+      <!-- Download Current -->
+      <button 
+        mat-raised-button 
+        color="accent" 
+        (click)="downloadActiveFile()"
+        [disabled]="!activeFile"
+        matTooltip="Download currently viewed file">
+        <mat-icon>file_download</mat-icon>
+        Download
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading bar -->
+  <mat-progress-bar *ngIf="isLoadingContent" mode="indeterminate" class="loading-bar"></mat-progress-bar>
+
+  <!-- Empty State -->
+  <div *ngIf="!files || files.length === 0" class="empty-state">
+    <mat-icon class="empty-icon">description</mat-icon>
+    <p>No storage artifacts available for this mechanism.</p>
+  </div>
+
+  <!-- Artifacts Tabs & ASCII Display -->
+  <div *ngIf="files && files.length > 0" class="viewer-body">
+    <mat-tab-group 
+      [selectedIndex]="selectedFileIndex" 
+      (selectedIndexChange)="onTabChanged($event)"
+      animationDuration="0ms" 
+      class="artifact-tabs">
+      
+      <mat-tab *ngFor="let file of files">
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">{{ getFileIcon(file.fileType) }}</mat-icon>
+          <span class="tab-label">{{ file.filename }}</span>
+          <span class="tab-size-badge">{{ formatBytes(file.sizeBytes) }}</span>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+
+    <!-- File Meta Bar -->
+    <div class="file-meta-bar" *ngIf="activeFile">
+      <div class="meta-left">
+        <span class="file-label-badge">{{ activeFile.label }}</span>
+        <span class="meta-item">Size: <strong>{{ formatBytes(activeFile.sizeBytes) }}</strong></span>
+        <span class="meta-item" *ngIf="activeContent && activeFile.fileType !== 'zip'">
+          Lines: <strong>{{ getLineCount(activeContent) }}</strong>
+        </span>
+      </div>
+      <div class="meta-right">
+        <span class="read-only-badge">Read-Only</span>
+      </div>
+    </div>
+
+    <!-- Zip Card View (if Zip tab selected) -->
+    <div *ngIf="activeFile?.fileType === 'zip'" class="zip-card-view">
+      <mat-icon class="zip-big-icon">folder_zip</mat-icon>
+      <h3>Mechanism Archive Bundle</h3>
+      <p>This package contains all generated mechanism ASCII files (.mech, .sdf, .thm, .corrs, and execution.log).</p>
+      <button mat-raised-button color="primary" (click)="downloadActiveFile()">
+        <mat-icon>file_download</mat-icon>
+        Download {{ activeFile?.filename }} ({{ formatBytes(activeFile?.sizeBytes || 0) }})
+      </button>
+    </div>
+
+    <!-- Scrollable Fixed-Space Text Panel -->
+    <div 
+      *ngIf="activeFile && activeFile.fileType !== 'zip'" 
+      class="ascii-panel"
+      [class.line-wrap]="isLineWrapEnabled">
+      
+      <div *ngIf="isLoadingContent" class="loading-overlay">
+        <mat-icon class="spin-icon">sync</mat-icon>
+        <span>Streaming {{ activeFile.filename }} from Cloud Storage...</span>
+      </div>
+
+      <pre class="ascii-content"><code [class.wrapped]="isLineWrapEnabled">{{ activeContent }}</code></pre>
+    </div>
+  </div>
+</div>

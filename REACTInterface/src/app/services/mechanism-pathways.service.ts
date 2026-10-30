@@ -42,6 +42,9 @@ export interface ReadChainSet {
   Steps: ReadChainReactionStep[];
   Molecules?: ReadInMoleculeSet;
   Reactions?: ReadInReactionSet;
+  TargetMolecule?: string;
+  Title?: string;
+  Description?: string;
 }
 
 export interface PathwaySummaryItem {
@@ -90,6 +93,9 @@ export class MechanismPathwaysService {
           return {
             ID: raw.ID || 0,
             Name: raw.Name || name,
+            Title: raw.Title || raw.Name || name,
+            Description: raw.Description || '',
+            TargetMolecule: raw.TargetMolecule || raw.targetMolecule || '',
             NumberOfSteps: raw.NumberOfSteps || (raw.Steps ? raw.Steps.length : 0),
             ExtraMolecules: raw.ExtraMolecules || { NumberOfMolecules: 0, Molecules: [] },
             Steps: raw.Steps || [],
