@@ -1718,7 +1718,7 @@ async function uploadMechanismArtifacts(uid, mechName, workspaceDir, actualRunRo
         fileType: art.fileType,
         sizeBytes: art.sizeBytes,
         gcsPath: `gs://${BUCKET_NAME}/${gcsPath}`,
-        downloadUrl
+        downloadUrl: downloadUrl || `http://localhost:8085/api/logs/content?gcsPath=${encodeURIComponent(`gs://${BUCKET_NAME}/${gcsPath}`)}`
       });
     } catch (uploadErr) {
       console.warn(`[Mechanism GCS Upload Error] ${art.filename}: ${uploadErr.message}`);
@@ -1737,15 +1737,34 @@ async function uploadMechanismArtifacts(uid, mechName, workspaceDir, actualRunRo
 
 /**
  * Run submechanism from path (/api/run-submechanism)
- * ALWAYS loads pathway definition from Firestore (users/{uid}/databases/MechanismPathway/records)
+ * Loads pathway definition from Firestore or on-disk .lsr fallback
  */
 app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
   const { molecule, rootName, supplement, runRoot } = req.body;
+  const customMechName = req.body.mechName;
+  const uid = req.user?.uid || 'user_default_local';
+  const sessionId = req.body.sessionId || req.headers['x-session-id'] || 'default_session';
+  const jobId = `job_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+  const workspaceDir = path.join('/tmp', 'reactcloud', 'users', uid, jobId);
+
+  console.log(`\n================================================================================`);
+  console.log(`[RunSubmechanism] === Incoming Request [Job: ${jobId}] ===`);
+  console.log(`  User UID:      ${uid}`);
+  console.log(`  Molecule:      ${molecule}`);
+  console.log(`  RootName:      ${rootName}`);
+  console.log(`  CustomMech:    ${customMechName || '(auto)'}`);
+  console.log(`  Supplement:    ${supplement || '(none)'}`);
+  console.log(`  RunRoot:       ${runRoot || 'read'}`);
+  console.log(`================================================================================`);
+
   if (!molecule || !rootName) {
-    return res.status(400).json({ error: "Request body must contain non-empty 'molecule' and 'rootName' fields." });
+    console.warn(`[RunSubmechanism 400] Missing required parameters: molecule='${molecule}', rootName='${rootName}'`);
+    return res.status(400).json({
+      error: "Request body must contain non-empty 'molecule' and 'rootName' fields.",
+      received: { molecule, rootName }
+    });
   }
 
-  const customMechName = req.body.mechName;
   const mechName = (customMechName && customMechName.trim())
     ? customMechName.trim()
     : `${molecule}-${rootName}`;
@@ -1756,55 +1775,99 @@ app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
     ? `${molecule},${supplement.trim()}`
     : molecule;
 
-  const uid = req.user?.uid || 'user_default_local';
-  const sessionId = req.body.sessionId || req.headers['x-session-id'] || 'default_session';
-  const jobId = `job_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
-  const workspaceDir = path.join('/tmp', 'reactcloud', 'users', uid, jobId);
-
   try {
+    console.log(`[RunSubmechanism 1/5] Hydrating workspace at '${workspaceDir}'...`);
     await hydrateUserWorkspace(uid, workspaceDir);
+    console.log(`[RunSubmechanism 1/5] Workspace hydrated successfully.`);
 
-    // 1. Fetch Mechanism Pathway strictly from Firestore (Single Source of Truth)
+    // 1. Fetch Mechanism Pathway: first check Firestore (Primary single source of truth for pathways)
+    console.log(`[RunSubmechanism 2/5] Searching Firestore for pathway '${cleanRootName}'...`);
     const colRef = firestore.collection(`users/${uid}/databases/MechanismPathway/records`);
     let docSnap = await colRef.doc(cleanRootName).get();
     let pathwayData = null;
 
     if (docSnap.exists) {
       pathwayData = docSnap.data();
+      console.log(`  -> Found pathway document directly by ID: users/${uid}/databases/MechanismPathway/records/${cleanRootName}`);
     } else {
-      // Query by Name or key field
+      console.log(`  -> Direct doc ID '${cleanRootName}' not found under users/${uid}. Searching by Name/key field...`);
       let querySnap = await colRef.where('Name', '==', cleanRootName).limit(1).get();
       if (querySnap.empty) {
         querySnap = await colRef.where('key', '==', cleanRootName).limit(1).get();
       }
       if (!querySnap.empty) {
         pathwayData = querySnap.docs[0].data();
+        console.log(`  -> Found pathway document by Name/key query: doc ID '${querySnap.docs[0].id}'`);
       }
     }
 
     if (!pathwayData && uid !== 'user_default_local') {
+      console.log(`  -> Not found in user '${uid}'. Checking fallback 'user_default_local'...`);
       const defaultColRef = firestore.collection('users/user_default_local/databases/MechanismPathway/records');
       let defSnap = await defaultColRef.doc(cleanRootName).get();
       if (defSnap.exists) {
         pathwayData = defSnap.data();
+        console.log(`  -> Found pathway document in users/user_default_local (ID: '${cleanRootName}')`);
       } else {
         let defQuery = await defaultColRef.where('Name', '==', cleanRootName).limit(1).get();
         if (defQuery.empty) defQuery = await defaultColRef.where('key', '==', cleanRootName).limit(1).get();
-        if (!defQuery.empty) pathwayData = defQuery.docs[0].data();
+        if (!defQuery.empty) {
+          pathwayData = defQuery.docs[0].data();
+          console.log(`  -> Found pathway document in users/user_default_local by query (ID: '${defQuery.docs[0].id}')`);
+        }
       }
     }
 
-    if (!pathwayData) {
-      cleanupWorkspace(workspaceDir);
-      return res.status(404).json({
-        error: `Mechanism pathway '${cleanRootName}' not found in Firestore database (users/${uid}/databases/MechanismPathway/records). Loading a mechanism path always comes from Firestore.`
-      });
+    let lsrContent = '';
+    let lsrSource = 'Firestore';
+
+    if (pathwayData) {
+      console.log(`[RunSubmechanism 2/5] Successfully resolved pathway from Firestore. Generating standard .lsr syntax...`);
+      lsrContent = generateLsrFromReadChainSet(pathwayData);
+      console.log(`  -> Generated LSR content (${lsrContent.length} chars).`);
+    } else {
+      // Fallback: Check if an on-disk .lsr file exists (e.g. from runStepTest or test-reaction-pattern via /api/save-lsr)
+      console.log(`[RunSubmechanism 2/5] Pathway '${cleanRootName}' not found in Firestore. Checking on-disk fallback locations...`);
+      const searchDirs = [
+        path.join(REACTROOT, 'data', 'mechs', 'submechanisms', `${cleanRootName}.lsr`),
+        path.join(REACTROOT, 'data', 'mechs', 'submechanisms', cleanRootName),
+        path.join(REACTROOT, 'data', `${cleanRootName}.lsr`),
+        path.join(REACTROOT, 'data', cleanRootName),
+        path.join(REACTROOT, 'tmp', `${cleanRootName}.lsr`),
+        path.join(workspaceDir, `${cleanRootName}.lsr`),
+        path.join(REACTROOT, 'data', 'mechs', 'rxnpattests', `${cleanRootName}.lsr`),
+        path.join(REACTROOT, 'data', 'runs', `${cleanRootName}.lsr`),
+        path.join(REACTROOT, 'data', 'mechs', 'submechanism-orig', `${cleanRootName}.lsr`)
+      ];
+
+      let lsrPath = null;
+      for (const cand of searchDirs) {
+        const candExists = fs.existsSync(cand) && fs.statSync(cand).isFile();
+        console.log(`  Candidate: ${cand} -> ${candExists ? 'FOUND' : 'not present'}`);
+        if (candExists) {
+          lsrPath = cand;
+          break;
+        }
+      }
+
+      if (lsrPath) {
+        lsrContent = fs.readFileSync(lsrPath, 'utf8');
+        lsrSource = `Disk (${lsrPath})`;
+        console.log(`[RunSubmechanism 2/5] Successfully loaded LSR from disk: ${lsrPath} (${lsrContent.length} chars).`);
+      } else {
+        console.error(`[RunSubmechanism 404 Not Found] Pathway '${cleanRootName}' could NOT be found in Firestore nor at any on-disk candidate location.`);
+        cleanupWorkspace(workspaceDir);
+        return res.status(404).json({
+          error: `Mechanism pathway '${cleanRootName}' not found in Firestore database (users/${uid}/databases/MechanismPathway/records) nor as a .lsr file on disk.`,
+          searchedRootName: cleanRootName,
+          uid,
+          searchedDiskLocations: searchDirs
+        });
+      }
     }
 
-    // 2. Generate standard .lsr syntax from the Firestore document
-    const lsrContent = generateLsrFromReadChainSet(pathwayData);
-
-    // 3. Hydrate ephemeral workspace for chemdb execution
+    // 2. Hydrate ephemeral workspace for chemdb execution
+    console.log(`[RunSubmechanism 3/5] Writing LSR and input template files for chemdb...`);
     fs.writeFileSync(path.join(workspaceDir, `${actualRunRoot}.lsr`), lsrContent);
     fs.writeFileSync(path.join(workspaceDir, `${cleanRootName}.lsr`), lsrContent);
     fs.writeFileSync(path.join(REACTROOT, 'data', `${actualRunRoot}.lsr`), lsrContent);
@@ -1813,6 +1876,9 @@ app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
     fs.writeFileSync(path.join(tmpDir, `${actualRunRoot}.lsr`), lsrContent);
 
     const templatePath = path.join(REACTROOT, 'programs', 'inputs', 'CallChain.inp');
+    if (!fs.existsSync(templatePath)) {
+      throw new Error(`CallChain.inp template file missing at ${templatePath}`);
+    }
     let callChainTemplate = fs.readFileSync(templatePath, 'utf8');
     callChainTemplate = callChainTemplate.split('XXXXXXXXXX').join(initialMolecules);
     callChainTemplate = callChainTemplate.split('YYYYYYYYYY').join(mechName);
@@ -1825,13 +1891,21 @@ app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
     const logFilePath = path.join(workspaceDir, 'execution.log');
     const logStream = fs.createWriteStream(logFilePath, { flags: 'a' });
 
-    const lsrLogNote = `[Submechanism Run] Target Molecule: ${molecule}, Supplement: ${supplement || 'none'}, Pathway: ${cleanRootName} (Source: Firestore), Mechanism: ${mechName}\n`;
+    const lsrLogNote = `[Submechanism Run] Target Molecule: ${molecule}, Supplement: ${supplement || 'none'}, Pathway: ${cleanRootName} (Source: ${lsrSource}), Mechanism: ${mechName}\n`;
     logStream.write(lsrLogNote);
     stdout += lsrLogNote;
 
     const commandDir = path.join(REACTROOT, 'command');
     const staticFile = path.join(REACTROOT, 'data', 'stat-inf.dat');
     const startTime = Date.now();
+
+    if (!fs.existsSync(CHEMDB_BIN)) {
+      throw new Error(`chemdb binary missing at ${CHEMDB_BIN}. Build with 'make chemdb' in REACTCLOUD.`);
+    }
+
+    console.log(`[RunSubmechanism 4/5] Spawning chemdb binary: ${CHEMDB_BIN}`);
+    console.log(`  Args: [${actualRunRoot}, 0, ${commandDir}, ${staticFile}]`);
+    console.log(`  Working directory: ${workspaceDir}`);
 
     const child = spawn(CHEMDB_BIN, [actualRunRoot, '0', commandDir, staticFile], {
       cwd: workspaceDir,
@@ -1844,6 +1918,12 @@ app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
         REACT_SESSION_ID: sessionId,
         GCS_BUCKET: BUCKET_NAME
       }
+    });
+
+    console.log(`  -> chemdb child process spawned with PID: ${child.pid}`);
+
+    child.on('error', spawnErr => {
+      console.error(`[RunSubmechanism Chemdb Spawn Error] PID ${child?.pid}:`, spawnErr);
     });
 
     child.stdin.write(callChainTemplate);
@@ -1868,13 +1948,46 @@ app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
     child.on('close', async exitCode => {
       logStream.end();
       const elapsed = Date.now() - startTime;
-      console.log(`[Submechanism Run Complete] ${jobId} finished in ${elapsed}ms (exitCode: ${exitCode})`);
+      console.log(`[RunSubmechanism 5/5] chemdb process (PID ${child.pid}) finished in ${elapsed}ms with exitCode: ${exitCode}`);
+      if (stderr && stderr.trim()) {
+        console.warn(`  -> chemdb stderr output (${stderr.length} chars):\n${stderr.substring(0, 500)}`);
+      }
 
       // Upload generated artifacts to GCS under users/{uid}/mechanisms/{mechName}/
+      console.log(`[RunSubmechanism 5/5] Collecting and uploading generated mechanism artifacts...`);
       const artifactResult = await uploadMechanismArtifacts(uid, mechName, workspaceDir, actualRunRoot).catch(err => {
         console.warn(`[Mechanism Upload Warning]: ${err.message}`);
         return { storageDirectory: `users/${uid}/mechanisms/${mechName}`, gcsPrefix: '', files: [] };
       });
+      console.log(`  -> Mechanism artifacts processed: ${artifactResult.files.length} files available.`);
+
+      // Fallback combined text if GCS files are not present
+      let combinedOutput = '';
+      const readDetail = (ext, title) => {
+        const fileInWs = path.join(workspaceDir, `${mechName}${ext}`);
+        const fileInTmp = path.join(REACTROOT, 'tmp', `${mechName}${ext}`);
+        let content = '';
+        if (fs.existsSync(fileInWs)) {
+          content = fs.readFileSync(fileInWs, 'utf8');
+        } else if (fs.existsSync(fileInTmp)) {
+          content = fs.readFileSync(fileInTmp, 'utf8');
+        }
+        if (content && content.trim()) {
+          combinedOutput += `--- ${title} ---\n` + content + '\n\n';
+        }
+      };
+
+      readDetail('.mech', 'Mechanism Reactions');
+      readDetail('.sdf', 'Molecule Structures');
+      readDetail('.thm', 'Molecule Thermodynamics');
+      readDetail('.corrs', 'Name Correspondences');
+      combinedOutput += `--- Execution Log ---\n` + stdout;
+
+      const outputMsg = (artifactResult.files && artifactResult.files.length > 0)
+        ? `[Submechanism Generated: ${mechName}] Artifacts stored in Cloud Storage: ${artifactResult.storageDirectory} (${artifactResult.files.length} files).`
+        : combinedOutput;
+
+      console.log(`[RunSubmechanism Complete] Sending 200 OK response for '${mechName}' (exitCode: ${exitCode}).`);
 
       res.json({
         molecule,
@@ -1884,7 +1997,7 @@ app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
         storageDirectory: artifactResult.storageDirectory,
         gcsPrefix: artifactResult.gcsPrefix,
         files: artifactResult.files,
-        output: `[Submechanism Generated: ${mechName}] Artifacts stored in Cloud Storage: ${artifactResult.storageDirectory} (${artifactResult.files.length} files).`,
+        output: outputMsg,
         error: stderr
       });
 
@@ -1900,8 +2013,13 @@ app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
         .finally(() => cleanupWorkspace(workspaceDir));
     });
   } catch (err) {
+    console.error(`[RunSubmechanism Fatal Error] ${err.message}`, err.stack);
     cleanupWorkspace(workspaceDir);
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({
+      error: `Internal server error in run-submechanism: ${err.message}`,
+      stack: err.stack,
+      rootName,
+    });
   }
 });
 

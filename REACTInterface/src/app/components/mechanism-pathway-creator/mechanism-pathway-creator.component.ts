@@ -488,11 +488,34 @@ export class MechanismPathwayCreatorComponent implements OnInit {
       inputMolsString
     );
 
+    console.log(`[RunStepTest] Preparing Step ${stepIndex + 1} test execution:`, {
+      stepIndex: stepIndex + 1,
+      stepName: step.name,
+      pathwayName: this.pathwayName,
+      stepRoot,
+      mechName,
+      finalInputs,
+      inputMolsString,
+      combinedAux,
+      reactionPatterns: step.reactionPatterns,
+      lsrLength: lsrContent.length
+    });
+
     try {
       this.snackBar.open(`Saving step config '${stepRoot}.lsr'...`, '', { duration: 1500 });
-      await firstValueFrom(this.reactCloudApi.saveLsrFile(stepRoot, lsrContent));
+      console.log(`[RunStepTest] Saving ephemeral step LSR via POST /api/save-lsr: '${stepRoot}'...`);
+      const saveRes = await firstValueFrom(this.reactCloudApi.saveLsrFile(stepRoot, lsrContent));
+      console.log(`[RunStepTest] saveLsrFile completed successfully:`, saveRes);
 
       this.snackBar.open(`Executing Step ${stepIndex + 1} with ${inputMolsString}...`, '', { duration: 3000 });
+      console.log(`[RunStepTest] Calling POST /api/run-submechanism:`, {
+        molecule: inputMolsString,
+        rootName: stepRoot,
+        supplement: combinedAux.join(','),
+        runRoot: 'read',
+        mechName
+      });
+
       const res = await firstValueFrom(
         this.reactCloudApi.runSubmechanismFromPath(
           inputMolsString,
@@ -502,6 +525,7 @@ export class MechanismPathwayCreatorComponent implements OnInit {
           mechName
         )
       );
+      console.log(`[RunStepTest] runSubmechanismFromPath response received:`, res);
 
       step.isExecuting = false;
       step.hasExecuted = true;
@@ -510,6 +534,7 @@ export class MechanismPathwayCreatorComponent implements OnInit {
       if (res?.exitCode !== 0 && res?.error) {
         step.status = 'draft';
         step.executionError = res.error;
+        console.warn(`[RunStepTest] Non-zero exit code: ${res.exitCode}, error:`, res.error);
         this.snackBar.open(`Execution error: ${res.error}`, 'Close', { duration: 5000 });
         return;
       }
@@ -521,8 +546,12 @@ export class MechanismPathwayCreatorComponent implements OnInit {
 
       if (sdfFile?.downloadUrl) {
         try {
+          console.log(`[RunStepTest] Fetching SDF structure artifact from ${sdfFile.downloadUrl}...`);
           currentSdf = await firstValueFrom(this.reactCloudApi.fetchAsciiFileContent(sdfFile.downloadUrl));
-        } catch (_) {}
+          console.log(`[RunStepTest] Successfully fetched SDF artifact (${currentSdf.length} chars).`);
+        } catch (sdfErr) {
+          console.warn('[RunStepTest] Failed to fetch SDF via downloadUrl, falling back to raw output:', sdfErr);
+        }
       } else {
         currentSdf = this.chemParser.extractSdfContent(rawOut) || '';
       }
@@ -530,8 +559,12 @@ export class MechanismPathwayCreatorComponent implements OnInit {
       let mechContent = '';
       if (mechFile?.downloadUrl) {
         try {
+          console.log(`[RunStepTest] Fetching MECH reaction artifact from ${mechFile.downloadUrl}...`);
           mechContent = await firstValueFrom(this.reactCloudApi.fetchAsciiFileContent(mechFile.downloadUrl));
-        } catch (_) {}
+          console.log(`[RunStepTest] Successfully fetched MECH artifact (${mechContent.length} chars).`);
+        } catch (mechErr) {
+          console.warn('[RunStepTest] Failed to fetch MECH via downloadUrl:', mechErr);
+        }
       }
 
       const combinedText = (mechContent ? `--- Mechanism Reactions ---\n${mechContent}\n\n` : '') +
@@ -656,6 +689,7 @@ export class MechanismPathwayCreatorComponent implements OnInit {
       step.generatedMolecules = generatedMols;
       step.status = 'tested';
       const totalRxns = this.getTotalReactionsCount(step);
+      console.log(`[RunStepTest] Step ${stepIndex + 1} test complete: ${totalRxns} reactions, ${step.generatedMolecules.length} intermediate molecules generated.`);
       this.snackBar.open(
         `Step ${stepIndex + 1} completed! Created ${totalRxns} reactions and ${step.generatedMolecules.length} intermediate molecules.`,
         'OK',
@@ -665,8 +699,20 @@ export class MechanismPathwayCreatorComponent implements OnInit {
       step.isExecuting = false;
       step.hasExecuted = true;
       step.status = 'draft';
-      step.executionError = err?.message || 'Step execution encountered an error.';
-      this.snackBar.open(`Error: ${step.executionError}`, 'Close', { duration: 5000 });
+
+      console.error('[RunStepTest] HTTP / Execution Error encountered:', err);
+      console.error('  -> Status:', err?.status);
+      console.error('  -> StatusText:', err?.statusText);
+      console.error('  -> Error Body:', err?.error);
+      console.error('  -> URL:', err?.url);
+
+      const serverMsg = err?.error?.error || err?.error?.message;
+      const detailedError = serverMsg
+        ? `${serverMsg} (Status: ${err?.status || 'Unknown'})`
+        : (err?.message || 'Step execution encountered an error.');
+
+      step.executionError = detailedError;
+      this.snackBar.open(`Error: ${detailedError}`, 'Close', { duration: 10000 });
     }
   }
 
