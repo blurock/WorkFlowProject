@@ -47,7 +47,7 @@ is_port_in_use() {
 get_pid_on_port() {
     local port="$1"
     if command -v lsof >/dev/null 2>&1; then
-        lsof -ti ":${port}" | head -n 1
+        lsof -ti ":${port}" -sTCP:LISTEN | head -n 1
     else
         echo ""
     fi
