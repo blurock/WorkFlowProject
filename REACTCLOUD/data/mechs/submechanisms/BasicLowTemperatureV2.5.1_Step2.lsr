@@ -1,7 +1,7 @@
 Step 2
-oxygen,hydrogen-radical
+oxygen,hydrogen-radical,peroxyl-radical,isobutyl-radical,tertbutyl-radical
 %%% ----------------------------------------------------
 Activated-Primary-Carbon-Radical-(R.+O2-->RO2.),\
 Activated-Secondary-Carbon-Radical-(R.+O2-->RO2.),\
 Activated-Tertiary-Carbon-Radical-(R.+O2-->RO2.),\
-:oxygen,hydrogen-radical
+:oxygen,hydrogen-radical,peroxyl-radical,isobutyl-radical,tertbutyl-radical

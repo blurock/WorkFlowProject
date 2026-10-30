@@ -42,6 +42,7 @@ export interface MechanismStorageFile {
   fileType: 'mech' | 'sdf' | 'thm' | 'corrs' | 'log' | 'lsr' | 'zip' | string;
   sizeBytes: number;
   downloadUrl: string;
+  gcsPath?: string;
   content?: string;
   isLoading?: boolean;
 }

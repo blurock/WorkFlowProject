@@ -497,15 +497,31 @@
                   <h4>Step Execution & Live Testing</h4>
                 </div>
 
-                <button
-                  mat-flat-button
-                  color="accent"
-                  class="test-step-btn"
-                  (click)="runStepTest(sIdx)"
-                  [disabled]="step.isExecuting || step.reactionPatterns.length === 0">
-                  <mat-icon>{{ step.isExecuting ? 'hourglass_top' : 'play_arrow' }}</mat-icon>
-                  <span>{{ step.isExecuting ? 'Running Step...' : 'Run / Test Step' }}</span>
-                </button>
+                <div class="stage-actions-group">
+                  <button
+                    *ngIf="step.hasExecuted || step.debugLog"
+                    mat-stroked-button
+                    type="button"
+                    class="debug-toggle-btn"
+                    [class.active]="step.showDebugLog"
+                    (click)="step.showDebugLog = !step.showDebugLog"
+                    [matTooltip]="step.showDebugLog ? 'Hide step debug log' : 'View step debug printing & execution output'">
+                    <mat-icon>{{ step.showDebugLog ? 'terminal' : 'code' }}</mat-icon>
+                    <span>{{ step.showDebugLog ? 'Hide Debug Log' : 'View Debug Log' }}</span>
+                    <span class="debug-status-pill success" *ngIf="step.hasExecuted && !step.executionError">Exit 0</span>
+                    <span class="debug-status-pill error" *ngIf="step.executionError">Failed</span>
+                  </button>
+
+                  <button
+                    mat-flat-button
+                    color="accent"
+                    class="test-step-btn"
+                    (click)="runStepTest(sIdx)"
+                    [disabled]="step.isExecuting || step.reactionPatterns.length === 0">
+                    <mat-icon>{{ step.isExecuting ? 'hourglass_top' : 'play_arrow' }}</mat-icon>
+                    <span>{{ step.isExecuting ? 'Running Step...' : 'Run / Test Step' }}</span>
+                  </button>
+                </div>
               </div>
 
               <div class="stage-content">
@@ -615,8 +631,35 @@
                   </div>
                 </div>
 
+                <!-- Embedded Step Debug Printing Console Panel -->
+                <div class="step-debug-panel" *ngIf="step.showDebugLog">
+                  <div class="debug-panel-header">
+                    <div class="debug-title-wrap">
+                      <mat-icon class="term-icon">terminal</mat-icon>
+                      <span class="term-title">Step {{ sIdx + 1 }} Debug &amp; Execution Output</span>
+                      <span class="term-status-badge" [class.success]="!step.executionError" [class.error]="step.executionError">
+                        {{ step.executionError ? 'ERROR' : 'SUCCESS' }}
+                      </span>
+                    </div>
+                    <div class="debug-panel-actions">
+                      <button mat-icon-button (click)="copyDebugLog(step)" matTooltip="Copy debug output to clipboard">
+                        <mat-icon>content_copy</mat-icon>
+                      </button>
+                      <button mat-icon-button (click)="downloadStepDebugLog(step, sIdx)" matTooltip="Download debug log (.log)">
+                        <mat-icon>download</mat-icon>
+                      </button>
+                      <button mat-icon-button (click)="step.showDebugLog = false" matTooltip="Close debug panel">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="debug-panel-body">
+                    <pre class="debug-terminal-output"><code>{{ step.debugLog || step.executionOutput || 'No debug output available for this step yet.' }}</code></pre>
+                  </div>
+                </div>
+
                 <!-- Pre-execution Hint -->
-                <div class="pre-exec-hint" *ngIf="!step.hasExecuted && !step.isExecuting">
+                <div class="pre-exec-hint" *ngIf="!step.hasExecuted && !step.isExecuting && !step.showDebugLog">
                   <mat-icon>lightbulb</mat-icon>
                   <span>Click "Run / Test Step" to execute chemdb and visualize the resulting reactions and newly generated intermediate molecules.</span>
                 </div>
@@ -712,6 +755,47 @@
             <span class="stat-pill">ReadChainSet Object</span>
           </div>
           <pre class="code-block"><code>{{ getJsonPreview() }}</code></pre>
+        </div>
+      </mat-tab>
+
+      <!-- Tab 4: Step Tests Debug Logs -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">terminal</mat-icon>
+          <span>Step Tests Debug Logs</span>
+        </ng-template>
+
+        <div class="tab-pane debug-tab-pane">
+          <div class="debug-tab-toolbar">
+            <div class="toolbar-title-wrap">
+              <mat-icon color="primary">terminal</mat-icon>
+              <span class="code-title">Step Test Execution &amp; Debug Output</span>
+            </div>
+            <div class="step-selector-chips">
+              <button
+                *ngFor="let s of steps; let i = index"
+                type="button"
+                class="step-select-pill"
+                [class.selected]="selectedDebugStepIndex === i"
+                (click)="selectedDebugStepIndex = i">
+                <span>Step {{ i + 1 }}</span>
+                <span class="pill-badge" [ngClass]="s.status">{{ s.status }}</span>
+              </button>
+            </div>
+          </div>
+
+          <div *ngIf="steps[selectedDebugStepIndex] as currentDebugStep" class="debug-tab-content">
+            <div class="debug-actions-bar" *ngIf="currentDebugStep.debugLog">
+              <span class="step-meta-tag">{{ currentDebugStep.name || ('Step ' + (selectedDebugStepIndex + 1)) }}</span>
+              <button mat-button color="accent" (click)="copyDebugLog(currentDebugStep)">
+                <mat-icon>content_copy</mat-icon> Copy Log
+              </button>
+              <button mat-button color="primary" (click)="downloadStepDebugLog(currentDebugStep, selectedDebugStepIndex)">
+                <mat-icon>download</mat-icon> Download Log (.log)
+              </button>
+            </div>
+            <pre class="code-block terminal-block"><code>{{ currentDebugStep.debugLog || ('No test execution has been run for Step ' + (selectedDebugStepIndex + 1) + ' yet. Click "Run / Test Step" in Stage 3 to execute and generate debug printing.') }}</code></pre>
+          </div>
         </div>
       </mat-tab>
     </mat-tab-group>

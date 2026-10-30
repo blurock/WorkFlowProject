@@ -45,6 +45,9 @@ export interface MechanismPathwayStep {
   hasExecuted?: boolean;
   executionError?: string | null;
   executionOutput?: string | null;
+  debugLog?: string | null;
+  showDebugLog?: boolean;
+  executionFiles?: any[];
   generatedReactions?: MechReactionClassGroup[];
   generatedMolecules?: MechSdfBlock[];
 }
@@ -116,6 +119,7 @@ export class MechanismPathwayCreatorComponent implements OnInit {
 
   // Active preview tab
   public activePreviewTab: number = 0;
+  public selectedDebugStepIndex: number = 0;
 
   // 2D Molecule Ketcher Modal State
   public previewModalMolName: string = '';
@@ -567,6 +571,19 @@ export class MechanismPathwayCreatorComponent implements OnInit {
         }
       }
 
+      // Fetch console execution.log artifact if available
+      let execLogContent = '';
+      const logFile = res?.files?.find(f => f.fileType === 'log');
+      if (logFile?.downloadUrl) {
+        try {
+          console.log(`[RunStepTest] Fetching execution.log from ${logFile.downloadUrl}...`);
+          execLogContent = await firstValueFrom(this.reactCloudApi.fetchAsciiFileContent(logFile.downloadUrl));
+          console.log(`[RunStepTest] Successfully fetched execution.log (${execLogContent.length} chars).`);
+        } catch (logErr) {
+          console.warn('[RunStepTest] Failed to fetch execution.log via downloadUrl:', logErr);
+        }
+      }
+
       const combinedText = (mechContent ? `--- Mechanism Reactions ---\n${mechContent}\n\n` : '') +
                            (currentSdf ? `--- Molecule Structures ---\n${currentSdf}\n\n` : '') +
                            rawOut;
@@ -688,7 +705,46 @@ export class MechanismPathwayCreatorComponent implements OnInit {
 
       step.generatedMolecules = generatedMols;
       step.status = 'tested';
+      step.executionFiles = res?.files || [];
       const totalRxns = this.getTotalReactionsCount(step);
+
+      // Assemble comprehensive debug report for this step test
+      let debugText = `================================================================================\n`;
+      debugText += `[STEP TEST DEBUG REPORT] Step ${stepIndex + 1}: ${step.name || ('Step ' + (stepIndex + 1))}\n`;
+      debugText += `Timestamp:         ${new Date().toLocaleString()}\n`;
+      debugText += `Target Molecule:   ${this.targetMolecule || '(none)'}\n`;
+      debugText += `Effective Inputs:  ${finalInputs.join(', ')}\n`;
+      debugText += `Aux Radicals:      ${combinedAux.join(', ') || '(none)'}\n`;
+      debugText += `Patterns Tested:   ${step.reactionPatterns.length} pattern(s)\n`;
+      debugText += `Step Root LSR:     ${stepRoot}.lsr\n`;
+      debugText += `Mechanism Name:    ${mechName}\n`;
+      debugText += `Exit Code:         ${res?.exitCode} (${res?.exitCode === 0 ? 'SUCCESS' : 'FAILED'})\n`;
+      debugText += `Reactions Created: ${totalRxns}\n`;
+      debugText += `Molecules Created: ${step.generatedMolecules.length}\n`;
+      debugText += `Storage Directory: ${res?.storageDirectory || '(local)'}\n`;
+      debugText += `================================================================================\n\n`;
+
+      if (res?.error && res.error.trim()) {
+        debugText += `--- STDERR / EXECUTION WARNINGS ---\n${res.error}\n\n`;
+      }
+
+      if (execLogContent && execLogContent.trim()) {
+        debugText += `--- EXECUTION LOG (from Storage: execution.log) ---\n${execLogContent}\n\n`;
+      } else if (rawOut && rawOut.trim()) {
+        debugText += `--- EXECUTION CONSOLE OUTPUT ---\n${rawOut}\n\n`;
+      }
+
+      if (res?.files && res.files.length > 0) {
+        debugText += `--- GENERATED ARTIFACTS (${res.files.length} files) ---\n`;
+        for (const f of res.files) {
+          debugText += `  * [${f.fileType?.toUpperCase()}] ${f.filename} (${f.sizeBytes} bytes)\n    URL: ${f.downloadUrl || f.gcsPath}\n`;
+        }
+        debugText += `\n`;
+      }
+
+      debugText += `--- STEP LSR FILE CONTENT (${stepRoot}.lsr) ---\n${lsrContent}\n`;
+
+      step.debugLog = debugText;
       console.log(`[RunStepTest] Step ${stepIndex + 1} test complete: ${totalRxns} reactions, ${step.generatedMolecules.length} intermediate molecules generated.`);
       this.snackBar.open(
         `Step ${stepIndex + 1} completed! Created ${totalRxns} reactions and ${step.generatedMolecules.length} intermediate molecules.`,
@@ -712,8 +768,50 @@ export class MechanismPathwayCreatorComponent implements OnInit {
         : (err?.message || 'Step execution encountered an error.');
 
       step.executionError = detailedError;
+
+      // Build failure debug log
+      let errDebug = `================================================================================\n`;
+      errDebug += `[STEP TEST FAILURE REPORT] Step ${stepIndex + 1}: ${step.name || ('Step ' + (stepIndex + 1))}\n`;
+      errDebug += `Timestamp:       ${new Date().toLocaleString()}\n`;
+      errDebug += `Target Molecule: ${this.targetMolecule || '(none)'}\n`;
+      errDebug += `Effective Inputs:${finalInputs.join(', ')}\n`;
+      errDebug += `Step Root LSR:   ${stepRoot}.lsr\n`;
+      errDebug += `Mechanism Name:  ${mechName}\n`;
+      errDebug += `HTTP Status:     ${err?.status || 'Unknown'} ${err?.statusText || ''}\n`;
+      errDebug += `Endpoint URL:    ${err?.url || 'http://localhost:8085/api/run-submechanism'}\n`;
+      errDebug += `Error Summary:   ${detailedError}\n`;
+      errDebug += `================================================================================\n\n`;
+
+      if (err?.error) {
+        errDebug += `--- BACKEND ERROR RESPONSE BODY ---\n${typeof err.error === 'object' ? JSON.stringify(err.error, null, 2) : err.error}\n\n`;
+      }
+
+      errDebug += `--- STEP LSR CONFIGURATION (${stepRoot}.lsr) ---\n${lsrContent}\n`;
+
+      step.debugLog = errDebug;
+      step.showDebugLog = true; // Auto-expand on error so user immediately sees what went wrong!
       this.snackBar.open(`Error: ${detailedError}`, 'Close', { duration: 10000 });
     }
+  }
+
+  public copyDebugLog(step: MechanismPathwayStep): void {
+    if (!step?.debugLog) return;
+    navigator.clipboard.writeText(step.debugLog).then(() => {
+      this.snackBar.open('Debug log copied to clipboard!', 'OK', { duration: 2500 });
+    }).catch(() => {
+      this.snackBar.open('Could not copy to clipboard.', 'Close', { duration: 2500 });
+    });
+  }
+
+  public downloadStepDebugLog(step: MechanismPathwayStep, sIdx: number): void {
+    if (!step?.debugLog) return;
+    const blob = new Blob([step.debugLog], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${(this.pathwayName || 'Pathway').trim()}_Step${sIdx + 1}_debug.log`;
+    a.click();
+    URL.revokeObjectURL(url);
   }
 
   public acceptStep(stepIndex: number): void {

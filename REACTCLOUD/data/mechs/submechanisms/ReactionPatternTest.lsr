@@ -1,12 +1,6 @@
-ReactionPatternTest: 9 patterns
-NONE
+ReactionPatternTest: 2 patterns
+hydroxyl-radical,oxygen-radical,oxygen
 %%% ----------------------------------------------------
-Decomp-(rhh)(hhh),\
-Decomp-(rhh)(rhh),\
-Decomp-(rrh)(hhh),\
-Decomp-(rrh)(rhh),\
-Decomp-(rrh)(rrh),\
-Decomp-(rrr)(hhh),\
-Decomp-(rrr)(rhh),\
-Decomp-(rrr)(rrh),\
-Decomp-(rrr)(rrr)
+H-Abstraction-Hydroxyl-Radical-Primary,\
+H-Abstraction-Hydroxyl-Radical-Secondary,\
+:hydroxyl-radical,oxygen-radical,oxygen
