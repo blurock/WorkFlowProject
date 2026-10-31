@@ -481,6 +481,84 @@ export class ChemStructureParserService {
   }
 
   /**
+   * Converts Ketcher radical representation (M  RAD lines) to the canonical system SDF format
+   * where a code '4' (doublet radical) is encoded in column 37-39 (0-indexed chars 36..39) of the atom line.
+   * Also strips the Ketcher-specific M  RAD property lines.
+   */
+  public convertKetcherRadicalsToSystemFormat(rawContent: string): string {
+    if (!rawContent || !rawContent.trim()) {
+      return rawContent;
+    }
+
+    if (rawContent.includes('$MOL')) {
+      const parts = rawContent.split('$MOL');
+      for (let i = 1; i < parts.length; i++) {
+        parts[i] = this.convertSingleMolRadicalsToSystemFormat(parts[i]);
+      }
+      return parts.join('$MOL');
+    }
+
+    return this.convertSingleMolRadicalsToSystemFormat(rawContent);
+  }
+
+  public convertSingleMolRadicalsToSystemFormat(molfile: string): string {
+    if (!molfile || !molfile.trim()) {
+      return molfile;
+    }
+
+    const lines = molfile.split(/\r?\n/);
+    const countsLineIdx = lines.findIndex(l => /V2000|V3000/i.test(l) || /^\s*\d{1,3}\s+\d{1,3}(?:\s+\d{1,3})?/.test(l));
+    if (countsLineIdx < 0) {
+      return molfile;
+    }
+
+    const countsMatch = lines[countsLineIdx].match(/^\s*(\d+)\s+(\d+)/);
+    if (!countsMatch) {
+      return molfile;
+    }
+
+    const nAtoms = parseInt(countsMatch[1], 10);
+
+    const radicalAtomIndices = new Set<number>();
+    const linesToRemove = new Set<number>();
+
+    for (let i = countsLineIdx + 1; i < lines.length; i++) {
+      const line = lines[i].trim();
+      if (line.startsWith('M  RAD') || line.startsWith('M RAD')) {
+        linesToRemove.add(i);
+        const tokens = line.split(/\s+/);
+        if (tokens.length >= 5) {
+          const count = parseInt(tokens[2], 10);
+          for (let e = 0; e < count && (3 + e * 2 + 1) < tokens.length; e++) {
+            const atomIdx = parseInt(tokens[3 + e * 2], 10);
+            const radType = parseInt(tokens[3 + e * 2 + 1], 10);
+            if (radType > 0 && atomIdx >= 1 && atomIdx <= nAtoms) {
+              radicalAtomIndices.add(atomIdx);
+            }
+          }
+        }
+      }
+    }
+
+    if (radicalAtomIndices.size === 0 && linesToRemove.size === 0) {
+      return molfile;
+    }
+
+    for (let i = 1; i <= nAtoms && (countsLineIdx + i) < lines.length; i++) {
+      if (radicalAtomIndices.has(i)) {
+        let atomLine = lines[countsLineIdx + i];
+        if (atomLine.length < 39) {
+          atomLine = atomLine.padEnd(39, ' ');
+        }
+        lines[countsLineIdx + i] = atomLine.substring(0, 36) + '  4' + atomLine.substring(39);
+      }
+    }
+
+    const resultLines = lines.filter((_, idx) => !linesToRemove.has(idx));
+    return resultLines.join('\n');
+  }
+
+  /**
    * Translates a raw Ketcher molfile drawing into a canonical REACTCLOUD SDF block.
    * Ensures:
    * - 3-line preamble: [ID, program info, structureName]
@@ -500,6 +578,9 @@ export class ChemStructureParserService {
     if (!rawMolfile || !rawMolfile.trim()) {
       return '';
     }
+
+    // Convert Ketcher radicals (M RAD) to system SDF format (charge code 4)
+    rawMolfile = this.convertKetcherRadicalsToSystemFormat(rawMolfile);
 
     const cleanName = (structureName || 'Molecule').trim();
     const lines = rawMolfile.trim().split(/\r?\n/).map(l => l.trimEnd());

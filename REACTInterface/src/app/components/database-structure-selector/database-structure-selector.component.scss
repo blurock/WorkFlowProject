@@ -1,0 +1,256 @@
+.database-structure-selector-container {
+  display: block;
+  width: 100%;
+}
+
+.input-and-presets-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.selector-form-field {
+  width: 100%;
+
+  .prefix-type-icon {
+    margin-right: 8px;
+    font-size: 20px;
+    height: 20px;
+    width: 20px;
+    color: var(--mat-form-field-leading-icon-color, #64748b);
+    transition: color 0.2s ease;
+  }
+
+  .suffix-actions-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+
+    .loading-spinner {
+      margin-right: 6px;
+    }
+
+    .clear-btn {
+      width: 28px;
+      height: 28px;
+      line-height: 28px;
+      padding: 0;
+
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+        color: #94a3b8;
+        transition: color 0.2s ease;
+
+        &:hover {
+          color: #e11d48;
+        }
+      }
+    }
+  }
+}
+
+// Status Badges in mat-hint
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  margin-top: 2px;
+
+  .status-icon {
+    font-size: 15px;
+    width: 15px;
+    height: 15px;
+  }
+
+  &.registered {
+    color: #059669; // Emerald green
+    .status-icon {
+      color: #10b981;
+    }
+  }
+
+  &.custom {
+    color: #d97706; // Amber
+    .status-icon {
+      color: #f59e0b;
+    }
+  }
+
+  &.default {
+    color: #64748b;
+  }
+}
+
+// Autocomplete Options Styling
+.structure-option-item {
+  height: 44px !important;
+  line-height: 44px !important;
+
+  .option-content-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+
+    .option-type-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      color: #3b82f6;
+    }
+
+    .option-name {
+      flex: 1;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #1e293b;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .option-id-badge {
+      font-size: 0.75rem;
+      font-family: monospace;
+      padding: 2px 7px;
+      border-radius: 10px;
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #e2e8f0;
+      font-weight: 600;
+    }
+  }
+
+  &:hover {
+    background-color: #f8fafc;
+  }
+}
+
+.no-match-option {
+  height: 40px !important;
+  .no-match-text {
+    font-size: 0.825rem;
+    color: #94a3b8;
+    font-style: italic;
+  }
+}
+
+// Presets Row
+.presets-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 4px 0 2px 0;
+
+  .presets-label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .preset-buttons-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .preset-pill-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 12px;
+    border-radius: 16px;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #334155;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+
+    .preset-btn-icon {
+      font-size: 14px;
+      width: 14px;
+      height: 14px;
+      color: #64748b;
+      transition: color 0.2s ease;
+    }
+
+    &:hover {
+      background: #f1f5f9;
+      border-color: #94a3b8;
+      color: #0f172a;
+
+      .preset-btn-icon {
+        color: #3b82f6;
+      }
+    }
+
+    &.active {
+      background: #eff6ff;
+      border-color: #3b82f6;
+      color: #1d4ed8;
+      font-weight: 600;
+      box-shadow: 0 1px 2px rgba(59, 130, 246, 0.15);
+
+      .preset-btn-icon {
+        color: #2563eb;
+      }
+    }
+  }
+}
+
+// Dark Mode adaptations if active
+:host-context(.dark-theme) {
+  .status-indicator {
+    &.registered { color: #34d399; .status-icon { color: #34d399; } }
+    &.custom { color: #fbbf24; .status-icon { color: #fbbf24; } }
+    &.default { color: #94a3b8; }
+  }
+
+  .structure-option-item {
+    .option-content-row {
+      .option-name { color: #f1f5f9; }
+      .option-id-badge {
+        background: #1e293b;
+        color: #94a3b8;
+        border-color: #334155;
+      }
+    }
+    &:hover {
+      background-color: #1e293b;
+    }
+  }
+
+  .presets-row {
+    .presets-label { color: #94a3b8; }
+    .preset-pill-btn {
+      background: #1e293b;
+      border-color: #334155;
+      color: #e2e8f0;
+
+      .preset-btn-icon { color: #94a3b8; }
+
+      &:hover {
+        background: #334155;
+        border-color: #475569;
+        color: #ffffff;
+      }
+
+      &.active {
+        background: rgba(59, 130, 246, 0.2);
+        border-color: #3b82f6;
+        color: #93c5fd;
+      }
+    }
+  }
+}

@@ -45,35 +45,15 @@
             <div class="row g-3">
               <!-- Target Molecule (MOLECULE) Field -->
               <div class="col-12 col-md-6">
-                <mat-form-field appearance="outline" class="w-100 large-form-field">
-                  <mat-label>Target Molecule (MOLECULE)</mat-label>
-                  <input
-                    matInput
-                    [ngModel]="molecule"
-                    (ngModelChange)="onMoleculeInputChange($event)"
-                    [matAutocomplete]="autoMol"
-                    placeholder="Type or search molecule (e.g. 2,2,4-trimethylpentane)..."
-                    required />
-                  <mat-icon matSuffix color="primary">science</mat-icon>
-
-                  <mat-autocomplete #autoMol="matAutocomplete" (optionSelected)="onMoleculeSelected($event)">
-                    <mat-option *ngFor="let item of filteredMolecules" [value]="item.name" class="large-option">
-                      <mat-icon color="primary" class="option-icon">science</mat-icon>
-                      <span class="option-name">{{ item.name }}</span>
-                      <span class="option-id" *ngIf="item.id">#{{ item.id }}</span>
-                    </mat-option>
-                  </mat-autocomplete>
-
-                  <mat-hint>
-                    <span class="validation-badge valid" *ngIf="isMoleculeInDatabase(molecule)">
-                      <mat-icon>check_circle</mat-icon> Registered in REACT Database
-                    </span>
-                    <span class="validation-badge invalid" *ngIf="molecule && !isMoleculeInDatabase(molecule)">
-                      <mat-icon>warning</mat-icon> Not found in Database catalog
-                    </span>
-                    <span *ngIf="!molecule">Primary reactant molecule present in REACT database</span>
-                  </mat-hint>
-                </mat-form-field>
+                <app-database-structure-selector
+                  catalogType="molecules"
+                  [(value)]="molecule"
+                  (valueChange)="onMoleculeInputChange($event)"
+                  (itemSelected)="onCatalogMoleculeSelected($event)"
+                  label="Target Molecule (MOLECULE)"
+                  placeholder="Type or search molecule (e.g. 2,2,4-trimethylpentane)..."
+                  [required]="true">
+                </app-database-structure-selector>
               </div>
 
               <!-- Mechanism Path (ROOTNAME) Field -->

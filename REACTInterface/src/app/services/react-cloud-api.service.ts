@@ -362,7 +362,16 @@ export class ReactCloudApiService {
   /**
    * Run submechanism from path task (/api/run-submechanism)
    */
-  public runSubmechanismFromPath(molecule: string, rootName: string, supplement: string = '', runRoot: string = 'read', mechName?: string): Observable<ApiRunSubmechanismResponse> {
+  public runSubmechanismFromPath(
+    molecule: string,
+    rootName: string,
+    supplement: string = '',
+    runRoot: string = 'read',
+    mechName?: string,
+    lsrContent?: string,
+    preferDisk?: boolean,
+    category?: string
+  ): Observable<ApiRunSubmechanismResponse> {
     const payload: any = {
       molecule: molecule,
       supplement: supplement,
@@ -371,6 +380,15 @@ export class ReactCloudApiService {
     };
     if (mechName) {
       payload.mechName = mechName;
+    }
+    if (lsrContent) {
+      payload.lsrContent = lsrContent;
+    }
+    if (preferDisk !== undefined) {
+      payload.preferDisk = preferDisk;
+    }
+    if (category) {
+      payload.category = category;
     }
     return this.http.post<ApiRunSubmechanismResponse>(`${this.baseUrl}/api/run-submechanism`, payload);
   }

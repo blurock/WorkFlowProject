@@ -1,0 +1,107 @@
+<div class="database-structure-selector-container">
+  <div class="input-and-presets-layout">
+    <!-- Main Form Field with Autocomplete -->
+    <mat-form-field [appearance]="appearance" class="selector-form-field">
+      <mat-label>{{ label }}</mat-label>
+
+      <!-- Prefix Type Icon -->
+      <mat-icon matPrefix class="prefix-type-icon" [color]="activeMatchedItem ? 'primary' : ''">
+        {{ catalogType === 'molecules' ? 'science' : 'grain' }}
+      </mat-icon>
+
+      <input
+        matInput
+        [ngModel]="value"
+        (ngModelChange)="onInputChange($event)"
+        [matAutocomplete]="auto"
+        [placeholder]="placeholder"
+        [required]="required"
+        [disabled]="disabled"
+        autocomplete="off" />
+
+      <!-- Suffix Controls: Loading indicator or Clear button -->
+      <div matSuffix class="suffix-actions-group">
+        <mat-progress-spinner
+          *ngIf="isLoadingCatalog || isLoadingStructure"
+          mode="indeterminate"
+          diameter="20"
+          class="loading-spinner"
+          matTooltip="Loading structure data...">
+        </mat-progress-spinner>
+
+        <button
+          *ngIf="value && !disabled"
+          mat-icon-button
+          type="button"
+          (click)="clear()"
+          class="clear-btn"
+          matTooltip="Clear input">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <!-- Autocomplete Dropdown -->
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        (optionSelected)="onOptionSelected($event)"
+        class="structure-autocomplete-panel">
+        <mat-option
+          *ngFor="let item of filteredItems"
+          [value]="item.name"
+          class="structure-option-item">
+          <div class="option-content-row">
+            <mat-icon class="option-type-icon" color="primary">
+              {{ catalogType === 'molecules' ? 'science' : 'grain' }}
+            </mat-icon>
+            <span class="option-name font-mono">{{ item.name }}</span>
+            <span class="option-id-badge" *ngIf="item.id">#{{ item.id }}</span>
+          </div>
+        </mat-option>
+
+        <mat-option *ngIf="filteredItems.length === 0 && !isLoadingCatalog" disabled class="no-match-option">
+          <span class="no-match-text">
+            No database {{ catalogType }} match "{{ value }}". Custom name will be used.
+          </span>
+        </mat-option>
+      </mat-autocomplete>
+
+      <!-- Dynamic Database Status Indicator -->
+      <mat-hint>
+        <ng-container *ngIf="showStatusBadge">
+          <span class="status-indicator registered" *ngIf="activeMatchedItem">
+            <mat-icon class="status-icon">check_circle</mat-icon>
+            <span>Registered in Database (ID: {{ activeMatchedItem.id || 'Found' }})</span>
+          </span>
+
+          <span class="status-indicator custom" *ngIf="value && !activeMatchedItem">
+            <mat-icon class="status-icon">info</mat-icon>
+            <span>Not in database &mdash; custom/temporary structure</span>
+          </span>
+
+          <span class="status-indicator default" *ngIf="!value && !hint">
+            <span>Type partial name for database suggestions or enter custom name</span>
+          </span>
+        </ng-container>
+
+        <span *ngIf="hint">{{ hint }}</span>
+      </mat-hint>
+    </mat-form-field>
+
+    <!-- Preset Structures Row -->
+    <div *ngIf="presets && presets.length > 0" class="presets-row">
+      <span class="presets-label">{{ presetsLabel }}</span>
+      <div class="preset-buttons-group">
+        <button
+          *ngFor="let preset of presets"
+          type="button"
+          class="preset-pill-btn"
+          [class.active]="value && value.toLowerCase() === preset.name.toLowerCase()"
+          (click)="selectPreset(preset)"
+          [matTooltip]="'Select ' + preset.name + ' preset structure'">
+          <mat-icon class="preset-btn-icon">bookmark_border</mat-icon>
+          <span>{{ preset.name }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -506,18 +506,19 @@ export class MechanismPathwayCreatorComponent implements OnInit {
     });
 
     try {
-      this.snackBar.open(`Saving step config '${stepRoot}.lsr'...`, '', { duration: 1500 });
-      console.log(`[RunStepTest] Saving ephemeral step LSR via POST /api/save-lsr: '${stepRoot}'...`);
-      const saveRes = await firstValueFrom(this.reactCloudApi.saveLsrFile(stepRoot, lsrContent));
+      this.snackBar.open(`Saving step config '${stepRoot}.lsr' to mechpathtest...`, '', { duration: 1500 });
+      console.log(`[RunStepTest] Saving ephemeral step LSR via POST /api/save-lsr: '${stepRoot}' in category 'mechpathtest'...`);
+      const saveRes = await firstValueFrom(this.reactCloudApi.saveLsrFile(stepRoot, lsrContent, 'mechpathtest'));
       console.log(`[RunStepTest] saveLsrFile completed successfully:`, saveRes);
 
       this.snackBar.open(`Executing Step ${stepIndex + 1} with ${inputMolsString}...`, '', { duration: 3000 });
-      console.log(`[RunStepTest] Calling POST /api/run-submechanism:`, {
+      console.log(`[RunStepTest] Calling POST /api/run-submechanism (category: mechpathtest):`, {
         molecule: inputMolsString,
         rootName: stepRoot,
         supplement: combinedAux.join(','),
         runRoot: 'read',
-        mechName
+        mechName,
+        category: 'mechpathtest'
       });
 
       const res = await firstValueFrom(
@@ -526,7 +527,10 @@ export class MechanismPathwayCreatorComponent implements OnInit {
           stepRoot,
           combinedAux.join(','),
           'read',
-          mechName
+          mechName,
+          lsrContent,
+          true,
+          'mechpathtest'
         )
       );
       console.log(`[RunStepTest] runSubmechanismFromPath response received:`, res);

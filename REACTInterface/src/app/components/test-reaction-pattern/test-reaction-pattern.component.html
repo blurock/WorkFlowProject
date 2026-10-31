@@ -105,28 +105,18 @@
               </div>
             </div>
 
-            <!-- Target Name Input & Presets -->
+            <!-- Reusable Database Structure Selector -->
             <div class="target-config-row mt-2">
-              <mat-form-field appearance="outline" class="target-name-field">
-                <mat-label>Target Molecule Name</mat-label>
-                <input
-                  matInput
-                  [(ngModel)]="targetMoleculeName"
-                  (ngModelChange)="updateLsrPreview()"
-                  placeholder="Defaults to 'Temporary'" />
-                <mat-hint>Name to store/use in REACT database (defaults to 'Temporary')</mat-hint>
-              </mat-form-field>
-
-              <div class="preset-molecules-group">
-                <span class="preset-label">Presets:</span>
-                <button
-                  *ngFor="let preset of presetMolecules"
-                  type="button"
-                  class="preset-btn"
-                  (click)="loadPresetMolecule(preset)">
-                  {{ preset.name }}
-                </button>
-              </div>
+              <app-database-structure-selector
+                catalogType="molecules"
+                [(value)]="targetMoleculeName"
+                (valueChange)="onTargetMoleculeNameChange($event)"
+                (structureLoaded)="onTargetStructureLoaded($event)"
+                (itemSelected)="onTargetMoleculeSelected($event)"
+                [presets]="presetMolecules"
+                label="Target Molecule Name"
+                placeholder="Search database molecule or enter custom name (e.g. propane)...">
+              </app-database-structure-selector>
             </div>
 
             <!-- Status Indicator -->

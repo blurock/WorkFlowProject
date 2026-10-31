@@ -25,6 +25,8 @@ import { AuxiliaryMoleculesSelectorComponent } from '../auxiliary-molecules-sele
 import { RxnPatternSelectionDialogComponent } from '../rxn-pattern-selection-dialog/rxn-pattern-selection-dialog.component';
 import { BensonGroupDetailComponent } from '../task-list-view/details/benson-group-detail.component';
 import { MechanismArtifactViewerComponent } from '../mechanism-artifact-viewer/mechanism-artifact-viewer.component';
+import { DatabaseStructureSelectorComponent, StructureLoadedEvent } from '../database-structure-selector/database-structure-selector.component';
+import { CatalogItem } from '../../services/react-cloud-api.service';
 
 @Component({
   selector: 'app-test-reaction-pattern',
@@ -46,7 +48,8 @@ import { MechanismArtifactViewerComponent } from '../mechanism-artifact-viewer/m
     KetcherViewerComponent,
     AuxiliaryMoleculesSelectorComponent,
     BensonGroupDetailComponent,
-    MechanismArtifactViewerComponent
+    MechanismArtifactViewerComponent,
+    DatabaseStructureSelectorComponent
   ],
   templateUrl: './test-reaction-pattern.component.html',
   styleUrls: ['./test-reaction-pattern.component.scss']
@@ -185,6 +188,30 @@ export class TestReactionPatternComponent implements OnInit {
     }
   }
 
+  public onTargetMoleculeNameChange(newName: string): void {
+    this.targetMoleculeName = newName;
+    this.targetCheckResult = null;
+    this.updateLsrPreview();
+  }
+
+  public onTargetStructureLoaded(event: StructureLoadedEvent): void {
+    this.targetMoleculeName = event.name;
+    this.targetMolfile = event.structure;
+    this.targetCheckResult = null;
+    this.moleculeStatusMessage = `Loaded ${event.format.toUpperCase()} structure for '${event.name}'.`;
+    if (this.ketcherCanvas) {
+      this.ketcherCanvas.sendSdfToKetcher(event.structure, true, true);
+    }
+    this.updateLsrPreview();
+  }
+
+  public onTargetMoleculeSelected(item: CatalogItem): void {
+    this.targetMoleculeName = item.name;
+    this.targetCheckResult = null;
+    this.moleculeStatusMessage = `Selected '${item.name}' from database (#${item.id || 'registered'}).`;
+    this.updateLsrPreview();
+  }
+
   public loadPresetMolecule(preset: { name: string; smiles: string }): void {
     this.targetMoleculeName = preset.name;
     this.targetCheckResult = null;
@@ -256,17 +283,17 @@ export class TestReactionPatternComponent implements OnInit {
         }
       }
 
-      // 2. Save .lsr file via /api/save-lsr (noted in execution log)
-      this.snackBar.open(`Saving LSR file '${this.rootName}.lsr'...`, 'Dismiss', { duration: 2000 });
+      // 2. Save .lsr file via /api/save-lsr (noted in execution log) under 'rxnpattests' category
+      this.snackBar.open(`Saving LSR file '${this.rootName}.lsr' to rxnpattests...`, 'Dismiss', { duration: 2000 });
       const saveRes = await new Promise<any>((resolve, reject) => {
-        this.reactCloudApi.saveLsrFile(this.rootName, this.generatedLsrContent).subscribe({
+        this.reactCloudApi.saveLsrFile(this.rootName, this.generatedLsrContent, 'rxnpattests').subscribe({
           next: resolve,
           error: reject
         });
       });
       console.log('[TestReactionPattern] LSR file saved successfully:', saveRes);
 
-      // 3. Execute Submechanism from Path
+      // 3. Execute Submechanism from Path under 'rxnpattests' category
       const cleanMechName = (this.mechName || 'TestMechanism').trim();
       const supplement = this.auxiliaryMolecules.join(',');
 
@@ -277,7 +304,10 @@ export class TestReactionPatternComponent implements OnInit {
         this.rootName,
         supplement,
         'read',
-        cleanMechName
+        cleanMechName,
+        this.generatedLsrContent,
+        true,
+        'rxnpattests'
       ).subscribe({
         next: async (res) => {
           this.isExecuting = false;

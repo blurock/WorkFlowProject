@@ -1,0 +1,16 @@
+ReactionPatternTest: 12 patterns
+hydroxyl-radical
+%%% ----------------------------------------------------
+RO2-Isomerization-5RingPrimary,\
+RO2-Isomerization-5RingSecondary,\
+RO2-Isomerization-5RingTertiary,\
+RO2-Isomerization-6RingPrimary,\
+RO2-Isomerization-6RingSecondary,\
+RO2-Isomerization-6RingTertiary,\
+RO2-Isomerization-7RingPrimary,\
+RO2-Isomerization-7RingSecondary,\
+RO2-Isomerization-7RingTertiary,\
+RO2-Isomerization-8RingPrimary,\
+RO2-Isomerization-8RingSecondary,\
+RO2-Isomerization-8RingTertiary,\
+:hydroxyl-radical

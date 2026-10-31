@@ -21,6 +21,7 @@ import { ChemStructureParserService } from '../../services/chem-structure-parser
 import { MoleculeSection } from '../../models/task-list.models';
 import { BensonGroupDetailComponent } from '../task-list-view/details/benson-group-detail.component';
 import { MechanismArtifactViewerComponent } from '../mechanism-artifact-viewer/mechanism-artifact-viewer.component';
+import { DatabaseStructureSelectorComponent } from '../database-structure-selector/database-structure-selector.component';
 
 @Component({
   selector: 'app-submechanism-creator',
@@ -40,7 +41,8 @@ import { MechanismArtifactViewerComponent } from '../mechanism-artifact-viewer/m
     MatTabsModule,
     MatChipsModule,
     BensonGroupDetailComponent,
-    MechanismArtifactViewerComponent
+    MechanismArtifactViewerComponent,
+    DatabaseStructureSelectorComponent
   ],
   templateUrl: './submechanism-creator.component.html',
   styleUrls: ['./submechanism-creator.component.scss']
@@ -168,6 +170,11 @@ export class SubmechanismCreatorComponent implements OnInit {
   public onMoleculeSelected(event: MatAutocompleteSelectedEvent): void {
     this.molecule = event.option.value;
     this.filterMolecules(this.molecule);
+    this.updateMechName();
+  }
+
+  public onCatalogMoleculeSelected(item: CatalogItem): void {
+    this.molecule = item.name;
     this.updateMechName();
   }
 

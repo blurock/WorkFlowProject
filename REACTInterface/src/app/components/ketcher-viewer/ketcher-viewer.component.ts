@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../environments/environment';
+import { ChemStructureParserService } from '../../services/chem-structure-parser.service';
 
 @Component({
   selector: 'app-ketcher-viewer',
@@ -66,7 +67,8 @@ export class KetcherViewerComponent implements OnChanges, AfterViewInit {
 
   constructor(
     private sanitizer: DomSanitizer,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private chemParser: ChemStructureParserService
   ) {
     this.ketcherSafeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(environment.ketcherUrl);
   }
@@ -104,6 +106,9 @@ export class KetcherViewerComponent implements OnChanges, AfterViewInit {
           resultStr = event.data.molfile || event.data.structure || event.data.rxn || event.data.smiles || '';
         } else {
           resultStr = event.data.rxn || event.data.molfile || event.data.smiles || event.data.structure || '';
+        }
+        if (resultStr) {
+          resultStr = this.chemParser.convertKetcherRadicalsToSystemFormat(resultStr);
         }
         this.getStructureResolve(resultStr);
         this.getStructureResolve = null;

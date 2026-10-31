@@ -216,45 +216,13 @@
 
 /* Target Molecule Config Row */
 .target-config-row {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 16px;
+  display: block;
+  width: 100%;
   margin-bottom: 8px;
 
-  .target-name-field {
-    flex-grow: 1;
-    max-width: 360px;
-  }
-
-  .preset-molecules-group {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-
-    .preset-label {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #475569;
-    }
-
-    .preset-btn {
-      font-size: 0.78rem;
-      padding: 4px 10px;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-      background: #f8fafc;
-      color: #1e293b;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.15s ease;
-
-      &:hover {
-        background: #0284c7;
-        color: #ffffff;
-        border-color: #0284c7;
-      }
-    }
+  app-database-structure-selector {
+    display: block;
+    width: 100%;
   }
 }
 

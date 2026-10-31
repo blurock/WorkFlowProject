@@ -1518,14 +1518,19 @@ app.post('/api/run-commands', authenticateUser, async (req, res) => {
 app.post('/api/save-lsr', authenticateUser, async (req, res) => {
   const rootName = req.body.rootName || req.body.name;
   const content = req.body.content;
+  const rawCategory = req.body.category;
   const uid = req.user?.uid || 'user_default_local';
 
   if (!rootName || !content) {
     return res.status(400).json({ error: "Request body must contain non-empty 'rootName' and 'content' fields." });
   }
 
+  const category = (rawCategory === 'rxnpattests' || rawCategory === 'mechpathtest')
+    ? rawCategory
+    : 'submechanisms';
+
   const cleanRootName = path.basename(rootName.replace(/\.lsr$/i, ''));
-  const mechsDir = path.join(REACTROOT, 'data', 'mechs', 'submechanisms');
+  const mechsDir = path.join(REACTROOT, 'data', 'mechs', category);
   fs.mkdirSync(mechsDir, { recursive: true });
 
   const destPath = path.join(mechsDir, `${cleanRootName}.lsr`);
@@ -1539,7 +1544,7 @@ app.post('/api/save-lsr', authenticateUser, async (req, res) => {
     fs.writeFileSync(dataPath, content, 'utf8');
     fs.writeFileSync(tmpPath, content, 'utf8');
 
-    const logMsg = `[Save LSR] User ${uid} saved ${cleanRootName}.lsr to data/mechs/submechanisms/${cleanRootName}.lsr (${content.length} chars)`;
+    const logMsg = `[Save LSR] User ${uid} saved ${cleanRootName}.lsr to data/mechs/${category}/${cleanRootName}.lsr (${content.length} chars)`;
     console.log(logMsg);
 
     try {
@@ -1550,7 +1555,8 @@ app.post('/api/save-lsr', authenticateUser, async (req, res) => {
     res.json({
       success: true,
       rootName: cleanRootName,
-      path: `data/mechs/submechanisms/${cleanRootName}.lsr`,
+      category,
+      path: `data/mechs/${category}/${cleanRootName}.lsr`,
       bytesWritten: Buffer.byteLength(content, 'utf8')
     });
   } catch (err) {
@@ -1634,11 +1640,14 @@ app.get('/api/submechanisms', async (req, res) => {
 });
 
 /**
- * Upload Generated Mechanism Artifacts to GCS under users/{uid}/mechanisms/{mechName}/
+ * Upload Generated Mechanism Artifacts to GCS under users/{uid}/{category}/{mechName}/
  */
-async function uploadMechanismArtifacts(uid, mechName, workspaceDir, actualRunRoot = 'read') {
+async function uploadMechanismArtifacts(uid, mechName, workspaceDir, actualRunRoot = 'read', category = 'mechanisms') {
   const bucket = storage.bucket(BUCKET_NAME);
-  const mechPrefix = `users/${uid}/mechanisms/${mechName}`;
+  const targetCategory = (category === 'rxnpattests' || category === 'mechpathtest')
+    ? category
+    : 'mechanisms';
+  const mechPrefix = `users/${uid}/${targetCategory}/${mechName}`;
   const filesManifest = [];
   const candidateArtifacts = [];
 
@@ -1768,6 +1777,12 @@ async function uploadMechanismArtifacts(uid, mechName, workspaceDir, actualRunRo
 app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
   const { molecule, rootName, supplement, runRoot } = req.body;
   const customMechName = req.body.mechName;
+  const explicitLsrContent = req.body.lsrContent;
+  const preferDisk = Boolean(req.body.preferDisk);
+  const rawCategory = req.body.category;
+  const targetCategory = (rawCategory === 'rxnpattests' || rawCategory === 'mechpathtest')
+    ? rawCategory
+    : 'mechanisms';
   const uid = req.user?.uid || 'user_default_local';
   const sessionId = req.body.sessionId || req.headers['x-session-id'] || 'default_session';
   const jobId = `job_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
@@ -1781,6 +1796,9 @@ app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
   console.log(`  CustomMech:    ${customMechName || '(auto)'}`);
   console.log(`  Supplement:    ${supplement || '(none)'}`);
   console.log(`  RunRoot:       ${runRoot || 'read'}`);
+  console.log(`  Category:      ${targetCategory}`);
+  console.log(`  Explicit LSR:  ${explicitLsrContent ? `${explicitLsrContent.length} chars` : '(none)'}`);
+  console.log(`  Prefer Disk:   ${preferDisk}`);
   console.log(`================================================================================`);
 
   if (!molecule || !rootName) {
@@ -1806,89 +1824,124 @@ app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
     await hydrateUserWorkspace(uid, workspaceDir);
     console.log(`[RunSubmechanism 1/5] Workspace hydrated successfully.`);
 
-    // 1. Fetch Mechanism Pathway: first check Firestore (Primary single source of truth for pathways)
-    console.log(`[RunSubmechanism 2/5] Searching Firestore for pathway '${cleanRootName}'...`);
-    const colRef = firestore.collection(`users/${uid}/databases/MechanismPathway/records`);
-    let docSnap = await colRef.doc(cleanRootName).get();
-    let pathwayData = null;
+    const categorySubdir = targetCategory === 'mechanisms' ? 'submechanisms' : targetCategory;
+    const searchDirs = [
+      path.join(REACTROOT, 'data', 'mechs', categorySubdir, `${cleanRootName}.lsr`),
+      path.join(REACTROOT, 'data', 'mechs', categorySubdir, cleanRootName),
+      path.join(REACTROOT, 'data', 'mechs', 'submechanisms', `${cleanRootName}.lsr`),
+      path.join(REACTROOT, 'data', 'mechs', 'submechanisms', cleanRootName),
+      path.join(REACTROOT, 'data', 'mechs', 'rxnpattests', `${cleanRootName}.lsr`),
+      path.join(REACTROOT, 'data', 'mechs', 'mechpathtest', `${cleanRootName}.lsr`),
+      path.join(REACTROOT, 'data', `${cleanRootName}.lsr`),
+      path.join(REACTROOT, 'data', cleanRootName),
+      path.join(REACTROOT, 'tmp', `${cleanRootName}.lsr`),
+      path.join(workspaceDir, `${cleanRootName}.lsr`),
+      path.join(REACTROOT, 'data', 'runs', `${cleanRootName}.lsr`),
+      path.join(REACTROOT, 'data', 'mechs', 'submechanism-orig', `${cleanRootName}.lsr`)
+    ];
 
-    if (docSnap.exists) {
-      pathwayData = docSnap.data();
-      console.log(`  -> Found pathway document directly by ID: users/${uid}/databases/MechanismPathway/records/${cleanRootName}`);
-    } else {
-      console.log(`  -> Direct doc ID '${cleanRootName}' not found under users/${uid}. Searching by Name/key field...`);
+    const findLsrOnDisk = () => {
+      for (const cand of searchDirs) {
+        const candExists = fs.existsSync(cand) && fs.statSync(cand).isFile();
+        if (candExists) return cand;
+      }
+      return null;
+    };
+
+    const fetchPathwayFromFirestore = async () => {
+      const colRef = firestore.collection(`users/${uid}/databases/MechanismPathway/records`);
+      let docSnap = await colRef.doc(cleanRootName).get();
+      if (docSnap.exists) {
+        console.log(`  -> Found pathway document directly by ID: users/${uid}/databases/MechanismPathway/records/${cleanRootName}`);
+        return docSnap.data();
+      }
       let querySnap = await colRef.where('Name', '==', cleanRootName).limit(1).get();
       if (querySnap.empty) {
         querySnap = await colRef.where('key', '==', cleanRootName).limit(1).get();
       }
       if (!querySnap.empty) {
-        pathwayData = querySnap.docs[0].data();
         console.log(`  -> Found pathway document by Name/key query: doc ID '${querySnap.docs[0].id}'`);
+        return querySnap.docs[0].data();
       }
-    }
-
-    if (!pathwayData && uid !== 'user_default_local') {
-      console.log(`  -> Not found in user '${uid}'. Checking fallback 'user_default_local'...`);
-      const defaultColRef = firestore.collection('users/user_default_local/databases/MechanismPathway/records');
-      let defSnap = await defaultColRef.doc(cleanRootName).get();
-      if (defSnap.exists) {
-        pathwayData = defSnap.data();
-        console.log(`  -> Found pathway document in users/user_default_local (ID: '${cleanRootName}')`);
-      } else {
+      if (uid !== 'user_default_local') {
+        const defaultColRef = firestore.collection('users/user_default_local/databases/MechanismPathway/records');
+        let defSnap = await defaultColRef.doc(cleanRootName).get();
+        if (defSnap.exists) {
+          console.log(`  -> Found pathway document in users/user_default_local (ID: '${cleanRootName}')`);
+          return defSnap.data();
+        }
         let defQuery = await defaultColRef.where('Name', '==', cleanRootName).limit(1).get();
         if (defQuery.empty) defQuery = await defaultColRef.where('key', '==', cleanRootName).limit(1).get();
         if (!defQuery.empty) {
-          pathwayData = defQuery.docs[0].data();
           console.log(`  -> Found pathway document in users/user_default_local by query (ID: '${defQuery.docs[0].id}')`);
+          return defQuery.docs[0].data();
+        }
+      }
+      return null;
+    };
+
+    let lsrContent = '';
+    let lsrSource = '';
+
+    if (explicitLsrContent && typeof explicitLsrContent === 'string' && explicitLsrContent.trim().length > 0) {
+      lsrContent = explicitLsrContent.trim();
+      lsrSource = 'Request Payload (explicit lsrContent)';
+      console.log(`[RunSubmechanism 2/5] Using explicit LSR content from request payload (${lsrContent.length} chars).`);
+    } else if (preferDisk) {
+      console.log(`[RunSubmechanism 2/5] preferDisk=true: Checking on-disk locations for '${cleanRootName}.lsr'...`);
+      const diskPath = findLsrOnDisk();
+      if (diskPath) {
+        lsrContent = fs.readFileSync(diskPath, 'utf8');
+        lsrSource = `Disk (${diskPath})`;
+        console.log(`[RunSubmechanism 2/5] Successfully loaded LSR from disk: ${diskPath} (${lsrContent.length} chars).`);
+      } else {
+        console.log(`[RunSubmechanism 2/5] '${cleanRootName}.lsr' not found on disk. Checking Firestore fallback...`);
+        const pathwayData = await fetchPathwayFromFirestore();
+        if (pathwayData) {
+          lsrContent = generateLsrFromReadChainSet(pathwayData);
+          lsrSource = 'Firestore (fallback)';
+          console.log(`[RunSubmechanism 2/5] Successfully resolved pathway from Firestore (${lsrContent.length} chars).`);
+        }
+      }
+    } else {
+      console.log(`[RunSubmechanism 2/5] Searching Firestore for pathway '${cleanRootName}'...`);
+      const pathwayData = await fetchPathwayFromFirestore();
+      if (pathwayData) {
+        lsrContent = generateLsrFromReadChainSet(pathwayData);
+        lsrSource = 'Firestore';
+        console.log(`[RunSubmechanism 2/5] Successfully resolved pathway from Firestore. Generating standard .lsr syntax (${lsrContent.length} chars).`);
+      } else {
+        console.log(`[RunSubmechanism 2/5] Pathway '${cleanRootName}' not found in Firestore. Checking on-disk fallback locations...`);
+        const diskPath = findLsrOnDisk();
+        if (diskPath) {
+          lsrContent = fs.readFileSync(diskPath, 'utf8');
+          lsrSource = `Disk (${diskPath})`;
+          console.log(`[RunSubmechanism 2/5] Successfully loaded LSR from disk: ${diskPath} (${lsrContent.length} chars).`);
         }
       }
     }
 
-    let lsrContent = '';
-    let lsrSource = 'Firestore';
+    if (!lsrContent) {
+      console.error(`[RunSubmechanism 404 Not Found] Pathway '${cleanRootName}' could NOT be found in request payload, Firestore, or on disk.`);
+      cleanupWorkspace(workspaceDir);
+      return res.status(404).json({
+        error: `Mechanism pathway '${cleanRootName}' not found in Firestore database (users/${uid}/databases/MechanismPathway/records) nor as a .lsr file on disk.`,
+        searchedRootName: cleanRootName,
+        uid,
+        searchedDiskLocations: searchDirs
+      });
+    }
 
-    if (pathwayData) {
-      console.log(`[RunSubmechanism 2/5] Successfully resolved pathway from Firestore. Generating standard .lsr syntax...`);
-      lsrContent = generateLsrFromReadChainSet(pathwayData);
-      console.log(`  -> Generated LSR content (${lsrContent.length} chars).`);
-    } else {
-      // Fallback: Check if an on-disk .lsr file exists (e.g. from runStepTest or test-reaction-pattern via /api/save-lsr)
-      console.log(`[RunSubmechanism 2/5] Pathway '${cleanRootName}' not found in Firestore. Checking on-disk fallback locations...`);
-      const searchDirs = [
-        path.join(REACTROOT, 'data', 'mechs', 'submechanisms', `${cleanRootName}.lsr`),
-        path.join(REACTROOT, 'data', 'mechs', 'submechanisms', cleanRootName),
-        path.join(REACTROOT, 'data', `${cleanRootName}.lsr`),
-        path.join(REACTROOT, 'data', cleanRootName),
-        path.join(REACTROOT, 'tmp', `${cleanRootName}.lsr`),
-        path.join(workspaceDir, `${cleanRootName}.lsr`),
-        path.join(REACTROOT, 'data', 'mechs', 'rxnpattests', `${cleanRootName}.lsr`),
-        path.join(REACTROOT, 'data', 'runs', `${cleanRootName}.lsr`),
-        path.join(REACTROOT, 'data', 'mechs', 'submechanism-orig', `${cleanRootName}.lsr`)
-      ];
-
-      let lsrPath = null;
-      for (const cand of searchDirs) {
-        const candExists = fs.existsSync(cand) && fs.statSync(cand).isFile();
-        console.log(`  Candidate: ${cand} -> ${candExists ? 'FOUND' : 'not present'}`);
-        if (candExists) {
-          lsrPath = cand;
-          break;
-        }
+    // Clean up any stale mechanism artifacts for this mechName in workspaceDir and REACTROOT/tmp
+    const candidateExts = ['.mech', '.sdf', '.thm', '.corrs', '.out'];
+    for (const ext of candidateExts) {
+      const wsStale = path.join(workspaceDir, `${mechName}${ext}`);
+      if (fs.existsSync(wsStale)) {
+        try { fs.unlinkSync(wsStale); } catch (_) {}
       }
-
-      if (lsrPath) {
-        lsrContent = fs.readFileSync(lsrPath, 'utf8');
-        lsrSource = `Disk (${lsrPath})`;
-        console.log(`[RunSubmechanism 2/5] Successfully loaded LSR from disk: ${lsrPath} (${lsrContent.length} chars).`);
-      } else {
-        console.error(`[RunSubmechanism 404 Not Found] Pathway '${cleanRootName}' could NOT be found in Firestore nor at any on-disk candidate location.`);
-        cleanupWorkspace(workspaceDir);
-        return res.status(404).json({
-          error: `Mechanism pathway '${cleanRootName}' not found in Firestore database (users/${uid}/databases/MechanismPathway/records) nor as a .lsr file on disk.`,
-          searchedRootName: cleanRootName,
-          uid,
-          searchedDiskLocations: searchDirs
-        });
+      const tmpStale = path.join(REACTROOT, 'tmp', `${mechName}${ext}`);
+      if (fs.existsSync(tmpStale)) {
+        try { fs.unlinkSync(tmpStale); } catch (_) {}
       }
     }
 
@@ -1985,13 +2038,13 @@ app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
         console.warn(`  -> chemdb stderr output (${stderr.length} chars):\n${stderr.substring(0, 500)}`);
       }
 
-      // Upload generated artifacts to GCS under users/{uid}/mechanisms/{mechName}/
-      console.log(`[RunSubmechanism 5/5] Collecting and uploading generated mechanism artifacts...`);
-      const artifactResult = await uploadMechanismArtifacts(uid, mechName, workspaceDir, actualRunRoot).catch(err => {
+      // Upload generated artifacts to GCS under users/{uid}/{targetCategory}/{mechName}/
+      console.log(`[RunSubmechanism 5/5] Collecting and uploading generated mechanism artifacts (category: ${targetCategory})...`);
+      const artifactResult = await uploadMechanismArtifacts(uid, mechName, workspaceDir, actualRunRoot, targetCategory).catch(err => {
         console.warn(`[Mechanism Upload Warning]: ${err.message}`);
-        return { storageDirectory: `users/${uid}/mechanisms/${mechName}`, gcsPrefix: '', files: [] };
+        return { storageDirectory: `users/${uid}/${targetCategory}/${mechName}`, gcsPrefix: '', files: [] };
       });
-      console.log(`  -> Mechanism artifacts processed: ${artifactResult.files.length} files available.`);
+      console.log(`  -> Mechanism artifacts processed: ${artifactResult.files.length} files available in ${artifactResult.storageDirectory}.`);
 
       // Fallback combined text if GCS files are not present
       let combinedOutput = '';
@@ -2029,6 +2082,7 @@ app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
         molecule,
         rootName,
         mechName,
+        category: targetCategory,
         exitCode: effectiveExitCode,
         signal: signal || null,
         storageDirectory: artifactResult.storageDirectory,

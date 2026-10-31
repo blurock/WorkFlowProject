@@ -22,6 +22,7 @@ import { ChemStructureParserService } from '../../services/chem-structure-parser
 import { MoleculeSection } from '../../models/task-list.models';
 import { BensonGroupDetailComponent } from '../task-list-view/details/benson-group-detail.component';
 import { MechanismArtifactViewerComponent } from '../mechanism-artifact-viewer/mechanism-artifact-viewer.component';
+import { DatabaseStructureSelectorComponent } from '../database-structure-selector/database-structure-selector.component';
 
 export interface CreatedSubmechanism {
   mechName: string;
@@ -58,7 +59,8 @@ export interface CreatedSubmechanism {
     MatChipsModule,
     MatBadgeModule,
     BensonGroupDetailComponent,
-    MechanismArtifactViewerComponent
+    MechanismArtifactViewerComponent,
+    DatabaseStructureSelectorComponent
   ],
   templateUrl: './submechanism-path-set.component.html',
   styleUrls: ['./submechanism-path-set.component.scss']
@@ -191,6 +193,10 @@ export class SubmechanismPathSetComponent implements OnInit {
   public onMoleculeSelected(event: MatAutocompleteSelectedEvent): void {
     this.molecule = event.option.value;
     this.filterMolecules(this.molecule);
+  }
+
+  public onCatalogMoleculeSelected(item: CatalogItem): void {
+    this.molecule = item.name;
   }
 
   public onNewPathInputChange(value: string): void {
