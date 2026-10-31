@@ -131,17 +131,44 @@ extern INT ConvertReactionToGraphTransform(GraphTransform *transform,
   
   success = SYSTEM_NORMAL_RETURN;
   
+  if (transform == NULL || rxn == NULL) return SYSTEM_ERROR_RETURN;
+
+  rxncorr = rxn->TotalCorr;
+  if (rxncorr == NULL) {
+    printf("ERROR: Reaction pattern '%s' (ID %d) has no TotalCorr in database. Ignoring pattern.\n",
+           rxn->Name ? rxn->Name : "UNKNOWN", rxn->ID);
+    fflush(stdout);
+    return SYSTEM_ERROR_RETURN;
+  }
+  if (rxncorr->BondChanges == NULL) {
+    printf("ERROR: Reaction pattern '%s' (ID %d) has no BondChanges in TotalCorr. Ignoring pattern.\n",
+           rxn->Name ? rxn->Name : "UNKNOWN", rxn->ID);
+    fflush(stdout);
+    return SYSTEM_ERROR_RETURN;
+  }
+  if (rxncorr->UnMatched == NULL) {
+    printf("ERROR: Reaction pattern '%s' (ID %d) has no UnMatched in TotalCorr. Ignoring pattern.\n",
+           rxn->Name ? rxn->Name : "UNKNOWN", rxn->ID);
+    fflush(stdout);
+    return SYSTEM_ERROR_RETURN;
+  }
+
   CreateGraphTransform(transform,
 		       rxn->ID,rxn->Name,
 		       rxn->NumberOfReactants,
 		       rxn->NumberOfProducts,
 		       0,0,0,0);
-  rxncorr = rxn->TotalCorr;
   transform->Nodes = CorrespondencesToSetOfNodeTransforms(rxn,rxncorr);
   transform->Bonds = 
     CorrespondencesToBondTransformSet(rxn,rxncorr->BondChanges);
   
   rxnmol = rxn->Reactants;
+  if (rxnmol == NULL && transform->NumberLHS > 0) {
+    printf("ERROR: Reaction pattern '%s' (ID %d) has no Reactants. Ignoring pattern.\n",
+           rxn->Name ? rxn->Name : "UNKNOWN", rxn->ID);
+    fflush(stdout);
+    return SYSTEM_ERROR_RETURN;
+  }
   lhs = transform->GraphLHS;
   LOOPi(transform->NumberLHS)
     {
@@ -262,6 +289,7 @@ static SetOfNodeTransforms
      SetOfNodeTransforms *nodetrans;
      RxnUnMatchedSet *unmatchedr;
      
+     if (corrs == NULL || corrs->UnMatched == NULL) return NULL;
      unmatchedr = corrs->UnMatched;
      nodetrans = AllocateSetOfNodeTransforms;
      CreateSetOfNodeTransforms(nodetrans,corrs->ID,corrs->Name,
@@ -383,6 +411,7 @@ static BondTransformSet *CorrespondencesToBondTransformSet(ReactionInfo *rxn,
      INT i,type;
      GraphBond *lbond,*rbond;
      
+     if (bonds == NULL) return NULL;
      grpbonds = AllocateBondTransformSet;
      CreateBondTransformSet(grpbonds,bonds->ID,bonds->Name,
 			    0,0);

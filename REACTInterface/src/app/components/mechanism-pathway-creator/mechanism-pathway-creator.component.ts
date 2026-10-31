@@ -999,26 +999,6 @@ export class MechanismPathwayCreatorComponent implements OnInit {
     };
 
     const compiled = this.pathwayService.compileTotals(pathway);
-
-    // Formatted printout to console for debugging and transparency
-    console.log('============================================================');
-    console.log(`[MechanismPathwayCreator] Created Mechanism Path: '${cleanPathwayName}'`);
-    console.log('Target Molecule:', cleanTarget || '(None)');
-    console.log('Global Auxiliary Molecules:', this.overallAuxMolecules);
-    console.log(`Total Steps (${compiled.NumberOfSteps}):`, compiled.Steps.map((s, i) => ({
-      step: i + 1,
-      name: s.Name,
-      reactionCount: s.Reactions?.NumberOfReactions || 0,
-      reactionPatterns: s.Reactions?.Reactions.map(r => r.Name) || [],
-      moleculeCount: s.Molecules?.NumberOfMolecules || 0,
-      stepMolecules: s.Molecules?.Molecules.map(m => m.Name) || []
-    })));
-    console.log('Total Compiled Reactions:', compiled.Reactions?.NumberOfReactions || 0);
-    console.log('Total Compiled Molecules:', compiled.Molecules?.NumberOfMolecules || 0);
-    console.log('Full Mechanism Path Object:', compiled);
-    console.log('Mechanism Path JSON String:\n' + JSON.stringify(compiled, null, 2));
-    console.log('============================================================');
-
     return compiled;
   }
 
@@ -1060,6 +1040,7 @@ export class MechanismPathwayCreatorComponent implements OnInit {
 
     this.isSaving = true;
     const pathway = this.buildReadChainSet();
+    console.log(`[MechanismPathwayCreator] Saving Mechanism Pathway '${pathway.Name}' to Firestore:`, pathway);
 
     this.pathwayService.storePathway(pathway).subscribe({
       next: () => {

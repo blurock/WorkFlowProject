@@ -1,5 +1,5 @@
 Step 3
-oxygen,hydrogen-radical
+oxygen,hydrogen-radical,propan-2-methyl-1-peroxy-radical,propan-2-methyl-2-peroxy-radical
 %%% ----------------------------------------------------
 RO2-Isomerization-5RingPrimary,\
 RO2-Isomerization-5RingSecondary,\
@@ -13,4 +13,4 @@ RO2-Isomerization-7RingTertiary,\
 RO2-Isomerization-8RingPrimary,\
 RO2-Isomerization-8RingSecondary,\
 RO2-Isomerization-8RingTertiary,\
-:oxygen,hydrogen-radical
+:oxygen,hydrogen-radical,propan-2-methyl-1-peroxy-radical,propan-2-methyl-2-peroxy-radical

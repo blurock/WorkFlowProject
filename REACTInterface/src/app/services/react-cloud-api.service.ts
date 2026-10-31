@@ -52,7 +52,10 @@ export interface ApiRunSubmechanismResponse {
   rootName: string;
   mechName: string;
   exitCode: number;
+  signal?: string | null;
   output: string;
+  combinedOutput?: string;
+  executionLog?: string;
   error?: string;
   storageDirectory?: string;
   gcsPrefix?: string;
@@ -64,7 +67,10 @@ export interface ApiRunCombineSubmechanismResponse {
   mechName: string;
   count: number;
   exitCode: number;
+  signal?: string | null;
   output: string;
+  combinedOutput?: string;
+  executionLog?: string;
   error?: string;
   storageDirectory?: string;
   gcsPrefix?: string;

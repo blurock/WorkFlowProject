@@ -1227,10 +1227,16 @@ app.post('/api/run-input', authenticateUser, async (req, res) => {
       logStream.write(str);
     });
 
-    child.on('close', exitCode => {
+    child.on('close', (exitCode, signal) => {
       logStream.end();
       const elapsed = Date.now() - startTime;
-      console.log(`[Job Complete] ${jobId} finished in ${elapsed}ms with exit code ${exitCode}`);
+      const effectiveExitCode = (exitCode !== null) ? exitCode : (signal ? 139 : 1);
+      console.log(`[Job Complete] ${jobId} finished in ${elapsed}ms with exit code ${exitCode}, signal: ${signal} (effective: ${effectiveExitCode})`);
+      if (signal) {
+        const sigMsg = `\n[Process Error] chemdb terminated by signal: ${signal}\n`;
+        stderr += sigMsg;
+        stdout += sigMsg;
+      }
 
       // Read any generated .ans or .out detail output files (e.g. MASTER.ans, molecule.ans)
       let combinedOutput = stdout;
@@ -1248,6 +1254,10 @@ app.post('/api/run-input', authenticateUser, async (req, res) => {
         console.warn(`[Detail File Read Warning] ${e.message}`);
       }
 
+      const resError = (effectiveExitCode !== 0)
+        ? (stderr.trim() || `Execution failed with exit code ${effectiveExitCode}${signal ? ` (Signal: ${signal})` : ''}`)
+        : (stderr.trim() || undefined);
+
       // Async background persistence & cleanup
       const classification = classifyJob(req.body, '', inputFile);
       persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classification, inputFileManifest)
@@ -1257,9 +1267,11 @@ app.post('/api/run-input', authenticateUser, async (req, res) => {
             sessionId,
             inputFile,
             root: root || 'ROOT',
-            exitCode,
+            exitCode: effectiveExitCode,
+            signal: signal || null,
             output: combinedOutput,
-            error: stderr,
+            executionLog: stdout,
+            error: resError,
             elapsedMs: elapsed,
             files: fileManifest
           });
@@ -1271,9 +1283,11 @@ app.post('/api/run-input', authenticateUser, async (req, res) => {
             sessionId,
             inputFile,
             root: root || 'ROOT',
-            exitCode,
+            exitCode: effectiveExitCode,
+            signal: signal || null,
             output: combinedOutput,
-            error: stderr,
+            executionLog: stdout,
+            error: resError,
             elapsedMs: elapsed
           });
         })
@@ -1411,10 +1425,16 @@ app.post('/api/run-commands', authenticateUser, async (req, res) => {
       logStream.write(str);
     });
 
-    child.on('close', exitCode => {
+    child.on('close', (exitCode, signal) => {
       logStream.end();
       const elapsed = Date.now() - startTime;
-      console.log(`[Job Complete] ${jobId} finished in ${elapsed}ms`);
+      const effectiveExitCode = (exitCode !== null) ? exitCode : (signal ? 139 : 1);
+      console.log(`[Job Complete] ${jobId} finished in ${elapsed}ms (exitCode: ${exitCode}, signal: ${signal}, effective: ${effectiveExitCode})`);
+      if (signal) {
+        const sigMsg = `\n[Process Error] chemdb terminated by signal: ${signal}\n`;
+        stderr += sigMsg;
+        stdout += sigMsg;
+      }
 
       // Read any generated detail output files (.ans, .out, .mech, .sdf, .thm, .corrs)
       let combinedOutput = '';
@@ -1461,14 +1481,20 @@ app.post('/api/run-commands', authenticateUser, async (req, res) => {
 
       combinedOutput += `--- Execution Log ---\n` + stdout;
 
+      const resError = (effectiveExitCode !== 0)
+        ? (stderr.trim() || `Execution failed with exit code ${effectiveExitCode}${signal ? ` (Signal: ${signal})` : ''}`)
+        : (stderr.trim() || undefined);
+
       // Respond immediately with chemdb results for fast UI response
       res.json({
         jobId,
         sessionId,
         root: root || 'ROOT',
-        exitCode,
+        exitCode: effectiveExitCode,
+        signal: signal || null,
         output: combinedOutput,
-        error: stderr,
+        executionLog: stdout,
+        error: resError,
         elapsedMs: elapsed
       });
 
@@ -1945,10 +1971,16 @@ app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
       logStream.write(str);
     });
 
-    child.on('close', async exitCode => {
+    child.on('close', async (exitCode, signal) => {
       logStream.end();
       const elapsed = Date.now() - startTime;
-      console.log(`[RunSubmechanism 5/5] chemdb process (PID ${child.pid}) finished in ${elapsed}ms with exitCode: ${exitCode}`);
+      const effectiveExitCode = (exitCode !== null) ? exitCode : (signal ? 139 : 1);
+      console.log(`[RunSubmechanism 5/5] chemdb process (PID ${child.pid}) finished in ${elapsed}ms with exitCode: ${exitCode}, signal: ${signal} (effectiveExitCode: ${effectiveExitCode})`);
+      if (signal) {
+        const sigMsg = `\n[Process Error] chemdb terminated by signal: ${signal}\n`;
+        stderr += sigMsg;
+        stdout += sigMsg;
+      }
       if (stderr && stderr.trim()) {
         console.warn(`  -> chemdb stderr output (${stderr.length} chars):\n${stderr.substring(0, 500)}`);
       }
@@ -1987,18 +2019,25 @@ app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
         ? `[Submechanism Generated: ${mechName}] Artifacts stored in Cloud Storage: ${artifactResult.storageDirectory} (${artifactResult.files.length} files).`
         : combinedOutput;
 
-      console.log(`[RunSubmechanism Complete] Sending 200 OK response for '${mechName}' (exitCode: ${exitCode}).`);
+      const resError = (effectiveExitCode !== 0)
+        ? (stderr.trim() || `Submechanism run exited with code ${effectiveExitCode}${signal ? ` (Signal: ${signal})` : ''}`)
+        : (stderr.trim() || undefined);
+
+      console.log(`[RunSubmechanism Complete] Sending response for '${mechName}' (effectiveExitCode: ${effectiveExitCode}, error: ${resError || 'none'}).`);
 
       res.json({
         molecule,
         rootName,
         mechName,
-        exitCode,
+        exitCode: effectiveExitCode,
+        signal: signal || null,
         storageDirectory: artifactResult.storageDirectory,
         gcsPrefix: artifactResult.gcsPrefix,
         files: artifactResult.files,
         output: outputMsg,
-        error: stderr
+        combinedOutput: combinedOutput,
+        executionLog: stdout,
+        error: resError
       });
 
       const classification = classifyJob(req.body, callChainTemplate, '');
@@ -2091,10 +2130,16 @@ app.post('/api/run-combine-submechanisms', authenticateUser, async (req, res) =>
       logStream.write(str);
     });
 
-    child.on('close', async exitCode => {
+    child.on('close', async (exitCode, signal) => {
       logStream.end();
       const elapsed = Date.now() - startTime;
-      console.log(`[Combine Run Complete] ${jobId} finished in ${elapsed}ms (exitCode: ${exitCode})`);
+      const effectiveExitCode = (exitCode !== null) ? exitCode : (signal ? 139 : 1);
+      console.log(`[Combine Run Complete] ${jobId} finished in ${elapsed}ms (exitCode: ${exitCode}, signal: ${signal}, effectiveExitCode: ${effectiveExitCode})`);
+      if (signal) {
+        const sigMsg = `\n[Process Error] chemdb terminated by signal: ${signal}\n`;
+        stderr += sigMsg;
+        stdout += sigMsg;
+      }
 
       // Upload generated artifacts to GCS under users/{uid}/mechanisms/{mechName}/
       const artifactResult = await uploadMechanismArtifacts(uid, mechName, workspaceDir, 'combine').catch(err => {
@@ -2102,16 +2147,22 @@ app.post('/api/run-combine-submechanisms', authenticateUser, async (req, res) =>
         return { storageDirectory: `users/${uid}/mechanisms/${mechName}`, gcsPrefix: '', files: [] };
       });
 
+      const resError = (effectiveExitCode !== 0)
+        ? (stderr.trim() || `Combine submechanisms exited with code ${effectiveExitCode}${signal ? ` (Signal: ${signal})` : ''}`)
+        : (stderr.trim() || undefined);
+
       res.json({
         rootName,
         mechName,
         count: submechanisms.length,
-        exitCode,
+        exitCode: effectiveExitCode,
+        signal: signal || null,
         storageDirectory: artifactResult.storageDirectory,
         gcsPrefix: artifactResult.gcsPrefix,
         files: artifactResult.files,
         output: `[Combined Mechanism Generated: ${mechName}] Artifacts stored in Cloud Storage: ${artifactResult.storageDirectory} (${artifactResult.files.length} files).`,
-        error: stderr
+        executionLog: stdout,
+        error: resError
       });
 
       const classification = classifyJob(req.body, templateContent, '');

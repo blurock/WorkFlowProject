@@ -237,7 +237,16 @@
           <mat-progress-bar *ngIf="isExecuting" mode="indeterminate" class="my-3"></mat-progress-bar>
 
           <ng-container *ngIf="hasExecuted">
+            <div *ngIf="storageFiles.length > 0" class="mb-3">
+              <app-mechanism-artifact-viewer
+                [mechName]="mechName"
+                [storageDirectory]="storageDirectory"
+                [files]="storageFiles">
+              </app-mechanism-artifact-viewer>
+            </div>
+
             <app-benson-group-detail
+              *ngIf="moleculeSections.length > 0"
               [item]="{ id: '1', name: mechName, rawLine: ': --> 1: ' + mechName }"
               [rawOutput]="itemDetailOutput"
               [sections]="moleculeSections"

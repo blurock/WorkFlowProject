@@ -13,7 +13,8 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
 
-import { ReactCloudApiService } from '../../services/react-cloud-api.service';
+import { firstValueFrom } from 'rxjs';
+import { ReactCloudApiService, MechanismStorageFile } from '../../services/react-cloud-api.service';
 import { ReactionPatternLsrService } from '../../services/reaction-pattern-lsr.service';
 import { TargetMoleculeService, TargetMoleculeCheckResult } from '../../services/target-molecule.service';
 import { TaskOutputParserService } from '../../services/task-output-parser.service';
@@ -23,6 +24,7 @@ import { KetcherViewerComponent } from '../ketcher-viewer/ketcher-viewer.compone
 import { AuxiliaryMoleculesSelectorComponent } from '../auxiliary-molecules-selector/auxiliary-molecules-selector.component';
 import { RxnPatternSelectionDialogComponent } from '../rxn-pattern-selection-dialog/rxn-pattern-selection-dialog.component';
 import { BensonGroupDetailComponent } from '../task-list-view/details/benson-group-detail.component';
+import { MechanismArtifactViewerComponent } from '../mechanism-artifact-viewer/mechanism-artifact-viewer.component';
 
 @Component({
   selector: 'app-test-reaction-pattern',
@@ -43,7 +45,8 @@ import { BensonGroupDetailComponent } from '../task-list-view/details/benson-gro
     MatChipsModule,
     KetcherViewerComponent,
     AuxiliaryMoleculesSelectorComponent,
-    BensonGroupDetailComponent
+    BensonGroupDetailComponent,
+    MechanismArtifactViewerComponent
   ],
   templateUrl: './test-reaction-pattern.component.html',
   styleUrls: ['./test-reaction-pattern.component.scss']
@@ -87,6 +90,8 @@ export class TestReactionPatternComponent implements OnInit {
   public moleculeSections: MoleculeSection[] = [];
   public currentSdfContent: string | null = null;
   public selectedTabIndex: number = 0;
+  public storageDirectory: string = '';
+  public storageFiles: MechanismStorageFile[] = [];
 
   // Presets for quick testing
   public presetMolecules: { name: string; smiles: string }[] = [
@@ -274,35 +279,91 @@ export class TestReactionPatternComponent implements OnInit {
         'read',
         cleanMechName
       ).subscribe({
-        next: (res) => {
+        next: async (res) => {
           this.isExecuting = false;
           this.hasExecuted = true;
-          this.executionLog = res.output;
+          this.storageDirectory = res.storageDirectory || '';
+          this.storageFiles = res.files || [];
 
-          if (res.exitCode !== 0 && res.error) {
-            this.errorMessage = res.error;
-            this.snackBar.open(`Execution error: ${res.error}`, 'Close', { duration: 5000 });
+          // 1. Process Execution Log
+          let logContent = res.executionLog || '';
+          if (!logContent) {
+            const logFile = res.files?.find(f => f.fileType === 'log');
+            if (logFile?.downloadUrl) {
+              try {
+                logContent = await firstValueFrom(this.reactCloudApi.fetchAsciiFileContent(logFile.downloadUrl));
+              } catch (_) {}
+            }
+          }
+          if (!logContent && res.output) {
+            const idx = res.output.indexOf('--- Execution Log ---');
+            if (idx !== -1) {
+              logContent = res.output.substring(idx + '--- Execution Log ---'.length).trim();
+            } else {
+              logContent = res.output;
+            }
+          }
+          this.executionLog = logContent;
+
+          // 2. Check for Execution Failure
+          const hasError = (res.exitCode !== 0 && res.exitCode !== undefined) || !!res.error;
+          if (hasError) {
+            this.errorMessage = res.error || `Execution failed with exit code ${res.exitCode}${res.signal ? ` (${res.signal})` : ''}`;
+            this.snackBar.open(`Execution error: ${this.errorMessage}`, 'Close', { duration: 6000 });
+            this.selectedTabIndex = 2; // Switch to Execution Log tab
+            return;
           } else {
             this.snackBar.open(`Submechanism '${cleanMechName}' completed successfully!`, 'OK', { duration: 4000 });
           }
 
+          // 3. Assemble full output for parsing reactions and structures (.mech, .sdf, etc.)
+          let fullOutput = res.combinedOutput || '';
+          if (!fullOutput || fullOutput.indexOf('--- Mechanism Reactions ---') === -1) {
+            const mechFile = res.files?.find(f => f.fileType === 'mech');
+            const sdfFile = res.files?.find(f => f.fileType === 'sdf');
+            let mechContent = '';
+            let sdfContent = '';
+            if (mechFile?.downloadUrl) {
+              try {
+                mechContent = await firstValueFrom(this.reactCloudApi.fetchAsciiFileContent(mechFile.downloadUrl));
+              } catch (_) {}
+            }
+            if (sdfFile?.downloadUrl) {
+              try {
+                sdfContent = await firstValueFrom(this.reactCloudApi.fetchAsciiFileContent(sdfFile.downloadUrl));
+              } catch (_) {}
+            }
+            if (mechContent || sdfContent) {
+              fullOutput = (mechContent ? `--- Mechanism Reactions ---\n${mechContent}\n\n` : '') +
+                           (sdfContent ? `--- Molecule Structures ---\n${sdfContent}\n\n` : '') +
+                           (fullOutput || res.output || '');
+            } else if (!fullOutput) {
+              fullOutput = res.output;
+            }
+          }
+
           // Parse mechanism sections from output (.mech, .sdf, .thm, .corrs, etc.)
-          this.itemDetailOutput = res.output;
-          this.currentSdfContent = this.chemParser.extractSdfContent(res.output);
+          this.itemDetailOutput = fullOutput;
+          this.currentSdfContent = this.chemParser.extractSdfContent(fullOutput);
           this.moleculeSections = this.taskOutputParser.parseSectionsFromOutput(
-            res.output,
+            fullOutput,
             'mechanisms',
             this.currentSdfContent
           );
 
-          // Automatically switch to Results Tab
-          this.selectedTabIndex = 1;
+          // Automatically switch to Results Tab if sections exist, otherwise stay on Log
+          if (this.moleculeSections.length > 0) {
+            this.selectedTabIndex = 1;
+          } else {
+            this.selectedTabIndex = 2;
+          }
         },
         error: (err) => {
           this.isExecuting = false;
           this.hasExecuted = true;
           this.errorMessage = err?.error?.error || err?.message || 'Submechanism execution failed.';
-          this.snackBar.open(`Execution error: ${this.errorMessage}`, 'Close', { duration: 5000 });
+          this.snackBar.open(`Execution error: ${this.errorMessage}`, 'Close', { duration: 6000 });
+          this.selectedTabIndex = 2;
         }
       });
 
