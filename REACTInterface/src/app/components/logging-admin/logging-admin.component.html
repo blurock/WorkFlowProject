@@ -3,7 +3,11 @@
   <header class="admin-header">
     <div class="header-title-group">
       <a routerLink="/dashboard" class="back-link">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m12 19-7-7 7-7" />
+          <path d="M19 12H5" />
+        </svg>
         Back to Dashboard
       </a>
       <h1>REACTCLOUD Logging Administration</h1>
@@ -22,11 +26,23 @@
         <span class="metric-value highlight">{{ totalStorageFormatted() }}</span>
       </div>
       <button class="btn btn-secondary btn-sm" (click)="loadLogs(true)" [disabled]="isLoading()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2">
+          <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+          <path d="M21 3v5h-5" />
+          <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+          <path d="M8 16H3v5" />
+        </svg>
         Refresh Logs
       </button>
-      <button class="btn btn-danger btn-sm" (click)="promptPurgeAll()" [disabled]="isLoading()" title="Purge all execution logs, session jobs, and GCS artifacts">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+      <button class="btn btn-danger btn-sm" (click)="promptPurgeAll()" [disabled]="isLoading()"
+        title="Purge all execution logs, session jobs, and GCS artifacts">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18" />
+          <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+          <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+        </svg>
         Purge All Logs & Session Jobs
       </button>
     </div>
@@ -35,13 +51,13 @@
   <!-- Filter & Controls Bar -->
   <section class="controls-bar">
     <div class="search-box">
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-      <input 
-        type="text" 
-        placeholder="Search by Job ID, email, or filename..."
-        [(ngModel)]="filter().searchTerm"
-        (input)="onFilterChange()" 
-      />
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8" />
+        <path d="m21 21-4.3-4.3" />
+      </svg>
+      <input type="text" placeholder="Search by Job ID, email, or filename..." [(ngModel)]="filter().searchTerm"
+        (input)="onFilterChange()" />
     </div>
 
     <div class="filter-group">
@@ -62,37 +78,44 @@
 
     <!-- View Mode Switcher -->
     <div class="view-toggle">
-      <button 
-        [class.active]="viewMode() === 'jobs'" 
-        (click)="viewMode.set('jobs')"
-        title="Firestore Job Document Inspector View"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+      <button [class.active]="viewMode() === 'jobs'" (click)="viewMode.set('jobs')"
+        title="Firestore Job Document Inspector View">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2">
+          <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+          <polyline points="14 2 14 8 20 8" />
+          <line x1="16" y1="13" x2="8" y2="13" />
+          <line x1="16" y1="17" x2="8" y2="17" />
+          <line x1="10" y1="9" x2="8" y2="9" />
+        </svg>
         Job View
       </button>
-      <button 
-        [class.active]="viewMode() === 'grid'" 
-        (click)="viewMode.set('grid')"
-        title="Data Grid Table View"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/><path d="M15 3v18"/></svg>
+      <button [class.active]="viewMode() === 'grid'" (click)="viewMode.set('grid')" title="Data Grid Table View">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2">
+          <rect width="18" height="18" x="3" y="3" rx="2" />
+          <path d="M3 9h18" />
+          <path d="M3 15h18" />
+          <path d="M9 3v18" />
+          <path d="M15 3v18" />
+        </svg>
         Grid
       </button>
-      <button 
-        [class.active]="viewMode() === 'tree'" 
-        (click)="viewMode.set('tree')"
-        title="Cloud Storage Directory Tree View"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L8.6 3.3A2 2 0 0 0 6.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+      <button [class.active]="viewMode() === 'tree'" (click)="viewMode.set('tree')"
+        title="Cloud Storage Directory Tree View">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2">
+          <path
+            d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L8.6 3.3A2 2 0 0 0 6.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" />
+        </svg>
         Storage View
       </button>
-      <button 
-        *ngIf="isSuperAdmin()"
-        [class.active]="viewMode() === 'security'" 
-        (click)="switchToSecurityTab()"
-        title="Manage Authorized Accounts, Roles & Security Flags"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <button *ngIf="isSuperAdmin()" [class.active]="viewMode() === 'security'" (click)="switchToSecurityTab()"
+        title="Manage Authorized Accounts, Roles & Security Flags">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        </svg>
         Users & Security
         <span *ngIf="flaggedUsersCount() > 0" class="flag-alert-pill">{{ flaggedUsersCount() }}</span>
       </button>
@@ -109,7 +132,12 @@
 
     <!-- Empty State -->
     <div *ngIf="!isLoading() && viewMode() !== 'security' && jobs().length === 0" class="empty-state">
-      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="1.5">
+        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+        <polyline points="14 2 14 8 20 8" />
+        <line x1="9" y1="13" x2="15" y2="13" />
+      </svg>
       <h3>No Log Records Found</h3>
       <p>No job execution logs match your active search filters.</p>
     </div>
@@ -121,11 +149,14 @@
         <div class="thresholds-header">
           <div>
             <h3 id="thresholds-heading">Rate Limiting &amp; Storage Quota Flag Thresholds</h3>
-            <p id="thresholds-desc">Accounts exceeding these thresholds are automatically flagged for Administrator review. Hard limits reject requests with HTTP 429.</p>
+            <p id="thresholds-desc">Accounts exceeding these thresholds are automatically flagged for Administrator
+              review. Hard limits reject requests with HTTP 429.</p>
           </div>
           <div class="thresholds-actions">
-            <span *ngIf="configSavedMessage()" class="saved-pill" role="status" aria-live="polite">{{ configSavedMessage() }}</span>
-            <button type="button" class="btn btn-secondary btn-sm" (click)="loadAdminUsers()" [disabled]="isLoadingUsers()">
+            <span *ngIf="configSavedMessage()" class="saved-pill" role="status" aria-live="polite">{{
+              configSavedMessage() }}</span>
+            <button type="button" class="btn btn-secondary btn-sm" (click)="loadAdminUsers()"
+              [disabled]="isLoadingUsers()">
               Refresh Accounts
             </button>
             <button type="submit" class="btn btn-primary btn-sm">
@@ -137,25 +168,30 @@
         <fieldset class="thresholds-grid" aria-labelledby="thresholds-heading" aria-describedby="thresholds-desc">
           <div class="threshold-field">
             <label for="threshold-calls-min">Max API Calls / Minute (Flag)</label>
-            <input id="threshold-calls-min" name="maxCallsPerMinute" type="number" min="5" [(ngModel)]="securityConfig().maxCallsPerMinute" required />
+            <input id="threshold-calls-min" name="maxCallsPerMinute" type="number" min="5"
+              [(ngModel)]="securityConfig().maxCallsPerMinute" required />
           </div>
           <div class="threshold-field">
             <label for="threshold-jobs-min">Max C-Engine Jobs / Minute (Flag)</label>
-            <input id="threshold-jobs-min" name="maxJobsPerMinute" type="number" min="1" [(ngModel)]="securityConfig().maxJobsPerMinute" required />
+            <input id="threshold-jobs-min" name="maxJobsPerMinute" type="number" min="1"
+              [(ngModel)]="securityConfig().maxJobsPerMinute" required />
           </div>
           <div class="threshold-field">
             <label for="threshold-storage-mb">Storage Quota Flag Threshold (MB)</label>
-            <input id="threshold-storage-mb" name="maxStorageMB" type="number" min="5" [(ngModel)]="securityConfig().maxStorageMB" required />
+            <input id="threshold-storage-mb" name="maxStorageMB" type="number" min="5"
+              [(ngModel)]="securityConfig().maxStorageMB" required />
           </div>
           <div class="threshold-field">
             <label for="threshold-hard-mult">Hard Rate-Limit Multiplier (HTTP 429)</label>
-            <input id="threshold-hard-mult" name="hardLimitMultiplier" type="number" min="1.1" step="0.5" [(ngModel)]="securityConfig().hardLimitMultiplier" required />
+            <input id="threshold-hard-mult" name="hardLimitMultiplier" type="number" min="1.1" step="0.5"
+              [(ngModel)]="securityConfig().hardLimitMultiplier" required />
           </div>
         </fieldset>
       </form>
 
       <!-- Authorized Accounts & Security Flags Table -->
-      <div class="grid-view-container table-wrapper" tabindex="0" role="region" aria-label="Authorized Accounts and Security Flags">
+      <div class="grid-view-container table-wrapper" tabindex="0" role="region"
+        aria-label="Authorized Accounts and Security Flags">
         <div *ngIf="isLoadingUsers()" class="loading-state">
           <div class="spinner"></div>
           <p>Loading registered accounts and security telemetry...</p>
@@ -183,18 +219,15 @@
                 </div>
               </th>
               <td>
-                <span class="status-badge" [class.success]="!u.blocked && u.authorized !== false" [class.failed]="u.blocked || u.authorized === false">
+                <span class="status-badge" [class.success]="!u.blocked && u.authorized !== false"
+                  [class.failed]="u.blocked || u.authorized === false">
                   {{ u.blocked ? 'BLOCKED' : (u.authorized === false ? 'UNAUTHORIZED' : 'AUTHORIZED') }}
                 </span>
               </td>
               <td>
-                <select
-                  class="role-select"
-                  [attr.aria-label]="'Role for ' + (u.email || u.uid)"
-                  [ngModel]="u.role || 'researcher'"
-                  (ngModelChange)="onChangeUserRole(u, $event)"
-                  [disabled]="u.uid === authService.currentUser()?.uid"
-                >
+                <select class="role-select" [attr.aria-label]="'Role for ' + (u.email || u.uid)"
+                  [ngModel]="u.role || 'researcher'" (ngModelChange)="onChangeUserRole(u, $event)"
+                  [disabled]="u.uid === authService.currentUser()?.uid">
                   <option value="admin">Admin (System + Personal)</option>
                   <option value="researcher">Researcher (Personal Write)</option>
                   <option value="viewer">Viewer (Read-Only)</option>
@@ -207,14 +240,16 @@
                 </div>
               </td>
               <td>
-                <span class="storage-pill" [class.over-quota]="(u.storageUsedBytes || 0) > securityConfig().maxStorageMB * 1024 * 1024">
+                <span class="storage-pill"
+                  [class.over-quota]="(u.storageUsedBytes || 0) > securityConfig().maxStorageMB * 1024 * 1024">
                   {{ formatBytes(u.storageUsedBytes || 0) }}
                 </span>
               </td>
               <td>
                 <div *ngIf="!u.securityFlags || u.securityFlags.length === 0" class="no-flags">None</div>
                 <div *ngIf="u.securityFlags && u.securityFlags.length > 0" class="flags-list">
-                  <div *ngFor="let flag of u.securityFlags" class="flag-badge" [title]="flag.message + ' (' + formatDate(flag.timestamp) + ')'">
+                  <div *ngFor="let flag of u.securityFlags" class="flag-badge"
+                    [title]="flag.message + ' (' + formatDate(flag.timestamp) + ')'">
                     <span class="flag-code">{{ flag.type }}</span>
                     <span class="flag-msg">{{ flag.message }}</span>
                   </div>
@@ -222,22 +257,13 @@
               </td>
               <td class="date-cell">{{ formatDate(u.lastLoginAt) }}</td>
               <td class="actions-cell">
-                <button
-                  type="button"
-                  class="btn btn-sm"
-                  [class.btn-danger]="!u.blocked"
-                  [class.btn-secondary]="u.blocked"
-                  (click)="onToggleBlockUser(u)"
-                  [disabled]="u.uid === authService.currentUser()?.uid"
-                >
+                <button type="button" class="btn btn-sm" [class.btn-danger]="!u.blocked"
+                  [class.btn-secondary]="u.blocked" (click)="onToggleBlockUser(u)"
+                  [disabled]="u.uid === authService.currentUser()?.uid">
                   {{ u.blocked ? 'Unblock' : 'Block Account' }}
                 </button>
-                <button
-                  type="button"
-                  *ngIf="u.securityFlags && u.securityFlags.length > 0"
-                  class="btn btn-secondary btn-sm"
-                  (click)="onClearUserFlags(u)"
-                >
+                <button type="button" *ngIf="u.securityFlags && u.securityFlags.length > 0"
+                  class="btn btn-secondary btn-sm" (click)="onClearUserFlags(u)">
                   Clear Flags
                 </button>
               </td>
@@ -256,16 +282,14 @@
           <span class="count-badge">{{ jobs().length }}</span>
         </div>
         <div class="job-doc-cards">
-          <div 
-            *ngFor="let job of jobs()" 
-            class="job-doc-card"
-            [class.active]="selectedJob()?.jobId === job.jobId"
-            (click)="selectJob(job)"
-          >
+          <div *ngFor="let job of jobs()" class="job-doc-card" [class.active]="selectedJob()?.jobId === job.jobId"
+            (click)="selectJob(job)">
             <div class="card-top">
-              <span class="status-indicator" [class.success]="job.status === 'SUCCESS'" [class.failed]="job.status === 'FAILED'"></span>
+              <span class="status-indicator" [class.success]="job.status === 'SUCCESS'"
+                [class.failed]="job.status === 'FAILED'"></span>
               <span class="category-tag">{{ job.jobCategory }}</span>
-              <span class="mode-tag-sm" [class.db-modifying]="job.accessMode === 'db-modifying'">{{ job.accessMode }}</span>
+              <span class="mode-tag-sm" [class.db-modifying]="job.accessMode === 'db-modifying'">{{ job.accessMode
+                }}</span>
             </div>
             <div class="card-title">
               <code>{{ job.jobId }}</code>
@@ -275,7 +299,10 @@
               <span class="time-meta">{{ formatDate(job.timestamp) }}</span>
             </div>
             <div class="card-path" *ngIf="job.docPath">
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2">
+                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+              </svg>
               <code>{{ job.docPath }}</code>
             </div>
           </div>
@@ -287,18 +314,28 @@
         <!-- Inspector Top Header -->
         <header class="inspector-header">
           <div class="title-meta">
-            <span class="status-badge" [class.success]="job.status === 'SUCCESS'" [class.failed]="job.status === 'FAILED'">
+            <span class="status-badge" [class.success]="job.status === 'SUCCESS'"
+              [class.failed]="job.status === 'FAILED'">
               {{ job.status }}
             </span>
             <h2>{{ job.jobCategory }} <span class="sub-id">({{ job.jobId }})</span></h2>
           </div>
           <div class="inspector-actions">
             <button class="btn btn-secondary btn-sm" (click)="copyDocumentJson()">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2">
+                <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+                <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+              </svg>
               {{ copySuccess() ? 'JSON Copied!' : 'Copy Document JSON' }}
             </button>
             <button class="btn btn-danger btn-sm" (click)="promptDeleteJob(job)">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18" />
+                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+              </svg>
               Delete Job
             </button>
           </div>
@@ -313,15 +350,28 @@
         <!-- Inspector Tabs -->
         <nav class="inspector-tabs">
           <button [class.active]="activeTab() === 'document'" (click)="activeTab.set('document')">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+            </svg>
             Firestore Document JSON
           </button>
           <button [class.active]="activeTab() === 'files'" (click)="activeTab.set('files')">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
+              <polyline points="13 2 13 9 20 9" />
+            </svg>
             Job Output Files ({{ job.files ? job.files.length : 0 }})
           </button>
           <button [class.active]="activeTab() === 'artifacts'" (click)="activeTab.set('artifacts')">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L8.6 3.3A2 2 0 0 0 6.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <path
+                d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L8.6 3.3A2 2 0 0 0 6.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" />
+            </svg>
             Cloud Storage Manifest
           </button>
         </nav>
@@ -339,7 +389,8 @@
             </div>
             <div class="field-item">
               <span class="f-label">Access Mode</span>
-              <span class="f-val"><span class="mode-tag" [class.db-modifying]="job.accessMode === 'db-modifying'">{{ job.accessMode }}</span></span>
+              <span class="f-val"><span class="mode-tag" [class.db-modifying]="job.accessMode === 'db-modifying'">{{
+                  job.accessMode }}</span></span>
             </div>
             <div class="field-item">
               <span class="f-label">Job Category</span>
@@ -368,13 +419,12 @@
           <!-- Selectable File Chips Header -->
           <div class="file-chips-bar">
             <span class="bar-title">Attached Files:</span>
-            <button 
-              *ngFor="let file of job.files" 
-              class="file-chip"
-              [class.active]="selectedFile()?.filename === file.filename"
-              (click)="selectFile(file)"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/></svg>
+            <button *ngFor="let file of job.files" class="file-chip"
+              [class.active]="selectedFile()?.filename === file.filename" (click)="selectFile(file)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2">
+                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+              </svg>
               {{ file.filename }}
               <span class="chip-size">({{ formatBytes(file.sizeBytes) }})</span>
             </button>
@@ -386,7 +436,12 @@
               <span class="active-filename">{{ file.filename }}</span>
               <a *ngIf="file.downloadUrl" [href]="file.downloadUrl" target="_blank" class="download-link">
                 Download File
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
               </a>
             </div>
 
@@ -413,7 +468,12 @@
               </div>
               <a *ngIf="file.downloadUrl" [href]="file.downloadUrl" target="_blank" class="download-link">
                 Download
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
               </a>
             </li>
           </ul>
@@ -439,7 +499,8 @@
         <tbody>
           <tr *ngFor="let job of jobs()" (click)="selectJob(job)" [class.selected]="selectedJob()?.jobId === job.jobId">
             <td>
-              <span class="status-badge" [class.success]="job.status === 'SUCCESS'" [class.failed]="job.status === 'FAILED'">
+              <span class="status-badge" [class.success]="job.status === 'SUCCESS'"
+                [class.failed]="job.status === 'FAILED'">
                 {{ job.status || 'SUCCESS' }}
               </span>
             </td>
@@ -461,10 +522,20 @@
             <td class="size-cell">{{ formatBytes(job.totalSizeBytes) }}</td>
             <td class="actions-cell">
               <button class="btn-icon view-btn" (click)="selectJob(job)" title="View Log Details & Content">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2">
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
               </button>
-              <button class="btn-icon delete-btn" (click)="promptDeleteJob(job, $event)" title="Hard Delete GCS & Firestore Log">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+              <button class="btn-icon delete-btn" (click)="promptDeleteJob(job, $event)"
+                title="Hard Delete GCS & Firestore Log">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2">
+                  <path d="M3 6h18" />
+                  <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                  <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                </svg>
               </button>
             </td>
           </tr>
@@ -485,10 +556,24 @@
         <li *ngFor="let node of nodes" class="tree-node-item">
           <div class="tree-node-header" (click)="toggleTreeNode(node, $event)" [class.is-job]="node.type === 'job'">
             <span class="tree-icon">
-              <svg *ngIf="node.type !== 'job'" [class.rotated]="node.isExpanded" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
-              <svg *ngIf="node.type === 'user'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              <svg *ngIf="node.type === 'accessMode' || node.type === 'day'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L8.6 3.3A2 2 0 0 0 6.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
-              <svg *ngIf="node.type === 'job'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/></svg>
+              <svg *ngIf="node.type !== 'job'" [class.rotated]="node.isExpanded" xmlns="http://www.w3.org/2000/svg"
+                width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="m9 18 6-6-6-6" />
+              </svg>
+              <svg *ngIf="node.type === 'user'" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              <svg *ngIf="node.type === 'accessMode' || node.type === 'day'" xmlns="http://www.w3.org/2000/svg"
+                width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path
+                  d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L8.6 3.3A2 2 0 0 0 6.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" />
+              </svg>
+              <svg *ngIf="node.type === 'job'" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+              </svg>
             </span>
             <span class="tree-node-label">{{ node.label }}</span>
           </div>
@@ -506,14 +591,19 @@
     <div *ngIf="selectedJob() as job" class="drawer-content">
       <div class="drawer-header">
         <div class="drawer-title">
-          <span class="status-badge" [class.success]="job.status === 'SUCCESS'" [class.failed]="job.status === 'FAILED'">
+          <span class="status-badge" [class.success]="job.status === 'SUCCESS'"
+            [class.failed]="job.status === 'FAILED'">
             {{ job.status }}
           </span>
           <h3>{{ job.jobCategory }}</h3>
           <code>{{ job.jobId }}</code>
         </div>
         <button class="close-btn" (click)="closeDrawer()" title="Close Drawer">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
         </button>
       </div>
 
@@ -555,12 +645,8 @@
       <div *ngIf="activeTab() === 'files'" class="tab-pane files-pane">
         <!-- File Chips Header -->
         <div class="file-chips-bar">
-          <button 
-            *ngFor="let file of job.files" 
-            class="file-chip"
-            [class.active]="selectedFile()?.filename === file.filename"
-            (click)="selectFile(file)"
-          >
+          <button *ngFor="let file of job.files" class="file-chip"
+            [class.active]="selectedFile()?.filename === file.filename" (click)="selectFile(file)">
             {{ file.filename }}
           </button>
         </div>
@@ -584,12 +670,18 @@
   <div *ngIf="deleteConfirmJob()" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444"
+          stroke-width="2">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+          <line x1="12" y1="9" x2="12" y2="13" />
+          <line x1="12" y1="17" x2="12.01" y2="17" />
+        </svg>
         <h3>Confirm Hard Delete</h3>
       </div>
       <div class="modal-body">
         <p>Are you sure you want to permanently delete execution log <code>{{ deleteConfirmJob()?.jobId }}</code>?</p>
-        <p class="warning-text">This will immediately purge all corresponding log files, session jobs, and output artifacts stored under <code>{{ deleteConfirmJob()?.gcsPrefix }}</code> in Cloud Storage.</p>
+        <p class="warning-text">This will immediately purge all corresponding log files, session jobs, and output
+          artifacts stored under <code>{{ deleteConfirmJob()?.gcsPrefix }}</code> in Cloud Storage.</p>
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" (click)="cancelDelete()">Cancel</button>
@@ -602,12 +694,20 @@
   <div *ngIf="showPurgeAllModal()" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444"
+          stroke-width="2">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+          <line x1="12" y1="9" x2="12" y2="13" />
+          <line x1="12" y1="17" x2="12.01" y2="17" />
+        </svg>
         <h3>Purge All Execution & Session Logs</h3>
       </div>
       <div class="modal-body">
         <p>Are you sure you want to permanently purge <strong>ALL</strong> execution logs and session job history?</p>
-        <p class="warning-text">This will immediately delete all Firestore log documents (including session jobs under <code>/users/{{ authService.currentUser()?.uid }}/sessions/.../jobs</code>) and remove all corresponding artifact files from Cloud Storage.</p>
+        <p class="warning-text">This will immediately delete all Firestore log documents (including session jobs under
+          <code>/users/{{ authService.currentUser()?.uid }}/sessions/.../jobs</code>) and remove all corresponding
+          artifact files from Cloud Storage.
+        </p>
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" (click)="cancelPurgeAll()">Cancel</button>
