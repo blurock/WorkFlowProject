@@ -13,8 +13,35 @@ import {
   limit,
   DocumentData
 } from 'firebase/firestore';
-import { AuthService } from './auth.service';
+import { AuthService, SecurityFlag, UserRole } from './auth.service';
 import { LogJobDocument, LogFilterQuery, LogTreeNode } from '../models/logging-admin.models';
+
+export interface AdminManagedUser {
+  uid: string;
+  email: string;
+  displayName: string;
+  photoURL?: string | null;
+  emailVerified?: boolean;
+  providers?: string[];
+  role: UserRole;
+  authorized: boolean;
+  blocked: boolean;
+  storageUsedBytes: number;
+  securityFlags: SecurityFlag[];
+  callsLastMinute?: number;
+  jobsLastMinute?: number;
+  totalSessionCalls?: number;
+  createdAt?: string | null;
+  lastLoginAt?: string | null;
+}
+
+export interface SecurityThresholdConfig {
+  maxCallsPerMinute: number;
+  maxJobsPerMinute: number;
+  maxStorageMB: number;
+  hardLimitMultiplier: number;
+  updatedAt?: string;
+}
 
 const firebaseConfig = {
   projectId: "blurock-database",
@@ -36,35 +63,65 @@ export class LoggingAdminService {
   private firebaseApp = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
   private db = getFirestore(this.firebaseApp);
 
-  public readonly SUPER_ADMIN_UID = 'UOqk0KtFtaXma5TGsi8Seh9RMbx1';
-
   private readonly CACHE_KEY = 'reactcloud_log_jobs_cache';
   private cachedJobs: LogJobDocument[] | null = null;
 
   constructor() {}
 
   private getAuthHeaders(): HttpHeaders {
-    const token = this.authService.currentUser()?.token || 'demo-token';
+    const token = this.authService.getToken() || '';
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
   }
 
+  /**
+   * Determines whether the current authenticated user holds the Administrator role
+   * via verified Firebase Custom Claims / Firestore user profile (zero hardcoded UIDs/emails).
+   */
   public isSuperAdmin(): boolean {
-    const user = this.authService.currentUser();
-    if (!user) return true; // Default to true in admin page if user object not explicitly non-admin
-    const email = (user.email || '').toLowerCase();
-    const uid = (user.uid || '').toLowerCase();
-    const username = (user.username || '').toLowerCase();
+    return this.authService.isAdmin();
+  }
 
-    return user.uid === this.SUPER_ADMIN_UID || 
-           email === 'edward.blurock@gmail.com' || 
-           email.includes('edward') || 
-           uid.includes('edward') || 
-           username.includes('edward') ||
-           uid === 'default' ||
-           uid === 'user_default_local';
+  /**
+   * Fetch all registered users, live call rates, storage usage, and security flags (Admin only)
+   */
+  public getAdminUsers(): Observable<{ users: AdminManagedUser[]; securityConfig: SecurityThresholdConfig }> {
+    return this.http.get<{ users: AdminManagedUser[]; securityConfig: SecurityThresholdConfig }>(
+      `${this.baseUrl}/api/admin/users`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
+  /**
+   * Update a user's role, block/unblock status, or clear security flags (Admin only)
+   */
+  public updateAdminUser(
+    uid: string,
+    payload: {
+      role?: UserRole;
+      authorized?: boolean;
+      blocked?: boolean;
+      clearFlags?: boolean;
+    }
+  ): Observable<{ success: boolean; uid: string; role: UserRole; authorized: boolean; blocked: boolean }> {
+    return this.http.patch<{ success: boolean; uid: string; role: UserRole; authorized: boolean; blocked: boolean }>(
+      `${this.baseUrl}/api/admin/users/${encodeURIComponent(uid)}`,
+      payload,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
+  /**
+   * Update global rate-limiting and storage quota flag thresholds (Admin only)
+   */
+  public updateSecurityConfig(config: Partial<SecurityThresholdConfig>): Observable<{ success: boolean; config: SecurityThresholdConfig }> {
+    return this.http.put<{ success: boolean; config: SecurityThresholdConfig }>(
+      `${this.baseUrl}/api/admin/security-config`,
+      config,
+      { headers: this.getAuthHeaders() }
+    );
   }
 
   private getStoredCache(): LogJobDocument[] | null {

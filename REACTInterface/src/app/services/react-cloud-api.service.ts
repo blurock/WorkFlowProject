@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, map, switchMap, tap, catchError, from } from 'rxjs';
 import { CommandTemplatesRegistry } from '../templates/command-templates.registry';
+import { AuthService } from './auth.service';
 
 export interface CatalogItem {
   id: string;
@@ -120,6 +121,8 @@ export class ReactCloudApiService {
       icon: 'account_tree'
     }
   ];
+
+  private authService = inject(AuthService);
 
   constructor(private http: HttpClient) {}
 
@@ -245,7 +248,8 @@ export class ReactCloudApiService {
   public runInputTask(inpFile: string, rootName: string = 'job1'): Observable<CatalogItem[]> {
     const payload = {
       inputFile: inpFile,
-      root: rootName
+      root: rootName,
+      dataScope: this.authService.activeDataScope()
     };
 
     return this.http.post<ApiRunInputResponse>(`${this.baseUrl}/api/run-input`, payload).pipe(
@@ -285,7 +289,8 @@ export class ReactCloudApiService {
   public runCommands(commands: string[], rootName: string = 'job1', targetItem?: string, taskId?: string, fileUrl?: string, fileName?: string): Observable<ApiRunCommandsResponse> {
     const payload: any = {
       commands: commands,
-      root: rootName
+      root: rootName,
+      dataScope: this.authService.activeDataScope()
     };
     if (targetItem) {
       payload.targetItem = targetItem;

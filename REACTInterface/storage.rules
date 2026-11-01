@@ -1,0 +1,42 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAuthorized() {
+      return isSignedIn()
+        && request.auth.token.get('blocked', false) != true
+        && request.auth.token.get('authorized', true) != false;
+    }
+
+    function isAdmin() {
+      return isAuthorized()
+        && (request.auth.token.get('role', '') == 'admin' || request.auth.token.get('admin', false) == true);
+    }
+
+    function isOwner(uid) {
+      return isAuthorized() && request.auth.uid == uid;
+    }
+
+    // Shared system data in Cloud Storage: readable by any authorized user, writable by admins only
+    match /users/system/{allPaths=**} {
+      allow read: if isAuthorized();
+      allow write: if isAdmin();
+    }
+
+    match /users/user_default_local/{allPaths=**} {
+      allow read: if isAuthorized();
+      allow write: if isAdmin();
+    }
+
+    // Personal user workspace & logs in Cloud Storage: strictly isolated per user UID (or Admin)
+    match /users/{uid}/{allPaths=**} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow write: if (isOwner(uid) || isAdmin())
+        && (request.resource == null || request.resource.size < 50 * 1024 * 1024);
+    }
+  }
+}
+

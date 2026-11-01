@@ -1,24 +1,332 @@
 rules_version = '2';
+
+// ===============================================================
+// Assumed Data Model
+// ===============================================================
+//
+// This security rules file assumes the following data structures:
+//
+// Collection: users
+// Document ID: {uid}
+// Fields:
+//   - uid: string (optional, immutable) - Firebase Auth UID matching {uid}
+//   - email: string (optional, <= 320 chars) - User email address (PII)
+//   - displayName: string (optional, <= 200 chars) - User display name
+//   - username: string (optional, <= 200 chars) - Application username
+//   - photoURL: string (optional, <= 500 chars) - Profile photo URL
+//   - role: string (privileged, admin-only, 'user' | 'admin') - RBAC role
+//   - authorized: bool (privileged, admin-only) - Account authorization status
+//   - blocked: bool (privileged, admin-only) - Immediate account block flag
+//   - securityFlags: map (privileged, admin-only) - Automated abuse detection metadata
+//   - quotaLimits: map (privileged, admin-only) - Per-user execution/storage limits
+//   - createdAt: timestamp/string (optional, immutable) - Account creation timestamp
+//   - lastLoginAt: timestamp/string (optional) - Last login timestamp
+//
+// Subcollections under /users/{uid}:
+//   - /databases/{dbName}/records/{recordId}: Multi-tenant chemical catalog records
+//   - /databases/{dbName}/metadata/{metaId}: Database counter & metadata documents
+//   - /classifications/{allPaths=**}: Hierarchical classification trees
+//   - /searchkeys/{dbName}: Indexed search key maps per database
+//   - /jobs/{jobId}: User-level job execution log metadata (userId == {uid})
+//   - /sessions/{sessionId}/jobs/{jobId}: Session-scoped job execution log metadata
+//   - /logs/{allPaths=**}: Mirrored GCS execution log metadata
+//   Note: Special tenant IDs 'system' and 'user_default_local' hold shared reference
+//         catalog data (readable by all authorized users, writable only by admins).
+//
+// Collection: system_security
+// Document ID: {docId}
+// Fields:
+//   - Security alerts, audit events, and system-wide security configuration (admin-only)
+//
+// Collection Group: jobs (/{path=**}/jobs/{jobId})
+// Fields:
+//   - jobId: string - Unique job identifier
+//   - userId: string - Owner Firebase UID
+//
+// Legacy / Shared Collections (preserved from frontend/firestore.rules):
+//   - /workflows/{document=**}
+//   - /workflows_dev/{document=**}
+//   - /hierthermodynamicdataset/{document=**}
+//   - /transaction/{document=**}
+//   - /mail/{document=**}
+//   - /beauty_salon_data/{document=**}
+//
+// ===============================================================
+
 service cloud.firestore {
   match /databases/{database}/documents {
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+
+    // Check if the user is signed in with Firebase Auth
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Alias for standard authentication check
+    function isAuthenticated() {
+      return isSignedIn();
+    }
+
+    // Check that the user's profile document (if it exists) does not mark them blocked or unauthorized
+    function isNotBlockedInProfile() {
+      let userPath = /databases/$(database)/documents/users/$(request.auth.uid);
+      return !exists(userPath) || (
+        get(userPath).data.get('blocked', false) != true &&
+        get(userPath).data.get('authorized', true) != false
+      );
+    }
+
+    // Check if the user is signed in, not blocked via custom claims or profile doc,
+    // and authorized (supports Option B auto-authorization unless explicitly revoked)
+    function isAuthorized() {
+      return isSignedIn() &&
+             request.auth.token.get('blocked', false) != true &&
+             request.auth.token.get('authorized', true) != false &&
+             isNotBlockedInProfile();
+    }
+
+    // Check if the user holds administrator privileges via verified custom claims
+    function isAdmin() {
+      return isAuthorized() && (
+        request.auth.token.get('role', '') == 'admin' ||
+        request.auth.token.get('admin', false) == true
+      );
+    }
+
+    // Check if the user is authorized and owns the resource scoped to {uid}
+    function isOwner(uid) {
+      return isAuthorized() && request.auth.uid == uid;
+    }
+
+    // Verify UID field in payload matches the authenticated user if present
+    function uidUnchanged(uid) {
+      return !('uid' in request.resource.data) ||
+             request.resource.data.uid == uid;
+    }
+
+    // Ensure UID field is not modified on update
+    function uidNotModified() {
+      return !('uid' in request.resource.data) ||
+             !('uid' in resource.data) ||
+             request.resource.data.uid == resource.data.uid;
+    }
+
+    // Validate that immutable/privileged fields have not been modified
+    function areImmutableFieldsUnchanged(fields) {
+      return !request.resource.data.diff(resource.data).affectedKeys().hasAny(fields);
+    }
+
+    // Validate optional string field length to prevent resource exhaustion
+    function isValidOptionalString(data, field, maxLen) {
+      return !(field in data) ||
+             data[field] == null ||
+             (data[field] is string && data[field].size() <= maxLen);
+    }
+
+    // Check whether a tenant UID represents shared/system catalog space
+    function isSystemOrSharedTenant(uid) {
+      return uid == 'system' || uid == 'user_default_local';
+    }
+
+    // Read check for tenant subcollections (shared tenants readable by authorized users; personal by owner or admin)
+    function canReadTenantData(uid) {
+      return isSystemOrSharedTenant(uid) ? isAuthorized() : (isOwner(uid) || isAdmin());
+    }
+
+    // Write check for tenant subcollections (shared tenants writable only by admin; personal by owner or admin)
+    function canWriteTenantData(uid) {
+      return isSystemOrSharedTenant(uid) ? isAdmin() : (isOwner(uid) || isAdmin());
+    }
+
+    // ===============================================================
+    // Domain Validators (Used in both create and update)
+    // ===============================================================
+
+    // Validate common user profile string attributes and field count limits
+    function isValidUserProfileCommon(uid, data) {
+      return data.keys().size() <= 30 &&
+             uidUnchanged(uid) &&
+             isValidOptionalString(data, 'uid', 128) &&
+             isValidOptionalString(data, 'email', 320) &&
+             isValidOptionalString(data, 'displayName', 200) &&
+             isValidOptionalString(data, 'username', 200) &&
+             isValidOptionalString(data, 'photoURL', 500);
+    }
+
+    // Validate user profile creation by non-admin owner (forbids setting privileged RBAC/security fields)
+    function isValidUserProfileCreate(uid, data) {
+      return isValidUserProfileCommon(uid, data) &&
+             data.get('role', 'user') == 'user' &&
+             data.get('blocked', false) == false &&
+             data.get('authorized', true) == true &&
+             !('securityFlags' in data) &&
+             !('quotaLimits' in data);
+    }
+
+    // Validate user profile update by non-admin owner (forbids modifying privileged RBAC/security/immutable fields)
+    function isValidUserProfileUpdate(uid, data) {
+      return isValidUserProfileCommon(uid, data) &&
+             uidNotModified() &&
+             areImmutableFieldsUnchanged([
+               'role',
+               'authorized',
+               'blocked',
+               'securityFlags',
+               'quotaLimits',
+               'uid',
+               'createdAt'
+             ]);
+    }
+
+    // Validate tenant subcollection documents (prevents unbounded key maps and cross-user userId spoofing)
+    function isValidTenantPayload(uid, data) {
+      return data.keys().size() <= 200 &&
+             (!('userId' in data) || isAdmin() || data.userId == uid);
+    }
+
+    // ===============================================================
+    // Multi-Tenant User Profiles & Subcollections (/users/{uid})
+    // ===============================================================
+
+    // Explicit rules for shared system and default local reference tenants
+    match /users/system/{document=**} {
+      allow read: if isAuthorized();
+      allow write: if isAdmin();
+    }
+
+    match /users/user_default_local/{document=**} {
+      allow read: if isAuthorized();
+      allow write: if isAdmin();
+    }
+
+    match /users/{uid} {
+      // PII Protection: Only the profile owner or an admin can read the user profile document
+      allow read: if isOwner(uid) || isAdmin();
+
+      // RBAC Protection: Owner can create initial profile only without privileged fields; admin can create any
+      allow create: if isAdmin() || (isOwner(uid) && isValidUserProfileCreate(uid, request.resource.data));
+
+      // RBAC & Update Bypass Protection: Owner cannot modify privileged or immutable fields; admin can update any
+      allow update: if isAdmin() || (isOwner(uid) && isValidUserProfileUpdate(uid, request.resource.data));
+
+      // Prevent blocked users from deleting and recreating their profile document
+      allow delete: if isAdmin();
+
+      // Personal & Shared Database Records
+      match /databases/{dbName}/records/{recordId} {
+        allow read: if canReadTenantData(uid);
+        allow create, update: if canWriteTenantData(uid) && isValidTenantPayload(uid, request.resource.data);
+        allow delete: if canWriteTenantData(uid);
+      }
+
+      // Personal & Shared Database Metadata (counter, databaseInfo)
+      match /databases/{dbName}/metadata/{metaId} {
+        allow read: if canReadTenantData(uid);
+        allow create, update: if canWriteTenantData(uid) && isValidTenantPayload(uid, request.resource.data);
+        allow delete: if canWriteTenantData(uid);
+      }
+
+      // Personal & Shared Classifications Hierarchy
+      match /classifications/{allPaths=**} {
+        allow read: if canReadTenantData(uid);
+        allow create, update: if canWriteTenantData(uid) && isValidTenantPayload(uid, request.resource.data);
+        allow delete: if canWriteTenantData(uid);
+      }
+
+      // Personal & Shared Search Keys
+      match /searchkeys/{dbName} {
+        allow read: if canReadTenantData(uid);
+        allow create, update: if canWriteTenantData(uid) && isValidTenantPayload(uid, request.resource.data);
+        allow delete: if canWriteTenantData(uid);
+      }
+
+      // Personal & Shared User-Level Job Logs
+      match /jobs/{jobId} {
+        allow read: if canReadTenantData(uid);
+        allow create, update: if canWriteTenantData(uid) && isValidTenantPayload(uid, request.resource.data);
+        allow delete: if canWriteTenantData(uid);
+      }
+
+      // Personal & Shared Session Containers and Session-Scoped Job Logs
+      match /sessions/{sessionId} {
+        allow read: if canReadTenantData(uid);
+        allow create, update: if canWriteTenantData(uid) && isValidTenantPayload(uid, request.resource.data);
+        allow delete: if canWriteTenantData(uid);
+
+        match /jobs/{jobId} {
+          allow read: if canReadTenantData(uid);
+          allow create, update: if canWriteTenantData(uid) && isValidTenantPayload(uid, request.resource.data);
+          allow delete: if canWriteTenantData(uid);
+        }
+      }
+
+      // Personal & Shared GCS-Mirrored Execution Logs
+      match /logs/{allPaths=**} {
+        allow read: if canReadTenantData(uid);
+        allow create, update: if canWriteTenantData(uid) && isValidTenantPayload(uid, request.resource.data);
+        allow delete: if canWriteTenantData(uid);
+      }
+    }
+
+    // ===============================================================
+    // Collection Group Rule for Jobs (/{path=**}/jobs/{jobId})
+    // ===============================================================
+
+    match /{path=**}/jobs/{jobId} {
+      allow read: if isAdmin() || (isAuthorized() && resource.data.userId == request.auth.uid);
+      allow delete: if isAdmin() || (isAuthorized() && resource.data.userId == request.auth.uid);
+    }
+
+    // ===============================================================
+    // Security Alerts & System Configuration (/system_security/{docId})
+    // ===============================================================
+
+    match /system_security/{docId} {
+      allow read, write: if isAdmin();
+
+      match /{allPaths=**} {
+        allow read, write: if isAdmin();
+      }
+    }
+
+    // ===============================================================
+    // Preserved Legacy / Shared Collections (from frontend/firestore.rules)
+    // ===============================================================
+
     match /workflows/{document=**} {
-      allow read, write: if request.auth != null;
+      allow read, write: if isAuthorized();
     }
+
     match /workflows_dev/{document=**} {
-      allow read, write: if request.auth != null;
+      allow read, write: if isAuthorized();
     }
+
+    match /hierthermodynamicdataset/{document=**} {
+      allow read, write: if isAuthorized();
+    }
+
+    match /transaction/{document=**} {
+      allow read, write: if isAuthorized();
+    }
+
+    match /mail/{document=**} {
+      allow write: if true;
+      allow read: if isAuthorized();
+    }
+
     match /beauty_salon_data/{document=**} {
       allow read, write: if true;
     }
-    match /mail/{document=**} {
-      allow write: if true;
-      allow read: if request.auth != null;
-    }
-    match /hierthermodynamicdataset/{document=**} {
-      allow read, write: if request.auth != null;
-    }
-    match /transaction/{document=**} {
-      allow read, write: if request.auth != null;
+
+    // ===============================================================
+    // Default Deny Catch-All
+    // ===============================================================
+
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }

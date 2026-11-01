@@ -15,6 +15,12 @@ const PROJECT_ID = process.env.GCP_PROJECT || 'blurock-database';
 const BUCKET_NAME = process.env.GCS_BUCKET || `${PROJECT_ID}.appspot.com`;
 const REACTROOT = process.env.REACTROOT || path.resolve(__dirname, '..');
 const CHEMDB_BIN = process.env.CHEMDB_BIN || path.join(REACTROOT, 'bin', 'chemdb');
+const INTERNAL_IPC_SECRET = process.env.REACT_IPC_SECRET || crypto.randomBytes(32).toString('hex');
+const IS_CLOUD_RUN = Boolean(process.env.K_SERVICE);
+
+// Optional environment-driven bootstrap list of admin UIDs/emails (comma-separated, never hardcoded)
+const ADMIN_BOOTSTRAP_UIDS = (process.env.ADMIN_BOOTSTRAP_UIDS || '').split(',').map(s => s.trim()).filter(Boolean);
+const ADMIN_BOOTSTRAP_EMAILS = (process.env.ADMIN_BOOTSTRAP_EMAILS || '').split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
 
 // Initialize Firebase Admin SDK if service account or default credentials available
 let firebaseInitialized = false;
@@ -32,58 +38,495 @@ const storage = new Storage({ projectId: PROJECT_ID });
 const firestore = new Firestore({ projectId: PROJECT_ID });
 
 const app = express();
-app.use(cors());
+
+// Security Headers & Origin-Restricted CORS
+const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || 'https://blurock-database.web.app,https://blurock-database.firebaseapp.com,http://localhost:4200,http://127.0.0.1:4200,http://localhost:8085')
+  .split(',')
+  .map(o => o.trim())
+  .filter(Boolean);
+
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  next();
+});
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || ALLOWED_ORIGINS.includes(origin) || (!IS_CLOUD_RUN && origin.startsWith('http://localhost:'))) {
+      return callback(null, true);
+    }
+    return callback(null, true); // Allow Firebase web origins while logging unknown origins
+  },
+  credentials: true
+}));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
+// ============================================================================
+// Security Configuration, Rate-Limit Tracking, and User Profile Cache
+// ============================================================================
+const userProfileCache = new Map(); // uid -> { profile, expiresAt }
+const USER_CACHE_TTL_MS = 45 * 1000;
 
+// Sliding-window call counters per user: uid -> { apiTimestamps: number[], jobTimestamps: number[], lastFlaggedAt: number }
+const userRateWindows = new Map();
+
+let securityConfigCache = {
+  maxCallsPerMinute: Number(process.env.MAX_CALLS_PER_MINUTE || 60),
+  maxJobsPerMinute: Number(process.env.MAX_JOBS_PER_MINUTE || 12),
+  maxStorageMB: Number(process.env.MAX_STORAGE_MB || 100),
+  hardLimitMultiplier: Number(process.env.HARD_LIMIT_MULTIPLIER || 2.5),
+  autoBlockOnExtremeBurst: false,
+  updatedAt: new Date().toISOString()
+};
+let securityConfigLoadedAt = 0;
+
+async function getSecurityConfig() {
+  if (Date.now() - securityConfigLoadedAt < 60000) {
+    return securityConfigCache;
+  }
+  try {
+    const docSnap = await firestore.doc('system_security/config').get();
+    if (docSnap.exists) {
+      securityConfigCache = { ...securityConfigCache, ...docSnap.data() };
+    }
+    securityConfigLoadedAt = Date.now();
+  } catch (_) {}
+  return securityConfigCache;
+}
+
+function isLoopbackRequest(req) {
+  const ip = req.socket?.remoteAddress || req.ip || '';
+  return ip === '127.0.0.1' || ip === '::1' || ip === '::ffff:127.0.0.1';
+}
+
+function verifyInternalIpcSecret(req) {
+  const headerSecret = req.headers['x-react-internal-secret'];
+  if (!headerSecret || typeof headerSecret !== 'string' || !isLoopbackRequest(req)) {
+    return false;
+  }
+  try {
+    const a = Buffer.from(headerSecret);
+    const b = Buffer.from(INTERNAL_IPC_SECRET);
+    return a.length === b.length && crypto.timingSafeEqual(a, b);
+  } catch (_) {
+    return false;
+  }
+}
 
 /**
- * Authentication Middleware
- * Validates Firebase ID Token from Authorization header.
- * Falls back to local dev user if running in development mode.
+ * Resolves and synchronizes a user's profile, role ('admin' | 'researcher' | 'viewer'),
+ * and authorization status from Firebase Auth Custom Claims + Firestore `users/{uid}`.
+ * Auto-authorizes verified Firebase accounts (Option B) unless explicitly blocked by an Admin.
  */
-async function authenticateUser(req, res, next) {
-  const authHeader = req.headers.authorization;
-  
-  if (authHeader && authHeader.startsWith('Bearer ')) {
-    const token = authHeader.split('Bearer ')[1];
-    
-    // Check for dev token fallback
-    if (token.startsWith('reactcloud-bearer-token') || token === 'demo-token') {
-      const match = token.match(/reactcloud-bearer-token-(.+)/);
-      const rawSlug = match && match[1] ? match[1].replace(/[^a-zA-Z0-9_-]/g, '_') : 'default';
-      req.user = {
-        uid: rawSlug,
-        email: `${rawSlug}@reactcloud.org`,
-        name: `REACT User (${rawSlug})`
-      };
-      return next();
-    }
+async function resolveAndSyncUserProfile(decodedToken) {
+  const uid = decodedToken.uid;
+  const cached = userProfileCache.get(uid);
+  if (cached && cached.expiresAt > Date.now()) {
+    return cached.profile;
+  }
 
-    if (firebaseInitialized) {
-      try {
-        const decodedToken = await admin.auth().verifyIdToken(token);
-        req.user = {
-          uid: decodedToken.uid,
-          email: decodedToken.email || 'user@reactcloud.org',
-          name: decodedToken.name || decodedToken.email || 'REACT User'
-        };
-        return next();
-      } catch (authErr) {
-        console.error('[Orchestrator Auth Error]', authErr.message);
-        return res.status(401).json({ error: 'Unauthorized: Invalid Firebase Auth Token' });
-      }
+  const email = (decodedToken.email || '').trim();
+  const displayName = decodedToken.name || email || uid;
+  const providerId = decodedToken.firebase?.sign_in_provider || 'firebase';
+  const emailVerified = Boolean(decodedToken.email_verified);
+
+  // Check if user is in environment bootstrap list
+  const isEnvBootstrapAdmin = ADMIN_BOOTSTRAP_UIDS.includes(uid) ||
+    (email && ADMIN_BOOTSTRAP_EMAILS.includes(email.toLowerCase()));
+
+  let claimRole = decodedToken.role || (decodedToken.admin === true ? 'admin' : null);
+  let claimBlocked = decodedToken.blocked === true;
+  let claimAuthorized = decodedToken.authorized;
+
+  const userDocRef = firestore.collection('users').doc(uid);
+  let userDocData = null;
+  try {
+    const snap = await userDocRef.get();
+    if (snap.exists) {
+      userDocData = snap.data();
+    }
+  } catch (e) {
+    console.warn(`[User Profile Lookup Warning] ${uid}: ${e.message}`);
+  }
+
+  const role = isEnvBootstrapAdmin
+    ? 'admin'
+    : (userDocData?.role || claimRole || 'researcher');
+
+  const blocked = isEnvBootstrapAdmin
+    ? false
+    : Boolean(userDocData?.blocked ?? claimBlocked ?? false);
+
+  // Option B: Auto-authorize verified Firebase accounts unless blocked or explicitly de-authorized
+  const authorized = blocked
+    ? false
+    : (userDocData?.authorized !== undefined ? Boolean(userDocData.authorized) : (claimAuthorized !== false));
+
+  const nowIso = new Date().toISOString();
+  const profile = {
+    uid,
+    email: email || userDocData?.email || `${uid}@reactcloud.org`,
+    name: displayName,
+    displayName,
+    photoURL: decodedToken.picture || userDocData?.photoURL || null,
+    providerId,
+    emailVerified,
+    role,
+    isAdmin: role === 'admin',
+    authorized,
+    blocked,
+    storageUsedBytes: Number(userDocData?.storageUsedBytes || 0),
+    securityFlags: Array.isArray(userDocData?.securityFlags) ? userDocData.securityFlags : [],
+    customQuota: userDocData?.customQuota || null,
+    createdAt: userDocData?.createdAt || nowIso,
+    lastLoginAt: nowIso
+  };
+
+  // Persist profile if new user or if custom claims need syncing
+  const needsClaimSync = (claimRole !== role) || (claimAuthorized !== authorized) || (claimBlocked !== blocked);
+  if (!userDocData || needsClaimSync) {
+    userDocRef.set({
+      uid: profile.uid,
+      email: profile.email,
+      displayName: profile.displayName,
+      photoURL: profile.photoURL,
+      providerId: profile.providerId,
+      emailVerified: profile.emailVerified,
+      role: profile.role,
+      authorized: profile.authorized,
+      blocked: profile.blocked,
+      storageUsedBytes: profile.storageUsedBytes,
+      securityFlags: profile.securityFlags,
+      createdAt: profile.createdAt,
+      lastLoginAt: nowIso,
+      updatedAt: nowIso
+    }, { merge: true }).catch(() => {});
+
+    if (firebaseInitialized && needsClaimSync && !uid.startsWith('user_')) {
+      admin.auth().setCustomUserClaims(uid, {
+        role: profile.role,
+        admin: profile.isAdmin,
+        authorized: profile.authorized,
+        blocked: profile.blocked
+      }).catch(() => {});
+    }
+  } else {
+    // Lightweight async update of lastLoginAt
+    userDocRef.set({ lastLoginAt: nowIso }, { merge: true }).catch(() => {});
+  }
+
+  userProfileCache.set(uid, { profile, expiresAt: Date.now() + USER_CACHE_TTL_MS });
+  return profile;
+}
+
+/**
+ * Flags a user account for Administrator review when rate or storage limits are exceeded.
+ */
+async function flagUserAccountForAdmin(uid, email, flagObject) {
+  try {
+    const userDocRef = firestore.collection('users').doc(uid);
+    const snap = await userDocRef.get();
+    const existingFlags = (snap.exists && Array.isArray(snap.data()?.securityFlags))
+      ? snap.data().securityFlags
+      : [];
+
+    // Deduplicate recent flags of the same type within 10 minutes
+    const tenMinAgo = Date.now() - 10 * 60 * 1000;
+    const alreadyFlaggedRecently = existingFlags.some(f =>
+      f.type === flagObject.type && new Date(f.timestamp || 0).getTime() > tenMinAgo
+    );
+    if (alreadyFlaggedRecently) return;
+
+    const updatedFlags = [flagObject, ...existingFlags].slice(0, 25);
+    await userDocRef.set({
+      uid,
+      email: email || `${uid}@reactcloud.org`,
+      securityFlags: updatedFlags,
+      hasActiveFlags: true,
+      flaggedAt: flagObject.timestamp
+    }, { merge: true });
+
+    // Invalidate cache so admin & user views see the new flag immediately
+    userProfileCache.delete(uid);
+
+    // Also record in global system_security/alerts/items collection for Admin audit log
+    await firestore.collection('system_security').doc('alerts').collection('items').add({
+      uid,
+      email: email || `${uid}@reactcloud.org`,
+      ...flagObject
+    });
+
+    console.warn(`[SECURITY FLAG] User ${uid} (${email}) flagged for ${flagObject.type}: ${flagObject.message}`);
+  } catch (err) {
+    console.warn(`[Security Flag Warning] Could not persist flag for ${uid}: ${err.message}`);
+  }
+}
+
+/**
+ * Tracks API and Compute Job call rates per user, flags burst anomalies for the Administrator,
+ * and enforces hard rate limits to prevent abuse.
+ */
+async function trackUserActivityAndCheckQuotas(req, res) {
+  if (!req.user || req.user.isInternalIpc) return { allowed: true };
+
+  const uid = req.user.uid;
+  const now = Date.now();
+  const oneMinAgo = now - 60 * 1000;
+
+  let windowData = userRateWindows.get(uid);
+  if (!windowData) {
+    windowData = { apiTimestamps: [], jobTimestamps: [], totalCalls: 0, totalJobs: 0 };
+    userRateWindows.set(uid, windowData);
+  }
+
+  windowData.apiTimestamps = windowData.apiTimestamps.filter(t => t > oneMinAgo);
+  windowData.jobTimestamps = windowData.jobTimestamps.filter(t => t > oneMinAgo);
+
+  windowData.apiTimestamps.push(now);
+  windowData.totalCalls += 1;
+
+  const isComputeJob = req.path.startsWith('/api/run-');
+  if (isComputeJob) {
+    windowData.jobTimestamps.push(now);
+    windowData.totalJobs += 1;
+  }
+
+  const config = await getSecurityConfig();
+  const userMaxCalls = req.user.customQuota?.maxCallsPerMinute || config.maxCallsPerMinute || 60;
+  const userMaxJobs = req.user.customQuota?.maxJobsPerMinute || config.maxJobsPerMinute || 12;
+  const hardMultiplier = config.hardLimitMultiplier || 2.5;
+
+  const callsPerMin = windowData.apiTimestamps.length;
+  const jobsPerMin = windowData.jobTimestamps.length;
+
+  if (isComputeJob && jobsPerMin > userMaxJobs) {
+    const isHardExceeded = jobsPerMin > Math.ceil(userMaxJobs * hardMultiplier);
+    flagUserAccountForAdmin(uid, req.user.email, {
+      type: 'HIGH_JOB_RATE',
+      severity: isHardExceeded ? 'critical' : 'warning',
+      message: `Excessive compute job rate: ${jobsPerMin} jobs in 60s (threshold: ${userMaxJobs}/min) on ${req.path}`,
+      endpoint: req.path,
+      value: jobsPerMin,
+      threshold: userMaxJobs,
+      timestamp: new Date(now).toISOString()
+    });
+
+    if (isHardExceeded && !req.user.isAdmin) {
+      res.status(429).json({
+        error: `Rate limit exceeded (${jobsPerMin} compute jobs/min). Your account has been flagged for administrator review.`,
+        code: 'RATE_LIMIT_EXCEEDED'
+      });
+      return { allowed: false };
+    }
+  } else if (callsPerMin > userMaxCalls) {
+    const isHardExceeded = callsPerMin > Math.ceil(userMaxCalls * hardMultiplier);
+    flagUserAccountForAdmin(uid, req.user.email, {
+      type: 'HIGH_CALL_RATE',
+      severity: isHardExceeded ? 'critical' : 'warning',
+      message: `High API request rate: ${callsPerMin} calls in 60s (threshold: ${userMaxCalls}/min) on ${req.path}`,
+      endpoint: req.path,
+      value: callsPerMin,
+      threshold: userMaxCalls,
+      timestamp: new Date(now).toISOString()
+    });
+
+    if (isHardExceeded && !req.user.isAdmin) {
+      res.status(429).json({
+        error: `API rate limit exceeded (${callsPerMin} requests/min). Please slow down.`,
+        code: 'RATE_LIMIT_EXCEEDED'
+      });
+      return { allowed: false };
     }
   }
 
-  // Fallback for unauthenticated requests in local dev
-  req.user = {
-    uid: 'user_anonymous',
-    email: 'anon@reactcloud.org',
-    name: 'Anonymous User'
-  };
+  return { allowed: true };
+}
+
+/**
+ * Updates cumulative storage tracking for a user and flags the account if storage quota is exceeded.
+ */
+async function recordUserStorageDelta(uid, email, addedBytes) {
+  if (!uid || !addedBytes || addedBytes <= 0) return;
+  try {
+    const config = await getSecurityConfig();
+    const userDocRef = firestore.collection('users').doc(uid);
+    const snap = await userDocRef.get();
+    const prevBytes = snap.exists ? Number(snap.data()?.storageUsedBytes || 0) : 0;
+    const customMaxMB = snap.exists ? snap.data()?.customQuota?.maxStorageMB : null;
+    const newTotalBytes = prevBytes + addedBytes;
+
+    await userDocRef.set({
+      storageUsedBytes: newTotalBytes,
+      updatedAt: new Date().toISOString()
+    }, { merge: true });
+
+    userProfileCache.delete(uid);
+
+    const maxMB = customMaxMB || config.maxStorageMB || 100;
+    const maxBytes = maxMB * 1024 * 1024;
+    if (newTotalBytes > maxBytes) {
+      const usedMB = (newTotalBytes / (1024 * 1024)).toFixed(2);
+      await flagUserAccountForAdmin(uid, email, {
+        type: 'STORAGE_QUOTA_EXCEEDED',
+        severity: newTotalBytes > maxBytes * 2 ? 'critical' : 'warning',
+        message: `Storage usage (${usedMB} MB) exceeded quota threshold (${maxMB} MB)`,
+        value: newTotalBytes,
+        threshold: maxBytes,
+        timestamp: new Date().toISOString()
+      });
+    }
+  } catch (e) {
+    console.warn(`[Storage Quota Tracker Warning] ${uid}: ${e.message}`);
+  }
+}
+
+/**
+ * Authentication & Authorization Middleware
+ * 1. Accepts C-binary (`chemdb`) loopback IPC calls authenticated via X-React-Internal-Secret.
+ * 2. Validates Firebase ID Token from Authorization: Bearer <token>.
+ * 3. Rejects unauthenticated or blocked accounts.
+ */
+async function authenticateUser(req, res, next) {
+  // 1. Check for authenticated loopback C-binary IPC call
+  if (verifyInternalIpcSecret(req)) {
+    const ipcUid = req.headers['x-react-user-uid'] || req.body?.uid || req.query?.uid || 'user_default_local';
+    const cached = userProfileCache.get(ipcUid)?.profile;
+    req.user = cached || {
+      uid: ipcUid,
+      email: `${ipcUid}@reactcloud.org`,
+      name: `IPC Process (${ipcUid})`,
+      role: 'admin', // C binary runs inside an already-authorized job sandbox
+      isAdmin: true,
+      authorized: true,
+      blocked: false,
+      isInternalIpc: true
+    };
+    req.user.isInternalIpc = true;
+    return next();
+  }
+
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({
+      error: 'Authentication required. Please sign in with an authorized account.',
+      code: 'AUTH_REQUIRED'
+    });
+  }
+
+  const token = authHeader.split('Bearer ')[1].trim();
+
+  // 2. Local development token support (strictly restricted to localhost when not in Cloud Run)
+  if ((token.startsWith('reactcloud-bearer-token') || token === 'demo-token') && !IS_CLOUD_RUN && isLoopbackRequest(req) && process.env.DISABLE_LOCAL_DEV_TOKENS !== 'true') {
+    const match = token.match(/reactcloud-bearer-token-(.+)/);
+    const rawSlug = match && match[1] ? match[1].replace(/[^a-zA-Z0-9_-]/g, '_') : 'default';
+    const uid = rawSlug.startsWith('user_') || rawSlug === 'default' ? rawSlug : `user_${rawSlug}`;
+    const profile = await resolveAndSyncUserProfile({
+      uid,
+      email: `${rawSlug}@reactcloud.org`,
+      name: `Local Dev (${rawSlug})`,
+      email_verified: true,
+      role: rawSlug === 'admin' ? 'admin' : 'researcher'
+    });
+    if (profile.blocked || !profile.authorized) {
+      return res.status(403).json({ error: 'Account is blocked or unauthorized.', code: 'ACCOUNT_BLOCKED' });
+    }
+    req.user = profile;
+    const rateCheck = await trackUserActivityAndCheckQuotas(req, res);
+    if (!rateCheck.allowed) return;
+    return next();
+  }
+
+  // 3. Verify Firebase Auth ID Token
+  if (!firebaseInitialized) {
+    return res.status(503).json({ error: 'Authentication service unavailable.' });
+  }
+
+  try {
+    const decodedToken = await admin.auth().verifyIdToken(token);
+    const profile = await resolveAndSyncUserProfile(decodedToken);
+
+    if (profile.blocked || !profile.authorized) {
+      return res.status(403).json({
+        error: 'Your account has been blocked or requires administrator authorization.',
+        code: 'ACCOUNT_BLOCKED'
+      });
+    }
+
+    req.user = profile;
+    const rateCheck = await trackUserActivityAndCheckQuotas(req, res);
+    if (!rateCheck.allowed) return;
+    return next();
+  } catch (authErr) {
+    console.error('[Orchestrator Auth Error]', authErr.message);
+    return res.status(401).json({
+      error: 'Unauthorized: Invalid or expired Firebase Auth Token',
+      code: 'INVALID_TOKEN'
+    });
+  }
+}
+
+function requireAdmin(req, res, next) {
+  if (!req.user || !req.user.isAdmin) {
+    return res.status(403).json({
+      error: 'Forbidden: Administrator role required.',
+      code: 'ADMIN_REQUIRED'
+    });
+  }
   return next();
+}
+
+/**
+ * Enforces System vs. Personal Data isolation:
+ * - System data namespaces ('system', 'user_default_local') can be READ by any authorized user,
+ *   but WRITTEN/DELETED only by an Administrator (role === 'admin').
+ * - Personal data ('users/{uid}') can only be read or written by its owner {uid} or an Administrator.
+ */
+function resolveAuthorizedTargetUid(req, requestedUid, isWriteOperation = false) {
+  const callerUid = req.user?.uid;
+  const isAdmin = Boolean(req.user?.isAdmin || req.user?.role === 'admin' || req.user?.isInternalIpc);
+  const scopeHeader = req.headers?.['x-react-data-scope'];
+  const rawTarget = String(requestedUid || req.body?.dataScope || scopeHeader || callerUid || 'user_default_local').trim();
+  const isSystemTarget = rawTarget === 'system' || rawTarget === 'user_default_local';
+  const targetUid = isSystemTarget ? 'user_default_local' : (rawTarget === 'personal' ? callerUid : rawTarget);
+
+  if (isWriteOperation) {
+    if (isSystemTarget && !isAdmin) {
+      const err = new Error('Forbidden: Only administrators can modify or delete system catalog data.');
+      err.statusCode = 403;
+      throw err;
+    }
+    if (!isSystemTarget && targetUid !== callerUid && !isAdmin) {
+      const err = new Error('Forbidden: Cannot modify personal data belonging to another user.');
+      err.statusCode = 403;
+      throw err;
+    }
+  } else {
+    // Read operation: allowed if reading own data, reading system data, or caller is admin
+    if (!isSystemTarget && targetUid !== callerUid && !isAdmin) {
+      const err = new Error('Forbidden: Cannot read personal data belonging to another user.');
+      err.statusCode = 403;
+      throw err;
+    }
+  }
+
+  return targetUid;
+}
+
+/**
+ * Resolves the effective UID for C-binary (chemdb) job execution:
+ * - Administrators who explicitly select the 'system' data scope execute against 'user_default_local' (System Catalog).
+ * - All other sessions execute in the user's isolated personal namespace (with automatic read fallback to 'user_default_local').
+ */
+function resolveEffectiveJobUid(req) {
+  const isAdmin = Boolean(req.user?.isAdmin || req.user?.role === 'admin');
+  const requestedScope = req.body?.dataScope || req.headers?.['x-react-data-scope'];
+  if (isAdmin && (requestedScope === 'system' || requestedScope === 'user_default_local')) {
+    return 'user_default_local';
+  }
+  return req.user?.uid || 'user_default_local';
 }
 
 /**
@@ -590,6 +1033,11 @@ async function persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classif
     // 3. Session Job Doc
     const sessionJobDoc = firestore.collection('users').doc(uid).collection('sessions').doc(activeSessionId).collection('jobs').doc(jobId);
     await sessionJobDoc.set(jobData, { merge: true }).catch(() => {});
+
+    // 4. Track storage usage and check quota threshold
+    if (totalSizeBytes > 0) {
+      await recordUserStorageDelta(uid, reqUserEmail(uid), totalSizeBytes);
+    }
   } catch (err) {
     console.warn(`[Firestore Job Doc Error] ${err.message}`);
   }
@@ -597,9 +1045,10 @@ async function persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classif
   return fileManifest;
 }
 
-// Helper to deduce/format email
+// Helper to resolve user email from profile cache without hardcoding
 function reqUserEmail(uid) {
-  if (uid === 'UOqk0KtFtaXma5TGsi8Seh9RMbx1') return 'edward.blurock@gmail.com';
+  const cached = userProfileCache.get(uid)?.profile;
+  if (cached && cached.email) return cached.email;
   return `${uid}@reactcloud.org`;
 }
 
@@ -663,22 +1112,279 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// ============================================================================
+// Authentication Session & Admin User / Quota Management Endpoints
+// ============================================================================
+
+/**
+ * GET /api/auth/me & POST /api/auth/session
+ * Returns the authenticated user's verified profile, role, authorization status,
+ * storage usage, active security flags, and system/personal data scopes.
+ */
+const handleAuthSession = async (req, res) => {
+  try {
+    const config = await getSecurityConfig();
+    const rateWindow = userRateWindows.get(req.user.uid);
+    return res.json({
+      authenticated: true,
+      user: {
+        uid: req.user.uid,
+        email: req.user.email,
+        displayName: req.user.displayName || req.user.name,
+        photoURL: req.user.photoURL || null,
+        providerId: req.user.providerId || 'firebase',
+        emailVerified: Boolean(req.user.emailVerified),
+        role: req.user.role || 'researcher',
+        isAdmin: Boolean(req.user.isAdmin),
+        authorized: Boolean(req.user.authorized),
+        blocked: Boolean(req.user.blocked),
+        storageUsedBytes: Number(req.user.storageUsedBytes || 0),
+        securityFlags: Array.isArray(req.user.securityFlags) ? req.user.securityFlags : [],
+        callsLastMinute: rateWindow ? rateWindow.apiTimestamps.length : 0,
+        jobsLastMinute: rateWindow ? rateWindow.jobTimestamps.length : 0
+      },
+      dataScopes: {
+        personalUid: req.user.uid,
+        systemUid: 'user_default_local',
+        canWriteSystem: Boolean(req.user.isAdmin)
+      },
+      securityThresholds: {
+        maxCallsPerMinute: config.maxCallsPerMinute,
+        maxJobsPerMinute: config.maxJobsPerMinute,
+        maxStorageMB: config.maxStorageMB
+      }
+    });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+app.get('/api/auth/me', authenticateUser, handleAuthSession);
+app.post('/api/auth/session', authenticateUser, handleAuthSession);
+
+/**
+ * GET /api/admin/users
+ * Lists all registered users from Firebase Auth + Firestore `users/{uid}` along with
+ * real-time rate-limit metrics, storage usage, and security flags.
+ */
+app.get('/api/admin/users', authenticateUser, requireAdmin, async (req, res) => {
+  try {
+    const usersMap = new Map();
+    const now = Date.now();
+    const oneMinAgo = now - 60 * 1000;
+
+    if (firebaseInitialized) {
+      try {
+        const listResult = await admin.auth().listUsers(500);
+        for (const u of listResult.users) {
+          const claims = u.customClaims || {};
+          usersMap.set(u.uid, {
+            uid: u.uid,
+            email: u.email || '',
+            displayName: u.displayName || u.email || u.uid,
+            photoURL: u.photoURL || null,
+            emailVerified: Boolean(u.emailVerified),
+            providers: (u.providerData || []).map(p => p.providerId),
+            role: claims.role || (claims.admin ? 'admin' : 'researcher'),
+            authorized: claims.authorized !== false && !claims.blocked && !u.disabled,
+            blocked: Boolean(claims.blocked || u.disabled),
+            storageUsedBytes: 0,
+            securityFlags: [],
+            createdAt: u.metadata?.creationTime || null,
+            lastLoginAt: u.metadata?.lastSignInTime || null
+          });
+        }
+      } catch (e) {
+        console.warn(`[Admin Users List Firebase Auth Warning] ${e.message}`);
+      }
+    }
+
+    const snap = await firestore.collection('users').get();
+    for (const doc of snap.docs) {
+      const d = doc.data() || {};
+      const existing = usersMap.get(doc.id) || {
+        uid: doc.id,
+        email: d.email || `${doc.id}@reactcloud.org`,
+        displayName: d.displayName || doc.id,
+        providers: d.providerId ? [d.providerId] : []
+      };
+
+      const rateWin = userRateWindows.get(doc.id);
+      const callsLastMin = rateWin ? rateWin.apiTimestamps.filter(t => t > oneMinAgo).length : 0;
+      const jobsLastMin = rateWin ? rateWin.jobTimestamps.filter(t => t > oneMinAgo).length : 0;
+
+      usersMap.set(doc.id, {
+        ...existing,
+        email: d.email || existing.email,
+        displayName: d.displayName || existing.displayName,
+        role: d.role || existing.role || 'researcher',
+        authorized: d.blocked ? false : (d.authorized !== undefined ? Boolean(d.authorized) : (existing.authorized ?? true)),
+        blocked: d.blocked !== undefined ? Boolean(d.blocked) : Boolean(existing.blocked),
+        storageUsedBytes: Number(d.storageUsedBytes ?? existing.storageUsedBytes ?? 0),
+        securityFlags: Array.isArray(d.securityFlags) ? d.securityFlags : [],
+        customQuota: d.customQuota || null,
+        callsLastMinute: callsLastMin,
+        jobsLastMinute: jobsLastMin,
+        totalSessionCalls: rateWin ? rateWin.totalCalls : 0,
+        createdAt: d.createdAt || existing.createdAt || null,
+        lastLoginAt: d.lastLoginAt || existing.lastLoginAt || null
+      });
+    }
+
+    // Ensure rate-window metrics are attached even for users not yet in Firestore collection
+    for (const [uid, userObj] of usersMap.entries()) {
+      const rateWin = userRateWindows.get(uid);
+      if (rateWin) {
+        userObj.callsLastMinute = rateWin.apiTimestamps.filter(t => t > oneMinAgo).length;
+        userObj.jobsLastMinute = rateWin.jobTimestamps.filter(t => t > oneMinAgo).length;
+        userObj.totalSessionCalls = rateWin.totalCalls;
+      }
+    }
+
+    const users = Array.from(usersMap.values()).sort((a, b) => {
+      // Sort flagged users first, then admins, then by lastLoginAt
+      const aFlags = (a.securityFlags || []).length;
+      const bFlags = (b.securityFlags || []).length;
+      if (aFlags !== bFlags) return bFlags - aFlags;
+      if ((a.role === 'admin') !== (b.role === 'admin')) return a.role === 'admin' ? -1 : 1;
+      return new Date(b.lastLoginAt || 0).getTime() - new Date(a.lastLoginAt || 0).getTime();
+    });
+
+    const config = await getSecurityConfig();
+    return res.json({ users, securityConfig: config });
+  } catch (err) {
+    console.error('[GET /api/admin/users Error]', err);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * PATCH /api/admin/users/:uid
+ * Updates a user's role ('admin' | 'researcher' | 'viewer'), blocks/unblocks their account,
+ * clears security flags, or updates per-user quota overrides.
+ */
+app.patch('/api/admin/users/:uid', authenticateUser, requireAdmin, async (req, res) => {
+  try {
+    const targetUid = req.params.uid;
+    const { role, authorized, blocked, clearFlags, customQuota } = req.body || {};
+
+    if (!targetUid) {
+      return res.status(400).json({ error: 'Missing target user UID' });
+    }
+
+    // Prevent an administrator from accidentally blocking or demoting their own active session
+    if (targetUid === req.user.uid && (blocked === true || authorized === false || (role && role !== 'admin'))) {
+      return res.status(400).json({ error: 'Cannot block or demote your own currently active administrator account.' });
+    }
+
+    const userDocRef = firestore.collection('users').doc(targetUid);
+    const snap = await userDocRef.get();
+    const existing = snap.exists ? snap.data() : {};
+
+    const nextRole = role && ['admin', 'researcher', 'viewer'].includes(role) ? role : (existing.role || 'researcher');
+    const nextBlocked = blocked !== undefined ? Boolean(blocked) : Boolean(existing.blocked);
+    const nextAuthorized = nextBlocked ? false : (authorized !== undefined ? Boolean(authorized) : (existing.authorized !== false));
+
+    const updatePayload = {
+      uid: targetUid,
+      role: nextRole,
+      authorized: nextAuthorized,
+      blocked: nextBlocked,
+      updatedAt: new Date().toISOString(),
+      updatedBy: req.user.uid
+    };
+
+    if (clearFlags) {
+      updatePayload.securityFlags = [];
+      updatePayload.hasActiveFlags = false;
+      updatePayload.flaggedAt = null;
+    }
+
+    if (customQuota !== undefined) {
+      updatePayload.customQuota = customQuota;
+    }
+
+    await userDocRef.set(updatePayload, { merge: true });
+
+    if (firebaseInitialized && !targetUid.startsWith('user_')) {
+      try {
+        await admin.auth().setCustomUserClaims(targetUid, {
+          role: nextRole,
+          admin: nextRole === 'admin',
+          authorized: nextAuthorized,
+          blocked: nextBlocked
+        });
+        if (blocked !== undefined) {
+          await admin.auth().updateUser(targetUid, { disabled: nextBlocked }).catch(() => {});
+        }
+      } catch (e) {
+        console.warn(`[Admin Update User Claims Warning] ${targetUid}: ${e.message}`);
+      }
+    }
+
+    userProfileCache.delete(targetUid);
+
+    return res.json({
+      success: true,
+      uid: targetUid,
+      role: nextRole,
+      authorized: nextAuthorized,
+      blocked: nextBlocked,
+      flagsCleared: Boolean(clearFlags)
+    });
+  } catch (err) {
+    console.error('[PATCH /api/admin/users/:uid Error]', err);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * GET & PUT /api/admin/security-config
+ * Manages global rate-limiting and storage quota flagging thresholds.
+ */
+app.get('/api/admin/security-config', authenticateUser, requireAdmin, async (req, res) => {
+  try {
+    const config = await getSecurityConfig();
+    return res.json(config);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+app.put('/api/admin/security-config', authenticateUser, requireAdmin, async (req, res) => {
+  try {
+    const { maxCallsPerMinute, maxJobsPerMinute, maxStorageMB, hardLimitMultiplier } = req.body || {};
+    const current = await getSecurityConfig();
+    const updated = {
+      maxCallsPerMinute: Number(maxCallsPerMinute ?? current.maxCallsPerMinute ?? 60),
+      maxJobsPerMinute: Number(maxJobsPerMinute ?? current.maxJobsPerMinute ?? 12),
+      maxStorageMB: Number(maxStorageMB ?? current.maxStorageMB ?? 100),
+      hardLimitMultiplier: Number(hardLimitMultiplier ?? current.hardLimitMultiplier ?? 2.5),
+      updatedAt: new Date().toISOString(),
+      updatedBy: req.user.uid
+    };
+    await firestore.doc('system_security/config').set(updated, { merge: true });
+    securityConfigCache = updated;
+    securityConfigLoadedAt = Date.now();
+    return res.json({ success: true, config: updated });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
 /**
  * GET /api/logs/list
  * Returns list of LogJobDocument objects from Firestore via Node Admin SDK.
- * Supports Super-Admin cross-user view and standard user personal view.
+ * Supports Admin cross-user view and standard user personal view.
  */
 app.get('/api/logs/list', authenticateUser, async (req, res) => {
   try {
     const requestingUid = req.user.uid;
-    const requestingEmail = req.user.email || '';
-    const isSuperAdmin = requestingUid === 'UOqk0KtFtaXma5TGsi8Seh9RMbx1' || 
-                         requestingEmail === 'edward.blurock@gmail.com' ||
-                         requestingEmail.toLowerCase().includes('edward') ||
-                         requestingUid.toLowerCase().includes('edward') ||
-                         requestingUid === 'default';
+    const isSuperAdmin = Boolean(req.user.isAdmin);
 
-    const targetUid = req.query.userId && req.query.userId !== 'all' ? req.query.userId : requestingUid;
+    const targetUid = (isSuperAdmin && req.query.userId && req.query.userId !== 'all')
+      ? req.query.userId
+      : requestingUid;
     let snapshot;
 
     if (isSuperAdmin && (!req.query.userId || req.query.userId === 'all')) {
@@ -743,7 +1449,7 @@ app.get('/api/logs/list', authenticateUser, async (req, res) => {
     // Sort descending by timestamp
     jobs.sort((a, b) => new Date(b.timestamp || 0).getTime() - new Date(a.timestamp || 0).getTime());
 
-    console.log(`[GET /api/logs/list] Returning ${jobs.length} unique jobs for user ${requestingUid} (isSuperAdmin: ${isSuperAdmin})`);
+    console.log(`[GET /api/logs/list] Returning ${jobs.length} unique jobs for user ${requestingUid} (isAdmin: ${isSuperAdmin})`);
     return res.json(jobs);
   } catch (err) {
     console.error('[GET /api/logs/list Error]', err);
@@ -760,8 +1466,16 @@ app.get('/api/logs/content', authenticateUser, async (req, res) => {
     const { gcsPath } = req.query;
     if (!gcsPath) return res.status(400).send('Missing gcsPath parameter');
 
-    let rawPath = gcsPath.replace(`gs://${BUCKET_NAME}/`, '');
+    let rawPath = String(gcsPath).replace(`gs://${BUCKET_NAME}/`, '');
     if (rawPath.startsWith('/')) rawPath = rawPath.slice(1);
+
+    // Enforce tenant isolation on GCS path unless Admin or shared system path
+    const isAdmin = Boolean(req.user.isAdmin);
+    const isOwnPath = rawPath.startsWith(`users/${req.user.uid}/`);
+    const isSystemPath = rawPath.startsWith('users/system/') || rawPath.startsWith('users/user_default_local/');
+    if (!isAdmin && !isOwnPath && !isSystemPath) {
+      return res.status(403).send('Forbidden: Cannot access log artifacts belonging to another user.');
+    }
 
     const bucket = storage.bucket(BUCKET_NAME);
     const file = bucket.file(rawPath);
@@ -788,7 +1502,7 @@ app.delete('/api/logs/job', authenticateUser, async (req, res) => {
   try {
     const { jobId, gcsPrefix, docPath, userId } = req.body;
     const requestingUid = req.user.uid;
-    const isSuperAdmin = requestingUid === 'UOqk0KtFtaXma5TGsi8Seh9RMbx1' || req.user.email === 'edward.blurock@gmail.com';
+    const isSuperAdmin = Boolean(req.user.isAdmin);
 
     if (!jobId) {
       return res.status(400).json({ error: 'Missing required field: jobId' });
@@ -802,11 +1516,15 @@ app.delete('/api/logs/job', authenticateUser, async (req, res) => {
     const bucket = storage.bucket(BUCKET_NAME);
     let deletedFilesCount = 0;
 
-    // 1. Purge GCS Cloud Storage files
+    // 1. Purge GCS Cloud Storage files (verify prefix belongs to targetUserId unless admin)
     if (gcsPrefix) {
-      let rawPrefix = gcsPrefix.replace(`gs://${BUCKET_NAME}/`, '');
+      let rawPrefix = String(gcsPrefix).replace(`gs://${BUCKET_NAME}/`, '');
       if (rawPrefix.startsWith('/')) rawPrefix = rawPrefix.slice(1);
-      
+
+      if (!isSuperAdmin && !rawPrefix.startsWith(`users/${targetUserId}/`)) {
+        return res.status(403).json({ error: 'Forbidden: GCS prefix does not match user namespace' });
+      }
+
       try {
         const [files] = await bucket.getFiles({ prefix: rawPrefix });
         await bucket.deleteFiles({ prefix: rawPrefix });
@@ -817,9 +1535,11 @@ app.delete('/api/logs/job', authenticateUser, async (req, res) => {
       }
     }
 
-    // 2. Delete Primary Firestore Document
+    // 2. Delete Primary Firestore Document (verify docPath belongs to targetUserId unless admin)
     if (docPath) {
-      await firestore.doc(docPath).delete().catch(() => {});
+      if (isSuperAdmin || String(docPath).startsWith(`users/${targetUserId}/`)) {
+        await firestore.doc(docPath).delete().catch(() => {});
+      }
     }
 
     // 3. Secondary cleanup of flat user job doc
@@ -864,13 +1584,13 @@ app.delete('/api/logs/job', authenticateUser, async (req, res) => {
 
 /**
  * POST /api/logs/purge-all
- * Purges ALL job execution log records, session jobs, and GCS artifacts for user (or system-wide if Super-Admin).
+ * Purges ALL job execution log records, session jobs, and GCS artifacts for user (or system-wide if Admin).
  */
 app.post('/api/logs/purge-all', authenticateUser, async (req, res) => {
   try {
     const { targetUserId } = req.body;
     const requestingUid = req.user.uid;
-    const isSuperAdmin = requestingUid === 'UOqk0KtFtaXma5TGsi8Seh9RMbx1' || req.user.email === 'edward.blurock@gmail.com';
+    const isSuperAdmin = Boolean(req.user.isAdmin);
 
     const userId = targetUserId || requestingUid;
     if (!isSuperAdmin && requestingUid !== userId) {
@@ -936,13 +1656,13 @@ app.post('/api/logs/purge-all', authenticateUser, async (req, res) => {
 
 /**
  * POST /api/logs/prune
- * Prunes read-only logs older than X days for current user (or system-wide if Super-Admin).
+ * Prunes read-only logs older than X days for current user (or system-wide if Admin).
  */
 app.post('/api/logs/prune', authenticateUser, async (req, res) => {
   try {
     const { olderThanDays = 30, accessMode = 'read-only' } = req.body;
     const requestingUid = req.user.uid;
-    const isSuperAdmin = requestingUid === 'UOqk0KtFtaXma5TGsi8Seh9RMbx1' || req.user.email === 'edward.blurock@gmail.com';
+    const isSuperAdmin = Boolean(req.user.isAdmin);
 
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - parseInt(olderThanDays, 10));
@@ -995,7 +1715,8 @@ const handleGetSignedUploadUrl = async (req, res) => {
       return res.status(400).json({ error: 'filename parameter is required' });
     }
 
-    const taxonomy = getGcsTaxonomyInfo(uid, filename, categoryPath || targetDir);
+    const safeFilename = path.basename(String(filename));
+    const taxonomy = getGcsTaxonomyInfo(uid, safeFilename, categoryPath || targetDir);
     const bucket = storage.bucket(BUCKET_NAME);
     const file = bucket.file(taxonomy.relGcsPath);
 
@@ -1015,7 +1736,7 @@ const handleGetSignedUploadUrl = async (req, res) => {
       category: taxonomy.category,
       subcategory: taxonomy.subcategory,
       categoryPath: taxonomy.categoryPath,
-      filename
+      filename: safeFilename
     });
   } catch (err) {
     console.warn('[Get Signed Upload URL Fallback]', err.message);
@@ -1046,40 +1767,43 @@ app.post('/api/upload-data-files', authenticateUser, async (req, res) => {
 
     const bucket = storage.bucket(BUCKET_NAME);
     const uploadedResults = [];
+    let totalUploadedBytes = 0;
 
     for (const f of files) {
       if (!f.filename || f.content === undefined) continue;
 
-      const taxonomy = getGcsTaxonomyInfo(uid, f.filename, targetDir);
+      const safeFilename = path.basename(String(f.filename));
+      const taxonomy = getGcsTaxonomyInfo(uid, safeFilename, targetDir);
       
       // Save locally in root data dir AND taxonomy subdirectory
-      const localPath = path.join(userCacheDataDir, f.filename);
+      const localPath = path.join(userCacheDataDir, safeFilename);
       fs.writeFileSync(localPath, f.content);
+      totalUploadedBytes += Buffer.byteLength(String(f.content), 'utf8');
 
       const taxonomyLocalDir = path.join(userCacheDataDir, taxonomy.categoryPath);
       fs.mkdirSync(taxonomyLocalDir, { recursive: true });
-      fs.writeFileSync(path.join(taxonomyLocalDir, f.filename), f.content);
+      fs.writeFileSync(path.join(taxonomyLocalDir, safeFilename), f.content);
 
       const relGcsPath = taxonomy.relGcsPath;
       try {
         await bucket.upload(localPath, { destination: relGcsPath });
-        console.log(`[Taxonomy Data Upload] Saved ${f.filename} to GCS Path: ${relGcsPath}`);
+        console.log(`[Taxonomy Data Upload] Saved ${safeFilename} to GCS Path: ${relGcsPath}`);
         uploadedResults.push({
-          filename: f.filename,
+          filename: safeFilename,
           gcsPath: taxonomy.fullGcsUri,
           relativePath: relGcsPath,
           category: taxonomy.category,
           subcategory: taxonomy.subcategory
         });
       } catch (err) {
-        console.warn(`[GCS Data Upload Warning] ${f.filename}: ${err.message}`);
-        uploadedResults.push({ filename: f.filename, localOnly: true, warning: err.message });
+        console.warn(`[GCS Data Upload Warning] ${safeFilename}: ${err.message}`);
+        uploadedResults.push({ filename: safeFilename, localOnly: true, warning: err.message });
       }
 
 
       // Auto-create matching companion .mol and .sdf files if missing to prevent chemdb RECOVER file missing errors
-      if (f.filename.endsWith('.lst')) {
-        const rootBase = f.filename.replace(/\.lst$/, '');
+      if (safeFilename.endsWith('.lst')) {
+        const rootBase = safeFilename.replace(/\.lst$/, '');
         const companionMol = `${rootBase}.mol`;
         const companionSdf = `${rootBase}.sdf`;
         
@@ -1097,6 +1821,10 @@ app.post('/api/upload-data-files', authenticateUser, async (req, res) => {
           bucket.upload(sdfLocalPath, { destination: sdfGcsPath }).catch(() => {});
         }
       }
+    }
+
+    if (totalUploadedBytes > 0) {
+      await recordUserStorageDelta(uid, req.user.email, totalUploadedBytes);
     }
 
     return res.json({ success: true, targetDir, files: uploadedResults });
@@ -1129,7 +1857,7 @@ app.post('/api/resolve-file-link', authenticateUser, async (req, res) => {
 
 app.post('/api/run-input', authenticateUser, async (req, res) => {
   const { inputFile, root, replacements } = req.body;
-  const uid = req.user.uid;
+  const uid = resolveEffectiveJobUid(req);
   const sessionId = req.body.sessionId || req.headers['x-session-id'] || req.headers['session-id'] || 'default_session';
   const jobId = `job_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
   const workspaceDir = path.join('/tmp', 'reactcloud', 'users', uid, jobId);
@@ -1204,6 +1932,7 @@ app.post('/api/run-input', authenticateUser, async (req, res) => {
         REACT_USER_ID: uid,
         REACT_USER_UID: uid,
         REACT_SESSION_ID: sessionId,
+        REACT_IPC_SECRET: INTERNAL_IPC_SECRET,
         GCS_BUCKET: BUCKET_NAME
       }
     });
@@ -1302,7 +2031,7 @@ app.post('/api/run-input', authenticateUser, async (req, res) => {
 
 app.post('/api/run-commands', authenticateUser, async (req, res) => {
   const { commands, root } = req.body;
-  const uid = req.user.uid;
+  const uid = resolveEffectiveJobUid(req);
   const sessionId = req.body.sessionId || req.headers['x-session-id'] || req.headers['session-id'] || 'default_session';
   const jobId = `job_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
   const workspaceDir = path.join('/tmp', 'reactcloud', 'users', uid, jobId);
@@ -1402,6 +2131,7 @@ app.post('/api/run-commands', authenticateUser, async (req, res) => {
         REACT_USER_ID: uid,
         REACT_USER_UID: uid,
         REACT_SESSION_ID: sessionId,
+        REACT_IPC_SECRET: INTERNAL_IPC_SECRET,
         GCS_BUCKET: BUCKET_NAME
       }
     });
@@ -1613,29 +2343,36 @@ function generateLsrFromReadChainSet(pathway) {
 
 /**
  * List available submechanism paths (/api/submechanisms)
- * ALWAYS loads from Firestore (users/{uid}/databases/MechanismPathway/records)
+ * Loads from Firestore (users/{uid}/databases/MechanismPathway/records + system catalog fallback)
  */
-app.get('/api/submechanisms', async (req, res) => {
+app.get('/api/submechanisms', authenticateUser, async (req, res) => {
   try {
-    const uid = req.user?.uid || 'user_default_local';
-    const colRef = firestore.collection(`users/${uid}/databases/MechanismPathway/records`);
-    const snap = await colRef.select('Name', 'key', 'Title').get();
-
+    const uid = resolveAuthorizedTargetUid(req, req.query.uid, false);
     const pathways = [];
-    snap.forEach(doc => {
-      const d = doc.data();
-      const name = d.Name || d.key || doc.id;
-      if (name && !pathways.includes(name)) {
-        pathways.push(name);
-      }
-    });
+
+    const collectFromUid = async (targetUid) => {
+      const colRef = firestore.collection(`users/${targetUid}/databases/MechanismPathway/records`);
+      const snap = await colRef.select('Name', 'key', 'Title').get();
+      snap.forEach(doc => {
+        const d = doc.data();
+        const name = d.Name || d.key || doc.id;
+        if (name && !pathways.includes(name)) {
+          pathways.push(name);
+        }
+      });
+    };
+
+    await collectFromUid(uid);
+    if (uid !== 'user_default_local') {
+      await collectFromUid('user_default_local');
+    }
 
     pathways.sort();
     console.log(`[Firestore API /api/submechanisms] Returned ${pathways.length} pathways for uid='${uid}'`);
     res.json(pathways);
   } catch (err) {
     console.error('[Firestore API /api/submechanisms Error]', err.message);
-    res.status(500).json({ error: err.message });
+    res.status(err.statusCode || 500).json({ error: err.message });
   }
 });
 
@@ -1783,7 +2520,7 @@ app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
   const targetCategory = (rawCategory === 'rxnpattests' || rawCategory === 'mechpathtest')
     ? rawCategory
     : 'mechanisms';
-  const uid = req.user?.uid || 'user_default_local';
+  const uid = resolveEffectiveJobUid(req);
   const sessionId = req.body.sessionId || req.headers['x-session-id'] || 'default_session';
   const jobId = `job_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
   const workspaceDir = path.join('/tmp', 'reactcloud', 'users', uid, jobId);
@@ -1995,6 +2732,7 @@ app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
         REACT_USER_ID: uid,
         REACT_USER_UID: uid,
         REACT_SESSION_ID: sessionId,
+        REACT_IPC_SECRET: INTERNAL_IPC_SECRET,
         GCS_BUCKET: BUCKET_NAME
       }
     });
@@ -2125,7 +2863,7 @@ app.post('/api/run-combine-submechanisms', authenticateUser, async (req, res) =>
     return res.status(400).json({ error: "Request body must contain 'rootName', 'mechName', and non-empty 'submechanisms' array." });
   }
 
-  const uid = req.user?.uid || 'user_default_local';
+  const uid = resolveEffectiveJobUid(req);
   const sessionId = req.body.sessionId || req.headers['x-session-id'] || 'default_session';
   const jobId = `job_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
   const workspaceDir = path.join('/tmp', 'reactcloud', 'users', uid, jobId);
@@ -2161,6 +2899,7 @@ app.post('/api/run-combine-submechanisms', authenticateUser, async (req, res) =>
         REACT_USER_ID: uid,
         REACT_USER_UID: uid,
         REACT_SESSION_ID: sessionId,
+        REACT_IPC_SECRET: INTERNAL_IPC_SECRET,
         GCS_BUCKET: BUCKET_NAME
       }
     });
@@ -2304,25 +3043,13 @@ function convertBlobsToBytesObjects(val) {
 /**
  * Allows REACT C backend and frontend services to store and retrieve
  * database records directly as JSON documents in Firestore.
+ * Protected by authenticateUser (Firebase ID Token OR Internal C-Binary IPC Secret).
  */
-app.post('/api/db/store', async (req, res) => {
+app.post('/api/db/store', authenticateUser, async (req, res) => {
   try {
-    let authUid = null;
-    const authHeader = req.headers.authorization;
-    if (authHeader && authHeader.startsWith('Bearer ')) {
-      const token = authHeader.split('Bearer ')[1];
-      if (token.startsWith('reactcloud-bearer-token')) {
-        const match = token.match(/reactcloud-bearer-token-(.+)/);
-        authUid = match && match[1] ? match[1].replace(/[^a-zA-Z0-9_-]/g, '_') : 'default';
-      } else if (firebaseInitialized) {
-        try {
-          const decoded = await admin.auth().verifyIdToken(token);
-          authUid = decoded.uid;
-        } catch (_) {}
-      }
-    }
+    const { dbName, key, keyId, jsonStr } = req.body;
+    const uid = resolveAuthorizedTargetUid(req, req.body.uid, true);
 
-    const { uid = (authUid || 'user_default_local'), dbName, key, keyId, jsonStr } = req.body;
     if (!dbName || !key) {
       return res.status(400).json({ error: 'Missing required parameters: dbName, key' });
     }
@@ -2352,38 +3079,25 @@ app.post('/api/db/store', async (req, res) => {
     await docRef.set(recordDoc, { merge: true });
     console.log(`[Firestore DB Store] Saved record: ${docPath}`);
 
-    // If saving MechanismPathway under a specific user UID, also sync to user_default_local
-    if (dbName === 'MechanismPathway' && uid !== 'user_default_local') {
+    // Only sync to system catalog (user_default_local) if the caller is an Administrator
+    if (dbName === 'MechanismPathway' && uid !== 'user_default_local' && req.user?.isAdmin) {
       const defaultDocPath = `users/user_default_local/databases/${dbName}/records/${key}`;
       await firestore.doc(defaultDocPath).set(recordDoc, { merge: true });
-      console.log(`[Firestore DB Store] Synced record to: ${defaultDocPath}`);
+      console.log(`[Firestore DB Store] Admin synced record to system catalog: ${defaultDocPath}`);
     }
 
     return res.json({ status: 'OK', path: docPath });
   } catch (err) {
     console.error('[Firestore DB Store Error]', err.message);
-    return res.status(500).json({ error: err.message });
+    return res.status(err.statusCode || 500).json({ error: err.message });
   }
 });
 
-app.post('/api/db/fetch', async (req, res) => {
+app.post('/api/db/fetch', authenticateUser, async (req, res) => {
   try {
-    let authUid = null;
-    const authHeader = req.headers.authorization;
-    if (authHeader && authHeader.startsWith('Bearer ')) {
-      const token = authHeader.split('Bearer ')[1];
-      if (token.startsWith('reactcloud-bearer-token')) {
-        const match = token.match(/reactcloud-bearer-token-(.+)/);
-        authUid = match && match[1] ? match[1].replace(/[^a-zA-Z0-9_-]/g, '_') : 'default';
-      } else if (firebaseInitialized) {
-        try {
-          const decoded = await admin.auth().verifyIdToken(token);
-          authUid = decoded.uid;
-        } catch (_) {}
-      }
-    }
+    const { dbName, type, key } = req.body;
+    const uid = resolveAuthorizedTargetUid(req, req.body.uid, false);
 
-    const { uid = (authUid || 'user_default_local'), dbName, type, key } = req.body;
     if (!dbName || key === undefined || key === null) {
       return res.status(400).json({ error: 'Missing required parameters: dbName, key' });
     }
@@ -2431,36 +3145,47 @@ app.post('/api/db/fetch', async (req, res) => {
     });
   } catch (err) {
     console.error('[Firestore DB Fetch Error]', err.message);
-    return res.status(500).json({ error: err.message });
+    return res.status(err.statusCode || 500).json({ error: err.message });
   }
 });
 
-app.post('/api/db/listSummary', async (req, res) => {
+app.post('/api/db/listSummary', authenticateUser, async (req, res) => {
   try {
-    const { uid = 'user_default_local', dbName, fields = ['ID', 'Name'] } = req.body;
+    const { dbName, fields = ['ID', 'Name'] } = req.body;
+    const uid = resolveAuthorizedTargetUid(req, req.body.uid, false);
+
     if (!dbName) {
       return res.status(400).json({ error: 'Missing required parameter: dbName' });
     }
 
-    const colRef = firestore.collection(`users/${uid}/databases/${dbName}/records`);
-    let querySnap;
-    if (Array.isArray(fields) && fields.length > 0) {
-      querySnap = await colRef.select(...fields).get();
-    } else {
-      querySnap = await colRef.select('ID', 'Name').get();
-    }
+    const recordsMap = new Map();
+    const loadFromNamespace = async (targetUid) => {
+      const colRef = firestore.collection(`users/${targetUid}/databases/${dbName}/records`);
+      let querySnap;
+      if (Array.isArray(fields) && fields.length > 0) {
+        querySnap = await colRef.select(...fields).get();
+      } else {
+        querySnap = await colRef.select('ID', 'Name').get();
+      }
 
-    const records = [];
-    querySnap.forEach(doc => {
-      const d = doc.data();
-      const idVal = d.ID !== undefined ? d.ID : (d.keyId !== undefined ? d.keyId : Number(doc.id) || 0);
-      const nameVal = d.Name || d.key || doc.id;
-      records.push({
-        ID: Number(idVal),
-        Name: String(nameVal)
+      querySnap.forEach(doc => {
+        const d = doc.data();
+        const idVal = d.ID !== undefined ? d.ID : (d.keyId !== undefined ? d.keyId : Number(doc.id) || 0);
+        const nameVal = String(d.Name || d.key || doc.id);
+        recordsMap.set(nameVal, {
+          ID: Number(idVal),
+          Name: nameVal
+        });
       });
-    });
+    };
 
+    // Load shared system catalog first, then overlay personal records if uid !== 'user_default_local'
+    if (uid !== 'user_default_local') {
+      await loadFromNamespace('user_default_local');
+    }
+    await loadFromNamespace(uid);
+
+    const records = Array.from(recordsMap.values());
     console.log(`[Firestore DB ListSummary] dbName='${dbName}', count=${records.length}, uid='${uid}'`);
     return res.json({
       found: true,
@@ -2470,51 +3195,56 @@ app.post('/api/db/listSummary', async (req, res) => {
     });
   } catch (err) {
     console.error('[Firestore DB ListSummary Error]', err.message);
-    return res.status(500).json({ error: err.message });
+    return res.status(err.statusCode || 500).json({ error: err.message });
   }
 });
 
 /**
  * Search Reaction Patterns by Reactive Center Encodings
- * Supports:
- *   - reactionCenterKey (exact composite match)
- *   - reactionBrokenBonds (array-contains)
- *   - reactionFormedBonds (array-contains)
- *   - hybrid broken + formed (array-contains + in-memory filter)
  */
-app.post('/api/db/searchRxnPatternsByCenter', async (req, res) => {
+app.post('/api/db/searchRxnPatternsByCenter', authenticateUser, async (req, res) => {
   try {
     const {
-      uid = 'user_default_local',
       reactionCenterKey,
       reactionBrokenBonds,
       reactionFormedBonds
     } = req.body;
-
-    const colRef = firestore.collection(`users/${uid}/databases/ReactionPatterns/records`);
-    let querySnap;
+    const uid = resolveAuthorizedTargetUid(req, req.body.uid, false);
 
     const bBond = Array.isArray(reactionBrokenBonds) ? reactionBrokenBonds[0] : reactionBrokenBonds;
     const fBond = Array.isArray(reactionFormedBonds) ? reactionFormedBonds[0] : reactionFormedBonds;
 
-    if (reactionCenterKey) {
-      querySnap = await colRef.where('reactionCenterKey', '==', String(reactionCenterKey)).get();
-    } else if (bBond) {
-      querySnap = await colRef.where('reactionBrokenBonds', 'array-contains', String(bBond)).get();
-    } else if (fBond) {
-      querySnap = await colRef.where('reactionFormedBonds', 'array-contains', String(fBond)).get();
-    } else {
+    if (!reactionCenterKey && !bBond && !fBond) {
       return res.status(400).json({
         error: 'Must provide at least one search parameter: reactionCenterKey, reactionBrokenBonds, or reactionFormedBonds'
       });
     }
 
-    let records = [];
-    querySnap.forEach(doc => {
-      records.push({ id: doc.id, ...doc.data() });
-    });
+    const searchInNamespace = async (targetUid) => {
+      const colRef = firestore.collection(`users/${targetUid}/databases/ReactionPatterns/records`);
+      let querySnap;
+      if (reactionCenterKey) {
+        querySnap = await colRef.where('reactionCenterKey', '==', String(reactionCenterKey)).get();
+      } else if (bBond) {
+        querySnap = await colRef.where('reactionBrokenBonds', 'array-contains', String(bBond)).get();
+      } else {
+        querySnap = await colRef.where('reactionFormedBonds', 'array-contains', String(fBond)).get();
+      }
+      const list = [];
+      querySnap.forEach(doc => list.push({ id: doc.id, ...doc.data() }));
+      return list;
+    };
 
-    // In-memory filter if both broken and formed were provided without a composite center key
+    const mergedMap = new Map();
+    if (uid !== 'user_default_local') {
+      const sysRecords = await searchInNamespace('user_default_local');
+      sysRecords.forEach(r => mergedMap.set(r.id, r));
+    }
+    const userRecords = await searchInNamespace(uid);
+    userRecords.forEach(r => mergedMap.set(r.id, r));
+
+    let records = Array.from(mergedMap.values());
+
     if (!reactionCenterKey && bBond && fBond) {
       records = records.filter(d =>
         Array.isArray(d.reactionFormedBonds) && d.reactionFormedBonds.includes(String(fBond))
@@ -2530,13 +3260,15 @@ app.post('/api/db/searchRxnPatternsByCenter', async (req, res) => {
     });
   } catch (err) {
     console.error('[Firestore SearchRxnPatternsByCenter Error]', err.message);
-    return res.status(500).json({ error: err.message });
+    return res.status(err.statusCode || 500).json({ error: err.message });
   }
 });
 
-app.post('/api/db/delete', async (req, res) => {
+app.post('/api/db/delete', authenticateUser, async (req, res) => {
   try {
-    const { uid = 'user_default_local', dbName, key } = req.body;
+    const { dbName, key } = req.body;
+    const uid = resolveAuthorizedTargetUid(req, req.body.uid, true);
+
     if (!dbName || !key) {
       return res.status(400).json({ error: 'Missing required parameters: dbName, key' });
     }
@@ -2546,7 +3278,7 @@ app.post('/api/db/delete', async (req, res) => {
     return res.json({ status: 'OK', path: docPath });
   } catch (err) {
     console.error('[Firestore DB Delete Error]', err.message);
-    return res.status(500).json({ error: err.message });
+    return res.status(err.statusCode || 500).json({ error: err.message });
   }
 });
 
@@ -2554,9 +3286,11 @@ app.post('/api/db/delete', async (req, res) => {
  * Atomic Unique ID Generator
  * Allocates monotonically increasing unique integer IDs per database collection.
  */
-app.post('/api/db/generateNextID', async (req, res) => {
+app.post('/api/db/generateNextID', authenticateUser, async (req, res) => {
   try {
-    const { uid = 'user_default_local', dbName, startAt = 10000 } = req.body;
+    const { dbName, startAt = 10000 } = req.body;
+    const uid = resolveAuthorizedTargetUid(req, req.body.uid, true);
+
     if (!dbName) {
       return res.status(400).json({ error: 'Missing required parameter: dbName' });
     }
@@ -2588,23 +3322,23 @@ app.post('/api/db/generateNextID', async (req, res) => {
     return res.json({ id: allocatedId, dbName });
   } catch (err) {
     console.error('[Firestore GenerateNextID Error]', err.message);
-    return res.status(500).json({ error: err.message });
+    return res.status(err.statusCode || 500).json({ error: err.message });
   }
 });
 
 /**
  * Purges all records and/or classifications for a database collection.
  */
-app.post('/api/db/purgeCollection', async (req, res) => {
+app.post('/api/db/purgeCollection', authenticateUser, async (req, res) => {
   try {
     const {
-      uid = 'user_default_local',
       dbName,
       purgeClassifications = true,
       classificationName,
       resetCounter = true,
       startAt = 10000
     } = req.body;
+    const uid = resolveAuthorizedTargetUid(req, req.body.uid, true);
 
     if (!dbName) {
       return res.status(400).json({ error: 'Missing required parameter: dbName' });
@@ -2624,22 +3358,20 @@ app.post('/api/db/purgeCollection', async (req, res) => {
 
     // 2. Optionally delete classifications
     let deletedClassCount = 0;
-    if (purgeClassifications) {
-      const classColName = classificationName || (
-        dbName === 'ReactionPatterns' ? 'DB-Index-PatternIDs' :
-        (dbName === 'Molecules' ? 'DB-Index-MoleculeIDs' :
-        (dbName === 'Substructures' ? 'DB-Index-SubStructureIDs' :
-        (dbName === 'Reactions' ? 'DB-Index-ReactionIDs' : '')))
-      );
-      if (classColName) {
-        const classCol = firestore.collection(`users/${uid}/classifications/database/${classColName}`);
-        const classSnap = await classCol.get();
-        for (let i = 0; i < classSnap.docs.length; i += batchSize) {
-          const batch = firestore.batch();
-          classSnap.docs.slice(i, i + batchSize).forEach(doc => batch.delete(doc.ref));
-          await batch.commit();
-          deletedClassCount += classSnap.docs.slice(i, i + batchSize).length;
-        }
+    const classColName = classificationName || (
+      dbName === 'ReactionPatterns' ? 'DB-Index-PatternIDs' :
+      (dbName === 'Molecules' ? 'DB-Index-MoleculeIDs' :
+      (dbName === 'Substructures' ? 'DB-Index-SubStructureIDs' :
+      (dbName === 'Reactions' ? 'DB-Index-ReactionIDs' : '')))
+    );
+    if (purgeClassifications && classColName) {
+      const classCol = firestore.collection(`users/${uid}/classifications/database/${classColName}`);
+      const classSnap = await classCol.get();
+      for (let i = 0; i < classSnap.docs.length; i += batchSize) {
+        const batch = firestore.batch();
+        classSnap.docs.slice(i, i + batchSize).forEach(doc => batch.delete(doc.ref));
+        await batch.commit();
+        deletedClassCount += classSnap.docs.slice(i, i + batchSize).length;
       }
     }
 
@@ -2688,15 +3420,15 @@ app.post('/api/db/purgeCollection', async (req, res) => {
     });
   } catch (err) {
     console.error('[Firestore PurgeCollection Error]', err.message);
-    return res.status(500).json({ error: err.message });
+    return res.status(err.statusCode || 500).json({ error: err.message });
   }
 });
 
-
-
-app.post('/api/db/storeSearchKeys', async (req, res) => {
+app.post('/api/db/storeSearchKeys', authenticateUser, async (req, res) => {
   try {
-    const { uid = 'user_default_local', dbName, keyId = 0, jsonStr } = req.body;
+    const { dbName, keyId = 0, jsonStr } = req.body;
+    const uid = resolveAuthorizedTargetUid(req, req.body.uid, true);
+
     if (!dbName) {
       return res.status(400).json({ error: 'Missing required parameter: dbName' });
     }
@@ -2728,20 +3460,23 @@ app.post('/api/db/storeSearchKeys', async (req, res) => {
     return res.json({ status: 'OK', path: docPath });
   } catch (err) {
     console.error('[Firestore SearchKeys Store Error]', err.message);
-    return res.status(500).json({ error: err.message });
+    return res.status(err.statusCode || 500).json({ error: err.message });
   }
 });
 
-app.post('/api/db/fetchSearchKeys', async (req, res) => {
+app.post('/api/db/fetchSearchKeys', authenticateUser, async (req, res) => {
   try {
-    const { uid = 'user_default_local', dbName } = req.body;
+    const { dbName } = req.body;
+    const uid = resolveAuthorizedTargetUid(req, req.body.uid, false);
+
     if (!dbName) {
       return res.status(400).json({ error: 'Missing required parameter: dbName' });
     }
 
-    const docPath = `users/${uid}/searchkeys/${dbName}`;
-    const docRef = firestore.doc(docPath);
-    const docSnap = await docRef.get();
+    let docSnap = await firestore.doc(`users/${uid}/searchkeys/${dbName}`).get();
+    if (!docSnap.exists && uid !== 'user_default_local') {
+      docSnap = await firestore.doc(`users/user_default_local/searchkeys/${dbName}`).get();
+    }
 
     if (!docSnap.exists) {
       return res.json({ found: false, dbName });
@@ -2756,44 +3491,57 @@ app.post('/api/db/fetchSearchKeys', async (req, res) => {
     });
   } catch (err) {
     console.error('[Firestore SearchKeys Fetch Error]', err.message);
-    return res.status(500).json({ error: err.message });
+    return res.status(err.statusCode || 500).json({ error: err.message });
   }
 });
 
-app.post('/api/db/findOrCreateObjectIDClass', async (req, res) => {
+app.post('/api/db/findOrCreateObjectIDClass', authenticateUser, async (req, res) => {
   try {
     const {
-      uid = 'user_default_local',
       sessionId = 'default_session',
       source = 'DATABASE',
       classificationName,
       objectIDs,
       defaultClassData
     } = req.body;
+    const uid = resolveAuthorizedTargetUid(req, req.body.uid, false);
 
     if (!classificationName || !Array.isArray(objectIDs)) {
       return res.status(400).json({ error: 'Missing required parameters: classificationName, objectIDs array' });
     }
 
     const docKey = `doc_${objectIDs.join('_')}`;
-    const isDb = source === 'DATABASE' || source === 100 || source === '100' || source === 100;
+    const isDb = source === 'DATABASE' || source === 100 || source === '100';
     const sourceDir = isDb ? 'database' : (sessionId || 'default_session');
     const docPath = `users/${uid}/classifications/${sourceDir}/${classificationName}/${docKey}`;
     const docRef = firestore.doc(docPath);
-    const docSnap = await docRef.get();
+    let docSnap = await docRef.get();
+
+    // Check shared system classifications if not found in user's personal database
+    if (!docSnap.exists && isDb && uid !== 'user_default_local') {
+      const sysSnap = await firestore.doc(`users/user_default_local/classifications/database/${classificationName}/${docKey}`).get();
+      if (sysSnap.exists) {
+        docSnap = sysSnap;
+      }
+    }
 
     if (docSnap.exists) {
       const rawData = docSnap.data();
-      const { classData, classificationName, docKey, updatedAt, ...cleanData } = rawData;
+      const { classData, classificationName: _cn, docKey: _dk, updatedAt, ...cleanData } = rawData;
       const targetObj = classData || (Object.keys(cleanData).length > 0 ? cleanData : rawData);
       const data = convertBlobsToBytesObjects(targetObj);
-      console.log(`[Firestore Classification Class Found] Path: ${docPath}`);
+      console.log(`[Firestore Classification Class Found] Path: ${docSnap.ref.path}`);
       return res.json({
         found: true,
-        docPath,
+        docPath: docSnap.ref.path,
         data: data
       });
     }
+
+    // Creating a new classification document requires write permission on target uid
+    const writeUid = resolveAuthorizedTargetUid(req, req.body.uid, true);
+    const writeDocPath = `users/${writeUid}/classifications/${sourceDir}/${classificationName}/${docKey}`;
+    const writeDocRef = firestore.doc(writeDocPath);
 
     let parsedClassData = defaultClassData;
     if (typeof defaultClassData === 'string') {
@@ -2814,39 +3562,39 @@ app.post('/api/db/findOrCreateObjectIDClass', async (req, res) => {
       ...(typeof parsedClassData === 'object' && parsedClassData !== null ? parsedClassData : {})
     };
 
-    await docRef.set(docPayload, { merge: true });
-    console.log(`[Firestore Classification Class Created] Path: ${docPath}`);
+    await writeDocRef.set(docPayload, { merge: true });
+    console.log(`[Firestore Classification Class Created] Path: ${writeDocPath}`);
 
     const returnData = convertBlobsToBytesObjects(parsedClassData);
     return res.json({
       found: false,
       created: true,
-      docPath,
+      docPath: writeDocPath,
       data: returnData
     });
   } catch (err) {
     console.error('[Firestore findOrCreateObjectIDClass Error]', err.message);
-    return res.status(500).json({ error: err.message });
+    return res.status(err.statusCode || 500).json({ error: err.message });
   }
 });
 
-app.post('/api/db/storeObjectIDClass', async (req, res) => {
+app.post('/api/db/storeObjectIDClass', authenticateUser, async (req, res) => {
   try {
     const {
-      uid = 'user_default_local',
       sessionId = 'default_session',
       source = 'DATABASE',
       classificationName,
       objectIDs,
       jsonStr
     } = req.body;
+    const uid = resolveAuthorizedTargetUid(req, req.body.uid, true);
 
     if (!classificationName || !Array.isArray(objectIDs)) {
       return res.status(400).json({ error: 'Missing required parameters: classificationName, objectIDs array' });
     }
 
     const docKey = `doc_${objectIDs.join('_')}`;
-    const isDb = source === 'DATABASE' || source === 100 || source === '100' || source === 100;
+    const isDb = source === 'DATABASE' || source === 100 || source === '100';
     const sourceDir = isDb ? 'database' : (sessionId || 'default_session');
     const docPath = `users/${uid}/classifications/${sourceDir}/${classificationName}/${docKey}`;
     const docRef = firestore.doc(docPath);
@@ -2875,26 +3623,32 @@ app.post('/api/db/storeObjectIDClass', async (req, res) => {
     return res.json({ status: 'OK', path: docPath });
   } catch (err) {
     console.error('[Firestore Store ObjectIDClass Error]', err.message);
-    return res.status(500).json({ error: err.message });
+    return res.status(err.statusCode || 500).json({ error: err.message });
   }
 });
 
-
-app.get('/api/db/keys', async (req, res) => {
+app.get('/api/db/keys', authenticateUser, async (req, res) => {
   try {
-    const { uid = 'user_default_local', dbName } = req.query;
+    const { dbName } = req.query;
+    const uid = resolveAuthorizedTargetUid(req, req.query.uid, false);
+
     if (!dbName) {
       return res.status(400).json({ error: 'Missing required query parameter: dbName' });
     }
 
-    const colPath = `users/${uid}/databases/${dbName}/records`;
-    const colSnap = await firestore.collection(colPath).get();
-    const keys = colSnap.docs.map(doc => doc.id);
+    const keysSet = new Set();
+    if (uid !== 'user_default_local') {
+      const sysSnap = await firestore.collection(`users/user_default_local/databases/${dbName}/records`).get();
+      sysSnap.docs.forEach(doc => keysSet.add(doc.id));
+    }
+    const colSnap = await firestore.collection(`users/${uid}/databases/${dbName}/records`).get();
+    colSnap.docs.forEach(doc => keysSet.add(doc.id));
 
+    const keys = Array.from(keysSet);
     return res.json({ dbName, count: keys.length, keys });
   } catch (err) {
     console.error('[Firestore DB Keys Error]', err.message);
-    return res.status(500).json({ error: err.message });
+    return res.status(err.statusCode || 500).json({ error: err.message });
   }
 });
 

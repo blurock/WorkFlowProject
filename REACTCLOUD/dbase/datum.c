@@ -29,13 +29,25 @@ extern int PostJSONToOrchestrator(const char *path, const char *json_body, char 
     int sockfd;
     struct sockaddr_in servaddr;
     const char *port_env;
+    const char *ipc_secret;
+    const char *user_uid;
     int port = 8085;
-    char header[512];
+    char header[1024];
     size_t body_len;
 
     port_env = getenv("REACT_ORCHESTRATOR_PORT");
     if (port_env && *port_env) {
         port = atoi(port_env);
+    }
+
+    ipc_secret = getenv("REACT_IPC_SECRET");
+    if (!ipc_secret) {
+        ipc_secret = "";
+    }
+
+    user_uid = getenv("REACT_USER_UID");
+    if (!user_uid || !*user_uid) {
+        user_uid = "user_default_local";
     }
 
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -60,9 +72,11 @@ extern int PostJSONToOrchestrator(const char *path, const char *json_body, char 
              "POST %s HTTP/1.1\r\n"
              "Host: 127.0.0.1:%d\r\n"
              "Content-Type: application/json\r\n"
+             "X-React-Internal-Secret: %s\r\n"
+             "X-React-User-Uid: %s\r\n"
              "Content-Length: %zu\r\n"
              "Connection: close\r\n\r\n",
-             path, port, body_len);
+             path, port, ipc_secret, user_uid, body_len);
 
     if (write(sockfd, header, strlen(header)) < 0) {
         printf("[Firestore IPC Error] Failed writing request header\n");

@@ -46,12 +46,25 @@
     .user-name-chip {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       font-size: 14px;
       font-weight: 500;
       background: rgba(255, 255, 255, 0.15);
       padding: 6px 12px;
       border-radius: 20px;
+
+      .role-pill {
+        font-size: 11px;
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.25);
+
+        &.admin-pill {
+          background: #f59e0b;
+          color: #0f172a;
+        }
+      }
     }
   }
 }
@@ -86,24 +99,129 @@
       justify-content: center;
 
       .login-card {
-        max-width: 600px;
+        max-width: 580px;
         width: 100%;
         text-align: left;
         background: #ffffff;
         color: #1e293b;
         border-radius: 12px;
-        padding: 8px;
+        padding: 12px;
+
+        &.blocked-card {
+          border: 2px solid #ef4444;
+
+          .blocked-content {
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+          }
+        }
 
         .login-options {
           display: flex;
           flex-direction: column;
           gap: 16px;
-          margin-top: 12px;
+          margin-top: 14px;
+
+          .oauth-providers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 10px;
+
+            .provider-btn {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 8px;
+              height: 44px;
+              font-weight: 600;
+            }
+          }
+
+          .auth-error-msg {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            background: #fef2f2;
+            color: #b91c1c;
+            font-size: 0.9rem;
+            border: 1px solid #fecaca;
+          }
+
+          .auth-success-msg {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            background: #f0fdf4;
+            color: #15803d;
+            font-size: 0.9rem;
+            border: 1px solid #bbf7d0;
+          }
+
+          .email-auth-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+
+            .auth-mode-tabs {
+              display: flex;
+              gap: 6px;
+              background: #f1f5f9;
+              padding: 4px;
+              border-radius: 8px;
+
+              .mode-tab-btn {
+                flex: 1;
+                border: none;
+                background: transparent;
+                padding: 8px 12px;
+                border-radius: 6px;
+                font-size: 0.85rem;
+                font-weight: 600;
+                color: #475569;
+                cursor: pointer;
+                transition: all 0.15s ease;
+
+                &.active {
+                  background: #ffffff;
+                  color: #0f172a;
+                  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                }
+              }
+            }
+
+            .email-auth-form {
+              display: flex;
+              flex-direction: column;
+              gap: 4px;
+
+              .full-width-field {
+                width: 100%;
+              }
+
+              .email-submit-btn {
+                height: 44px;
+                font-weight: 600;
+              }
+            }
+          }
+
+          .custom-login-label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #64748b;
+            margin: 0;
+          }
 
           .preset-users {
             display: flex;
             flex-wrap: wrap;
-            gap: 12px;
+            gap: 10px;
 
             button {
               flex: 1;
@@ -112,28 +230,7 @@
           }
 
           .login-divider {
-            margin: 8px 0;
-          }
-
-          .custom-user-form {
-            .custom-login-label {
-              font-size: 0.9rem;
-              font-weight: 600;
-              color: #64748b;
-              margin-bottom: 8px;
-            }
-
-            .input-row {
-              display: flex;
-              flex-wrap: wrap;
-              gap: 12px;
-              align-items: center;
-
-              .custom-field {
-                flex: 1;
-                min-width: 180px;
-              }
-            }
+            margin: 4px 0;
           }
         }
       }

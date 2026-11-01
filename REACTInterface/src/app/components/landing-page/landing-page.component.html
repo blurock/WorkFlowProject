@@ -11,13 +11,16 @@
     <!-- User Account Display / Logout -->
     <div *ngIf="authService.isAuthenticated()" class="user-chip-container">
       <span class="user-name-chip">
-        <mat-icon>account_circle</mat-icon>
+        <mat-icon>{{ authService.isAdmin() ? 'admin_panel_settings' : 'account_circle' }}</mat-icon>
         {{ authService.currentUser()?.username }} ({{ authService.currentUser()?.email }})
+        <span class="role-pill" [class.admin-pill]="authService.isAdmin()">
+          {{ authService.isAdmin() ? 'ADMIN' : (authService.currentUser()?.role || 'researcher' | uppercase) }}
+        </span>
       </span>
-      <button mat-raised-button color="accent" (click)="goToDashboard()">
+      <button *ngIf="authService.isAuthorized()" mat-raised-button color="accent" (click)="goToDashboard()">
         <mat-icon>dashboard</mat-icon> Open Dashboard
       </button>
-      <button mat-icon-button color="warn" (click)="authService.logout()" matTooltip="Sign Out">
+      <button mat-icon-button color="warn" (click)="authService.logout()" title="Sign Out">
         <mat-icon>logout</mat-icon>
       </button>
     </div>
@@ -26,69 +29,196 @@
   <!-- Hero Section -->
   <div class="hero-section">
     <div class="hero-content">
-      <h1 class="hero-title">Cloud-Native Chemical Database & Kinetics System</h1>
+      <h1 class="hero-title">Cloud-Native Chemical Database &amp; Kinetics System</h1>
       <p class="hero-description">
         REACTCLOUD provides high-performance molecular structure generation, reaction pattern querying,
         and Benson group thermodynamic estimation hosted on Google Cloud Run.
       </p>
 
+      <!-- Blocked Account Notice if authenticated user is blocked -->
+      <div class="action-card" *ngIf="authService.isAuthenticated() && !authService.isAuthorized()">
+        <mat-card class="login-card blocked-card">
+          <mat-card-header>
+            <mat-icon mat-card-avatar color="warn">block</mat-icon>
+            <mat-card-title>Account Access Restricted</mat-card-title>
+            <mat-card-subtitle>{{ authService.currentUser()?.email }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content class="blocked-content">
+            <p>
+              Your account ({{ authService.currentUser()?.uid }}) is currently blocked or pending authorization by a system administrator.
+            </p>
+            <button mat-stroked-button color="warn" (click)="authService.logout()">
+              <mat-icon>logout</mat-icon> Sign Out &amp; Switch Account
+            </button>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Multi-Provider Firebase Login Card -->
       <div class="action-card" *ngIf="!authService.isAuthenticated()">
         <mat-card class="login-card">
           <mat-card-header>
-            <mat-card-title>Multi-Tenant User Login</mat-card-title>
-            <mat-card-subtitle>Sign in with your Google Account or select a local profile to access isolated Cloud Storage databases</mat-card-subtitle>
+            <mat-card-title>Authorized User Sign-In</mat-card-title>
+            <mat-card-subtitle>
+              Authenticate via Firebase Identity Providers to access your personal workspace and shared system catalogs
+            </mat-card-subtitle>
           </mat-card-header>
           
           <mat-card-content class="login-options">
-            <!-- Google Sign-In Primary Button -->
-            <div class="google-login-box">
-              <button mat-flat-button color="accent" class="google-btn" (click)="onGoogleLogin()" [disabled]="isGoogleLoading">
-                <mat-icon>vpn_key</mat-icon>
-                <span>Sign in with Google Account</span>
-                <mat-spinner *ngIf="isGoogleLoading" diameter="20" class="btn-spinner"></mat-spinner>
+            <!-- Federated OAuth Providers -->
+            <div class="oauth-providers-grid">
+              <button
+                mat-flat-button
+                color="accent"
+                class="provider-btn google-btn"
+                (click)="onGoogleLogin()"
+                [disabled]="activeProviderLoading !== null">
+                <mat-icon>account_circle</mat-icon>
+                <span>Continue with Google</span>
+                <mat-spinner *ngIf="activeProviderLoading === 'google'" diameter="18" class="btn-spinner"></mat-spinner>
               </button>
-              <div *ngIf="authError" class="auth-error-msg">{{ authError }}</div>
+
+              <button
+                mat-stroked-button
+                class="provider-btn github-btn"
+                (click)="onGithubLogin()"
+                [disabled]="activeProviderLoading !== null">
+                <mat-icon>code</mat-icon>
+                <span>Continue with GitHub</span>
+                <mat-spinner *ngIf="activeProviderLoading === 'github'" diameter="18" class="btn-spinner"></mat-spinner>
+              </button>
+
+              <button
+                mat-stroked-button
+                class="provider-btn microsoft-btn"
+                (click)="onMicrosoftLogin()"
+                [disabled]="activeProviderLoading !== null">
+                <mat-icon>business</mat-icon>
+                <span>Continue with Microsoft</span>
+                <mat-spinner *ngIf="activeProviderLoading === 'microsoft'" diameter="18" class="btn-spinner"></mat-spinner>
+              </button>
+            </div>
+
+            <div *ngIf="authError" class="auth-error-msg" role="alert" aria-live="polite">
+              <mat-icon>error_outline</mat-icon>
+              <span>{{ authError }}</span>
+            </div>
+            <div *ngIf="authSuccessMsg" class="auth-success-msg" role="status" aria-live="polite">
+              <mat-icon>check_circle_outline</mat-icon>
+              <span>{{ authSuccessMsg }}</span>
             </div>
 
             <mat-divider class="login-divider"></mat-divider>
 
-            <!-- Dev / Local Preset Users -->
-            <p class="custom-login-label">Or select a local profile / Google UID preset:</p>
-            <div class="preset-users">
-              <button mat-stroked-button color="accent" (click)="onLogin('Edward Blurock', 'UOqk0KtFtaXma5TGsi8Seh9RMbx1@reactcloud.org')">
-                <mat-icon>verified_user</mat-icon> Edward (Google UID)
-              </button>
-
-              <button mat-stroked-button color="primary" (click)="onLogin('Local User', 'user_default_local@reactcloud.org')">
-                <mat-icon>person</mat-icon> Default Local
-              </button>
-
-              <button mat-stroked-button color="primary" (click)="onLogin('Alice Scientist', 'alice@reactcloud.org')">
-                <mat-icon>face</mat-icon> Alice
-              </button>
-
-              <button mat-stroked-button color="primary" (click)="onLogin('Bob Engineer', 'bob@reactcloud.org')">
-                <mat-icon>face_3</mat-icon> Bob
-              </button>
-            </div>
-
-            <div class="custom-user-form">
-              <div class="input-row">
-                <mat-form-field appearance="outline" class="custom-field">
-                  <mat-label>User Name</mat-label>
-                  <input matInput [(ngModel)]="customUsername" placeholder="e.g. Dr. Edward">
-                </mat-form-field>
-
-                <mat-form-field appearance="outline" class="custom-field">
-                  <mat-label>Email Address</mat-label>
-                  <input matInput [(ngModel)]="customEmail" placeholder="e.g. edward@blurock.org">
-                </mat-form-field>
-
-                <button mat-raised-button color="primary" (click)="onCustomLogin()" [disabled]="!customEmail">
-                  <mat-icon>login</mat-icon> Custom Sign In
+            <!-- Email / Password Authentication Section -->
+            <div class="email-auth-section">
+              <div class="auth-mode-tabs" role="tablist" aria-label="Email authentication mode">
+                <button
+                  type="button"
+                  role="tab"
+                  [attr.aria-selected]="authMode === 'signin'"
+                  class="mode-tab-btn"
+                  [class.active]="authMode === 'signin'"
+                  (click)="setAuthMode('signin')">
+                  Email Sign In
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  [attr.aria-selected]="authMode === 'register'"
+                  class="mode-tab-btn"
+                  [class.active]="authMode === 'register'"
+                  (click)="setAuthMode('register')">
+                  Create Account
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  [attr.aria-selected]="authMode === 'reset'"
+                  class="mode-tab-btn"
+                  [class.active]="authMode === 'reset'"
+                  (click)="setAuthMode('reset')">
+                  Reset Password
                 </button>
               </div>
+
+              <form class="email-auth-form" (ngSubmit)="onEmailSubmit()" method="POST">
+                <mat-form-field *ngIf="authMode === 'register'" appearance="outline" class="full-width-field">
+                  <mat-label>Full Name / Display Name</mat-label>
+                  <input
+                    matInput
+                    id="auth-display-name"
+                    name="displayName"
+                    [(ngModel)]="displayNameInput"
+                    autocomplete="name"
+                    enterkeyhint="next"
+                    placeholder="e.g. Dr. Jane Doe">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width-field">
+                  <mat-label>Email Address</mat-label>
+                  <input
+                    matInput
+                    id="auth-email"
+                    type="email"
+                    name="email"
+                    [(ngModel)]="emailInput"
+                    autocomplete="email"
+                    autocorrect="off"
+                    autocapitalize="off"
+                    spellcheck="false"
+                    [attr.enterkeyhint]="authMode === 'reset' ? 'done' : 'next'"
+                    placeholder="researcher@university.edu"
+                    required>
+                </mat-form-field>
+
+                <mat-form-field *ngIf="authMode !== 'reset'" appearance="outline" class="full-width-field">
+                  <mat-label>Password</mat-label>
+                  <input
+                    matInput
+                    id="auth-password"
+                    type="password"
+                    name="password"
+                    [(ngModel)]="passwordInput"
+                    [autocomplete]="authMode === 'register' ? 'new-password' : 'current-password'"
+                    autocorrect="off"
+                    autocapitalize="off"
+                    spellcheck="false"
+                    enterkeyhint="done"
+                    minlength="6"
+                    placeholder="Minimum 6 characters"
+                    required>
+                </mat-form-field>
+
+                <button
+                  mat-raised-button
+                  color="primary"
+                  type="submit"
+                  enterkeyhint="done"
+                  class="email-submit-btn"
+                  [disabled]="activeProviderLoading !== null">
+                  <mat-icon>{{ authMode === 'register' ? 'person_add' : (authMode === 'reset' ? 'mail_outline' : 'login') }}</mat-icon>
+                  <span>
+                    {{ authMode === 'register' ? 'Register Authorized Account' : (authMode === 'reset' ? 'Send Password Reset Link' : 'Sign In with Email') }}
+                  </span>
+                  <mat-spinner *ngIf="activeProviderLoading === 'email'" diameter="18" class="btn-spinner"></mat-spinner>
+                </button>
+              </form>
             </div>
+
+            <!-- Local Development Sandbox (Strictly shown on localhost dev builds only; no hardcoded production UIDs) -->
+            <ng-container *ngIf="showLocalDevSandbox">
+              <mat-divider class="login-divider"></mat-divider>
+              <p class="custom-login-label">Localhost Development Sandbox Only:</p>
+              <div class="preset-users">
+                <button mat-stroked-button color="primary" type="button" (click)="onLocalDevLogin('Local Researcher', 'researcher@reactcloud.org', 'researcher')">
+                  <mat-icon>science</mat-icon> Local Researcher
+                </button>
+                <button mat-stroked-button color="accent" type="button" (click)="onLocalDevLogin('Local Admin Sandbox', 'admin@reactcloud.org', 'admin')">
+                  <mat-icon>admin_panel_settings</mat-icon> Local Admin
+                </button>
+              </div>
+            </ng-container>
           </mat-card-content>
         </mat-card>
       </div>

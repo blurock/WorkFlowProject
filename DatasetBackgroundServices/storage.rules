@@ -1,8 +1,39 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
-    match /{allPaths=**} {
-      allow read, write: if request.auth!=null;
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAuthorized() {
+      return isSignedIn()
+        && request.auth.token.get('blocked', false) != true
+        && request.auth.token.get('authorized', true) != false;
+    }
+
+    function isAdmin() {
+      return isAuthorized()
+        && (request.auth.token.get('role', '') == 'admin' || request.auth.token.get('admin', false) == true);
+    }
+
+    function isOwner(uid) {
+      return isAuthorized() && request.auth.uid == uid;
+    }
+
+    match /users/system/{allPaths=**} {
+      allow read: if isAuthorized();
+      allow write: if isAdmin();
+    }
+
+    match /users/user_default_local/{allPaths=**} {
+      allow read: if isAuthorized();
+      allow write: if isAdmin();
+    }
+
+    match /users/{uid}/{allPaths=**} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow write: if (isOwner(uid) || isAdmin())
+        && (request.resource == null || request.resource.size < 50 * 1024 * 1024);
     }
   }
 }

@@ -9,14 +9,39 @@
 
     <span class="toolbar-spacer"></span>
 
+    <!-- Admin System vs Personal Data Scope Switcher -->
+    <div class="data-scope-switcher" *ngIf="authService.isAdmin()" title="Switch active target namespace between Personal Workspace and Shared System Catalog">
+      <button
+        type="button"
+        class="scope-pill"
+        [class.active]="authService.activeDataScope() === 'personal'"
+        (click)="authService.setDataScope('personal')"
+      >
+        <mat-icon>person</mat-icon>
+        Personal Data
+      </button>
+      <button
+        type="button"
+        class="scope-pill system-scope"
+        [class.active]="authService.activeDataScope() === 'system'"
+        (click)="authService.setDataScope('system')"
+      >
+        <mat-icon>public</mat-icon>
+        System Catalog
+      </button>
+    </div>
+
     <button mat-button routerLink="/logging-admin" class="nav-admin-btn">
       <mat-icon style="margin-right: 4px;">folder_special</mat-icon>
-      Logging Admin
+      {{ authService.isAdmin() ? 'Logs & Security Admin' : 'Execution Logs' }}
     </button>
 
     <div class="user-profile" *ngIf="authService.currentUser() as user">
       <mat-icon class="user-avatar">account_circle</mat-icon>
       <span class="user-name">{{ user.username }}</span>
+      <span class="role-badge" [class.admin-role]="user.role === 'admin'">
+        {{ (user.role || 'researcher') | uppercase }}
+      </span>
     </div>
 
     <button mat-icon-button (click)="onLogout()" title="Sign Out">

@@ -1,6 +1,32 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, computed, isDevMode } from '@angular/core';
 import { initializeApp, getApps } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as firebaseSignOut, User } from 'firebase/auth';
+import {
+  getAuth,
+  GoogleAuthProvider,
+  GithubAuthProvider,
+  OAuthProvider,
+  signInWithPopup,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
+  sendEmailVerification,
+  updateProfile,
+  onIdTokenChanged,
+  signOut as firebaseSignOut,
+  User
+} from 'firebase/auth';
+
+export type UserRole = 'admin' | 'researcher' | 'viewer';
+
+export interface SecurityFlag {
+  type: 'HIGH_CALL_RATE' | 'HIGH_JOB_RATE' | 'STORAGE_QUOTA_EXCEEDED' | string;
+  severity: 'warning' | 'critical';
+  message: string;
+  timestamp: string;
+  value?: number;
+  threshold?: number;
+  endpoint?: string;
+}
 
 export interface UserProfile {
   username: string;
@@ -8,6 +34,14 @@ export interface UserProfile {
   token: string;
   uid?: string;
   photoURL?: string;
+  providerId?: string;
+  emailVerified?: boolean;
+  role?: UserRole;
+  isAdmin?: boolean;
+  authorized?: boolean;
+  blocked?: boolean;
+  storageUsedBytes?: number;
+  securityFlags?: SecurityFlag[];
 }
 
 const firebaseConfig = {
@@ -25,78 +59,258 @@ const firebaseConfig = {
 export class AuthService {
   private readonly TOKEN_KEY = 'reactcloud_auth_token';
   private readonly USER_KEY = 'reactcloud_user';
+  private readonly SCOPE_KEY = 'reactcloud_data_scope';
+  private readonly apiBaseUrl = 'http://localhost:8085';
 
   private firebaseApp = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
   private firebaseAuth = getAuth(this.firebaseApp);
 
-  // Signals for reactive UI state
+  // Reactive UI State Signals
   public currentUser = signal<UserProfile | null>(this.getStoredUser());
   public isAuthenticated = signal<boolean>(!!this.getStoredToken());
+  public isAuthorized = computed<boolean>(() => {
+    const u = this.currentUser();
+    if (!u) return false;
+    return u.blocked !== true && u.authorized !== false;
+  });
+  public isAdmin = computed<boolean>(() => {
+    const u = this.currentUser();
+    if (!u || u.blocked) return false;
+    return u.role === 'admin' || u.isAdmin === true;
+  });
 
-  constructor() {}
+  // Data scope selector ('personal' vs 'system') — Admins can switch to 'system' to manage global catalog
+  public activeDataScope = signal<'personal' | 'system'>(
+    (localStorage.getItem(this.SCOPE_KEY) as 'personal' | 'system') || 'personal'
+  );
+
+  private initialTokenRefreshed = false;
+
+  constructor() {
+    // Automatically keep Firebase ID Token and custom claims fresh in localStorage
+    onIdTokenChanged(this.firebaseAuth, async (fbUser) => {
+      if (fbUser) {
+        try {
+          const force = !this.initialTokenRefreshed;
+          this.initialTokenRefreshed = true;
+          await this.hydrateProfileFromFirebaseUser(fbUser, force);
+        } catch (err) {
+          console.warn('[AuthService] Token refresh warning:', err);
+        }
+      } else {
+        this.initialTokenRefreshed = false;
+      }
+    });
+  }
 
   /**
-   * Authenticate with Google Sign-In (Firebase Popup)
-   * Uses real Google UID and fetches signed Firebase ID Token
+   * Extracts Firebase ID Token + Custom Claims (`role`, `admin`, `authorized`, `blocked`)
+   * and synchronizes with the Orchestrator `/api/auth/session` endpoint.
+   */
+  private async hydrateProfileFromFirebaseUser(user: User, forceRefresh: boolean = false): Promise<UserProfile> {
+    const tokenResult = await user.getIdTokenResult(forceRefresh);
+    const claims = tokenResult.claims || {};
+
+    const claimRole = (claims['role'] as UserRole) || (claims['admin'] === true ? 'admin' : 'researcher');
+    const claimBlocked = claims['blocked'] === true;
+    const claimAuthorized = claimBlocked ? false : (claims['authorized'] !== false);
+
+    let profile: UserProfile = {
+      username: user.displayName || user.email || 'Authorized User',
+      email: user.email || `${user.uid}@reactcloud.org`,
+      token: tokenResult.token,
+      uid: user.uid,
+      photoURL: user.photoURL || undefined,
+      providerId: tokenResult.signInProvider || user.providerData?.[0]?.providerId || 'firebase',
+      emailVerified: user.emailVerified,
+      role: claimRole,
+      isAdmin: claimRole === 'admin',
+      authorized: claimAuthorized,
+      blocked: claimBlocked
+    };
+
+    // Sync with Orchestrator backend `/api/auth/session` to get latest Firestore role/flags/quotas
+    try {
+      const response = await fetch(`${this.apiBaseUrl}/api/auth/session`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${tokenResult.token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      if (response.ok) {
+        const sessionData = await response.json();
+        if (sessionData?.user) {
+          profile = {
+            ...profile,
+            role: sessionData.user.role || profile.role,
+            isAdmin: Boolean(sessionData.user.isAdmin ?? profile.isAdmin),
+            authorized: Boolean(sessionData.user.authorized ?? profile.authorized),
+            blocked: Boolean(sessionData.user.blocked ?? profile.blocked),
+            storageUsedBytes: sessionData.user.storageUsedBytes || 0,
+            securityFlags: sessionData.user.securityFlags || []
+          };
+        }
+      } else if (response.status === 403) {
+        profile.blocked = true;
+        profile.authorized = false;
+      }
+    } catch (_) {
+      // Backend might be unreachable offline; rely on verified Firebase token claims
+    }
+
+    this.saveSession(profile);
+    return profile;
+  }
+
+  /**
+   * 1. Google Sign-In (OAuth Popup)
    */
   public async loginWithGoogle(): Promise<UserProfile> {
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: 'select_account' });
-
-    try {
-      const result = await signInWithPopup(this.firebaseAuth, provider);
-      const user: User = result.user;
-      const idToken = await user.getIdToken(/* forceRefresh */ true);
-
-      const profile: UserProfile = {
-        username: user.displayName || user.email || 'Google User',
-        email: user.email || 'user@reactcloud.org',
-        token: idToken,
-        uid: user.uid,
-        photoURL: user.photoURL || undefined
-      };
-
-      this.saveSession(profile);
-      console.log('[AuthService] Logged in with Google. Google UID:', user.uid);
-      return profile;
-    } catch (err: any) {
-      console.error('[AuthService] Google Sign-In error:', err);
-      throw err;
-    }
+    const result = await signInWithPopup(this.firebaseAuth, provider);
+    return this.hydrateProfileFromFirebaseUser(result.user, true);
   }
 
   /**
-   * Perform user authentication login session (Local / Dev fallback)
+   * 2. GitHub Sign-In (OAuth Popup)
    */
-  public login(
-    username: string = 'REACT User',
+  public async loginWithGithub(): Promise<UserProfile> {
+    const provider = new GithubAuthProvider();
+    const result = await signInWithPopup(this.firebaseAuth, provider);
+    return this.hydrateProfileFromFirebaseUser(result.user, true);
+  }
+
+  /**
+   * 3. Microsoft Sign-In (OAuth Popup)
+   */
+  public async loginWithMicrosoft(): Promise<UserProfile> {
+    const provider = new OAuthProvider('microsoft.com');
+    provider.setCustomParameters({ prompt: 'select_account' });
+    const result = await signInWithPopup(this.firebaseAuth, provider);
+    return this.hydrateProfileFromFirebaseUser(result.user, true);
+  }
+
+  /**
+   * 4. Email & Password Sign-In
+   */
+  public async loginWithEmailPassword(email: string, password: string): Promise<UserProfile> {
+    const result = await signInWithEmailAndPassword(this.firebaseAuth, email.trim(), password);
+    return this.hydrateProfileFromFirebaseUser(result.user, true);
+  }
+
+  /**
+   * 5. Email & Password Account Registration (Option B Auto-Authorized Account)
+   */
+  public async registerWithEmailPassword(displayName: string, email: string, password: string): Promise<UserProfile> {
+    const result = await createUserWithEmailAndPassword(this.firebaseAuth, email.trim(), password);
+    if (displayName && displayName.trim()) {
+      await updateProfile(result.user, { displayName: displayName.trim() });
+    }
+    try {
+      await sendEmailVerification(result.user);
+    } catch (_) {}
+    return this.hydrateProfileFromFirebaseUser(result.user, true);
+  }
+
+  /**
+   * 6. Send Password Reset Email
+   */
+  public async resetPassword(email: string): Promise<void> {
+    await sendPasswordResetEmail(this.firebaseAuth, email.trim());
+  }
+
+  /**
+   * Local Development Sandbox Login (Only enabled in local Angular dev mode on localhost)
+   */
+  public loginLocalDev(
+    username: string = 'Local Researcher',
     email: string = 'user_default_local@reactcloud.org',
-    customToken?: string
+    role: UserRole = 'researcher'
   ): void {
-    const slug = email.split('@')[0].replace(/[^a-zA-Z0-9_-]/g, '_');
-    const token = customToken || `reactcloud-bearer-token-${slug}`;
+    if (!isDevMode() && typeof window !== 'undefined' && window.location.hostname !== 'localhost') {
+      throw new Error('Local preset login is disabled in production.');
+    }
+    const slug = role === 'admin' ? 'admin' : email.split('@')[0].replace(/[^a-zA-Z0-9_-]/g, '_');
+    const token = `reactcloud-bearer-token-${slug}`;
     const user: UserProfile = {
       username,
       email,
       token,
-      uid: slug.startsWith('user_') ? slug : `user_${slug}`
+      uid: slug.startsWith('user_') ? slug : `user_${slug}`,
+      providerId: 'local-dev',
+      emailVerified: true,
+      role,
+      isAdmin: role === 'admin',
+      authorized: true,
+      blocked: false
     };
 
     this.saveSession(user);
   }
 
+  /**
+   * Switch active data scope ('personal' vs 'system') for Administrators
+   */
+  public setDataScope(scope: 'personal' | 'system'): void {
+    if (scope === 'system' && !this.isAdmin()) {
+      return;
+    }
+    this.activeDataScope.set(scope);
+    localStorage.setItem(this.SCOPE_KEY, scope);
+  }
+
+  /**
+   * Refresh current user profile & flags from Orchestrator `/api/auth/me`
+   */
+  public async refreshSessionProfile(): Promise<UserProfile | null> {
+    const token = this.getToken();
+    if (!token) return null;
+    try {
+      const response = await fetch(`${this.apiBaseUrl}/api/auth/me`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        const existing = this.currentUser();
+        if (existing && data?.user) {
+          const updated: UserProfile = {
+            ...existing,
+            role: data.user.role || existing.role,
+            isAdmin: Boolean(data.user.isAdmin),
+            authorized: Boolean(data.user.authorized),
+            blocked: Boolean(data.user.blocked),
+            storageUsedBytes: data.user.storageUsedBytes || 0,
+            securityFlags: data.user.securityFlags || []
+          };
+          this.saveSession(updated);
+          return updated;
+        }
+      } else if (response.status === 403) {
+        const existing = this.currentUser();
+        if (existing) {
+          const blockedProfile: UserProfile = { ...existing, blocked: true, authorized: false };
+          this.saveSession(blockedProfile);
+          return blockedProfile;
+        }
+      }
+    } catch (_) {}
+    return this.currentUser();
+  }
+
   public async logout(): Promise<void> {
     try {
       await firebaseSignOut(this.firebaseAuth);
-    } catch (e) {
-      // Ignore if local dev session
-    }
+    } catch (_) {}
 
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.USER_KEY);
+    localStorage.removeItem(this.SCOPE_KEY);
 
     this.currentUser.set(null);
     this.isAuthenticated.set(false);
+    this.activeDataScope.set('personal');
   }
 
   public getToken(): string | null {
@@ -108,6 +322,10 @@ export class AuthService {
     localStorage.setItem(this.USER_KEY, JSON.stringify(user));
     this.currentUser.set(user);
     this.isAuthenticated.set(true);
+    if (!user.isAdmin && this.activeDataScope() === 'system') {
+      this.activeDataScope.set('personal');
+      localStorage.setItem(this.SCOPE_KEY, 'personal');
+    }
   }
 
   private getStoredToken(): string | null {

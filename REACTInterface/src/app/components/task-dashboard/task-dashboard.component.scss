@@ -39,6 +39,49 @@
     flex: 1 1 auto;
   }
 
+  .data-scope-switcher {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(15, 23, 42, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 9999px;
+    padding: 3px;
+    margin-right: 12px;
+    gap: 2px;
+
+    .scope-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border: none;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+
+      mat-icon {
+        font-size: 15px;
+        width: 15px;
+        height: 15px;
+      }
+
+      &.active {
+        background: #ffffff;
+        color: #0284c7;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      }
+
+      &.system-scope.active {
+        background: #facc15;
+        color: #0f172a;
+      }
+    }
+  }
+
   .user-profile {
     display: flex;
     align-items: center;
@@ -50,6 +93,20 @@
       font-size: 24px;
       width: 24px;
       height: 24px;
+    }
+
+    .role-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.2);
+      letter-spacing: 0.04em;
+
+      &.admin-role {
+        background: #facc15;
+        color: #0f172a;
+      }
     }
   }
 }

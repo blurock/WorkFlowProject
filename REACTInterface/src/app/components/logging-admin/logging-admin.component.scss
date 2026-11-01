@@ -967,9 +967,222 @@
   cursor: pointer;
   transition: all 0.15s;
 
+  &.btn-primary { background: #0284c7; color: #ffffff; &:hover { background: #0369a1; } }
   &.btn-secondary { background: #334155; color: #f8fafc; &:hover { background: #475569; } }
   &.btn-danger { background: #dc2626; color: #ffffff; &:hover { background: #ef4444; } }
   &.btn-sm { padding: 6px 12px; font-size: 0.8rem; }
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+}
+
+.flag-alert-pill {
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 9999px;
+}
+
+.security-admin-view {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .thresholds-card {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    padding: 20px;
+
+    .thresholds-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+      gap: 16px;
+
+      h3 {
+        margin: 0 0 4px 0;
+        font-size: 1.1rem;
+        color: #f8fafc;
+      }
+
+      p {
+        margin: 0;
+        font-size: 0.85rem;
+        color: #94a3b8;
+      }
+
+      .thresholds-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .saved-pill {
+          color: #4ade80;
+          font-size: 0.8rem;
+          font-weight: 600;
+        }
+      }
+    }
+
+    .thresholds-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      border: none;
+      margin: 0;
+      padding: 0;
+
+      .threshold-field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+
+        label {
+          font-size: 0.78rem;
+          color: #94a3b8;
+          font-weight: 600;
+        }
+
+        input {
+          background: #0f172a;
+          border: 1px solid #334155;
+          color: #f8fafc;
+          padding: 8px 12px;
+          border-radius: 6px;
+          font-size: 0.9rem;
+
+          &:focus-visible {
+            outline: 2px solid #38bdf8;
+            outline-offset: 2px;
+          }
+        }
+      }
+    }
+  }
+
+  .table-wrapper {
+    overflow: auto;
+    max-inline-size: 100%;
+    max-block-size: min(640px, 80vh);
+    container-type: inline-size;
+
+    &:focus-visible {
+      outline: 2px solid #38bdf8;
+      outline-offset: 2px;
+    }
+  }
+
+  .users-security-table {
+    border-collapse: separate;
+    border-spacing: 0;
+
+    thead {
+      position: sticky;
+      inset-block-start: 0;
+      z-index: 2;
+    }
+
+    tbody th.sticky-row-header {
+      position: sticky;
+      inset-inline-start: 0;
+      z-index: 1;
+      background: #1e293b;
+      padding: 14px 18px;
+      border-bottom: 1px solid #334155;
+      font-weight: 500;
+    }
+
+    tr.flagged-row {
+      background: rgba(239, 68, 68, 0.08);
+
+      th.sticky-row-header {
+        background: #2b1d28;
+      }
+    }
+
+    .user-identity-cell {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+
+      strong {
+        color: #f8fafc;
+      }
+
+      code {
+        font-size: 0.75rem;
+        color: #64748b;
+      }
+    }
+
+    .role-select {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #f8fafc;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+    }
+
+    .rate-metrics {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.8rem;
+      color: #94a3b8;
+
+      strong {
+        color: #38bdf8;
+      }
+    }
+
+    .storage-pill {
+      font-family: monospace;
+      font-size: 0.85rem;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: #0f172a;
+      color: #cbd5e1;
+
+      &.over-quota {
+        background: rgba(239, 68, 68, 0.2);
+        color: #f87171;
+        font-weight: 700;
+      }
+    }
+
+    .no-flags {
+      font-size: 0.8rem;
+      color: #64748b;
+    }
+
+    .flags-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      .flag-badge {
+        display: flex;
+        flex-direction: column;
+        background: rgba(239, 68, 68, 0.15);
+        border: 1px solid rgba(239, 68, 68, 0.35);
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 0.75rem;
+
+        .flag-code {
+          color: #f87171;
+          font-weight: 700;
+        }
+
+        .flag-msg {
+          color: #fca5a5;
+          font-size: 0.7rem;
+        }
+      }
+    }
+  }
 }
 
 @keyframes spin {

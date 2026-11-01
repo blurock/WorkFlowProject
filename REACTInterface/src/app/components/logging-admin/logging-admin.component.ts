@@ -2,8 +2,12 @@ import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { LoggingAdminService } from '../../services/logging-admin.service';
-import { AuthService } from '../../services/auth.service';
+import {
+  LoggingAdminService,
+  AdminManagedUser,
+  SecurityThresholdConfig
+} from '../../services/logging-admin.service';
+import { AuthService, UserRole } from '../../services/auth.service';
 import { LogJobDocument, LogFilterQuery, LogTreeNode, LogFileItem } from '../../models/logging-admin.models';
 
 @Component({
@@ -18,8 +22,7 @@ export class LoggingAdminComponent implements OnInit {
   public authService = inject(AuthService);
 
   // State Signals
-  // State Signals
-  public viewMode = signal<'jobs' | 'grid' | 'tree'>('jobs');
+  public viewMode = signal<'jobs' | 'grid' | 'tree' | 'security'>('jobs');
   public jobs = signal<LogJobDocument[]>([]);
   public treeNodes = signal<LogTreeNode[]>([]);
   public isLoading = signal<boolean>(true);
@@ -33,6 +36,17 @@ export class LoggingAdminComponent implements OnInit {
   public deleteConfirmJob = signal<LogJobDocument | null>(null);
   public showPurgeAllModal = signal<boolean>(false);
   public copySuccess = signal<boolean>(false);
+
+  // Admin User & Security Management State
+  public managedUsers = signal<AdminManagedUser[]>([]);
+  public isLoadingUsers = signal<boolean>(false);
+  public securityConfig = signal<SecurityThresholdConfig>({
+    maxCallsPerMinute: 60,
+    maxJobsPerMinute: 12,
+    maxStorageMB: 100,
+    hardLimitMultiplier: 2.5
+  });
+  public configSavedMessage = signal<string | null>(null);
 
   // Filter Signals
   public filter = signal<LogFilterQuery>({
@@ -55,6 +69,10 @@ export class LoggingAdminComponent implements OnInit {
 
   public isSuperAdmin = computed(() => this.loggingService.isSuperAdmin());
 
+  public flaggedUsersCount = computed(() => {
+    return this.managedUsers().filter(u => (u.securityFlags?.length || 0) > 0).length;
+  });
+
   public selectedJobFormattedJson = computed(() => {
     const job = this.selectedJob();
     if (!job) return '';
@@ -63,6 +81,70 @@ export class LoggingAdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadLogs(false);
+    if (this.isSuperAdmin()) {
+      this.loadAdminUsers();
+    }
+  }
+
+  public switchToSecurityTab(): void {
+    this.viewMode.set('security');
+    this.loadAdminUsers();
+  }
+
+  public loadAdminUsers(): void {
+    if (!this.isSuperAdmin()) return;
+    this.isLoadingUsers.set(true);
+    this.loggingService.getAdminUsers().subscribe({
+      next: (res) => {
+        this.managedUsers.set(res.users || []);
+        if (res.securityConfig) {
+          this.securityConfig.set(res.securityConfig);
+        }
+        this.isLoadingUsers.set(false);
+      },
+      error: (err) => {
+        console.warn('[LoggingAdminComponent] Could not load users list:', err);
+        this.isLoadingUsers.set(false);
+      }
+    });
+  }
+
+  public onChangeUserRole(user: AdminManagedUser, newRole: UserRole): void {
+    this.loggingService.updateAdminUser(user.uid, { role: newRole }).subscribe({
+      next: () => this.loadAdminUsers(),
+      error: (err) => alert(err.error?.error || err.message || 'Failed to update user role')
+    });
+  }
+
+  public onToggleBlockUser(user: AdminManagedUser): void {
+    const nextBlocked = !user.blocked;
+    this.loggingService.updateAdminUser(user.uid, {
+      blocked: nextBlocked,
+      authorized: !nextBlocked
+    }).subscribe({
+      next: () => this.loadAdminUsers(),
+      error: (err) => alert(err.error?.error || err.message || 'Failed to update account status')
+    });
+  }
+
+  public onClearUserFlags(user: AdminManagedUser): void {
+    this.loggingService.updateAdminUser(user.uid, { clearFlags: true }).subscribe({
+      next: () => this.loadAdminUsers(),
+      error: (err) => alert(err.error?.error || err.message || 'Failed to clear security flags')
+    });
+  }
+
+  public onSaveSecurityConfig(): void {
+    this.loggingService.updateSecurityConfig(this.securityConfig()).subscribe({
+      next: (res) => {
+        if (res.config) {
+          this.securityConfig.set(res.config);
+        }
+        this.configSavedMessage.set('Security thresholds saved.');
+        setTimeout(() => this.configSavedMessage.set(null), 3000);
+      },
+      error: (err) => alert(err.error?.error || err.message || 'Failed to save security thresholds')
+    });
   }
 
   public loadLogs(forceRefresh: boolean = false): void {
@@ -92,7 +174,6 @@ export class LoggingAdminComponent implements OnInit {
     this.selectedFile.set(null);
     this.activeFileContent.set('');
 
-    // Pre-select execution log or first file
     if (job.executionLog) {
       this.selectFile(job.executionLog as LogFileItem);
     } else if (job.files && job.files.length > 0) {
@@ -174,7 +255,7 @@ export class LoggingAdminComponent implements OnInit {
   public confirmPurgeAll(): void {
     this.isLoading.set(true);
     this.loggingService.purgeAllLogs().subscribe({
-      next: (res) => {
+      next: () => {
         this.showPurgeAllModal.set(false);
         this.selectedJob.set(null);
         this.loadLogs(true);
@@ -202,7 +283,7 @@ export class LoggingAdminComponent implements OnInit {
     return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
   }
 
-  public formatDate(isoStr?: string): string {
+  public formatDate(isoStr?: string | null): string {
     if (!isoStr) return 'N/A';
     try {
       return new Date(isoStr).toLocaleString();
