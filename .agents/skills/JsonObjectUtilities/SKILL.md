@@ -1,21 +1,23 @@
 ---
-name: Converting a JSON object to a string in the JAVA backend
-description: In the JAVA backend, when a JSON object is converted to a string for output, the method `JsonObjectUtilities.toString(json)` should be used. 
+name: JsonObjectUtilities
+description: In the JAVA backend, when a JSON object is converted to a string for output, the method JsonObjectUtilities.toString(json) should be used.
+---
 
+# Converting a JSON Object to a String in the Java Backend
 
-# My Skill
-The method `JsonObjectUtilities.toString(json)` is a static method in the class,
+The method `JsonObjectUtilities.toString(json)` is a static method in the class:
 
+```java
 import info.esblurock.reaction.core.ontology.base.utilities.JsonObjectUtilities;
+```
 
-
-Do not use `json.toString()` as it will not produce the desired output. 
+Do not use `json.toString()` as it will not produce the desired formatted output.
 
 **Parameters:**
 - `json`: The JSON object to convert to a string. This should be a `JsonObject`.
 
 **Returns:**
-- A string representation of the JSON object.
+- A formatted string representation of the JSON object.
 
 **Example:**
 ```java
@@ -27,7 +29,9 @@ System.out.println(jsonString);
 ```
 
 Output:
+```json
 {
     "name": "John",
     "age": 30
 }
+```
