@@ -616,11 +616,18 @@ async function hydrateUserWorkspace(uid, workspaceDir) {
     };
     overlayRecursive(userCacheDataDir, workspaceDataDir);
 
-    // Also copy files from cache/data into workspace root (.) so files with MolDirectory="." are found
+    // Also link files from cache/data into workspace root (.) so files with MolDirectory="." are found
     for (const child of fs.readdirSync(userCacheDataDir)) {
       const srcChild = path.join(userCacheDataDir, child);
       if (fs.statSync(srcChild).isFile()) {
-        fs.copyFileSync(srcChild, path.join(workspaceDir, child));
+        const destChild = path.join(workspaceDir, child);
+        if (!fs.existsSync(destChild)) {
+          try {
+            fs.symlinkSync(srcChild, destChild);
+          } catch (_) {
+            fs.copyFileSync(srcChild, destChild);
+          }
+        }
       }
     }
   }
@@ -1002,7 +1009,8 @@ async function persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classif
   const fileManifest = [];
 
   // Place primary mechanism files (from users/{uid}/mechanisms/{mechName}/) first if provided
-  if (mechanismMetadata?.files && Array.isArray(mechanismMetadata.files)) {
+  const hasMechanismFiles = Boolean(mechanismMetadata?.files && Array.isArray(mechanismMetadata.files) && mechanismMetadata.files.length > 0);
+  if (hasMechanismFiles) {
     for (const mf of mechanismMetadata.files) {
       fileManifest.push({
         ...mf,
@@ -1011,35 +1019,59 @@ async function persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classif
     }
   }
 
+  const userCacheDataDir = path.join('/tmp', 'reactcloud', 'users', uid, 'cache', 'data');
+  const cachedDataFiles = fs.existsSync(userCacheDataDir) ? new Set(fs.readdirSync(userCacheDataDir)) : new Set();
+
   await Promise.all(outputFiles.map(async (file) => {
     const filePath = path.join(workspaceDir, file);
     try {
-      if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
-        const isRootLog = file === 'execution.log' || file === 'run.inp';
-        
-        let gcsTargetFilename = '';
-        if (isRootLog) {
-          gcsTargetFilename = `${timeStr}_${jobCategory}_${jobId}_${file}`;
-        } else {
-          gcsTargetFilename = `${timeStr}_${file}`;
+      if (!fs.existsSync(filePath)) return;
+
+      // Skip symlinks (system assets, cached data links)
+      if (fs.lstatSync(filePath).isSymbolicLink()) return;
+
+      if (!fs.statSync(filePath).isFile()) return;
+
+      const isRootLog = file === 'execution.log' || file === 'run.inp' || file.endsWith('.api.inp');
+
+      // If mechanism files are already provided, ONLY upload execution.log or run script
+      if (hasMechanismFiles) {
+        if (!isRootLog) {
+          return; // Ignore other workspace files (e.g. cached molecules/patterns)
         }
-
-        const gcsPath = isRootLog ? `${gcsPrefix}/${gcsTargetFilename}` : `${gcsPrefix}/artifacts/${gcsTargetFilename}`;
-
-        await bucket.upload(filePath, { destination: gcsPath });
-        const downloadUrl = (await getSignedDownloadUrl(BUCKET_NAME, gcsPath)) ||
-          `http://localhost:8085/api/logs/content?gcsPath=${encodeURIComponent(`gs://${BUCKET_NAME}/${gcsPath}`)}&t=${Date.now()}`;
-
-        if (!fileManifest.some(existing => existing.filename === file)) {
-          fileManifest.push({
-            filename: file,
-            gcsFilename: gcsTargetFilename,
-            fileType: file.endsWith('.Format.out') ? 'format_check_report' : (file.endsWith('.log') ? 'log' : (file === 'run.inp' ? 'script' : 'artifact')),
-            sizeBytes: fs.statSync(filePath).size,
-            gcsPath: `gs://${BUCKET_NAME}/${gcsPath}`,
-            downloadUrl
-          });
+        // If execution.log was already included in mechanismMetadata.files, skip re-uploading
+        if (fileManifest.some(existing => existing.filename === file)) {
+          return;
         }
+      } else {
+        // For general jobs, ignore files that are identical to cached input data files
+        if (cachedDataFiles.has(file) && !isRootLog) {
+          return;
+        }
+      }
+
+      let gcsTargetFilename = '';
+      if (isRootLog) {
+        gcsTargetFilename = `${timeStr}_${jobCategory}_${jobId}_${file}`;
+      } else {
+        gcsTargetFilename = `${timeStr}_${file}`;
+      }
+
+      const gcsPath = isRootLog ? `${gcsPrefix}/${gcsTargetFilename}` : `${gcsPrefix}/artifacts/${gcsTargetFilename}`;
+
+      await bucket.upload(filePath, { destination: gcsPath });
+      const downloadUrl = (await getSignedDownloadUrl(BUCKET_NAME, gcsPath)) ||
+        `http://localhost:8085/api/logs/content?gcsPath=${encodeURIComponent(`gs://${BUCKET_NAME}/${gcsPath}`)}&t=${Date.now()}`;
+
+      if (!fileManifest.some(existing => existing.filename === file)) {
+        fileManifest.push({
+          filename: file,
+          gcsFilename: gcsTargetFilename,
+          fileType: file.endsWith('.Format.out') ? 'format_check_report' : (file.endsWith('.log') ? 'log' : (file === 'run.inp' || file.endsWith('.inp') ? 'script' : 'artifact')),
+          sizeBytes: fs.statSync(filePath).size,
+          gcsPath: `gs://${BUCKET_NAME}/${gcsPath}`,
+          downloadUrl
+        });
       }
     } catch (err) {
       console.warn(`[GCS Artifact Upload Error] ${file}: ${err.message}`);
