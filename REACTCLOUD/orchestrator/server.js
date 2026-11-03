@@ -575,11 +575,46 @@ async function hydrateUserWorkspace(uid, workspaceDir) {
   const userCacheDataDir = path.join(userCacheDir, 'data');
   if (fs.existsSync(userCacheDataDir)) {
     const workspaceDataDir = path.join(workspaceDir, 'data');
+    const systemDataDir = path.join(REACTROOT, 'data');
     if (fs.existsSync(workspaceDataDir) && fs.lstatSync(workspaceDataDir).isSymbolicLink()) {
       try { fs.unlinkSync(workspaceDataDir); } catch(e) {}
       fs.mkdirSync(workspaceDataDir, { recursive: true });
+      // Preserve symlinks to all system data items in REACTROOT/data before overlaying user cache
+      if (fs.existsSync(systemDataDir)) {
+        for (const sysChild of fs.readdirSync(systemDataDir)) {
+          const sysTarget = path.join(systemDataDir, sysChild);
+          const wsLink = path.join(workspaceDataDir, sysChild);
+          if (!fs.existsSync(wsLink)) {
+            try { fs.symlinkSync(sysTarget, wsLink); } catch (e) {}
+          }
+        }
+      }
     }
-    copyRecursive(userCacheDataDir, workspaceDataDir);
+    const overlayRecursive = (src, dest) => {
+      if (fs.existsSync(dest) && fs.lstatSync(dest).isSymbolicLink()) {
+        const realTarget = fs.existsSync(dest) ? fs.realpathSync(dest) : null;
+        try { fs.unlinkSync(dest); } catch (e) {}
+        if (fs.statSync(src).isDirectory() && realTarget && fs.existsSync(realTarget) && fs.statSync(realTarget).isDirectory()) {
+          fs.mkdirSync(dest, { recursive: true });
+          for (const subItem of fs.readdirSync(realTarget)) {
+            const subLink = path.join(dest, subItem);
+            if (!fs.existsSync(subLink)) {
+              try { fs.symlinkSync(path.join(realTarget, subItem), subLink); } catch (e) {}
+            }
+          }
+        }
+      }
+      if (fs.statSync(src).isDirectory()) {
+        if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
+        for (const child of fs.readdirSync(src)) {
+          overlayRecursive(path.join(src, child), path.join(dest, child));
+        }
+      } else {
+        if (!fs.existsSync(path.dirname(dest))) fs.mkdirSync(path.dirname(dest), { recursive: true });
+        fs.copyFileSync(src, dest);
+      }
+    };
+    overlayRecursive(userCacheDataDir, workspaceDataDir);
 
     // Also copy files from cache/data into workspace root (.) so files with MolDirectory="." are found
     for (const child of fs.readdirSync(userCacheDataDir)) {
@@ -591,10 +626,13 @@ async function hydrateUserWorkspace(uid, workspaceDir) {
   }
 }
 
+let signedUrlSupported = true;
+
 /**
  * Generate GCS Signed Download URL (7-day TTL by default)
  */
 async function getSignedDownloadUrl(bucketName, gcsPath, expiresInHours = 168) {
+  if (!signedUrlSupported) return null;
   try {
     const file = storage.bucket(bucketName).file(gcsPath);
     const [url] = await file.getSignedUrl({
@@ -603,7 +641,12 @@ async function getSignedDownloadUrl(bucketName, gcsPath, expiresInHours = 168) {
     });
     return url;
   } catch (err) {
-    console.warn(`[Signed URL Warning] ${gcsPath}: ${err.message}`);
+    if (err.message && err.message.includes('client_email')) {
+      signedUrlSupported = false;
+      console.info(`[Signed URL Info] Local credentials do not include client_email; using authenticated /api/logs/content proxy for GCS downloads.`);
+    } else {
+      console.warn(`[Signed URL Warning] ${gcsPath}: ${err.message}`);
+    }
     return null;
   }
 }
@@ -850,17 +893,24 @@ async function resolveAndCacheInputFile(uid, fileUrl, customFileName = '', works
  */
 function classifyJob(reqBody = {}, commandText = '', inputFile = '') {
   const combinedText = `${commandText} ${inputFile} ${reqBody.root || ''} ${reqBody.targetItem || ''}`.toLowerCase();
+  const isSubmechanismGen = combinedText.includes('generatechainmechanism') ||
+                            combinedText.includes('outputgeneratedmechanism') ||
+                            Boolean(reqBody.molecule && reqBody.rootName);
+  const isCombineMech = combinedText.includes('combinemechanism') || Array.isArray(reqBody.submechanisms);
   
   // 1. Check if explicit print, query, list, or format check
-  const isExplicitPrint = inputFile.startsWith('Print') || 
+  const isExplicitPrint = !isSubmechanismGen && !isCombineMech && (
+                          inputFile.startsWith('Print') || 
                           inputFile.includes('List') || 
                           inputFile.includes('FormatCheck') || 
                           combinedText.includes('print instance') || 
                           combinedText.includes('print') || 
-                          combinedText.includes('rxnpatternlist');
+                          combinedText.includes('rxnpatternlist'));
 
   // 2. Check for write operations
-  const hasWriteKeywords = combinedText.includes('store') ||
+  const hasWriteKeywords = isSubmechanismGen ||
+                           isCombineMech ||
+                           combinedText.includes('store') ||
                            combinedText.includes('write') ||
                            combinedText.includes('fill') ||
                            combinedText.includes('import') ||
@@ -880,7 +930,11 @@ function classifyJob(reqBody = {}, commandText = '', inputFile = '') {
   // 3. Determine Job Category
   let jobCategory = 'read_query';
 
-  if (inputFile.includes('FormatCheck') || combinedText.includes('.format.out') || combinedText.includes('formatcheck')) {
+  if (isSubmechanismGen) {
+    jobCategory = 'submechanism_generation';
+  } else if (isCombineMech) {
+    jobCategory = 'mechanism_combine';
+  } else if (inputFile.includes('FormatCheck') || combinedText.includes('.format.out') || combinedText.includes('formatcheck')) {
     jobCategory = 'format_check';
   } else if (inputFile.startsWith('Print') || combinedText.includes('print') || combinedText.includes('print instance')) {
     jobCategory = 'catalog_print';
@@ -927,6 +981,7 @@ async function persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classif
       };
 
   const { accessMode, jobCategory, isReadOnly } = classification;
+  const jobStatus = classification.status || (mechanismMetadata?.exitCode !== undefined && mechanismMetadata.exitCode !== 0 ? 'FAILED' : 'SUCCESS');
 
   // Compute UTC Date and Timestamp tokens
   const now = new Date();
@@ -946,6 +1001,16 @@ async function persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classif
   const outputFiles = fs.readdirSync(workspaceDir).filter(f => !['elements.xml', 'command', 'data', 'basis', 'ffield'].includes(f));
   const fileManifest = [];
 
+  // Place primary mechanism files (from users/{uid}/mechanisms/{mechName}/) first if provided
+  if (mechanismMetadata?.files && Array.isArray(mechanismMetadata.files)) {
+    for (const mf of mechanismMetadata.files) {
+      fileManifest.push({
+        ...mf,
+        downloadUrl: mf.downloadUrl || (mf.gcsPath ? `http://localhost:8085/api/logs/content?gcsPath=${encodeURIComponent(mf.gcsPath)}&t=${Date.now()}` : undefined)
+      });
+    }
+  }
+
   await Promise.all(outputFiles.map(async (file) => {
     const filePath = path.join(workspaceDir, file);
     try {
@@ -962,30 +1027,24 @@ async function persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classif
         const gcsPath = isRootLog ? `${gcsPrefix}/${gcsTargetFilename}` : `${gcsPrefix}/artifacts/${gcsTargetFilename}`;
 
         await bucket.upload(filePath, { destination: gcsPath });
-        const downloadUrl = await getSignedDownloadUrl(BUCKET_NAME, gcsPath);
+        const downloadUrl = (await getSignedDownloadUrl(BUCKET_NAME, gcsPath)) ||
+          `http://localhost:8085/api/logs/content?gcsPath=${encodeURIComponent(`gs://${BUCKET_NAME}/${gcsPath}`)}&t=${Date.now()}`;
 
-        fileManifest.push({
-          filename: file,
-          gcsFilename: gcsTargetFilename,
-          fileType: file.endsWith('.Format.out') ? 'format_check_report' : (file.endsWith('.log') ? 'log' : (file === 'run.inp' ? 'script' : 'artifact')),
-          sizeBytes: fs.statSync(filePath).size,
-          gcsPath: `gs://${BUCKET_NAME}/${gcsPath}`,
-          downloadUrl
-        });
+        if (!fileManifest.some(existing => existing.filename === file)) {
+          fileManifest.push({
+            filename: file,
+            gcsFilename: gcsTargetFilename,
+            fileType: file.endsWith('.Format.out') ? 'format_check_report' : (file.endsWith('.log') ? 'log' : (file === 'run.inp' ? 'script' : 'artifact')),
+            sizeBytes: fs.statSync(filePath).size,
+            gcsPath: `gs://${BUCKET_NAME}/${gcsPath}`,
+            downloadUrl
+          });
+        }
       }
     } catch (err) {
       console.warn(`[GCS Artifact Upload Error] ${file}: ${err.message}`);
     }
   }));
-
-  // Include mechanism files in manifest if provided
-  if (mechanismMetadata?.files && Array.isArray(mechanismMetadata.files)) {
-    for (const mf of mechanismMetadata.files) {
-      if (!fileManifest.some(f => f.filename === mf.filename)) {
-        fileManifest.push(mf);
-      }
-    }
-  }
 
   // Record Firestore Job Document
   const execLogFile = fileManifest.find(f => f.filename === 'execution.log');
@@ -1013,12 +1072,17 @@ async function persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classif
       rawGcsPrefix: gcsPrefix,
       docPath: mirroredDocPath,
       totalSizeBytes,
-      status: 'SUCCESS',
+      status: jobStatus,
       inputFiles: Array.isArray(inputFileManifest) ? inputFileManifest : [],
       executionLog: execLogFile || null,
       files: fileManifest,
       artifacts: artifactPaths,
-      ...(mechanismMetadata ? { mechanism: mechanismMetadata } : {})
+      ...(mechanismMetadata ? {
+        mechName: mechanismMetadata.mechName,
+        molecule: mechanismMetadata.molecule,
+        rootName: mechanismMetadata.rootName,
+        mechanism: mechanismMetadata
+      } : {})
     };
 
 
@@ -1385,17 +1449,41 @@ app.get('/api/logs/list', authenticateUser, async (req, res) => {
     const targetUid = (isSuperAdmin && req.query.userId && req.query.userId !== 'all')
       ? req.query.userId
       : requestingUid;
-    let snapshot;
+    let queryDocs = [];
 
     if (isSuperAdmin && (!req.query.userId || req.query.userId === 'all')) {
-      snapshot = await firestore.collectionGroup('jobs').limit(150).get();
+      // 1. Fetch current admin's own recent jobs first, ordered by timestamp descending
+      const ownSnap = await firestore.collection('users').doc(requestingUid).collection('jobs')
+        .orderBy('timestamp', 'desc').limit(100).get().catch(async () => {
+          return await firestore.collection('users').doc(requestingUid).collection('jobs').limit(100).get();
+        });
+      queryDocs.push(...ownSnap.docs);
+
+      // 2. Fetch other registered users' recent jobs
+      try {
+        const usersSnap = await firestore.collection('users').limit(50).get();
+        for (const uDoc of usersSnap.docs) {
+          if (uDoc.id === requestingUid) continue;
+          const otherSnap = await uDoc.ref.collection('jobs')
+            .orderBy('timestamp', 'desc').limit(25).get().catch(async () => {
+              return await uDoc.ref.collection('jobs').limit(25).get();
+            });
+          queryDocs.push(...otherSnap.docs);
+        }
+      } catch (e) {
+        console.warn('[Logs List Other Users Warning]', e.message);
+      }
     } else {
-      snapshot = await firestore.collection('users').doc(targetUid).collection('jobs').limit(100).get();
+      const snap = await firestore.collection('users').doc(targetUid).collection('jobs')
+        .orderBy('timestamp', 'desc').limit(100).get().catch(async () => {
+          return await firestore.collection('users').doc(targetUid).collection('jobs').limit(100).get();
+        });
+      queryDocs.push(...snap.docs);
     }
 
     const jobsMap = new Map();
 
-    for (const doc of snapshot.docs) {
+    for (const doc of queryDocs) {
       const data = doc.data();
       const jobId = data.jobId || doc.id;
 
@@ -1416,7 +1504,7 @@ app.get('/api/logs/list', authenticateUser, async (req, res) => {
             file.downloadUrl = await getSignedDownloadUrl(BUCKET_NAME, rawPath).catch(() => null);
           }
           if (!file.downloadUrl && file.gcsPath) {
-            file.downloadUrl = `http://localhost:8085/api/logs/content?gcsPath=${encodeURIComponent(file.gcsPath)}`;
+            file.downloadUrl = `http://localhost:8085/api/logs/content?gcsPath=${encodeURIComponent(file.gcsPath)}&t=${Date.now()}`;
           }
         }
       }
@@ -1427,7 +1515,7 @@ app.get('/api/logs/list', authenticateUser, async (req, res) => {
           data.executionLog.downloadUrl = await getSignedDownloadUrl(BUCKET_NAME, rawPath).catch(() => null);
         }
         if (!data.executionLog.downloadUrl && data.executionLog.gcsPath) {
-          data.executionLog.downloadUrl = `http://localhost:8085/api/logs/content?gcsPath=${encodeURIComponent(data.executionLog.gcsPath)}`;
+          data.executionLog.downloadUrl = `http://localhost:8085/api/logs/content?gcsPath=${encodeURIComponent(data.executionLog.gcsPath)}&t=${Date.now()}`;
         }
       }
 
@@ -1484,6 +1572,9 @@ app.get('/api/logs/content', authenticateUser, async (req, res) => {
     if (exists) {
       const [contents] = await file.download();
       res.setHeader('Content-Type', 'text/plain');
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
       return res.send(contents.toString('utf-8'));
     } else {
       return res.status(404).send(`[Log file object not found in GCS storage: ${rawPath}]`);
@@ -2490,7 +2581,7 @@ async function uploadMechanismArtifacts(uid, mechName, workspaceDir, actualRunRo
         fileType: art.fileType,
         sizeBytes: art.sizeBytes,
         gcsPath: `gs://${BUCKET_NAME}/${gcsPath}`,
-        downloadUrl: downloadUrl || `http://localhost:8085/api/logs/content?gcsPath=${encodeURIComponent(`gs://${BUCKET_NAME}/${gcsPath}`)}`
+        downloadUrl: downloadUrl || `http://localhost:8085/api/logs/content?gcsPath=${encodeURIComponent(`gs://${BUCKET_NAME}/${gcsPath}`)}&t=${Date.now()}`
       });
     } catch (uploadErr) {
       console.warn(`[Mechanism GCS Upload Error] ${art.filename}: ${uploadErr.message}`);
@@ -2684,20 +2775,36 @@ app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
 
     // 2. Hydrate ephemeral workspace for chemdb execution
     console.log(`[RunSubmechanism 3/5] Writing LSR and input template files for chemdb...`);
-    fs.writeFileSync(path.join(workspaceDir, `${actualRunRoot}.lsr`), lsrContent);
-    fs.writeFileSync(path.join(workspaceDir, `${cleanRootName}.lsr`), lsrContent);
-    fs.writeFileSync(path.join(REACTROOT, 'data', `${actualRunRoot}.lsr`), lsrContent);
+    const writeLsrSafe = (filePath, contentStr) => {
+      try {
+        if (fs.existsSync(filePath) && fs.lstatSync(filePath).isSymbolicLink()) {
+          fs.unlinkSync(filePath);
+        }
+        fs.mkdirSync(path.dirname(filePath), { recursive: true });
+        fs.writeFileSync(filePath, contentStr, 'utf8');
+      } catch (e) {
+        console.warn(`[RunSubmechanism LSR Write Warning] ${filePath}: ${e.message}`);
+      }
+    };
+    writeLsrSafe(path.join(workspaceDir, `${actualRunRoot}.lsr`), lsrContent);
+    writeLsrSafe(path.join(workspaceDir, `${cleanRootName}.lsr`), lsrContent);
+    writeLsrSafe(path.join(workspaceDir, 'data', `${actualRunRoot}.lsr`), lsrContent);
+    writeLsrSafe(path.join(workspaceDir, 'data', `${cleanRootName}.lsr`), lsrContent);
+    writeLsrSafe(path.join(REACTROOT, 'data', `${actualRunRoot}.lsr`), lsrContent);
     const tmpDir = path.join(REACTROOT, 'tmp');
     fs.mkdirSync(tmpDir, { recursive: true });
-    fs.writeFileSync(path.join(tmpDir, `${actualRunRoot}.lsr`), lsrContent);
+    writeLsrSafe(path.join(tmpDir, `${actualRunRoot}.lsr`), lsrContent);
 
     const templatePath = path.join(REACTROOT, 'programs', 'inputs', 'CallChain.inp');
     if (!fs.existsSync(templatePath)) {
       throw new Error(`CallChain.inp template file missing at ${templatePath}`);
     }
+    const useExplicitOrDisk = Boolean((explicitLsrContent && explicitLsrContent.trim()) || preferDisk);
+    const transformRxnTarget = useExplicitOrDisk ? actualRunRoot : cleanRootName;
     let callChainTemplate = fs.readFileSync(templatePath, 'utf8');
     callChainTemplate = callChainTemplate.split('XXXXXXXXXX').join(initialMolecules);
     callChainTemplate = callChainTemplate.split('YYYYYYYYYY').join(mechName);
+    callChainTemplate = callChainTemplate.split('ZZZZZZZZZZ').join(transformRxnTarget);
 
     const jobInpFile = path.join(workspaceDir, `${actualRunRoot}.api.inp`);
     fs.writeFileSync(jobInpFile, callChainTemplate);

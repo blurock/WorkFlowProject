@@ -45,6 +45,13 @@ export class MechanismArtifactViewerComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['files'] || changes['mechName']) {
+      if (this.files && Array.isArray(this.files)) {
+        for (const file of this.files) {
+          file.content = undefined;
+        }
+      }
+      this.activeFile = null;
+      this.activeContent = '';
       this.selectedFileIndex = 0;
       this.initSelectedFile();
     }
@@ -57,7 +64,7 @@ export class MechanismArtifactViewerComponent implements OnChanges {
       return;
     }
     const idx = Math.min(this.selectedFileIndex, this.files.length - 1);
-    this.selectFile(idx);
+    this.selectFile(idx, true);
   }
 
   public onTabChanged(index: number): void {
@@ -65,7 +72,13 @@ export class MechanismArtifactViewerComponent implements OnChanges {
     this.selectFile(index);
   }
 
-  public selectFile(index: number): void {
+  public refreshCurrentFile(): void {
+    if (this.selectedFileIndex >= 0 && this.files?.length) {
+      this.selectFile(this.selectedFileIndex, true);
+    }
+  }
+
+  public selectFile(index: number, forceRefresh: boolean = false): void {
     if (!this.files || index < 0 || index >= this.files.length) return;
     const file = this.files[index];
     this.activeFile = file;
@@ -76,7 +89,7 @@ export class MechanismArtifactViewerComponent implements OnChanges {
       return;
     }
 
-    if (file.content) {
+    if (!forceRefresh && file.content) {
       this.activeContent = file.content;
       return;
     }
@@ -87,7 +100,7 @@ export class MechanismArtifactViewerComponent implements OnChanges {
     }
 
     this.isLoadingContent = true;
-    this.apiService.fetchAsciiFileContent(file.downloadUrl).subscribe({
+    this.apiService.fetchAsciiFileContent(file.downloadUrl, forceRefresh).subscribe({
       next: (text) => {
         file.content = text;
         this.activeContent = text;

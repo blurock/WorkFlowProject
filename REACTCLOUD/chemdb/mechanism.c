@@ -513,6 +513,8 @@ extern void InsertThermoValue(MechanismMolecule *mol,
       if(mol->ThermoConstants->Name != 0)
 	Free(mol->ThermoConstants->Name);
       mol->ThermoConstants->Name = CopyString(mol->AbbreviatedName);
+      if(mol->ThermoConstants->Species == 0)
+	mol->ThermoConstants->Species = CopyString(mol->AbbreviatedName ? mol->AbbreviatedName : mol->Name);
     }
 }
 /*f InsertEquilibriumValue(mol,values,types);
@@ -1007,10 +1009,13 @@ static CHAR *PrintStringMechArrConstants(CHAR *string, INT *length,
   CHAR *line;
      
   line = AllocateString(LINELENGTH);
-  sprintf(line,"%15.4e %10.4f %10.2f",
-	  constants->Aconstant,
-	  constants->TempExp,
-	  4.182 * (constants->Energy)/1000.0);
+  if(constants != 0)
+    sprintf(line,"%15.4e %10.4f %10.2f",
+	    constants->Aconstant,
+	    constants->TempExp,
+	    4.182 * (constants->Energy)/1000.0);
+  else
+    sprintf(line,"%15.4e %10.4f %10.2f", 0.0, 0.0, 0.0);
      
   string = PrintStringString(string,length,line);
      
@@ -1242,13 +1247,17 @@ static CHAR *PrintStringSpeciesNameCorrespondences(CHAR *string, INT *length, CH
       string = PrintStringString(string,length,mol->Name); 
       string = PrintStringString(string,length,"   ");
 
-      if(mol->ThermoConstants)
+      if(mol->ThermoConstants && mol->ThermoConstants->Species)
 	{
 	  string = PrintStringString(string,length,mol->ThermoConstants->Species); 
 	}
-      else
+      else if(mol->AbbreviatedName)
 	{
 	   string = PrintStringString(string,length,mol->AbbreviatedName); 
+	}
+      else
+	{
+	   string = PrintStringString(string,length,mol->Name); 
 	}
       mol++;
     }
@@ -1397,11 +1406,11 @@ extern void WriteOutDetailedMechanism(DetailedMechanism *mechanism,
   corrs = OpenWriteFileFromCurrent("MechDirectory","RootMechName",
 				    "corrs",
 				    IGNORE,"Molecule in MolFile Form",commandmaster);
-  string = AllocateString(100*PRINT_BUFFER_LENGTH);
+  string = AllocateString(500*PRINT_BUFFER_LENGTH);
 
   if(corrs)
     {
-      length = 100*PRINT_BUFFER_LENGTH;
+      length = 500*PRINT_BUFFER_LENGTH;
       PrintStringSpeciesNameCorrespondences(string,&length,"",mechanism);
       fprintf(corrs,"%s",string);
       
@@ -1422,14 +1431,14 @@ extern void WriteOutDetailedMechanism(DetailedMechanism *mechanism,
     }
   if(mech)
     {
-      length = 100*PRINT_BUFFER_LENGTH;
+      length = 500*PRINT_BUFFER_LENGTH;
       PrintStringDetailedMechanism(string,&length,"",mechanism,bind);
       fprintf(mech,"%s",string);
       fclose(mech);
     }
   if(chemkin)
     {
-      length = 100*PRINT_BUFFER_LENGTH;
+      length = 500*PRINT_BUFFER_LENGTH;
 
       PrintChemkinValuesForMolecules(string,&length,mechanism->Molecules);
       fprintf(chemkin,"%s",string);

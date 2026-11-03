@@ -101,6 +101,37 @@ export class AuthService {
         this.initialTokenRefreshed = false;
       }
     });
+
+    // Proactively refresh Firebase ID token every 45 minutes so long-running jobs never hit 1-hour expiry
+    if (typeof window !== 'undefined') {
+      setInterval(() => {
+        if (this.firebaseAuth.currentUser) {
+          this.refreshIdToken().catch(() => {});
+        }
+      }, 45 * 60 * 1000);
+    }
+  }
+
+  /**
+   * Forces a refresh of the current Firebase ID Token and updates localStorage.
+   */
+  public async refreshIdToken(): Promise<string | null> {
+    const fbUser = this.firebaseAuth.currentUser;
+    if (!fbUser) return this.getToken();
+    try {
+      const freshToken = await fbUser.getIdToken(true);
+      localStorage.setItem(this.TOKEN_KEY, freshToken);
+      const existing = this.currentUser();
+      if (existing) {
+        const updated = { ...existing, token: freshToken };
+        localStorage.setItem(this.USER_KEY, JSON.stringify(updated));
+        this.currentUser.set(updated);
+      }
+      return freshToken;
+    } catch (err) {
+      console.warn('[AuthService] Failed to force-refresh Firebase ID token:', err);
+      return this.getToken();
+    }
   }
 
   /**

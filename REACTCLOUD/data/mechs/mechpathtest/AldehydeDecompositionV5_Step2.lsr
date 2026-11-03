@@ -1,0 +1,7 @@
+Step 2
+hydroxyl-radical,oxygen,hydrogen-radical,methyl-radical,oxygen-radical,methoxy-radical,methylperoxy-radical,peroxyl-radical
+%%% ----------------------------------------------------
+HLoss-ethyl-radical(hh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rrh)-to-olefin,\
+:hydroxyl-radical,oxygen,hydrogen-radical,methyl-radical,oxygen-radical,methoxy-radical,methylperoxy-radical,peroxyl-radical

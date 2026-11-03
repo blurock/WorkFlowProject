@@ -528,11 +528,27 @@ export class ReactCloudApiService {
   private asciiContentCache: Map<string, string> = new Map();
 
   /**
-   * Fetch ASCII file content from Cloud Storage via download URL with in-memory caching
+   * Clear in-memory ASCII content cache (all entries, or matching a specific URL / path pattern)
    */
-  public fetchAsciiFileContent(downloadUrl: string): Observable<string> {
+  public clearAsciiCache(urlPattern?: string): void {
+    if (!urlPattern) {
+      this.asciiContentCache.clear();
+      return;
+    }
+    for (const key of this.asciiContentCache.keys()) {
+      if (key.includes(urlPattern)) {
+        this.asciiContentCache.delete(key);
+      }
+    }
+  }
+
+  /**
+   * Fetch ASCII file content from Cloud Storage via download URL with in-memory caching.
+   * If forceRefresh is true, the cache is bypassed and re-populated.
+   */
+  public fetchAsciiFileContent(downloadUrl: string, forceRefresh: boolean = false): Observable<string> {
     if (!downloadUrl) return of('');
-    if (this.asciiContentCache.has(downloadUrl)) {
+    if (!forceRefresh && this.asciiContentCache.has(downloadUrl)) {
       return of(this.asciiContentCache.get(downloadUrl)!);
     }
     return this.http.get(downloadUrl, { responseType: 'text' }).pipe(

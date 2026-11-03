@@ -47,6 +47,14 @@ RootMechName
 Input
 YYYYYYYYYY
 Quit
+TransformDir
+Input
+.
+Quit
+TransformRxn
+Input
+ZZZZZZZZZZ
+Quit
 Quit
 
 Generate

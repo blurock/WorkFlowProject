@@ -42,6 +42,16 @@
         Copy
       </button>
 
+      <!-- Refresh Content -->
+      <button 
+        mat-stroked-button 
+        (click)="refreshCurrentFile()"
+        [disabled]="isLoadingContent || !activeFile || activeFile.fileType === 'zip'"
+        matTooltip="Refresh current file content from storage">
+        <mat-icon>refresh</mat-icon>
+        Refresh
+      </button>
+
       <!-- Toggle Line Wrap -->
       <button 
         mat-stroked-button 

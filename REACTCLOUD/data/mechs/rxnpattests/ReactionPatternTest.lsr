@@ -1,0 +1,5 @@
+ReactionPatternTest: 1 patterns
+hydroxyl-radical,oxygen-radical,oxygen
+%%% ----------------------------------------------------
+HLoss-ethyl-radical(hh)(rhh)-to-olefin,\
+:hydroxyl-radical,oxygen-radical,oxygen

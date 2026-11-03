@@ -1,7 +1,7 @@
 import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, throwError } from 'rxjs';
+import { catchError, from, switchMap, throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 /**
@@ -9,7 +9,8 @@ import { AuthService } from '../services/auth.service';
  * 1. Attaches Authorization: Bearer <token> ONLY to REACTCLOUD Orchestrator API calls
  *    (avoids corrupting GCS V4 pre-signed upload/download URLs).
  * 2. Passes X-React-Data-Scope ('personal' | 'system') header for Admin scope awareness.
- * 3. Handles 401/403 blocked-account responses.
+ * 3. Automatically refreshes expired Firebase ID tokens on 401 and retries the request once.
+ * 4. Handles 403 blocked-account responses.
  */
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
@@ -34,6 +35,23 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(outgoingReq).pipe(
     catchError((err: HttpErrorResponse) => {
+      if (isOrchestratorApi && err.status === 401 && !req.headers.has('X-React-Retry-Auth')) {
+        return from(authService.refreshIdToken()).pipe(
+          switchMap((freshToken) => {
+            if (freshToken && freshToken !== token) {
+              const retriedReq = req.clone({
+                setHeaders: {
+                  Authorization: `Bearer ${freshToken}`,
+                  'X-React-Data-Scope': authService.activeDataScope(),
+                  'X-React-Retry-Auth': '1'
+                }
+              });
+              return next(retriedReq);
+            }
+            return throwError(() => err);
+          })
+        );
+      }
       if (isOrchestratorApi && err.status === 403 && err.error?.code === 'ACCOUNT_BLOCKED') {
         authService.refreshSessionProfile();
         router.navigate(['/landing']);

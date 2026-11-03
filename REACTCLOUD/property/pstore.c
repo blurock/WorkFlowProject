@@ -210,15 +210,23 @@ extern void GetPropValue(VOID element,
      type = FindPropertyTypeFromType(value->ID,types);
      if (type == NULL) return;
 
-     if (value->Value != NULL && (((char *)value->Value)[0] == '{' || ((char *)value->Value)[0] == '[')) {
-       if (value->ID == 102) { /* CHEMKIN_READTHERMO_PROPERTY */
-         extern INT ReadJSONChemkinThermoReadFromString(void *eleptr, CHAR *json_str);
-         ReadJSONChemkinThermoReadFromString(element, (char *)value->Value);
-         return;
-       } else if (value->ID == 101) { /* BENSON_THERMO_PROPERTY */
-         extern INT ReadJSONBensonSecondThermoTableFromString(void *eleptr, CHAR *json_str);
-         ReadJSONBensonSecondThermoTableFromString(element, (char *)value->Value);
-         return;
+     if (value->Value != NULL && value->NumberOfBytes > 2 &&
+         (((char *)value->Value)[0] == '{' || ((char *)value->Value)[0] == '[')) {
+       char c1 = ((char *)value->Value)[1];
+       /* Guard against binary WriteBinINT values whose low byte happens to be 0x7B ('{', e.g. 70000123)
+          or 0x5B ('[', e.g. 70000091), where byte 1 is 0x1D instead of valid JSON whitespace/token */
+       if (c1 == '\n' || c1 == '\r' || c1 == '\t' || c1 == ' ' || c1 == '"' || c1 == '{' || c1 == '}' || c1 == ']') {
+         if (value->ID == 102) { /* CHEMKIN_READTHERMO_PROPERTY */
+           extern INT ReadJSONChemkinThermoReadFromString(void *eleptr, CHAR *json_str);
+           if (ReadJSONChemkinThermoReadFromString(element, (char *)value->Value) == STRUCTURE_READ) {
+             return;
+           }
+         } else if (value->ID == 100 || value->ID == 101) { /* BENSON_THERMO_PROPERTY */
+           extern INT ReadJSONBensonSecondThermoTableFromString(void *eleptr, CHAR *json_str);
+           if (ReadJSONBensonSecondThermoTableFromString(element, (char *)value->Value) == STRUCTURE_READ) {
+             return;
+           }
+         }
        }
      }
 

@@ -80,7 +80,7 @@ export class LoggingAdminComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.loadLogs(false);
+    this.loadLogs(true);
     if (this.isSuperAdmin()) {
       this.loadAdminUsers();
     }

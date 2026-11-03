@@ -297,6 +297,9 @@ export class TestReactionPatternComponent implements OnInit {
       const cleanMechName = (this.mechName || 'TestMechanism').trim();
       const supplement = this.auxiliaryMolecules.join(',');
 
+      // Invalidate in-memory cache to guarantee freshly fetched artifacts for this run
+      this.reactCloudApi.clearAsciiCache();
+
       this.snackBar.open(`Executing submechanism ${cleanMechName}...`, 'Dismiss', { duration: 4000 });
 
       this.reactCloudApi.runSubmechanismFromPath(
@@ -321,7 +324,7 @@ export class TestReactionPatternComponent implements OnInit {
             const logFile = res.files?.find(f => f.fileType === 'log');
             if (logFile?.downloadUrl) {
               try {
-                logContent = await firstValueFrom(this.reactCloudApi.fetchAsciiFileContent(logFile.downloadUrl));
+                logContent = await firstValueFrom(this.reactCloudApi.fetchAsciiFileContent(logFile.downloadUrl, true));
               } catch (_) {}
             }
           }
@@ -355,12 +358,12 @@ export class TestReactionPatternComponent implements OnInit {
             let sdfContent = '';
             if (mechFile?.downloadUrl) {
               try {
-                mechContent = await firstValueFrom(this.reactCloudApi.fetchAsciiFileContent(mechFile.downloadUrl));
+                mechContent = await firstValueFrom(this.reactCloudApi.fetchAsciiFileContent(mechFile.downloadUrl, true));
               } catch (_) {}
             }
             if (sdfFile?.downloadUrl) {
               try {
-                sdfContent = await firstValueFrom(this.reactCloudApi.fetchAsciiFileContent(sdfFile.downloadUrl));
+                sdfContent = await firstValueFrom(this.reactCloudApi.fetchAsciiFileContent(sdfFile.downloadUrl, true));
               } catch (_) {}
             }
             if (mechContent || sdfContent) {

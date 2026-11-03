@@ -1,4 +1,71 @@
-RealSubmech: 1 patterns
-hydroxyl-radical,oxygen-radical,oxygen
+OlefinDecompThroughAlphaRadical:
+oxygen,hydrogen-radical
 %%% ----------------------------------------------------
-H-Abstraction-Hydroxyl-Radical-Primary:hydroxyl-radical,oxygen-radical,oxygen
+%%% Step 1: Step 1
+%%% ----------------------------------------------------
+H-Abstraction-Oxygen-Tertiary,\
+H-Abstraction-Oxygen-Secondary,\
+H-Abstraction-Oxygen-Primary\
+:oxygen
+%%% ----------------------------------------------------
+%%% Step 2: Step 2
+%%% ----------------------------------------------------
+HLoss-ethyl-radical(hh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(hhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rhh)-to-olefin,\
+HLoss-ethyl-radical(rr)(hhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(rhh)-to-olefin,\
+HLoss-ethyl-radical(hh)(rrh)-to-olefin,\
+HLoss-ethyl-radical(rr)(rhh)-to-olefin,\
+HLoss-ethyl-radical(rh)(rrh)-to-olefin,\
+HLoss-ethyl-radical(rr)(rrh)-to-olefin
+%%% ----------------------------------------------------
+%%% Step 3: Step 3
+%%% ----------------------------------------------------
+BetaOlefinDecomp(qq)(q)(hh)(hhh),\
+BetaOlefinDecomp(qq)(q)(rh)(hhh),\
+BetaOlefinDecomp(qq)(q)(rr)(hhh),\
+BetaOlefinDecomp(qq)(q)(hh)(rhh),\
+BetaOlefinDecomp(qq)(q)(rh)(rhh),\
+BetaOlefinDecomp(qq)(q)(rr)(rhh),\
+BetaOlefinDecomp(qq)(q)(hh)(rrh),\
+BetaOlefinDecomp(qq)(q)(rh)(rrh),\
+BetaOlefinDecomp(qq)(q)(rr)(rrh),\
+BetaOlefinDecomp(qq)(q)(hh)(rrr),\
+BetaOlefinDecomp(qq)(q)(rh)(rrr),\
+BetaOlefinDecomp(qq)(q)(rr)(rrr),\
+AlphaHAbstractionFromOlefinOxygen-(hh),\
+AlphaHAbstractionFromOlefinOxygen-(rh),\
+AlphaHAbstractionFromOlefinOxygen-(rr),\
+AlphaHAbstractionFromOlefin-(hh),\
+AlphaHAbstractionFromOlefin-(rh),\
+AlphaHAbstractionFromOlefin-(rr)\
+:oxygen
+%%% ----------------------------------------------------
+%%% Step 4: Step 4
+%%% ----------------------------------------------------
+PeroxyOlefinFormationFromAlphaOlefinRadical-(hh),\
+PeroxyOlefinFormationFromAlphaOlefinRadical-(rh),\
+PeroxyOlefinFormationFromAlphaOlefinRadical-(rr)\
+:oxygen
+%%% ----------------------------------------------------
+%%% Step 5: Step 5
+%%% ----------------------------------------------------
+PeroxyOlefinDecomposition-(hh)(h)(hh),\
+PeroxyOlefinDecomposition-(rh)(h)(hh),\
+PeroxyOlefinDecomposition-(rr)(h)(hh),\
+PeroxyOlefinDecomposition-(hh)(r)(hh),\
+PeroxyOlefinDecomposition-(rh)(r)(hh),\
+PeroxyOlefinDecomposition-(rr)(r)(hh),\
+PeroxyOlefinDecomposition-(hh)(h)(rh),\
+PeroxyOlefinDecomposition-(rh)(h)(rh),\
+PeroxyOlefinDecomposition-(rr)(h)(rh),\
+PeroxyOlefinDecomposition-(hh)(r)(rh),\
+PeroxyOlefinDecomposition-(rh)(r)(rh),\
+PeroxyOlefinDecomposition-(rr)(r)(rh),\
+PeroxyOlefinDecomposition-(hh)(h)(rr),\
+PeroxyOlefinDecomposition-(rh)(h)(rr),\
+PeroxyOlefinDecomposition-(rr)(h)(rr),\
+PeroxyOlefinDecomposition-(hh)(r)(rr),\
+PeroxyOlefinDecomposition-(rh)(r)(rr),\
+PeroxyOlefinDecomposition-(rr)(r)(rr)

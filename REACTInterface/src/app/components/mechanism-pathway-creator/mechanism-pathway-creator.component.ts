@@ -555,7 +555,7 @@ export class MechanismPathwayCreatorComponent implements OnInit {
       if (sdfFile?.downloadUrl) {
         try {
           console.log(`[RunStepTest] Fetching SDF structure artifact from ${sdfFile.downloadUrl}...`);
-          currentSdf = await firstValueFrom(this.reactCloudApi.fetchAsciiFileContent(sdfFile.downloadUrl));
+          currentSdf = await firstValueFrom(this.reactCloudApi.fetchAsciiFileContent(sdfFile.downloadUrl, true));
           console.log(`[RunStepTest] Successfully fetched SDF artifact (${currentSdf.length} chars).`);
         } catch (sdfErr) {
           console.warn('[RunStepTest] Failed to fetch SDF via downloadUrl, falling back to raw output:', sdfErr);
@@ -568,7 +568,7 @@ export class MechanismPathwayCreatorComponent implements OnInit {
       if (mechFile?.downloadUrl) {
         try {
           console.log(`[RunStepTest] Fetching MECH reaction artifact from ${mechFile.downloadUrl}...`);
-          mechContent = await firstValueFrom(this.reactCloudApi.fetchAsciiFileContent(mechFile.downloadUrl));
+          mechContent = await firstValueFrom(this.reactCloudApi.fetchAsciiFileContent(mechFile.downloadUrl, true));
           console.log(`[RunStepTest] Successfully fetched MECH artifact (${mechContent.length} chars).`);
         } catch (mechErr) {
           console.warn('[RunStepTest] Failed to fetch MECH via downloadUrl:', mechErr);
@@ -581,7 +581,7 @@ export class MechanismPathwayCreatorComponent implements OnInit {
       if (logFile?.downloadUrl) {
         try {
           console.log(`[RunStepTest] Fetching execution.log from ${logFile.downloadUrl}...`);
-          execLogContent = await firstValueFrom(this.reactCloudApi.fetchAsciiFileContent(logFile.downloadUrl));
+          execLogContent = await firstValueFrom(this.reactCloudApi.fetchAsciiFileContent(logFile.downloadUrl, true));
           console.log(`[RunStepTest] Successfully fetched execution.log (${execLogContent.length} chars).`);
         } catch (logErr) {
           console.warn('[RunStepTest] Failed to fetch execution.log via downloadUrl:', logErr);
@@ -956,24 +956,16 @@ export class MechanismPathwayCreatorComponent implements OnInit {
     const cleanPathwayName = (this.pathwayName || 'NewPathway').trim();
 
     const readSteps: ReadChainReactionStep[] = this.steps.map((s, idx) => {
-      // Gather unique step molecules from Stage 2 (auxMolecules) and Stage 1 (inputMolecules)
+      // Gather unique step auxiliary molecules from Stage 2 (auxMolecules only).
+      // Stage 1 (inputMolecules) holds target-molecule-specific test inputs and cascaded
+      // reaction products from interactive step testing and must NOT be saved into the
+      // reusable pathway definition.
       const stepMolsSet = new Set<string>();
 
-      // 1. Auxiliary radicals from Stage 2
       (s.auxMolecules || []).forEach(m => {
         const clean = (m || '').trim();
         if (clean) stepMolsSet.add(clean);
       });
-
-      // 2. Custom input molecules added in Stage 1 (excluding overall target and global radicals)
-      if (s.inputMolecules && s.inputMolecules.length > 0) {
-        s.inputMolecules.forEach(m => {
-          const clean = (m || '').trim();
-          if (clean && clean.toLowerCase() !== cleanTarget.toLowerCase() && !this.overallAuxMolecules.includes(clean)) {
-            stepMolsSet.add(clean);
-          }
-        });
-      }
 
       const stepMols = Array.from(stepMolsSet);
 

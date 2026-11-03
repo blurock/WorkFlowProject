@@ -146,6 +146,8 @@ extern CHAR *PrintStringString(CHAR *string,
      {
      INT len;
      
+     if(out == 0)
+	  return(string);
      len = strlen(out);
      if(len >=  *bufferleft)
 	  {

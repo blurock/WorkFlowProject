@@ -178,15 +178,28 @@ static char *PrintChemkinValuesForMolecule(CHAR *str, INT *strlen,
   INT numcount;
   values = FindValuesFromType(CHEMKIN_READTHERMO_PROPERTY,
 			      valueset);
-  value = values->Values;
+  value = (values != NULL && values->NumberOfValues > 0) ? values->Values : NULL;
   chemkin = AllocateChemkinThermoRead;
-  if(value == NULL) {
+  if(value != NULL) {
+    GetPropValue(chemkin,value,types);
+    if(chemkin->UpperTempCoefficients == NULL || chemkin->LowerTempCoefficients == NULL) {
+      GenPropValue *bval = FindSpecificValueInPropertyValues("Benson", values);
+      if(bval != NULL && bval != value) {
+        FreeChemkinThermoRead(chemkin);
+        memset(chemkin, 0, sizeof(ChemkinThermoRead));
+        GetPropValue(chemkin, bval, types);
+      }
+    }
+    if(chemkin->Species == NULL) {
+      chemkin->Species = CopyString(molecule->Name);
+    }
+  }
+  if(value == NULL || chemkin->UpperTempCoefficients == NULL || chemkin->LowerTempCoefficients == NULL) {
     printf("ERROR: Expected CHEMKIN values for '%s': repair database\n", molecule->Name);
     str = PrintStringString(str,strlen,"ERROR: ");
     str = PrintStringString(str,strlen,molecule->Name);
     str = PrintStringString(str,strlen,"\n");
   } else {  
-    GetPropValue(chemkin,value,types);
     printf("%20s     %9.3f %9.3f %9.3f      %9.3f %9.3f %9.3f       %9.3f %9.3f %9.3f\n",
 	 chemkin->Species,
 	 ChemkinS0series(chemkin,298.0),
@@ -204,6 +217,8 @@ static char *PrintChemkinValuesForMolecule(CHAR *str, INT *strlen,
     str = PrintStringString(str,strlen,string);
     Free(string);
   }
+  FreeChemkinThermoRead(chemkin);
+  Free(chemkin);
   return(str);
 }
   
@@ -635,12 +650,18 @@ extern ReadChainSet *FetchReadChainSetFromFirestore(const char *name, BindStruct
             readchain = AllocateReadChainSet;
             memset(readchain, 0, sizeof(ReadChainSet));
             if (ReadJSONReadChainSetFromString(readchain, data_str) == STRUCTURE_READ) {
-              if (readchain->Molecules == NULL) {
-                DetermineSetOfMolecules(readchain);
+              if (readchain->Molecules != NULL) {
+                FreeReadInMoleculeSet(readchain->Molecules);
+                Free(readchain->Molecules);
+                readchain->Molecules = NULL;
               }
-              if (readchain->Reactions == NULL) {
-                DetermineSetOfReactions(readchain);
+              DetermineSetOfMolecules(readchain);
+              if (readchain->Reactions != NULL) {
+                FreeReadInReactionSet(readchain->Reactions);
+                Free(readchain->Reactions);
+                readchain->Reactions = NULL;
               }
+              DetermineSetOfReactions(readchain);
               printf("[Firestore Fetch] Successfully fetched MechanismPathway '%s' from Firestore.\n", name);
             } else {
               printf("[Firestore Fetch Error] Failed to parse MechanismPathway '%s' JSON.\n", name);
