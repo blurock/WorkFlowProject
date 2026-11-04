@@ -970,12 +970,159 @@ function classifyJob(reqBody = {}, commandText = '', inputFile = '') {
 }
 
 /**
+ * ============================================================================
+ * Declarative Task Output Catalog
+ * ============================================================================
+ * Defines the contract of expected output artifacts and log files produced by
+ * each task category. Any workspace file that is NOT part of this contract
+ * (such as cached molecule/substructure inputs, symlinked libraries, or
+ * pre-existing workspace files) is explicitly filtered out during persistence.
+ */
+function matchCatalogPattern(filename, pattern) {
+  if (!filename || !pattern) return false;
+  if (typeof pattern === 'string') {
+    if (pattern.includes('*')) {
+      const regexStr = '^' + pattern.replace(/\./g, '\\.').replace(/\*/g, '.*') + '$';
+      return new RegExp(regexStr, 'i').test(filename);
+    }
+    return filename.toLowerCase() === pattern.toLowerCase();
+  }
+  if (pattern instanceof RegExp) {
+    return pattern.test(filename);
+  }
+  return false;
+}
+
+const TASK_OUTPUT_CATALOG = {
+  submechanism_generation: {
+    label: 'Submechanism Generation',
+    getArtifactPatterns: (meta) => {
+      const patterns = [];
+      if (meta?.mechName) {
+        patterns.push(
+          `${meta.mechName}.mech`,
+          `${meta.mechName}.sdf`,
+          `${meta.mechName}.thm`,
+          `${meta.mechName}.corrs`,
+          `${meta.mechName}_artifacts.zip`
+        );
+      }
+      if (meta?.rootName) {
+        const baseRoot = String(meta.rootName).replace(/\.lsr$/i, '');
+        patterns.push(`${baseRoot}.lsr`);
+      }
+      patterns.push('read.lsr', '*.mech', '*.thm', '*.corrs');
+      return patterns;
+    },
+    getLogPatterns: () => ['execution.log', '*.api.inp', 'run.inp']
+  },
+
+  mechanism_combine: {
+    label: 'Combine Submechanisms',
+    getArtifactPatterns: (meta) => {
+      const patterns = [];
+      if (meta?.mechName) {
+        patterns.push(
+          `${meta.mechName}.mech`,
+          `${meta.mechName}.sdf`,
+          `${meta.mechName}.thm`,
+          `${meta.mechName}.corrs`,
+          `${meta.mechName}_artifacts.zip`
+        );
+      }
+      patterns.push('*.mech', '*.thm', '*.corrs');
+      return patterns;
+    },
+    getLogPatterns: () => ['execution.log', 'combine.api.inp', '*.api.inp', 'run.inp']
+  },
+
+  format_check: {
+    label: 'Catalog Format Check',
+    getArtifactPatterns: () => ['*.Format.out'],
+    getLogPatterns: () => ['execution.log', 'run.inp']
+  },
+
+  catalog_print: {
+    label: 'Catalog Print / Query',
+    getArtifactPatterns: () => ['*.ans', '*.out'],
+    getLogPatterns: () => ['execution.log', 'run.inp']
+  },
+
+  thermo_calc: {
+    label: 'Thermodynamics Calculation',
+    getArtifactPatterns: () => ['*.thm', '*.ans', '*.out'],
+    getLogPatterns: () => ['execution.log', 'run.inp']
+  },
+
+  thermo_store: {
+    label: 'Thermodynamics Storage',
+    getArtifactPatterns: () => ['*.thm', '*.ans', '*.out'],
+    getLogPatterns: () => ['execution.log', 'run.inp']
+  },
+
+  mechanism_query: {
+    label: 'Mechanism Query',
+    getArtifactPatterns: () => ['*.mech', '*.ans', '*.out'],
+    getLogPatterns: () => ['execution.log', 'run.inp']
+  },
+
+  mechanism_store: {
+    label: 'Mechanism Storage',
+    getArtifactPatterns: () => ['*.mech', '*.sdf', '*.thm', '*.corrs', '*.ans', '*.out'],
+    getLogPatterns: () => ['execution.log', 'run.inp']
+  },
+
+  script_runner: {
+    label: 'Generic Script Runner',
+    getArtifactPatterns: () => ['*.Format.out', '*.ans', '*.out', '*.dat'],
+    getLogPatterns: () => ['execution.log', 'run.inp']
+  },
+
+  catalog_store: {
+    label: 'Catalog Storage',
+    getArtifactPatterns: () => ['*.ans', '*.out', '*.Format.out'],
+    getLogPatterns: () => ['execution.log', 'run.inp']
+  },
+
+  db_mutation: {
+    label: 'Database Mutation',
+    getArtifactPatterns: () => ['*.ans', '*.out', '*.Format.out'],
+    getLogPatterns: () => ['execution.log', 'run.inp']
+  },
+
+  read_query: {
+    label: 'Database Read Query',
+    getArtifactPatterns: () => ['*.ans', '*.out'],
+    getLogPatterns: () => ['execution.log', 'run.inp']
+  },
+
+  default: {
+    label: 'General Task',
+    getArtifactPatterns: () => ['*.Format.out', '*.ans', '*.out'],
+    getLogPatterns: () => ['execution.log', 'run.inp', '*.api.inp']
+  }
+};
+
+function getTaskCatalogEntry(jobCategory) {
+  return TASK_OUTPUT_CATALOG[jobCategory] || TASK_OUTPUT_CATALOG.default;
+}
+
+/**
  * Parallel Persistence Sync with Deep GCS Directory Partitioning
  * Uploads execution logs and output artifacts to GCS under structured path:
  * users/<uid>/logs/<access-mode>/<YYYY>/<MM>/<DD>/<job-category>/<job-id>/
  * Filenames are formatted as: <YYYYMMDD>_<HHMMSS>_<jobCategory>_<jobId>_<file>
  */
-async function persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classificationInput = true, inputFileManifest = [], mechanismMetadata = null) {
+async function persistUserWorkspace(
+  uid,
+  sessionId,
+  workspaceDir,
+  jobId,
+  classificationInput = true,
+  inputFileManifest = [],
+  mechanismMetadata = null,
+  initialWorkspaceFiles = null
+) {
   const bucket = storage.bucket(BUCKET_NAME);
   const activeSessionId = sessionId || 'default_session';
 
@@ -1004,8 +1151,11 @@ async function persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classif
   // gs://<BUCKET_NAME>/users/<uid>/logs/<access-mode>/<YYYY>/<MM>/<DD>/<job-category>/<job-id>/
   const gcsPrefix = `users/${uid}/logs/${accessMode}/${datePath}/${jobCategory}/${jobId}`;
 
-  // Upload job output artifacts & execution logs in parallel
-  const outputFiles = fs.readdirSync(workspaceDir).filter(f => !['elements.xml', 'command', 'data', 'basis', 'ffield'].includes(f));
+  // Resolve task catalog specification for this jobCategory
+  const catalogEntry = getTaskCatalogEntry(jobCategory);
+  const expectedArtifactPatterns = catalogEntry.getArtifactPatterns(mechanismMetadata);
+  const expectedLogPatterns = catalogEntry.getLogPatterns(mechanismMetadata);
+
   const fileManifest = [];
 
   // Place primary mechanism files (from users/{uid}/mechanisms/{mechName}/) first if provided
@@ -1019,55 +1169,86 @@ async function persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classif
     }
   }
 
+  // Identify candidate output files in workspaceDir matching the Task Output Catalog
+  const systemItems = new Set(['elements.xml', 'command', 'data', 'basis', 'ffield']);
   const userCacheDataDir = path.join('/tmp', 'reactcloud', 'users', uid, 'cache', 'data');
   const cachedDataFiles = fs.existsSync(userCacheDataDir) ? new Set(fs.readdirSync(userCacheDataDir)) : new Set();
+  const preExistingFiles = initialWorkspaceFiles instanceof Set ? initialWorkspaceFiles : new Set();
 
-  await Promise.all(outputFiles.map(async (file) => {
+  const allWorkspaceFiles = fs.readdirSync(workspaceDir);
+  const candidateFiles = allWorkspaceFiles.filter(file => {
+    if (systemItems.has(file)) return false;
+
+    const filePath = path.join(workspaceDir, file);
+    if (!fs.existsSync(filePath)) return false;
+
+    // Never collect symlinks (system assets, cached inputs linked into workspace)
+    try {
+      if (fs.lstatSync(filePath).isSymbolicLink()) return false;
+    } catch (_) { return false; }
+
+    try {
+      if (!fs.statSync(filePath).isFile()) return false;
+    } catch (_) { return false; }
+
+    const isLogPatternMatch = expectedLogPatterns.some(pat => matchCatalogPattern(file, pat));
+    const isArtifactPatternMatch = expectedArtifactPatterns.some(pat => matchCatalogPattern(file, pat));
+
+    // If file was already present before chemdb ran:
+    // Only accept it if it is an execution log or input script (e.g. run.inp, *.api.inp)
+    if (preExistingFiles.has(file) && !isLogPatternMatch) {
+      return false;
+    }
+
+    // If file matches a persistent cached data file and is not a catalog artifact:
+    if (cachedDataFiles.has(file) && !isArtifactPatternMatch && !isLogPatternMatch) {
+      return false;
+    }
+
+    // When primary mechanism files are already provided, strictly ONLY collect logs/scripts
+    if (hasMechanismFiles) {
+      if (!isLogPatternMatch) return false;
+      // Skip if execution.log was already provided in mechanismMetadata.files
+      if (fileManifest.some(existing => existing.filename === file)) return false;
+      return true;
+    }
+
+    // Must match either artifact or log pattern defined in the task catalog
+    return isArtifactPatternMatch || isLogPatternMatch;
+  });
+
+  await Promise.all(candidateFiles.map(async (file) => {
     const filePath = path.join(workspaceDir, file);
     try {
-      if (!fs.existsSync(filePath)) return;
-
-      // Skip symlinks (system assets, cached data links)
-      if (fs.lstatSync(filePath).isSymbolicLink()) return;
-
-      if (!fs.statSync(filePath).isFile()) return;
-
-      const isRootLog = file === 'execution.log' || file === 'run.inp' || file.endsWith('.api.inp');
-
-      // If mechanism files are already provided, ONLY upload execution.log or run script
-      if (hasMechanismFiles) {
-        if (!isRootLog) {
-          return; // Ignore other workspace files (e.g. cached molecules/patterns)
-        }
-        // If execution.log was already included in mechanismMetadata.files, skip re-uploading
-        if (fileManifest.some(existing => existing.filename === file)) {
-          return;
-        }
-      } else {
-        // For general jobs, ignore files that are identical to cached input data files
-        if (cachedDataFiles.has(file) && !isRootLog) {
-          return;
-        }
-      }
-
+      const isLog = expectedLogPatterns.some(pat => matchCatalogPattern(file, pat));
       let gcsTargetFilename = '';
-      if (isRootLog) {
+      if (isLog) {
         gcsTargetFilename = `${timeStr}_${jobCategory}_${jobId}_${file}`;
       } else {
         gcsTargetFilename = `${timeStr}_${file}`;
       }
 
-      const gcsPath = isRootLog ? `${gcsPrefix}/${gcsTargetFilename}` : `${gcsPrefix}/artifacts/${gcsTargetFilename}`;
+      const gcsPath = isLog ? `${gcsPrefix}/${gcsTargetFilename}` : `${gcsPrefix}/artifacts/${gcsTargetFilename}`;
 
       await bucket.upload(filePath, { destination: gcsPath });
       const downloadUrl = (await getSignedDownloadUrl(BUCKET_NAME, gcsPath)) ||
         `http://localhost:8085/api/logs/content?gcsPath=${encodeURIComponent(`gs://${BUCKET_NAME}/${gcsPath}`)}&t=${Date.now()}`;
 
       if (!fileManifest.some(existing => existing.filename === file)) {
+        let fileType = 'artifact';
+        if (file.endsWith('.Format.out')) fileType = 'format_check_report';
+        else if (file.endsWith('.log')) fileType = 'log';
+        else if (file === 'run.inp' || file.endsWith('.inp')) fileType = 'script';
+        else if (file.endsWith('.mech')) fileType = 'mech';
+        else if (file.endsWith('.sdf')) fileType = 'sdf';
+        else if (file.endsWith('.thm')) fileType = 'thm';
+        else if (file.endsWith('.corrs')) fileType = 'corrs';
+        else if (file.endsWith('.ans') || file.endsWith('.out')) fileType = 'detail_output';
+
         fileManifest.push({
           filename: file,
           gcsFilename: gcsTargetFilename,
-          fileType: file.endsWith('.Format.out') ? 'format_check_report' : (file.endsWith('.log') ? 'log' : (file === 'run.inp' || file.endsWith('.inp') ? 'script' : 'artifact')),
+          fileType,
           sizeBytes: fs.statSync(filePath).size,
           gcsPath: `gs://${BUCKET_NAME}/${gcsPath}`,
           downloadUrl
@@ -1099,6 +1280,9 @@ async function persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classif
       day: String(day),
       accessMode,
       jobCategory,
+      taskCatalog: jobCategory,
+      catalogLabel: catalogEntry.label,
+      expectedArtifactPatterns,
       isReadOnly,
       gcsPrefix: `gs://${BUCKET_NAME}/${gcsPrefix}`,
       rawGcsPrefix: gcsPrefix,
@@ -1466,6 +1650,20 @@ app.put('/api/admin/security-config', authenticateUser, requireAdmin, async (req
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
+});
+
+/**
+ * GET /api/catalog/task-outputs
+ * Returns the declarative Task Output Catalog defining expected artifacts and log files per task category.
+ */
+app.get('/api/catalog/task-outputs', authenticateUser, (req, res) => {
+  const catalogList = Object.entries(TASK_OUTPUT_CATALOG).map(([key, item]) => ({
+    category: key,
+    label: item.label,
+    artifactPatterns: item.getArtifactPatterns({ mechName: '<mechName>', rootName: '<rootName>' }),
+    logPatterns: item.getLogPatterns({ mechName: '<mechName>', rootName: '<rootName>' })
+  }));
+  return res.json({ success: true, catalog: catalogList });
 });
 
 /**
@@ -2046,6 +2244,8 @@ app.post('/api/run-input', authenticateUser, async (req, res) => {
     const commandDir = path.join(REACTROOT, 'command');
     const staticFile = path.join(REACTROOT, 'data', 'stat-inf.dat');
 
+    const initialWorkspaceFiles = new Set(fs.readdirSync(workspaceDir));
+
     const child = spawn(CHEMDB_BIN, [root || 'test', '0', commandDir, staticFile], {
       cwd: workspaceDir,
       env: {
@@ -2112,7 +2312,7 @@ app.post('/api/run-input', authenticateUser, async (req, res) => {
 
       // Async background persistence & cleanup
       const classification = classifyJob(req.body, '', inputFile);
-      persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classification, inputFileManifest)
+      persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classification, inputFileManifest, null, initialWorkspaceFiles)
         .then(fileManifest => {
           res.json({
             jobId,
@@ -2353,7 +2553,7 @@ app.post('/api/run-commands', authenticateUser, async (req, res) => {
 
       // Async background GCS persistence & cleanup
       const classification = classifyJob(req.body, commandText, '');
-      persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classification, inputFileManifest)
+      persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classification, inputFileManifest, null, preExistingFiles)
         .catch(err => {
           console.warn(`[GCS Persist Warning] ${err.message}`);
         })
@@ -2858,6 +3058,8 @@ app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
       throw new Error(`chemdb binary missing at ${CHEMDB_BIN}. Build with 'make chemdb' in REACTCLOUD.`);
     }
 
+    const initialWorkspaceFiles = new Set(fs.readdirSync(workspaceDir));
+
     console.log(`[RunSubmechanism 4/5] Spawning chemdb binary: ${CHEMDB_BIN}`);
     console.log(`  Args: [${actualRunRoot}, 0, ${commandDir}, ${staticFile}]`);
     console.log(`  Working directory: ${workspaceDir}`);
@@ -2978,7 +3180,7 @@ app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
         rootName,
         storageDirectory: artifactResult.storageDirectory,
         files: artifactResult.files
-      })
+      }, initialWorkspaceFiles)
         .catch(e => console.warn(`[GCS Persist Warning] ${e.message}`))
         .finally(() => cleanupWorkspace(workspaceDir));
     });
@@ -3028,6 +3230,8 @@ app.post('/api/run-combine-submechanisms', authenticateUser, async (req, res) =>
     const commandDir = path.join(REACTROOT, 'command');
     const staticFile = path.join(REACTROOT, 'data', 'stat-inf.dat');
     const startTime = Date.now();
+
+    const initialWorkspaceFiles = new Set(fs.readdirSync(workspaceDir));
 
     const child = spawn(CHEMDB_BIN, ['read', '0', commandDir, staticFile], {
       cwd: workspaceDir,
@@ -3104,7 +3308,7 @@ app.post('/api/run-combine-submechanisms', authenticateUser, async (req, res) =>
         submechanisms,
         storageDirectory: artifactResult.storageDirectory,
         files: artifactResult.files
-      })
+      }, initialWorkspaceFiles)
         .catch(e => console.warn(`[GCS Persist Warning] ${e.message}`))
         .finally(() => cleanupWorkspace(workspaceDir));
     });
