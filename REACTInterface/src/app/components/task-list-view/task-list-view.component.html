@@ -289,6 +289,14 @@
                     </mat-panel-title>
                     <mat-panel-description class="group-panel-desc">
                       <span class="group-badge">{{ group.mechanisms.length }} mechanism{{ group.mechanisms.length === 1 ? '' : 's' }}</span>
+                      <button
+                        mat-icon-button
+                        type="button"
+                        class="eye-toggle-btn"
+                        (click)="group.isExpanded = !group.isExpanded; $event.stopPropagation()"
+                        [matTooltip]="group.isExpanded ? 'Hide mechanism list' : 'View mechanism list'">
+                        <mat-icon color="primary">{{ group.isExpanded ? 'visibility_off' : 'visibility' }}</mat-icon>
+                      </button>
                     </mat-panel-description>
                   </mat-expansion-panel-header>
 
@@ -309,6 +317,13 @@
                           </div>
                         </div>
                         <div class="mech-actions">
+                          <button
+                            mat-icon-button
+                            color="primary"
+                            (click)="onSelectStoredMechanism(mech); $event.stopPropagation()"
+                            matTooltip="View mechanism reactions, molecules and thermodynamics">
+                            <mat-icon>visibility</mat-icon>
+                          </button>
                           <button
                             mat-icon-button
                             color="primary"
@@ -341,7 +356,7 @@
                         </span>
                         <span class="spacer"></span>
                         <button mat-button color="primary" class="inspect-btn" (click)="onSelectStoredMechanism(mech); $event.stopPropagation()">
-                          View Details <mat-icon>chevron_right</mat-icon>
+                          <mat-icon>visibility</mat-icon> View Details
                         </button>
                       </div>
                     </mat-card>

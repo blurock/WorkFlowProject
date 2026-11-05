@@ -285,21 +285,31 @@ export class TaskListViewComponent implements OnChanges {
   }
 
   public loadMechanismsData(forceRefresh: boolean = false): void {
+    console.log('[TaskListView] Loading stored mechanisms from Firestore/Backend...');
     this.isLoading = true;
     this.errorMessage = null;
     this.mechanismsService.getStoredMechanisms().subscribe({
       next: (mechs) => {
-        this.storedMechanisms = mechs || [];
-        this.items = this.storedMechanisms.map((m, idx) => ({
-          id: String(idx + 1),
-          name: m.mechName,
-          rawLine: `${idx + 1} : --> ${m.mechName}`
-        }));
-        this.updateMechanismMoleculeGroups();
-        this.isLoading = false;
-        this.hasExecuted = true;
+        try {
+          const list = Array.isArray(mechs) ? mechs : [];
+          console.log(`[TaskListView] Received ${list.length} stored mechanisms:`, list);
+          this.storedMechanisms = list;
+          this.items = this.storedMechanisms.map((m, idx) => ({
+            id: String(idx + 1),
+            name: m.mechName,
+            rawLine: `${idx + 1} : --> ${m.mechName}`
+          }));
+          this.updateMechanismMoleculeGroups();
+        } catch (e: any) {
+          console.error('[TaskListView] Error processing stored mechanisms:', e);
+          this.errorMessage = e.message;
+        } finally {
+          this.isLoading = false;
+          this.hasExecuted = true;
+        }
       },
       error: (err) => {
+        console.error('[TaskListView] Failed to retrieve stored mechanisms:', err);
         this.isLoading = false;
         this.hasExecuted = true;
         this.errorMessage = err?.error?.error || 'Failed to retrieve stored mechanisms from Firestore.';
@@ -347,7 +357,7 @@ export class TaskListViewComponent implements OnChanges {
     this.mechanismMoleculeGroups = sortedMols.map(mol => ({
       molecule: mol,
       mechanisms: groupMap.get(mol)!.sort((a, b) => a.mechName.localeCompare(b.mechName)),
-      isExpanded: prevExpanded.has(mol) ? prevExpanded.get(mol)! : true
+      isExpanded: prevExpanded.has(mol) ? prevExpanded.get(mol)! : false
     }));
   }
 

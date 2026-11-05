@@ -1093,6 +1093,7 @@
           display: flex;
           justify-content: flex-end;
           align-items: center;
+          gap: 10px;
 
           .group-badge {
             background-color: #e0f2fe;
@@ -1101,6 +1102,19 @@
             font-weight: 600;
             padding: 3px 10px;
             border-radius: 12px;
+          }
+
+          .eye-toggle-btn {
+            width: 32px;
+            height: 32px;
+            padding: 0;
+
+            mat-icon {
+              font-size: 20px;
+              width: 20px;
+              height: 20px;
+              color: #0284c7;
+            }
           }
         }
       }

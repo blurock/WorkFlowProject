@@ -2925,6 +2925,7 @@ app.get('/api/mechanisms/list', authenticateUser, async (req, res) => {
   try {
     const uid = resolveAuthorizedTargetUid(req, req.query.uid, false);
     const { type, targetMolecule } = req.query;
+    console.log(`[GET /api/mechanisms/list] uid='${uid}', type='${type || "all"}', targetMolecule='${targetMolecule || "all"}'`);
 
     let query = firestore.collection('users').doc(uid).collection('mechanisms');
 
@@ -2953,7 +2954,8 @@ app.get('/api/mechanisms/list', authenticateUser, async (req, res) => {
     // Sort descending by creation date
     mechs.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
 
-    return res.json({ success: true, count: mechs.length, mechanisms: mechs });
+    console.log(`[GET /api/mechanisms/list] Returning ${mechs.length} mechanisms for uid='${uid}'`);
+    return res.json(mechs);
   } catch (err) {
     console.error('[GET /api/mechanisms/list Error]', err);
     return res.status(500).json({ error: err.message });
@@ -2979,7 +2981,7 @@ app.get('/api/mechanisms/details', authenticateUser, async (req, res) => {
       return res.status(404).json({ error: `Mechanism '${mechName}' not found in registry.` });
     }
 
-    return res.json({ success: true, mechanism: doc.data() });
+    return res.json(doc.data());
   } catch (err) {
     console.error('[GET /api/mechanisms/details Error]', err);
     return res.status(500).json({ error: err.message });
@@ -2992,8 +2994,8 @@ app.get('/api/mechanisms/details', authenticateUser, async (req, res) => {
  */
 app.delete('/api/mechanisms', authenticateUser, async (req, res) => {
   try {
-    const uid = resolveAuthorizedTargetUid(req, req.body.uid, true);
-    const mechName = req.body.name || req.body.mechName;
+    const uid = resolveAuthorizedTargetUid(req, req.body?.uid || req.query?.uid, true);
+    const mechName = req.body?.name || req.body?.mechName || req.query?.name || req.query?.mechName;
     if (!mechName) return res.status(400).json({ error: 'Missing required field: mechName' });
 
     const docRef = firestore.collection('users').doc(uid).collection('mechanisms').doc(mechName);

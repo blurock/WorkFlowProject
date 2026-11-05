@@ -442,7 +442,13 @@ export class ReactCloudApiService {
     let params = new HttpParams();
     if (type) params = params.set('type', type);
     if (targetMolecule) params = params.set('targetMolecule', targetMolecule);
-    return this.http.get<StoredMechanismDocument[]>(`${this.baseUrl}/api/mechanisms/list`, { params });
+    return this.http.get<any>(`${this.baseUrl}/api/mechanisms/list`, { params }).pipe(
+      map(res => {
+        if (Array.isArray(res)) return res;
+        if (res && Array.isArray(res.mechanisms)) return res.mechanisms;
+        return [];
+      })
+    );
   }
 
   /**
@@ -450,7 +456,9 @@ export class ReactCloudApiService {
    */
   public getStoredMechanismDetails(mechName: string): Observable<StoredMechanismDocument> {
     const params = new HttpParams().set('name', mechName);
-    return this.http.get<StoredMechanismDocument>(`${this.baseUrl}/api/mechanisms/details`, { params });
+    return this.http.get<any>(`${this.baseUrl}/api/mechanisms/details`, { params }).pipe(
+      map(res => (res && res.mechanism ? res.mechanism : res) as StoredMechanismDocument)
+    );
   }
 
   /**
