@@ -9,18 +9,23 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTableModule } from '@angular/material/table';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatBadgeModule } from '@angular/material/badge';
 
 import { forkJoin, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ReactCloudApiService, CatalogItem, CatalogTask } from '../../services/react-cloud-api.service';
+import { ReactCloudApiService, CatalogItem, CatalogTask, StoredMechanismDocument } from '../../services/react-cloud-api.service';
 import { TaskOutputParserService } from '../../services/task-output-parser.service';
 import { ChemStructureParserService } from '../../services/chem-structure-parser.service';
 import { CatalogServiceRegistry } from '../../services/catalog/catalog-service-registry.service';
 import { MoleculesService } from '../../services/catalog/molecules.service';
+import { MechanismsService } from '../../services/catalog/mechanisms.service';
 import { RxnPatternTreeService } from '../../services/rxn-pattern-tree.service';
+import { MechanismArtifactViewerComponent } from '../mechanism-artifact-viewer/mechanism-artifact-viewer.component';
 import {
   ReactionPatternClassNode,
   ReactionPatternLeafNode,
@@ -71,6 +76,12 @@ import { MechThermoCardComponent } from './cards/mech-thermo-card.component';
 import { MechStructuresCardComponent } from './cards/mech-structures-card.component';
 import { MechCorrsCardComponent } from './cards/mech-corrs-card.component';
 
+export interface MechanismMoleculeGroup {
+  molecule: string;
+  mechanisms: StoredMechanismDocument[];
+  isExpanded: boolean;
+}
+
 @Component({
   selector: 'app-task-list-view',
   standalone: true,
@@ -88,6 +99,9 @@ import { MechCorrsCardComponent } from './cards/mech-corrs-card.component';
     MatTabsModule,
     MatTooltipModule,
     MatTableModule,
+    MatExpansionModule,
+    MatChipsModule,
+    MatBadgeModule,
     MoleculeDetailComponent,
     RxnPatternDetailComponent,
     SubstructureDetailComponent,
@@ -102,7 +116,8 @@ import { MechCorrsCardComponent } from './cards/mech-corrs-card.component';
     MechReactionsCardComponent,
     MechThermoCardComponent,
     MechStructuresCardComponent,
-    MechCorrsCardComponent
+    MechCorrsCardComponent,
+    MechanismArtifactViewerComponent
   ],
   templateUrl: './task-list-view.component.html',
   styleUrls: ['./task-list-view.component.scss']
@@ -127,6 +142,13 @@ export class TaskListViewComponent implements OnChanges {
   public rxnPatternFilterQuery: string = '';
   public rxnPatternViewMode: 'tree' | 'flat' = 'tree';
 
+  // Stored Mechanism Catalog State (Level 1: Type Tabs, Level 2: Target Molecule Accordion)
+  public storedMechanisms: StoredMechanismDocument[] = [];
+  public mechanismTypeFilter: 'submechanism' | 'combined' | 'all' = 'submechanism';
+  public mechanismMoleculeGroups: MechanismMoleculeGroup[] = [];
+  public selectedStoredMechanism: StoredMechanismDocument | null = null;
+  public isDeletingMechanism: boolean = false;
+
   // Flat Catalog Search Query (Substructures, Molecules, Benson Groups, Mechanisms)
   public searchQuery: string = '';
 
@@ -134,6 +156,7 @@ export class TaskListViewComponent implements OnChanges {
     private apiService: ReactCloudApiService,
     private catalogServiceRegistry: CatalogServiceRegistry,
     private moleculesService: MoleculesService,
+    private mechanismsService: MechanismsService,
     private taskOutputParser: TaskOutputParserService,
     private chemParser: ChemStructureParserService,
     private rxnPatternTreeService: RxnPatternTreeService,
@@ -152,6 +175,9 @@ export class TaskListViewComponent implements OnChanges {
       this.rxnPatternViewMode = 'tree';
       this.rxnPatternTree = [];
       this.filteredRxnPatternTree = [];
+      this.storedMechanisms = [];
+      this.mechanismMoleculeGroups = [];
+      this.selectedStoredMechanism = null;
       this.loadTaskData(false);
     }
   }
@@ -185,6 +211,15 @@ export class TaskListViewComponent implements OnChanges {
 
   public clearSearchQuery(): void {
     this.searchQuery = '';
+    if (this.task?.id === 'mechanisms') {
+      this.updateMechanismMoleculeGroups();
+    }
+  }
+
+  public onSearchQueryChange(): void {
+    if (this.task?.id === 'mechanisms') {
+      this.updateMechanismMoleculeGroups();
+    }
   }
 
   public getSearchLabel(): string {
@@ -195,7 +230,7 @@ export class TaskListViewComponent implements OnChanges {
     } else if (this.task?.id === 'benson-groups') {
       return 'Search Benson groups by name';
     } else if (this.task?.id === 'mechanisms') {
-      return 'Search mechanisms by name';
+      return 'Search mechanisms by name, target molecule or pathway';
     }
     return 'Search items by name';
   }
@@ -203,6 +238,8 @@ export class TaskListViewComponent implements OnChanges {
   public getSearchPlaceholder(): string {
     if (this.task?.id === 'substructures') {
       return 'Filter by substring (e.g. radical, peroxy, (rh), c=c)...';
+    } else if (this.task?.id === 'mechanisms') {
+      return 'Filter mechanisms (e.g. butane, LowTemp, Aldehyde)...';
     }
     return 'Filter by substring...';
   }
@@ -212,6 +249,11 @@ export class TaskListViewComponent implements OnChanges {
 
     this.isLoading = true;
     this.errorMessage = null;
+
+    if (this.task.id === 'mechanisms') {
+      this.loadMechanismsData(forceRefresh);
+      return;
+    }
 
     const catalogService = this.catalogServiceRegistry.getServiceForTask(this.task.id);
     if (forceRefresh) {
@@ -240,6 +282,130 @@ export class TaskListViewComponent implements OnChanges {
         });
       }
     });
+  }
+
+  public loadMechanismsData(forceRefresh: boolean = false): void {
+    this.isLoading = true;
+    this.errorMessage = null;
+    this.mechanismsService.getStoredMechanisms().subscribe({
+      next: (mechs) => {
+        this.storedMechanisms = mechs || [];
+        this.items = this.storedMechanisms.map((m, idx) => ({
+          id: String(idx + 1),
+          name: m.mechName,
+          rawLine: `${idx + 1} : --> ${m.mechName}`
+        }));
+        this.updateMechanismMoleculeGroups();
+        this.isLoading = false;
+        this.hasExecuted = true;
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.hasExecuted = true;
+        this.errorMessage = err?.error?.error || 'Failed to retrieve stored mechanisms from Firestore.';
+        this.snackBar.open(`Error loading mechanisms: ${this.errorMessage}`, 'Close', {
+          duration: 5000,
+          panelClass: ['error-snackbar']
+        });
+      }
+    });
+  }
+
+  public onMechanismTypeChange(type: 'submechanism' | 'combined' | 'all'): void {
+    this.mechanismTypeFilter = type;
+    this.updateMechanismMoleculeGroups();
+  }
+
+  public updateMechanismMoleculeGroups(): void {
+    let filtered = this.storedMechanisms;
+
+    if (this.mechanismTypeFilter !== 'all') {
+      filtered = filtered.filter(m => m.mechanismType === this.mechanismTypeFilter);
+    }
+
+    if (this.searchQuery && this.searchQuery.trim()) {
+      const q = this.searchQuery.trim().toLowerCase();
+      filtered = filtered.filter(m =>
+        m.mechName.toLowerCase().includes(q) ||
+        (m.targetMolecule && m.targetMolecule.toLowerCase().includes(q)) ||
+        (m.pathwayName && m.pathwayName.toLowerCase().includes(q))
+      );
+    }
+
+    const groupMap = new Map<string, StoredMechanismDocument[]>();
+    for (const mech of filtered) {
+      const mol = mech.targetMolecule || 'general';
+      if (!groupMap.has(mol)) {
+        groupMap.set(mol, []);
+      }
+      groupMap.get(mol)!.push(mech);
+    }
+
+    const prevExpanded = new Map(this.mechanismMoleculeGroups.map(g => [g.molecule, g.isExpanded]));
+    const sortedMols = Array.from(groupMap.keys()).sort((a, b) => a.localeCompare(b));
+
+    this.mechanismMoleculeGroups = sortedMols.map(mol => ({
+      molecule: mol,
+      mechanisms: groupMap.get(mol)!.sort((a, b) => a.mechName.localeCompare(b.mechName)),
+      isExpanded: prevExpanded.has(mol) ? prevExpanded.get(mol)! : true
+    }));
+  }
+
+  public getSubmechCount(): number {
+    return this.storedMechanisms.filter(m => m.mechanismType === 'submechanism').length;
+  }
+
+  public getCombinedCount(): number {
+    return this.storedMechanisms.filter(m => m.mechanismType === 'combined').length;
+  }
+
+  public toggleAllMechanismPanels(expanded: boolean): void {
+    this.mechanismMoleculeGroups.forEach(g => g.isExpanded = expanded);
+  }
+
+  public onSelectStoredMechanism(mech: StoredMechanismDocument): void {
+    this.selectedStoredMechanism = mech;
+    this.selectedItem = {
+      id: '0',
+      name: mech.mechName,
+      rawLine: `0 : --> ${mech.mechName}`
+    };
+    this.selectedTabIndex = 1;
+  }
+
+  public onDeleteMechanism(mech: StoredMechanismDocument, event?: MouseEvent): void {
+    if (event) event.stopPropagation();
+    if (!confirm(`Are you sure you want to delete mechanism '${mech.mechName}' and its Cloud Storage files?`)) {
+      return;
+    }
+    this.isDeletingMechanism = true;
+    this.mechanismsService.deleteMechanism(mech.mechName).subscribe({
+      next: () => {
+        this.isDeletingMechanism = false;
+        this.snackBar.open(`Mechanism '${mech.mechName}' deleted successfully.`, 'Close', { duration: 3000 });
+        if (this.selectedStoredMechanism?.mechName === mech.mechName) {
+          this.selectedStoredMechanism = null;
+          this.selectedItem = null;
+          this.selectedTabIndex = 0;
+        }
+        this.storedMechanisms = this.storedMechanisms.filter(m => m.mechName !== mech.mechName);
+        this.updateMechanismMoleculeGroups();
+      },
+      error: (err) => {
+        this.isDeletingMechanism = false;
+        this.snackBar.open(`Failed to delete '${mech.mechName}': ${err.message}`, 'Close', { duration: 4000 });
+      }
+    });
+  }
+
+  public onDownloadZip(mech: StoredMechanismDocument, event?: MouseEvent): void {
+    if (event) event.stopPropagation();
+    const zipFile = mech.files?.find(f => f.fileType === 'zip' || f.filename.endsWith('.zip'));
+    if (zipFile && zipFile.downloadUrl) {
+      window.open(zipFile.downloadUrl, '_blank');
+    } else {
+      this.snackBar.open(`No ZIP artifact bundle found for '${mech.mechName}'`, 'Close', { duration: 3000 });
+    }
   }
 
   public onRxnPatternFilterChange(): void {

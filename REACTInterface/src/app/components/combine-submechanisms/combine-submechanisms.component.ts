@@ -154,9 +154,13 @@ export class CombineSubmechanismsComponent implements OnInit {
 
   public loadDatabaseMechanisms(): void {
     this.isDbMechanismsLoading = true;
-    this.mechanismsService.getCatalogList().subscribe({
-      next: (items) => {
-        this.availableDbMechanisms = items || [];
+    this.mechanismsService.getStoredMechanisms('submechanism').subscribe({
+      next: (mechs) => {
+        this.availableDbMechanisms = (mechs || []).map((m, idx) => ({
+          id: String(idx + 1),
+          name: m.mechName,
+          rawLine: `${idx + 1} : --> ${m.mechName}`
+        }));
         this.filterDbMechanisms(this.dbMechInput);
         this.isDbMechanismsLoading = false;
         // Re-validate combine list items against DB if list already populated

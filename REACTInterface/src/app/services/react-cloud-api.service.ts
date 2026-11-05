@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of, map, switchMap, tap, catchError, from } from 'rxjs';
 import { CommandTemplatesRegistry } from '../templates/command-templates.registry';
 import { AuthService } from './auth.service';
@@ -46,6 +46,24 @@ export interface MechanismStorageFile {
   gcsPath?: string;
   content?: string;
   isLoading?: boolean;
+}
+
+export interface StoredMechanismDocument {
+  mechName: string;
+  mechanismType: 'submechanism' | 'combined';
+  source: 'submechanism_from_path' | 'combine_submechanisms';
+  targetMolecule: string;
+  pathwayName?: string;
+  supplement?: string;
+  submechanisms?: string[];
+  storageDirectory: string;
+  gcsPrefix: string;
+  files: MechanismStorageFile[];
+  reactionCount: number;
+  moleculeCount: number;
+  jobId?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface ApiRunSubmechanismResponse {
@@ -415,6 +433,32 @@ export class ReactCloudApiService {
    */
   public getSubmechanismPaths(): Observable<string[]> {
     return this.http.get<string[]>(`${this.baseUrl}/api/submechanisms`);
+  }
+
+  /**
+   * Get list of stored production mechanisms from Firestore, optionally filtered by type ('submechanism' | 'combined') or molecule
+   */
+  public getStoredMechanisms(type?: string, targetMolecule?: string): Observable<StoredMechanismDocument[]> {
+    let params = new HttpParams();
+    if (type) params = params.set('type', type);
+    if (targetMolecule) params = params.set('targetMolecule', targetMolecule);
+    return this.http.get<StoredMechanismDocument[]>(`${this.baseUrl}/api/mechanisms/list`, { params });
+  }
+
+  /**
+   * Get detailed stored mechanism metadata
+   */
+  public getStoredMechanismDetails(mechName: string): Observable<StoredMechanismDocument> {
+    const params = new HttpParams().set('name', mechName);
+    return this.http.get<StoredMechanismDocument>(`${this.baseUrl}/api/mechanisms/details`, { params });
+  }
+
+  /**
+   * Delete stored mechanism document and its GCS artifacts
+   */
+  public deleteStoredMechanism(mechName: string): Observable<any> {
+    const params = new HttpParams().set('name', mechName);
+    return this.http.delete<any>(`${this.baseUrl}/api/mechanisms`, { params });
   }
 
   /**

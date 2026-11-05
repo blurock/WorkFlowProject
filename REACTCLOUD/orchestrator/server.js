@@ -2700,14 +2700,33 @@ app.get('/api/submechanisms', authenticateUser, async (req, res) => {
 });
 
 /**
- * Upload Generated Mechanism Artifacts to GCS under users/{uid}/{category}/{mechName}/
+ * Upload Generated Mechanism Artifacts to GCS
+ * Option A (Molecule-nested taxonomy):
+ * - Submechanisms: users/{uid}/mechanisms/submechanisms/{molecule}/{mechName}/
+ * - Combined Mechanisms: users/{uid}/mechanisms/combined/{mechName}/
+ * - Tests: users/{uid}/tests/{category}/{mechName}/
  */
-async function uploadMechanismArtifacts(uid, mechName, workspaceDir, actualRunRoot = 'read', category = 'mechanisms') {
+async function uploadMechanismArtifacts(uid, mechName, workspaceDir, actualRunRoot = 'read', category = 'submechanisms', molecule = null) {
   const bucket = storage.bucket(BUCKET_NAME);
-  const targetCategory = (category === 'rxnpattests' || category === 'mechpathtest')
-    ? category
-    : 'mechanisms';
-  const mechPrefix = `users/${uid}/${targetCategory}/${mechName}`;
+  let targetCategory = category;
+  let mechPrefix = '';
+
+  if (category === 'rxnpattests') {
+    targetCategory = 'rxnpattests';
+    mechPrefix = `users/${uid}/tests/rxnpattests/${mechName}`;
+  } else if (category === 'mechpathtest') {
+    targetCategory = 'mechpathtest';
+    mechPrefix = `users/${uid}/tests/mechpathtest/${mechName}`;
+  } else if (category === 'combined' || category === 'combined_mechanisms') {
+    targetCategory = 'combined';
+    mechPrefix = `users/${uid}/mechanisms/combined/${mechName}`;
+  } else {
+    // Option A: submechanisms nested by molecule
+    targetCategory = 'submechanisms';
+    const safeMol = molecule ? encodeURIComponent(molecule.trim()) : 'general';
+    mechPrefix = `users/${uid}/mechanisms/submechanisms/${safeMol}/${mechName}`;
+  }
+
   const filesManifest = [];
   const candidateArtifacts = [];
 
@@ -2829,6 +2848,176 @@ async function uploadMechanismArtifacts(uid, mechName, workspaceDir, actualRunRo
     files: filesManifest
   };
 }
+
+/**
+ * Register a completed production mechanism into Firestore (users/{uid}/mechanisms/{mechName})
+ * Test mechanisms are strictly ignored and not registered.
+ */
+async function registerStoredMechanism(uid, {
+  mechName,
+  mechanismType, // 'submechanism' | 'combined'
+  source,        // 'submechanism_from_path' | 'combine_submechanisms'
+  targetMolecule,
+  pathwayName,
+  supplement,
+  submechanisms,
+  storageDirectory,
+  filesManifest,
+  jobId,
+  workspaceDir
+}) {
+  if (mechanismType === 'test') {
+    return null;
+  }
+
+  let reactionCount = 0;
+  let moleculeCount = 0;
+
+  try {
+    const mechFile = path.join(workspaceDir, `${mechName}.mech`);
+    if (fs.existsSync(mechFile)) {
+      const text = fs.readFileSync(mechFile, 'utf8');
+      const lines = text.split('\n');
+      reactionCount = lines.filter(l => l.includes('=') && !l.trim().startsWith('%') && !l.trim().startsWith('!')).length;
+    }
+  } catch (_) {}
+
+  try {
+    const sdfFile = path.join(workspaceDir, `${mechName}.sdf`);
+    if (fs.existsSync(sdfFile)) {
+      const text = fs.readFileSync(sdfFile, 'utf8');
+      moleculeCount = (text.match(/\$\$\$\$/g) || []).length;
+    }
+  } catch (_) {}
+
+  const now = new Date().toISOString();
+  const docRef = firestore.collection('users').doc(uid).collection('mechanisms').doc(mechName);
+
+  const mechDoc = {
+    mechName,
+    mechanismType,
+    source,
+    targetMolecule: targetMolecule || 'general',
+    pathwayName: pathwayName || null,
+    supplement: supplement || null,
+    submechanisms: Array.isArray(submechanisms) ? submechanisms : [],
+    storageDirectory,
+    gcsPrefix: `gs://${BUCKET_NAME}/${storageDirectory}/`,
+    files: filesManifest || [],
+    reactionCount,
+    moleculeCount,
+    jobId,
+    createdAt: now,
+    updatedAt: now
+  };
+
+  await docRef.set(mechDoc, { merge: true });
+  console.log(`[Firestore Mechanism Registry] Registered '${mechName}' (type: ${mechanismType}, molecule: ${targetMolecule}, rxns: ${reactionCount}, mols: ${moleculeCount}) for user ${uid}`);
+  return mechDoc;
+}
+
+/**
+ * GET /api/mechanisms/list
+ * Returns list of stored production mechanisms for a user, optionally filtered by type or molecule.
+ * Excludes scratch test runs.
+ */
+app.get('/api/mechanisms/list', authenticateUser, async (req, res) => {
+  try {
+    const uid = resolveAuthorizedTargetUid(req, req.query.uid, false);
+    const { type, targetMolecule } = req.query;
+
+    let query = firestore.collection('users').doc(uid).collection('mechanisms');
+
+    if (type && type !== 'all') {
+      query = query.where('mechanismType', '==', type);
+    }
+    if (targetMolecule) {
+      query = query.where('targetMolecule', '==', targetMolecule);
+    }
+
+    const snap = await query.get();
+    const mechs = [];
+    snap.forEach(doc => {
+      mechs.push(doc.data());
+    });
+
+    // Support system catalog fallback if user has no mechanisms
+    if (mechs.length === 0 && uid !== 'user_default_local') {
+      let sysQuery = firestore.collection('users').doc('user_default_local').collection('mechanisms');
+      if (type && type !== 'all') sysQuery = sysQuery.where('mechanismType', '==', type);
+      if (targetMolecule) sysQuery = sysQuery.where('targetMolecule', '==', targetMolecule);
+      const sysSnap = await sysQuery.get().catch(() => ({ forEach: () => {} }));
+      sysSnap.forEach(doc => mechs.push(doc.data()));
+    }
+
+    // Sort descending by creation date
+    mechs.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+
+    return res.json({ success: true, count: mechs.length, mechanisms: mechs });
+  } catch (err) {
+    console.error('[GET /api/mechanisms/list Error]', err);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * GET /api/mechanisms/details
+ * Returns detailed record for a specific stored mechanism.
+ */
+app.get('/api/mechanisms/details', authenticateUser, async (req, res) => {
+  try {
+    const uid = resolveAuthorizedTargetUid(req, req.query.uid, false);
+    const mechName = req.query.name;
+    if (!mechName) return res.status(400).json({ error: 'Missing required query parameter: name' });
+
+    let doc = await firestore.collection('users').doc(uid).collection('mechanisms').doc(mechName).get();
+    if (!doc.exists && uid !== 'user_default_local') {
+      doc = await firestore.collection('users').doc('user_default_local').collection('mechanisms').doc(mechName).get();
+    }
+
+    if (!doc.exists) {
+      return res.status(404).json({ error: `Mechanism '${mechName}' not found in registry.` });
+    }
+
+    return res.json({ success: true, mechanism: doc.data() });
+  } catch (err) {
+    console.error('[GET /api/mechanisms/details Error]', err);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * DELETE /api/mechanisms
+ * Deletes a registered mechanism document from Firestore and purges its artifacts from GCS.
+ */
+app.delete('/api/mechanisms', authenticateUser, async (req, res) => {
+  try {
+    const uid = resolveAuthorizedTargetUid(req, req.body.uid, true);
+    const mechName = req.body.name || req.body.mechName;
+    if (!mechName) return res.status(400).json({ error: 'Missing required field: mechName' });
+
+    const docRef = firestore.collection('users').doc(uid).collection('mechanisms').doc(mechName);
+    const docSnap = await docRef.get();
+
+    if (docSnap.exists) {
+      const data = docSnap.data();
+      const storageDir = data.storageDirectory;
+      if (storageDir && storageDir.startsWith(`users/${uid}/`)) {
+        console.log(`[Delete Mechanism] Purging GCS prefix: ${storageDir}`);
+        await storage.bucket(BUCKET_NAME).deleteFiles({ prefix: storageDir }).catch(e => {
+          console.warn(`[GCS Purge Warning] ${e.message}`);
+        });
+      }
+      await docRef.delete();
+      console.log(`[Delete Mechanism] Deleted Firestore document: users/${uid}/mechanisms/${mechName}`);
+    }
+
+    return res.json({ success: true, deleted: mechName });
+  } catch (err) {
+    console.error('[DELETE /api/mechanisms Error]', err);
+    return res.status(500).json({ error: err.message });
+  }
+});
 
 /**
  * Run submechanism from path (/api/run-submechanism)
@@ -3119,11 +3308,28 @@ app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
 
       // Upload generated artifacts to GCS under users/{uid}/{targetCategory}/{mechName}/
       console.log(`[RunSubmechanism 5/5] Collecting and uploading generated mechanism artifacts (category: ${targetCategory})...`);
-      const artifactResult = await uploadMechanismArtifacts(uid, mechName, workspaceDir, actualRunRoot, targetCategory).catch(err => {
+      const artifactResult = await uploadMechanismArtifacts(uid, mechName, workspaceDir, actualRunRoot, targetCategory, molecule).catch(err => {
         console.warn(`[Mechanism Upload Warning]: ${err.message}`);
         return { storageDirectory: `users/${uid}/${targetCategory}/${mechName}`, gcsPrefix: '', files: [] };
       });
       console.log(`  -> Mechanism artifacts processed: ${artifactResult.files.length} files available in ${artifactResult.storageDirectory}.`);
+
+      // Register into Firestore if this is a genuine submechanism (not a test) and exit code is 0
+      const isTestRun = targetCategory === 'rxnpattests' || targetCategory === 'mechpathtest';
+      if (!isTestRun && effectiveExitCode === 0) {
+        await registerStoredMechanism(uid, {
+          mechName,
+          mechanismType: 'submechanism',
+          source: 'submechanism_from_path',
+          targetMolecule: molecule,
+          pathwayName: cleanRootName,
+          supplement: supplement || null,
+          storageDirectory: artifactResult.storageDirectory,
+          filesManifest: artifactResult.files,
+          jobId,
+          workspaceDir
+        }).catch(err => console.warn(`[Register Submechanism Warning]: ${err.message}`));
+      }
 
       // Fallback combined text if GCS files are not present
       let combinedOutput = '';
@@ -3277,11 +3483,26 @@ app.post('/api/run-combine-submechanisms', authenticateUser, async (req, res) =>
         stdout += sigMsg;
       }
 
-      // Upload generated artifacts to GCS under users/{uid}/mechanisms/{mechName}/
-      const artifactResult = await uploadMechanismArtifacts(uid, mechName, workspaceDir, 'combine').catch(err => {
+      // Upload generated artifacts to GCS under users/{uid}/mechanisms/combined/{mechName}/
+      const artifactResult = await uploadMechanismArtifacts(uid, mechName, workspaceDir, 'combine', 'combined', null).catch(err => {
         console.warn(`[Combine Upload Warning]: ${err.message}`);
-        return { storageDirectory: `users/${uid}/mechanisms/${mechName}`, gcsPrefix: '', files: [] };
+        return { storageDirectory: `users/${uid}/mechanisms/combined/${mechName}`, gcsPrefix: '', files: [] };
       });
+
+      if (effectiveExitCode === 0) {
+        await registerStoredMechanism(uid, {
+          mechName,
+          mechanismType: 'combined',
+          source: 'combine_submechanisms',
+          targetMolecule: 'combined',
+          pathwayName: rootName,
+          submechanisms,
+          storageDirectory: artifactResult.storageDirectory,
+          filesManifest: artifactResult.files,
+          jobId,
+          workspaceDir
+        }).catch(err => console.warn(`[Register Combined Mechanism Warning]: ${err.message}`));
+      }
 
       const resError = (effectiveExitCode !== 0)
         ? (stderr.trim() || `Combine submechanisms exited with code ${effectiveExitCode}${signal ? ` (Signal: ${signal})` : ''}`)

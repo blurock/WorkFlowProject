@@ -1,0 +1,20 @@
+Step 3
+oxygen,peroxyl-radical,hydrogen-peroxide
+%%% ----------------------------------------------------
+ROOHFromPeroxy-HHH,\
+ROOHFromPeroxy-RHH,\
+ROOHFromPeroxy-RRH,\
+ROOHFromPeroxy-RRR,\
+PeroxyFromHydrogenPeroxide-HHH,\
+PeroxyFromHydrogenPeroxide-RHH,\
+PeroxyFromHydrogenPeroxide-RRH,\
+PeroxyFromHydrogenPeroxide-RRR,\
+RO2ToAlkoxy-(hhh)(hhh),\
+RO2ToAlkoxy-(hhh)(rhh),\
+RO2ToAlkoxy-(hhh)(rrh),\
+RO2ToAlkoxy-(hhh)(rrr),\
+AlkoxyFromPeroxy-HHH,\
+AlkoxyFromPeroxy-RHH,\
+AlkoxyFromPeroxy-RRH,\
+AlkoxyFromPeroxy-RRR,\
+:oxygen,peroxyl-radical,hydrogen-peroxide

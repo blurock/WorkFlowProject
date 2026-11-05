@@ -1,0 +1,19 @@
+Step 4
+oxygen,peroxyl-radical,hydrogen-peroxide
+%%% ----------------------------------------------------
+AlkoxyFromPeroxy-HHH,\
+AlkoxyFromPeroxy-RHH,\
+AlkoxyFromPeroxy-RRH,\
+AlkoxyFromPeroxy-RRR,\
+AlkoxyDecomp-(hh)(hhh),\
+AlkoxyDecomp-(hh)(rhh),\
+AlkoxyDecomp-(hh)(rrh),\
+AlkoxyDecomp-(hh)(rrr),\
+AlkoxyDecomp-(rh)(hhh),\
+AlkoxyDecomp-(rh)(rhh),\
+AlkoxyDecomp-(rh)(rrh),\
+AlkoxyDecomp-(rh)(rrr),\
+AlkoxyDecomp-(rr)(hhh),\
+AlkoxyDecomp-(rr)(rhh),\
+AlkoxyDecomp-(rr)(rrr),\
+:oxygen,peroxyl-radical,hydrogen-peroxide

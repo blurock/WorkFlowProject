@@ -52,13 +52,55 @@
           </mat-card-header>
 
           <!-- Flat Catalog List Search Toolbar (Substructures, Molecules, Benson Groups, Mechanisms) -->
-          <div class="catalog-search-toolbar px-3 pt-3" *ngIf="task.id !== 'rxn-patterns' && !isLoading && items.length > 0">
+          <div class="catalog-search-toolbar px-3 pt-3" *ngIf="task.id !== 'rxn-patterns' && !isLoading">
+            <!-- Mechanism Source Type Selector & Controls (mechanisms only) -->
+            <div class="mechanism-type-toolbar mb-3" *ngIf="task.id === 'mechanisms'">
+              <div class="view-mode-toggle-group">
+                <button
+                  mat-stroked-button
+                  type="button"
+                  [class.active-mode]="mechanismTypeFilter === 'submechanism'"
+                  (click)="onMechanismTypeChange('submechanism')"
+                  matTooltip="View submechanisms generated from pathways">
+                  <mat-icon>alt_route</mat-icon> Submechanisms (from Path)
+                  <span class="count-pill" *ngIf="getSubmechCount() > 0">{{ getSubmechCount() }}</span>
+                </button>
+                <button
+                  mat-stroked-button
+                  type="button"
+                  [class.active-mode]="mechanismTypeFilter === 'combined'"
+                  (click)="onMechanismTypeChange('combined')"
+                  matTooltip="View combined mechanisms created from submechanisms">
+                  <mat-icon>merge_type</mat-icon> Combined Mechanisms
+                  <span class="count-pill" *ngIf="getCombinedCount() > 0">{{ getCombinedCount() }}</span>
+                </button>
+                <button
+                  mat-stroked-button
+                  type="button"
+                  [class.active-mode]="mechanismTypeFilter === 'all'"
+                  (click)="onMechanismTypeChange('all')"
+                  matTooltip="View all stored production mechanisms">
+                  <mat-icon>folder_special</mat-icon> All
+                </button>
+              </div>
+
+              <div class="group-expand-actions">
+                <button mat-stroked-button (click)="toggleAllMechanismPanels(true)" matTooltip="Expand all target molecule groups">
+                  <mat-icon>unfold_more</mat-icon> Expand All
+                </button>
+                <button mat-stroked-button (click)="toggleAllMechanismPanels(false)" matTooltip="Collapse all target molecule groups">
+                  <mat-icon>unfold_less</mat-icon> Collapse All
+                </button>
+              </div>
+            </div>
+
             <div class="toolbar-search-row">
               <mat-form-field appearance="outline" class="catalog-search-field">
                 <mat-label>{{ getSearchLabel() }}</mat-label>
                 <input
                   matInput
                   [(ngModel)]="searchQuery"
+                  (ngModelChange)="onSearchQueryChange()"
                   [placeholder]="getSearchPlaceholder()" />
                 <mat-icon matPrefix color="primary">search</mat-icon>
                 <button
@@ -72,10 +114,13 @@
               </mat-form-field>
 
               <div class="toolbar-actions">
-                <span class="catalog-stats-badge" *ngIf="searchQuery">
+                <span class="catalog-stats-badge" *ngIf="task.id === 'mechanisms'">
+                  <strong>{{ mechanismMoleculeGroups.length }}</strong> molecule group{{ mechanismMoleculeGroups.length === 1 ? '' : 's' }}
+                </span>
+                <span class="catalog-stats-badge" *ngIf="task.id !== 'mechanisms' && searchQuery">
                   Showing <strong>{{ filteredItems.length }}</strong> of <strong>{{ items.length }}</strong> {{ task.id === 'substructures' ? 'substructures' : 'items' }}
                 </span>
-                <span class="catalog-stats-badge" *ngIf="!searchQuery">
+                <span class="catalog-stats-badge" *ngIf="task.id !== 'mechanisms' && !searchQuery">
                   <strong>{{ items.length }}</strong> {{ task.id === 'substructures' ? 'substructures' : 'items' }}
                 </span>
               </div>
@@ -228,8 +273,94 @@
               </button>
             </div>
 
-            <!-- Standard Flat Catalog List (Molecules, Substructures, Mechanisms, Benson, or Flat Reaction Patterns) -->
-            <mat-action-list *ngIf="!isLoading && filteredItems.length > 0 && (task.id !== 'rxn-patterns' || rxnPatternViewMode === 'flat')" class="catalog-action-list">
+            <!-- Mechanism Two-Level Hierarchical Catalog View (mechanisms only) -->
+            <div *ngIf="task.id === 'mechanisms' && !isLoading" class="mechanisms-catalog-container">
+              <mat-accordion multi class="molecule-accordion" *ngIf="mechanismMoleculeGroups.length > 0">
+                <mat-expansion-panel
+                  *ngFor="let group of mechanismMoleculeGroups"
+                  [expanded]="group.isExpanded"
+                  (opened)="group.isExpanded = true"
+                  (closed)="group.isExpanded = false"
+                  class="molecule-panel">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title class="group-panel-title">
+                      <mat-icon color="primary" class="group-header-icon">science</mat-icon>
+                      <span class="mol-name">{{ group.molecule }}</span>
+                    </mat-panel-title>
+                    <mat-panel-description class="group-panel-desc">
+                      <span class="group-badge">{{ group.mechanisms.length }} mechanism{{ group.mechanisms.length === 1 ? '' : 's' }}</span>
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+
+                  <div class="mech-card-grid">
+                    <mat-card
+                      *ngFor="let mech of group.mechanisms"
+                      class="mech-item-card"
+                      [class.selected-mech]="selectedStoredMechanism?.mechName === mech.mechName"
+                      (click)="onSelectStoredMechanism(mech)">
+                      <div class="mech-card-header-row">
+                        <div class="mech-title-group">
+                          <mat-icon class="mech-type-icon" color="accent">
+                            {{ mech.mechanismType === 'combined' ? 'merge_type' : 'alt_route' }}
+                          </mat-icon>
+                          <div class="mech-name-text">
+                            <h3 class="mech-name">{{ mech.mechName }}</h3>
+                            <span class="mech-pathway" *ngIf="mech.pathwayName">Pathway: <code>{{ mech.pathwayName }}</code></span>
+                          </div>
+                        </div>
+                        <div class="mech-actions">
+                          <button
+                            mat-icon-button
+                            color="primary"
+                            (click)="onDownloadZip(mech, $event)"
+                            matTooltip="Download artifacts (.zip)">
+                            <mat-icon>download</mat-icon>
+                          </button>
+                          <button
+                            mat-icon-button
+                            color="warn"
+                            (click)="onDeleteMechanism(mech, $event)"
+                            matTooltip="Delete mechanism from database and storage">
+                            <mat-icon>delete_outline</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+
+                      <div class="mech-stats-row">
+                        <span class="stat-chip rxn-chip" *ngIf="mech.reactionCount > 0">
+                          <mat-icon>repeat</mat-icon> {{ mech.reactionCount }} rxns
+                        </span>
+                        <span class="stat-chip mol-chip" *ngIf="mech.moleculeCount > 0">
+                          <mat-icon>bubble_chart</mat-icon> {{ mech.moleculeCount }} mols
+                        </span>
+                        <span class="stat-chip file-chip">
+                          <mat-icon>attach_file</mat-icon> {{ mech.files.length || 0 }} files
+                        </span>
+                        <span class="stat-date" *ngIf="mech.createdAt">
+                          {{ mech.createdAt | date:'shortDate' }}
+                        </span>
+                        <span class="spacer"></span>
+                        <button mat-button color="primary" class="inspect-btn" (click)="onSelectStoredMechanism(mech); $event.stopPropagation()">
+                          View Details <mat-icon>chevron_right</mat-icon>
+                        </button>
+                      </div>
+                    </mat-card>
+                  </div>
+                </mat-expansion-panel>
+              </mat-accordion>
+
+              <!-- Empty State for Mechanisms Filter -->
+              <div class="empty-state" *ngIf="mechanismMoleculeGroups.length === 0 && !isLoading">
+                <mat-icon class="empty-icon">search_off</mat-icon>
+                <p>No {{ mechanismTypeFilter === 'all' ? '' : mechanismTypeFilter }} mechanisms found{{ searchQuery ? ' matching "' + searchQuery + '"' : '' }}.</p>
+                <button mat-stroked-button color="primary" *ngIf="searchQuery" (click)="clearSearchQuery()">
+                  <mat-icon>clear</mat-icon> Clear Search Filter
+                </button>
+              </div>
+            </div>
+
+            <!-- Standard Flat Catalog List (Molecules, Substructures, Benson, or Flat Reaction Patterns) -->
+            <mat-action-list *ngIf="task.id !== 'mechanisms' && !isLoading && filteredItems.length > 0 && (task.id !== 'rxn-patterns' || rxnPatternViewMode === 'flat')" class="catalog-action-list">
               <button
                 mat-list-item
                 *ngFor="let item of filteredItems"
@@ -244,7 +375,7 @@
             </mat-action-list>
 
             <!-- Search Filter Empty State for Flat Catalog List -->
-            <div class="empty-state" *ngIf="task.id !== 'rxn-patterns' && !isLoading && filteredItems.length === 0 && items.length > 0 && searchQuery">
+            <div class="empty-state" *ngIf="task.id !== 'mechanisms' && task.id !== 'rxn-patterns' && !isLoading && filteredItems.length === 0 && items.length > 0 && searchQuery">
               <mat-icon class="empty-icon">search_off</mat-icon>
               <p>No {{ task.id === 'substructures' ? 'substructures' : 'items' }} match substring "<strong>{{ searchQuery }}</strong>".</p>
               <button mat-stroked-button color="primary" (click)="clearSearchQuery()">
@@ -265,22 +396,27 @@
       </div>
     </mat-tab>
 
-    <!-- Tab 2: Molecule Information Cards -->
+    <!-- Tab 2: Detail Information Cards -->
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon class="tab-icon">find_in_page</mat-icon>
-        <span>{{ selectedItem ? selectedItem.name : 'Molecule Information' }}</span>
+        <mat-icon class="tab-icon">{{ task.id === 'mechanisms' ? 'schema' : 'find_in_page' }}</mat-icon>
+        <span>{{ selectedItem ? selectedItem.name : (task.id === 'mechanisms' ? 'Mechanism Details' : 'Molecule Information') }}</span>
       </ng-template>
 
       <div class="tab-content-area">
-        <!-- Top Toolbar Header for Selected Molecule -->
+        <!-- Top Toolbar Header for Selected Item -->
         <mat-card class="detail-header-card" *ngIf="selectedItem !== null">
           <div class="detail-header-toolbar">
             <div class="detail-title-group">
-              <mat-icon class="header-mol-icon" color="accent">science</mat-icon>
+              <mat-icon class="header-mol-icon" color="accent">{{ task.id === 'mechanisms' ? 'schema' : 'science' }}</mat-icon>
               <div>
                 <h2 class="detail-mol-title">{{ selectedItem.name }}</h2>
-                <span class="detail-mol-id">ID: #{{ selectedItem.id }}</span>
+                <span class="detail-mol-id" *ngIf="task.id !== 'mechanisms'">ID: #{{ selectedItem.id }}</span>
+                <span class="detail-mol-id" *ngIf="task.id === 'mechanisms' && selectedStoredMechanism">
+                  Target: <strong>{{ selectedStoredMechanism.targetMolecule }}</strong> &middot; 
+                  Type: <strong>{{ selectedStoredMechanism.mechanismType === 'combined' ? 'Combined Mechanism' : 'Submechanism' }}</strong>
+                  <ng-container *ngIf="selectedStoredMechanism.reactionCount > 0"> &middot; {{ selectedStoredMechanism.reactionCount }} reactions</ng-container>
+                </span>
               </div>
             </div>
 
@@ -288,21 +424,31 @@
               <button mat-stroked-button (click)="backToCatalogTab()">
                 <mat-icon>arrow_back</mat-icon> Back to List
               </button>
-              <button mat-stroked-button (click)="onItemClick(selectedItem, true)" [disabled]="isDetailLoading" color="primary">
-                <mat-icon>refresh</mat-icon> Refresh Item
-              </button>
-              <button mat-stroked-button (click)="toggleAllSections(true)">
-                <mat-icon>unfold_more</mat-icon> Expand All
-              </button>
-              <button mat-stroked-button (click)="toggleAllSections(false)">
-                <mat-icon>unfold_less</mat-icon> Collapse All
-              </button>
-              <button mat-stroked-button (click)="selectedTabIndex = 2" color="accent">
-                <mat-icon>terminal</mat-icon> View Raw ASCII
-              </button>
-              <button mat-flat-button color="primary" (click)="copyFullOutput()">
-                <mat-icon>content_copy</mat-icon> Copy Full Output
-              </button>
+              <ng-container *ngIf="task.id === 'mechanisms' && selectedStoredMechanism">
+                <button mat-stroked-button color="primary" (click)="onDownloadZip(selectedStoredMechanism)">
+                  <mat-icon>download</mat-icon> Download ZIP
+                </button>
+                <button mat-stroked-button color="warn" (click)="onDeleteMechanism(selectedStoredMechanism)" [disabled]="isDeletingMechanism">
+                  <mat-icon>delete_outline</mat-icon> Delete Mechanism
+                </button>
+              </ng-container>
+              <ng-container *ngIf="task.id !== 'mechanisms'">
+                <button mat-stroked-button (click)="onItemClick(selectedItem, true)" [disabled]="isDetailLoading" color="primary">
+                  <mat-icon>refresh</mat-icon> Refresh Item
+                </button>
+                <button mat-stroked-button (click)="toggleAllSections(true)">
+                  <mat-icon>unfold_more</mat-icon> Expand All
+                </button>
+                <button mat-stroked-button (click)="toggleAllSections(false)">
+                  <mat-icon>unfold_less</mat-icon> Collapse All
+                </button>
+                <button mat-stroked-button (click)="selectedTabIndex = 2" color="accent">
+                  <mat-icon>terminal</mat-icon> View Raw ASCII
+                </button>
+                <button mat-flat-button color="primary" (click)="copyFullOutput()">
+                  <mat-icon>content_copy</mat-icon> Copy Full Output
+                </button>
+              </ng-container>
             </div>
           </div>
           <mat-progress-bar *ngIf="isDetailLoading" mode="indeterminate" color="primary"></mat-progress-bar>
@@ -311,11 +457,11 @@
         <!-- Empty / Unselected State -->
         <mat-card class="empty-detail-card" *ngIf="selectedItem === null && !isDetailLoading">
           <mat-card-content class="empty-state">
-            <mat-icon class="empty-icon">find_in_page</mat-icon>
-            <h3>No Molecule Selected</h3>
-            <p>Please select a molecule from the <strong>Molecules List</strong> tab to inspect its detailed section cards.</p>
+            <mat-icon class="empty-icon">{{ task.id === 'mechanisms' ? 'schema' : 'find_in_page' }}</mat-icon>
+            <h3>{{ task.id === 'mechanisms' ? 'No Mechanism Selected' : 'No Molecule Selected' }}</h3>
+            <p>Please select an item from the <strong>{{ task.title || 'Catalog' }} List</strong> tab to inspect its detailed section cards.</p>
             <button mat-raised-button color="primary" (click)="backToCatalogTab()">
-              <mat-icon>arrow_back</mat-icon> Go to Molecules List
+              <mat-icon>arrow_back</mat-icon> Go to {{ task.title || 'Catalog' }} List
             </button>
           </mat-card-content>
         </mat-card>
@@ -370,16 +516,22 @@
             (backToList)="backToCatalogTab()">
           </app-benson-group-detail>
 
-          <!-- Mechanisms Task Detail View -->
-          <app-benson-group-detail
-            *ngSwitchCase="'mechanisms'"
-            [item]="selectedItem"
-            [sections]="moleculeSections"
-            [rawOutput]="itemDetailOutput"
-            (toggleAll)="toggleAllSections($event)"
-            (copyOutput)="copyFullOutput()"
-            (backToList)="backToCatalogTab()">
-          </app-benson-group-detail>
+          <!-- Mechanisms Task Detail View (Rich Cloud Artifact Viewer) -->
+          <div *ngSwitchCase="'mechanisms'" class="mechanism-detail-wrapper">
+            <app-mechanism-artifact-viewer
+              *ngIf="selectedStoredMechanism"
+              [mechName]="selectedStoredMechanism.mechName"
+              [storageDirectory]="selectedStoredMechanism.storageDirectory"
+              [files]="selectedStoredMechanism.files">
+            </app-mechanism-artifact-viewer>
+            <div class="empty-state" *ngIf="!selectedStoredMechanism">
+              <mat-icon class="empty-icon">touch_app</mat-icon>
+              <p>Select a mechanism from the List tab to inspect its reactions, structures, and thermodynamics.</p>
+              <button mat-raised-button color="primary" (click)="backToCatalogTab()">
+                <mat-icon>arrow_back</mat-icon> Go to Mechanisms List
+              </button>
+            </div>
+          </div>
 
           <!-- Fallback / Default Detail View -->
           <app-molecule-detail
