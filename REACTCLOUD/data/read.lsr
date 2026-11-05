@@ -1,5 +1,5 @@
-BasicLowTemperatureSideRxnsRO2V3:
-oxygen,peroxyl-radical,hydrogen-peroxide
+BetaHPeroxyToOlefinV2:
+oxygen
 %%% ----------------------------------------------------
 %%% Step 1: Step 1
 %%% ----------------------------------------------------
@@ -17,48 +17,18 @@ Activated-Tertiary-Carbon-Radical-(R.+O2-->RO2.)\
 %%% ----------------------------------------------------
 %%% Step 3: Step 3
 %%% ----------------------------------------------------
-ROOHFromPeroxy-HHH,\
-ROOHFromPeroxy-RHH,\
-ROOHFromPeroxy-RRH,\
-ROOHFromPeroxy-RRR,\
-PeroxyFromHydrogenPeroxide-HHH,\
-PeroxyFromHydrogenPeroxide-RHH,\
-PeroxyFromHydrogenPeroxide-RRH,\
-PeroxyFromHydrogenPeroxide-RRR,\
-AlkoxyFromPeroxy-HHH,\
-AlkoxyFromPeroxy-RHH,\
-AlkoxyFromPeroxy-RRH,\
-AlkoxyFromPeroxy-RRR\
-:peroxyl-radical,hydrogen-peroxide
+RO2-Isomerization-5RingPrimary,\
+RO2-Isomerization-5RingSecondary,\
+RO2-Isomerization-5RingTertiary
 %%% ----------------------------------------------------
 %%% Step 4: Step 4
 %%% ----------------------------------------------------
-AlkoxyFromPeroxy-HHH,\
-AlkoxyFromPeroxy-RHH,\
-AlkoxyFromPeroxy-RRH,\
-AlkoxyFromPeroxy-RRR,\
-AlkoxyDecomp-(hh)(hhh),\
-AlkoxyDecomp-(hh)(rhh),\
-AlkoxyDecomp-(hh)(rrh),\
-AlkoxyDecomp-(hh)(rrr),\
-AlkoxyDecomp-(rh)(hhh),\
-AlkoxyDecomp-(rh)(rhh),\
-AlkoxyDecomp-(rh)(rrh),\
-AlkoxyDecomp-(rh)(rrr),\
-AlkoxyDecomp-(rr)(hhh),\
-AlkoxyDecomp-(rr)(rhh),\
-AlkoxyDecomp-(rr)(rrr)
-%%% ----------------------------------------------------
-%%% Step 5: Step 5
-%%% ----------------------------------------------------
-AlkoxyDecomp-(hh)(hhh),\
-AlkoxyDecomp-(hh)(rhh),\
-AlkoxyDecomp-(hh)(rrh),\
-AlkoxyDecomp-(hh)(rrr),\
-AlkoxyDecomp-(rh)(hhh),\
-AlkoxyDecomp-(rh)(rhh),\
-AlkoxyDecomp-(rh)(rrh),\
-AlkoxyDecomp-(rh)(rrr),\
-AlkoxyDecomp-(rr)(hhh),\
-AlkoxyDecomp-(rr)(rhh),\
-AlkoxyDecomp-(rr)(rrr)
+BetaHPeroxyToOlefin-HHHH,\
+BetaHPeroxyToOlefin-RHHH,\
+BetaHPeroxyToOlefin-RRHH,\
+BetaHPeroxyToOlefin-HHRH,\
+BetaHPeroxyToOlefin-RHRH,\
+BetaHPeroxyToOlefin-RRRH,\
+BetaHPeroxyToOlefin-HHRR,\
+BetaHPeroxyToOlefin-RHRR,\
+BetaHPeroxyToOlefin-RRRR

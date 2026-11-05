@@ -422,7 +422,8 @@ async function authenticateUser(req, res, next) {
   if ((token.startsWith('reactcloud-bearer-token') || token === 'demo-token') && !IS_CLOUD_RUN && isLoopbackRequest(req) && process.env.DISABLE_LOCAL_DEV_TOKENS !== 'true') {
     const match = token.match(/reactcloud-bearer-token-(.+)/);
     const rawSlug = match && match[1] ? match[1].replace(/[^a-zA-Z0-9_-]/g, '_') : 'default';
-    const uid = rawSlug.startsWith('user_') || rawSlug === 'default' ? rawSlug : `user_${rawSlug}`;
+    const explicitUid = req.headers['x-react-user-uid'];
+    const uid = explicitUid || (rawSlug.startsWith('user_') || rawSlug === 'default' ? rawSlug : `user_${rawSlug}`);
     const profile = await resolveAndSyncUserProfile({
       uid,
       email: `${rawSlug}@reactcloud.org`,
@@ -1841,6 +1842,7 @@ app.delete('/api/logs/job', authenticateUser, async (req, res) => {
     if (gcsPrefix) {
       let rawPrefix = String(gcsPrefix).replace(`gs://${BUCKET_NAME}/`, '');
       if (rawPrefix.startsWith('/')) rawPrefix = rawPrefix.slice(1);
+      if (!rawPrefix.endsWith('/')) rawPrefix = `${rawPrefix}/`;
 
       if (!isSuperAdmin && !rawPrefix.startsWith(`users/${targetUserId}/`)) {
         return res.status(403).json({ error: 'Forbidden: GCS prefix does not match user namespace' });
@@ -1937,6 +1939,7 @@ app.post('/api/logs/purge-all', authenticateUser, async (req, res) => {
       if (data.rawGcsPrefix || data.gcsPrefix) {
         let prefix = data.rawGcsPrefix || data.gcsPrefix.replace(`gs://${BUCKET_NAME}/`, '');
         if (prefix.startsWith('/')) prefix = prefix.slice(1);
+        if (!prefix.endsWith('/')) prefix = `${prefix}/`;
         try {
           const [files] = await bucket.getFiles({ prefix });
           if (files.length > 0) {
@@ -2004,6 +2007,8 @@ app.post('/api/logs/prune', authenticateUser, async (req, res) => {
       const data = doc.data();
       if (data.rawGcsPrefix || data.gcsPrefix) {
         let prefix = data.rawGcsPrefix || data.gcsPrefix.replace(`gs://${BUCKET_NAME}/`, '');
+        if (prefix.startsWith('/')) prefix = prefix.slice(1);
+        if (!prefix.endsWith('/')) prefix = `${prefix}/`;
         await bucket.deleteFiles({ prefix }).catch(() => {});
       }
       await doc.ref.delete().catch(() => {});
@@ -3005,8 +3010,10 @@ app.delete('/api/mechanisms', authenticateUser, async (req, res) => {
       const data = docSnap.data();
       const storageDir = data.storageDirectory;
       if (storageDir && storageDir.startsWith(`users/${uid}/`)) {
-        console.log(`[Delete Mechanism] Purging GCS prefix: ${storageDir}`);
-        await storage.bucket(BUCKET_NAME).deleteFiles({ prefix: storageDir }).catch(e => {
+        // Enforce trailing slash to strictly avoid prefix collision with sibling directories (e.g. MechName vs MechNameV2)
+        const safePrefix = storageDir.endsWith('/') ? storageDir : `${storageDir}/`;
+        console.log(`[Delete Mechanism] Purging GCS prefix: ${safePrefix}`);
+        await storage.bucket(BUCKET_NAME).deleteFiles({ prefix: safePrefix }).catch(e => {
           console.warn(`[GCS Purge Warning] ${e.message}`);
         });
       }

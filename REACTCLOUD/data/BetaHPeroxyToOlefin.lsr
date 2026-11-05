@@ -1,0 +1,40 @@
+The Standard Combustion Chain:
+oxygen
+%%% ----------------------------------------------------
+%%% Step 1: Step 1
+%%% ----------------------------------------------------
+H-Abstraction-Oxygen-Tertiary,\
+H-Abstraction-Oxygen-Secondary,\
+H-Abstraction-Oxygen-Primary\
+:oxygen
+%%% ----------------------------------------------------
+%%% Step 2: Step 2
+%%% ----------------------------------------------------
+Primary-Carbon-Radical-(R.+O2-->RO2.),\
+Secondary-Carbon-Radical-(R.+O2-->RO2.),\
+Tertiary-Carbon-Radical-(R.+O2-->RO2.)\
+:oxygen
+%%% ----------------------------------------------------
+%%% Step 3: Step 3
+%%% ----------------------------------------------------
+RO2-Isomerization-5RingPrimary,\
+RO2-Isomerization-5RingSecondary,\
+RO2-Isomerization-5RingTertiary,\
+RO2-Isomerization-6RingPrimary,\
+RO2-Isomerization-6RingSecondary,\
+RO2-Isomerization-6RingTertiary,\
+RO2-Isomerization-7RingPrimary,\
+RO2-Isomerization-7RingSecondary,\
+RO2-Isomerization-7RingTertiary
+%%% ----------------------------------------------------
+%%% Step 4: Step 4
+%%% ----------------------------------------------------
+BetaHPeroxyToOlefin-HHHH,\
+BetaHPeroxyToOlefin-RHHH,\
+BetaHPeroxyToOlefin-RRHH,\
+BetaHPeroxyToOlefin-HHRH,\
+BetaHPeroxyToOlefin-RHRH,\
+BetaHPeroxyToOlefin-RRRH,\
+BetaHPeroxyToOlefin-HHRR,\
+BetaHPeroxyToOlefin-RHRR,\
+BetaHPeroxyToOlefin-RRRR
