@@ -79,9 +79,13 @@ extern ObjectIDClass *FetchOrCreateObjectIDClassFromFirestore(INT source,
     if (classificationName == NULL || info == NULL || descr == NULL)
         return NULL;
 
-    uid = getenv("REACT_USER_UID");
+    uid = getenv("REACT_USER_ID");
     if (uid == NULL || *uid == '\0') {
-        uid = "user_default_local";
+        uid = getenv("REACT_USER_UID");
+    }
+    if (uid == NULL || *uid == '\0' || strcmp(uid, "user_default_local") == 0) {
+        fprintf(stderr, "FATAL ERROR: Valid authenticated REACT_USER_ID or REACT_USER_UID environment variable is required. ('user_default_local' is not permitted).\n");
+        return NULL;
     }
 
     session_id = getenv("REACT_SESSION_ID");
@@ -176,9 +180,13 @@ extern INT StoreObjectIDClassToFirestore(INT source,
     if (classificationName == NULL || info == NULL || class == NULL)
         return SYSTEM_ERROR_RETURN;
 
-    uid = getenv("REACT_USER_UID");
+    uid = getenv("REACT_USER_ID");
     if (uid == NULL || *uid == '\0') {
-        uid = "user_default_local";
+        uid = getenv("REACT_USER_UID");
+    }
+    if (uid == NULL || *uid == '\0' || strcmp(uid, "user_default_local") == 0) {
+        fprintf(stderr, "FATAL ERROR: Valid authenticated REACT_USER_ID or REACT_USER_UID environment variable is required. ('user_default_local' is not permitted).\n");
+        return SYSTEM_ERROR_RETURN;
     }
 
     session_id = getenv("REACT_SESSION_ID");

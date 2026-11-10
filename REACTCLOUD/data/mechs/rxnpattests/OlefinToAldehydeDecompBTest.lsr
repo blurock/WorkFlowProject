@@ -1,0 +1,9 @@
+ReactionPatternTest: 5 patterns
+hydroxyl-radical
+%%% ----------------------------------------------------
+OlefinToAldehydeDecompB-(hh)(rh),\
+OlefinToAldehydeDecompB-(hh)(rr),\
+OlefinToAldehydeDecompB-(rh)(hh),\
+OlefinToAldehydeDecompB-(rh)(rr),\
+OlefinToAldehydeDecompB-(rr)(rh),\
+:hydroxyl-radical

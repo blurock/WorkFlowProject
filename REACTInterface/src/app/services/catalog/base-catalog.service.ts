@@ -6,7 +6,7 @@ import { ReactCloudApiService, CatalogItem } from '../react-cloud-api.service';
   providedIn: 'root'
 })
 export abstract class BaseCatalogService {
-  private readonly CACHE_VERSION = 'v2';
+  private readonly CACHE_VERSION = 'v3';
   private listCacheMap = new Map<string, CatalogItem[]>();
   private detailCacheMap = new Map<string, string>();
 

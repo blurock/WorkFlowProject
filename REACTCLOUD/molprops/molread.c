@@ -516,24 +516,27 @@ static void PrintPrettyAtom(CHAR *prefix, FILE *file, MolFileAtom *atom)
      {
        if(atom->Parameters != 0)
 	 {
-	   fprintf(file,"%s:Atom %5d:%10.3f:%10.3f:%10.3f:%2d   :%3.1f     :%10d",prefix,
+	   fprintf(file,"%s:Atom %5d:%10.3f:%10.3f:%10.3f:%2d   :%3.1f     :%2d       :%10d",prefix,
 		   atom->ID,
 		   atom->X,
 		   atom->Y,
 		   atom->Z,
 		   atom->AtomicNumber,
 		   atom->Charge,
+		   atom->Radical,
 		   *(atom->Parameters + 9));
 	 }
        else
 	 {
-	   fprintf(file,"%s:Atom %5d:%10.3f:%10.3f:%10.3f:%2d   :%3.1f:",prefix,
+	   fprintf(file,"%s:Atom %5d:%10.3f:%10.3f:%10.3f:%2d   :%3.1f     :%2d       :%10d",prefix,
 		   atom->ID,
 		   atom->X,
 		   atom->Y,
 		   atom->Z,
 		   atom->AtomicNumber,
-		   atom->Charge);
+		   atom->Charge,
+		   atom->Radical,
+		   0);
 	 }
        
      }                                               

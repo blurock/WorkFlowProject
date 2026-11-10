@@ -91,4 +91,44 @@ describe('TargetMoleculeService', () => {
     expect(result.isExisting).toBeFalse();
     expect(result.effectiveName).toBe('Temporary');
   });
+
+  it('should ignore Temporary as an existing match candidate', async () => {
+    chemParserMock.translateKetcherToSdf.and.returnValue('M  END');
+    existenceCheckServiceMock.checkDatabaseExistence.and.resolveTo({
+      items: [
+        {
+          id: '1',
+          name: '1-butyl-radical',
+          inDatabase: true,
+          exactMatch: 'Temporary',
+          dbId: '10019',
+          status: 'Present',
+          suggestedAction: 'Use existing DB molecule'
+        }
+      ],
+      hasConflicts: false,
+      rawOutput: '1-butyl-radical 10019 EXISTS (Temporary)',
+      executionLogText: '',
+      logLines: [],
+      exitCode: 0,
+      success: true,
+      dbIdMap: new Map([['1-butyl-radical', '10019']])
+    });
+
+    const result = await service.checkTargetMolecule('fake-molfile', '1-butyl-radical');
+    expect(result.isExisting).toBeFalse();
+    expect(result.matchedDbName).toBeUndefined();
+    expect(result.effectiveName).toBe('1-butyl-radical');
+  });
+
+  it('should generate safe unique name when storing molecule with Temporary or empty name', async () => {
+    reactCloudApiMock.uploadUserDataFiles.and.returnValue(of({ success: true, targetDir: '', files: ['foo.sdf'] }));
+    reactCloudApiMock.runCommands.and.returnValue(of({ root: 'Temp', exitCode: 0, output: 'Stored successfully' }));
+
+    const res = await service.storeTargetMolecule('Temporary', 'fake-sdf');
+    expect(res.success).toBeTrue();
+    expect(reactCloudApiMock.uploadUserDataFiles).toHaveBeenCalled();
+    const uploadCallArg = reactCloudApiMock.uploadUserDataFiles.calls.mostRecent().args[1][0];
+    expect(uploadCallArg.filename).toMatch(/^Temp_\d+\.sdf$/);
+  });
 });

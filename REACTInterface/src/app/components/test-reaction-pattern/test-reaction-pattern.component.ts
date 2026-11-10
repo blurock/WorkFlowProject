@@ -171,7 +171,7 @@ export class TestReactionPatternComponent implements OnInit {
       const res = await this.targetMoleculeService.checkTargetMolecule(molfile, this.targetMoleculeName);
       this.targetCheckResult = res;
 
-      if (res.isExisting && res.matchedDbName) {
+      if (res.isExisting && res.matchedDbName && res.matchedDbName.toLowerCase() !== 'temporary') {
         this.moleculeStatusMessage = `Found in REACT database as "${res.matchedDbName}".`;
         this.snackBar.open(`Molecule exists in DB as '${res.matchedDbName}'!`, 'OK', { duration: 3500 });
       } else {
@@ -271,10 +271,13 @@ export class TestReactionPatternComponent implements OnInit {
         const checkRes = await this.targetMoleculeService.checkTargetMolecule(drawnMolfile, effectiveMolecule);
         this.targetCheckResult = checkRes;
 
-        if (checkRes.isExisting && checkRes.matchedDbName) {
+        if (checkRes.isExisting && checkRes.matchedDbName && checkRes.matchedDbName.toLowerCase() !== 'temporary') {
           effectiveMolecule = checkRes.matchedDbName;
         } else {
-          // Store new molecule in database as requested name / Temporary
+          if (!effectiveMolecule || effectiveMolecule.toLowerCase() === 'temporary') {
+            effectiveMolecule = `Temp_${Date.now()}`;
+          }
+          // Store new molecule in database as requested name
           this.snackBar.open(`Registering '${effectiveMolecule}' in database...`, 'Dismiss', { duration: 2500 });
           const storeRes = await this.targetMoleculeService.storeTargetMolecule(effectiveMolecule, checkRes.sdfContent);
           if (!storeRes.success && storeRes.error) {

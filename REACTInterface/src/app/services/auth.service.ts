@@ -257,7 +257,7 @@ export class AuthService {
    */
   public loginLocalDev(
     username: string = 'Local Researcher',
-    email: string = 'user_default_local@reactcloud.org',
+    email: string = 'researcher@reactcloud.org',
     role: UserRole = 'researcher'
   ): void {
     if (!isDevMode() && typeof window !== 'undefined' && window.location.hostname !== 'localhost') {
@@ -265,11 +265,12 @@ export class AuthService {
     }
     const slug = role === 'admin' ? 'admin' : email.split('@')[0].replace(/[^a-zA-Z0-9_-]/g, '_');
     const token = `reactcloud-bearer-token-${slug}`;
+    const targetUid = role === 'admin' ? 'UOqk0KtFtaXma5TGsi8Seh9RMbx1' : (slug.startsWith('user_') ? slug : `user_${slug}`);
     const user: UserProfile = {
       username,
       email,
       token,
-      uid: slug.startsWith('user_') ? slug : `user_${slug}`,
+      uid: targetUid,
       providerId: 'local-dev',
       emailVerified: true,
       role,

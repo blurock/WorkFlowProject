@@ -31,7 +31,7 @@ const STATUS_MD_PATH = path.join(SUBMECHS_DIR, 'MIGRATION_STATUS.md');
 
 // Parse CLI options
 const args = process.argv.slice(2);
-let uid = process.env.REACT_USER_UID || process.env.REACT_USER_ID || 'user_default_local';
+let uid = process.env.REACT_USER_UID || process.env.REACT_USER_ID || null;
 let mode = 'test'; // 'test' | 'all' | 'file' | 'report'
 let targetFile = null;
 
@@ -54,6 +54,11 @@ for (let i = 0; i < args.length; i++) {
     mode = 'file';
     targetFile = arg;
   }
+}
+
+if (!uid || uid === 'user_default_local') {
+  console.error("ERROR: Valid authenticated REACT_USER_ID, REACT_USER_UID, or --uid is required. ('user_default_local' is not permitted).");
+  process.exit(1);
 }
 
 /**

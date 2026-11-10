@@ -269,7 +269,10 @@ export class ExistenceCheckService {
           let matchedName: string | undefined = undefined;
           const parenMatch = statusStr.match(/\(([^)]+)\)/);
           if (parenMatch && parenMatch[1]) {
-            matchedName = parenMatch[1].trim();
+            const rawMatched = parenMatch[1].trim();
+            if (rawMatched && rawMatched.toLowerCase() !== 'temporary') {
+              matchedName = rawMatched;
+            }
           }
 
           if (isPresent) {

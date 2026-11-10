@@ -8,6 +8,11 @@
 #--------------------------------------------------------------------------
 # Set up inputs, files and program
 #--------------------------------------------------------------------------
+if ( ! $?REACTROOT ) then
+  set SCRIPT_DIR = `dirname "$0"`
+  setenv REACTROOT `cd "$SCRIPT_DIR/.." && pwd`
+endif
+
 set DATADIR         = $REACTROOT/data
 set COMMANDDIR      = $REACTROOT/command
 set STATICFILE      = $DATADIR/stat-inf.dat

@@ -82,4 +82,49 @@ M  END
     const converted = service.convertKetcherRadicalsToSystemFormat(normalMol);
     expect(converted).toBe(normalMol);
   });
+
+  it('should parse atom radical field directly in parsePrettyMolfileMap without valence heuristics', () => {
+    const chemdbRawOutput = `
+Reactant Molfile: :MolFile 20001000 :  1 Atoms :  0 Bonds : hydrogen-radical
+~
+                  :Atom     0:     0.161:     0.438:     0.000: 1   :0.0     : 1       :         6
+~
+~
+`;
+    const map = service.parsePrettyMolfileMap(chemdbRawOutput);
+    expect(map.has('20001000')).toBeTrue();
+    const item = map.get('20001000')!;
+    expect(item.molName).toBe('hydrogen-radical');
+    expect(item.molBlock).toContain('M  RAD  1   1   2');
+    expect(item.molBlock).toContain('M  END');
+
+    // Column 37-39 of atom line should contain code 4
+    const lines = item.molBlock.split(/\r?\n/);
+    const hLine = lines.find(l => l.includes('H'));
+    expect(hLine).toBeDefined();
+    expect(hLine!.substring(36, 39)).toBe('  4');
+  });
+
+  it('should build a valid MDL RXN string with properly delimited MOL blocks and counts line', () => {
+    const mol1 = `10405102
+  -CPSS-  Generated
+primary-carbon-hydrogen-bond
+  1  0  0  0  0  0  0  0  0  0999 V2000
+    0.1609    0.4377    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+M  END
+$$$$`;
+    const mol2 = `10203000
+  -CPSS-  Generated
+water
+  1  0  0  0  0  0  0  0  0  0999 V2000
+    0.1609    0.4377    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+M  END
+$$$$`;
+
+    const rxn = service.buildRxnFileFromSdfBlocks([mol1], [mol2], 'Test-Reaction');
+    expect(rxn.startsWith('$RXN')).toBeTrue();
+    expect(rxn).toContain('$MOL');
+    expect(rxn).toContain('  1  1');
+    expect(rxn).toContain('Test-Reaction');
+  });
 });

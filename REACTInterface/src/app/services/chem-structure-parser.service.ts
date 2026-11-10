@@ -281,7 +281,7 @@ export class ChemStructureParserService {
       molBlock += `${nAtoms.toString().padStart(3, ' ')}${nBonds.toString().padStart(3, ' ')}  0  0  0  0  0  0  0  0999 V2000\n`;
 
       const rgpAtoms: number[] = [];
-      const atomNumList: number[] = [];
+      const radAtoms: number[] = [];
 
       atomLines.forEach((aline, idx) => {
         const parts = aline.split(':').map(p => p.trim());
@@ -289,7 +289,18 @@ export class ChemStructureParserService {
         const yVal = parts.length > 3 ? parseFloat(parts[3]) : 0;
         const zVal = parts.length > 4 ? parseFloat(parts[4]) : 0;
         const atNum = parts.length > 5 ? parseInt(parts[5], 10) : 6;
-        atomNumList.push(atNum);
+
+        // Use the explicit radical field from C backend: parts[7] is atom->Radical
+        let isRadical = false;
+        if (parts.length >= 9) {
+          const radVal = parseInt(parts[7], 10);
+          isRadical = !isNaN(radVal) && radVal > 0;
+        }
+
+        const atom1Idx = idx + 1;
+        if (isRadical) {
+          radAtoms.push(atom1Idx);
+        }
 
         const x = xVal.toFixed(4).padStart(10, ' ');
         const y = yVal.toFixed(4).padStart(10, ' ');
@@ -297,13 +308,12 @@ export class ChemStructureParserService {
         const sym = atomicSymbols[atNum] || 'C';
 
         if (sym === 'R#' || sym === 'Q') {
-          rgpAtoms.push(idx + 1);
+          rgpAtoms.push(atom1Idx);
         }
 
-        molBlock += `${x}${y}${z} ${sym.padEnd(3, ' ')} 0  0  0  0  0  0  0  0  0  0  0  0\n`;
+        const chargeCode = isRadical ? '  4' : '  0';
+        molBlock += `${x}${y}${z} ${sym.padEnd(3, ' ')} 0${chargeCode}  0  0  0  0  0  0  0  0  0  0\n`;
       });
-
-      const bondOrderSums = new Array(nAtoms + 1).fill(0);
 
       bondLines.forEach(bline => {
         const bparts = bline.split(':').map(p => p.trim());
@@ -324,28 +334,8 @@ export class ChemStructureParserService {
           chemBondType = (!isNaN(btypeNum) && btypeNum >= 1 && btypeNum <= 3) ? btypeNum : 1;
         }
 
-        if (a1Num <= nAtoms) bondOrderSums[a1Num] += chemBondType;
-        if (a2Num <= nAtoms) bondOrderSums[a2Num] += chemBondType;
-
         const btype = chemBondType.toString().padStart(3, ' ');
         molBlock += `${a1}${a2}${btype}  0  0  0  0\n`;
-      });
-
-      // Detect radical centers: Carbon with 3 bonds, Oxygen with 1 bond, Nitrogen with 2 bonds
-      const radAtoms: number[] = [];
-      atomNumList.forEach((atNum, aIdx) => {
-        const atom1Idx = aIdx + 1;
-        const orderSum = bondOrderSums[atom1Idx] || 0;
-        if (atNum === 6 && orderSum === 3) {
-          radAtoms.push(atom1Idx);
-        } else if (atNum === 8 && orderSum === 1) {
-          radAtoms.push(atom1Idx);
-        } else if (atNum === 7 && orderSum === 2) {
-          radAtoms.push(atom1Idx);
-        } else if (molName.includes(`.${atomicSymbols[atNum]?.toLowerCase() || ''}`) ||
-                   molName.includes(`(${atomicSymbols[atNum]?.toLowerCase() || ''}.)`)) {
-          radAtoms.push(atom1Idx);
-        }
       });
 
       if (rgpAtoms.length > 0) {

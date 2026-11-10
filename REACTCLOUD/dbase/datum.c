@@ -24,6 +24,18 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
+static const char *GetAuthorizedUid(void) {
+    const char *uid = getenv("REACT_USER_ID");
+    if (!uid || !*uid) {
+        uid = getenv("REACT_USER_UID");
+    }
+    if (!uid || !*uid || strcmp(uid, "user_default_local") == 0) {
+        fprintf(stderr, "FATAL ERROR: Valid authenticated REACT_USER_ID or REACT_USER_UID environment variable is required. ('user_default_local' is not permitted).\n");
+        return NULL;
+    }
+    return uid;
+}
+
 extern int PostJSONToOrchestrator(const char *path, const char *json_body, char *response_buf, size_t response_buf_size)
 {
     int sockfd;
@@ -45,9 +57,9 @@ extern int PostJSONToOrchestrator(const char *path, const char *json_body, char 
         ipc_secret = "";
     }
 
-    user_uid = getenv("REACT_USER_UID");
-    if (!user_uid || !*user_uid) {
-        user_uid = "user_default_local";
+    user_uid = GetAuthorizedUid();
+    if (!user_uid) {
+        return -1;
     }
 
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -181,10 +193,8 @@ extern INT StoreElementToFirestore(DbaseKeyword *keyword, CHAR *json_str, DataBa
         }
     }
 
-    uid = getenv("REACT_USER_UID");
-    if (uid == NULL || *uid == '\0') {
-        uid = "user_default_local";
-    }
+    uid = GetAuthorizedUid();
+    if (uid == NULL) return SYSTEM_ERROR_RETURN;
 
     printf("[Firestore Store] dbName='%s', key='%s', keyId=%d, uid='%s'\n",
            info->Name ? info->Name : "NULL", key_name, key_id, uid);
@@ -217,10 +227,8 @@ extern INT FetchElementFromFirestore(VOID element, DbaseKeyword *keyword, DataBa
     if (dinfo == NULL || keyword == NULL || element == NULL)
         return SYSTEM_ERROR_RETURN;
 
-    uid = getenv("REACT_USER_UID");
-    if (uid == NULL || *uid == '\0') {
-        uid = "user_default_local";
-    }
+    uid = GetAuthorizedUid();
+    if (uid == NULL) return SYSTEM_ERROR_RETURN;
 
     if (keyword->KeyWord != NULL && keyword->Size > 0) {
         if (IsIntegerKeyword(keyword)) {
@@ -289,10 +297,8 @@ extern INT FetchDatabaseRecordSummaries(DataBaseInformation *dinfo, cJSON **out_
 
     *out_records = NULL;
 
-    uid = getenv("REACT_USER_UID");
-    if (uid == NULL || *uid == '\0') {
-        uid = "user_default_local";
-    }
+    uid = GetAuthorizedUid();
+    if (uid == NULL) return SYSTEM_ERROR_RETURN;
 
     snprintf(body, sizeof(body), "{\"uid\":\"%s\",\"dbName\":\"%s\",\"fields\":[\"ID\",\"Name\"]}",
              uid, dinfo->Name ? dinfo->Name : "UNKNOWN");
@@ -366,10 +372,8 @@ extern INT StoreSearchKeysToFirestore(INT id, SetOfSearchKeys *keys, CHAR *json_
         return SYSTEM_ERROR_RETURN;
     }
 
-    uid = getenv("REACT_USER_UID");
-    if (uid == NULL || *uid == '\0') {
-        uid = "user_default_local";
-    }
+    uid = GetAuthorizedUid();
+    if (uid == NULL) return SYSTEM_ERROR_RETURN;
 
     printf("[Firestore SearchKeys Store] dbName='%s', id=%d, uid='%s'\n",
            info->Name ? info->Name : "NULL", id, uid);
@@ -401,10 +405,8 @@ extern INT FetchSearchKeysFromFirestore(INT id, SetOfSearchKeys *keys, DataBaseI
     if (dinfo == NULL || keys == NULL)
         return SYSTEM_ERROR_RETURN;
 
-    uid = getenv("REACT_USER_UID");
-    if (uid == NULL || *uid == '\0') {
-        uid = "user_default_local";
-    }
+    uid = GetAuthorizedUid();
+    if (uid == NULL) return SYSTEM_ERROR_RETURN;
 
     snprintf(body, sizeof(body), "{\"uid\":\"%s\",\"dbName\":\"%s\",\"keyId\":%d}",
              uid, dinfo->Name ? dinfo->Name : "UNKNOWN", id);
@@ -967,10 +969,8 @@ extern INT FetchNextDatabaseIDFromFirestore(const CHAR *dbName) {
     const char *uid;
     INT allocatedId = 0;
 
-    uid = getenv("REACT_USER_UID");
-    if (uid == NULL || *uid == '\0') {
-        uid = "user_default_local";
-    }
+    uid = GetAuthorizedUid();
+    if (uid == NULL) return SYSTEM_ERROR_RETURN;
 
     snprintf(body, sizeof(body), "{\"uid\":\"%s\",\"dbName\":\"%s\",\"startAt\":10000}",
              uid, dbName ? dbName : "Unknown");

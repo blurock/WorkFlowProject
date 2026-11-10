@@ -69,9 +69,12 @@ export class TargetMoleculeService {
     if (result.items && result.items.length > 0) {
       for (const item of result.items) {
         if (item.inDatabase || (item.exactMatch && item.exactMatch !== 'NONE' && item.exactMatch !== 'NOT_FOUND')) {
-          isExisting = true;
-          matchedDbName = item.exactMatch || item.dbId || undefined;
-          break;
+          const candidate = (item.exactMatch || item.dbId || '').trim();
+          if (candidate && candidate.toLowerCase() !== 'temporary' && !/^\d+$/.test(candidate)) {
+            isExisting = true;
+            matchedDbName = candidate;
+            break;
+          }
         }
       }
     }
@@ -95,7 +98,8 @@ export class TargetMoleculeService {
     moleculeName: string,
     sdfContent: string
   ): Promise<{ success: boolean; output: string; error?: string }> {
-    const cleanName = (moleculeName || 'Temporary').trim();
+    const rawName = (moleculeName || '').trim();
+    const cleanName = (!rawName || rawName.toLowerCase() === 'temporary') ? `Temp_${Date.now()}` : rawName;
     const sdfFilename = `${cleanName}.sdf`;
 
     // Ensure .sdf is available via Cloud Storage

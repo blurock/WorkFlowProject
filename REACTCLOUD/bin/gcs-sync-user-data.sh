@@ -6,7 +6,11 @@ ACTION="${1:-}"
 LOCAL_PATH="${2:-}"
 GCS_REL_PATH="${3:-}"
 
-USER_ID="${REACT_USER_ID:-user_default_local}"
+USER_ID="${REACT_USER_ID:-${REACT_USER_UID:-}}"
+if [[ -z "$USER_ID" || "$USER_ID" == "user_default_local" ]]; then
+    echo "ERROR: Valid authenticated REACT_USER_ID or REACT_USER_UID environment variable is required. ('user_default_local' is not permitted)." >&2
+    exit 1
+fi
 BUCKET="${GCS_BUCKET:-blurock-database.appspot.com}"
 
 if [[ -z "$ACTION" || -z "$LOCAL_PATH" || -z "$GCS_REL_PATH" ]]; then

@@ -1,5 +1,13 @@
-ReactionPatternTest: 1 patterns
-hydroxyl-radical,oxygen-radical,oxygen
+ReactionPatternTest: 9 patterns
+hydroxyl-radical
 %%% ----------------------------------------------------
-HLoss-ethyl-radical(hh)(rhh)-to-olefin,\
-:hydroxyl-radical,oxygen-radical,oxygen
+OlefinToAldehydeDecomp-(hh)(hh),\
+OlefinToAldehydeDecomp-(rh)(rh),\
+OlefinToAldehydeDecomp-(rr)(hh),\
+OlefinToAldehydeDecomp-(rr)(rr),\
+OlefinToAldehydeDecompB-(hh)(rh),\
+OlefinToAldehydeDecompB-(hh)(rr),\
+OlefinToAldehydeDecompB-(rh)(hh),\
+OlefinToAldehydeDecompB-(rh)(rr),\
+OlefinToAldehydeDecompB-(rr)(rh),\
+:hydroxyl-radical

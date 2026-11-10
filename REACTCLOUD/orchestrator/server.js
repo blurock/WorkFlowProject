@@ -103,8 +103,14 @@ function isLoopbackRequest(req) {
 }
 
 function verifyInternalIpcSecret(req) {
+  if (!isLoopbackRequest(req)) {
+    return false;
+  }
+  if (!IS_CLOUD_RUN) {
+    return true;
+  }
   const headerSecret = req.headers['x-react-internal-secret'];
-  if (!headerSecret || typeof headerSecret !== 'string' || !isLoopbackRequest(req)) {
+  if (!headerSecret || typeof headerSecret !== 'string') {
     return false;
   }
   try {
@@ -392,7 +398,13 @@ async function recordUserStorageDelta(uid, email, addedBytes) {
 async function authenticateUser(req, res, next) {
   // 1. Check for authenticated loopback C-binary IPC call
   if (verifyInternalIpcSecret(req)) {
-    const ipcUid = req.headers['x-react-user-uid'] || req.body?.uid || req.query?.uid || 'user_default_local';
+    const ipcUid = req.headers['x-react-user-uid'] || req.body?.uid || req.query?.uid;
+    if (!ipcUid || ipcUid === 'user_default_local') {
+      return res.status(401).json({
+        error: "Valid authenticated UID is required for internal operations. 'user_default_local' is not a valid ID.",
+        code: 'INVALID_UID'
+      });
+    }
     const cached = userProfileCache.get(ipcUid)?.profile;
     req.user = cached || {
       uid: ipcUid,
@@ -480,37 +492,32 @@ function requireAdmin(req, res, next) {
 }
 
 /**
- * Enforces System vs. Personal Data isolation:
- * - System data namespaces ('system', 'user_default_local') can be READ by any authorized user,
- *   but WRITTEN/DELETED only by an Administrator (role === 'admin').
- * - Personal data ('users/{uid}') can only be read or written by its owner {uid} or an Administrator.
+ * Enforces User Data isolation:
+ * - All operations require an authenticated UID. 'user_default_local' is not a valid user ID.
+ * - Personal data ('users/{uid}') can only be accessed by its owner {uid} or an Administrator.
+ * - No global fallbacks or cross-user scanning are permitted.
  */
 function resolveAuthorizedTargetUid(req, requestedUid, isWriteOperation = false) {
   const callerUid = req.user?.uid;
+  if (!callerUid || callerUid === 'user_default_local') {
+    const err = new Error("Authentication required: A valid authenticated user UID is required. 'user_default_local' is not a valid ID.");
+    err.statusCode = 401;
+    throw err;
+  }
   const isAdmin = Boolean(req.user?.isAdmin || req.user?.role === 'admin' || req.user?.isInternalIpc);
-  const scopeHeader = req.headers?.['x-react-data-scope'];
-  const rawTarget = String(requestedUid || req.body?.dataScope || scopeHeader || callerUid || 'user_default_local').trim();
-  const isSystemTarget = rawTarget === 'system' || rawTarget === 'user_default_local';
-  const targetUid = isSystemTarget ? 'user_default_local' : (rawTarget === 'personal' ? callerUid : rawTarget);
+  const targetUid = String(requestedUid || callerUid).trim();
+  if (!targetUid || targetUid === 'user_default_local') {
+    const err = new Error("Invalid target UID: A valid user UID is required. 'user_default_local' is not a valid ID.");
+    err.statusCode = 400;
+    throw err;
+  }
 
-  if (isWriteOperation) {
-    if (isSystemTarget && !isAdmin) {
-      const err = new Error('Forbidden: Only administrators can modify or delete system catalog data.');
-      err.statusCode = 403;
-      throw err;
-    }
-    if (!isSystemTarget && targetUid !== callerUid && !isAdmin) {
-      const err = new Error('Forbidden: Cannot modify personal data belonging to another user.');
-      err.statusCode = 403;
-      throw err;
-    }
-  } else {
-    // Read operation: allowed if reading own data, reading system data, or caller is admin
-    if (!isSystemTarget && targetUid !== callerUid && !isAdmin) {
-      const err = new Error('Forbidden: Cannot read personal data belonging to another user.');
-      err.statusCode = 403;
-      throw err;
-    }
+  if (targetUid !== callerUid && !isAdmin) {
+    const err = new Error(isWriteOperation
+      ? 'Forbidden: Cannot modify personal data belonging to another user.'
+      : 'Forbidden: Cannot read personal data belonging to another user.');
+    err.statusCode = 403;
+    throw err;
   }
 
   return targetUid;
@@ -518,16 +525,17 @@ function resolveAuthorizedTargetUid(req, requestedUid, isWriteOperation = false)
 
 /**
  * Resolves the effective UID for C-binary (chemdb) job execution:
- * - Administrators who explicitly select the 'system' data scope execute against 'user_default_local' (System Catalog).
- * - All other sessions execute in the user's isolated personal namespace (with automatic read fallback to 'user_default_local').
+ * - Jobs execute strictly in the authenticated user's isolated namespace.
+ * - 'user_default_local' is rejected as an invalid UID.
  */
 function resolveEffectiveJobUid(req) {
-  const isAdmin = Boolean(req.user?.isAdmin || req.user?.role === 'admin');
-  const requestedScope = req.body?.dataScope || req.headers?.['x-react-data-scope'];
-  if (isAdmin && (requestedScope === 'system' || requestedScope === 'user_default_local')) {
-    return 'user_default_local';
+  const callerUid = req.user?.uid;
+  if (!callerUid || callerUid === 'user_default_local') {
+    const err = new Error("Authentication required: A valid authenticated user UID is required to execute jobs. 'user_default_local' is not a valid ID.");
+    err.statusCode = 401;
+    throw err;
   }
-  return req.user?.uid || 'user_default_local';
+  return callerUid;
 }
 
 /**
@@ -1426,7 +1434,6 @@ const handleAuthSession = async (req, res) => {
       },
       dataScopes: {
         personalUid: req.user.uid,
-        systemUid: 'user_default_local',
         canWriteSystem: Boolean(req.user.isAdmin)
       },
       securityThresholds: {
@@ -1788,11 +1795,10 @@ app.get('/api/logs/content', authenticateUser, async (req, res) => {
     let rawPath = String(gcsPath).replace(`gs://${BUCKET_NAME}/`, '');
     if (rawPath.startsWith('/')) rawPath = rawPath.slice(1);
 
-    // Enforce tenant isolation on GCS path unless Admin or shared system path
+    // Enforce tenant isolation on GCS path unless Admin
     const isAdmin = Boolean(req.user.isAdmin);
     const isOwnPath = rawPath.startsWith(`users/${req.user.uid}/`);
-    const isSystemPath = rawPath.startsWith('users/system/') || rawPath.startsWith('users/user_default_local/');
-    if (!isAdmin && !isOwnPath && !isSystemPath) {
+    if (!isAdmin && !isOwnPath) {
       return res.status(403).send('Forbidden: Cannot access log artifacts belonging to another user.');
     }
 
@@ -2577,7 +2583,7 @@ app.post('/api/save-lsr', authenticateUser, async (req, res) => {
   const rootName = req.body.rootName || req.body.name;
   const content = req.body.content;
   const rawCategory = req.body.category;
-  const uid = req.user?.uid || 'user_default_local';
+  const uid = resolveEffectiveJobUid(req);
 
   if (!rootName || !content) {
     return res.status(400).json({ error: "Request body must contain non-empty 'rootName' and 'content' fields." });
@@ -2691,9 +2697,6 @@ app.get('/api/submechanisms', authenticateUser, async (req, res) => {
     };
 
     await collectFromUid(uid);
-    if (uid !== 'user_default_local') {
-      await collectFromUid('user_default_local');
-    }
 
     pathways.sort();
     console.log(`[Firestore API /api/submechanisms] Returned ${pathways.length} pathways for uid='${uid}'`);
@@ -2947,15 +2950,6 @@ app.get('/api/mechanisms/list', authenticateUser, async (req, res) => {
       mechs.push(doc.data());
     });
 
-    // Support system catalog fallback if user has no mechanisms
-    if (mechs.length === 0 && uid !== 'user_default_local') {
-      let sysQuery = firestore.collection('users').doc('user_default_local').collection('mechanisms');
-      if (type && type !== 'all') sysQuery = sysQuery.where('mechanismType', '==', type);
-      if (targetMolecule) sysQuery = sysQuery.where('targetMolecule', '==', targetMolecule);
-      const sysSnap = await sysQuery.get().catch(() => ({ forEach: () => {} }));
-      sysSnap.forEach(doc => mechs.push(doc.data()));
-    }
-
     // Sort descending by creation date
     mechs.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
 
@@ -2977,11 +2971,7 @@ app.get('/api/mechanisms/details', authenticateUser, async (req, res) => {
     const mechName = req.query.name;
     if (!mechName) return res.status(400).json({ error: 'Missing required query parameter: name' });
 
-    let doc = await firestore.collection('users').doc(uid).collection('mechanisms').doc(mechName).get();
-    if (!doc.exists && uid !== 'user_default_local') {
-      doc = await firestore.collection('users').doc('user_default_local').collection('mechanisms').doc(mechName).get();
-    }
-
+    const doc = await firestore.collection('users').doc(uid).collection('mechanisms').doc(mechName).get();
     if (!doc.exists) {
       return res.status(404).json({ error: `Mechanism '${mechName}' not found in registry.` });
     }
@@ -3120,20 +3110,6 @@ app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
       if (!querySnap.empty) {
         console.log(`  -> Found pathway document by Name/key query: doc ID '${querySnap.docs[0].id}'`);
         return querySnap.docs[0].data();
-      }
-      if (uid !== 'user_default_local') {
-        const defaultColRef = firestore.collection('users/user_default_local/databases/MechanismPathway/records');
-        let defSnap = await defaultColRef.doc(cleanRootName).get();
-        if (defSnap.exists) {
-          console.log(`  -> Found pathway document in users/user_default_local (ID: '${cleanRootName}')`);
-          return defSnap.data();
-        }
-        let defQuery = await defaultColRef.where('Name', '==', cleanRootName).limit(1).get();
-        if (defQuery.empty) defQuery = await defaultColRef.where('key', '==', cleanRootName).limit(1).get();
-        if (!defQuery.empty) {
-          console.log(`  -> Found pathway document in users/user_default_local by query (ID: '${defQuery.docs[0].id}')`);
-          return defQuery.docs[0].data();
-        }
       }
       return null;
     };
@@ -3652,13 +3628,6 @@ app.post('/api/db/store', authenticateUser, async (req, res) => {
     await docRef.set(recordDoc, { merge: true });
     console.log(`[Firestore DB Store] Saved record: ${docPath}`);
 
-    // Only sync to system catalog (user_default_local) if the caller is an Administrator
-    if (dbName === 'MechanismPathway' && uid !== 'user_default_local' && req.user?.isAdmin) {
-      const defaultDocPath = `users/user_default_local/databases/${dbName}/records/${key}`;
-      await firestore.doc(defaultDocPath).set(recordDoc, { merge: true });
-      console.log(`[Firestore DB Store] Admin synced record to system catalog: ${defaultDocPath}`);
-    }
-
     return res.json({ status: 'OK', path: docPath });
   } catch (err) {
     console.error('[Firestore DB Store Error]', err.message);
@@ -3697,10 +3666,7 @@ app.post('/api/db/fetch', authenticateUser, async (req, res) => {
       return null;
     };
 
-    let docData = await findInCollection(uid);
-    if (!docData && uid !== 'user_default_local') {
-      docData = await findInCollection('user_default_local');
-    }
+    const docData = await findInCollection(uid);
 
     if (!docData) {
       return res.json({ found: false, dbName, key, type });
@@ -3752,10 +3718,6 @@ app.post('/api/db/listSummary', authenticateUser, async (req, res) => {
       });
     };
 
-    // Load shared system catalog first, then overlay personal records if uid !== 'user_default_local'
-    if (uid !== 'user_default_local') {
-      await loadFromNamespace('user_default_local');
-    }
     await loadFromNamespace(uid);
 
     const records = Array.from(recordsMap.values());
@@ -3808,15 +3770,8 @@ app.post('/api/db/searchRxnPatternsByCenter', authenticateUser, async (req, res)
       return list;
     };
 
-    const mergedMap = new Map();
-    if (uid !== 'user_default_local') {
-      const sysRecords = await searchInNamespace('user_default_local');
-      sysRecords.forEach(r => mergedMap.set(r.id, r));
-    }
     const userRecords = await searchInNamespace(uid);
-    userRecords.forEach(r => mergedMap.set(r.id, r));
-
-    let records = Array.from(mergedMap.values());
+    let records = userRecords;
 
     if (!reactionCenterKey && bBond && fBond) {
       records = records.filter(d =>
@@ -4046,11 +4001,7 @@ app.post('/api/db/fetchSearchKeys', authenticateUser, async (req, res) => {
       return res.status(400).json({ error: 'Missing required parameter: dbName' });
     }
 
-    let docSnap = await firestore.doc(`users/${uid}/searchkeys/${dbName}`).get();
-    if (!docSnap.exists && uid !== 'user_default_local') {
-      docSnap = await firestore.doc(`users/user_default_local/searchkeys/${dbName}`).get();
-    }
-
+    const docSnap = await firestore.doc(`users/${uid}/searchkeys/${dbName}`).get();
     if (!docSnap.exists) {
       return res.json({ found: false, dbName });
     }
@@ -4089,14 +4040,6 @@ app.post('/api/db/findOrCreateObjectIDClass', authenticateUser, async (req, res)
     const docPath = `users/${uid}/classifications/${sourceDir}/${classificationName}/${docKey}`;
     const docRef = firestore.doc(docPath);
     let docSnap = await docRef.get();
-
-    // Check shared system classifications if not found in user's personal database
-    if (!docSnap.exists && isDb && uid !== 'user_default_local') {
-      const sysSnap = await firestore.doc(`users/user_default_local/classifications/database/${classificationName}/${docKey}`).get();
-      if (sysSnap.exists) {
-        docSnap = sysSnap;
-      }
-    }
 
     if (docSnap.exists) {
       const rawData = docSnap.data();
@@ -4209,15 +4152,8 @@ app.get('/api/db/keys', authenticateUser, async (req, res) => {
       return res.status(400).json({ error: 'Missing required query parameter: dbName' });
     }
 
-    const keysSet = new Set();
-    if (uid !== 'user_default_local') {
-      const sysSnap = await firestore.collection(`users/user_default_local/databases/${dbName}/records`).get();
-      sysSnap.docs.forEach(doc => keysSet.add(doc.id));
-    }
     const colSnap = await firestore.collection(`users/${uid}/databases/${dbName}/records`).get();
-    colSnap.docs.forEach(doc => keysSet.add(doc.id));
-
-    const keys = Array.from(keysSet);
+    const keys = colSnap.docs.map(doc => doc.id);
     return res.json({ dbName, count: keys.length, keys });
   } catch (err) {
     console.error('[Firestore DB Keys Error]', err.message);

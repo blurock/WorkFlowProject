@@ -31,6 +31,13 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       'X-React-Data-Scope': authService.activeDataScope()
     };
     outgoingReq = req.clone({ setHeaders: headers });
+  } else if (!token && isOrchestratorApi && !req.url.includes('/api/health')) {
+    console.error('[AuthInterceptor] Request blocked: Valid authenticated user is required for Orchestrator API calls.');
+    return throwError(() => new HttpErrorResponse({
+      status: 401,
+      statusText: 'Unauthorized',
+      error: { error: 'Authentication required. Please sign in with an authorized account.', code: 'AUTH_REQUIRED' }
+    }));
   }
 
   return next(outgoingReq).pipe(

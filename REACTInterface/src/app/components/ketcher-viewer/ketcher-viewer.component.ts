@@ -219,7 +219,30 @@ export class KetcherViewerComponent implements OnChanges, AfterViewInit {
     let trimmed = rawSdf.trim();
     if (trimmed.includes('$RXN')) {
       const rxnIdx = trimmed.indexOf('$RXN');
-      return trimmed.substring(rxnIdx).trim();
+      const rxnBody = trimmed.substring(rxnIdx).trim();
+      const molParts = rxnBody.split(/\$MOL\r?\n/);
+      if (molParts.length > 1) {
+        const rawHeaderLines = molParts[0].trim().split(/\r?\n/);
+        const countsLineIdx = rawHeaderLines.findIndex((l, idx) => idx > 0 && /^\s*\d+\s+\d+(?:\s+\d+)?\s*$/.test(l));
+        let headerLines: string[];
+        if (countsLineIdx > 0) {
+          const countsLine = rawHeaderLines[countsLineIdx];
+          const preCounts = rawHeaderLines.slice(0, countsLineIdx);
+          while (preCounts.length < 4) {
+            preCounts.push('');
+          }
+          if (preCounts.length > 4) {
+            preCounts.splice(1, preCounts.length - 4);
+          }
+          headerLines = [...preCounts, countsLine];
+        } else {
+          headerLines = rawHeaderLines;
+        }
+        const header = headerLines.join('\n');
+        const processedMols = molParts.slice(1).map(m => this.processSingleMolfile(m).trim());
+        return header + '\n$MOL\n' + processedMols.join('\n$MOL\n') + '\n';
+      }
+      return rxnBody;
     }
 
     if (trimmed.includes('$$$$')) {
@@ -262,7 +285,7 @@ export class KetcherViewerComponent implements OnChanges, AfterViewInit {
       preamble = preamble.slice(preamble.length - 3);
     }
 
-    const body = lines.slice(countsLineIdx);
+    let body = lines.slice(countsLineIdx);
     if (body.length > 0 && !body[0].includes('V2000') && !body[0].includes('V3000')) {
       const countsMatch = body[0].match(/^\s*(\d+)\s+(\d+)/);
       if (countsMatch) {
@@ -317,8 +340,10 @@ export class KetcherViewerComponent implements OnChanges, AfterViewInit {
       }
     }
 
-    const hasMEnd = body.some(l => l.trim() === 'M  END' || l.startsWith('M  END'));
-    if (!hasMEnd) {
+    const mEndFinalIdx = body.findIndex(l => l.trim() === 'M  END' || l.startsWith('M  END'));
+    if (mEndFinalIdx >= 0) {
+      body = body.slice(0, mEndFinalIdx + 1);
+    } else {
       body.push('M  END');
     }
 

@@ -14,7 +14,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatBadgeModule } from '@angular/material/badge';
 
 import { forkJoin, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, switchMap } from 'rxjs/operators';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -500,26 +500,27 @@ export class TaskListViewComponent implements OnChanges {
 
   public loadReactionMoleculeSdfs(rxnHeader: { reactantIds: string[]; productIds: string[] }, patternName: string): void {
     const sdfMap = this.chemParser.extractSdfBlockMap(this.itemDetailOutput || '');
+    const subService = this.catalogServiceRegistry.getServiceForTask('substructures');
 
-    const reactantRequests = rxnHeader.reactantIds.map(id => {
+    const fetchStructure = (id: string) => {
       if (sdfMap.has(id)) {
         return of(sdfMap.get(id)!);
       }
       return this.moleculesService.getItemDetails(id).pipe(
         map(output => this.chemParser.extractSdfContent(output) || ''),
-        catchError(() => of(''))
+        catchError(() => of('')),
+        switchMap(sdf => {
+          if (sdf) return of(sdf);
+          return subService.getItemDetails(id).pipe(
+            map(output => this.chemParser.extractSdfContent(output) || ''),
+            catchError(() => of(''))
+          );
+        })
       );
-    });
+    };
 
-    const productRequests = rxnHeader.productIds.map(id => {
-      if (sdfMap.has(id)) {
-        return of(sdfMap.get(id)!);
-      }
-      return this.moleculesService.getItemDetails(id).pipe(
-        map(output => this.chemParser.extractSdfContent(output) || ''),
-        catchError(() => of(''))
-      );
-    });
+    const reactantRequests = rxnHeader.reactantIds.map(fetchStructure);
+    const productRequests = rxnHeader.productIds.map(fetchStructure);
 
     forkJoin({
       reactants: forkJoin(reactantRequests.length > 0 ? reactantRequests : [of('')]),

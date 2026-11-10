@@ -106,7 +106,11 @@ static FILE *MasterOpenFile(CHAR *directory, CHAR *name, CHAR *suffix,
 
      user_id = getenv("REACT_USER_ID");
      if (!user_id || user_id[0] == '\0') {
-         user_id = "user_default_local";
+         user_id = getenv("REACT_USER_UID");
+     }
+     if (!user_id || user_id[0] == '\0' || strcmp(user_id, "user_default_local") == 0) {
+         fprintf(stderr, "FATAL ERROR: Valid authenticated REACT_USER_ID or REACT_USER_UID environment variable is required. ('user_default_local' is not permitted).\n");
+         user_id = "unauthorized";
      }
      react_root = getenv("REACTROOT");
      if (!react_root || react_root[0] == '\0') {

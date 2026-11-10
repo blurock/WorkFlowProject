@@ -624,9 +624,13 @@ extern ReadChainSet *FetchReadChainSetFromFirestore(const char *name, BindStruct
 
   if (name == NULL || *name == '\0') return NULL;
 
-  uid = getenv("REACT_USER_UID");
+  uid = getenv("REACT_USER_ID");
   if (uid == NULL || *uid == '\0') {
-    uid = "user_default_local";
+    uid = getenv("REACT_USER_UID");
+  }
+  if (uid == NULL || *uid == '\0' || strcmp(uid, "user_default_local") == 0) {
+    fprintf(stderr, "FATAL ERROR: Valid authenticated REACT_USER_ID or REACT_USER_UID environment variable is required. ('user_default_local' is not permitted).\n");
+    return NULL;
   }
 
   snprintf(body, sizeof(body),
@@ -697,9 +701,13 @@ extern INT StoreReadChainSetToFirestore(ReadChainSet *readchain, BindStructure *
   if (readchain == NULL || readchain->Name == NULL || *readchain->Name == '\0')
     return SYSTEM_ERROR_RETURN;
 
-  uid = getenv("REACT_USER_UID");
+  uid = getenv("REACT_USER_ID");
   if (uid == NULL || *uid == '\0') {
-    uid = "user_default_local";
+    uid = getenv("REACT_USER_UID");
+  }
+  if (uid == NULL || *uid == '\0' || strcmp(uid, "user_default_local") == 0) {
+    fprintf(stderr, "FATAL ERROR: Valid authenticated REACT_USER_ID or REACT_USER_UID environment variable is required. ('user_default_local' is not permitted).\n");
+    return SYSTEM_ERROR_RETURN;
   }
 
   if (readchain->Molecules == NULL) DetermineSetOfMolecules(readchain);
