@@ -33,6 +33,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     outgoingReq = req.clone({ setHeaders: headers });
   } else if (!token && isOrchestratorApi && !req.url.includes('/api/health')) {
     console.error('[AuthInterceptor] Request blocked: Valid authenticated user is required for Orchestrator API calls.');
+    authService.triggerSessionExpired('Authentication required. Please sign in with an authorized account.');
     return throwError(() => new HttpErrorResponse({
       status: 401,
       statusText: 'Unauthorized',
@@ -55,6 +56,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
               });
               return next(retriedReq);
             }
+            authService.triggerSessionExpired('Your authentication session has expired. Please sign in again.');
             return throwError(() => err);
           })
         );

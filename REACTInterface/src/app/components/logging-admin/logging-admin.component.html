@@ -17,6 +17,21 @@
 
     <!-- Storage Usage Widget -->
     <div class="storage-metrics-widget">
+      <!-- Session Expiration Chip -->
+      <button
+        type="button"
+        class="session-admin-chip"
+        [class.chip-warning]="authService.isSessionExpiringSoon()"
+        [class.chip-expired]="authService.isSessionExpired()"
+        (click)="authService.openSessionDialog()"
+        [title]="authService.isSessionExpired() ? 'Authentication session has expired. Click to sign in again.' : (authService.isSessionExpiringSoon() ? 'Session expiring soon (' + authService.formattedTimeRemaining() + '). Click to extend.' : 'Session active. Time remaining: ' + authService.formattedTimeRemaining() + '. Click to manage.')"
+      >
+        <span class="status-dot"></span>
+        <span class="chip-label">
+          {{ authService.isSessionExpired() ? 'Session Expired' : 'Session: ' + authService.formattedTimeRemaining() }}
+        </span>
+      </button>
+
       <div class="metric-card">
         <span class="metric-label">Total Executions</span>
         <span class="metric-value">{{ jobs().length }}</span>

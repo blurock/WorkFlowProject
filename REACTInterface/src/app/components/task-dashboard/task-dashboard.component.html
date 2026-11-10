@@ -44,6 +44,25 @@
       </span>
     </div>
 
+    <!-- Real-time Session Expiration Chip -->
+    <button
+      type="button"
+      class="session-status-chip"
+      [class.chip-active]="!authService.isSessionExpiringSoon() && !authService.isSessionExpired()"
+      [class.chip-warning]="authService.isSessionExpiringSoon()"
+      [class.chip-expired]="authService.isSessionExpired()"
+      (click)="authService.openSessionDialog()"
+      [title]="authService.isSessionExpired() ? 'Authentication session has expired. Click to sign in again.' : (authService.isSessionExpiringSoon() ? 'Session expiring soon (' + authService.formattedTimeRemaining() + '). Click to extend.' : 'Session active. Time remaining: ' + authService.formattedTimeRemaining() + '. Click to manage.')"
+    >
+      <span class="status-pulse-dot"></span>
+      <mat-icon class="chip-icon">
+        {{ authService.isSessionExpired() ? 'error_outline' : (authService.isSessionExpiringSoon() ? 'timer' : 'lock_clock') }}
+      </mat-icon>
+      <span class="chip-text">
+        {{ authService.isSessionExpired() ? 'Expired' : authService.formattedTimeRemaining() }}
+      </span>
+    </button>
+
     <button mat-icon-button (click)="onLogout()" title="Sign Out">
       <mat-icon>exit_to_app</mat-icon>
     </button>

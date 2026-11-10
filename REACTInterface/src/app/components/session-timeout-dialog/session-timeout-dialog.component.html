@@ -1,0 +1,102 @@
+<div class="timeout-backdrop" *ngIf="authService.showTimeoutDialog()" (click)="onBackdropClick($event)">
+  <div
+    class="timeout-dialog-card"
+    [class.dialog-warning]="authService.timeoutDialogType() === 'warning'"
+    [class.dialog-expired]="authService.timeoutDialogType() === 'expired'"
+    role="alertdialog"
+    aria-modal="true"
+    (click)="$event.stopPropagation()"
+  >
+    <!-- Header with Dynamic Icon & Status Badge -->
+    <div class="dialog-header">
+      <div class="icon-circle">
+        <mat-icon *ngIf="authService.timeoutDialogType() === 'warning'">access_time</mat-icon>
+        <mat-icon *ngIf="authService.timeoutDialogType() === 'expired'">lock_clock</mat-icon>
+      </div>
+      <div class="header-titles">
+        <h3>
+          {{ authService.timeoutDialogType() === 'warning' ? 'Session Expiring Soon' : 'Session Expired' }}
+        </h3>
+        <span class="countdown-badge warning" *ngIf="authService.timeoutDialogType() === 'warning'">
+          <mat-icon>timer</mat-icon>
+          {{ authService.formattedTimeRemaining() }} remaining
+        </span>
+        <span class="countdown-badge expired" *ngIf="authService.timeoutDialogType() === 'expired'">
+          <mat-icon>error_outline</mat-icon>
+          Session Expired
+        </span>
+      </div>
+    </div>
+
+    <!-- Dialog Body & Content -->
+    <div class="dialog-body">
+      <p class="dialog-message">
+        {{ authService.timeoutDialogMessage() }}
+      </p>
+
+      <div class="user-info-strip" *ngIf="authService.currentUser() as user">
+        <mat-icon class="user-icon">account_circle</mat-icon>
+        <div class="user-details">
+          <span class="uname">{{ user.username }}</span>
+          <span class="uemail">{{ user.email }}</span>
+        </div>
+      </div>
+
+      <mat-progress-bar
+        *ngIf="authService.isExtendingSession()"
+        mode="indeterminate"
+        class="extending-progress"
+      ></mat-progress-bar>
+    </div>
+
+    <!-- Dialog Actions -->
+    <div class="dialog-actions">
+      <!-- Warning Mode Actions -->
+      <ng-container *ngIf="authService.timeoutDialogType() === 'warning'">
+        <button
+          mat-button
+          type="button"
+          class="dismiss-btn"
+          (click)="onDismiss()"
+          [disabled]="authService.isExtendingSession()"
+        >
+          Remind Later
+        </button>
+        <button
+          mat-flat-button
+          type="button"
+          color="primary"
+          class="action-btn extend-btn"
+          (click)="onExtend()"
+          [disabled]="authService.isExtendingSession()"
+        >
+          <mat-icon>refresh</mat-icon>
+          {{ authService.isExtendingSession() ? 'Extending...' : 'Extend Session' }}
+        </button>
+      </ng-container>
+
+      <!-- Expired Mode Actions -->
+      <ng-container *ngIf="authService.timeoutDialogType() === 'expired'">
+        <button
+          mat-button
+          type="button"
+          class="dismiss-btn"
+          (click)="onDismiss()"
+        >
+          Dismiss
+        </button>
+        <button
+          mat-flat-button
+          type="button"
+          color="warn"
+          class="action-btn reauth-btn"
+          (click)="onReauth()"
+        >
+          <mat-icon>login</mat-icon>
+          Sign In Again
+        </button>
+      </ng-container>
+    </div>
+  </div>
+</div>
+

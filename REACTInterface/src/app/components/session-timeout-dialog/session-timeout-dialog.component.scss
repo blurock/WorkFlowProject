@@ -1,0 +1,231 @@
+.timeout-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(4px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.timeout-dialog-card {
+  width: 100%;
+  max-width: 460px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.25), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  animation: scaleUp 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+
+  &.dialog-warning {
+    border-top: 5px solid #f59e0b;
+
+    .icon-circle {
+      background: #fef3c7;
+      color: #d97706;
+    }
+  }
+
+  &.dialog-expired {
+    border-top: 5px solid #ef4444;
+
+    .icon-circle {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+  }
+
+  .dialog-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px 24px 14px;
+
+    .icon-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+
+      mat-icon {
+        font-size: 26px;
+        width: 26px;
+        height: 26px;
+      }
+    }
+
+    .header-titles {
+      flex: 1;
+
+      h3 {
+        margin: 0;
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #0f172a;
+        line-height: 1.3;
+      }
+
+      .countdown-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        margin-top: 4px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        padding: 2px 8px;
+        border-radius: 9999px;
+
+        mat-icon {
+          font-size: 13px;
+          width: 13px;
+          height: 13px;
+        }
+
+        &.warning {
+          background: #fef3c7;
+          color: #b45309;
+        }
+
+        &.expired {
+          background: #fee2e2;
+          color: #b91c1c;
+        }
+      }
+    }
+  }
+
+  .dialog-body {
+    padding: 0 24px 18px;
+
+    .dialog-message {
+      margin: 0 0 16px;
+      font-size: 0.92rem;
+      line-height: 1.5;
+      color: #334155;
+    }
+
+    .user-info-strip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 8px 12px;
+      margin-bottom: 12px;
+
+      .user-icon {
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+        color: #64748b;
+      }
+
+      .user-details {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+
+        .uname {
+          font-size: 0.85rem;
+          font-weight: 600;
+          color: #1e293b;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .uemail {
+          font-size: 0.75rem;
+          color: #64748b;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+
+    .extending-progress {
+      margin-top: 8px;
+      border-radius: 4px;
+    }
+  }
+
+  .dialog-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 14px 24px;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+
+    .dismiss-btn {
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      padding: 0 16px;
+      height: 38px;
+
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+        margin-right: 4px;
+      }
+    }
+
+    .extend-btn {
+      background: #0284c7;
+      color: #ffffff;
+
+      &:hover {
+        background: #0369a1;
+      }
+    }
+
+    .reauth-btn {
+      background: #dc2626;
+      color: #ffffff;
+
+      &:hover {
+        background: #b91c1c;
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+

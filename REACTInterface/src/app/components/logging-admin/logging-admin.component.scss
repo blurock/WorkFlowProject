@@ -74,6 +74,54 @@
     align-items: center;
     gap: 16px;
 
+    .session-admin-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 9999px;
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid #334155;
+      color: #94a3b8;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: #1e293b;
+        border-color: #475569;
+        color: #f8fafc;
+      }
+
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #22c55e;
+      }
+
+      &.chip-warning {
+        background: rgba(245, 158, 11, 0.15);
+        border-color: #f59e0b;
+        color: #fef08a;
+
+        .status-dot {
+          background: #f59e0b;
+        }
+      }
+
+      &.chip-expired {
+        background: rgba(239, 68, 68, 0.2);
+        border-color: #ef4444;
+        color: #fca5a5;
+
+        .status-dot {
+          background: #ef4444;
+        }
+      }
+    }
+
     .metric-card {
       background: #1e293b;
       border: 1px solid #334155;

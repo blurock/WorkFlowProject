@@ -1,4 +1,5 @@
-import { Injectable, signal, computed, isDevMode } from '@angular/core';
+import { Injectable, signal, computed, isDevMode, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { initializeApp, getApps } from 'firebase/app';
 import {
   getAuth,
@@ -61,6 +62,7 @@ export class AuthService {
   private readonly USER_KEY = 'reactcloud_user';
   private readonly SCOPE_KEY = 'reactcloud_data_scope';
   private readonly apiBaseUrl = 'http://localhost:8085';
+  private router = inject(Router);
 
   private firebaseApp = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
   private firebaseAuth = getAuth(this.firebaseApp);
@@ -77,6 +79,52 @@ export class AuthService {
     const u = this.currentUser();
     if (!u || u.blocked) return false;
     return u.role === 'admin' || u.isAdmin === true;
+  });
+
+  // Session Expiration & Timeout Signals
+  public tokenExpiryMs = signal<number | null>(this.parseJwtExpiry(this.getStoredToken()));
+  public nowMs = signal<number>(Date.now());
+  public showTimeoutDialog = signal<boolean>(false);
+  public timeoutDialogType = signal<'warning' | 'expired'>('warning');
+  public timeoutDialogMessage = signal<string>('');
+  public isExtendingSession = signal<boolean>(false);
+  private dismissedWarningForExpiry = signal<number | null>(null);
+
+  public secondsRemaining = computed<number | null>(() => {
+    const expiry = this.tokenExpiryMs();
+    if (expiry === null) return null;
+    const diffMs = expiry - this.nowMs();
+    return Math.max(0, Math.floor(diffMs / 1000));
+  });
+
+  public isSessionExpiringSoon = computed<boolean>(() => {
+    if (!this.isAuthenticated()) return false;
+    const remaining = this.secondsRemaining();
+    if (remaining === null) return false;
+    return remaining <= 300 && remaining > 0; // 5 minutes or less
+  });
+
+  public isSessionExpired = computed<boolean>(() => {
+    if (!this.isAuthenticated()) return false;
+    const remaining = this.secondsRemaining();
+    if (remaining === null) return false;
+    return remaining === 0;
+  });
+
+  public formattedTimeRemaining = computed<string>(() => {
+    const remaining = this.secondsRemaining();
+    if (remaining === null) {
+      return 'Active';
+    }
+    if (remaining <= 0) {
+      return 'Expired';
+    }
+    const minutes = Math.floor(remaining / 60);
+    const seconds = remaining % 60;
+    if (minutes > 0) {
+      return `${minutes}m ${seconds < 10 ? '0' : ''}${seconds}s`;
+    }
+    return `${seconds}s`;
   });
 
   // Data scope selector ('personal' vs 'system') — Admins can switch to 'system' to manage global catalog
@@ -99,16 +147,55 @@ export class AuthService {
         }
       } else {
         this.initialTokenRefreshed = false;
+        const currentToken = this.getToken();
+        if (currentToken && currentToken.includes('.')) {
+          // Stored token was a Firebase JWT, but user signed out: clear session
+          this.tokenExpiryMs.set(null);
+          this.currentUser.set(null);
+          this.isAuthenticated.set(false);
+          localStorage.removeItem(this.TOKEN_KEY);
+          localStorage.removeItem(this.USER_KEY);
+        }
       }
     });
 
-    // Proactively refresh Firebase ID token every 45 minutes so long-running jobs never hit 1-hour expiry
+    // 1-second interval to track token expiration, trigger proactive refresh, and warn user
     if (typeof window !== 'undefined') {
       setInterval(() => {
-        if (this.firebaseAuth.currentUser) {
+        this.nowMs.set(Date.now());
+        if (!this.isAuthenticated()) return;
+
+        const remaining = this.secondsRemaining();
+        if (remaining === null) return;
+
+        // Proactively refresh ID token in background when between 5 and 10 minutes left
+        if (remaining <= 600 && remaining > 300 && !this.isExtendingSession()) {
           this.refreshIdToken().catch(() => {});
         }
-      }, 45 * 60 * 1000);
+
+        // Show warning modal when 5 minutes or less remain
+        if (remaining <= 300 && remaining > 0) {
+          const currentExpiry = this.tokenExpiryMs();
+          if (!this.showTimeoutDialog() && this.dismissedWarningForExpiry() !== currentExpiry) {
+            this.timeoutDialogType.set('warning');
+            this.timeoutDialogMessage.set(
+              'Your authentication credentials will expire in less than 5 minutes. Would you like to extend your session?'
+            );
+            this.showTimeoutDialog.set(true);
+          }
+        }
+
+        // Show expired modal when 0 seconds remain
+        if (remaining === 0) {
+          if (!this.showTimeoutDialog() || this.timeoutDialogType() !== 'expired') {
+            this.timeoutDialogType.set('expired');
+            this.timeoutDialogMessage.set(
+              'Your authentication session has expired. Please sign in again to continue accessing REACTCLOUD.'
+            );
+            this.showTimeoutDialog.set(true);
+          }
+        }
+      }, 1000);
     }
   }
 
@@ -121,6 +208,7 @@ export class AuthService {
     try {
       const freshToken = await fbUser.getIdToken(true);
       localStorage.setItem(this.TOKEN_KEY, freshToken);
+      this.tokenExpiryMs.set(this.parseJwtExpiry(freshToken));
       const existing = this.currentUser();
       if (existing) {
         const updated = { ...existing, token: freshToken };
@@ -340,8 +428,10 @@ export class AuthService {
     localStorage.removeItem(this.USER_KEY);
     localStorage.removeItem(this.SCOPE_KEY);
 
+    this.tokenExpiryMs.set(null);
     this.currentUser.set(null);
     this.isAuthenticated.set(false);
+    this.showTimeoutDialog.set(false);
     this.activeDataScope.set('personal');
   }
 
@@ -349,11 +439,115 @@ export class AuthService {
     return localStorage.getItem(this.TOKEN_KEY) || (this.currentUser()?.token ?? null);
   }
 
+  /**
+   * Proactively extends the authentication session by forcing an ID token refresh.
+   */
+  public async extendSession(): Promise<boolean> {
+    this.isExtendingSession.set(true);
+    try {
+      const fresh = await this.refreshIdToken();
+      this.isExtendingSession.set(false);
+      if (fresh) {
+        const newExpiry = this.parseJwtExpiry(fresh);
+        this.tokenExpiryMs.set(newExpiry);
+        this.showTimeoutDialog.set(false);
+        return true;
+      } else {
+        this.triggerSessionExpired('Unable to refresh session. Please sign in again.');
+        return false;
+      }
+    } catch (err) {
+      this.isExtendingSession.set(false);
+      this.triggerSessionExpired('Unable to refresh session. Please sign in again.');
+      return false;
+    }
+  }
+
+  /**
+   * Triggers the session expired dialog with a clear notification message.
+   */
+  public triggerSessionExpired(message?: string): void {
+    this.timeoutDialogType.set('expired');
+    this.timeoutDialogMessage.set(
+      message || 'Your authentication session has expired. Please sign in again to continue accessing REACTCLOUD.'
+    );
+    this.showTimeoutDialog.set(true);
+  }
+
+  /**
+   * Closes the warning dialog without extending (user can extend manually later).
+   */
+  public dismissTimeoutDialog(): void {
+    this.dismissedWarningForExpiry.set(this.tokenExpiryMs());
+    this.showTimeoutDialog.set(false);
+  }
+
+  /**
+   * Manually opens the session management dialog from the top toolbar chip.
+   */
+  public openSessionDialog(): void {
+    if (this.isSessionExpired()) {
+      this.timeoutDialogType.set('expired');
+      this.timeoutDialogMessage.set(
+        'Your authentication session has expired. Please sign in again to continue accessing REACTCLOUD.'
+      );
+    } else {
+      this.timeoutDialogType.set('warning');
+      this.timeoutDialogMessage.set(
+        `Your current authentication session expires in ${this.formattedTimeRemaining()}. You can extend it now to keep working uninterrupted.`
+      );
+    }
+    this.showTimeoutDialog.set(true);
+  }
+
+  /**
+   * Prompts re-authentication by clearing credentials and redirecting to the landing page.
+   */
+  public promptReauth(): void {
+    this.logout();
+    this.showTimeoutDialog.set(false);
+    try {
+      this.router.navigate(['/landing']);
+    } catch (_) {
+      if (typeof window !== 'undefined') {
+        window.location.href = '/landing';
+      }
+    }
+  }
+
+  /**
+   * Extracts the expiration timestamp in ms from a JWT ID token.
+   */
+  public parseJwtExpiry(token: string | null): number | null {
+    if (!token) return null;
+    try {
+      const parts = token.split('.');
+      if (parts.length !== 3) return null;
+      const base64Url = parts[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join('')
+      );
+      const parsed = JSON.parse(jsonPayload);
+      if (parsed && typeof parsed.exp === 'number') {
+        return parsed.exp * 1000;
+      }
+      return null;
+    } catch {
+      return null;
+    }
+  }
+
   private saveSession(user: UserProfile): void {
     localStorage.setItem(this.TOKEN_KEY, user.token);
     localStorage.setItem(this.USER_KEY, JSON.stringify(user));
+    this.tokenExpiryMs.set(this.parseJwtExpiry(user.token));
     this.currentUser.set(user);
     this.isAuthenticated.set(true);
+    this.showTimeoutDialog.set(false);
     if (!user.isAdmin && this.activeDataScope() === 'system') {
       this.activeDataScope.set('personal');
       localStorage.setItem(this.SCOPE_KEY, 'personal');
