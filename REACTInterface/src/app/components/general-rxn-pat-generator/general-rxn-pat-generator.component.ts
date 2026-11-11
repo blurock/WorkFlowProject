@@ -18,6 +18,7 @@ import { firstValueFrom } from 'rxjs';
 
 import { ReactCloudApiService } from '../../services/react-cloud-api.service';
 import { ExistenceCheckService, ExistenceCheckItem } from '../../services/existence-check.service';
+import { ReactionPatternAlignmentService } from '../../services/reaction-pattern-alignment.service';
 import { CommandTemplatesRegistry } from '../../templates/command-templates.registry';
 import { KetcherViewerComponent } from '../ketcher-viewer/ketcher-viewer.component';
 import { ChemStructureParserService } from '../../services/chem-structure-parser.service';
@@ -271,7 +272,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
   public checkExecutionLogText: string = '';
   public hasConflicts: boolean = false;
   public substructureCheckDisplayedColumns: string[] = ['name', 'dbId', 'status', 'suggestedAction'];
-  public rxnPatternCheckDisplayedColumns: string[] = ['name', 'substructureMatch', 'exactMatch', 'status', 'suggestedAction'];
+  public rxnPatternCheckDisplayedColumns: string[] = ['name', 'substructureMatch', 'exactMatch', 'status', 'atomAlignment', 'bondChanges', 'dbMatch', 'suggestedAction'];
 
   // Internal Parsed Structure Data
   public templateRxnContent: string = '';
@@ -292,6 +293,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
   constructor(
     private reactCloudApi: ReactCloudApiService,
     private existenceCheckService: ExistenceCheckService,
+    public alignmentService: ReactionPatternAlignmentService,
     private snackBar: MatSnackBar,
     private chemParser: ChemStructureParserService,
     private substructuresService: SubstructuresService,

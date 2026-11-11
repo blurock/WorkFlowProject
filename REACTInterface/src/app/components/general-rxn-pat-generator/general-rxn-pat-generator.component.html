@@ -700,6 +700,43 @@
                   </td>
                 </ng-container>
 
+                <ng-container matColumnDef="atomAlignment">
+                  <th mat-header-cell *matHeaderCellDef>Atom Alignment</th>
+                  <td mat-cell *matCellDef="let item">
+                    <span *ngIf="item.alignmentStatus" class="alignment-pill" [ngClass]="item.alignmentStatus" [matTooltip]="item.alignmentMessage || ''">
+                      <mat-icon class="inline-icon" *ngIf="item.alignmentStatus === 'matched'">check_circle</mat-icon>
+                      <mat-icon class="inline-icon" *ngIf="item.alignmentStatus === 'adjusted'">tune</mat-icon>
+                      <mat-icon class="inline-icon" *ngIf="item.alignmentStatus === 'mismatched'">cancel</mat-icon>
+                      {{ item.alignmentStatus === 'matched' ? 'atoms matched' : (item.alignmentStatus === 'adjusted' ? 'atoms adjusted' : 'atoms mismatched') }}
+                    </span>
+                    <span *ngIf="!item.alignmentStatus" class="text-muted">-</span>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="bondChanges">
+                  <th mat-header-cell *matHeaderCellDef>Bond Changes</th>
+                  <td mat-cell *matCellDef="let item">
+                    <span *ngIf="item.bondChangesText" class="bond-changes-pill">
+                      {{ item.bondChangesText }}
+                    </span>
+                    <span *ngIf="!item.bondChangesText" class="text-muted">-</span>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="dbMatch">
+                  <th mat-header-cell *matHeaderCellDef>DB Match</th>
+                  <td mat-cell *matCellDef="let item">
+                    <span *ngIf="item.dbMatchStatus && item.dbMatchStatus !== 'not-in-db'" 
+                          class="db-match-pill" [ngClass]="item.dbMatchStatus"
+                          [matTooltip]="item.dbMatchStatus === 'matched' ? 'Bond changes match database record' : 'Bond changes mismatch database record'">
+                      <mat-icon class="inline-icon" *ngIf="item.dbMatchStatus === 'matched'">verified</mat-icon>
+                      <mat-icon class="inline-icon" *ngIf="item.dbMatchStatus === 'mismatched'">error_outline</mat-icon>
+                      {{ item.dbMatchStatus }}
+                    </span>
+                    <span *ngIf="!item.dbMatchStatus || item.dbMatchStatus === 'not-in-db'" class="text-muted">N/A</span>
+                  </td>
+                </ng-container>
+
                 <ng-container matColumnDef="suggestedAction">
                   <th mat-header-cell *matHeaderCellDef>Suggested Action</th>
                   <td mat-cell *matCellDef="let item">{{ item.suggestedAction }}</td>

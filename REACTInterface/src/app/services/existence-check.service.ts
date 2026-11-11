@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { ReactCloudApiService } from './react-cloud-api.service';
 import { CommandTemplatesRegistry } from '../templates/command-templates.registry';
+import { ReactionPatternAlignmentService, AtomCorrespondencePair } from './reaction-pattern-alignment.service';
 
 export interface ExistenceCheckItem {
   id: string;
@@ -13,6 +14,18 @@ export interface ExistenceCheckItem {
   inDatabase: boolean;
   status: 'Present' | 'New' | 'Unknown' | string;
   suggestedAction: string;
+  // Reaction Pattern Atom Alignment & Bond Change Checks
+  alignmentStatus?: 'matched' | 'adjusted' | 'mismatched';
+  alignmentMessage?: string;
+  bondChangesText?: string;
+  dbMatchStatus?: 'matched' | 'mismatched' | 'not-in-db';
+  dbBrokenCount?: number;
+  dbMadeCount?: number;
+  brokenBondsCount?: number;
+  madeBondsCount?: number;
+  adjustedCorrLines?: string[];
+  adjustedLstBlock?: string;
+  alignmentPairs?: AtomCorrespondencePair[];
 }
 
 export interface ExistenceCheckResult {
@@ -30,7 +43,10 @@ export interface ExistenceCheckResult {
   providedIn: 'root'
 })
 export class ExistenceCheckService {
-  constructor(private reactCloudApi: ReactCloudApiService) {}
+  private reactCloudApi = inject(ReactCloudApiService);
+  private alignmentService = inject(ReactionPatternAlignmentService);
+
+  constructor() {}
 
   /**
    * Run database existence check for a given data structure type.
@@ -89,6 +105,34 @@ export class ExistenceCheckService {
 
     // 4. Parse raw output table into structured items, dbId map, and execution log text
     const { items, hasConflicts, dbIdMap, executionLogText } = this.parseExistenceCheckOutput(rawOutput);
+
+    // 5. For reaction patterns, perform atom alignment, symmetry rematching, and DB bond change comparisons
+    if (dataType === 'rxn-pattern' && filesToUpload && filesToUpload.length > 0) {
+      const lstFile = filesToUpload.find(f => f.filename.endsWith('.lst')) || filesToUpload[0];
+      if (lstFile && lstFile.content) {
+        try {
+          const alignmentResults = await this.alignmentService.checkReactionPatternsFromLst(lstFile.content, items);
+          for (const item of items) {
+            const alignRes = alignmentResults.get(item.name);
+            if (alignRes) {
+              item.alignmentStatus = alignRes.alignmentStatus;
+              item.alignmentMessage = alignRes.statusMessage;
+              item.bondChangesText = alignRes.bondChangesText;
+              item.dbMatchStatus = alignRes.dbMatchStatus;
+              item.dbBrokenCount = alignRes.dbBrokenCount;
+              item.dbMadeCount = alignRes.dbMadeCount;
+              item.brokenBondsCount = alignRes.brokenBondsCount;
+              item.madeBondsCount = alignRes.madeBondsCount;
+              item.adjustedCorrLines = alignRes.adjustedCorrLines;
+              item.adjustedLstBlock = alignRes.adjustedLstBlock;
+              item.alignmentPairs = alignRes.pairs;
+            }
+          }
+        } catch (alignErr) {
+          console.warn('[ExistenceCheckService] Pattern alignment verification warning:', alignErr);
+        }
+      }
+    }
 
     return {
       items,

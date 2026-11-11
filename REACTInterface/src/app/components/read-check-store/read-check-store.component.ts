@@ -233,6 +233,59 @@ export class ReadCheckStoreComponent implements OnInit {
   public storedRecords: StoredRecordItem[] = [];
   public parsedStructuresCount: number = 0;
   public hasConflicts: boolean = false;
+  public expandedItemIds = new Set<string>();
+
+  public toggleItemExpansion(id: string): void {
+    if (this.expandedItemIds.has(id)) {
+      this.expandedItemIds.delete(id);
+    } else {
+      this.expandedItemIds.add(id);
+    }
+  }
+
+  public isItemExpanded(id: string): boolean {
+    return this.expandedItemIds.has(id);
+  }
+
+  public hasAdjustedPatterns(): boolean {
+    return this.existenceItems.some(i => i.alignmentStatus === 'adjusted');
+  }
+
+  public copyAdjustedPattern(item: ExistenceCheckItem): void {
+    if (!item.adjustedLstBlock) return;
+    navigator.clipboard.writeText(item.adjustedLstBlock).then(() => {
+      this.statusMessage = `Adjusted pattern '${item.name}' copied to clipboard!`;
+      setTimeout(() => {
+        if (this.statusMessage.includes('copied')) this.statusMessage = '';
+      }, 4000);
+    });
+  }
+
+  public exportAdjustedLstFile(): void {
+    if (!this.fileContent) return;
+    let updatedContent = this.fileContent;
+    for (const item of this.existenceItems) {
+      if (item.alignmentStatus === 'adjusted' && item.adjustedCorrLines && item.adjustedCorrLines.length > 0) {
+        const patRegex = new RegExp(`(^|\\n)(${item.name}[^\\n]*\\n- ID[^\\n]*\\n- Correspondences\\n)([\\s\\S]*?)(>|\\$\\$\\$\\$|%%%|$)`, 'm');
+        const match = patRegex.exec(updatedContent);
+        if (match) {
+          const newBlock = `${match[2]}${item.adjustedCorrLines.join('\n')}\n${match[4]}`;
+          updatedContent = updatedContent.replace(match[0], (match[1] || '') + newBlock);
+        }
+      }
+    }
+
+    navigator.clipboard.writeText(updatedContent).then(() => {
+      this.statusMessage = `Full adjusted .lst file copied to clipboard!`;
+      const blob = new Blob([updatedContent], { type: 'text/plain;charset=utf-8' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${this.rootName || 'reaction_patterns'}_adjusted.lst`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
+  }
 
   constructor(
     private reactCloudApi: ReactCloudApiService,
@@ -495,9 +548,23 @@ export class ReadCheckStoreComponent implements OnInit {
     try {
       const ext = this.getTargetFileExtension();
       const targetFilename = `${this.rootName.trim()}${ext}`;
-      const filesToUpload = (!this.uploadedGcsUrl && this.selectedFile && this.fileContent !== null)
+
+      // Ensure fileContent is populated if selectedFile or step1 inputDataText is present
+      if (!this.fileContent && this.selectedFile) {
+        try {
+          this.fileContent = await this.selectedFile.text();
+        } catch (e) {
+          console.warn('[ReadCheckStoreComponent] Could not read file as text:', e);
+        }
+      } else if (!this.fileContent && this.step1OutputSections?.inputDataText) {
+        this.fileContent = this.step1OutputSections.inputDataText;
+      }
+
+      const filesToUpload = (this.fileContent !== null && this.fileContent !== undefined && this.fileContent !== '')
         ? [{ filename: targetFilename, content: this.fileContent }]
-        : undefined;
+        : (!this.uploadedGcsUrl && this.selectedFile)
+          ? [{ filename: targetFilename, content: '' }]
+          : undefined;
 
       const result = await this.existenceCheckService.checkDatabaseExistence(
         this.dataType,

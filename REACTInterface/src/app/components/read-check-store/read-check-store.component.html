@@ -656,27 +656,125 @@
 
       <!-- Existence Status Table -->
       <div class="visualizer-card" *ngIf="existenceItems.length > 0">
-        <h4>Database Structure Status</h4>
+        <div class="card-header-row">
+          <h4>Database Structure Status</h4>
+          <button *ngIf="dataType === 'rxn-pattern' && hasAdjustedPatterns()" 
+                  mat-stroked-button color="accent" class="export-lst-btn"
+                  (click)="exportAdjustedLstFile()" 
+                  matTooltip="Download a corrected .lst file with rematched atom orders">
+            <mat-icon>file_download</mat-icon> Export Adjusted .lst
+          </button>
+        </div>
         <table class="data-table">
           <thead>
             <tr>
               <th>Item / Structure</th>
               <th>Database ID</th>
               <th>Database Status</th>
+              <th *ngIf="dataType === 'rxn-pattern'">Atom Alignment</th>
+              <th *ngIf="dataType === 'rxn-pattern'">Bond Changes</th>
+              <th *ngIf="dataType === 'rxn-pattern'">DB Match</th>
               <th>Suggested Action</th>
+              <th *ngIf="dataType === 'rxn-pattern'">Details</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of existenceItems">
-              <td><strong>{{ item.name }}</strong></td>
-              <td><code>{{ item.dbId || 'N/A' }}</code></td>
-              <td>
-                <span class="status-pill" [class.present]="item.inDatabase" [class.new]="!item.inDatabase">
-                  {{ item.status }}
-                </span>
-              </td>
-              <td>{{ item.suggestedAction }}</td>
-            </tr>
+            <ng-container *ngFor="let item of existenceItems">
+              <tr>
+                <td><strong>{{ item.name }}</strong></td>
+                <td><code>{{ item.dbId || 'N/A' }}</code></td>
+                <td>
+                  <span class="status-pill" [class.present]="item.inDatabase" [class.new]="!item.inDatabase">
+                    {{ item.status }}
+                  </span>
+                </td>
+
+                <!-- Reaction Pattern Specific Columns -->
+                <td *ngIf="dataType === 'rxn-pattern'">
+                  <span *ngIf="item.alignmentStatus" class="alignment-pill" [ngClass]="item.alignmentStatus" [matTooltip]="item.alignmentMessage || ''">
+                    <mat-icon class="inline-icon" *ngIf="item.alignmentStatus === 'matched'">check_circle</mat-icon>
+                    <mat-icon class="inline-icon" *ngIf="item.alignmentStatus === 'adjusted'">tune</mat-icon>
+                    <mat-icon class="inline-icon" *ngIf="item.alignmentStatus === 'mismatched'">cancel</mat-icon>
+                    {{ item.alignmentStatus === 'matched' ? 'atoms matched' : (item.alignmentStatus === 'adjusted' ? 'atoms adjusted' : 'atoms mismatched') }}
+                  </span>
+                  <span *ngIf="!item.alignmentStatus" class="text-muted">-</span>
+                </td>
+
+                <td *ngIf="dataType === 'rxn-pattern'">
+                  <span *ngIf="item.bondChangesText" class="bond-changes-pill">
+                    {{ item.bondChangesText }}
+                  </span>
+                  <span *ngIf="!item.bondChangesText" class="text-muted">-</span>
+                </td>
+
+                <td *ngIf="dataType === 'rxn-pattern'">
+                  <span *ngIf="item.dbMatchStatus && item.dbMatchStatus !== 'not-in-db'" 
+                        class="db-match-pill" [ngClass]="item.dbMatchStatus"
+                        [matTooltip]="item.dbMatchStatus === 'matched' ? 'Bond changes match database record' : 'Bond changes mismatch database record'">
+                    <mat-icon class="inline-icon" *ngIf="item.dbMatchStatus === 'matched'">verified</mat-icon>
+                    <mat-icon class="inline-icon" *ngIf="item.dbMatchStatus === 'mismatched'">error_outline</mat-icon>
+                    {{ item.dbMatchStatus }}
+                  </span>
+                  <span *ngIf="!item.dbMatchStatus || item.dbMatchStatus === 'not-in-db'" class="text-muted">N/A</span>
+                </td>
+
+                <td>{{ item.suggestedAction }}</td>
+
+                <td *ngIf="dataType === 'rxn-pattern'">
+                  <button *ngIf="item.alignmentPairs && item.alignmentPairs.length > 0" 
+                          mat-icon-button (click)="toggleItemExpansion(item.id)" 
+                          [matTooltip]="isItemExpanded(item.id) ? 'Collapse details' : 'View atom correspondences & adjusted .lst'">
+                    <mat-icon>{{ isItemExpanded(item.id) ? 'expand_less' : 'expand_more' }}</mat-icon>
+                  </button>
+                </td>
+              </tr>
+
+              <!-- Expandable Row for Reaction Pattern Details -->
+              <tr *ngIf="dataType === 'rxn-pattern' && isItemExpanded(item.id)" class="expanded-row">
+                <td colspan="8">
+                  <div class="pattern-detail-box">
+                    <div class="detail-header">
+                      <h5>Atom Correspondence & Alignment Details for {{ item.name }}</h5>
+                      <button *ngIf="item.adjustedLstBlock" mat-stroked-button color="primary" class="copy-btn" (click)="copyAdjustedPattern(item)">
+                        <mat-icon>content_copy</mat-icon> Copy Adjusted Pattern
+                      </button>
+                    </div>
+
+                    <div class="atom-pairs-grid" *ngIf="item.alignmentPairs && item.alignmentPairs.length > 0">
+                      <table class="inner-atom-table">
+                        <thead>
+                          <tr>
+                            <th>Reactant Atom</th>
+                            <th>Element</th>
+                            <th>Product Atom</th>
+                            <th>Element</th>
+                            <th>Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let p of item.alignmentPairs">
+                            <td>#{{ p.globalReactantAtomId || (p.reactantAtomIndex + 1) }}</td>
+                            <td><strong>{{ p.reactantSymbol }}</strong></td>
+                            <td>#{{ p.productAtomIndex + 1 }}</td>
+                            <td><strong>{{ p.productSymbol }}</strong></td>
+                            <td>
+                              <span class="match-indicator" [class.ok]="p.isMatched" [class.fail]="!p.isMatched">
+                                {{ p.isMatched ? 'Match' : 'Mismatch' }}
+                              </span>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div *ngIf="item.adjustedLstBlock" class="adjusted-lst-preview">
+                      <label><strong>Adjusted .lst Definition:</strong></label>
+                      <pre class="adjusted-code-block">{{ item.adjustedLstBlock }}</pre>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
           </tbody>
         </table>
       </div>
