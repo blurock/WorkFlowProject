@@ -38,10 +38,10 @@ export function isGenericAtomSymbol(sym: string): boolean {
   if (!sym) return false;
   const upper = sym.toUpperCase().trim();
   return /^R#?\d*#?$/i.test(upper) ||
-         /^M#?\d*#?$/i.test(upper) ||
-         /^Q#?\d*#?$/i.test(upper) ||
-         /^X#?\d*#?$/i.test(upper) ||
-         upper === 'A' || upper === 'A#' || upper === '*';
+    /^M#?\d*#?$/i.test(upper) ||
+    /^Q#?\d*#?$/i.test(upper) ||
+    /^X#?\d*#?$/i.test(upper) ||
+    upper === 'A' || upper === 'A#' || upper === '*';
 }
 
 export function isValidAtomSymbol(sym: string): boolean {
@@ -844,8 +844,8 @@ export class AtomCorrespondenceService {
         return {
           ID: idx,
           Name: null,
-          ReactantPosition: 0,
-          ProductPosition: 0,
+          ReactantPosition: rMolIdx,
+          ProductPosition: pMolIdx,
           Reactant: {
             ID: row.reactantAtomNumber - 1,
             Name: null,
@@ -861,40 +861,68 @@ export class AtomCorrespondenceService {
         };
       });
 
+    // Index correspondences by 1-based global reactant atom number and 1-based global product atom number
+    const corrByReactantAtomNum = new Map<number, any>();
+    const corrByProductAtomNum = new Map<number, any>();
+    corrs.forEach(c => {
+      corrByReactantAtomNum.set(c.Reactant.ID + 1, c);
+      corrByProductAtomNum.set(c.Product.ID + 1, c);
+    });
+
     const changes = bondChangeRows.map((bc, idx) => {
       const isBroken = bc.type === 4;
-      const a1 = isBroken ? rAtomMap.get(bc.atom1Number) : pAtomMap.get(bc.atom1Number);
-      const a2 = isBroken ? rAtomMap.get(bc.atom2Number) : pAtomMap.get(bc.atom2Number);
-      const molIdx = (bc.moleculeIndex || 1) - 1;
+      const corr1 = isBroken ? corrByReactantAtomNum.get(bc.atom1Number) : corrByProductAtomNum.get(bc.atom1Number);
+      const corr2 = isBroken ? corrByReactantAtomNum.get(bc.atom2Number) : corrByProductAtomNum.get(bc.atom2Number);
+
+      const rA1 = rAtomMap.get(bc.atom1Number);
+      const rA2 = rAtomMap.get(bc.atom2Number);
+      const pA1 = pAtomMap.get(bc.atom1Number);
+      const pA2 = pAtomMap.get(bc.atom2Number);
+
+      const atom1Obj = corr1 ? { ...corr1 } : {
+        ID: bc.atom1Number - 1,
+        Name: null,
+        ReactantPosition: isBroken ? ((rA1?.moleculeIndex || 1) - 1) : 0,
+        ProductPosition: !isBroken ? ((pA1?.moleculeIndex || 1) - 1) : 0,
+        Reactant: {
+          ID: isBroken ? (bc.atom1Number - 1) : 0,
+          Name: null,
+          MoleculeNumber: isBroken ? ((rA1?.moleculeIndex || 1) - 1) : 0,
+          AtomNumber: isBroken && rA1?.molAtomIndex !== undefined ? (rA1.molAtomIndex - 1) : 0
+        },
+        Product: {
+          ID: !isBroken ? (bc.atom1Number - 1) : 0,
+          Name: null,
+          MoleculeNumber: !isBroken ? ((pA1?.moleculeIndex || 1) - 1) : 0,
+          AtomNumber: !isBroken && pA1?.molAtomIndex !== undefined ? (pA1.molAtomIndex - 1) : 0
+        }
+      };
+
+      const atom2Obj = corr2 ? { ...corr2 } : {
+        ID: bc.atom2Number - 1,
+        Name: null,
+        ReactantPosition: isBroken ? ((rA2?.moleculeIndex || 1) - 1) : 0,
+        ProductPosition: !isBroken ? ((pA2?.moleculeIndex || 1) - 1) : 0,
+        Reactant: {
+          ID: isBroken ? (bc.atom2Number - 1) : 0,
+          Name: null,
+          MoleculeNumber: isBroken ? ((rA2?.moleculeIndex || 1) - 1) : 0,
+          AtomNumber: isBroken && rA2?.molAtomIndex !== undefined ? (rA2.molAtomIndex - 1) : 0
+        },
+        Product: {
+          ID: !isBroken ? (bc.atom2Number - 1) : 0,
+          Name: null,
+          MoleculeNumber: !isBroken ? ((pA2?.moleculeIndex || 1) - 1) : 0,
+          AtomNumber: !isBroken && pA2?.molAtomIndex !== undefined ? (pA2.molAtomIndex - 1) : 0
+        }
+      };
 
       return {
         ID: idx,
         Name: patternName,
         Type: bc.type,
-        Atom1: {
-          ID: bc.atom1Number - 1,
-          Name: null,
-          ReactantPosition: 0,
-          ProductPosition: 0,
-          [isBroken ? 'Reactant' : 'Product']: {
-            ID: bc.atom1Number - 1,
-            Name: null,
-            MoleculeNumber: molIdx,
-            AtomNumber: a1?.molAtomIndex !== undefined ? a1.molAtomIndex - 1 : (bc.atom1Number - 1)
-          }
-        },
-        Atom2: {
-          ID: bc.atom2Number - 1,
-          Name: null,
-          ReactantPosition: 0,
-          ProductPosition: 0,
-          [isBroken ? 'Reactant' : 'Product']: {
-            ID: bc.atom2Number - 1,
-            Name: null,
-            MoleculeNumber: molIdx,
-            AtomNumber: a2?.molAtomIndex !== undefined ? a2.molAtomIndex - 1 : (bc.atom2Number - 1)
-          }
-        }
+        Atom1: atom1Obj,
+        Atom2: atom2Obj
       };
     });
 
