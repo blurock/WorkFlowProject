@@ -3789,23 +3789,356 @@ app.post('/api/db/searchRxnPatternsByCenter', authenticateUser, async (req, res)
   }
 });
 
-app.post('/api/db/delete', authenticateUser, async (req, res) => {
+/**
+ * Check dependencies for a catalog object before deletion or for general inspection.
+ * POST /api/db/dependencies
+ */
+app.post('/api/db/dependencies', authenticateUser, async (req, res) => {
   try {
-    const { dbName, key } = req.body;
-    const uid = resolveAuthorizedTargetUid(req, req.body.uid, true);
+    const { dbName, key, keyId } = req.body;
+    const uid = resolveAuthorizedTargetUid(req, req.body.uid, false);
 
-    if (!dbName || !key) {
-      return res.status(400).json({ error: 'Missing required parameters: dbName, key' });
+    if (!dbName || (!key && keyId === undefined)) {
+      return res.status(400).json({ error: 'Missing required parameters: dbName, key/keyId' });
     }
-    const docPath = `users/${uid}/databases/${dbName}/records/${key}`;
-    await firestore.doc(docPath).delete();
-    console.log(`[Firestore DB Delete] Deleted record: ${docPath}`);
-    return res.json({ status: 'OK', path: docPath });
+
+    const keyStr = key ? String(key).trim() : '';
+    const keyNum = keyId !== undefined ? Number(keyId) : (!isNaN(Number(key)) ? Number(key) : null);
+
+    // 1. Locate target record to extract both canonical Name and ID
+    const recordsCol = firestore.collection(`users/${uid}/databases/${dbName}/records`);
+    let targetDocData = null;
+
+    if (keyStr) {
+      const directSnap = await recordsCol.doc(keyStr).get();
+      if (directSnap.exists) {
+        targetDocData = directSnap.data();
+      }
+    }
+    if (!targetDocData && keyNum !== null) {
+      let q = await recordsCol.where('ID', '==', keyNum).limit(1).get();
+      if (q.empty) q = await recordsCol.where('keyId', '==', keyNum).limit(1).get();
+      if (!q.empty) targetDocData = q.docs[0].data();
+    }
+    if (!targetDocData && keyStr) {
+      let q = await recordsCol.where('Name', '==', keyStr).limit(1).get();
+      if (q.empty) q = await recordsCol.where('key', '==', keyStr).limit(1).get();
+      if (!q.empty) targetDocData = q.docs[0].data();
+    }
+
+    const targetName = targetDocData?.Name || targetDocData?.key || keyStr;
+    const targetId = Number(targetDocData?.ID || targetDocData?.keyId || keyNum || 0);
+
+    const dependencies = [];
+    const normalizedDb = dbName.toLowerCase().replace(/[^a-z]/g, '');
+
+    // Case A: Substructures
+    if (normalizedDb === 'substructures' || normalizedDb === 'substructure') {
+      // 1. Check ReactionPatterns
+      const rxnPatSnap = await firestore.collection(`users/${uid}/databases/ReactionPatterns/records`).get();
+      rxnPatSnap.forEach(doc => {
+        const d = doc.data();
+        let matched = false;
+        let role = 'Reaction Pattern Reference';
+
+        // Check Reactants
+        if (Array.isArray(d.Reactants)) {
+          if (d.Reactants.some(r => r === targetName || r === targetId || String(r) === String(targetId) || r?.name === targetName || r?.id === targetId)) {
+            matched = true;
+            role = 'Reactant Substructure';
+          }
+        }
+        // Check Products
+        if (!matched && Array.isArray(d.Products)) {
+          if (d.Products.some(p => p === targetName || p === targetId || String(p) === String(targetId) || p?.name === targetName || p?.id === targetId)) {
+            matched = true;
+            role = 'Product Substructure';
+          }
+        }
+        // Check generic string references
+        if (!matched) {
+          const raw = d.rawBlock || d.rawString || d.equation || '';
+          if (raw && (raw.includes(targetName) || (targetId > 0 && raw.includes(String(targetId))))) {
+            matched = true;
+            role = 'Substructure Equation Match';
+          }
+        }
+
+        if (matched) {
+          dependencies.push({
+            type: 'ReactionPattern',
+            name: d.Name || d.key || doc.id,
+            id: Number(d.ID || d.keyId || 0),
+            role
+          });
+        }
+      });
+
+      // 2. Check Molecules
+      const molSnap = await firestore.collection(`users/${uid}/databases/Molecules/records`).get();
+      molSnap.forEach(doc => {
+        const d = doc.data();
+        const subs = d.substructures || d.Substructures || d.substructureIds || [];
+        if (Array.isArray(subs) && subs.some(s => s === targetName || s === targetId || String(s) === String(targetId) || s?.name === targetName || s?.id === targetId)) {
+          dependencies.push({
+            type: 'Molecule',
+            name: d.Name || d.key || doc.id,
+            id: Number(d.ID || d.keyId || 0),
+            role: 'Constituent Substructure'
+          });
+        }
+      });
+    }
+
+    // Case B: ReactionPatterns
+    else if (normalizedDb === 'reactionpatterns' || normalizedDb === 'reactionpattern' || normalizedDb === 'rxnpattern' || normalizedDb === 'rxnpatterns') {
+      // 1. Check MechanismPathways
+      const pathSnap = await firestore.collection(`users/${uid}/databases/MechanismPathways/records`).get();
+      pathSnap.forEach(doc => {
+        const d = doc.data();
+        let matched = false;
+        if (Array.isArray(d.steps)) {
+          matched = d.steps.some(st => {
+            const patNames = Array.isArray(st.patterns) ? st.patterns : (st.pattern ? [st.pattern] : []);
+            return patNames.some(p => p === targetName || p === targetId || p?.name === targetName || p?.id === targetId);
+          });
+        }
+        if (!matched && Array.isArray(d.reactionPatterns)) {
+          matched = d.reactionPatterns.some(p => p === targetName || p === targetId);
+        }
+        if (!matched) {
+          const raw = d.lsrContent || d.rawString || '';
+          if (raw && (raw.includes(targetName) || (targetId > 0 && raw.includes(String(targetId))))) {
+            matched = true;
+          }
+        }
+        if (matched) {
+          dependencies.push({
+            type: 'MechanismPathway',
+            name: d.name || d.Name || d.key || doc.id,
+            id: Number(d.id || d.ID || d.keyId || 0),
+            role: 'Mechanism Pathway Step'
+          });
+        }
+      });
+
+      // 2. Check top-level mechanisms collection
+      const mechSnap = await firestore.collection(`users/${uid}/mechanisms`).get();
+      mechSnap.forEach(doc => {
+        const d = doc.data();
+        const raw = JSON.stringify(d);
+        if (raw.includes(targetName) || (targetId > 0 && raw.includes(String(targetId)))) {
+          dependencies.push({
+            type: 'Mechanism',
+            name: doc.id,
+            id: 0,
+            role: 'Mechanism Definition'
+          });
+        }
+      });
+    }
+
+    // Case C: Molecules
+    else if (normalizedDb === 'molecules' || normalizedDb === 'molecule') {
+      // 1. Check Reactions
+      const rxnSnap = await firestore.collection(`users/${uid}/databases/Reactions/records`).get();
+      rxnSnap.forEach(doc => {
+        const d = doc.data();
+        const rList = Array.isArray(d.Reactants) ? d.Reactants : [];
+        const pList = Array.isArray(d.Products) ? d.Products : [];
+        if (rList.includes(targetName) || pList.includes(targetName) || (targetId > 0 && (rList.includes(targetId) || pList.includes(targetId)))) {
+          dependencies.push({
+            type: 'Reaction',
+            name: d.Name || d.key || doc.id,
+            id: Number(d.ID || d.keyId || 0),
+            role: 'Reactant/Product Molecule'
+          });
+        }
+      });
+
+      // 2. Check MechanismPathways
+      const pathSnap = await firestore.collection(`users/${uid}/databases/MechanismPathways/records`).get();
+      pathSnap.forEach(doc => {
+        const d = doc.data();
+        const raw = JSON.stringify(d);
+        if (raw.includes(targetName) || (targetId > 0 && raw.includes(String(targetId)))) {
+          dependencies.push({
+            type: 'MechanismPathway',
+            name: d.name || d.Name || d.key || doc.id,
+            id: Number(d.id || d.ID || 0),
+            role: 'Pathway Molecule Reference'
+          });
+        }
+      });
+    }
+
+    // Case D: Reactions
+    else if (normalizedDb === 'reactions' || normalizedDb === 'reaction') {
+      const pathSnap = await firestore.collection(`users/${uid}/databases/MechanismPathways/records`).get();
+      pathSnap.forEach(doc => {
+        const d = doc.data();
+        const raw = JSON.stringify(d);
+        if (raw.includes(targetName) || (targetId > 0 && raw.includes(String(targetId)))) {
+          dependencies.push({
+            type: 'MechanismPathway',
+            name: d.name || d.Name || d.key || doc.id,
+            id: Number(d.id || d.ID || 0),
+            role: 'Pathway Reaction Reference'
+          });
+        }
+      });
+    }
+
+    console.log(`[Firestore DB Dependencies] dbName='${dbName}', key='${targetName}', id=${targetId}, count=${dependencies.length}, uid='${uid}'`);
+    return res.json({
+      success: true,
+      hasDependencies: dependencies.length > 0,
+      count: dependencies.length,
+      targetName,
+      targetId,
+      dependencies
+    });
   } catch (err) {
-    console.error('[Firestore DB Delete Error]', err.message);
+    console.error('[Firestore DB Dependencies Error]', err.message);
     return res.status(err.statusCode || 500).json({ error: err.message });
   }
 });
+
+/**
+ * Safe Record Deletion + Classification Node Cleanup
+ */
+async function executeRecordDeletion(req, res) {
+  try {
+    const { dbName, key, keyId } = req.body;
+    const uid = resolveAuthorizedTargetUid(req, req.body.uid || req.query.uid, true);
+
+    if (!dbName || (!key && keyId === undefined)) {
+      return res.status(400).json({ error: 'Missing required parameters: dbName, key/keyId' });
+    }
+
+    const keyStr = key ? String(key).trim() : '';
+    const keyNum = keyId !== undefined ? Number(keyId) : (!isNaN(Number(key)) ? Number(key) : null);
+
+    const recordsCol = firestore.collection(`users/${uid}/databases/${dbName}/records`);
+    let primaryDoc = null;
+
+    if (keyStr) {
+      const directSnap = await recordsCol.doc(keyStr).get();
+      if (directSnap.exists) {
+        primaryDoc = directSnap;
+      }
+    }
+    if (!primaryDoc && keyNum !== null) {
+      let q = await recordsCol.where('ID', '==', keyNum).limit(1).get();
+      if (q.empty) q = await recordsCol.where('keyId', '==', keyNum).limit(1).get();
+      if (!q.empty) primaryDoc = q.docs[0];
+    }
+    if (!primaryDoc && keyStr) {
+      let q = await recordsCol.where('Name', '==', keyStr).limit(1).get();
+      if (q.empty) q = await recordsCol.where('key', '==', keyStr).limit(1).get();
+      if (!q.empty) primaryDoc = q.docs[0];
+    }
+
+    if (!primaryDoc) {
+      return res.status(404).json({ error: `Record not found in ${dbName}: key='${keyStr}', keyId='${keyNum}'` });
+    }
+
+    const data = primaryDoc.data();
+    const targetName = String(data.Name || data.key || primaryDoc.id);
+    const targetId = Number(data.ID || data.keyId || keyNum || 0);
+
+    // Classification lookup
+    const classMap = {
+      'substructures': 'DB-Index-SubStructureIDs',
+      'substructure': 'DB-Index-SubStructureIDs',
+      'molecules': 'DB-Index-MoleculeIDs',
+      'molecule': 'DB-Index-MoleculeIDs',
+      'reactionpatterns': 'DB-Index-PatternIDs',
+      'reactionpattern': 'DB-Index-PatternIDs',
+      'rxnpatterns': 'DB-Index-PatternIDs',
+      'rxnpattern': 'DB-Index-PatternIDs',
+      'reactions': 'DB-Index-ReactionIDs',
+      'reaction': 'DB-Index-ReactionIDs'
+    };
+    const normalizedDb = dbName.toLowerCase().replace(/[^a-z]/g, '');
+    const classificationName = classMap[normalizedDb];
+
+    const classOps = [];
+    if (classificationName) {
+      const classCol = firestore.collection(`users/${uid}/classifications/database/${classificationName}`);
+      const classSnap = await classCol.get();
+
+      for (const cDoc of classSnap.docs) {
+        const cData = cDoc.data();
+        const keys = Array.isArray(cData.Keys) ? cData.Keys : [];
+        const matchIdx = keys.findIndex(k =>
+          (targetId > 0 && (k.ID === targetId || k.keyId === targetId)) ||
+          (k.Name && k.Name.toLowerCase() === targetName.toLowerCase())
+        );
+
+        if (matchIdx !== -1) {
+          const updatedKeys = keys.filter((_, idx) => idx !== matchIdx);
+          classOps.push({
+            docRef: cDoc.ref,
+            docKey: cDoc.id,
+            updatedKeys,
+            shouldDelete: updatedKeys.length === 0
+          });
+        }
+      }
+    }
+
+    // Check for alias doc (e.g. integer doc if primary was string, or vice versa)
+    let aliasDocRef = null;
+    if (targetId > 0 && String(targetId) !== primaryDoc.id) {
+      const aSnap = await recordsCol.doc(String(targetId)).get();
+      if (aSnap.exists) {
+        aliasDocRef = aSnap.ref;
+      }
+    }
+
+    // Atomic batch delete
+    const batch = firestore.batch();
+    batch.delete(primaryDoc.ref);
+    if (aliasDocRef) {
+      batch.delete(aliasDocRef);
+    }
+
+    for (const op of classOps) {
+      if (op.shouldDelete) {
+        console.log(`[Firestore DB Delete] Pruning empty classification node: ${op.docRef.path}`);
+        batch.delete(op.docRef);
+      } else {
+        console.log(`[Firestore DB Delete] Updating classification node (keys remaining: ${op.updatedKeys.length}): ${op.docRef.path}`);
+        batch.update(op.docRef, {
+          Keys: op.updatedKeys,
+          NumberOfKeys: op.updatedKeys.length,
+          updatedAt: new Date().toISOString()
+        });
+      }
+    }
+
+    await batch.commit();
+
+    console.log(`[Firestore DB Delete Success] Deleted '${targetName}' (ID: ${targetId}) from '${dbName}'. Classification nodes updated: ${classOps.filter(o => !o.shouldDelete).length}, pruned: ${classOps.filter(o => o.shouldDelete).length}`);
+
+    return res.json({
+      success: true,
+      deletedKey: targetName,
+      deletedId: targetId,
+      dbName,
+      classificationUpdated: classOps.filter(o => !o.shouldDelete).map(o => o.docKey),
+      classificationPruned: classOps.filter(o => o.shouldDelete).map(o => o.docKey)
+    });
+  } catch (err) {
+    console.error('[Firestore DB DeleteRecord Error]', err.message);
+    return res.status(err.statusCode || 500).json({ error: err.message });
+  }
+}
+
+app.post('/api/db/deleteRecord', authenticateUser, executeRecordDeletion);
+app.delete('/api/db/record', authenticateUser, executeRecordDeletion);
+app.post('/api/db/delete', authenticateUser, executeRecordDeletion);
 
 /**
  * Atomic Unique ID Generator

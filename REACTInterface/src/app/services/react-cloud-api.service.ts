@@ -96,6 +96,31 @@ export interface ApiRunCombineSubmechanismResponse {
   files?: MechanismStorageFile[];
 }
 
+export interface DependencyItem {
+  type: string;
+  name: string;
+  id: number;
+  role: string;
+}
+
+export interface DependencyCheckResponse {
+  success: boolean;
+  hasDependencies: boolean;
+  count: number;
+  targetName: string;
+  targetId: number;
+  dependencies: DependencyItem[];
+}
+
+export interface DeleteRecordResponse {
+  success: boolean;
+  deletedKey: string;
+  deletedId: number;
+  dbName: string;
+  classificationUpdated: string[];
+  classificationPruned: string[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -572,6 +597,52 @@ export class ReactCloudApiService {
       `${this.baseUrl}/api/db/searchRxnPatternsByCenter`,
       params
     );
+  }
+
+  /**
+   * Check dependencies for a catalog object before deletion or for general inspection.
+   */
+  public checkDatabaseDependencies(dbName: string, key: string, keyId?: number): Observable<DependencyCheckResponse> {
+    return this.http.post<DependencyCheckResponse>(`${this.baseUrl}/api/db/dependencies`, {
+      dbName,
+      key,
+      keyId
+    });
+  }
+
+  /**
+   * Safely deletes a database record and updates/prunes its entry in the classification tree.
+   */
+  public deleteDatabaseRecord(dbName: string, key: string, keyId?: number): Observable<DeleteRecordResponse> {
+    return this.http.post<DeleteRecordResponse>(`${this.baseUrl}/api/db/deleteRecord`, {
+      dbName,
+      key,
+      keyId
+    });
+  }
+
+  /**
+   * Stores or updates a database record in Firestore via orchestrator API.
+   */
+  public storeDatabaseRecord(dbName: string, key: string, data: any, keyId?: number): Observable<{ status: string; path?: string }> {
+    return this.http.post<{ status: string; path?: string }>(`${this.baseUrl}/api/db/store`, {
+      dbName,
+      key,
+      keyId: keyId || (data?.ID || data?.keyId || 0),
+      jsonStr: typeof data === 'string' ? data : JSON.stringify(data)
+    });
+  }
+
+  /**
+   * Fetches a database record from Firestore via orchestrator API.
+   */
+  public fetchDatabaseRecord(dbName: string, key: string | number, type: 'string' | 'int' = 'string'): Observable<{ found: boolean; data?: any }> {
+    const isNum = type === 'int' || (typeof key === 'number') || (!isNaN(Number(key)) && Number.isInteger(Number(key)));
+    return this.http.post<{ found: boolean; data?: any }>(`${this.baseUrl}/api/db/fetch`, {
+      dbName,
+      type: isNum ? 'int' : 'string',
+      key: isNum ? Number(key) : String(key)
+    });
   }
 
   /**

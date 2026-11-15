@@ -1,0 +1,137 @@
+<div class="atom-correspondence-container">
+  <!-- Section 1: Reactant to Product Atom Mapping -->
+  <div class="table-header-row mb-2">
+    <h5 class="table-title mb-0">{{ title }}</h5>
+    <div class="unmatched-badge" [class.has-unmatched]="unmatchedAtomsCount > 0" *ngIf="correspondenceRows.length > 0">
+      <mat-icon>{{ unmatchedAtomsCount === 0 ? 'check_circle' : 'warning' }}</mat-icon>
+      <span>Unmatched Reactant Atoms: {{ unmatchedAtomsCount }}</span>
+    </div>
+  </div>
+
+  <div class="table-responsive-wrapper mb-3" *ngIf="correspondenceRows.length > 0; else noCorrespondences">
+    <table mat-table [dataSource]="correspondenceRows" class="mat-elevation-z1 correspondence-table mb-2">
+      <!-- Reactant Atom Column -->
+      <ng-container matColumnDef="reactantAtom">
+        <th mat-header-cell *matHeaderCellDef class="table-header-cell">Reactant Atom</th>
+        <td mat-cell *matCellDef="let row" class="table-body-cell">
+          <strong>Atom #{{ row.reactantAtomNumber }}</strong>
+          <span class="text-muted ms-1 small">(Reactant #{{ row.reactantMoleculeIndex || 1 }})</span>
+        </td>
+      </ng-container>
+
+      <!-- Atom Type Column -->
+      <ng-container matColumnDef="atomType">
+        <th mat-header-cell *matHeaderCellDef class="table-header-cell text-center">Atom Type</th>
+        <td mat-cell *matCellDef="let row" class="table-body-cell text-center">
+          <span class="atom-type-badge">{{ row.reactantSymbol }}</span>
+        </td>
+      </ng-container>
+
+      <!-- Product Atom Dropdown Column -->
+      <ng-container matColumnDef="productAtomDropdown">
+        <th mat-header-cell *matHeaderCellDef class="table-header-cell">Mapped Product Atom</th>
+        <td mat-cell *matCellDef="let row" class="table-body-cell dropdown-cell">
+          <ng-container *ngIf="!readOnly; else readOnlyAtom">
+            <mat-select
+              [(ngModel)]="row.productAtomNumber"
+              (selectionChange)="onCorrespondenceSelectChange()"
+              class="table-select"
+              [placeholder]="'Select product atom'">
+              <mat-option [value]="null">
+                <em>-- Unmapped --</em>
+              </mat-option>
+              <mat-option *ngFor="let cand of row.candidateProductAtoms" [value]="cand.atomNumber">
+                {{ cand.label }}
+              </mat-option>
+            </mat-select>
+          </ng-container>
+          <ng-template #readOnlyAtom>
+            <span *ngIf="row.productAtomNumber !== null" class="product-atom-readonly">
+              Atom #{{ row.productAtomNumber }}
+            </span>
+            <span *ngIf="row.productAtomNumber === null" class="text-muted small">
+              -- Unmapped --
+            </span>
+          </ng-template>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="correspondenceColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: correspondenceColumns;"></tr>
+    </table>
+  </div>
+
+  <ng-template #noCorrespondences>
+    <div class="empty-state-box mb-3">
+      <mat-icon>info</mat-icon>
+      <span>No atom correspondence mappings available.</span>
+    </div>
+  </ng-template>
+
+  <!-- Section 2: Bond Breaking / Formation Changes -->
+  <h5 class="table-title mt-4 mb-2">Bond Breaking / Formation Changes</h5>
+  <div class="table-responsive-wrapper mb-3" *ngIf="bondChangeRows.length > 0; else noBondChanges">
+    <table mat-table [dataSource]="bondChangeRows" class="mat-elevation-z1 bond-changes-table">
+      <!-- Molecule Column -->
+      <ng-container matColumnDef="molecule">
+        <th mat-header-cell *matHeaderCellDef class="table-header-cell">Molecule</th>
+        <td mat-cell *matCellDef="let row" class="table-body-cell">
+          Molecule #{{ row.moleculeIndex }}
+          <span class="text-muted ms-1 small">({{ row.type === 4 ? 'Reactant' : 'Product' }})</span>
+        </td>
+      </ng-container>
+
+      <!-- Atom X Column -->
+      <ng-container matColumnDef="atomX">
+        <th mat-header-cell *matHeaderCellDef class="table-header-cell text-center">Atom X</th>
+        <td mat-cell *matCellDef="let row" class="table-body-cell text-center">
+          <span class="atom-badge">#{{ row.atom1Number }}</span>
+        </td>
+      </ng-container>
+
+      <!-- Atom Y Column -->
+      <ng-container matColumnDef="atomY">
+        <th mat-header-cell *matHeaderCellDef class="table-header-cell text-center">Atom Y</th>
+        <td mat-cell *matCellDef="let row" class="table-body-cell text-center">
+          <span class="atom-badge">#{{ row.atom2Number }}</span>
+        </td>
+      </ng-container>
+
+      <!-- Change Type Column -->
+      <ng-container matColumnDef="changeType">
+        <th mat-header-cell *matHeaderCellDef class="table-header-cell text-center">Bond Change Type</th>
+        <td mat-cell *matCellDef="let row" class="table-body-cell text-center">
+          <span class="bond-type-badge" [class.broken]="row.type === 4" [class.formed]="row.type === 104">
+            {{ row.type === 4 ? '4 (Broken Bond)' : '104 (Formed Bond)' }}
+          </span>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="bondChangesColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: bondChangesColumns;"></tr>
+    </table>
+  </div>
+
+  <ng-template #noBondChanges>
+    <div class="empty-state-box mb-3">
+      <mat-icon>check_circle_outline</mat-icon>
+      <span>No bond breaking or formation changes detected.</span>
+    </div>
+  </ng-template>
+
+  <!-- Store Change Action Button -->
+  <div class="store-actions-bar mt-3 pt-2" *ngIf="showStoreButton">
+    <button
+      mat-raised-button
+      color="primary"
+      class="store-change-btn"
+      (click)="onStore()"
+      [disabled]="isSaving || correspondenceRows.length === 0"
+      matTooltip="Store modified reaction pattern correspondences to Firebase">
+      <mat-icon *ngIf="!isSaving">save</mat-icon>
+      <mat-progress-spinner *ngIf="isSaving" diameter="18" mode="indeterminate" class="spinner-inline me-1"></mat-progress-spinner>
+      <span>{{ isSaving ? 'Storing Changes...' : storeButtonLabel }}</span>
+    </button>
+  </div>
+</div>
+

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { firstValueFrom, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from './auth.service';
+import { isGenericAtomSymbol, normalizeAtomSymbol } from './atom-correspondence.service';
 
 export interface SubstructureAtom {
   id: number; // 0-based
@@ -83,6 +84,20 @@ export class ReactionPatternAlignmentService {
   private dbPatternCache = new Map<string, any>();
 
   /**
+   * Clears in-memory substructure and reaction pattern caches (all or specific key).
+   */
+  public clearCache(key?: string): void {
+    if (key) {
+      const keyStr = String(key).trim();
+      this.substructureCache.delete(keyStr);
+      this.dbPatternCache.delete(keyStr);
+    } else {
+      this.substructureCache.clear();
+      this.dbPatternCache.clear();
+    }
+  }
+
+  /**
    * Translates an atomic number to a standard chemical symbol.
    */
   public atomicNumberToSymbol(atomicNumber: number): string {
@@ -107,6 +122,9 @@ export class ReactionPatternAlignmentService {
       case 18: return 'Ar';
       case 35: return 'Br';
       case 53: return 'I';
+      case 221: return 'Q';
+      case 320: return 'R';
+      case 382: return 'X';
       case 0: return 'R';
       default: return 'R';
     }
@@ -436,13 +454,14 @@ export class ReactionPatternAlignmentService {
       atomTokens.forEach((tok, aIdx) => {
         const globalRId = parseInt(tok, 10);
         const rInfo = globalReactantAtoms.get(globalRId);
-        const pSym = pMol.atoms[aIdx].symbol.toUpperCase();
+        const pSym = pMol.atoms[aIdx].symbol;
         const rSym = rInfo ? rInfo.symbol : '?';
+        const pNorm = normalizeAtomSymbol(pSym).toUpperCase();
+        const rNorm = normalizeAtomSymbol(rSym).toUpperCase();
 
         const isMatch = rInfo !== undefined && (
-          rSym === pSym ||
-          (rSym === 'R' && (pSym === 'R' || pSym === 'Q')) ||
-          (pSym === 'R' && (rSym === 'R' || rSym === 'Q'))
+          rNorm === pNorm ||
+          (isGenericAtomSymbol(rNorm) && isGenericAtomSymbol(pNorm))
         );
 
         if (!isMatch) {
@@ -587,10 +606,11 @@ export class ReactionPatternAlignmentService {
     });
 
     const isSymbolCompatible = (rSym: string, pSym: string): boolean => {
+      const rNorm = normalizeAtomSymbol(rSym).toUpperCase();
+      const pNorm = normalizeAtomSymbol(pSym).toUpperCase();
       return (
-        rSym === pSym ||
-        (rSym === 'R' && (pSym === 'R' || pSym === 'Q')) ||
-        (pSym === 'R' && (rSym === 'R' || rSym === 'Q'))
+        rNorm === pNorm ||
+        (isGenericAtomSymbol(rNorm) && isGenericAtomSymbol(pNorm))
       );
     };
 

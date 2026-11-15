@@ -57,44 +57,23 @@ export interface RateConstantAuditItem {
   hasWarnings: boolean;
 }
 
-export interface AtomInfo {
-  atomNumber: number;
-  molAtomIndex?: number;
-  symbol: string;
-  isGeneric: boolean;
-  moleculeIndex: number;
-  isReactant: boolean;
-  atomMapNumber?: number;
-  x?: number;
-  y?: number;
-  z?: number;
-  radical?: number;
-}
+import {
+  AtomCorrespondenceService,
+  AtomInfo,
+  BondInfo,
+  AtomCorrespondenceRow,
+  BondChangeRow,
+  CandidateProductAtom
+} from '../../services/atom-correspondence.service';
+import { AtomCorrespondenceTableComponent } from '../shared/atom-correspondence-table/atom-correspondence-table.component';
 
-export interface BondInfo {
-  moleculeIndex: number;
-  isReactant: boolean;
-  atom1MolIndex: number;
-  atom2MolIndex: number;
-  atom1Number: number;
-  atom2Number: number;
-  bondType: number;
-}
-
-export interface AtomCorrespondenceRow {
-  reactantAtomNumber: number;
-  reactantSymbol: string;
-  reactantMoleculeIndex?: number;
-  productAtomNumber: number | null;
-  candidateProductAtoms: { atomNumber: number; label: string }[];
-}
-
-export interface BondChangeRow {
-  moleculeIndex: number;
-  atom1Number: number;
-  atom2Number: number;
-  type: number; // 4 = broken, 104 = formed
-}
+export type {
+  AtomInfo,
+  BondInfo,
+  AtomCorrespondenceRow,
+  BondChangeRow,
+  CandidateProductAtom
+};
 
 export interface RGroupRow {
   groupIndex: number;
@@ -160,7 +139,8 @@ export interface RxnPatternItem {
     MatExpansionModule,
     MatCardModule,
     MatSnackBarModule,
-    KetcherViewerComponent
+    KetcherViewerComponent,
+    AtomCorrespondenceTableComponent
   ],
   templateUrl: './general-rxn-pat-generator.component.html',
   styleUrls: ['./general-rxn-pat-generator.component.scss']
@@ -297,6 +277,7 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
     private snackBar: MatSnackBar,
     private chemParser: ChemStructureParserService,
     private substructuresService: SubstructuresService,
+    private atomCorrService: AtomCorrespondenceService,
     private dialog: MatDialog,
     @Optional() public dialogRef?: MatDialogRef<GeneralRxnPatGeneratorComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: { initialRootName?: string }
@@ -2056,132 +2037,12 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
   // --- Helper Routines for Correspondences & Tables ---
 
   private buildCorrespondencesTable(): void {
-    const assignedProductAtomNums = new Set<number>();
-    const resultMap = new Map<number, number>();
-
-    // 1. Explicit atom map numbers take highest priority
-    this.reactantAtoms.forEach(rAtom => {
-      if (rAtom.atomMapNumber !== undefined) {
-        const cand = this.productAtoms.find(p => p.atomMapNumber !== undefined && p.atomMapNumber === rAtom.atomMapNumber && !assignedProductAtomNums.has(p.atomNumber));
-        if (cand) {
-          resultMap.set(rAtom.atomNumber, cand.atomNumber);
-          assignedProductAtomNums.add(cand.atomNumber);
-        }
-      }
-    });
-
-    const getCandidateScore = (rAtom: AtomInfo, cand: AtomInfo): number => {
-      let score = 0;
-      const rNeighbors = this.reactantBonds
-        .filter(b => b.atom1Number === rAtom.atomNumber || b.atom2Number === rAtom.atomNumber)
-        .map(b => (b.atom1Number === rAtom.atomNumber ? b.atom2Number : b.atom1Number));
-
-      const pNeighbors = this.productBonds
-        .filter(b => b.atom1Number === cand.atomNumber || b.atom2Number === cand.atomNumber)
-        .map(b => (b.atom1Number === cand.atomNumber ? b.atom2Number : b.atom1Number));
-
-      rNeighbors.forEach(rn => {
-        const matchedP = resultMap.get(rn);
-        if (matchedP !== undefined && pNeighbors.includes(matchedP)) {
-          score += 10; // Preserved bond to matched neighbor
-        }
-      });
-
-      if (cand.moleculeIndex === rAtom.moleculeIndex) {
-        score += 1;
-      }
-      return score;
-    };
-
-    // 2. Match non-H atoms first (C, R, O, etc.)
-    const nonHAtoms = this.reactantAtoms.filter(a => a.symbol !== 'H' && !resultMap.has(a.atomNumber));
-    nonHAtoms.forEach(rAtom => {
-      const allCandidates = this.productAtoms.filter(pAtom =>
-        pAtom.symbol === rAtom.symbol || (rAtom.isGeneric && pAtom.isGeneric)
-      );
-      let available = allCandidates.filter(p => !assignedProductAtomNums.has(p.atomNumber));
-      if (available.length === 0) available = allCandidates;
-
-      let bestCand = available[0];
-      let bestScore = -1;
-      available.forEach(cand => {
-        const s = getCandidateScore(rAtom, cand);
-        if (s > bestScore) {
-          bestScore = s;
-          bestCand = cand;
-        }
-      });
-      if (bestCand) {
-        resultMap.set(rAtom.atomNumber, bestCand.atomNumber);
-        assignedProductAtomNums.add(bestCand.atomNumber);
-      }
-    });
-
-    // 3. Match H atoms, prioritizing preserved bonds to existing neighbors
-    const hAtoms = this.reactantAtoms.filter(a => a.symbol === 'H' && !resultMap.has(a.atomNumber));
-    const hScores = hAtoms.map(rAtom => {
-      const allCandidates = this.productAtoms.filter(p => p.symbol === 'H' && !assignedProductAtomNums.has(p.atomNumber));
-      let maxS = 0;
-      allCandidates.forEach(cand => {
-        const s = getCandidateScore(rAtom, cand);
-        if (s > maxS) maxS = s;
-      });
-      return { rAtom, maxS };
-    }).sort((a, b) => b.maxS - a.maxS);
-
-    hScores.forEach(({ rAtom }) => {
-      const available = this.productAtoms.filter(p => p.symbol === 'H' && !assignedProductAtomNums.has(p.atomNumber));
-      let bestCand = available[0];
-      let bestScore = -1;
-      available.forEach(cand => {
-        const s = getCandidateScore(rAtom, cand);
-        if (s > bestScore) {
-          bestScore = s;
-          bestCand = cand;
-        }
-      });
-      if (bestCand) {
-        resultMap.set(rAtom.atomNumber, bestCand.atomNumber);
-        assignedProductAtomNums.add(bestCand.atomNumber);
-      }
-    });
-
-    // 4. Fallback for any unassigned
-    this.reactantAtoms.forEach(rAtom => {
-      if (!resultMap.has(rAtom.atomNumber)) {
-        const allCandidates = this.productAtoms.filter(pAtom =>
-          pAtom.symbol === rAtom.symbol || (rAtom.isGeneric && pAtom.isGeneric)
-        );
-        let available = allCandidates.filter(p => !assignedProductAtomNums.has(p.atomNumber));
-        if (available.length === 0) available = allCandidates;
-        if (available.length > 0) {
-          resultMap.set(rAtom.atomNumber, available[0].atomNumber);
-          assignedProductAtomNums.add(available[0].atomNumber);
-        }
-      }
-    });
-
-    const numReactants = new Set(this.reactantAtoms.map(a => a.moleculeIndex)).size || 1;
-
-    this.correspondenceRows = this.reactantAtoms.map(rAtom => {
-      const candidates = this.productAtoms
-        .filter(pAtom => pAtom.symbol === rAtom.symbol || (rAtom.isGeneric && pAtom.isGeneric))
-        .map(pAtom => {
-          const pMolDisplay = pAtom.moleculeIndex > numReactants ? (pAtom.moleculeIndex - numReactants) : pAtom.moleculeIndex;
-          return {
-            atomNumber: pAtom.atomNumber,
-            label: `Atom #${pAtom.atomNumber} (${pAtom.symbol}) - Product #${pMolDisplay}`
-          };
-        });
-
-      return {
-        reactantAtomNumber: rAtom.atomNumber,
-        reactantSymbol: rAtom.symbol,
-        reactantMoleculeIndex: rAtom.moleculeIndex,
-        productAtomNumber: resultMap.get(rAtom.atomNumber) || null,
-        candidateProductAtoms: candidates
-      };
-    });
+    this.correspondenceRows = this.atomCorrService.buildInitialCorrespondences(
+      this.reactantAtoms,
+      this.productAtoms,
+      this.reactantBonds,
+      this.productBonds
+    );
   }
 
   public onCorrespondenceChange(): void {
@@ -2189,64 +2050,11 @@ export class GeneralRxnPatGeneratorComponent implements OnInit {
   }
 
   private buildBondChangesTable(): void {
-    this.bondChangeRows = [];
-
-    const rToPMap = new Map<number, number>();
-    const pToRMap = new Map<number, number>();
-
-    this.correspondenceRows.forEach(row => {
-      if (row.productAtomNumber !== null) {
-        rToPMap.set(row.reactantAtomNumber, row.productAtomNumber);
-        pToRMap.set(row.productAtomNumber, row.reactantAtomNumber);
-      }
-    });
-
-    // 1. Broken Bonds in Reactants (Type 4)
-    this.reactantBonds.forEach(rBond => {
-      const pAtom1 = rToPMap.get(rBond.atom1Number);
-      const pAtom2 = rToPMap.get(rBond.atom2Number);
-
-      let bondExistsInProduct = false;
-      if (pAtom1 !== undefined && pAtom2 !== undefined) {
-        bondExistsInProduct = this.productBonds.some(pBond =>
-          (pBond.atom1Number === pAtom1 && pBond.atom2Number === pAtom2) ||
-          (pBond.atom1Number === pAtom2 && pBond.atom2Number === pAtom1)
-        );
-      }
-
-      if (!bondExistsInProduct || rBond.bondType === 4) {
-        this.bondChangeRows.push({
-          moleculeIndex: rBond.moleculeIndex,
-          atom1Number: rBond.atom1Number,
-          atom2Number: rBond.atom2Number,
-          type: 4
-        });
-      }
-    });
-
-    // 2. Formed Bonds in Products (Type 104)
-    this.productBonds.forEach(pBond => {
-      const rAtom1 = pToRMap.get(pBond.atom1Number);
-      const rAtom2 = pToRMap.get(pBond.atom2Number);
-
-      let bondExistsInReactant = false;
-      if (rAtom1 !== undefined && rAtom2 !== undefined) {
-        bondExistsInReactant = this.reactantBonds.some(rBond =>
-          (rBond.atom1Number === rAtom1 && rBond.atom2Number === rAtom2) ||
-          (rBond.atom1Number === rAtom2 && rBond.atom2Number === rAtom1)
-        );
-      }
-
-      if (!bondExistsInReactant || pBond.bondType === 4 || pBond.bondType === 104) {
-        this.bondChangeRows.push({
-          moleculeIndex: pBond.moleculeIndex,
-          atom1Number: pBond.atom1Number,
-          atom2Number: pBond.atom2Number,
-          type: 104
-        });
-      }
-    });
-
+    this.bondChangeRows = this.atomCorrService.buildBondChanges(
+      this.reactantBonds,
+      this.productBonds,
+      this.correspondenceRows
+    );
     this.unmatchedAtomsCount = this.correspondenceRows.filter(r => r.productAtomNumber === null).length;
   }
 

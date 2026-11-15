@@ -245,74 +245,13 @@
               </button>
             </div>
 
-            <!-- Correspondence Table -->
-            <h5>Reactant to Product Atom Mapping</h5>
-            <table mat-table [dataSource]="correspondenceRows" class="mat-elevation-z1 generator-table mb-3">
-              <ng-container matColumnDef="reactantAtom">
-                <th mat-header-cell *matHeaderCellDef>Reactant Atom</th>
-                <td mat-cell *matCellDef="let row">
-                  <strong>Atom #{{ row.reactantAtomNumber }}</strong>
-                  <span class="text-muted ms-1 small">(Reactant #{{ row.reactantMoleculeIndex || 1 }})</span>
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="atomType">
-                <th mat-header-cell *matHeaderCellDef>Atom Type</th>
-                <td mat-cell *matCellDef="let row"><span class="atom-type-badge">{{ row.reactantSymbol }}</span></td>
-              </ng-container>
-
-              <ng-container matColumnDef="productAtomDropdown">
-                <th mat-header-cell *matHeaderCellDef>Mapped Product Atom</th>
-                <td mat-cell *matCellDef="let row">
-                  <mat-select [(ngModel)]="row.productAtomNumber" (selectionChange)="onCorrespondenceChange()" class="table-select">
-                    <mat-option *ngFor="let cand of row.candidateProductAtoms" [value]="cand.atomNumber">
-                      {{ cand.label }}
-                    </mat-option>
-                  </mat-select>
-                </td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="correspondenceDisplayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: correspondenceDisplayedColumns;"></tr>
-            </table>
-
-            <!-- Bond Changes Table -->
-            <h5>Bond Breaking / Formation Changes</h5>
-            <table mat-table [dataSource]="bondChangeRows" class="mat-elevation-z1 generator-table">
-              <ng-container matColumnDef="molecule">
-                <th mat-header-cell *matHeaderCellDef>Molecule</th>
-                <td mat-cell *matCellDef="let row">
-                  Molecule #{{ row.moleculeIndex }}
-                  <span class="text-muted ms-1 small">({{ row.type === 4 ? 'Reactant' : 'Product' }})</span>
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="atomX">
-                <th mat-header-cell *matHeaderCellDef>Atom X</th>
-                <td mat-cell *matCellDef="let row">Atom #{{ row.atom1Number }}</td>
-              </ng-container>
-
-              <ng-container matColumnDef="atomY">
-                <th mat-header-cell *matHeaderCellDef>Atom Y</th>
-                <td mat-cell *matCellDef="let row">Atom #{{ row.atom2Number }}</td>
-              </ng-container>
-
-              <ng-container matColumnDef="changeType">
-                <th mat-header-cell *matHeaderCellDef>Bond Change Type</th>
-                <td mat-cell *matCellDef="let row">
-                  <span class="bond-type-badge" [class.broken]="row.type === 4" [class.formed]="row.type === 104">
-                    {{ row.type === 4 ? '4 (Broken Bond)' : '104 (Formed Bond)' }}
-                  </span>
-                </td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="bondChangesDisplayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: bondChangesDisplayedColumns;"></tr>
-            </table>
-
-            <div class="unmatched-badge mt-2">
-              <mat-icon>check_circle</mat-icon> Unmatched Reactant Atoms: {{ unmatchedAtomsCount }} (Verified)
-            </div>
+            <!-- Shared Atom Correspondence & Bond Changes Table -->
+            <app-atom-correspondence-table
+              [correspondenceRows]="correspondenceRows"
+              [bondChangeRows]="bondChangeRows"
+              [showStoreButton]="false"
+              (correspondenceChange)="onCorrespondenceChange()">
+            </app-atom-correspondence-table>
           </ng-container>
           <ng-template #assignPrompt4>
             <div class="panel-placeholder-box">

@@ -37,7 +37,10 @@ import { KetcherViewerComponent } from '../../ketcher-viewer/ketcher-viewer.comp
             <!-- Section 5: Atom Correspondences & Bond Changes -->
             <app-atom-correspondences-card
               *ngIf="section.title.includes('Section 5') || section.title.includes('Correspondences')"
-              [section]="section">
+              [section]="section"
+              [patternName]="item.name"
+              [patternId]="item.id"
+              [sdfContent]="sdfContent">
             </app-atom-correspondences-card>
 
             <!-- Generic Text / Code Block -->
