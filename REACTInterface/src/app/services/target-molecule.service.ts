@@ -26,7 +26,7 @@ export class TargetMoleculeService {
     private chemParser: ChemStructureParserService,
     private existenceCheckService: ExistenceCheckService,
     private reactCloudApi: ReactCloudApiService
-  ) {}
+  ) { }
 
   /**
    * Translates drawn molfile to canonical REACT SDF and checks database existence.

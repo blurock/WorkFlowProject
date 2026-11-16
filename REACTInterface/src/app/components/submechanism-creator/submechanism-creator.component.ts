@@ -94,6 +94,7 @@ export class SubmechanismCreatorComponent implements OnInit {
 
   public storageDirectory: string = '';
   public storageFiles: MechanismStorageFile[] = [];
+  public missingReactionPatterns: string[] = [];
 
   constructor(
     private apiService: ReactCloudApiService,
@@ -248,6 +249,7 @@ export class SubmechanismCreatorComponent implements OnInit {
     this.isLoading = true;
     this.errorMessage = null;
     this.executionLog = null;
+    this.missingReactionPatterns = [];
     this.hasExecuted = false;
     this.selectedItem = null;
     this.itemDetailOutput = null;
@@ -263,6 +265,8 @@ export class SubmechanismCreatorComponent implements OnInit {
         this.executionLog = res.output;
         this.storageDirectory = res.storageDirectory || '';
         this.storageFiles = res.files || [];
+        this.missingReactionPatterns = res.missingReactionPatterns ||
+          this.apiService.extractMissingReactionPatterns(res.output || res.executionLog || '');
 
         if (res.exitCode !== 0 && res.error) {
           this.errorMessage = res.error;

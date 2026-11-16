@@ -181,7 +181,9 @@
           <app-mechanism-artifact-viewer
             [mechName]="mechName"
             [storageDirectory]="storageDirectory"
-            [files]="storageFiles">
+            [files]="storageFiles"
+            [executionLog]="executionLog || ''"
+            [missingReactionPatterns]="missingReactionPatterns">
           </app-mechanism-artifact-viewer>
         </div>
 

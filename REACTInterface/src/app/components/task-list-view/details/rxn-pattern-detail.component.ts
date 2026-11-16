@@ -5,6 +5,7 @@ import { BaseCatalogDetailComponent } from './base-catalog-detail.component';
 import { TextSectionCardComponent } from '../cards/text-section-card.component';
 import { ReactionRateCardComponent } from '../cards/reaction-rate-card.component';
 import { AtomCorrespondencesCardComponent } from '../cards/atom-correspondences-card.component';
+import { DatabaseDependenciesCardComponent } from '../cards/database-dependencies-card.component';
 import { KetcherViewerComponent } from '../../ketcher-viewer/ketcher-viewer.component';
 
 @Component({
@@ -15,13 +16,20 @@ import { KetcherViewerComponent } from '../../ketcher-viewer/ketcher-viewer.comp
     TextSectionCardComponent,
     ReactionRateCardComponent,
     AtomCorrespondencesCardComponent,
+    DatabaseDependenciesCardComponent,
     KetcherViewerComponent
   ],
   template: `
     <div class="molecule-info-split-container">
-      <!-- Left Column: Ketcher 2D Viewer -->
+      <!-- Left Column: Ketcher 2D Viewer & Dependencies -->
       <div class="ketcher-panel-column">
         <app-ketcher-viewer [molfile]="sdfContent" title="2D Chemical Structure / Reaction"></app-ketcher-viewer>
+
+        <app-database-dependencies-card
+          dbName="ReactionPatterns"
+          [targetName]="item.name"
+          [targetId]="item.id">
+        </app-database-dependencies-card>
       </div>
 
       <!-- Right Column: Sections Grid -->

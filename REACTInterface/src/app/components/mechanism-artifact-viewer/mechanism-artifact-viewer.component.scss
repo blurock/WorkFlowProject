@@ -295,3 +295,158 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.missing-count-chip {
+  background-color: #fef2f2 !important;
+  color: #b91c1c !important;
+  border: 1px solid #fca5a5 !important;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #fee2e2 !important;
+  }
+}
+
+.missing-patterns-banner {
+  background: #fffbeb;
+  border-bottom: 2px solid #f59e0b;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: fadeIn 0.2s ease-in-out;
+
+  .banner-main-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    flex-wrap: wrap;
+
+    .banner-left {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+
+      .banner-alert-icon {
+        color: #d97706;
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+        margin-top: 2px;
+      }
+
+      .banner-headings {
+        .banner-title {
+          font-weight: 700;
+          font-size: 0.95rem;
+          color: #92400e;
+        }
+
+        .banner-subtitle {
+          font-size: 0.82rem;
+          color: #b45309;
+          margin-top: 2px;
+        }
+      }
+    }
+
+    .banner-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: auto;
+
+      .action-btn {
+        font-size: 0.78rem;
+        height: 30px;
+        line-height: 30px;
+        padding: 0 10px;
+
+        mat-icon {
+          font-size: 16px;
+          width: 16px;
+          height: 16px;
+          margin-right: 4px;
+        }
+      }
+
+      .dismiss-btn {
+        width: 28px;
+        height: 28px;
+        line-height: 28px;
+        color: #78350f;
+
+        mat-icon {
+          font-size: 18px;
+          width: 18px;
+          height: 18px;
+        }
+      }
+    }
+  }
+
+  .patterns-chips-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+
+    .missing-pat-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #ffffff;
+      border: 1px solid #fcd34d;
+      border-radius: 6px;
+      padding: 4px 10px;
+      box-shadow: 0 1px 3px rgba(245, 158, 11, 0.1);
+      transition: all 0.15s ease;
+
+      &:hover {
+        border-color: #f59e0b;
+        background: #fefce8;
+      }
+
+      .chip-dot-icon {
+        color: #dc2626;
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+      }
+
+      .chip-name {
+        font-family: 'Roboto Mono', monospace;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: #1e293b;
+      }
+
+      .chip-badge {
+        font-size: 0.68rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        background: #fee2e2;
+        color: #b91c1c;
+        padding: 1px 5px;
+        border-radius: 4px;
+      }
+    }
+  }
+}
+
+.sdf-view-container {
+  padding: 16px;
+  background: var(--body-bg, #ffffff);
+  border-top: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
+  min-height: 200px;
+  position: relative;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}

@@ -8,7 +8,8 @@
       <div class="header-text">
         <h1 class="page-title">Test Reaction Pattern</h1>
         <p class="page-subtitle">
-          Execute and validate reaction patterns on a target molecule, generating mechanism coefficients, reaction classes, and 3D/2D chemical structures.
+          Execute and validate reaction patterns on a target molecule, generating mechanism coefficients, reaction
+          classes, and 3D/2D chemical structures.
         </p>
       </div>
     </div>
@@ -17,7 +18,7 @@
   <!-- Main Tabs -->
   <mat-card class="content-card mat-elevation-z1 mt-3">
     <mat-tab-group [(selectedIndex)]="selectedTabIndex" animationDuration="200ms" class="main-tabs">
-      
+
       <!-- TAB 1: Task Inputs & Setup -->
       <mat-tab>
         <ng-template mat-tab-label>
@@ -26,7 +27,7 @@
         </ng-template>
 
         <div class="tab-body-container">
-          
+
           <!-- SECTION 1: Reaction Pattern Selection -->
           <div class="setup-section-card">
             <div class="section-card-header">
@@ -36,18 +37,12 @@
                 <span class="sec-desc">Choose one or more reaction pattern classes to execute</span>
               </div>
               <div class="sec-actions">
-                <button
-                  mat-flat-button
-                  color="primary"
-                  (click)="openPatternSelectionDialog()"
+                <button mat-flat-button color="primary" (click)="openPatternSelectionDialog()"
                   class="select-patterns-btn">
                   <mat-icon>checklist</mat-icon>
                   Select Reaction Patterns...
                 </button>
-                <button
-                  mat-stroked-button
-                  class="preview-lsr-btn"
-                  (click)="toggleLsrPreview()"
+                <button mat-stroked-button class="preview-lsr-btn" (click)="toggleLsrPreview()"
                   [matTooltip]="showLsrPreview ? 'Hide generated LSR file' : 'Preview generated LSR file'">
                   <mat-icon>{{ showLsrPreview ? 'visibility_off' : 'description' }}</mat-icon>
                   {{ showLsrPreview ? 'Hide LSR' : 'Preview LSR' }}
@@ -69,7 +64,8 @@
               <div *ngIf="selectedPatterns.length > 0" class="pattern-chips-wrapper mt-2">
                 <div *ngFor="let pat of selectedPatterns" class="pattern-chip">
                   <span class="chip-name font-mono">{{ pat }}</span>
-                  <button mat-icon-button class="remove-chip-btn" (click)="removePattern(pat)" matTooltip="Remove pattern">
+                  <button mat-icon-button class="remove-chip-btn" (click)="removePattern(pat)"
+                    matTooltip="Remove pattern">
                     <mat-icon>close</mat-icon>
                   </button>
                 </div>
@@ -94,18 +90,12 @@
                 <span class="sec-desc">Draw the reactant molecule in Ketcher or select a preset</span>
               </div>
               <div class="sec-actions">
-                <button
-                  mat-button
-                  color="warn"
-                  (click)="onResetMolecule()"
+                <button mat-button color="warn" (click)="onResetMolecule()"
                   matTooltip="Clear molecule drawing and reset name to Temporary">
                   <mat-icon>restart_alt</mat-icon>
                   Reset Molecule
                 </button>
-                <button
-                  mat-stroked-button
-                  color="accent"
-                  (click)="onCheckTargetMolecule()"
+                <button mat-stroked-button color="accent" (click)="onCheckTargetMolecule()"
                   [disabled]="isCheckingMolecule">
                   <mat-icon>fact_check</mat-icon>
                   Check DB Status
@@ -115,13 +105,9 @@
 
             <!-- Reusable Database Structure Selector -->
             <div class="target-config-row mt-2">
-              <app-database-structure-selector
-                catalogType="molecules"
-                [(value)]="targetMoleculeName"
-                (valueChange)="onTargetMoleculeNameChange($event)"
-                (structureLoaded)="onTargetStructureLoaded($event)"
-                (itemSelected)="onTargetMoleculeSelected($event)"
-                [presets]="presetMolecules"
+              <app-database-structure-selector catalogType="molecules" [(value)]="targetMoleculeName"
+                (valueChange)="onTargetMoleculeNameChange($event)" (structureLoaded)="onTargetStructureLoaded($event)"
+                (itemSelected)="onTargetMoleculeSelected($event)" [presets]="presetMolecules"
                 label="Target Molecule Name"
                 placeholder="Search database molecule or enter custom name (e.g. propane)...">
               </app-database-structure-selector>
@@ -137,10 +123,7 @@
 
             <!-- Ketcher Viewer Canvas -->
             <div class="ketcher-canvas-wrapper mt-3">
-              <app-ketcher-viewer
-                #ketcherCanvas
-                [molfile]="targetMolfile"
-                title="Target Molecule Canvas">
+              <app-ketcher-viewer #ketcherCanvas [molfile]="targetMolfile" title="Target Molecule Canvas">
               </app-ketcher-viewer>
             </div>
           </div>
@@ -156,8 +139,7 @@
             </div>
 
             <div class="aux-selector-wrapper mt-2">
-              <app-auxiliary-molecules-selector
-                [selectedMolecules]="auxiliaryMolecules"
+              <app-auxiliary-molecules-selector [selectedMolecules]="auxiliaryMolecules"
                 (selectionChange)="onAuxiliaryMoleculesChange($event)">
               </app-auxiliary-molecules-selector>
             </div>
@@ -176,20 +158,14 @@
             <div class="exec-inputs-grid mt-2">
               <mat-form-field appearance="outline" class="config-field">
                 <mat-label>ROOTNAME (.lsr filename)</mat-label>
-                <input
-                  matInput
-                  [(ngModel)]="rootName"
-                  (ngModelChange)="updateLsrPreview()"
+                <input matInput [(ngModel)]="rootName" (ngModelChange)="updateLsrPreview()"
                   placeholder="ReactionPatternTest" />
                 <mat-hint>Name of the generated .lsr file</mat-hint>
               </mat-form-field>
 
               <mat-form-field appearance="outline" class="config-field">
                 <mat-label>MECHNAME (Mechanism Name)</mat-label>
-                <input
-                  matInput
-                  [(ngModel)]="mechName"
-                  placeholder="TestMechanism" />
+                <input matInput [(ngModel)]="mechName" placeholder="TestMechanism" />
                 <mat-hint>Option to customize the generated mechanism name</mat-hint>
               </mat-form-field>
             </div>
@@ -202,21 +178,13 @@
             <mat-progress-bar *ngIf="isExecuting" mode="indeterminate" class="mt-3"></mat-progress-bar>
 
             <div class="exec-action-row mt-3">
-              <button
-                mat-stroked-button
-                color="warn"
-                class="reset-test-btn"
-                (click)="onResetTest()"
+              <button mat-stroked-button color="warn" class="reset-test-btn" (click)="onResetTest()"
                 [disabled]="isExecuting"
                 matTooltip="Reset target molecule, clear previous execution logs, and prepare for a fresh test run">
                 <mat-icon>refresh</mat-icon>
                 Reset Test
               </button>
-              <button
-                mat-flat-button
-                color="primary"
-                class="run-test-btn"
-                (click)="executeTestReactionPattern()"
+              <button mat-flat-button color="primary" class="run-test-btn" (click)="executeTestReactionPattern()"
                 [disabled]="isExecuting || selectedPatterns.length === 0">
                 <mat-icon>{{ isExecuting ? 'hourglass_top' : 'rocket_launch' }}</mat-icon>
                 {{ isExecuting ? 'Running Reaction Pattern Test...' : 'Execute Reaction Pattern Test' }}
@@ -239,7 +207,8 @@
           <div *ngIf="!hasExecuted && !isExecuting" class="empty-state-card">
             <mat-icon class="empty-state-icon">science</mat-icon>
             <h3>No Output Yet</h3>
-            <p>Configure task inputs and click "Execute Reaction Pattern Test" to generate mechanism tables and structures.</p>
+            <p>Configure task inputs and click "Execute Reaction Pattern Test" to generate mechanism tables and
+              structures.</p>
           </div>
 
           <mat-progress-bar *ngIf="isExecuting" mode="indeterminate" class="my-3"></mat-progress-bar>
@@ -247,10 +216,7 @@
           <ng-container *ngIf="hasExecuted">
             <div class="d-flex justify-content-between align-items-center mb-3">
               <span class="results-heading">Generated Mechanism Artifacts for <strong>{{ mechName }}</strong></span>
-              <button
-                mat-stroked-button
-                color="warn"
-                (click)="onResetTest()"
+              <button mat-stroked-button color="warn" (click)="onResetTest()"
                 matTooltip="Reset test and start a new test run">
                 <mat-icon>refresh</mat-icon>
                 Reset Test
@@ -261,17 +227,15 @@
               <app-mechanism-artifact-viewer
                 [mechName]="mechName"
                 [storageDirectory]="storageDirectory"
-                [files]="storageFiles">
+                [files]="storageFiles"
+                [executionLog]="executionLog || ''"
+                [missingReactionPatterns]="missingReactionPatterns">
               </app-mechanism-artifact-viewer>
             </div>
 
-            <app-benson-group-detail
-              *ngIf="moleculeSections.length > 0"
-              [item]="{ id: '1', name: mechName, rawLine: ': --> 1: ' + mechName }"
-              [rawOutput]="itemDetailOutput"
-              [sections]="moleculeSections"
-              (copyOutput)="copyOutput()"
-              (toggleAll)="toggleAllSections($event)">
+            <app-benson-group-detail *ngIf="moleculeSections.length > 0"
+              [item]="{ id: '1', name: mechName, rawLine: ': --> 1: ' + mechName }" [rawOutput]="itemDetailOutput"
+              [sections]="moleculeSections" (copyOutput)="copyOutput()" (toggleAll)="toggleAllSections($event)">
             </app-benson-group-detail>
           </ng-container>
         </div>
@@ -288,20 +252,12 @@
           <div class="log-actions-bar mb-2">
             <span class="log-title">Server Execution Log:</span>
             <div class="log-btn-group">
-              <button
-                mat-stroked-button
-                color="warn"
-                (click)="onResetTest()"
-                class="reset-log-btn mr-2"
+              <button mat-stroked-button color="warn" (click)="onResetTest()" class="reset-log-btn mr-2"
                 matTooltip="Reset test and start fresh">
                 <mat-icon>refresh</mat-icon>
                 Reset Test
               </button>
-              <button
-                mat-stroked-button
-                (click)="copyOutput()"
-                [disabled]="!executionLog"
-                class="copy-log-btn">
+              <button mat-stroked-button (click)="copyOutput()" [disabled]="!executionLog" class="copy-log-btn">
                 <mat-icon>content_copy</mat-icon>
                 Copy Log
               </button>
@@ -309,7 +265,8 @@
           </div>
 
           <div class="terminal-window">
-            <pre class="terminal-text">{{ executionLog || 'No execution log available. Run a task to view output.' }}</pre>
+            <pre
+              class="terminal-text">{{ executionLog || 'No execution log available. Run a task to view output.' }}</pre>
           </div>
         </div>
       </mat-tab>

@@ -9,6 +9,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatChipsModule } from '@angular/material/chips';
 import { ReactCloudApiService, MechanismStorageFile } from '../../services/react-cloud-api.service';
+import { SdfViewerComponent } from '../sdf-viewer/sdf-viewer.component';
 
 @Component({
   selector: 'app-mechanism-artifact-viewer',
@@ -22,7 +23,8 @@ import { ReactCloudApiService, MechanismStorageFile } from '../../services/react
     MatTooltipModule,
     MatSnackBarModule,
     MatProgressBarModule,
-    MatChipsModule
+    MatChipsModule,
+    SdfViewerComponent
   ],
   templateUrl: './mechanism-artifact-viewer.component.html',
   styleUrls: ['./mechanism-artifact-viewer.component.scss']
@@ -31,12 +33,17 @@ export class MechanismArtifactViewerComponent implements OnChanges {
   @Input() public mechName: string = '';
   @Input() public storageDirectory: string = '';
   @Input() public files: MechanismStorageFile[] = [];
+  @Input() public executionLog?: string;
+  @Input() public missingReactionPatterns?: string[];
 
   public selectedFileIndex: number = 0;
   public activeFile: MechanismStorageFile | null = null;
   public activeContent: string = '';
   public isLoadingContent: boolean = false;
   public isLineWrapEnabled: boolean = false;
+
+  public detectedMissingPatterns: string[] = [];
+  public isMissingPanelDismissed: boolean = false;
 
   constructor(
     private apiService: ReactCloudApiService,
@@ -54,6 +61,59 @@ export class MechanismArtifactViewerComponent implements OnChanges {
       this.activeContent = '';
       this.selectedFileIndex = 0;
       this.initSelectedFile();
+    }
+    if (changes['files'] || changes['executionLog'] || changes['missingReactionPatterns']) {
+      this.updateMissingPatterns();
+    }
+  }
+
+  public updateMissingPatterns(): void {
+    if (this.missingReactionPatterns && this.missingReactionPatterns.length > 0) {
+      this.detectedMissingPatterns = [...this.missingReactionPatterns];
+      this.isMissingPanelDismissed = false;
+      return;
+    }
+
+    if (this.executionLog) {
+      this.detectedMissingPatterns = this.apiService.extractMissingReactionPatterns(this.executionLog);
+      this.isMissingPanelDismissed = false;
+      return;
+    }
+
+    // Inspect files array for log file content
+    const logFile = this.files?.find(f => f.fileType === 'log' || f.filename.endsWith('.log'));
+    if (logFile && logFile.content) {
+      this.detectedMissingPatterns = this.apiService.extractMissingReactionPatterns(logFile.content);
+      this.isMissingPanelDismissed = false;
+    } else if (logFile && logFile.downloadUrl) {
+      this.apiService.fetchAsciiFileContent(logFile.downloadUrl, false).subscribe({
+        next: (text) => {
+          logFile.content = text;
+          this.detectedMissingPatterns = this.apiService.extractMissingReactionPatterns(text);
+        },
+        error: () => {}
+      });
+    } else {
+      this.detectedMissingPatterns = [];
+    }
+  }
+
+  public copyMissingPatterns(): void {
+    if (!this.detectedMissingPatterns || this.detectedMissingPatterns.length === 0) return;
+    const text = this.detectedMissingPatterns.join('\n');
+    navigator.clipboard.writeText(text).then(() => {
+      this.snackBar.open(`Copied ${this.detectedMissingPatterns.length} missing pattern name(s) to clipboard!`, 'OK', { duration: 2500 });
+    });
+  }
+
+  public hasLogFile(): boolean {
+    return !!this.files?.some(f => f.fileType === 'log' || f.filename.endsWith('.log'));
+  }
+
+  public selectLogFile(): void {
+    const logIdx = this.files?.findIndex(f => f.fileType === 'log' || f.filename.endsWith('.log'));
+    if (logIdx !== undefined && logIdx >= 0) {
+      this.onTabChanged(logIdx);
     }
   }
 
@@ -111,6 +171,11 @@ export class MechanismArtifactViewerComponent implements OnChanges {
         this.isLoadingContent = false;
       }
     });
+  }
+
+  public isSdfActive(): boolean {
+    if (!this.activeFile) return false;
+    return this.activeFile.fileType === 'sdf' || this.activeFile.filename?.toLowerCase().endsWith('.sdf') === true;
   }
 
   public getZipFile(): MechanismStorageFile | undefined {

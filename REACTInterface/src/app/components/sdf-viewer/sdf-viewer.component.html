@@ -1,0 +1,188 @@
+<div class="sdf-viewer-container">
+  <!-- Toolbar / Header Controls -->
+  <div class="sdf-viewer-toolbar" *ngIf="parsedMolecules.length > 0">
+    <div class="toolbar-left">
+      <mat-chip class="molecules-count-chip">
+        <mat-icon matChipAvatar>hub</mat-icon>
+        {{ parsedMolecules.length }} Molecule Structure{{ parsedMolecules.length === 1 ? '' : 's' }}
+      </mat-chip>
+      <span class="toolbar-subtitle">
+        Click any molecule row to view its 2D chemical structure in Ketcher.
+      </span>
+    </div>
+
+    <div class="toolbar-actions">
+      <button 
+        mat-stroked-button 
+        (click)="toggleAll()" 
+        [matTooltip]="isAllExpanded ? 'Collapse all 2D structures' : 'Expand all 2D structures'">
+        <mat-icon>{{ isAllExpanded ? 'unfold_less' : 'unfold_more' }}</mat-icon>
+        {{ isAllExpanded ? 'Collapse All' : 'Expand All' }}
+      </button>
+
+      <button 
+        mat-stroked-button 
+        (click)="copyRawSdf()" 
+        [disabled]="!sdfContent"
+        matTooltip="Copy entire SDF file content to clipboard">
+        <mat-icon>content_copy</mat-icon>
+        Copy SDF
+      </button>
+    </div>
+  </div>
+
+  <!-- Empty State (No molecules found) -->
+  <div *ngIf="parsedMolecules.length === 0" class="empty-sdf-state">
+    <mat-icon class="empty-icon">science</mat-icon>
+    <p>No molecule structures could be parsed from this file.</p>
+  </div>
+
+  <!-- List of Molecule Structures (each condensed to one line) -->
+  <div class="sdf-items-list" *ngIf="parsedMolecules.length > 0">
+    <div *ngFor="let mol of parsedMolecules; let i = index" class="sdf-item-block">
+      
+      <!-- 1. Collapsed State: One-Line Summary Row -->
+      <div 
+        class="one-line-summary-row molecule-row" 
+        *ngIf="!mol.isExpanded" 
+        (click)="toggleMolecule(mol)"
+        [matTooltip]="'Click to expand 2D structure for ' + mol.moleculeName">
+        <div class="one-line-summary-text">
+          <mat-icon color="primary" class="row-icon">hub</mat-icon>
+          <span class="one-line-summary-badge badge-blue">#{{ mol.index }}</span>
+          <span class="one-line-summary-title">{{ mol.moleculeName }}</span>
+          <span class="mol-meta-text" *ngIf="mol.atomCount !== undefined">
+            ({{ mol.atomCount }} atoms<span *ngIf="mol.bondCount !== undefined">, {{ mol.bondCount }} bonds</span>)
+          </span>
+        </div>
+        <div class="one-line-summary-actions" (click)="$event.stopPropagation()">
+          <button 
+            mat-icon-button 
+            (click)="copyMoleculeSdf(mol)" 
+            matTooltip="Copy molecule SDF block">
+            <mat-icon>content_copy</mat-icon>
+          </button>
+          <button 
+            mat-icon-button 
+            (click)="toggleMolecule(mol)" 
+            matTooltip="View 2D Structure">
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- 2. Expanded State: One-Line Summary Card with Ketcher Viewer -->
+      <div class="one-line-summary-card molecule-card" *ngIf="mol.isExpanded">
+        <div class="one-line-summary-card-header" (click)="toggleMolecule(mol)">
+          <div class="one-line-summary-card-title">
+            <mat-icon color="primary">hub</mat-icon>
+            <span class="one-line-summary-badge badge-blue">#{{ mol.index }}</span>
+            <span class="card-title-text">{{ mol.moleculeName }}</span>
+            <span class="mol-meta-text" *ngIf="mol.atomCount !== undefined">
+              ({{ mol.atomCount }} atoms<span *ngIf="mol.bondCount !== undefined">, {{ mol.bondCount }} bonds</span>)
+            </span>
+          </div>
+          <div class="card-header-actions" (click)="$event.stopPropagation()">
+            <button 
+              mat-icon-button 
+              (click)="copyMoleculeSdf(mol)" 
+              matTooltip="Copy molecule SDF block">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+            <button 
+              mat-icon-button 
+              (click)="toggleMolecule(mol)" 
+              matTooltip="Collapse 2D view">
+              <mat-icon>visibility_off</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="ketcher-viewer-container">
+          <app-ketcher-viewer 
+            [molfile]="mol.sdfContent" 
+            [title]="'2D Structure: ' + mol.moleculeName" 
+            [height]="'460px'">
+          </app-ketcher-viewer>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 3. Complete SDF File (Shown Last, Condensed to One Line) -->
+    <div class="sdf-item-block raw-sdf-block">
+      
+      <!-- Collapsed Raw SDF Row -->
+      <div 
+        class="one-line-summary-row raw-file-row" 
+        *ngIf="!isRawSdfExpanded" 
+        (click)="toggleRawSdf()"
+        [matTooltip]="'Click to expand complete raw SDF file (' + filename + ')'">
+        <div class="one-line-summary-text">
+          <mat-icon color="accent" class="row-icon">description</mat-icon>
+          <span class="one-line-summary-badge badge-gray">Raw SDF</span>
+          <span class="one-line-summary-title">{{ filename || 'Complete SDF File' }}</span>
+          <span class="mol-meta-text">
+            ({{ parsedMolecules.length }} structure{{ parsedMolecules.length === 1 ? '' : 's' }} &bull; {{ getLineCount(sdfContent) }} lines)
+          </span>
+        </div>
+        <div class="one-line-summary-actions" (click)="$event.stopPropagation()">
+          <button 
+            mat-icon-button 
+            (click)="copyRawSdf()" 
+            matTooltip="Copy raw SDF text">
+            <mat-icon>content_copy</mat-icon>
+          </button>
+          <button 
+            mat-icon-button 
+            (click)="toggleRawSdf()" 
+            matTooltip="View Complete SDF File">
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- Expanded Raw SDF Card -->
+      <div class="one-line-summary-card raw-file-card" *ngIf="isRawSdfExpanded">
+        <div class="one-line-summary-card-header" (click)="toggleRawSdf()">
+          <div class="one-line-summary-card-title">
+            <mat-icon color="accent">description</mat-icon>
+            <span class="one-line-summary-badge badge-gray">Raw SDF</span>
+            <span class="card-title-text">{{ filename || 'Complete SDF File' }}</span>
+            <span class="mol-meta-text">
+              ({{ parsedMolecules.length }} structure{{ parsedMolecules.length === 1 ? '' : 's' }} &bull; {{ getLineCount(sdfContent) }} lines)
+            </span>
+          </div>
+          <div class="card-header-actions" (click)="$event.stopPropagation()">
+            <button 
+              mat-stroked-button 
+              (click)="toggleLineWrap()" 
+              [color]="isLineWrapEnabled ? 'accent' : ''"
+              matTooltip="Toggle line wrap">
+              <mat-icon>{{ isLineWrapEnabled ? 'wrap_text' : 'format_align_left' }}</mat-icon>
+              {{ isLineWrapEnabled ? 'Wrapped' : 'No-Wrap' }}
+            </button>
+            <button 
+              mat-icon-button 
+              (click)="copyRawSdf()" 
+              matTooltip="Copy complete SDF file">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+            <button 
+              mat-icon-button 
+              (click)="toggleRawSdf()" 
+              matTooltip="Collapse raw SDF file">
+              <mat-icon>visibility_off</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="raw-sdf-body" [class.line-wrap]="isLineWrapEnabled">
+          <pre class="raw-code-block"><code [class.wrapped]="isLineWrapEnabled">{{ sdfContent }}</code></pre>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+

@@ -34,6 +34,7 @@ export interface CreatedSubmechanism {
   error?: string;
   storageDirectory?: string;
   files?: MechanismStorageFile[];
+  missingReactionPatterns?: string[];
   detailOutput?: string;
   moleculeSections?: MoleculeSection[];
   sdfContent?: string | null;
@@ -334,6 +335,7 @@ export class SubmechanismPathSetComponent implements OnInit {
           error: res.error,
           storageDirectory: res.storageDirectory,
           files: res.files || [],
+          missingReactionPatterns: res.missingReactionPatterns || this.apiService.extractMissingReactionPatterns(res.output || res.executionLog || ''),
           isDetailLoading: false
         };
 

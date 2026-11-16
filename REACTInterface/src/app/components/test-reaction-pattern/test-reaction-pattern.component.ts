@@ -95,6 +95,7 @@ export class TestReactionPatternComponent implements OnInit {
   public selectedTabIndex: number = 0;
   public storageDirectory: string = '';
   public storageFiles: MechanismStorageFile[] = [];
+  public missingReactionPatterns: string[] = [];
 
   // Presets for quick testing
   public presetMolecules: { name: string; smiles: string }[] = [
@@ -207,6 +208,7 @@ export class TestReactionPatternComponent implements OnInit {
     this.isExecuting = false;
     this.errorMessage = null;
     this.executionLog = null;
+    this.missingReactionPatterns = [];
     this.itemDetailOutput = null;
     this.moleculeSections = [];
     this.currentSdfContent = null;
@@ -372,6 +374,8 @@ export class TestReactionPatternComponent implements OnInit {
             }
           }
           this.executionLog = logContent;
+          this.missingReactionPatterns = res.missingReactionPatterns ||
+            this.reactCloudApi.extractMissingReactionPatterns(logContent || res.output || '');
 
           // 2. Check for Execution Failure
           const hasError = (res.exitCode !== 0 && res.exitCode !== undefined) || !!res.error;

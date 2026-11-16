@@ -10,6 +10,10 @@
             <mat-icon matChipAvatar>folder</mat-icon>
             {{ files.length }} Files in Storage
           </mat-chip>
+          <mat-chip *ngIf="detectedMissingPatterns.length > 0" class="missing-count-chip" (click)="isMissingPanelDismissed = false" matTooltip="Click to show missing patterns panel">
+            <mat-icon matChipAvatar color="warn">warning</mat-icon>
+            {{ detectedMissingPatterns.length }} Missing Pattern{{ detectedMissingPatterns.length === 1 ? '' : 's' }}
+          </mat-chip>
         </mat-chip-set>
       </div>
       <div *ngIf="storageDirectory" class="storage-path">
@@ -101,6 +105,44 @@
       </mat-tab>
     </mat-tab-group>
 
+    <!-- Missing Reaction Patterns Warning Panel (Directly above active file content) -->
+    <div *ngIf="detectedMissingPatterns.length > 0 && !isMissingPanelDismissed" class="missing-patterns-banner">
+      <div class="banner-main-row">
+        <div class="banner-left">
+          <mat-icon class="banner-alert-icon">warning</mat-icon>
+          <div class="banner-texts">
+            <div class="banner-title">
+              Missing Reaction Pattern{{ detectedMissingPatterns.length === 1 ? '' : 's' }} ({{ detectedMissingPatterns.length }})
+            </div>
+            <div class="banner-subtitle">
+              The following reaction pattern{{ detectedMissingPatterns.length === 1 ? ' was' : 's were' }} referenced in the pathway but not found in the database:
+            </div>
+          </div>
+        </div>
+        <div class="banner-actions">
+          <button mat-stroked-button class="action-btn" (click)="copyMissingPatterns()" matTooltip="Copy list of missing pattern names">
+            <mat-icon>content_copy</mat-icon>
+            Copy Names
+          </button>
+          <button mat-stroked-button color="primary" class="action-btn" *ngIf="hasLogFile()" (click)="selectLogFile()" matTooltip="Jump to execution.log tab">
+            <mat-icon>terminal</mat-icon>
+            View in Log
+          </button>
+          <button mat-icon-button class="dismiss-btn" (click)="isMissingPanelDismissed = true" matTooltip="Dismiss notice">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="patterns-chips-row">
+        <div *ngFor="let pat of detectedMissingPatterns" class="missing-pat-chip" [matTooltip]="'Pattern: ' + pat + ' (missing from DB)'">
+          <mat-icon class="chip-dot-icon">error</mat-icon>
+          <span class="chip-name">{{ pat }}</span>
+          <span class="chip-badge">Missing</span>
+        </div>
+      </div>
+    </div>
+
     <!-- File Meta Bar -->
     <div class="file-meta-bar" *ngIf="activeFile">
       <div class="meta-left">
@@ -126,9 +168,23 @@
       </button>
     </div>
 
-    <!-- Scrollable Fixed-Space Text Panel -->
+    <!-- SDF Molecule Structures & Raw File View (if SDF tab selected) -->
+    <div *ngIf="activeFile && isSdfActive()" class="sdf-view-container">
+      <div *ngIf="isLoadingContent" class="loading-overlay">
+        <mat-icon class="spin-icon">sync</mat-icon>
+        <span>Streaming {{ activeFile.filename }} from Cloud Storage...</span>
+      </div>
+
+      <app-sdf-viewer
+        *ngIf="!isLoadingContent"
+        [sdfContent]="activeContent"
+        [filename]="activeFile.filename">
+      </app-sdf-viewer>
+    </div>
+
+    <!-- Scrollable Fixed-Space Text Panel (for non-SDF and non-Zip files) -->
     <div 
-      *ngIf="activeFile && activeFile.fileType !== 'zip'" 
+      *ngIf="activeFile && activeFile.fileType !== 'zip' && !isSdfActive()" 
       class="ascii-panel"
       [class.line-wrap]="isLineWrapEnabled">
       

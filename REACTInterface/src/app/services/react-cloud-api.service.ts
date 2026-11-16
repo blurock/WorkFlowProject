@@ -79,6 +79,7 @@ export interface ApiRunSubmechanismResponse {
   storageDirectory?: string;
   gcsPrefix?: string;
   files?: MechanismStorageFile[];
+  missingReactionPatterns?: string[];
 }
 
 export interface ApiRunCombineSubmechanismResponse {
@@ -94,6 +95,7 @@ export interface ApiRunCombineSubmechanismResponse {
   storageDirectory?: string;
   gcsPrefix?: string;
   files?: MechanismStorageFile[];
+  missingReactionPatterns?: string[];
 }
 
 export interface DependencyItem {
@@ -685,6 +687,23 @@ export class ReactCloudApiService {
         return of(`[Error loading artifact content: ${err?.message || 'Download failed'}]`);
       })
     );
+  }
+
+  /**
+   * Parse console/execution log for missing reaction patterns:
+   * e.g. ERROR: Reaction Pattern Not Found: 'OlefinToAldehydeDecomp-(hh)(rh)'
+   */
+  public extractMissingReactionPatterns(logText: string): string[] {
+    if (!logText) return [];
+    const missing = new Set<string>();
+    const regex = /ERROR:\s*Reaction\s+Pattern\s+Not\s+Found:\s*['"]?([^'"\r\n]+)['"]?/gi;
+    let match: RegExpExecArray | null;
+    while ((match = regex.exec(logText)) !== null) {
+      if (match[1] && match[1].trim()) {
+        missing.add(match[1].trim());
+      }
+    }
+    return Array.from(missing);
   }
 }
 

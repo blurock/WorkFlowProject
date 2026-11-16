@@ -3016,6 +3016,26 @@ app.delete('/api/mechanisms', authenticateUser, async (req, res) => {
 });
 
 /**
+ * Parse output/log text for missing reaction pattern error messages:
+ * e.g. "ERROR: Reaction Pattern Not Found: 'OlefinToAldehydeDecomp-(hh)(rh)'"
+ */
+function extractMissingReactionPatterns(text) {
+  if (!text || typeof text !== 'string') return [];
+  const missing = [];
+  const rxnPatRegex = /ERROR:\s*Reaction\s+Pattern\s+Not\s+Found:\s*['"]?([^'"\r\n]+)['"]?/gi;
+  let match;
+  while ((match = rxnPatRegex.exec(text)) !== null) {
+    if (match[1] && match[1].trim()) {
+      const name = match[1].trim();
+      if (!missing.includes(name)) {
+        missing.push(name);
+      }
+    }
+  }
+  return missing;
+}
+
+/**
  * Run submechanism from path (/api/run-submechanism)
  * Loads pathway definition from Firestore or on-disk .lsr fallback
  */
@@ -3343,7 +3363,12 @@ app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
         ? (stderr.trim() || `Submechanism run exited with code ${effectiveExitCode}${signal ? ` (Signal: ${signal})` : ''}`)
         : (stderr.trim() || undefined);
 
-      console.log(`[RunSubmechanism Complete] Sending response for '${mechName}' (effectiveExitCode: ${effectiveExitCode}, error: ${resError || 'none'}).`);
+      const missingRxnPats = extractMissingReactionPatterns(stdout + '\n' + stderr);
+      if (missingRxnPats.length > 0) {
+        console.warn(`[RunSubmechanism] Missing reaction patterns found in log (${missingRxnPats.length}):`, missingRxnPats);
+      }
+
+      console.log(`[RunSubmechanism Complete] Sending response for '${mechName}' (effectiveExitCode: ${effectiveExitCode}, error: ${resError || 'none'}, missingRxnPats: ${missingRxnPats.length}).`);
 
       res.json({
         molecule,
@@ -3358,6 +3383,7 @@ app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
         output: outputMsg,
         combinedOutput: combinedOutput,
         executionLog: stdout,
+        missingReactionPatterns: missingRxnPats,
         error: resError
       });
 
@@ -3490,6 +3516,11 @@ app.post('/api/run-combine-submechanisms', authenticateUser, async (req, res) =>
         ? (stderr.trim() || `Combine submechanisms exited with code ${effectiveExitCode}${signal ? ` (Signal: ${signal})` : ''}`)
         : (stderr.trim() || undefined);
 
+      const missingRxnPats = extractMissingReactionPatterns(stdout + '\n' + stderr);
+      if (missingRxnPats.length > 0) {
+        console.warn(`[CombineSubmechanisms] Missing reaction patterns found in log (${missingRxnPats.length}):`, missingRxnPats);
+      }
+
       res.json({
         rootName,
         mechName,
@@ -3501,6 +3532,7 @@ app.post('/api/run-combine-submechanisms', authenticateUser, async (req, res) =>
         files: artifactResult.files,
         output: `[Combined Mechanism Generated: ${mechName}] Artifacts stored in Cloud Storage: ${artifactResult.storageDirectory} (${artifactResult.files.length} files).`,
         executionLog: stdout,
+        missingReactionPatterns: missingRxnPats,
         error: resError
       });
 
@@ -3791,12 +3823,15 @@ app.post('/api/db/searchRxnPatternsByCenter', authenticateUser, async (req, res)
 
 /**
  * Check dependencies for a catalog object before deletion or for general inspection.
- * POST /api/db/dependencies
+ * POST/GET /api/db/dependencies
  */
-app.post('/api/db/dependencies', authenticateUser, async (req, res) => {
+app.all('/api/db/dependencies', authenticateUser, async (req, res) => {
   try {
-    const { dbName, key, keyId } = req.body;
-    const uid = resolveAuthorizedTargetUid(req, req.body.uid, false);
+    const dbName = req.body?.dbName || req.query?.dbName;
+    const key = req.body?.key || req.query?.key;
+    const keyId = req.body?.keyId !== undefined ? req.body.keyId : req.query?.keyId;
+    const requestedUid = req.body?.uid || req.query?.uid;
+    const uid = resolveAuthorizedTargetUid(req, requestedUid, false);
 
     if (!dbName || (!key && keyId === undefined)) {
       return res.status(400).json({ error: 'Missing required parameters: dbName, key/keyId' });
@@ -3831,6 +3866,15 @@ app.post('/api/db/dependencies', authenticateUser, async (req, res) => {
 
     const dependencies = [];
     const normalizedDb = dbName.toLowerCase().replace(/[^a-z]/g, '');
+
+    // Helper to query MechanismPathway records (checks MechanismPathway, falls back to MechanismPathways)
+    const getPathwayDocs = async () => {
+      let snap = await firestore.collection(`users/${uid}/databases/MechanismPathway/records`).get();
+      if (snap.empty) {
+        snap = await firestore.collection(`users/${uid}/databases/MechanismPathways/records`).get();
+      }
+      return snap;
+    };
 
     // Case A: Substructures
     if (normalizedDb === 'substructures' || normalizedDb === 'substructure') {
@@ -3892,31 +3936,48 @@ app.post('/api/db/dependencies', authenticateUser, async (req, res) => {
 
     // Case B: ReactionPatterns
     else if (normalizedDb === 'reactionpatterns' || normalizedDb === 'reactionpattern' || normalizedDb === 'rxnpattern' || normalizedDb === 'rxnpatterns') {
-      // 1. Check MechanismPathways
-      const pathSnap = await firestore.collection(`users/${uid}/databases/MechanismPathways/records`).get();
+      // 1. Check MechanismPathway records
+      const pathSnap = await getPathwayDocs();
       pathSnap.forEach(doc => {
         const d = doc.data();
         let matched = false;
-        if (Array.isArray(d.steps)) {
-          matched = d.steps.some(st => {
-            const patNames = Array.isArray(st.patterns) ? st.patterns : (st.pattern ? [st.pattern] : []);
-            return patNames.some(p => p === targetName || p === targetId || p?.name === targetName || p?.id === targetId);
+
+        // Check nested Steps
+        const steps = Array.isArray(d.Steps) ? d.Steps : (Array.isArray(d.steps) ? d.steps : []);
+        if (steps.length > 0) {
+          matched = steps.some(st => {
+            const rxns = Array.isArray(st.Reactions?.Reactions) ? st.Reactions.Reactions : (Array.isArray(st.reactions) ? st.reactions : []);
+            if (rxns.some(r => r === targetName || r === targetId || r?.Name === targetName || r?.name === targetName || r?.ID === targetId || r?.id === targetId)) {
+              return true;
+            }
+            const pats = Array.isArray(st.patterns) ? st.patterns : (st.pattern ? [st.pattern] : []);
+            return pats.some(p => p === targetName || p === targetId || p?.name === targetName || p?.id === targetId);
           });
         }
+
+        // Check top-level Reactions
+        if (!matched && Array.isArray(d.Reactions?.Reactions)) {
+          matched = d.Reactions.Reactions.some(r => r === targetName || r === targetId || r?.Name === targetName || r?.name === targetName || r?.ID === targetId || r?.id === targetId);
+        }
+
+        // Check top-level reactionPatterns
         if (!matched && Array.isArray(d.reactionPatterns)) {
           matched = d.reactionPatterns.some(p => p === targetName || p === targetId);
         }
+
+        // Deep fallback check in full pathway JSON
         if (!matched) {
-          const raw = d.lsrContent || d.rawString || '';
-          if (raw && (raw.includes(targetName) || (targetId > 0 && raw.includes(String(targetId))))) {
+          const raw = JSON.stringify(d);
+          if (raw.includes(targetName) || (targetId > 0 && (raw.includes(`"ID":${targetId}`) || raw.includes(`"ID": ${targetId}`)))) {
             matched = true;
           }
         }
+
         if (matched) {
           dependencies.push({
             type: 'MechanismPathway',
-            name: d.name || d.Name || d.key || doc.id,
-            id: Number(d.id || d.ID || d.keyId || 0),
+            name: d.Name || d.name || d.key || doc.id,
+            id: Number(d.ID || d.id || d.keyId || 0),
             role: 'Mechanism Pathway Step'
           });
         }
@@ -3957,7 +4018,7 @@ app.post('/api/db/dependencies', authenticateUser, async (req, res) => {
       });
 
       // 2. Check MechanismPathways
-      const pathSnap = await firestore.collection(`users/${uid}/databases/MechanismPathways/records`).get();
+      const pathSnap = await getPathwayDocs();
       pathSnap.forEach(doc => {
         const d = doc.data();
         const raw = JSON.stringify(d);
@@ -3974,7 +4035,7 @@ app.post('/api/db/dependencies', authenticateUser, async (req, res) => {
 
     // Case D: Reactions
     else if (normalizedDb === 'reactions' || normalizedDb === 'reaction') {
-      const pathSnap = await firestore.collection(`users/${uid}/databases/MechanismPathways/records`).get();
+      const pathSnap = await getPathwayDocs();
       pathSnap.forEach(doc => {
         const d = doc.data();
         const raw = JSON.stringify(d);

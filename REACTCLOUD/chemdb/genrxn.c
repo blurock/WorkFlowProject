@@ -34,7 +34,8 @@ static TransformSet *ReadInRxnsToTransformSet(ReadInReactionSet *asciirxnset,
 					      BindStructure *bind);
 static SetOfGraphs *ReadInMoleculesToSetOfGraphs(ReadInMoleculeSet *asciimolset,
 						 MoleculeSet *molset,
-						 SetOfGraphMetaAtoms *metaatoms);
+						 SetOfGraphMetaAtoms *metaatoms,
+						 BindStructure *bind);
 static ChainSequence *ReadChainSetToChainSequence(ReadChainSet *chainset,
 						  MoleculeSet *molset,
 						  ReactionSet *rxnset,
@@ -300,13 +301,23 @@ static TransformSet *ReadInRxnsToTransformSet(ReadInReactionSet *asciirxnset,
 */
 static SetOfGraphs *ReadInMoleculesToSetOfGraphs(ReadInMoleculeSet *asciimolset,
 						 MoleculeSet *molset,
-						 SetOfGraphMetaAtoms *metaatoms)
+						 SetOfGraphMetaAtoms *metaatoms,
+						 BindStructure *bind)
 {
   SetOfGraphs *setofgraphs;
   Graph *graph;
   MoleculeInfo *molecule;
   ReadInMolecule *asciimol;
   INT i;
+  DataBaseInformation *dinfo = NULL;
+  ChemDBMaster *master = NULL;
+
+  if (bind != NULL) {
+    master = GetBoundStructure(bind, BIND_CHEMDBASE);
+    if (master != NULL && master->DatabaseInfo != NULL) {
+      dinfo = GetDataBaseInfoFromID(master->DatabaseInfo, MOLECULE_DATABASE);
+    }
+  }
      
   setofgraphs = AllocateSetOfGraphs;
   CreateSetOfGraphs(setofgraphs,asciimolset->ID,asciimolset->Name,
@@ -316,7 +327,7 @@ static SetOfGraphs *ReadInMoleculesToSetOfGraphs(ReadInMoleculeSet *asciimolset,
   asciimol = asciimolset->Molecules;
   LOOPi(asciimolset->NumberOfMolecules)
     {
-      molecule = FindMoleculeFromString(asciimol->Name,molset);
+      molecule = (molset != NULL) ? FindMoleculeFromString(asciimol->Name,molset) : NULL;
       if(molecule != 0)
 	{
 	  GraphFromMolFileForArrays(graph,molecule,
@@ -324,6 +335,23 @@ static SetOfGraphs *ReadInMoleculesToSetOfGraphs(ReadInMoleculeSet *asciimolset,
 	  graph->MetaAtoms = AllocateSetOfGraphMetaAtoms;
 	  CopyFullSetOfGraphMetaAtoms(graph->MetaAtoms,metaatoms);
 	  graph++;
+	}
+      else if (dinfo != NULL)
+	{
+	  MoleculeInfo dbmol;
+	  INT ret;
+	  memset(&dbmol, 0, sizeof(MoleculeInfo));
+	  ret = DBFindMolSubFromString(asciimol->Name, &dbmol, dinfo);
+	  if (ret == SYSTEM_NORMAL_RETURN) {
+	    GraphFromMolFileForArrays(graph, &dbmol, VALENCE_STANDARD);
+	    graph->MetaAtoms = AllocateSetOfGraphMetaAtoms;
+	    CopyFullSetOfGraphMetaAtoms(graph->MetaAtoms, metaatoms);
+	    graph++;
+	    printf("[ReadInMoleculesToSetOfGraphs] Auxiliary molecule '%s' resolved from MOLECULE_DATABASE.\n", asciimol->Name);
+	  } else {
+	    printf("Molecule: %s  not found in list of molecules\n",asciimol->Name);
+	    setofgraphs->NumberOfGraphs -= 1;
+	  }
 	}
       else 
 	{
@@ -358,7 +386,7 @@ static ChainSequence *ReadChainSetToChainSequence(ReadChainSet *chainset,
   CreateChainSequence(chainseq,chainset->ID,chainset->Name,
 		      chainset->NumberOfSteps,0,
 		      0);
-  chainseq->Molecules = ReadInMoleculesToSetOfGraphs(chainset->Molecules,molset,metaatoms);
+  chainseq->Molecules = ReadInMoleculesToSetOfGraphs(chainset->Molecules,molset,metaatoms,bind);
   printf("Number of Molecules - Read Chain(ReadChainSetToChainSequence): %d\n", chainset->Molecules->NumberOfMolecules);
   printf("Number of Molecules - Sequence  (ReadChainSetToChainSequence): %d\n", chainseq->Molecules->NumberOfGraphs);
   step = chainseq->Steps;
@@ -367,7 +395,7 @@ static ChainSequence *ReadChainSetToChainSequence(ReadChainSet *chainset,
     CreateChainSequenceElement(step,i,step->Name,0,0);
     step->Reactions = ReadInRxnsToTransformSet(readstep->Reactions,rxnset,bind);
     printf("Chain Step: ReadInMoleculesToSetOfGraphs\n");
-    step->Molecules = ReadInMoleculesToSetOfGraphs(readstep->Molecules,molset,metaatoms);
+    step->Molecules = ReadInMoleculesToSetOfGraphs(readstep->Molecules,molset,metaatoms,bind);
     step++;
     readstep++;
   }

@@ -289,7 +289,9 @@
           <app-mechanism-artifact-viewer
             [mechName]="selectedSubmechanism.mechName"
             [storageDirectory]="selectedSubmechanism.storageDirectory || ''"
-            [files]="selectedSubmechanism.files">
+            [files]="selectedSubmechanism.files"
+            [executionLog]="selectedSubmechanism.output"
+            [missingReactionPatterns]="selectedSubmechanism.missingReactionPatterns">
           </app-mechanism-artifact-viewer>
         </div>
 
