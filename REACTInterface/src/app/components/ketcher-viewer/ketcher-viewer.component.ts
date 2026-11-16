@@ -27,6 +27,9 @@ import { ChemStructureParserService } from '../../services/chem-structure-parser
           <button mat-stroked-button (click)="reloadKetcherStructure()" matTooltip="Reload structure in Ketcher">
             <mat-icon>refresh</mat-icon> Reload
           </button>
+          <button mat-button color="warn" (click)="clearCanvas()" matTooltip="Clear Ketcher canvas">
+            <mat-icon>clear</mat-icon> Clear
+          </button>
         </div>
       </div>
       <mat-card-content class="section-card-content p-0">
@@ -160,6 +163,24 @@ export class KetcherViewerComponent implements OnChanges, AfterViewInit {
     if (this.molfile) {
       this.sendSdfToKetcher(this.molfile, true);
       this.snackBar.open('Reloading structure in Ketcher panel...', 'Dismiss', { duration: 1500 });
+    }
+  }
+
+  public clearCanvas(): void {
+    this.molfile = null;
+    this.lastSentMolfile = null;
+    try {
+      const iframeWin = this.ketcherIframe?.nativeElement?.contentWindow;
+      if (iframeWin) {
+        iframeWin.postMessage({
+          eventType: 'SET_STRUCTURE',
+          molfile: '',
+          smiles: '',
+          doLayout: false
+        }, '*');
+      }
+    } catch (err) {
+      console.warn('[KetcherViewer] clearCanvas error:', err);
     }
   }
 

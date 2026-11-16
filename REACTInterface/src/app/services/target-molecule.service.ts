@@ -102,17 +102,26 @@ export class TargetMoleculeService {
     const cleanName = (!rawName || rawName.toLowerCase() === 'temporary') ? `Temp_${Date.now()}` : rawName;
     const sdfFilename = `${cleanName}.sdf`;
 
+    // Ensure the title line (line 1) of the SDF matches cleanName so chemdb registers it under cleanName
+    let adjustedSdf = sdfContent;
+    if (adjustedSdf && adjustedSdf.trim()) {
+      const firstNewline = adjustedSdf.indexOf('\n');
+      if (firstNewline > 0) {
+        adjustedSdf = cleanName + adjustedSdf.substring(firstNewline);
+      }
+    }
+
     // Ensure .sdf is available via Cloud Storage
     let fileUrl: string | undefined = undefined;
     try {
       const uploadRes = await firstValueFrom(
-        this.reactCloudApi.uploadFileToStorage({ filename: sdfFilename, content: sdfContent }, '')
+        this.reactCloudApi.uploadFileToStorage({ filename: sdfFilename, content: adjustedSdf }, '')
       );
       if (uploadRes?.gcsPath) fileUrl = uploadRes.gcsPath;
     } catch (e) {
       await firstValueFrom(
         this.reactCloudApi.uploadUserDataFiles('', [
-          { filename: sdfFilename, content: sdfContent }
+          { filename: sdfFilename, content: adjustedSdf }
         ])
       );
     }

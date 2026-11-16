@@ -125,10 +125,11 @@ describe('TargetMoleculeService', () => {
     reactCloudApiMock.uploadUserDataFiles.and.returnValue(of({ success: true, targetDir: '', files: ['foo.sdf'] }));
     reactCloudApiMock.runCommands.and.returnValue(of({ root: 'Temp', exitCode: 0, output: 'Stored successfully' }));
 
-    const res = await service.storeTargetMolecule('Temporary', 'fake-sdf');
+    const res = await service.storeTargetMolecule('Temporary', 'Temporary\n  -REACTCLOUD- 2D\n\n  1  0  0 ...');
     expect(res.success).toBeTrue();
     expect(reactCloudApiMock.uploadUserDataFiles).toHaveBeenCalled();
     const uploadCallArg = reactCloudApiMock.uploadUserDataFiles.calls.mostRecent().args[1][0];
     expect(uploadCallArg.filename).toMatch(/^Temp_\d+\.sdf$/);
+    expect(uploadCallArg.content.split('\n')[0]).toMatch(/^Temp_\d+$/);
   });
 });

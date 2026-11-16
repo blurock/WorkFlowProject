@@ -309,6 +309,18 @@
 .exec-action-row {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+
+  .reset-test-btn {
+    height: 44px;
+    border-radius: 8px;
+    font-weight: 500;
+
+    mat-icon {
+      margin-right: 6px;
+    }
+  }
 
   .run-test-btn {
     padding: 8px 24px;
@@ -321,6 +333,12 @@
       margin-right: 6px;
     }
   }
+}
+
+.log-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 /* Tab 2 Empty State */

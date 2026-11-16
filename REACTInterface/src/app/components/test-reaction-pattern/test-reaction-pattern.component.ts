@@ -172,6 +172,7 @@ export class TestReactionPatternComponent implements OnInit {
       this.targetCheckResult = res;
 
       if (res.isExisting && res.matchedDbName && res.matchedDbName.toLowerCase() !== 'temporary') {
+        this.targetMoleculeName = res.matchedDbName;
         this.moleculeStatusMessage = `Found in REACT database as "${res.matchedDbName}".`;
         this.snackBar.open(`Molecule exists in DB as '${res.matchedDbName}'!`, 'OK', { duration: 3500 });
       } else {
@@ -186,6 +187,33 @@ export class TestReactionPatternComponent implements OnInit {
       this.isCheckingMolecule = false;
       this.updateLsrPreview();
     }
+  }
+
+  public onResetMolecule(): void {
+    this.targetMoleculeName = 'Temporary';
+    this.targetMolfile = null;
+    this.targetCheckResult = null;
+    this.moleculeStatusMessage = 'Draw a molecule or select a preset, then test.';
+    if (this.ketcherCanvas) {
+      this.ketcherCanvas.clearCanvas();
+    }
+    this.updateLsrPreview();
+    this.snackBar.open('Target molecule reset to clean canvas.', 'OK', { duration: 2500 });
+  }
+
+  public onResetTest(): void {
+    this.onResetMolecule();
+    this.hasExecuted = false;
+    this.isExecuting = false;
+    this.errorMessage = null;
+    this.executionLog = null;
+    this.itemDetailOutput = null;
+    this.moleculeSections = [];
+    this.currentSdfContent = null;
+    this.storageFiles = [];
+    this.storageDirectory = '';
+    this.selectedTabIndex = 0;
+    this.snackBar.open('Test parameters and previous run outputs reset.', 'OK', { duration: 2500 });
   }
 
   public onTargetMoleculeNameChange(newName: string): void {
@@ -284,6 +312,10 @@ export class TestReactionPatternComponent implements OnInit {
             console.warn('[TestReactionPattern] Target molecule store warning:', storeRes.error);
           }
         }
+
+        // Sync effective target name and regenerate LSR content with the verified molecule name
+        this.targetMoleculeName = effectiveMolecule;
+        this.updateLsrPreview();
       }
 
       // 2. Save .lsr file via /api/save-lsr (noted in execution log) under 'rxnpattests' category
