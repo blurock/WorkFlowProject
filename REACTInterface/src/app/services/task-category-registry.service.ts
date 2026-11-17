@@ -80,6 +80,13 @@ export class TaskCategoryRegistry {
           description: 'Upload source files, verify existence, and commit structures to database in 3 steps',
           icon: 'cloud_upload',
           type: 'read-check-store'
+        },
+        {
+          id: 'admin-panel',
+          title: 'Administration Panel',
+          description: 'Database integrity verification, auto-synchronization, and catalog structural listings',
+          icon: 'admin_panel_settings',
+          type: 'admin-panel'
         }
       ]
     },

@@ -1,0 +1,845 @@
+<div class="admin-panel-container">
+  <!-- Top Navigation Header -->
+  <header class="admin-header">
+    <div class="header-left">
+      <div class="title-with-badge">
+        <mat-icon class="header-icon">admin_panel_settings</mat-icon>
+        <h2>Database Administration & Catalog Integrity</h2>
+      </div>
+      <div class="scope-indicator">
+        <span class="scope-label">Scope:</span>
+        <span class="scope-badge" [ngClass]="authService.activeDataScope() === 'system' ? 'scope-system' : 'scope-personal'">
+          <mat-icon class="tiny-icon">{{ authService.activeDataScope() === 'system' ? 'public' : 'lock' }}</mat-icon>
+          {{ authService.activeDataScope() === 'system' ? 'System Shared Catalog' : 'Personal Workspace' }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <nav class="section-nav">
+      <button 
+        type="button" 
+        class="nav-tab-btn" 
+        [class.active]="activeSection() === 'verify'" 
+        (click)="setSection('verify')">
+        <mat-icon>verified_user</mat-icon>
+        Verify Integrity
+        <span class="counter-badge" *ngIf="totalIssuesCount() > 0" [class.badge-danger]="totalIssuesCount() > 0">
+          {{ totalIssuesCount() }}
+        </span>
+      </button>
+
+      <button 
+        type="button" 
+        class="nav-tab-btn" 
+        [class.active]="activeSection() === 'molecules'" 
+        (click)="setSection('molecules')">
+        <mat-icon>science</mat-icon>
+        Molecules
+      </button>
+
+      <button 
+        type="button" 
+        class="nav-tab-btn" 
+        [class.active]="activeSection() === 'substructures'" 
+        (click)="setSection('substructures')">
+        <mat-icon>grain</mat-icon>
+        Substructures
+      </button>
+
+      <button 
+        type="button" 
+        class="nav-tab-btn" 
+        [class.active]="activeSection() === 'reaction-patterns'" 
+        (click)="setSection('reaction-patterns')">
+        <mat-icon>schema</mat-icon>
+        Reaction Patterns
+      </button>
+
+      <button 
+        type="button" 
+        class="nav-tab-btn" 
+        [class.active]="activeSection() === 'mechanism-paths'" 
+        (click)="setSection('mechanism-paths')">
+        <mat-icon>alt_route</mat-icon>
+        Mechanism Paths
+      </button>
+
+      <button 
+        type="button" 
+        class="nav-tab-btn" 
+        [class.active]="activeSection() === 'mechanisms'" 
+        (click)="setSection('mechanisms')">
+        <mat-icon>account_tree</mat-icon>
+        Mechanisms
+      </button>
+    </nav>
+  </header>
+
+  <!-- Status / Feedback Toast Banner -->
+  <div *ngIf="statusMessage()" class="status-banner" [ngClass]="'status-' + statusMessage()?.type">
+    <mat-icon class="status-icon">
+      {{ statusMessage()?.type === 'success' ? 'check_circle' : (statusMessage()?.type === 'error' ? 'error' : 'info') }}
+    </mat-icon>
+    <span class="status-text">{{ statusMessage()?.text }}</span>
+    <button type="button" class="dismiss-btn" (click)="statusMessage.set(null)">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <!-- Loading Bar -->
+  <div *ngIf="isAuditing() || isRemediating()" class="loading-bar-container">
+    <div class="loading-indeterminate"></div>
+  </div>
+
+  <!-- MAIN VIEW CONTENT -->
+  <main class="panel-content">
+
+    <!-- ====================================================================== -->
+    <!-- 1. VERIFY INTEGRITY                                                    -->
+    <!-- ====================================================================== -->
+    <section *ngIf="activeSection() === 'verify'" class="section-container">
+      <!-- Toolbar Controls -->
+      <div class="verify-toolbar">
+        <div class="db-selector-group">
+          <label>Audit Target:</label>
+          <div class="pill-group">
+            <button 
+              type="button" 
+              class="pill-btn" 
+              [class.active]="selectedDatabase() === 'Substructures'"
+              (click)="selectedDatabase.set('Substructures'); runAudit()">
+              Substructures
+            </button>
+            <button 
+              type="button" 
+              class="pill-btn" 
+              [class.active]="selectedDatabase() === 'Molecules'"
+              (click)="selectedDatabase.set('Molecules'); runAudit()">
+              Molecules
+            </button>
+            <button 
+              type="button" 
+              class="pill-btn" 
+              [class.active]="selectedDatabase() === 'ReactionPatterns'"
+              (click)="selectedDatabase.set('ReactionPatterns'); runAudit()">
+              Reaction Patterns
+            </button>
+            <button 
+              type="button" 
+              class="pill-btn" 
+              [class.active]="selectedDatabase() === 'BensonTables'"
+              (click)="selectedDatabase.set('BensonTables'); runAudit()">
+              Benson Tables
+            </button>
+            <button 
+              type="button" 
+              class="pill-btn" 
+              [class.active]="selectedDatabase() === 'ALL'"
+              (click)="selectedDatabase.set('ALL'); runAudit()">
+              All Databases
+            </button>
+          </div>
+        </div>
+
+        <div class="toolbar-actions">
+          <button 
+            type="button" 
+            class="action-btn primary-btn" 
+            [disabled]="isAuditing() || isRemediating()" 
+            (click)="runAudit()">
+            <mat-icon>refresh</mat-icon>
+            Re-run Audit
+          </button>
+
+          <button 
+            type="button" 
+            class="action-btn sync-btn" 
+            [disabled]="isAuditing() || isRemediating() || safeIssuesCount() === 0" 
+            (click)="autoSyncSafe()"
+            [matTooltip]="'Automatically prune ghost keys, sync name mismatches, and index orphan records'">
+            <mat-icon>auto_fix_high</mat-icon>
+            Auto-Sync Safe Inconsistencies ({{ safeIssuesCount() }})
+          </button>
+        </div>
+      </div>
+
+      <!-- Audit Metrics Overview Cards -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-icon-wrap icon-purple">
+            <mat-icon>storage</mat-icon>
+          </div>
+          <div class="metric-info">
+            <span class="metric-label">DB Records</span>
+            <span class="metric-value">{{ getSummaryMetric('totalRecords') }}</span>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon-wrap icon-blue">
+            <mat-icon>format_list_numbered</mat-icon>
+          </div>
+          <div class="metric-info">
+            <span class="metric-label">Index Keys</span>
+            <span class="metric-value">{{ getSummaryMetric('totalKeys') }}</span>
+          </div>
+        </div>
+
+        <div class="metric-card" [class.highlight-danger]="currentIssues().length > 0">
+          <div class="metric-icon-wrap" [ngClass]="currentIssues().length > 0 ? 'icon-danger' : 'icon-green'">
+            <mat-icon>{{ currentIssues().length > 0 ? 'warning' : 'check_circle' }}</mat-icon>
+          </div>
+          <div class="metric-info">
+            <span class="metric-label">Inconsistencies</span>
+            <span class="metric-value">{{ currentIssues().length }}</span>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon-wrap icon-amber">
+            <mat-icon>link_off</mat-icon>
+          </div>
+          <div class="metric-info">
+            <span class="metric-label">Ghost Keys</span>
+            <span class="metric-value">{{ getSummaryMetric('ghostCount') }}</span>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon-wrap icon-teal">
+            <mat-icon>folder_special</mat-icon>
+          </div>
+          <div class="metric-info">
+            <span class="metric-label">Orphan Records</span>
+            <span class="metric-value">{{ getSummaryMetric('orphanCount') }}</span>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon-wrap icon-orange">
+            <mat-icon>sync_problem</mat-icon>
+          </div>
+          <div class="metric-info">
+            <span class="metric-label">Name Mismatches</span>
+            <span class="metric-value">{{ getSummaryMetric('mismatchCount') }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Issues Table Section -->
+      <div class="issues-container card-panel">
+        <div class="panel-header-row">
+          <div class="filter-pills">
+            <button 
+              type="button" 
+              class="filter-pill" 
+              [class.active]="auditIssueFilter() === 'all'" 
+              (click)="auditIssueFilter.set('all')">
+              All ({{ currentIssues().length }})
+            </button>
+            <button 
+              type="button" 
+              class="filter-pill" 
+              [class.active]="auditIssueFilter() === 'ghosts'" 
+              (click)="auditIssueFilter.set('ghosts')">
+              Ghosts
+            </button>
+            <button 
+              type="button" 
+              class="filter-pill" 
+              [class.active]="auditIssueFilter() === 'orphans'" 
+              (click)="auditIssueFilter.set('orphans')">
+              Orphans
+            </button>
+            <button 
+              type="button" 
+              class="filter-pill" 
+              [class.active]="auditIssueFilter() === 'mismatches'" 
+              (click)="auditIssueFilter.set('mismatches')">
+              Name Mismatches
+            </button>
+            <button 
+              type="button" 
+              class="filter-pill" 
+              [class.active]="auditIssueFilter() === 'duplicates'" 
+              (click)="auditIssueFilter.set('duplicates')">
+              Duplicates
+            </button>
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <div *ngIf="currentIssues().length === 0" class="empty-state">
+          <mat-icon class="empty-icon success-icon">verified</mat-icon>
+          <h3>Database and Classification Records are Consistent</h3>
+          <p>No issues found for {{ selectedDatabase() }}. All index keys match database records perfectly.</p>
+        </div>
+
+        <!-- Issues List Table -->
+        <div *ngIf="currentIssues().length > 0" class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th style="width: 110px;">Severity</th>
+                <th style="width: 140px;">Database</th>
+                <th style="width: 120px;">ID</th>
+                <th>Name / Details</th>
+                <th>Diagnosis & Inconsistency</th>
+                <th style="width: 220px; text-align: right;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let issue of currentIssues()">
+                <td>
+                  <span class="severity-badge" [ngClass]="'badge-' + issue.severity">
+                    {{ issue.severity | uppercase }}
+                  </span>
+                </td>
+                <td>
+                  <span class="db-badge">{{ issue.database }}</span>
+                </td>
+                <td>
+                  <code class="id-code">#{{ issue.id }}</code>
+                </td>
+                <td>
+                  <div class="name-details">
+                    <span class="primary-name">{{ issue.name || issue.recordName || issue.indexName || '—' }}</span>
+                    <div *ngIf="issue.recordName && issue.indexName" class="sub-names">
+                      <span class="sub-name text-green">DB: {{ issue.recordName }}</span>
+                      <span class="sub-name text-amber">Index: {{ issue.indexName }}</span>
+                    </div>
+                    <div *ngIf="issue.ids" class="ids-list">
+                      <span class="sub-label">Associated IDs:</span>
+                      <span *ngFor="let subId of issue.ids" class="sub-id-pill">#{{ subId }}</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="issue-msg">{{ issue.message }}</span>
+                </td>
+                <td style="text-align: right;">
+                  <div class="action-buttons-cell">
+                    <!-- Ghost key: Prune -->
+                    <button 
+                      *ngIf="issue.type === 'GHOST_INDEX_KEY'" 
+                      type="button" 
+                      class="row-action-btn btn-warning" 
+                      (click)="pruneGhost(issue)"
+                      [disabled]="isRemediating()">
+                      <mat-icon>delete_sweep</mat-icon>
+                      Prune Ghost
+                    </button>
+
+                    <!-- Name Mismatch: Sync -->
+                    <button 
+                      *ngIf="issue.type === 'NAME_MISMATCH'" 
+                      type="button" 
+                      class="row-action-btn btn-primary" 
+                      (click)="syncName(issue)"
+                      [disabled]="isRemediating()">
+                      <mat-icon>sync</mat-icon>
+                      Sync Name
+                    </button>
+
+                    <!-- Orphan: Add to Index -->
+                    <button 
+                      *ngIf="issue.type === 'ORPHAN_RECORD'" 
+                      type="button" 
+                      class="row-action-btn btn-success" 
+                      (click)="addOrphanToIndex(issue)"
+                      [disabled]="isRemediating()">
+                      <mat-icon>add_circle</mat-icon>
+                      Add to Index
+                    </button>
+
+                    <!-- Duplicate in Records: Rename or Delete -->
+                    <button 
+                      *ngIf="issue.type === 'DUPLICATE_NAME_IN_RECORDS'" 
+                      type="button" 
+                      class="row-action-btn btn-rename" 
+                      (click)="openRenameModal(issue)"
+                      [disabled]="isRemediating()">
+                      <mat-icon>edit</mat-icon>
+                      Rename
+                    </button>
+                    <button 
+                      *ngIf="issue.type === 'DUPLICATE_NAME_IN_RECORDS' || issue.type === 'MISSING_NAME_IN_RECORD'" 
+                      type="button" 
+                      class="row-action-btn btn-danger" 
+                      (click)="openDeleteModal(issue)"
+                      [disabled]="isRemediating()">
+                      <mat-icon>delete_forever</mat-icon>
+                      Delete
+                    </button>
+
+                    <!-- Duplicate in Index: Prune Ghost or Rename -->
+                    <button 
+                      *ngIf="issue.type === 'DUPLICATE_NAME_IN_INDEX' || issue.type === 'DUPLICATE_ID_IN_INDEX'" 
+                      type="button" 
+                      class="row-action-btn btn-warning" 
+                      (click)="pruneGhost(issue)"
+                      [disabled]="isRemediating()">
+                      <mat-icon>delete_sweep</mat-icon>
+                      Remove Duplicate
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================== -->
+    <!-- 2. MOLECULES LIST                                                      -->
+    <!-- ====================================================================== -->
+    <section *ngIf="activeSection() === 'molecules'" class="section-container">
+      <div class="list-controls-bar">
+        <div class="search-box">
+          <mat-icon class="search-icon">search</mat-icon>
+          <input 
+            type="text" 
+            placeholder="Filter molecules by name or ID..." 
+            [ngModel]="listSearchQuery()" 
+            (ngModelChange)="listSearchQuery.set($event)" />
+          <button *ngIf="listSearchQuery()" class="clear-search-btn" (click)="listSearchQuery.set('')">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+
+        <div class="list-meta">
+          <span class="count-badge">{{ filteredMolecules().length }} Molecule(s)</span>
+          <button type="button" class="action-btn secondary-btn" (click)="regenerateCatalogLists()" [disabled]="isLoadingLists()">
+            <mat-icon>cached</mat-icon>
+            Refresh Lists
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="isLoadingLists()" class="lists-loading-indicator">
+        <mat-spinner diameter="32"></mat-spinner>
+        <span>Loading molecules from database...</span>
+      </div>
+
+      <!-- Molecules Sorted List -->
+      <div *ngIf="!isLoadingLists()" class="items-list-container">
+        <div *ngIf="filteredMolecules().length === 0" class="empty-state">
+          <p>No molecules found matching query.</p>
+        </div>
+
+        <div 
+          *ngFor="let mol of filteredMolecules()" 
+          class="one-line-summary-row molecule-row">
+          <div class="one-line-summary-text">
+            <span class="one-line-summary-badge badge-blue">#{{ mol.id }}</span>
+            <span class="one-line-summary-title">{{ mol.name }}</span>
+          </div>
+          <div class="one-line-summary-actions">
+            <button class="action-icon-btn" (click)="copyToClipboard(mol.name)" [matTooltip]="'Copy name: ' + mol.name">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================== -->
+    <!-- 3. SUBSTRUCTURES LIST                                                  -->
+    <!-- ====================================================================== -->
+    <section *ngIf="activeSection() === 'substructures'" class="section-container">
+      <div class="list-controls-bar">
+        <div class="sub-tab-pills">
+          <button 
+            type="button" 
+            class="sub-pill-btn" 
+            [class.active]="substructureTab() === 'families'" 
+            (click)="substructureTab.set('families')">
+            Grouped by Family
+          </button>
+          <button 
+            type="button" 
+            class="sub-pill-btn" 
+            [class.active]="substructureTab() === 'molecules'" 
+            (click)="substructureTab.set('molecules')">
+            Substructures that are Molecules
+          </button>
+          <button 
+            type="button" 
+            class="sub-pill-btn" 
+            [class.active]="substructureTab() === 'map'" 
+            (click)="substructureTab.set('map')">
+            Substructure Map (Name &harr; ID)
+          </button>
+        </div>
+
+        <div class="search-box">
+          <mat-icon class="search-icon">search</mat-icon>
+          <input 
+            type="text" 
+            placeholder="Search substructures..." 
+            [ngModel]="listSearchQuery()" 
+            (ngModelChange)="listSearchQuery.set($event)" />
+        </div>
+
+        <button type="button" class="action-btn secondary-btn" (click)="regenerateCatalogLists()" [disabled]="isLoadingLists()">
+          <mat-icon>cached</mat-icon>
+          Refresh Lists
+        </button>
+      </div>
+
+      <div *ngIf="isLoadingLists()" class="lists-loading-indicator">
+        <mat-spinner diameter="32"></mat-spinner>
+        <span>Loading substructures from database...</span>
+      </div>
+
+      <ng-container *ngIf="!isLoadingLists()">
+      <!-- View A: Grouped by Family (Wildcard Substitution) -->
+      <div *ngIf="substructureTab() === 'families'" class="families-container">
+        <div *ngFor="let fam of filteredSubstructureFamilies()" class="family-block">
+          <!-- Accordion Header -->
+          <div 
+            class="one-line-summary-row family-header-row" 
+            (click)="toggleFamily(fam.family)">
+            <div class="one-line-summary-text">
+              <span class="one-line-summary-badge badge-purple">Family</span>
+              <span class="one-line-summary-title font-bold">{{ fam.family }}</span>
+              <span class="count-tag">({{ fam.count }} variants)</span>
+            </div>
+            <div class="one-line-summary-actions">
+              <mat-icon class="chevron-icon">{{ isFamilyExpanded(fam.family) ? 'expand_less' : 'expand_more' }}</mat-icon>
+            </div>
+          </div>
+
+          <!-- Expanded Members Card -->
+          <div *ngIf="isFamilyExpanded(fam.family)" class="family-members-card">
+            <div *ngFor="let item of fam.items" class="substructure-member-row">
+              <span class="member-id">#{{ item.id }}</span>
+              <span class="member-name">{{ item.name }}</span>
+              <button class="action-icon-btn" (click)="copyToClipboard(item.name)" [matTooltip]="'Copy name: ' + item.name">
+                <mat-icon>content_copy</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- View B: Substructures that are Molecules -->
+      <div *ngIf="substructureTab() === 'molecules'" class="items-list-container">
+        <div class="info-alert-box">
+          <mat-icon>info</mat-icon>
+          <span>These substructures correspond directly to known molecules in the chemical database.</span>
+        </div>
+        <div *ngFor="let item of filteredSubstructuresAsMolecules()" class="one-line-summary-row">
+          <div class="one-line-summary-text">
+            <span class="one-line-summary-badge badge-green">Substr #{{ item.id }}</span>
+            <span class="one-line-summary-badge badge-blue">Mol #{{ item.moleculeId }}</span>
+            <span class="one-line-summary-title">{{ item.name }}</span>
+          </div>
+          <div class="one-line-summary-actions">
+            <button class="action-icon-btn" (click)="copyToClipboard(item.name)">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- View C: Substructure Map -->
+      <div *ngIf="substructureTab() === 'map'" class="map-container">
+        <div class="map-sort-bar">
+          <span class="sort-label">Sort Map By:</span>
+          <button 
+            type="button" 
+            class="pill-btn-small" 
+            [class.active]="substructureMapSort() === 'name'" 
+            (click)="substructureMapSort.set('name')">
+            Substructure Name
+          </button>
+          <button 
+            type="button" 
+            class="pill-btn-small" 
+            [class.active]="substructureMapSort() === 'id'" 
+            (click)="substructureMapSort.set('id')">
+            Substructure ID
+          </button>
+          <span class="total-pairs-label">({{ substructureMapPairs().length }} total mappings)</span>
+        </div>
+
+        <div class="map-grid">
+          <div *ngFor="let pair of substructureMapPairs()" class="map-item-card">
+            <div class="map-key">
+              <span class="label">ID:</span>
+              <code class="val">#{{ pair.id }}</code>
+            </div>
+            <div class="map-val">
+              <span class="label">Name:</span>
+              <span class="val name-val">{{ pair.name }}</span>
+            </div>
+            <button class="action-icon-btn" (click)="copyToClipboard(pair.name)" [matTooltip]="'Copy ' + pair.name">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      </ng-container>
+    </section>
+
+    <!-- ====================================================================== -->
+    <!-- 4. REACTION PATTERNS LIST                                              -->
+    <!-- ====================================================================== -->
+    <section *ngIf="activeSection() === 'reaction-patterns'" class="section-container">
+      <div class="list-controls-bar">
+        <div class="sub-tab-pills">
+          <button 
+            type="button" 
+            class="sub-pill-btn" 
+            [class.active]="rxnPatternTab() === 'by-substructures'" 
+            (click)="rxnPatternTab.set('by-substructures')">
+            Grouped by Substructures
+          </button>
+          <button 
+            type="button" 
+            class="sub-pill-btn" 
+            [class.active]="rxnPatternTab() === 'by-prefix'" 
+            (click)="rxnPatternTab.set('by-prefix')">
+            Grouped by Name Prefix
+          </button>
+        </div>
+
+        <div class="search-box">
+          <mat-icon class="search-icon">search</mat-icon>
+          <input 
+            type="text" 
+            placeholder="Search reaction patterns..." 
+            [ngModel]="listSearchQuery()" 
+            (ngModelChange)="listSearchQuery.set($event)" />
+        </div>
+
+        <button type="button" class="action-btn secondary-btn" (click)="regenerateCatalogLists()" [disabled]="isLoadingLists()">
+          <mat-icon>cached</mat-icon>
+          Refresh Lists
+        </button>
+      </div>
+
+      <div *ngIf="isLoadingLists()" class="lists-loading-indicator">
+        <mat-spinner diameter="32"></mat-spinner>
+        <span>Loading reaction patterns from database...</span>
+      </div>
+
+      <ng-container *ngIf="!isLoadingLists()">
+      <!-- View A: By Substructures -->
+      <div *ngIf="rxnPatternTab() === 'by-substructures'" class="families-container">
+        <div *ngFor="let grp of filteredRxnPatternsBySubstructure()" class="family-block">
+          <div 
+            class="one-line-summary-row family-header-row" 
+            (click)="toggleRxnSubstructure(grp.substructure)">
+            <div class="one-line-summary-text">
+              <span class="one-line-summary-badge badge-teal">Substructure</span>
+              <span class="one-line-summary-title font-bold">{{ grp.substructure }}</span>
+              <span class="count-tag">({{ grp.count }} reaction patterns)</span>
+            </div>
+            <div class="one-line-summary-actions">
+              <mat-icon class="chevron-icon">{{ isRxnSubstructureExpanded(grp.substructure) ? 'expand_less' : 'expand_more' }}</mat-icon>
+            </div>
+          </div>
+
+          <div *ngIf="isRxnSubstructureExpanded(grp.substructure)" class="family-members-card">
+            <div *ngFor="let pat of grp.patterns" class="substructure-member-row">
+              <span class="member-id">#{{ pat.id }}</span>
+              <span class="role-badge" [ngClass]="pat.role === 'reactant' ? 'role-reactant' : 'role-product'">
+                {{ pat.role | uppercase }}
+              </span>
+              <span class="member-name">{{ pat.name }}</span>
+              <button class="action-icon-btn" (click)="copyToClipboard(pat.name)">
+                <mat-icon>content_copy</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- View B: By Prefix -->
+      <div *ngIf="rxnPatternTab() === 'by-prefix'" class="families-container">
+        <div *ngFor="let grp of filteredRxnPatternsByPrefix()" class="family-block">
+          <div 
+            class="one-line-summary-row family-header-row" 
+            (click)="togglePrefix(grp.prefix)">
+            <div class="one-line-summary-text">
+              <span class="one-line-summary-badge badge-orange">Reaction Family</span>
+              <span class="one-line-summary-title font-bold">{{ grp.prefix }}</span>
+              <span class="count-tag">({{ grp.count }} variants)</span>
+            </div>
+            <div class="one-line-summary-actions">
+              <mat-icon class="chevron-icon">{{ isPrefixExpanded(grp.prefix) ? 'expand_less' : 'expand_more' }}</mat-icon>
+            </div>
+          </div>
+
+          <div *ngIf="isPrefixExpanded(grp.prefix)" class="family-members-card">
+            <div *ngFor="let pat of grp.patterns" class="substructure-member-row">
+              <span class="member-id">#{{ pat.id }}</span>
+              <span class="member-name">{{ pat.name }}</span>
+              <button class="action-icon-btn" (click)="copyToClipboard(pat.name)">
+                <mat-icon>content_copy</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      </ng-container>
+    </section>
+
+    <!-- ====================================================================== -->
+    <!-- 5. MECHANISM PATHS LIST                                                -->
+    <!-- ====================================================================== -->
+    <section *ngIf="activeSection() === 'mechanism-paths'" class="section-container">
+      <div class="list-controls-bar">
+        <div class="search-box">
+          <mat-icon class="search-icon">search</mat-icon>
+          <input 
+            type="text" 
+            placeholder="Search mechanism pathways or versions..." 
+            [ngModel]="listSearchQuery()" 
+            (ngModelChange)="listSearchQuery.set($event)" />
+        </div>
+
+        <button type="button" class="action-btn secondary-btn" (click)="regenerateCatalogLists()" [disabled]="isLoadingLists()">
+          <mat-icon>cached</mat-icon>
+          Refresh Lists
+        </button>
+      </div>
+
+      <div *ngIf="isLoadingLists()" class="lists-loading-indicator">
+        <mat-spinner diameter="32"></mat-spinner>
+        <span>Loading mechanism pathways from database...</span>
+      </div>
+
+      <div *ngIf="!isLoadingLists()" class="families-container">
+        <div *ngFor="let cluster of filteredPathways()" class="family-block">
+          <div 
+            class="one-line-summary-row family-header-row" 
+            (click)="togglePathway(cluster.baseName)">
+            <div class="one-line-summary-text">
+              <span class="one-line-summary-badge badge-purple">Pathway</span>
+              <span class="one-line-summary-title font-bold">{{ cluster.baseName }}</span>
+              <span class="count-tag">({{ cluster.count }} versions)</span>
+            </div>
+            <div class="one-line-summary-actions">
+              <mat-icon class="chevron-icon">{{ isPathwayExpanded(cluster.baseName) ? 'expand_less' : 'expand_more' }}</mat-icon>
+            </div>
+          </div>
+
+          <div *ngIf="isPathwayExpanded(cluster.baseName)" class="family-members-card">
+            <div *ngFor="let p of cluster.pathways" class="substructure-member-row">
+              <span class="version-tag badge-amber">{{ p.version }}</span>
+              <span class="member-name">{{ p.name }}</span>
+              <button class="action-icon-btn" (click)="copyToClipboard(p.name)">
+                <mat-icon>content_copy</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================== -->
+    <!-- 6. MECHANISMS LIST                                                     -->
+    <!-- ====================================================================== -->
+    <section *ngIf="activeSection() === 'mechanisms'" class="section-container">
+      <div class="list-controls-bar">
+        <div class="search-box">
+          <mat-icon class="search-icon">search</mat-icon>
+          <input 
+            type="text" 
+            placeholder="Search mechanisms by target molecule..." 
+            [ngModel]="listSearchQuery()" 
+            (ngModelChange)="listSearchQuery.set($event)" />
+        </div>
+
+        <button type="button" class="action-btn secondary-btn" (click)="regenerateCatalogLists()" [disabled]="isLoadingLists()">
+          <mat-icon>cached</mat-icon>
+          Refresh Lists
+        </button>
+      </div>
+
+      <div *ngIf="isLoadingLists()" class="lists-loading-indicator">
+        <mat-spinner diameter="32"></mat-spinner>
+        <span>Loading mechanisms from database...</span>
+      </div>
+
+      <div *ngIf="!isLoadingLists()" class="families-container">
+        <div *ngFor="let cluster of filteredMechanisms()" class="family-block">
+          <div 
+            class="one-line-summary-row family-header-row" 
+            (click)="toggleMechanism(cluster.targetMolecule)">
+            <div class="one-line-summary-text">
+              <span class="one-line-summary-badge badge-blue">Target Molecule</span>
+              <span class="one-line-summary-title font-bold">{{ cluster.targetMolecule }}</span>
+              <span class="count-tag">({{ cluster.count }} mechanisms)</span>
+            </div>
+            <div class="one-line-summary-actions">
+              <mat-icon class="chevron-icon">{{ isMechanismExpanded(cluster.targetMolecule) ? 'expand_less' : 'expand_more' }}</mat-icon>
+            </div>
+          </div>
+
+          <div *ngIf="isMechanismExpanded(cluster.targetMolecule)" class="family-members-card">
+            <div *ngFor="let m of cluster.mechanisms" class="substructure-member-row">
+              <span class="member-id">#{{ m.id }}</span>
+              <span class="member-name">{{ m.name }}</span>
+              <button class="action-icon-btn" (click)="copyToClipboard(m.name)">
+                <mat-icon>content_copy</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ====================================================================== -->
+  <!-- MODAL: CONFIRM DELETION                                                -->
+  <!-- ====================================================================== -->
+  <div *ngIf="deleteConfirmIssue()" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <mat-icon class="modal-icon text-danger">warning</mat-icon>
+        <h3>Confirm Record Deletion</h3>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to permanently delete record <strong>#{{ deleteConfirmIssue()?.id }}</strong> (<code>{{ deleteConfirmIssue()?.name || deleteConfirmIssue()?.recordName }}</code>) from <strong>{{ deleteConfirmIssue()?.database }}</strong>?</p>
+        <p class="warning-text">This will remove the Firestore document from database records and prune its index entry. This action cannot be undone.</p>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" (click)="closeDeleteModal()">Cancel</button>
+        <button type="button" class="btn-danger" (click)="confirmDelete()">Permanently Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================== -->
+  <!-- MODAL: RENAME RECORD                                                   -->
+  <!-- ====================================================================== -->
+  <div *ngIf="renameModalIssue()" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <mat-icon class="modal-icon text-primary">edit</mat-icon>
+        <h3>Rename Record</h3>
+      </div>
+      <div class="modal-body">
+        <p>Enter the new unique name for record <strong>#{{ renameModalIssue()?.id }}</strong> in <strong>{{ renameModalIssue()?.database }}</strong>:</p>
+        <input 
+          type="text" 
+          class="modal-input" 
+          placeholder="New record name..." 
+          [ngModel]="renameNewName()" 
+          (ngModelChange)="renameNewName.set($event)" />
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" (click)="closeRenameModal()">Cancel</button>
+        <button type="button" class="btn-primary" [disabled]="!renameNewName().trim()" (click)="confirmRename()">Save New Name</button>
+      </div>
+    </div>
+  </div>
+
+</div>

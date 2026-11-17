@@ -4552,6 +4552,10 @@ app.get('/api/db/keys', authenticateUser, async (req, res) => {
   }
 });
 
+// Admin Integrity and Catalog List Routes
+const { setupAdminIntegrityRoutes } = require('./admin-integrity');
+setupAdminIntegrityRoutes(app, { firestore, authenticateUser, requireAdmin });
+
 app.use((err, req, res, next) => {
   console.error('[Orchestrator Global Error]', err);
   if (res.headersSent) {

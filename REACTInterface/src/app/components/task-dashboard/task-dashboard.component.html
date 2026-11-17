@@ -36,6 +36,11 @@
       {{ authService.isAdmin() ? 'Logs & Security Admin' : 'Execution Logs' }}
     </button>
 
+    <button *ngIf="authService.isAdmin()" mat-button routerLink="/admin-panel" class="nav-admin-btn">
+      <mat-icon style="margin-right: 4px;">admin_panel_settings</mat-icon>
+      Admin Panel
+    </button>
+
     <div class="user-profile" *ngIf="authService.currentUser() as user">
       <mat-icon class="user-avatar">account_circle</mat-icon>
       <span class="user-name">{{ user.username }}</span>
@@ -171,6 +176,11 @@
         <!-- 11. Search Structure in Database Task -->
         <ng-container *ngIf="selectedTask.type === 'search-structure' || selectedTask.id === 'search-structure-db'">
           <app-search-structure></app-search-structure>
+        </ng-container>
+
+        <!-- 12. Administration Panel Task -->
+        <ng-container *ngIf="selectedTask.type === 'admin-panel' || selectedTask.id === 'admin-panel'">
+          <app-administration-panel></app-administration-panel>
         </ng-container>
 
         <!-- 3. Interactive Creator / Generator Tasks (Create & Generate) -->

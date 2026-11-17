@@ -25,6 +25,7 @@ import { GraphicalMoleculeInputComponent } from '../graphical-molecule-input/gra
 import { TestReactionPatternComponent } from '../test-reaction-pattern/test-reaction-pattern.component';
 import { MechanismPathwayCreatorComponent } from '../mechanism-pathway-creator/mechanism-pathway-creator.component';
 import { SearchStructureComponent } from '../search-structure/search-structure.component';
+import { AdministrationPanelComponent } from '../administration-panel/administration-panel.component';
 
 @Component({
   selector: 'app-task-dashboard',
@@ -51,7 +52,8 @@ import { SearchStructureComponent } from '../search-structure/search-structure.c
     GraphicalMoleculeInputComponent,
     TestReactionPatternComponent,
     MechanismPathwayCreatorComponent,
-    SearchStructureComponent
+    SearchStructureComponent,
+    AdministrationPanelComponent
   ],
   templateUrl: './task-dashboard.component.html',
   styleUrls: ['./task-dashboard.component.scss']
