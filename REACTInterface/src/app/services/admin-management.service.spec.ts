@@ -152,5 +152,37 @@ describe('AdminManagementService', () => {
     expect(req.request.method).toBe('GET');
     req.flush({ success: true, listType: 'molecules', data: [] });
   });
+
+  it('should call fetchRecord with database and key', () => {
+    service.fetchRecord('Substructures', '10002').subscribe((res) => {
+      expect(res.found).toBeTrue();
+      expect(res.data).toBeDefined();
+    });
+
+    const req = httpMock.expectOne('http://localhost:8085/api/db/fetch');
+    expect(req.request.method).toBe('POST');
+    expect(req.request.headers.get('Authorization')).toBe('Bearer mock-token');
+    expect(req.request.body).toEqual({ dbName: 'Substructures', type: 'int', key: 10002 });
+    req.flush({ success: true, found: true, data: { ID: 10002, Name: 'test' } });
+  });
+
+  it('should call migrateSubstructure with oldId, newId and deleteOld flag', () => {
+    service.migrateSubstructure(10002, 10003, true).subscribe((res) => {
+      expect(res.success).toBeTrue();
+      expect(res.countUpdated).toBe(1);
+    });
+
+    const req = httpMock.expectOne('http://localhost:8085/api/admin/substructures/migrate');
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual({ oldId: 10002, newId: 10003, deleteOld: true, scope: 'personal' });
+    req.flush({
+      success: true,
+      oldId: 10002,
+      newId: 10003,
+      countUpdated: 1,
+      updatedPatterns: [{ id: 501, name: 'BetaScission' }],
+      deletedOld: true
+    });
+  });
 });
 

@@ -91,7 +91,7 @@
               </div>
               <div class="sec-actions">
                 <button mat-button color="warn" (click)="onResetMolecule()"
-                  matTooltip="Clear molecule drawing and reset name to Temporary">
+                  matTooltip="Clear molecule drawing and reset canvas">
                   <mat-icon>restart_alt</mat-icon>
                   Reset Molecule
                 </button>
@@ -221,6 +221,35 @@
                 <mat-icon>refresh</mat-icon>
                 Reset Test
               </button>
+            </div>
+
+            <!-- Scratch Target Molecule Promotion Banner (Option 1A) -->
+            <div *ngIf="isEphemeralTarget" class="scratch-promote-card mb-3 p-3">
+              <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                <div class="d-flex align-items-center">
+                  <mat-icon color="accent" class="mr-2">science</mat-icon>
+                  <div>
+                    <strong>Scratch Target Molecule Tested</strong>
+                    <div class="text-muted small">
+                      This test used an ephemeral structure ('{{ ephemeralRecordName || targetMoleculeName }}'). Would you like to save it permanently to your database catalog?
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                  <mat-form-field appearance="outline" subscriptSizing="dynamic" class="promote-name-field" style="max-width: 240px;">
+                    <mat-label>Catalog Name</mat-label>
+                    <input matInput [(ngModel)]="promoteMoleculeName" placeholder="e.g. 2-butanol-radical" [disabled]="isPromotingMolecule">
+                  </mat-form-field>
+                  <button mat-flat-button color="primary" (click)="onPromoteTargetMolecule()" [disabled]="isPromotingMolecule || !promoteMoleculeName.trim()">
+                    <mat-icon>save</mat-icon>
+                    Save to Catalog
+                  </button>
+                  <button mat-stroked-button color="warn" (click)="onDiscardEphemeralTarget()" [disabled]="isPromotingMolecule" matTooltip="Discard scratch molecule from database">
+                    <mat-icon>delete_outline</mat-icon>
+                    Discard Scratch
+                  </button>
+                </div>
+              </div>
             </div>
 
             <div *ngIf="storageFiles.length > 0" class="mb-3">

@@ -2,7 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AdministrationPanelComponent } from './administration-panel.component';
 import { AdminManagementService, AuditResult, CatalogListsPayload } from '../../services/admin-management.service';
 import { AuthService } from '../../services/auth.service';
-import { of, throwError } from 'rxjs';
+import { ReactCloudApiService } from '../../services/react-cloud-api.service';
+import { of } from 'rxjs';
 import { signal } from '@angular/core';
 
 describe('AdministrationPanelComponent', () => {
@@ -10,6 +11,7 @@ describe('AdministrationPanelComponent', () => {
   let fixture: ComponentFixture<AdministrationPanelComponent>;
   let adminServiceMock: any;
   let authServiceMock: any;
+  let apiServiceMock: any;
 
   const mockAuditResult: { [key: string]: AuditResult } = {
     Substructures: {
@@ -48,8 +50,9 @@ describe('AdministrationPanelComponent', () => {
           type: 'DUPLICATE_NAME_IN_RECORDS',
           database: 'Substructures',
           id: '10002',
+          ids: ['10002', '10003'],
           name: 'betaolefinradical',
-          message: 'Duplicate name',
+          message: 'Duplicate name in records',
           severity: 'error',
           safeToAutoSync: false
         }
@@ -151,6 +154,42 @@ describe('AdministrationPanelComponent', () => {
       getCatalogLists: jasmine.createSpy('getCatalogLists').and.returnValue(of({
         success: true,
         lists: mockCatalogLists
+      })),
+      fetchRecord: jasmine.createSpy('fetchRecord').and.callFake((db: string, id: any) => of({
+        found: true,
+        data: {
+          ID: Number(id),
+          Name: 'betaolefinradical',
+          Molfile: {
+            NAtoms: 2,
+            NBonds: 1,
+            Atoms: [
+              { AtomicNumber: 6, X: 0, Y: 0, Z: 0, Radical: 0 },
+              { AtomicNumber: 6, X: 1.5, Y: 0, Z: 0, Radical: 2 }
+            ],
+            Bonds: [
+              { I: 0, J: 1, Order: 2 }
+            ]
+          }
+        }
+      })),
+      migrateSubstructure: jasmine.createSpy('migrateSubstructure').and.returnValue(of({
+        success: true,
+        oldId: 10002,
+        newId: 10003,
+        countUpdated: 1,
+        updatedPatterns: [{ id: 501, name: 'BetaScission' }],
+        deletedOld: true
+      }))
+    };
+
+    apiServiceMock = {
+      checkDatabaseDependencies: jasmine.createSpy('checkDatabaseDependencies').and.returnValue(of({
+        hasDependencies: true,
+        count: 1,
+        dependencies: [
+          { id: 501, name: 'BetaScission', type: 'ReactionPattern', role: 'Reactant Substructure' }
+        ]
       }))
     };
 
@@ -164,6 +203,7 @@ describe('AdministrationPanelComponent', () => {
       imports: [AdministrationPanelComponent],
       providers: [
         { provide: AdminManagementService, useValue: adminServiceMock },
+        { provide: ReactCloudApiService, useValue: apiServiceMock },
         { provide: AuthService, useValue: authServiceMock }
       ]
     }).compileComponents();
@@ -229,6 +269,34 @@ describe('AdministrationPanelComponent', () => {
     expect(component.statusMessage()?.type).toBe('success');
   });
 
+  it('should call addOrphanToIndex and trigger remediate with sync_to_classification', () => {
+    const orphanIssue = mockAuditResult['Substructures'].issues[1]; // ORPHAN_RECORD
+    component.addOrphanToIndex(orphanIssue);
+    expect(adminServiceMock.remediate).toHaveBeenCalledWith(
+      'sync_to_classification',
+      'Substructures',
+      jasmine.objectContaining({ id: '10001', name: 'orphan-rec' })
+    );
+    expect(component.statusMessage()?.type).toBe('success');
+  });
+
+  it('should call syncName and trigger remediate with sync_name_to_classification', () => {
+    const mismatchIssue: any = {
+      type: 'NAME_MISMATCH',
+      database: 'Substructures',
+      id: '11009604',
+      recordName: 'cyclohexane-14-CyclicEther-HR',
+      indexName: 'cyclohexane-14-CyclicEther-RH'
+    };
+    component.syncName(mismatchIssue);
+    expect(adminServiceMock.remediate).toHaveBeenCalledWith(
+      'sync_name_to_classification',
+      'Substructures',
+      jasmine.objectContaining({ id: '11009604', name: 'cyclohexane-14-CyclicEther-HR' })
+    );
+    expect(component.statusMessage()?.type).toBe('success');
+  });
+
   it('should open and confirm deletion modal', () => {
     const issue = mockAuditResult['Substructures'].issues[2];
     component.openDeleteModal(issue);
@@ -257,6 +325,144 @@ describe('AdministrationPanelComponent', () => {
       jasmine.objectContaining({ id: '10002', newName: 'betaolefinradical-unique' })
     );
     expect(component.renameModalIssue()).toBeNull();
+  });
+
+  it('should correctly identify duplicate substructures with isDuplicateSubstructure', () => {
+    const dupSub1: any = { database: 'Substructures', type: 'DUPLICATE_RECORD_NAME' };
+    const dupSub2: any = { database: 'Substructures', type: 'DUPLICATE_NAME_IN_RECORDS' };
+    const dupSub3: any = { database: 'Substructures', type: 'DUPLICATE_INDEX_NAME' };
+    const nonSubDup: any = { database: 'Molecules', type: 'DUPLICATE_RECORD_NAME' };
+    const nonDupSub: any = { database: 'Substructures', type: 'GHOST_INDEX_KEY' };
+
+    expect(component.isDuplicateSubstructure(dupSub1)).toBeTrue();
+    expect(component.isDuplicateSubstructure(dupSub2)).toBeTrue();
+    expect(component.isDuplicateSubstructure(dupSub3)).toBeTrue();
+    expect(component.isDuplicateSubstructure(nonSubDup)).toBeFalse();
+    expect(component.isDuplicateSubstructure(nonDupSub)).toBeFalse();
+  });
+
+  describe('Deduplication & Adjustment Workflow', () => {
+    beforeEach(() => {
+      spyOn(window, 'confirm').and.returnValue(true);
+    });
+
+    it('should open a deduplicate dynamic tab and load duplicate substructures', async () => {
+      const issue = mockAuditResult['Substructures'].issues[2]; // DUPLICATE_NAME_IN_RECORDS
+      component.openDeduplicateTab(issue);
+
+      expect(component.dynamicTabs().length).toBe(1);
+      const tab = component.dynamicTabs()[0];
+      expect(tab.type).toBe('deduplicate');
+      expect(tab.substructureName).toBe('betaolefinradical');
+      expect(component.activeSection()).toBe(tab.id);
+
+      // Wait for async loadDeduplicateSubstructures
+      await fixture.whenStable();
+
+      expect(adminServiceMock.fetchRecord).toHaveBeenCalledWith('Substructures', '10002');
+      expect(adminServiceMock.fetchRecord).toHaveBeenCalledWith('Substructures', '10003');
+      expect(apiServiceMock.checkDatabaseDependencies).toHaveBeenCalled();
+      expect(tab.duplicateItems?.length).toBe(2);
+      expect(tab.correspondencesMatch).toBeTrue();
+    });
+
+    it('should delete an unused duplicate substructure when confirmed', () => {
+      const issue = mockAuditResult['Substructures'].issues[2];
+      component.openDeduplicateTab(issue);
+      const tab = component.dynamicTabs()[0];
+
+      const itemToDelete = {
+        id: '10002',
+        name: 'betaolefinradical',
+        data: {},
+        molfile: '',
+        dependencies: [],
+        isLoadingDependencies: false
+      };
+      const remainingItem = {
+        id: '10003',
+        name: 'betaolefinradical',
+        data: {},
+        molfile: '',
+        dependencies: [{ id: 501, name: 'BetaScission' }],
+        isLoadingDependencies: false
+      };
+      tab.duplicateItems = [itemToDelete, remainingItem];
+
+      component.deleteUnusedSubstructure(tab, itemToDelete);
+
+      expect(adminServiceMock.remediate).toHaveBeenCalledWith(
+        'delete_record',
+        'Substructures',
+        jasmine.objectContaining({ id: '10002' })
+      );
+      // Since only 1 remains, the deduplicate tab should auto-close
+      expect(component.dynamicTabs().some(t => t.id === tab.id)).toBeFalse();
+    });
+
+    it('should execute safe move between identical substructures and close the tab', () => {
+      const issue = mockAuditResult['Substructures'].issues[2];
+      component.openDeduplicateTab(issue);
+      const tab = component.dynamicTabs()[0];
+
+      const sourceSub = { id: '10002', name: 'betaolefinradical', data: {}, molfile: '', dependencies: [{ id: 501, name: 'BetaScission' }], isLoadingDependencies: false };
+      const targetSub = { id: '10003', name: 'betaolefinradical', data: {}, molfile: '', dependencies: [], isLoadingDependencies: false };
+      tab.duplicateItems = [sourceSub, targetSub];
+      tab.correspondencesMatch = true;
+
+      component.executeSafeMove(tab, sourceSub, targetSub);
+
+      expect(adminServiceMock.migrateSubstructure).toHaveBeenCalledWith('10002', '10003', true);
+      expect(component.dynamicTabs().some(t => t.id === tab.id)).toBeFalse();
+      expect(component.statusMessage()?.type).toBe('success');
+    });
+
+    it('should execute move and adjust and open adjust-pattern dynamic tabs', () => {
+      const issue = mockAuditResult['Substructures'].issues[2];
+      component.openDeduplicateTab(issue);
+      const tab = component.dynamicTabs()[0];
+
+      const sourceSub = { id: '10002', name: 'betaolefinradical', data: {}, molfile: '', dependencies: [{ id: 501, name: 'BetaScission' }], isLoadingDependencies: false };
+      const targetSub = { id: '10003', name: 'betaolefinradical', data: {}, molfile: '', dependencies: [], isLoadingDependencies: false };
+      tab.duplicateItems = [sourceSub, targetSub];
+      tab.correspondencesMatch = false;
+
+      component.executeMoveAndAdjust(tab, sourceSub, targetSub);
+
+      expect(adminServiceMock.migrateSubstructure).toHaveBeenCalledWith('10002', '10003', true);
+      // Deduplicate tab closed
+      expect(component.dynamicTabs().some(t => t.id === tab.id)).toBeFalse();
+      // Adjust pattern tab created
+      const adjustTabs = component.dynamicTabs().filter(t => t.type === 'adjust-pattern');
+      expect(adjustTabs.length).toBe(1);
+      expect(adjustTabs[0].patternId).toBe(501);
+      expect(adjustTabs[0].patternName).toBe('BetaScission');
+      expect(component.activeSection()).toBe(adjustTabs[0].id);
+    });
+
+    it('should close dynamic tab and fallback to verify section when no tabs remain', () => {
+      const issue = mockAuditResult['Substructures'].issues[2];
+      component.openDeduplicateTab(issue);
+      const tab = component.dynamicTabs()[0];
+
+      component.closeDynamicTab(tab.id);
+      expect(component.dynamicTabs().length).toBe(0);
+      expect(component.activeSection()).toBe('verify');
+    });
+
+    it('should call remediate with purge_all_temporary_records and update status', () => {
+      adminServiceMock.remediate.and.returnValue(of({
+        success: true,
+        targetUid: 'u1',
+        result: { database: 'Molecules', purgedCount: 3, prunedKeysTotal: 2 }
+      }));
+
+      component.selectedDatabase.set('Molecules');
+      component.purgeAllTemporaryRecords();
+
+      expect(adminServiceMock.remediate).toHaveBeenCalledWith('purge_all_temporary_records', 'Molecules', {});
+      expect(component.statusMessage()?.text).toContain('Removed 3 temporary record(s)');
+    });
   });
 });
 

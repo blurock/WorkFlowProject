@@ -73,6 +73,20 @@
         <mat-icon>account_tree</mat-icon>
         Mechanisms
       </button>
+
+      <!-- Dynamic Tabs (Deduplication & Adjust Pattern) -->
+      <button 
+        *ngFor="let tab of dynamicTabs()" 
+        type="button" 
+        class="nav-tab-btn dynamic-tab-btn" 
+        [class.active]="activeSection() === tab.id" 
+        (click)="activeSection.set(tab.id)">
+        <mat-icon>{{ tab.type === 'deduplicate' ? 'compare_arrows' : 'tune' }}</mat-icon>
+        {{ tab.title }}
+        <span class="close-tab-icon" (click)="closeDynamicTab(tab.id, $event)" matTooltip="Close tab">
+          <mat-icon>close</mat-icon>
+        </span>
+      </button>
     </nav>
   </header>
 
@@ -225,6 +239,48 @@
             <span class="metric-value">{{ getSummaryMetric('mismatchCount') }}</span>
           </div>
         </div>
+
+        <div class="metric-card" [class.highlight-danger]="currentTemporaryRecords().length > 0">
+          <div class="metric-icon-wrap" [ngClass]="currentTemporaryRecords().length > 0 ? 'icon-amber' : 'icon-teal'">
+            <mat-icon>science</mat-icon>
+          </div>
+          <div class="metric-info">
+            <span class="metric-label">Scratch/Temp</span>
+            <span class="metric-value">{{ currentTemporaryRecords().length }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dedicated Scratch & Temporary Molecule Artifacts Card (Option 3A) -->
+      <div *ngIf="currentTemporaryRecords().length > 0" class="temporary-artifacts-card card-panel mb-3">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+          <div class="d-flex align-items-center gap-2">
+            <mat-icon class="text-amber" style="font-size: 28px; width: 28px; height: 28px;">delete_sweep</mat-icon>
+            <div>
+              <h4 class="m-0 font-weight-bold">Scratch & Temporary Molecule Artifacts</h4>
+              <p class="m-0 text-muted small">
+                Found {{ currentTemporaryRecords().length }} ephemeral/test molecule record(s) in database. Purging removes them from records and cleans classification indices.
+              </p>
+            </div>
+          </div>
+          <div>
+            <button 
+              type="button" 
+              class="btn-action-primary purge-all-btn" 
+              (click)="purgeAllTemporaryRecords()" 
+              [disabled]="isRemediating()">
+              <mat-icon>delete_forever</mat-icon>
+              Purge All Temporary Records ({{ currentTemporaryRecords().length }})
+            </button>
+          </div>
+        </div>
+
+        <div class="temp-records-list mt-3">
+          <div class="temp-record-pill" *ngFor="let rec of currentTemporaryRecords()">
+            <span class="font-weight-medium">{{ rec.name }}</span>
+            <span class="text-muted small ml-1">(ID: #{{ rec.id }}, Doc: {{ rec.docId }})</span>
+          </div>
+        </div>
       </div>
 
       <!-- Issues Table Section -->
@@ -265,6 +321,13 @@
               [class.active]="auditIssueFilter() === 'duplicates'" 
               (click)="auditIssueFilter.set('duplicates')">
               Duplicates
+            </button>
+            <button 
+              type="button" 
+              class="filter-pill" 
+              [class.active]="auditIssueFilter() === 'temporary'" 
+              (click)="auditIssueFilter.set('temporary')">
+              Temporary ({{ currentTemporaryRecords().length }})
             </button>
           </div>
         </div>
@@ -331,6 +394,18 @@
                       Prune Ghost
                     </button>
 
+                    <!-- Temporary Scratch Record: Purge -->
+                    <button 
+                      *ngIf="issue.type === 'TEMPORARY_SCRATCH_RECORD'" 
+                      type="button" 
+                      class="row-action-btn btn-danger" 
+                      (click)="openDeleteModal(issue)"
+                      [disabled]="isRemediating()"
+                      matTooltip="Purge temporary record from database and prune from classification index">
+                      <mat-icon>delete_forever</mat-icon>
+                      Purge
+                    </button>
+
                     <!-- Name Mismatch: Sync -->
                     <button 
                       *ngIf="issue.type === 'NAME_MISMATCH'" 
@@ -353,9 +428,21 @@
                       Add to Index
                     </button>
 
+                    <!-- Duplicate Substructures: Remove Button to Open Deduplicate Tab -->
+                    <button 
+                      *ngIf="isDuplicateSubstructure(issue)" 
+                      type="button" 
+                      class="row-action-btn btn-resolve" 
+                      (click)="openDeduplicateTab(issue)"
+                      [disabled]="isRemediating()"
+                      matTooltip="Open Substructure deduplication & Ketcher comparison tab">
+                      <mat-icon>compare_arrows</mat-icon>
+                      Remove
+                    </button>
+
                     <!-- Duplicate in Records: Rename or Delete -->
                     <button 
-                      *ngIf="issue.type === 'DUPLICATE_NAME_IN_RECORDS'" 
+                      *ngIf="issue.type.includes('DUPLICATE') && !issue.type.includes('INDEX')" 
                       type="button" 
                       class="row-action-btn btn-rename" 
                       (click)="openRenameModal(issue)"
@@ -364,7 +451,7 @@
                       Rename
                     </button>
                     <button 
-                      *ngIf="issue.type === 'DUPLICATE_NAME_IN_RECORDS' || issue.type === 'MISSING_NAME_IN_RECORD'" 
+                      *ngIf="issue.type.includes('DUPLICATE') || issue.type === 'MISSING_NAME_IN_RECORD'" 
                       type="button" 
                       class="row-action-btn btn-danger" 
                       (click)="openDeleteModal(issue)"
@@ -375,7 +462,7 @@
 
                     <!-- Duplicate in Index: Prune Ghost or Rename -->
                     <button 
-                      *ngIf="issue.type === 'DUPLICATE_NAME_IN_INDEX' || issue.type === 'DUPLICATE_ID_IN_INDEX'" 
+                      *ngIf="issue.type.includes('INDEX') && issue.type.includes('DUPLICATE')" 
                       type="button" 
                       class="row-action-btn btn-warning" 
                       (click)="pruneGhost(issue)"
@@ -793,6 +880,144 @@
           </div>
         </div>
       </div>
+    </section>
+
+    <!-- ====================================================================== -->
+    <!-- DYNAMIC TAB: DEDUPLICATE SUBSTRUCTURES                                 -->
+    <!-- ====================================================================== -->
+    <section *ngIf="activeDynamicTab()?.type === 'deduplicate'" class="section-container">
+      <div class="dedup-header-bar">
+        <div class="dedup-title-group">
+          <mat-icon class="dedup-icon">compare_arrows</mat-icon>
+          <div>
+            <h3>Resolve Duplicate Substructures: {{ activeDynamicTab()?.substructureName }}</h3>
+            <span class="dedup-sub">Comparing {{ activeDynamicTab()?.duplicateItems?.length || 0 }} substructure definitions sharing this name</span>
+          </div>
+        </div>
+
+        <div class="dedup-header-actions">
+          <span class="correspondence-status-chip" [ngClass]="activeDynamicTab()?.correspondencesMatch ? 'status-identical' : 'status-differ'">
+            <mat-icon>{{ activeDynamicTab()?.correspondencesMatch ? 'check_circle' : 'change_circle' }}</mat-icon>
+            {{ activeDynamicTab()?.correspondencesMatch ? 'Atom Correspondences: Identical' : 'Atom Correspondences: Differ' }}
+          </span>
+          <button type="button" class="action-btn secondary-btn" (click)="closeDynamicTab(activeDynamicTab()!.id)">
+            <mat-icon>close</mat-icon>
+            Close Tab
+          </button>
+        </div>
+      </div>
+
+      <!-- Comparison Grid (Side by side Ketcher + Dependencies) -->
+      <div class="dedup-comparison-grid">
+        <div *ngFor="let item of activeDynamicTab()?.duplicateItems" class="dedup-substructure-card">
+          <!-- Card Header -->
+          <div class="sub-card-header">
+            <span class="sub-badge badge-blue">Substructure #{{ item.id }}</span>
+            <span class="sub-name">{{ item.name }}</span>
+          </div>
+
+          <!-- Ketcher Viewer Canvas -->
+          <div class="sub-ketcher-box">
+            <app-ketcher-viewer 
+              [molfile]="item.molfile" 
+              [height]="'340px'" 
+              [title]="'Structure #' + item.id">
+            </app-ketcher-viewer>
+          </div>
+
+          <!-- Dependencies Panel -->
+          <div class="sub-dependencies-panel">
+            <div class="dep-header">
+              <mat-icon>schema</mat-icon>
+              <h4>Dependent Reaction Patterns ({{ item.dependencies.length }})</h4>
+            </div>
+
+            <!-- If 0 dependencies -->
+            <div *ngIf="item.dependencies.length === 0" class="no-dependencies-box">
+              <p>No reaction patterns depend on this substructure.</p>
+              <button 
+                type="button" 
+                class="action-btn danger-btn full-width" 
+                (click)="deleteUnusedSubstructure(activeDynamicTab()!, item)"
+                [disabled]="isRemediating()">
+                <mat-icon>delete_forever</mat-icon>
+                Delete Substructure #{{ item.id }}
+              </button>
+            </div>
+
+            <!-- If dependencies exist -->
+            <div *ngIf="item.dependencies.length > 0" class="dependencies-list">
+              <div *ngFor="let dep of item.dependencies" class="dep-item-row">
+                <span class="dep-id">#{{ dep.id }}</span>
+                <span class="role-badge" [ngClass]="dep.role.includes('Reactant') ? 'role-reactant' : 'role-product'">
+                  {{ dep.role.includes('Reactant') ? 'REACTANT' : 'PRODUCT' }}
+                </span>
+                <span class="dep-name">{{ dep.name }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Substructure Resolution Actions -->
+          <div class="sub-card-actions">
+            <!-- Safe to Move -->
+            <button 
+              *ngIf="activeDynamicTab()?.correspondencesMatch && (activeDynamicTab()?.duplicateItems?.length || 0) >= 2" 
+              type="button" 
+              class="action-btn success-btn full-width" 
+              (click)="executeSafeMove(activeDynamicTab()!, item, getOtherSubstructure(activeDynamicTab()!, item))"
+              [disabled]="isRemediating()"
+              [matTooltip]="'Migrate reaction pattern references from #' + item.id + ' to #' + getOtherSubstructure(activeDynamicTab()!, item).id + ' and eliminate #' + item.id">
+              <mat-icon>check_circle</mat-icon>
+              Safe to Move (to #{{ getOtherSubstructure(activeDynamicTab()!, item).id }})
+            </button>
+
+            <!-- Move and Adjust -->
+            <button 
+              *ngIf="!activeDynamicTab()?.correspondencesMatch && (activeDynamicTab()?.duplicateItems?.length || 0) >= 2" 
+              type="button" 
+              class="action-btn move-adjust-btn full-width" 
+              (click)="executeMoveAndAdjust(activeDynamicTab()!, item, getOtherSubstructure(activeDynamicTab()!, item))"
+              [disabled]="isRemediating()"
+              [matTooltip]="'Migrate reaction pattern references from #' + item.id + ' to #' + getOtherSubstructure(activeDynamicTab()!, item).id + ', eliminate #' + item.id + ', and open adjustment tabs'">
+              <mat-icon>tune</mat-icon>
+              Move and Adjust (to #{{ getOtherSubstructure(activeDynamicTab()!, item).id }})
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================== -->
+    <!-- DYNAMIC TAB: ADJUST REACTION PATTERN CORRESPONDENCES                  -->
+    <!-- ====================================================================== -->
+    <section *ngIf="activeDynamicTab()?.type === 'adjust-pattern'" class="section-container">
+      <div class="adjust-header-bar">
+        <div class="adjust-title-group">
+          <mat-icon class="adjust-icon">tune</mat-icon>
+          <div>
+            <h3>Adjust Correspondences: {{ activeDynamicTab()?.patternName }}</h3>
+            <span class="adjust-sub">Pattern ID: #{{ activeDynamicTab()?.patternId }}</span>
+          </div>
+        </div>
+        <button type="button" class="action-btn secondary-btn" (click)="closeDynamicTab(activeDynamicTab()!.id)">
+          <mat-icon>close</mat-icon>
+          Close Tab
+        </button>
+      </div>
+
+      <div class="info-alert-box alert-amber">
+        <mat-icon>warning</mat-icon>
+        <span>
+          Substructure #{{ activeDynamicTab()?.oldSubId }} was substituted with #{{ activeDynamicTab()?.newSubId }}.
+          Review the atom correspondences and bond changes below. Make any necessary adjustments and click <strong>Store Change</strong>.
+        </span>
+      </div>
+
+      <app-atom-correspondences-card 
+        [section]="getAdjustSection(activeDynamicTab()!)"
+        [patternName]="activeDynamicTab()?.patternName" 
+        [patternId]="activeDynamicTab()?.patternId">
+      </app-atom-correspondences-card>
     </section>
 
   </main>

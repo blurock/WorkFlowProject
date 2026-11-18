@@ -14,7 +14,7 @@ describe('TargetMoleculeService', () => {
   beforeEach(() => {
     existenceCheckServiceMock = jasmine.createSpyObj('ExistenceCheckService', ['checkDatabaseExistence']);
     chemParserMock = jasmine.createSpyObj('ChemStructureParserService', ['translateKetcherToSdf']);
-    reactCloudApiMock = jasmine.createSpyObj('ReactCloudApiService', ['uploadUserDataFiles', 'runCommands']);
+    reactCloudApiMock = jasmine.createSpyObj('ReactCloudApiService', ['uploadUserDataFiles', 'runCommands', 'deleteDatabaseRecord']);
 
     TestBed.configureTestingModule({
       providers: [
@@ -131,5 +131,36 @@ describe('TargetMoleculeService', () => {
     const uploadCallArg = reactCloudApiMock.uploadUserDataFiles.calls.mostRecent().args[1][0];
     expect(uploadCallArg.filename).toMatch(/^Temp_\d+\.sdf$/);
     expect(uploadCallArg.content.split('\n')[0]).toMatch(/^Temp_\d+$/);
+  });
+
+  it('should delete target molecule successfully', async () => {
+    reactCloudApiMock.deleteDatabaseRecord.and.returnValue(of({
+      success: true,
+      dbName: 'Molecules',
+      deletedKey: 'Temp_123',
+      deletedId: 100,
+      classificationUpdated: ['doc_1'],
+      classificationPruned: ['doc_1']
+    }));
+    const success = await service.deleteTargetMolecule('Temp_123');
+    expect(success).toBeTrue();
+    expect(reactCloudApiMock.deleteDatabaseRecord).toHaveBeenCalledWith('Molecules', 'Temp_123');
+  });
+
+  it('should promote ephemeral target molecule to permanent catalog name', async () => {
+    reactCloudApiMock.uploadUserDataFiles.and.returnValue(of({ success: true, targetDir: '', files: ['foo.sdf'] }));
+    reactCloudApiMock.runCommands.and.returnValue(of({ root: '2-butanol', exitCode: 0, output: 'Stored' }));
+    reactCloudApiMock.deleteDatabaseRecord.and.returnValue(of({
+      success: true,
+      dbName: 'Molecules',
+      deletedKey: 'Temp_123',
+      deletedId: 100,
+      classificationUpdated: ['doc_1'],
+      classificationPruned: ['doc_1']
+    }));
+
+    const res = await service.promoteTargetMolecule('Temp_123', '2-butanol', 'Temp_123\n  -REACTCLOUD- 2D\n\n  1  0  0 ...');
+    expect(res.success).toBeTrue();
+    expect(reactCloudApiMock.deleteDatabaseRecord).toHaveBeenCalledWith('Molecules', 'Temp_123');
   });
 });

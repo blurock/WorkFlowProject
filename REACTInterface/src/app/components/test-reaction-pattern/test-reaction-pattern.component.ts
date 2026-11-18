@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -54,7 +54,7 @@ import { CatalogItem } from '../../services/react-cloud-api.service';
   templateUrl: './test-reaction-pattern.component.html',
   styleUrls: ['./test-reaction-pattern.component.scss']
 })
-export class TestReactionPatternComponent implements OnInit {
+export class TestReactionPatternComponent implements OnInit, OnDestroy {
   @ViewChild('ketcherCanvas') public ketcherCanvas?: KetcherViewerComponent;
 
   // Selected Reaction Patterns (Level 3 patterns)
@@ -64,12 +64,17 @@ export class TestReactionPatternComponent implements OnInit {
   ];
 
   // Target Molecule
-  public targetMoleculeName: string = 'Temporary';
+  public targetMoleculeName: string = 'Target_Molecule';
   public targetMolfile: string | null = null;
   public isCheckingMolecule: boolean = false;
   public isStoringMolecule: boolean = false;
   public targetCheckResult: TargetMoleculeCheckResult | null = null;
   public moleculeStatusMessage: string = 'Draw a molecule or select a preset, then test.';
+  public isEphemeralTarget: boolean = false;
+  public ephemeralRecordName: string | null = null;
+  public promoteMoleculeName: string = '';
+  public isPromotingMolecule: boolean = false;
+  public lastDrawnSdf: string | null = null;
 
   // Auxiliary Molecules
   public auxiliaryMolecules: string[] = [
@@ -172,13 +177,17 @@ export class TestReactionPatternComponent implements OnInit {
       const res = await this.targetMoleculeService.checkTargetMolecule(molfile, this.targetMoleculeName);
       this.targetCheckResult = res;
 
-      if (res.isExisting && res.matchedDbName && res.matchedDbName.toLowerCase() !== 'temporary') {
+      if (res.isExisting && res.matchedDbName && !/^(_?temp(_.*)?|temporary|target_molecule)$/i.test(res.matchedDbName)) {
         this.targetMoleculeName = res.matchedDbName;
+        this.isEphemeralTarget = false;
         this.moleculeStatusMessage = `Found in REACT database as "${res.matchedDbName}".`;
         this.snackBar.open(`Molecule exists in DB as '${res.matchedDbName}'!`, 'OK', { duration: 3500 });
       } else {
-        this.moleculeStatusMessage = `Structure not found in DB. Will be stored as "${res.requestedName}".`;
-        this.snackBar.open(`Molecule will be registered as '${res.requestedName}'.`, 'OK', { duration: 3500 });
+        this.isEphemeralTarget = true;
+        this.lastDrawnSdf = res.sdfContent;
+        this.promoteMoleculeName = (this.targetMoleculeName !== 'Target_Molecule' && this.targetMoleculeName !== 'Temporary') ? this.targetMoleculeName : '';
+        this.moleculeStatusMessage = `Structure not found in DB. Will execute as scratch target molecule.`;
+        this.snackBar.open(`Structure not in DB. Ready for scratch test.`, 'OK', { duration: 3500 });
       }
     } catch (err: any) {
       console.error('[TestReactionPattern] Check molecule error:', err);
@@ -190,10 +199,20 @@ export class TestReactionPatternComponent implements OnInit {
     }
   }
 
-  public onResetMolecule(): void {
-    this.targetMoleculeName = 'Temporary';
+  public async onResetMolecule(): Promise<void> {
+    if (this.isEphemeralTarget && this.ephemeralRecordName) {
+      const old = this.ephemeralRecordName;
+      this.ephemeralRecordName = null;
+      this.isEphemeralTarget = false;
+      await this.targetMoleculeService.deleteTargetMolecule(old);
+    }
+    this.targetMoleculeName = 'Target_Molecule';
     this.targetMolfile = null;
     this.targetCheckResult = null;
+    this.isEphemeralTarget = false;
+    this.ephemeralRecordName = null;
+    this.promoteMoleculeName = '';
+    this.lastDrawnSdf = null;
     this.moleculeStatusMessage = 'Draw a molecule or select a preset, then test.';
     if (this.ketcherCanvas) {
       this.ketcherCanvas.clearCanvas();
@@ -255,8 +274,8 @@ export class TestReactionPatternComponent implements OnInit {
 
   // --- LSR Preview ---
 
-  public updateLsrPreview(): void {
-    const effectiveTarget = (this.targetCheckResult?.effectiveName || this.targetMoleculeName || 'Temporary').trim();
+  public updateLsrPreview(overrideTarget?: string): void {
+    const effectiveTarget = (overrideTarget || this.targetCheckResult?.effectiveName || this.targetMoleculeName || 'Target_Molecule').trim();
     this.generatedLsrContent = this.lsrService.generateLsrContent(
       `ReactionPatternTest: ${this.selectedPatterns.length} patterns`,
       this.auxiliaryMolecules,
@@ -289,7 +308,7 @@ export class TestReactionPatternComponent implements OnInit {
 
     try {
       // 1. Resolve Target Molecule
-      let effectiveMolecule = (this.targetMoleculeName || 'Temporary').trim();
+      let effectiveMolecule = (this.targetMoleculeName || 'Target_Molecule').trim();
       let drawnMolfile = '';
 
       if (this.ketcherCanvas) {
@@ -300,24 +319,40 @@ export class TestReactionPatternComponent implements OnInit {
         this.snackBar.open('Verifying target molecule with database...', 'Dismiss', { duration: 2000 });
         const checkRes = await this.targetMoleculeService.checkTargetMolecule(drawnMolfile, effectiveMolecule);
         this.targetCheckResult = checkRes;
+        this.lastDrawnSdf = checkRes.sdfContent;
 
-        if (checkRes.isExisting && checkRes.matchedDbName && checkRes.matchedDbName.toLowerCase() !== 'temporary') {
+        if (checkRes.isExisting && checkRes.matchedDbName && !/^(_?temp(_.*)?|temporary|target_molecule)$/i.test(checkRes.matchedDbName)) {
           effectiveMolecule = checkRes.matchedDbName;
+          this.targetMoleculeName = effectiveMolecule;
+          this.isEphemeralTarget = false;
         } else {
-          if (!effectiveMolecule || effectiveMolecule.toLowerCase() === 'temporary') {
-            effectiveMolecule = `Temp_${Date.now()}`;
+          // If a previous ephemeral record was registered for this session, clean it up first
+          if (this.ephemeralRecordName) {
+            await this.targetMoleculeService.deleteTargetMolecule(this.ephemeralRecordName);
           }
-          // Store new molecule in database as requested name
-          this.snackBar.open(`Registering '${effectiveMolecule}' in database...`, 'Dismiss', { duration: 2500 });
-          const storeRes = await this.targetMoleculeService.storeTargetMolecule(effectiveMolecule, checkRes.sdfContent);
+
+          const hasCustomName = effectiveMolecule &&
+            effectiveMolecule.toLowerCase() !== 'temporary' &&
+            effectiveMolecule.toLowerCase() !== 'target_molecule';
+
+          // Assign unique ephemeral ID to prevent any collisions during chemdb execution
+          const tempId = `Temp_${Date.now()}`;
+          this.ephemeralRecordName = tempId;
+          this.isEphemeralTarget = true;
+          this.promoteMoleculeName = hasCustomName ? effectiveMolecule : '';
+
+          effectiveMolecule = tempId;
+
+          // Store temporary molecule in database for chemdb execution
+          this.snackBar.open(`Registering scratch molecule '${tempId}' for execution...`, 'Dismiss', { duration: 2000 });
+          const storeRes = await this.targetMoleculeService.storeTargetMolecule(tempId, checkRes.sdfContent);
           if (!storeRes.success && storeRes.error) {
             console.warn('[TestReactionPattern] Target molecule store warning:', storeRes.error);
           }
         }
 
-        // Sync effective target name and regenerate LSR content with the verified molecule name
-        this.targetMoleculeName = effectiveMolecule;
-        this.updateLsrPreview();
+        // Regenerate LSR content with the verified molecule name
+        this.updateLsrPreview(effectiveMolecule);
       }
 
       // 2. Save .lsr file via /api/save-lsr (noted in execution log) under 'rxnpattests' category
@@ -456,5 +491,60 @@ export class TestReactionPatternComponent implements OnInit {
     navigator.clipboard.writeText(text).then(() => {
       this.snackBar.open('Copied output to clipboard!', 'OK', { duration: 2500 });
     });
+  }
+
+  public async onPromoteTargetMolecule(): Promise<void> {
+    const newName = (this.promoteMoleculeName || '').trim();
+    if (!newName) {
+      this.snackBar.open('Please enter a valid molecule name to save into catalog.', 'Close', { duration: 3000 });
+      return;
+    }
+
+    if (!this.lastDrawnSdf) {
+      this.snackBar.open('No structure data available to save.', 'Close', { duration: 3000 });
+      return;
+    }
+
+    this.isPromotingMolecule = true;
+    try {
+      const res = await this.targetMoleculeService.promoteTargetMolecule(
+        this.ephemeralRecordName || '',
+        newName,
+        this.lastDrawnSdf
+      );
+
+      if (res.success) {
+        this.isEphemeralTarget = false;
+        this.ephemeralRecordName = null;
+        this.targetMoleculeName = newName;
+        this.moleculeStatusMessage = `Molecule '${newName}' saved into database catalog!`;
+        this.snackBar.open(`Molecule '${newName}' successfully saved into catalog!`, 'OK', { duration: 3500 });
+      } else {
+        this.snackBar.open(`Failed to save molecule: ${res.error || 'Unknown error'}`, 'Close', { duration: 4000 });
+      }
+    } catch (err: any) {
+      this.snackBar.open(`Error saving molecule: ${err.message}`, 'Close', { duration: 4000 });
+    } finally {
+      this.isPromotingMolecule = false;
+    }
+  }
+
+  public async onDiscardEphemeralTarget(): Promise<void> {
+    if (this.ephemeralRecordName) {
+      const targetToDelete = this.ephemeralRecordName;
+      this.ephemeralRecordName = null;
+      this.isEphemeralTarget = false;
+      await this.targetMoleculeService.deleteTargetMolecule(targetToDelete);
+      this.snackBar.open(`Scratch target molecule '${targetToDelete}' discarded.`, 'OK', { duration: 2500 });
+    } else {
+      this.isEphemeralTarget = false;
+    }
+  }
+
+  ngOnDestroy(): void {
+    // Clean up unpromoted ephemeral record when leaving the view
+    if (this.isEphemeralTarget && this.ephemeralRecordName) {
+      this.targetMoleculeService.deleteTargetMolecule(this.ephemeralRecordName).catch(() => {});
+    }
   }
 }

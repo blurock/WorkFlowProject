@@ -70,6 +70,8 @@ async function auditDatabase(firestore, uid, dbKey) {
 
   const recordsById = new Map();
   const recordsByName = new Map();
+  const allRecordsById = new Map();
+  const allRecordsByName = new Map();
   const duplicateRecordIds = [];
   const duplicateRecordNames = [];
   const missingIdDocs = [];
@@ -83,34 +85,48 @@ async function auditDatabase(firestore, uid, dbKey) {
     if (!id && id !== 0) missingIdDocs.push(doc.id);
     if (!name) missingNameDocs.push(doc.id);
 
-    // Track duplicate IDs in records
-    if (recordsById.has(id)) {
-      const existing = recordsById.get(id);
-      duplicateRecordIds.push({
-        id,
-        docs: [existing.docId, doc.id],
-        names: [existing.name, name]
-      });
-    } else {
+    if (!recordsById.has(id)) {
       recordsById.set(id, { docId: doc.id, id, name, data });
     }
+    if (!allRecordsById.has(id)) {
+      allRecordsById.set(id, []);
+    }
+    allRecordsById.get(id).push({ docId: doc.id, id, name, data });
 
-    // Track duplicate Names in records
-    if (recordsByName.has(name)) {
-      const existing = recordsByName.get(name);
+    if (!recordsByName.has(name)) {
+      recordsByName.set(name, { docId: doc.id, id, name, data });
+    }
+    if (!allRecordsByName.has(name)) {
+      allRecordsByName.set(name, []);
+    }
+    allRecordsByName.get(name).push({ docId: doc.id, id, name, data });
+  });
+
+  allRecordsById.forEach((recs, id) => {
+    if (id !== null && id !== undefined && recs.length > 1) {
+      duplicateRecordIds.push({
+        id,
+        docs: recs.map(r => r.docId),
+        names: recs.map(r => r.name)
+      });
+    }
+  });
+
+  allRecordsByName.forEach((recs, name) => {
+    if (name && recs.length > 1) {
       duplicateRecordNames.push({
         name,
-        docs: [existing.docId, doc.id],
-        ids: [existing.id, id]
+        docs: recs.map(r => r.docId),
+        ids: recs.map(r => r.id)
       });
-    } else {
-      recordsByName.set(name, { docId: doc.id, id, name, data });
     }
   });
 
   // Traverse classification keys
   const classKeysById = new Map();
   const classKeysByName = new Map();
+  const allClassKeysById = new Map();
+  const allClassKeysByName = new Map();
   const duplicateClassIds = [];
   const duplicateClassNames = [];
   let totalClassKeys = 0;
@@ -124,28 +140,44 @@ async function auditDatabase(firestore, uid, dbKey) {
       const id = k.ID;
       const name = (k.Name || '').trim();
 
-      if (classKeysById.has(id)) {
-        const existing = classKeysById.get(id);
-        duplicateClassIds.push({
-          id,
-          name,
-          docs: [existing.docId, doc.id]
-        });
-      } else {
+      if (!classKeysById.has(id)) {
         classKeysById.set(id, { id, name, docId: doc.id, keyObj: k });
       }
+      if (!allClassKeysById.has(id)) {
+        allClassKeysById.set(id, []);
+      }
+      allClassKeysById.get(id).push({ id, name, docId: doc.id, keyObj: k });
 
-      if (classKeysByName.has(name)) {
-        const existing = classKeysByName.get(name);
-        duplicateClassNames.push({
-          name,
-          id,
-          docs: [existing.docId, doc.id]
-        });
-      } else {
+      if (!classKeysByName.has(name)) {
         classKeysByName.set(name, { id, name, docId: doc.id, keyObj: k });
       }
+      if (!allClassKeysByName.has(name)) {
+        allClassKeysByName.set(name, []);
+      }
+      allClassKeysByName.get(name).push({ id, name, docId: doc.id, keyObj: k });
     });
+  });
+
+  allClassKeysById.forEach((keys, id) => {
+    if (id !== null && id !== undefined && keys.length > 1) {
+      duplicateClassIds.push({
+        id,
+        name: keys[0].name,
+        names: keys.map(k => k.name),
+        docs: keys.map(k => k.docId)
+      });
+    }
+  });
+
+  allClassKeysByName.forEach((keys, name) => {
+    if (name && keys.length > 1) {
+      duplicateClassNames.push({
+        name,
+        id: keys[0].id,
+        ids: keys.map(k => k.id),
+        docs: keys.map(k => k.docId)
+      });
+    }
   });
 
   // Cross-reconciliation:
@@ -153,12 +185,22 @@ async function auditDatabase(firestore, uid, dbKey) {
   const orphans = [];
   recordsById.forEach((rec, id) => {
     if (!classKeysById.has(id)) {
-      orphans.push({
-        id,
-        name: rec.name,
-        docId: rec.docId,
-        suggestedFix: 'sync_to_classification'
-      });
+      const rawName = (rec.name || '').trim();
+      const docIdStr = String(rec.docId || '').trim();
+      const isTemp = (
+        rawName.toLowerCase() === 'temporary' ||
+        /^(_?temp(_.*)?|target_molecule)$/i.test(rawName) ||
+        /^(_?temp(_.*)?|temporary|target_molecule)$/i.test(docIdStr) ||
+        rec.data?.isTemporary === true
+      );
+      if (!isTemp) {
+        orphans.push({
+          id,
+          name: rec.name,
+          docId: rec.docId,
+          suggestedFix: 'sync_to_classification'
+        });
+      }
     }
   });
 
@@ -199,11 +241,15 @@ async function auditDatabase(firestore, uid, dbKey) {
   duplicateRecordNames.forEach(dup => {
     issues.push({
       type: 'DUPLICATE_RECORD_NAME',
-      severity: 'warn',
+      database: dbKey,
+      classIndex: cfg.classIndex,
+      severity: 'error',
       message: `Duplicate Name in database records: '${dup.name}' appears in ${dup.docs.length} documents (${dup.docs.join(', ')}) with IDs [${dup.ids.join(', ')}]`,
       name: dup.name,
+      id: dup.ids?.[0] || dup.name,
       docs: dup.docs,
       ids: dup.ids,
+      safeToAutoSync: false,
       suggestedFix: 'delete_or_rename'
     });
   });
@@ -211,23 +257,60 @@ async function auditDatabase(firestore, uid, dbKey) {
   duplicateRecordIds.forEach(dup => {
     issues.push({
       type: 'DUPLICATE_RECORD_ID',
+      database: dbKey,
+      classIndex: cfg.classIndex,
       severity: 'error',
       message: `Duplicate ID in database records: ID ${dup.id} shared by documents (${dup.docs.join(', ')})`,
       id: dup.id,
       docs: dup.docs,
       names: dup.names,
+      safeToAutoSync: false,
       suggestedFix: 'delete_or_reassign'
+    });
+  });
+
+  duplicateClassNames.forEach(dup => {
+    issues.push({
+      type: 'DUPLICATE_INDEX_NAME',
+      database: dbKey,
+      classIndex: cfg.classIndex,
+      severity: 'warn',
+      message: `Duplicate Name in classification index '${cfg.classIndex}': '${dup.name}' appears in docs (${dup.docs.join(', ')}) with IDs [${dup.ids.join(', ')}]`,
+      name: dup.name,
+      id: dup.id || dup.ids?.[0] || dup.name,
+      ids: dup.ids,
+      docs: dup.docs,
+      safeToAutoSync: false,
+      suggestedFix: 'prune_duplicate_index_key'
+    });
+  });
+
+  duplicateClassIds.forEach(dup => {
+    issues.push({
+      type: 'DUPLICATE_INDEX_ID',
+      database: dbKey,
+      classIndex: cfg.classIndex,
+      severity: 'error',
+      message: `Duplicate ID in classification index '${cfg.classIndex}': ID ${dup.id} appears in docs (${dup.docs.join(', ')})`,
+      id: dup.id,
+      name: dup.names?.[0] || '',
+      docs: dup.docs,
+      safeToAutoSync: false,
+      suggestedFix: 'prune_duplicate_index_key'
     });
   });
 
   orphans.forEach(orp => {
     issues.push({
       type: 'ORPHAN_RECORD',
+      database: dbKey,
+      classIndex: cfg.classIndex,
       severity: 'warn',
       message: `Record '${orp.name}' (ID: ${orp.id}, Doc: ${orp.docId}) exists in DB but is missing from classification index '${cfg.classIndex}'`,
       id: orp.id,
       name: orp.name,
       docId: orp.docId,
+      safeToAutoSync: true,
       suggestedFix: 'sync_to_classification'
     });
   });
@@ -235,11 +318,14 @@ async function auditDatabase(firestore, uid, dbKey) {
   ghosts.forEach(gh => {
     issues.push({
       type: 'GHOST_INDEX_KEY',
+      database: dbKey,
+      classIndex: cfg.classIndex,
       severity: 'warn',
       message: `Classification index doc '${gh.classDocId}' has Key for ID ${gh.id} ('${gh.name}'), but no record document exists in '${cfg.dbName}'`,
       id: gh.id,
       name: gh.name,
       classDocId: gh.classDocId,
+      safeToAutoSync: true,
       suggestedFix: 'prune_ghost_key'
     });
   });
@@ -247,6 +333,8 @@ async function auditDatabase(firestore, uid, dbKey) {
   nameMismatches.forEach(mis => {
     issues.push({
       type: 'NAME_MISMATCH',
+      database: dbKey,
+      classIndex: cfg.classIndex,
       severity: 'info',
       message: `Name mismatch for ID ${mis.id}: Record doc has '${mis.recordName}', but classification key has '${mis.className}'`,
       id: mis.id,
@@ -254,8 +342,43 @@ async function auditDatabase(firestore, uid, dbKey) {
       className: mis.className,
       recordDocId: mis.recordDocId,
       classDocId: mis.classDocId,
+      safeToAutoSync: true,
       suggestedFix: 'sync_name_to_classification'
     });
+  });
+
+  // 4. Temporary / Scratch Records detection (Option 3A)
+  const temporaryRecords = [];
+  recordsById.forEach((rec, id) => {
+    const rawName = (rec.name || '').trim();
+    const docIdStr = String(rec.docId || '').trim();
+    const isTemp = (
+      rawName.toLowerCase() === 'temporary' ||
+      /^(_?temp(_.*)?|target_molecule)$/i.test(rawName) ||
+      /^(_?temp(_.*)?|temporary|target_molecule)$/i.test(docIdStr) ||
+      rec.data?.isTemporary === true
+    );
+    if (isTemp) {
+      temporaryRecords.push({
+        id,
+        name: rec.name,
+        docId: rec.docId,
+        database: dbKey,
+        suggestedFix: 'purge_temporary_record'
+      });
+      issues.push({
+        type: 'TEMPORARY_SCRATCH_RECORD',
+        database: dbKey,
+        classIndex: cfg.classIndex,
+        severity: 'info',
+        message: `Temporary / Scratch record '${rec.name}' (ID: ${id}, Doc: ${rec.docId}) found in ${cfg.dbName} records`,
+        id,
+        name: rec.name,
+        docId: rec.docId,
+        safeToAutoSync: true,
+        suggestedFix: 'purge_temporary_record'
+      });
+    }
   });
 
   // Side-by-side reconciliation list
@@ -302,9 +425,11 @@ async function auditDatabase(firestore, uid, dbKey) {
       orphanRecordsCount: orphans.length,
       ghostIndexKeysCount: ghosts.length,
       nameMismatchesCount: nameMismatches.length,
+      temporaryRecordsCount: temporaryRecords.length,
       totalIssuesCount: issues.length
     },
     issues,
+    temporaryRecords,
     reconciliation
   };
 }
@@ -319,15 +444,66 @@ async function remediateIssue(firestore, uid, action, params = {}) {
 
   switch (action) {
     case 'delete_record': {
-      if (!recordDocId) throw new Error('recordDocId required for delete_record');
-      const docRef = firestore.collection(`users/${uid}/databases/${cfg.dbName}/records`).doc(recordDocId);
-      await docRef.delete();
+      const colRef = firestore.collection(`users/${uid}/databases/${cfg.dbName}/records`);
+      let deletedDocId = null;
 
-      // If pruneIndexKey requested or present
-      if (params.pruneIndexKey && id !== undefined) {
-        await pruneIndexKey(firestore, uid, cfg.classIndex, id, classDocId);
+      const targetId = id !== undefined && id !== null ? id : params.id;
+      const targetIdStr = targetId !== undefined && targetId !== null ? String(targetId).trim() : '';
+      const targetIdNum = targetIdStr !== '' ? Number(targetIdStr) : NaN;
+      const targetName = (name || params.name || '').trim();
+
+      // 1. If explicit recordDocId is provided, delete it
+      if (recordDocId) {
+        const docRef = colRef.doc(recordDocId);
+        const snap = await docRef.get();
+        if (snap.exists) {
+          await docRef.delete();
+          deletedDocId = recordDocId;
+        }
       }
-      return { success: true, message: `Deleted record doc '${recordDocId}' from ${cfg.dbName}` };
+
+      // 2. If not yet deleted, find doc by ID
+      if (!deletedDocId && targetIdStr) {
+        const directSnap = await colRef.doc(targetIdStr).get();
+        if (directSnap.exists) {
+          await directSnap.ref.delete();
+          deletedDocId = targetIdStr;
+        } else {
+          let q = await colRef.where('ID', '==', !isNaN(targetIdNum) ? targetIdNum : targetIdStr).limit(1).get();
+          if (q.empty && !isNaN(targetIdNum)) q = await colRef.where('ID', '==', targetIdStr).limit(1).get();
+          if (q.empty) q = await colRef.where('keyId', '==', !isNaN(targetIdNum) ? targetIdNum : targetIdStr).limit(1).get();
+          if (!q.empty) {
+            await q.docs[0].ref.delete();
+            deletedDocId = q.docs[0].id;
+          }
+        }
+      }
+
+      // 3. If still not deleted and name is provided, find doc by Name
+      if (!deletedDocId && targetName) {
+        let q = await colRef.where('Name', '==', targetName).limit(1).get();
+        if (q.empty) q = await colRef.where('name', '==', targetName).limit(1).get();
+        if (!q.empty) {
+          await q.docs[0].ref.delete();
+          deletedDocId = q.docs[0].id;
+        }
+      }
+
+      // 4. ALWAYS prune from classification index by ID or Name
+      let prunedKeys = 0;
+      if (targetIdStr) {
+        prunedKeys += await pruneIndexKey(firestore, uid, cfg.classIndex, targetId, classDocId);
+      }
+      if (targetName && prunedKeys === 0) {
+        prunedKeys += await pruneIndexKeyByName(firestore, uid, cfg.classIndex, targetName, classDocId);
+      }
+
+      return {
+        success: true,
+        deletedDocId,
+        prunedKeys,
+        message: `Deleted record '${deletedDocId || targetIdStr || targetName}' from ${cfg.dbName} and pruned ${prunedKeys} key(s) from ${cfg.classIndex}`
+      };
     }
 
     case 'rename_record': {
@@ -350,16 +526,80 @@ async function remediateIssue(firestore, uid, action, params = {}) {
     }
 
     case 'sync_name_to_classification': {
-      if (id === undefined || !name) throw new Error('id and name required for sync_name_to_classification');
-      const updated = await syncNameToClassification(firestore, uid, cfg.classIndex, id, name.trim(), classDocId);
-      return { success: true, message: `Updated classification key ${id} to '${name.trim()}' in index '${cfg.classIndex}'` };
+      const targetId = id !== undefined ? id : params.id;
+      const targetName = name || params.name || params.recordName || params.newName;
+      if (targetId === undefined || !targetName) {
+        throw new Error('id and name required for sync_name_to_classification');
+      }
+      const updated = await syncNameToClassification(firestore, uid, cfg.classIndex, targetId, targetName.trim(), classDocId);
+      return { success: true, message: `Updated classification key ${targetId} to '${targetName.trim()}' in index '${cfg.classIndex}'` };
     }
 
-    case 'sync_to_classification': {
-      if (id === undefined || !name) throw new Error('id and name required for sync_to_classification');
+    case 'sync_to_classification':
+    case 'add_key_to_classification': {
+      const targetId = id !== undefined ? id : params.id;
+      const targetName = name || params.name;
+      if (targetId === undefined || !targetName) {
+        throw new Error('id and name required for sync_to_classification');
+      }
       // Add key to classification index
-      const synced = await addKeyToClassification(firestore, uid, cfg.classIndex, id, name.trim(), classDocId);
-      return { success: true, message: `Added key ${id} ('${name.trim()}') to classification index '${cfg.classIndex}' (doc: ${synced.classDocId})` };
+      const synced = await addKeyToClassification(firestore, uid, cfg.classIndex, targetId, targetName.trim(), classDocId);
+      return { success: true, message: `Added key ${targetId} ('${targetName.trim()}') to classification index '${cfg.classIndex}' (doc: ${synced.classDocId})` };
+    }
+
+    case 'purge_temporary_record': {
+      // Direct alias to delete_record
+      const deleteResult = await remediateIssue(firestore, uid, 'delete_record', { ...params, dbKey });
+      return {
+        ...deleteResult,
+        message: `Purged temporary record '${params.name || params.id || params.recordDocId}'`
+      };
+    }
+
+    case 'purge_all_temporary_records': {
+      const colRef = firestore.collection(`users/${uid}/databases/${cfg.dbName}/records`);
+      const snap = await colRef.get();
+
+      let purgedCount = 0;
+      let prunedKeysTotal = 0;
+      const purgedDetails = [];
+
+      for (const doc of snap.docs) {
+        const data = doc.data() || {};
+        const rawName = (data.Name || data.name || doc.id || '').trim();
+        const idVal = data.ID !== undefined ? data.ID : (data.keyId !== undefined ? data.keyId : doc.id);
+        const docIdStr = String(doc.id || '').trim();
+        const isTemp = (
+          rawName.toLowerCase() === 'temporary' ||
+          /^(_?temp(_.*)?|target_molecule)$/i.test(rawName) ||
+          /^(_?temp(_.*)?|temporary|target_molecule)$/i.test(docIdStr) ||
+          data.isTemporary === true
+        );
+
+        if (isTemp) {
+          await doc.ref.delete();
+          purgedCount++;
+
+          let pruned = 0;
+          if (idVal !== undefined && idVal !== null) {
+            pruned += await pruneIndexKey(firestore, uid, cfg.classIndex, idVal);
+          }
+          if (rawName && pruned === 0) {
+            pruned += await pruneIndexKeyByName(firestore, uid, cfg.classIndex, rawName);
+          }
+          prunedKeysTotal += pruned;
+          purgedDetails.push({ docId: doc.id, id: idVal, name: rawName, prunedKeys: pruned });
+        }
+      }
+
+      return {
+        success: true,
+        database: dbKey,
+        purgedCount,
+        prunedKeysTotal,
+        purgedDetails,
+        message: `Successfully purged ${purgedCount} temporary record(s) and pruned ${prunedKeysTotal} index key(s) from ${cfg.dbName}`
+      };
     }
 
     default:
@@ -368,35 +608,74 @@ async function remediateIssue(firestore, uid, action, params = {}) {
 }
 
 /**
- * Helper to remove a key from a classification doc's Keys array
+ * Helper to remove a key from a classification doc's Keys array (handles both string and number comparison)
  */
 async function pruneIndexKey(firestore, uid, classIndex, id, classDocId) {
   const classCol = firestore.collection(`users/${uid}/classifications/database/${classIndex}`);
   let count = 0;
+  const idStr = String(id).trim();
+  const idNum = Number(id);
+
+  const matchesKey = (k) => {
+    if (!k) return false;
+    const kId = k.ID !== undefined ? k.ID : (k.keyId !== undefined ? k.keyId : k.id);
+    if (kId === undefined || kId === null) return false;
+    if (String(kId).trim() === idStr) return true;
+    if (!isNaN(idNum) && Number(kId) === idNum) return true;
+    return false;
+  };
+
+  const processDoc = async (docRef, snap) => {
+    if (!snap.exists) return;
+    const data = snap.data();
+    const keys = data.Keys || data.keys || [];
+    const filtered = keys.filter(k => !matchesKey(k));
+    if (filtered.length !== keys.length) {
+      await docRef.update({ Keys: filtered, keys: filtered });
+      count++;
+    }
+  };
 
   if (classDocId) {
     const docRef = classCol.doc(classDocId);
     const snap = await docRef.get();
-    if (snap.exists) {
-      const data = snap.data();
-      const keys = data.Keys || data.keys || [];
-      const filtered = keys.filter(k => k.ID !== id);
-      if (filtered.length !== keys.length) {
-        await docRef.update({ Keys: filtered, keys: filtered });
-        count++;
-      }
-    }
+    await processDoc(docRef, snap);
   } else {
-    // Search all docs in classification collection
     const snap = await classCol.get();
     for (const d of snap.docs) {
-      const data = d.data();
-      const keys = data.Keys || data.keys || [];
-      const filtered = keys.filter(k => k.ID !== id);
-      if (filtered.length !== keys.length) {
-        await d.ref.update({ Keys: filtered, keys: filtered });
-        count++;
-      }
+      await processDoc(d.ref, d);
+    }
+  }
+  return count;
+}
+
+/**
+ * Helper to remove a key by Name from a classification doc's Keys array
+ */
+async function pruneIndexKeyByName(firestore, uid, classIndex, name, classDocId) {
+  const classCol = firestore.collection(`users/${uid}/classifications/database/${classIndex}`);
+  let count = 0;
+  const targetName = String(name).trim().toLowerCase();
+
+  const processDoc = async (docRef, snap) => {
+    if (!snap.exists) return;
+    const data = snap.data();
+    const keys = data.Keys || data.keys || [];
+    const filtered = keys.filter(k => (k.Name || k.name || '').trim().toLowerCase() !== targetName);
+    if (filtered.length !== keys.length) {
+      await docRef.update({ Keys: filtered, keys: filtered });
+      count++;
+    }
+  };
+
+  if (classDocId) {
+    const docRef = classCol.doc(classDocId);
+    const snap = await docRef.get();
+    await processDoc(docRef, snap);
+  } else {
+    const snap = await classCol.get();
+    for (const d of snap.docs) {
+      await processDoc(d.ref, d);
     }
   }
   return count;
@@ -408,36 +687,45 @@ async function pruneIndexKey(firestore, uid, classIndex, id, classDocId) {
 async function syncNameToClassification(firestore, uid, classIndex, id, newName, classDocId) {
   const classCol = firestore.collection(`users/${uid}/classifications/database/${classIndex}`);
   let updated = false;
+  const idStr = String(id).trim();
+  const idNum = Number(id);
 
-  const updateDocKeys = (d) => {
+  const matchesKey = (k) => {
+    if (!k) return false;
+    const kId = k.ID !== undefined ? k.ID : (k.keyId !== undefined ? k.keyId : k.id);
+    if (kId === undefined || kId === null) return false;
+    if (String(kId).trim() === idStr) return true;
+    if (!isNaN(idNum) && Number(kId) === idNum) return true;
+    return false;
+  };
+
+  const updateDocKeys = async (docRef, d) => {
     const data = d.data();
     const keys = data.Keys || data.keys || [];
     let changed = false;
     for (const k of keys) {
-      if (k.ID === id) {
+      if (matchesKey(k)) {
         k.Name = newName;
         changed = true;
       }
     }
     if (changed) {
-      return d.ref.update({ Keys: keys, keys: keys });
+      await docRef.update({ Keys: keys, keys: keys });
+      updated = true;
     }
-    return Promise.resolve();
   };
 
   if (classDocId) {
     const docRef = classCol.doc(classDocId);
     const snap = await docRef.get();
     if (snap.exists) {
-      await updateDocKeys(snap);
-      updated = true;
+      await updateDocKeys(docRef, snap);
     }
   } else {
     const snap = await classCol.get();
     for (const d of snap.docs) {
-      await updateDocKeys(d);
+      await updateDocKeys(d.ref, d);
     }
-    updated = true;
   }
   return updated;
 }
@@ -450,12 +738,39 @@ async function addKeyToClassification(firestore, uid, classIndex, id, name, pref
   let targetDocRef = null;
   let targetDocId = preferredClassDocId;
 
+  const idNum = Number(id);
+  const idStr = String(id).trim();
+  const keyId = !isNaN(idNum) ? idNum : id;
+
   if (targetDocId) {
     targetDocRef = classCol.doc(targetDocId);
   } else {
-    // Find first existing classification doc or create a default root one
-    const snap = await classCol.limit(1).get();
-    if (!snap.empty) {
+    // Intelligently find existing doc with matching prefix
+    const snap = await classCol.get();
+    let bestDoc = null;
+    let longestPrefixMatch = 0;
+
+    snap.forEach(d => {
+      const data = d.data();
+      const keys = data.Keys || data.keys || [];
+      for (const k of keys) {
+        const kId = k.ID !== undefined ? k.ID : (k.keyId !== undefined ? k.keyId : k.id || '');
+        const kIdStr = String(kId).trim();
+        let matchLen = 0;
+        while (matchLen < idStr.length && matchLen < kIdStr.length && idStr[matchLen] === kIdStr[matchLen]) {
+          matchLen++;
+        }
+        if (matchLen > longestPrefixMatch) {
+          longestPrefixMatch = matchLen;
+          bestDoc = d;
+        }
+      }
+    });
+
+    if (bestDoc && longestPrefixMatch >= 3) {
+      targetDocRef = bestDoc.ref;
+      targetDocId = bestDoc.id;
+    } else if (!snap.empty) {
       targetDocRef = snap.docs[0].ref;
       targetDocId = snap.docs[0].id;
     } else {
@@ -471,13 +786,24 @@ async function addKeyToClassification(firestore, uid, classIndex, id, name, pref
     keys = data.Keys || data.keys || [];
   }
 
-  // Check if key already exists
-  if (!keys.some(k => k.ID === id)) {
+  const matchesKey = (k) => {
+    if (!k) return false;
+    const kId = k.ID !== undefined ? k.ID : (k.keyId !== undefined ? k.keyId : k.id);
+    return String(kId).trim() === idStr || (!isNaN(idNum) && Number(kId) === idNum);
+  };
+
+  if (!keys.some(matchesKey)) {
     keys.push({
-      ID: id,
+      ID: keyId,
       Name: name,
       Size: 4,
-      KeyWord: id
+      KeyWord: keyId
+    });
+    // Sort keys by numeric ID
+    keys.sort((a, b) => {
+      const aId = Number(a.ID !== undefined ? a.ID : a.keyId || 0);
+      const bId = Number(b.ID !== undefined ? b.ID : b.keyId || 0);
+      return aId - bId;
     });
     await targetDocRef.set({ Keys: keys, keys: keys }, { merge: true });
   }
@@ -872,6 +1198,119 @@ function setupAdminIntegrityRoutes(app, { firestore, authenticateUser, requireAd
       return res.json({ success: true, targetUid, result });
     } catch (err) {
       console.error('[POST /api/admin/integrity/remediate Error]', err);
+      return res.status(500).json({ error: err.message });
+    }
+  });
+
+  /**
+   * POST /api/admin/substructures/migrate
+   * Substitutes old Substructure ID with new Substructure ID across all dependent ReactionPatterns,
+   * then optionally deletes the old Substructure record and prunes it from the index.
+   */
+  app.post('/api/admin/substructures/migrate', authenticateUser, requireAdmin, async (req, res) => {
+    try {
+      const targetUid = resolveTargetUid(req);
+      const { oldId, newId, deleteOld = true } = req.body || {};
+
+      if (!oldId || !newId) {
+        return res.status(400).json({ error: 'Missing required parameters: oldId, newId' });
+      }
+
+      const oldIdNum = Number(oldId);
+      const newIdNum = Number(newId);
+      const oldIdStr = String(oldId).trim();
+      const newIdStr = String(newId).trim();
+
+      // 1. Verify target record exists
+      const subCol = firestore.collection(`users/${targetUid}/databases/Substructures/records`);
+      const targetSnap = await subCol.doc(newIdStr).get();
+      if (!targetSnap.exists) {
+        return res.status(404).json({ error: `Replacement substructure #${newId} not found in Substructures database` });
+      }
+
+      // 2. Query all ReactionPatterns
+      const rxnCol = firestore.collection(`users/${targetUid}/databases/ReactionPatterns/records`);
+      const rxnSnap = await rxnCol.get();
+      const updatedPatterns = [];
+
+      for (const doc of rxnSnap.docs) {
+        const data = doc.data();
+        let changed = false;
+
+        // Check Reactants
+        const reactants = Array.isArray(data.Reactants) ? [...data.Reactants] : [];
+        const newReactants = reactants.map(r => {
+          if (r === oldIdNum || r === oldIdStr || String(r) === oldIdStr) {
+            changed = true;
+            return typeof r === 'number' ? newIdNum : newIdStr;
+          }
+          return r;
+        });
+
+        // Check Products
+        const products = Array.isArray(data.Products) ? [...data.Products] : [];
+        const newProducts = products.map(p => {
+          if (p === oldIdNum || p === oldIdStr || String(p) === oldIdStr) {
+            changed = true;
+            return typeof p === 'number' ? newIdNum : newIdStr;
+          }
+          return p;
+        });
+
+        // Check raw equation strings if present
+        let equation = data.equation || data.Equation || '';
+        if (equation && (equation.includes(oldIdStr) || equation.includes(String(oldIdNum)))) {
+          changed = true;
+          equation = equation.replace(new RegExp(`\\b${oldIdStr}\\b`, 'g'), newIdStr);
+        }
+
+        if (changed) {
+          const updatePayload = {
+            Reactants: newReactants,
+            Products: newProducts,
+            updatedAt: new Date().toISOString()
+          };
+          if (equation) {
+            updatePayload.equation = equation;
+            if (data.Equation) updatePayload.Equation = equation;
+          }
+          await doc.ref.set(updatePayload, { merge: true });
+          updatedPatterns.push({
+            id: Number(data.ID || data.keyId || doc.id),
+            name: data.Name || data.key || doc.id
+          });
+        }
+      }
+
+      // 3. Delete old substructure if deleteOld is true
+      if (deleteOld) {
+        // Delete record document
+        await subCol.doc(oldIdStr).delete();
+
+        // Prune from classification index
+        const classCol = firestore.collection(`users/${targetUid}/classifications/database/DB-Index-SubStructureIDs`);
+        const classSnap = await classCol.get();
+        for (const cDoc of classSnap.docs) {
+          const cData = cDoc.data();
+          const rawKeys = cData.Keys || cData.keys || [];
+          const filteredKeys = rawKeys.filter(k => String(k.ID) !== oldIdStr && String(k.KeyWord) !== oldIdStr);
+          if (filteredKeys.length !== rawKeys.length) {
+            await cDoc.ref.set({ Keys: filteredKeys, keys: filteredKeys }, { merge: true });
+          }
+        }
+      }
+
+      return res.json({
+        success: true,
+        targetUid,
+        oldId: oldIdNum,
+        newId: newIdNum,
+        updatedPatterns,
+        countUpdated: updatedPatterns.length,
+        deletedOld: Boolean(deleteOld)
+      });
+    } catch (err) {
+      console.error('[POST /api/admin/substructures/migrate Error]', err);
       return res.status(500).json({ error: err.message });
     }
   });
