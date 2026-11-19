@@ -28,7 +28,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   if (token && isOrchestratorApi) {
     const headers: Record<string, string> = {
       Authorization: `Bearer ${token}`,
-      'X-React-Data-Scope': authService.activeDataScope()
+      'X-React-Data-Scope': authService.activeDataScope(),
+      'X-React-View-Scope': typeof authService.activeViewScope === 'function' ? authService.activeViewScope() : 'all',
+      'X-React-Write-Scope': typeof authService.activeWriteScope === 'function' ? authService.activeWriteScope() : 'personal'
     };
     outgoingReq = req.clone({ setHeaders: headers });
   } else if (!token && isOrchestratorApi && !req.url.includes('/api/health')) {

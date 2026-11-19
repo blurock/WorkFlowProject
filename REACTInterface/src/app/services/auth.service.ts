@@ -18,6 +18,8 @@ import {
 } from 'firebase/auth';
 
 export type UserRole = 'admin' | 'researcher' | 'viewer';
+export type DataViewScope = 'all' | 'personal' | 'system';
+export type DataWriteScope = 'personal' | 'system';
 
 export interface SecurityFlag {
   type: 'HIGH_CALL_RATE' | 'HIGH_JOB_RATE' | 'STORAGE_QUOTA_EXCEEDED' | string;
@@ -61,6 +63,8 @@ export class AuthService {
   private readonly TOKEN_KEY = 'reactcloud_auth_token';
   private readonly USER_KEY = 'reactcloud_user';
   private readonly SCOPE_KEY = 'reactcloud_data_scope';
+  private readonly VIEW_SCOPE_KEY = 'reactcloud_view_scope';
+  private readonly WRITE_SCOPE_KEY = 'reactcloud_write_scope';
   private readonly apiBaseUrl = 'http://localhost:8085';
   private router = inject(Router);
 
@@ -127,9 +131,19 @@ export class AuthService {
     return `${seconds}s`;
   });
 
-  // Data scope selector ('personal' vs 'system') — Admins can switch to 'system' to manage global catalog
+  // 3-way View Scope selector ('all' | 'personal' | 'system') available to all users
+  public activeViewScope = signal<DataViewScope>(
+    (localStorage.getItem(this.VIEW_SCOPE_KEY) as DataViewScope) || 'all'
+  );
+
+  // Target Write Scope selector ('personal' | 'system') — Admins can switch to 'system' to author baseline objects
+  public activeWriteScope = signal<DataWriteScope>(
+    (localStorage.getItem(this.WRITE_SCOPE_KEY) as DataWriteScope) || 'personal'
+  );
+
+  // Admin Panel target data scope ('personal' vs 'system')
   public activeDataScope = signal<'personal' | 'system'>(
-    (localStorage.getItem(this.SCOPE_KEY) as 'personal' | 'system') || 'personal'
+    (localStorage.getItem(this.SCOPE_KEY) as 'personal' | 'system') || 'system'
   );
 
   private initialTokenRefreshed = false;
@@ -371,12 +385,28 @@ export class AuthService {
   }
 
   /**
-   * Switch active data scope ('personal' vs 'system') for Administrators
+   * Switch active 3-way view scope ('all' | 'personal' | 'system') for all users
    */
-  public setDataScope(scope: 'personal' | 'system'): void {
+  public setViewScope(scope: DataViewScope): void {
+    this.activeViewScope.set(scope);
+    localStorage.setItem(this.VIEW_SCOPE_KEY, scope);
+  }
+
+  /**
+   * Switch active write target scope ('personal' | 'system') for Administrators
+   */
+  public setWriteScope(scope: DataWriteScope): void {
     if (scope === 'system' && !this.isAdmin()) {
       return;
     }
+    this.activeWriteScope.set(scope);
+    localStorage.setItem(this.WRITE_SCOPE_KEY, scope);
+  }
+
+  /**
+   * Switch active Admin Panel data scope ('personal' vs 'system')
+   */
+  public setDataScope(scope: 'personal' | 'system'): void {
     this.activeDataScope.set(scope);
     localStorage.setItem(this.SCOPE_KEY, scope);
   }

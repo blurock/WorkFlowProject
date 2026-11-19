@@ -9,6 +9,18 @@ const { spawn, execSync } = require('child_process');
 const admin = require('firebase-admin');
 const { Storage } = require('@google-cloud/storage');
 const { Firestore } = require('@google-cloud/firestore');
+const {
+  SYSTEM_UID,
+  PERSONAL_ID_START,
+  SYSTEM_ID_START,
+  CATALOG_OBJECT_REGISTRY,
+  getObjectConfig,
+  getPersonalNamespaceUid,
+  setActiveJobScope,
+  getActiveJobScope,
+  resolveScopeContext,
+  createScopedDatabaseResolver
+} = require('./scoped-db-resolver');
 
 const PORT = process.env.PORT || 8085;
 const PROJECT_ID = process.env.GCP_PROJECT || 'blurock-database';
@@ -532,6 +544,8 @@ function resolveEffectiveJobUid(req) {
     err.statusCode = 401;
     throw err;
   }
+  const scopeCtx = resolveScopeContext(req);
+  setActiveJobScope(callerUid, scopeCtx);
   return callerUid;
 }
 
@@ -2678,7 +2692,7 @@ function generateLsrFromReadChainSet(pathway) {
  */
 app.get('/api/submechanisms', authenticateUser, async (req, res) => {
   try {
-    const uid = resolveAuthorizedTargetUid(req, req.query.uid, false);
+    const ctx = resolveScopeContext(req);
     const pathways = [];
 
     const collectFromUid = async (targetUid) => {
@@ -2693,10 +2707,19 @@ app.get('/api/submechanisms', authenticateUser, async (req, res) => {
       });
     };
 
-    await collectFromUid(uid);
+    if (ctx.viewScope === 'personal') {
+      await collectFromUid(ctx.personalUid);
+    } else if (ctx.viewScope === 'system') {
+      await collectFromUid(ctx.systemUid);
+    } else {
+      await collectFromUid(ctx.personalUid);
+      if (ctx.systemUid !== ctx.personalUid) {
+        await collectFromUid(ctx.systemUid);
+      }
+    }
 
     pathways.sort();
-    console.log(`[Firestore API /api/submechanisms] Returned ${pathways.length} pathways for uid='${uid}'`);
+    console.log(`[Firestore API /api/submechanisms] Returned ${pathways.length} pathways for uid='${ctx.callerUid}' (scope='${ctx.viewScope}')`);
     res.json(pathways);
   } catch (err) {
     console.error('[Firestore API /api/submechanisms Error]', err.message);
@@ -2928,55 +2951,105 @@ async function registerStoredMechanism(uid, {
  */
 app.get('/api/mechanisms/list', authenticateUser, async (req, res) => {
   try {
-    const uid = resolveAuthorizedTargetUid(req, req.query.uid, false);
+    const ctx = resolveScopeContext(req);
     const { type, targetMolecule } = req.query;
-    console.log(`[GET /api/mechanisms/list] uid='${uid}', type='${type || "all"}', targetMolecule='${targetMolecule || "all"}'`);
+    console.log(`[GET /api/mechanisms/list] uid='${ctx.callerUid}', scope='${ctx.viewScope}', type='${type || "all"}', targetMolecule='${targetMolecule || "all"}'`);
 
-    let query = firestore.collection('users').doc(uid).collection('mechanisms');
+    const fetchForNamespace = async (targetUid, scopeLabel) => {
+      let query = firestore.collection('users').doc(targetUid).collection('mechanisms');
+      if (type && type !== 'all') {
+        query = query.where('mechanismType', '==', type);
+      }
+      if (targetMolecule) {
+        query = query.where('targetMolecule', '==', targetMolecule);
+      }
+      const snap = await query.get();
+      const map = new Map();
+      snap.forEach(doc => {
+        const d = doc.data() || {};
+        const name = d.mechName || doc.id;
+        map.set(name, {
+          ...d,
+          mechName: name,
+          scope: scopeLabel,
+          isSystem: scopeLabel === 'system',
+          isPersonal: scopeLabel === 'personal',
+          overridesSystem: false
+        });
+      });
+      return map;
+    };
 
-    if (type && type !== 'all') {
-      query = query.where('mechanismType', '==', type);
+    const needSystem = ctx.viewScope === 'all' || ctx.viewScope === 'system';
+    const needPersonal = ctx.viewScope === 'all' || ctx.viewScope === 'personal';
+
+    const [sysMap, perMap] = await Promise.all([
+      needSystem ? fetchForNamespace(ctx.systemUid, 'system') : Promise.resolve(new Map()),
+      needPersonal ? fetchForNamespace(ctx.personalUid, 'personal') : Promise.resolve(new Map())
+    ]);
+
+    const merged = new Map();
+    if (ctx.viewScope === 'system') {
+      sysMap.forEach((v, k) => merged.set(k, v));
+    } else if (ctx.viewScope === 'personal') {
+      perMap.forEach((v, k) => merged.set(k, v));
+    } else {
+      sysMap.forEach((v, k) => merged.set(k, v));
+      perMap.forEach((v, k) => {
+        merged.set(k, {
+          ...v,
+          overridesSystem: sysMap.has(k)
+        });
+      });
     }
-    if (targetMolecule) {
-      query = query.where('targetMolecule', '==', targetMolecule);
-    }
 
-    const snap = await query.get();
-    const mechs = [];
-    snap.forEach(doc => {
-      mechs.push(doc.data());
-    });
-
-    // Sort descending by creation date
+    const mechs = Array.from(merged.values());
     mechs.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
 
-    console.log(`[GET /api/mechanisms/list] Returning ${mechs.length} mechanisms for uid='${uid}'`);
+    console.log(`[GET /api/mechanisms/list] Returning ${mechs.length} mechanisms for uid='${ctx.callerUid}' (scope='${ctx.viewScope}')`);
     return res.json(mechs);
   } catch (err) {
     console.error('[GET /api/mechanisms/list Error]', err);
-    return res.status(500).json({ error: err.message });
+    return res.status(err.statusCode || 500).json({ error: err.message });
   }
 });
 
 /**
  * GET /api/mechanisms/details
- * Returns detailed record for a specific stored mechanism.
+ * Returns detailed record for a specific stored mechanism (Personal -> System fallback).
  */
 app.get('/api/mechanisms/details', authenticateUser, async (req, res) => {
   try {
-    const uid = resolveAuthorizedTargetUid(req, req.query.uid, false);
+    const ctx = resolveScopeContext(req);
     const mechName = req.query.name;
     if (!mechName) return res.status(400).json({ error: 'Missing required query parameter: name' });
 
-    const doc = await firestore.collection('users').doc(uid).collection('mechanisms').doc(mechName).get();
-    if (!doc.exists) {
-      return res.status(404).json({ error: `Mechanism '${mechName}' not found in registry.` });
+    const namespaces = [];
+    if (ctx.viewScope === 'personal') {
+      namespaces.push({ uid: ctx.personalUid, scope: 'personal' });
+    } else if (ctx.viewScope === 'system') {
+      namespaces.push({ uid: ctx.systemUid, scope: 'system' });
+    } else {
+      namespaces.push({ uid: ctx.personalUid, scope: 'personal' });
+      if (ctx.systemUid !== ctx.personalUid) {
+        namespaces.push({ uid: ctx.systemUid, scope: 'system' });
+      }
     }
 
-    return res.json(doc.data());
+    for (const ns of namespaces) {
+      const doc = await firestore.collection('users').doc(ns.uid).collection('mechanisms').doc(mechName).get();
+      if (doc.exists) {
+        return res.json({
+          ...doc.data(),
+          scope: ns.scope
+        });
+      }
+    }
+
+    return res.status(404).json({ error: `Mechanism '${mechName}' not found in registry.` });
   } catch (err) {
     console.error('[GET /api/mechanisms/details Error]', err);
-    return res.status(500).json({ error: err.message });
+    return res.status(err.statusCode || 500).json({ error: err.message });
   }
 });
 
@@ -2986,7 +3059,8 @@ app.get('/api/mechanisms/details', authenticateUser, async (req, res) => {
  */
 app.delete('/api/mechanisms', authenticateUser, async (req, res) => {
   try {
-    const uid = resolveAuthorizedTargetUid(req, req.body?.uid || req.query?.uid, true);
+    const ctx = resolveScopeContext(req);
+    const uid = ctx.targetWriteUid;
     const mechName = req.body?.name || req.body?.mechName || req.query?.name || req.query?.mechName;
     if (!mechName) return res.status(400).json({ error: 'Missing required field: mechName' });
 
@@ -2997,7 +3071,6 @@ app.delete('/api/mechanisms', authenticateUser, async (req, res) => {
       const data = docSnap.data();
       const storageDir = data.storageDirectory;
       if (storageDir && storageDir.startsWith(`users/${uid}/`)) {
-        // Enforce trailing slash to strictly avoid prefix collision with sibling directories (e.g. MechName vs MechNameV2)
         const safePrefix = storageDir.endsWith('/') ? storageDir : `${storageDir}/`;
         console.log(`[Delete Mechanism] Purging GCS prefix: ${safePrefix}`);
         await storage.bucket(BUCKET_NAME).deleteFiles({ prefix: safePrefix }).catch(e => {
@@ -3008,10 +3081,10 @@ app.delete('/api/mechanisms', authenticateUser, async (req, res) => {
       console.log(`[Delete Mechanism] Deleted Firestore document: users/${uid}/mechanisms/${mechName}`);
     }
 
-    return res.json({ success: true, deleted: mechName });
+    return res.json({ success: true, deleted: mechName, scope: ctx.isSystemWrite ? 'system' : 'personal' });
   } catch (err) {
     console.error('[DELETE /api/mechanisms Error]', err);
-    return res.status(500).json({ error: err.message });
+    return res.status(err.statusCode || 500).json({ error: err.message });
   }
 });
 
@@ -3114,19 +3187,26 @@ app.post('/api/run-submechanism', authenticateUser, async (req, res) => {
     };
 
     const fetchPathwayFromFirestore = async () => {
-      const colRef = firestore.collection(`users/${uid}/databases/MechanismPathway/records`);
-      let docSnap = await colRef.doc(cleanRootName).get();
-      if (docSnap.exists) {
-        console.log(`  -> Found pathway document directly by ID: users/${uid}/databases/MechanismPathway/records/${cleanRootName}`);
-        return docSnap.data();
+      const scopeCtx = resolveScopeContext(req);
+      const searchUids = [scopeCtx.personalUid];
+      if (scopeCtx.systemUid !== scopeCtx.personalUid) {
+        searchUids.push(scopeCtx.systemUid);
       }
-      let querySnap = await colRef.where('Name', '==', cleanRootName).limit(1).get();
-      if (querySnap.empty) {
-        querySnap = await colRef.where('key', '==', cleanRootName).limit(1).get();
-      }
-      if (!querySnap.empty) {
-        console.log(`  -> Found pathway document by Name/key query: doc ID '${querySnap.docs[0].id}'`);
-        return querySnap.docs[0].data();
+      for (const targetUid of searchUids) {
+        const colRef = firestore.collection(`users/${targetUid}/databases/MechanismPathway/records`);
+        let docSnap = await colRef.doc(cleanRootName).get();
+        if (docSnap.exists) {
+          console.log(`  -> Found pathway document directly by ID: users/${targetUid}/databases/MechanismPathway/records/${cleanRootName}`);
+          return docSnap.data();
+        }
+        let querySnap = await colRef.where('Name', '==', cleanRootName).limit(1).get();
+        if (querySnap.empty) {
+          querySnap = await colRef.where('key', '==', cleanRootName).limit(1).get();
+        }
+        if (!querySnap.empty) {
+          console.log(`  -> Found pathway document by Name/key query in users/${targetUid}: doc ID '${querySnap.docs[0].id}'`);
+          return querySnap.docs[0].data();
+        }
       }
       return null;
     };
@@ -3618,6 +3698,13 @@ function convertBlobsToBytesObjects(val) {
   return val;
 }
 
+// Instantiate Centralized ScopedDatabaseResolver (System + Personal Data Layer)
+const scopedResolver = createScopedDatabaseResolver({
+  firestore,
+  convertBytesObjectsToBlobs,
+  convertBlobsToBytesObjects
+});
+
 /**
  * Allows REACT C backend and frontend services to store and retrieve
  * database records directly as JSON documents in Firestore.
@@ -3626,38 +3713,15 @@ function convertBlobsToBytesObjects(val) {
 app.post('/api/db/store', authenticateUser, async (req, res) => {
   try {
     const { dbName, key, keyId, jsonStr } = req.body;
-    const uid = resolveAuthorizedTargetUid(req, req.body.uid, true);
+    const ctx = resolveScopeContext(req);
 
     if (!dbName || !key) {
       return res.status(400).json({ error: 'Missing required parameters: dbName, key' });
     }
 
-    const docPath = `users/${uid}/databases/${dbName}/records/${key}`;
-    const docRef = firestore.doc(docPath);
-
-    let parsedData = jsonStr;
-    if (typeof jsonStr === 'string') {
-      try {
-        parsedData = JSON.parse(jsonStr);
-      } catch (e) {
-        parsedData = { rawString: jsonStr };
-      }
-    }
-
-    parsedData = convertBytesObjectsToBlobs(parsedData);
-
-    const recordDoc = {
-      key: String(key),
-      keyId: Number(keyId || 0),
-      dbName: String(dbName),
-      updatedAt: new Date().toISOString(),
-      ...(typeof parsedData === 'object' && parsedData !== null ? parsedData : { data: parsedData })
-    };
-
-    await docRef.set(recordDoc, { merge: true });
-    console.log(`[Firestore DB Store] Saved record: ${docPath}`);
-
-    return res.json({ status: 'OK', path: docPath });
+    const result = await scopedResolver.storeRecord(ctx, { dbName, key, keyId, jsonStr });
+    console.log(`[Firestore DB Store] Saved record: ${result.path} (scope='${result.scope}')`);
+    return res.json(result);
   } catch (err) {
     console.error('[Firestore DB Store Error]', err.message);
     return res.status(err.statusCode || 500).json({ error: err.message });
@@ -3667,50 +3731,14 @@ app.post('/api/db/store', authenticateUser, async (req, res) => {
 app.post('/api/db/fetch', authenticateUser, async (req, res) => {
   try {
     const { dbName, type, key } = req.body;
-    const uid = resolveAuthorizedTargetUid(req, req.body.uid, false);
+    const ctx = resolveScopeContext(req);
 
     if (!dbName || key === undefined || key === null) {
       return res.status(400).json({ error: 'Missing required parameters: dbName, key' });
     }
 
-    const isInt = type === 'int' || (typeof key === 'number') || (type !== 'string' && !isNaN(key) && Number.isInteger(Number(key)));
-    const keyStr = String(key);
-    const keyNum = Number(key);
-
-    const findInCollection = async (targetUid) => {
-      const colRef = firestore.collection(`users/${targetUid}/databases/${dbName}/records`);
-      const directRef = colRef.doc(keyStr);
-      const directSnap = await directRef.get();
-      if (directSnap.exists) return directSnap.data();
-
-      if (isInt) {
-        let q = await colRef.where('ID', '==', keyNum).limit(1).get();
-        if (q.empty) q = await colRef.where('keyId', '==', keyNum).limit(1).get();
-        if (!q.empty) return q.docs[0].data();
-      } else {
-        let q = await colRef.where('Name', '==', keyStr).limit(1).get();
-        if (q.empty) q = await colRef.where('key', '==', keyStr).limit(1).get();
-        if (!q.empty) return q.docs[0].data();
-      }
-      return null;
-    };
-
-    const docData = await findInCollection(uid);
-
-    if (!docData) {
-      return res.json({ found: false, dbName, key, type });
-    }
-
-    const data = convertBlobsToBytesObjects(docData);
-    return res.json({
-      found: true,
-      dbName,
-      key,
-      type,
-      keyId: data.keyId || data.ID || 0,
-      data: data,
-      updatedAt: data.updatedAt
-    });
+    const result = await scopedResolver.fetchRecord(ctx, { dbName, type, key });
+    return res.json(result);
   } catch (err) {
     console.error('[Firestore DB Fetch Error]', err.message);
     return res.status(err.statusCode || 500).json({ error: err.message });
@@ -3720,43 +3748,15 @@ app.post('/api/db/fetch', authenticateUser, async (req, res) => {
 app.post('/api/db/listSummary', authenticateUser, async (req, res) => {
   try {
     const { dbName, fields = ['ID', 'Name'] } = req.body;
-    const uid = resolveAuthorizedTargetUid(req, req.body.uid, false);
+    const ctx = resolveScopeContext(req);
 
     if (!dbName) {
       return res.status(400).json({ error: 'Missing required parameter: dbName' });
     }
 
-    const recordsMap = new Map();
-    const loadFromNamespace = async (targetUid) => {
-      const colRef = firestore.collection(`users/${targetUid}/databases/${dbName}/records`);
-      let querySnap;
-      if (Array.isArray(fields) && fields.length > 0) {
-        querySnap = await colRef.select(...fields).get();
-      } else {
-        querySnap = await colRef.select('ID', 'Name').get();
-      }
-
-      querySnap.forEach(doc => {
-        const d = doc.data();
-        const idVal = d.ID !== undefined ? d.ID : (d.keyId !== undefined ? d.keyId : Number(doc.id) || 0);
-        const nameVal = String(d.Name || d.key || doc.id);
-        recordsMap.set(nameVal, {
-          ID: Number(idVal),
-          Name: nameVal
-        });
-      });
-    };
-
-    await loadFromNamespace(uid);
-
-    const records = Array.from(recordsMap.values());
-    console.log(`[Firestore DB ListSummary] dbName='${dbName}', count=${records.length}, uid='${uid}'`);
-    return res.json({
-      found: true,
-      dbName,
-      count: records.length,
-      records: records
-    });
+    const result = await scopedResolver.listSummary(ctx, { dbName, fields });
+    console.log(`[Firestore DB ListSummary] dbName='${dbName}', count=${result.count}, uid='${ctx.callerUid}', scope='${ctx.viewScope}'`);
+    return res.json(result);
   } catch (err) {
     console.error('[Firestore DB ListSummary Error]', err.message);
     return res.status(err.statusCode || 500).json({ error: err.message });
@@ -3764,7 +3764,7 @@ app.post('/api/db/listSummary', authenticateUser, async (req, res) => {
 });
 
 /**
- * Search Reaction Patterns by Reactive Center Encodings
+ * Search Reaction Patterns by Reactive Center Encodings (with Personal + System resolution)
  */
 app.post('/api/db/searchRxnPatternsByCenter', authenticateUser, async (req, res) => {
   try {
@@ -3773,7 +3773,7 @@ app.post('/api/db/searchRxnPatternsByCenter', authenticateUser, async (req, res)
       reactionBrokenBonds,
       reactionFormedBonds
     } = req.body;
-    const uid = resolveAuthorizedTargetUid(req, req.body.uid, false);
+    const ctx = resolveScopeContext(req);
 
     const bBond = Array.isArray(reactionBrokenBonds) ? reactionBrokenBonds[0] : reactionBrokenBonds;
     const fBond = Array.isArray(reactionFormedBonds) ? reactionFormedBonds[0] : reactionFormedBonds;
@@ -3784,7 +3784,7 @@ app.post('/api/db/searchRxnPatternsByCenter', authenticateUser, async (req, res)
       });
     }
 
-    const searchInNamespace = async (targetUid) => {
+    const searchInNamespace = async (targetUid, scopeLabel) => {
       const colRef = firestore.collection(`users/${targetUid}/databases/ReactionPatterns/records`);
       let querySnap;
       if (reactionCenterKey) {
@@ -3795,12 +3795,21 @@ app.post('/api/db/searchRxnPatternsByCenter', authenticateUser, async (req, res)
         querySnap = await colRef.where('reactionFormedBonds', 'array-contains', String(fBond)).get();
       }
       const list = [];
-      querySnap.forEach(doc => list.push({ id: doc.id, ...doc.data() }));
+      querySnap.forEach(doc => list.push({ id: doc.id, scope: scopeLabel, ...doc.data() }));
       return list;
     };
 
-    const userRecords = await searchInNamespace(uid);
-    let records = userRecords;
+    const byName = new Map();
+    if (ctx.viewScope === 'all' || ctx.viewScope === 'system') {
+      const sysRecs = await searchInNamespace(ctx.systemUid, 'system');
+      sysRecs.forEach(r => byName.set(r.Name || r.key || r.id, r));
+    }
+    if (ctx.viewScope === 'all' || ctx.viewScope === 'personal') {
+      const perRecs = await searchInNamespace(ctx.personalUid, 'personal');
+      perRecs.forEach(r => byName.set(r.Name || r.key || r.id, { ...r, overridesSystem: byName.has(r.Name || r.key || r.id) }));
+    }
+
+    let records = Array.from(byName.values());
 
     if (!reactionCenterKey && bBond && fBond) {
       records = records.filter(d =>
@@ -3808,10 +3817,11 @@ app.post('/api/db/searchRxnPatternsByCenter', authenticateUser, async (req, res)
       );
     }
 
-    console.log(`[Firestore SearchRxnPatternsByCenter] Query: center='${reactionCenterKey || ''}', broken='${bBond || ''}', formed='${fBond || ''}', count=${records.length}, uid='${uid}'`);
+    console.log(`[Firestore SearchRxnPatternsByCenter] Query: center='${reactionCenterKey || ''}', broken='${bBond || ''}', formed='${fBond || ''}', count=${records.length}, uid='${ctx.callerUid}', scope='${ctx.viewScope}'`);
 
     return res.json({
       success: true,
+      scope: ctx.viewScope,
       count: records.length,
       records: records
     });
@@ -4071,7 +4081,8 @@ app.all('/api/db/dependencies', authenticateUser, async (req, res) => {
 async function executeRecordDeletion(req, res) {
   try {
     const { dbName, key, keyId } = req.body;
-    const uid = resolveAuthorizedTargetUid(req, req.body.uid || req.query.uid, true);
+    const ctx = resolveScopeContext(req);
+    const uid = ctx.targetWriteUid;
 
     if (!dbName || (!key && keyId === undefined)) {
       return res.status(400).json({ error: 'Missing required parameters: dbName, key/keyId' });
@@ -4101,7 +4112,9 @@ async function executeRecordDeletion(req, res) {
     }
 
     if (!primaryDoc) {
-      return res.status(404).json({ error: `Record not found in ${dbName}: key='${keyStr}', keyId='${keyNum}'` });
+      return res.status(404).json({
+        error: `Record not found in ${ctx.isSystemWrite ? 'System' : 'Personal'} ${dbName}: key='${keyStr}', keyId='${keyNum}'`
+      });
     }
 
     const data = primaryDoc.data();
@@ -4114,12 +4127,13 @@ async function executeRecordDeletion(req, res) {
       'substructure': 'DB-Index-SubStructureIDs',
       'molecules': 'DB-Index-MoleculeIDs',
       'molecule': 'DB-Index-MoleculeIDs',
-      'reactionpatterns': 'DB-Index-PatternIDs',
-      'reactionpattern': 'DB-Index-PatternIDs',
-      'rxnpatterns': 'DB-Index-PatternIDs',
-      'rxnpattern': 'DB-Index-PatternIDs',
+      'reactionpatterns': 'DB-Index-ReactionPatternIDs',
+      'reactionpattern': 'DB-Index-ReactionPatternIDs',
+      'rxnpatterns': 'DB-Index-ReactionPatternIDs',
+      'rxnpattern': 'DB-Index-ReactionPatternIDs',
       'reactions': 'DB-Index-ReactionIDs',
-      'reaction': 'DB-Index-ReactionIDs'
+      'reaction': 'DB-Index-ReactionIDs',
+      'thermodynamics': 'DB-Index-ThermodynamicsIDs'
     };
     const normalizedDb = dbName.toLowerCase().replace(/[^a-z]/g, '');
     const classificationName = classMap[normalizedDb];
@@ -4181,13 +4195,14 @@ async function executeRecordDeletion(req, res) {
 
     await batch.commit();
 
-    console.log(`[Firestore DB Delete Success] Deleted '${targetName}' (ID: ${targetId}) from '${dbName}'. Classification nodes updated: ${classOps.filter(o => !o.shouldDelete).length}, pruned: ${classOps.filter(o => o.shouldDelete).length}`);
+    console.log(`[Firestore DB Delete Success] Deleted '${targetName}' (ID: ${targetId}) from '${dbName}' (scope='${ctx.isSystemWrite ? 'system' : 'personal'}').`);
 
     return res.json({
       success: true,
       deletedKey: targetName,
       deletedId: targetId,
       dbName,
+      scope: ctx.isSystemWrite ? 'system' : 'personal',
       classificationUpdated: classOps.filter(o => !o.shouldDelete).map(o => o.docKey),
       classificationPruned: classOps.filter(o => o.shouldDelete).map(o => o.docKey)
     });
@@ -4204,41 +4219,20 @@ app.post('/api/db/delete', authenticateUser, executeRecordDeletion);
 /**
  * Atomic Unique ID Generator
  * Allocates monotonically increasing unique integer IDs per database collection.
+ * System IDs: 10,000+ (< 1,000,000) | Personal IDs: 1,000,000+
  */
 app.post('/api/db/generateNextID', authenticateUser, async (req, res) => {
   try {
-    const { dbName, startAt = 10000 } = req.body;
-    const uid = resolveAuthorizedTargetUid(req, req.body.uid, true);
+    const { dbName, startAt } = req.body;
+    const ctx = resolveScopeContext(req);
 
     if (!dbName) {
       return res.status(400).json({ error: 'Missing required parameter: dbName' });
     }
 
-    const counterRef = firestore.doc(`users/${uid}/databases/${dbName}/metadata/counter`);
-
-    let allocatedId = 0;
-    await firestore.runTransaction(async (transaction) => {
-      const counterSnap = await transaction.get(counterRef);
-      let currentId = Number(startAt) - 1;
-      if (counterSnap.exists) {
-        const data = counterSnap.data();
-        if (typeof data.nextID === 'number') {
-          currentId = data.nextID - 1;
-        }
-      }
-      allocatedId = currentId + 1;
-      if (allocatedId < Number(startAt)) {
-        allocatedId = Number(startAt);
-      }
-      transaction.set(counterRef, {
-        nextID: allocatedId + 1,
-        lastAllocatedID: allocatedId,
-        updatedAt: new Date().toISOString()
-      }, { merge: true });
-    });
-
-    console.log(`[Firestore GenerateNextID] dbName='${dbName}', allocatedId=${allocatedId}, uid='${uid}'`);
-    return res.json({ id: allocatedId, dbName });
+    const result = await scopedResolver.generateNextID(ctx, { dbName, startAt });
+    console.log(`[Firestore GenerateNextID] dbName='${dbName}', allocatedId=${result.id}, uid='${result.targetUid}', scope='${result.scope}'`);
+    return res.json(result);
   } catch (err) {
     console.error('[Firestore GenerateNextID Error]', err.message);
     return res.status(err.statusCode || 500).json({ error: err.message });
@@ -4255,9 +4249,12 @@ app.post('/api/db/purgeCollection', authenticateUser, async (req, res) => {
       purgeClassifications = true,
       classificationName,
       resetCounter = true,
-      startAt = 10000
+      startAt
     } = req.body;
-    const uid = resolveAuthorizedTargetUid(req, req.body.uid, true);
+    const ctx = resolveScopeContext(req);
+    const uid = ctx.targetWriteUid;
+    const defaultStart = ctx.isSystemWrite ? SYSTEM_ID_START : PERSONAL_ID_START;
+    const effectiveStartAt = Number(startAt) || defaultStart;
 
     if (!dbName) {
       return res.status(400).json({ error: 'Missing required parameter: dbName' });
@@ -4278,9 +4275,9 @@ app.post('/api/db/purgeCollection', authenticateUser, async (req, res) => {
     // 2. Optionally delete classifications
     let deletedClassCount = 0;
     const classColName = classificationName || (
-      dbName === 'ReactionPatterns' ? 'DB-Index-PatternIDs' :
+      dbName === 'ReactionPatterns' ? 'DB-Index-ReactionPatternIDs' :
       (dbName === 'Molecules' ? 'DB-Index-MoleculeIDs' :
-      (dbName === 'Substructures' ? 'DB-Index-SubStructureIDs' :
+      (dbName === 'Substructures' || dbName === 'SubStructures' ? 'DB-Index-SubStructureIDs' :
       (dbName === 'Reactions' ? 'DB-Index-ReactionIDs' : '')))
     );
     if (purgeClassifications && classColName) {
@@ -4298,7 +4295,7 @@ app.post('/api/db/purgeCollection', authenticateUser, async (req, res) => {
     if (resetCounter) {
       const counterRef = firestore.doc(`users/${uid}/databases/${dbName}/metadata/counter`);
       await counterRef.set({
-        nextID: Number(startAt),
+        nextID: effectiveStartAt,
         lastAllocatedID: 0,
         description: `Monotonically increasing unique integer ID counter for ${dbName} database`,
         updatedAt: new Date().toISOString()
@@ -4308,7 +4305,7 @@ app.post('/api/db/purgeCollection', authenticateUser, async (req, res) => {
       await infoRef.set({
         dbName: String(dbName),
         classificationName: String(classColName || ''),
-        startAt: Number(startAt),
+        startAt: effectiveStartAt,
         description: `REACTCLOUD ${dbName} database with unique sequential IDs`,
         status: 'INITIALIZED',
         recordCount: 0,
@@ -4333,9 +4330,10 @@ app.post('/api/db/purgeCollection', authenticateUser, async (req, res) => {
     return res.json({
       success: true,
       dbName,
+      scope: ctx.isSystemWrite ? 'system' : 'personal',
       deletedRecords: deletedRecordsCount,
       deletedClassDocs: deletedClassCount,
-      counterResetTo: Number(startAt)
+      counterResetTo: effectiveStartAt
     });
   } catch (err) {
     console.error('[Firestore PurgeCollection Error]', err.message);
@@ -4346,37 +4344,15 @@ app.post('/api/db/purgeCollection', authenticateUser, async (req, res) => {
 app.post('/api/db/storeSearchKeys', authenticateUser, async (req, res) => {
   try {
     const { dbName, keyId = 0, jsonStr } = req.body;
-    const uid = resolveAuthorizedTargetUid(req, req.body.uid, true);
+    const ctx = resolveScopeContext(req);
 
     if (!dbName) {
       return res.status(400).json({ error: 'Missing required parameter: dbName' });
     }
 
-    const docPath = `users/${uid}/searchkeys/${dbName}`;
-    const docRef = firestore.doc(docPath);
-
-    let parsedData = jsonStr;
-    if (typeof jsonStr === 'string') {
-      try {
-        parsedData = JSON.parse(jsonStr);
-      } catch (e) {
-        parsedData = { rawString: jsonStr };
-      }
-    }
-
-    parsedData = convertBytesObjectsToBlobs(parsedData);
-
-    const searchKeysDoc = {
-      dbName: String(dbName),
-      updatedAt: new Date().toISOString(),
-      keyId: Number(keyId),
-      data: parsedData,
-      [`searchKeys_${keyId}`]: parsedData
-    };
-
-    await docRef.set(searchKeysDoc, { merge: true });
-    console.log(`[Firestore SearchKeys Store] Saved search keys doc: ${docPath}`);
-    return res.json({ status: 'OK', path: docPath });
+    const result = await scopedResolver.storeSearchKeys(ctx, { dbName, keyId, jsonStr });
+    console.log(`[Firestore SearchKeys Store] Saved search keys doc: ${result.path} (scope='${result.scope}')`);
+    return res.json(result);
   } catch (err) {
     console.error('[Firestore SearchKeys Store Error]', err.message);
     return res.status(err.statusCode || 500).json({ error: err.message });
@@ -4386,24 +4362,14 @@ app.post('/api/db/storeSearchKeys', authenticateUser, async (req, res) => {
 app.post('/api/db/fetchSearchKeys', authenticateUser, async (req, res) => {
   try {
     const { dbName } = req.body;
-    const uid = resolveAuthorizedTargetUid(req, req.body.uid, false);
+    const ctx = resolveScopeContext(req);
 
     if (!dbName) {
       return res.status(400).json({ error: 'Missing required parameter: dbName' });
     }
 
-    const docSnap = await firestore.doc(`users/${uid}/searchkeys/${dbName}`).get();
-    if (!docSnap.exists) {
-      return res.json({ found: false, dbName });
-    }
-
-    const data = convertBlobsToBytesObjects(docSnap.data());
-    return res.json({
-      found: true,
-      dbName,
-      data: data,
-      updatedAt: data.updatedAt
-    });
+    const result = await scopedResolver.fetchSearchKeys(ctx, { dbName });
+    return res.json(result);
   } catch (err) {
     console.error('[Firestore SearchKeys Fetch Error]', err.message);
     return res.status(err.statusCode || 500).json({ error: err.message });
@@ -4419,66 +4385,20 @@ app.post('/api/db/findOrCreateObjectIDClass', authenticateUser, async (req, res)
       objectIDs,
       defaultClassData
     } = req.body;
-    const uid = resolveAuthorizedTargetUid(req, req.body.uid, false);
+    const ctx = resolveScopeContext(req);
 
     if (!classificationName || !Array.isArray(objectIDs)) {
       return res.status(400).json({ error: 'Missing required parameters: classificationName, objectIDs array' });
     }
 
-    const docKey = `doc_${objectIDs.join('_')}`;
-    const isDb = source === 'DATABASE' || source === 100 || source === '100';
-    const sourceDir = isDb ? 'database' : (sessionId || 'default_session');
-    const docPath = `users/${uid}/classifications/${sourceDir}/${classificationName}/${docKey}`;
-    const docRef = firestore.doc(docPath);
-    let docSnap = await docRef.get();
-
-    if (docSnap.exists) {
-      const rawData = docSnap.data();
-      const { classData, classificationName: _cn, docKey: _dk, updatedAt, ...cleanData } = rawData;
-      const targetObj = classData || (Object.keys(cleanData).length > 0 ? cleanData : rawData);
-      const data = convertBlobsToBytesObjects(targetObj);
-      console.log(`[Firestore Classification Class Found] Path: ${docSnap.ref.path}`);
-      return res.json({
-        found: true,
-        docPath: docSnap.ref.path,
-        data: data
-      });
-    }
-
-    // Creating a new classification document requires write permission on target uid
-    const writeUid = resolveAuthorizedTargetUid(req, req.body.uid, true);
-    const writeDocPath = `users/${writeUid}/classifications/${sourceDir}/${classificationName}/${docKey}`;
-    const writeDocRef = firestore.doc(writeDocPath);
-
-    let parsedClassData = defaultClassData;
-    if (typeof defaultClassData === 'string') {
-      try {
-        parsedClassData = JSON.parse(defaultClassData);
-      } catch (e) {
-        parsedClassData = { rawString: defaultClassData };
-      }
-    }
-
-    parsedClassData = convertBytesObjectsToBlobs(parsedClassData);
-
-    const docPayload = {
-      classificationName: String(classificationName),
-      objectIDs: objectIDs.map(Number),
-      docKey,
-      updatedAt: new Date().toISOString(),
-      ...(typeof parsedClassData === 'object' && parsedClassData !== null ? parsedClassData : {})
-    };
-
-    await writeDocRef.set(docPayload, { merge: true });
-    console.log(`[Firestore Classification Class Created] Path: ${writeDocPath}`);
-
-    const returnData = convertBlobsToBytesObjects(parsedClassData);
-    return res.json({
-      found: false,
-      created: true,
-      docPath: writeDocPath,
-      data: returnData
+    const result = await scopedResolver.findOrCreateObjectIDClass(ctx, {
+      sessionId,
+      source,
+      classificationName,
+      objectIDs,
+      defaultClassData
     });
+    return res.json(result);
   } catch (err) {
     console.error('[Firestore findOrCreateObjectIDClass Error]', err.message);
     return res.status(err.statusCode || 500).json({ error: err.message });
@@ -4494,40 +4414,21 @@ app.post('/api/db/storeObjectIDClass', authenticateUser, async (req, res) => {
       objectIDs,
       jsonStr
     } = req.body;
-    const uid = resolveAuthorizedTargetUid(req, req.body.uid, true);
+    const ctx = resolveScopeContext(req);
 
     if (!classificationName || !Array.isArray(objectIDs)) {
       return res.status(400).json({ error: 'Missing required parameters: classificationName, objectIDs array' });
     }
 
-    const docKey = `doc_${objectIDs.join('_')}`;
-    const isDb = source === 'DATABASE' || source === 100 || source === '100';
-    const sourceDir = isDb ? 'database' : (sessionId || 'default_session');
-    const docPath = `users/${uid}/classifications/${sourceDir}/${classificationName}/${docKey}`;
-    const docRef = firestore.doc(docPath);
-
-    let parsedClassData = jsonStr;
-    if (typeof jsonStr === 'string') {
-      try {
-        parsedClassData = JSON.parse(jsonStr);
-      } catch (e) {
-        parsedClassData = { rawString: jsonStr };
-      }
-    }
-
-    parsedClassData = convertBytesObjectsToBlobs(parsedClassData);
-
-    const docPayload = {
-      classificationName: String(classificationName),
-      objectIDs: objectIDs.map(Number),
-      docKey,
-      updatedAt: new Date().toISOString(),
-      ...(typeof parsedClassData === 'object' && parsedClassData !== null ? parsedClassData : {})
-    };
-
-    await docRef.set(docPayload, { merge: true });
-    console.log(`[Firestore Store ObjectIDClass] Saved path: ${docPath}`);
-    return res.json({ status: 'OK', path: docPath });
+    const result = await scopedResolver.storeObjectIDClass(ctx, {
+      sessionId,
+      source,
+      classificationName,
+      objectIDs,
+      jsonStr
+    });
+    console.log(`[Firestore Store ObjectIDClass] Saved path: ${result.path} (scope='${result.scope}')`);
+    return res.json(result);
   } catch (err) {
     console.error('[Firestore Store ObjectIDClass Error]', err.message);
     return res.status(err.statusCode || 500).json({ error: err.message });
@@ -4537,24 +4438,101 @@ app.post('/api/db/storeObjectIDClass', authenticateUser, async (req, res) => {
 app.get('/api/db/keys', authenticateUser, async (req, res) => {
   try {
     const { dbName } = req.query;
-    const uid = resolveAuthorizedTargetUid(req, req.query.uid, false);
+    const ctx = resolveScopeContext(req);
 
     if (!dbName) {
       return res.status(400).json({ error: 'Missing required query parameter: dbName' });
     }
 
-    const colSnap = await firestore.collection(`users/${uid}/databases/${dbName}/records`).get();
-    const keys = colSnap.docs.map(doc => doc.id);
-    return res.json({ dbName, count: keys.length, keys });
+    const keysSet = new Set();
+    if (ctx.viewScope === 'all' || ctx.viewScope === 'system') {
+      const sysSnap = await firestore.collection(`users/${ctx.systemUid}/databases/${dbName}/records`).get();
+      sysSnap.docs.forEach(d => keysSet.add(d.id));
+    }
+    if (ctx.viewScope === 'all' || ctx.viewScope === 'personal') {
+      const perSnap = await firestore.collection(`users/${ctx.personalUid}/databases/${dbName}/records`).get();
+      perSnap.docs.forEach(d => keysSet.add(d.id));
+    }
+
+    const keys = Array.from(keysSet);
+    return res.json({ dbName, scope: ctx.viewScope, count: keys.length, keys });
   } catch (err) {
     console.error('[Firestore DB Keys Error]', err.message);
     return res.status(err.statusCode || 500).json({ error: err.message });
   }
 });
 
+/**
+ * POST /api/db/promoteToSystem
+ * Promotes a personal record to the System database (Admin Only).
+ */
+app.post('/api/db/promoteToSystem', authenticateUser, requireAdmin, async (req, res) => {
+  try {
+    const { dbName, key, id } = req.body;
+    const ctx = resolveScopeContext(req);
+    if (!dbName || (key === undefined && id === undefined)) {
+      return res.status(400).json({ error: 'Missing required parameters: dbName and key/id' });
+    }
+    const result = await scopedResolver.promoteToSystem(ctx, { dbName, key, id });
+    return res.json(result);
+  } catch (err) {
+    console.error('[Firestore PromoteToSystem Error]', err.message);
+    return res.status(err.statusCode || 500).json({ error: err.message });
+  }
+});
+
+/**
+ * POST /api/db/revertOverride
+ * Deletes a personal record/override, restoring the System baseline if one exists.
+ */
+app.post('/api/db/revertOverride', authenticateUser, async (req, res) => {
+  try {
+    const { dbName, key, id } = req.body;
+    const ctx = resolveScopeContext(req);
+    if (!dbName || (key === undefined && id === undefined)) {
+      return res.status(400).json({ error: 'Missing required parameters: dbName and key/id' });
+    }
+    const result = await scopedResolver.revertPersonalOverride(ctx, { dbName, key, id });
+    return res.json(result);
+  } catch (err) {
+    console.error('[Firestore RevertOverride Error]', err.message);
+    return res.status(err.statusCode || 500).json({ error: err.message });
+  }
+});
+
+/**
+ * GET /api/db/scopeInfo
+ * Returns resolved System and Personal namespace metadata for the current authenticated user.
+ */
+app.get('/api/db/scopeInfo', authenticateUser, (req, res) => {
+  try {
+    const ctx = resolveScopeContext(req);
+    return res.json({
+      callerUid: ctx.callerUid,
+      isAdmin: ctx.isAdmin,
+      viewScope: ctx.viewScope,
+      writeScope: ctx.writeScope,
+      systemUid: ctx.systemUid,
+      personalUid: ctx.personalUid,
+      targetWriteUid: ctx.targetWriteUid,
+      personalIdStart: PERSONAL_ID_START,
+      systemIdStart: SYSTEM_ID_START,
+      objectTypes: Object.keys(CATALOG_OBJECT_REGISTRY)
+    });
+  } catch (err) {
+    return res.status(err.statusCode || 500).json({ error: err.message });
+  }
+});
+
 // Admin Integrity and Catalog List Routes
 const { setupAdminIntegrityRoutes } = require('./admin-integrity');
-setupAdminIntegrityRoutes(app, { firestore, authenticateUser, requireAdmin });
+setupAdminIntegrityRoutes(app, {
+  firestore,
+  authenticateUser,
+  requireAdmin,
+  scopedResolver,
+  resolveScopeContext
+});
 
 app.use((err, req, res, next) => {
   console.error('[Orchestrator Global Error]', err);

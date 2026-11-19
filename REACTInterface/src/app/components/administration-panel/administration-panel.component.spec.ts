@@ -193,9 +193,13 @@ describe('AdministrationPanelComponent', () => {
       }))
     };
 
+    const scopeSig = signal<'personal' | 'system'>('personal');
     authServiceMock = {
       getToken: jasmine.createSpy('getToken').and.returnValue('test-token'),
-      activeDataScope: signal<'personal' | 'system'>('personal'),
+      activeDataScope: scopeSig,
+      setDataScope: jasmine.createSpy('setDataScope').and.callFake((s: 'personal' | 'system') => scopeSig.set(s)),
+      activeViewScope: signal<'all' | 'personal' | 'system'>('all'),
+      activeWriteScope: signal<'personal' | 'system'>('personal'),
       isAdmin: jasmine.createSpy('isAdmin').and.returnValue(true)
     };
 
@@ -468,6 +472,26 @@ describe('AdministrationPanelComponent', () => {
 
       expect(adminServiceMock.remediate).toHaveBeenCalledWith('purge_all_temporary_records', 'Molecules', {});
       expect(component.statusMessage()?.text).toContain('Removed 3 temporary record(s)');
+    });
+
+    it('should switch admin scope and promote or revert personal overrides', () => {
+      component.switchAdminScope('system');
+      expect(authServiceMock.setDataScope).toHaveBeenCalledWith('system');
+
+      const override = { database: 'Molecules', id: 1000001, name: 'propane', docId: '1000001' };
+      component.promotePersonalRecordToSystem(override);
+      expect(adminServiceMock.remediate).toHaveBeenCalledWith('promote_to_system', 'Molecules', {
+        id: 1000001,
+        name: 'propane',
+        recordDocId: '1000001'
+      });
+
+      component.revertPersonalOverride(override);
+      expect(adminServiceMock.remediate).toHaveBeenCalledWith('revert_personal_override', 'Molecules', {
+        id: 1000001,
+        name: 'propane',
+        recordDocId: '1000001'
+      });
     });
   });
 });

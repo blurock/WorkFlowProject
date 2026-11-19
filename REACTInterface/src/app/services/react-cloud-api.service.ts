@@ -8,6 +8,8 @@ export interface CatalogItem {
   id: string;
   name: string;
   rawLine: string;
+  scope?: 'system' | 'personal';
+  overridesSystem?: boolean;
 }
 
 export interface CatalogTask {

@@ -9,25 +9,56 @@
 
     <span class="toolbar-spacer"></span>
 
-    <!-- Admin System vs Personal Data Scope Switcher -->
-    <div class="data-scope-switcher" *ngIf="authService.isAdmin()" title="Switch active target namespace between Personal Workspace and Shared System Catalog">
+    <!-- Global 3-Way View Scope Bar: Combined (All) | Personal | System -->
+    <div class="data-scope-switcher" title="Switch catalog view scope between Combined (Personal + System), Personal Only, and System Only">
       <button
         type="button"
         class="scope-pill"
-        [class.active]="authService.activeDataScope() === 'personal'"
-        (click)="authService.setDataScope('personal')"
+        [class.active]="authService.activeViewScope() === 'all'"
+        (click)="authService.setViewScope('all')"
+      >
+        <mat-icon>layers</mat-icon>
+        Combined
+      </button>
+      <button
+        type="button"
+        class="scope-pill"
+        [class.active]="authService.activeViewScope() === 'personal'"
+        (click)="authService.setViewScope('personal')"
       >
         <mat-icon>person</mat-icon>
-        Personal Data
+        Personal
       </button>
       <button
         type="button"
         class="scope-pill system-scope"
-        [class.active]="authService.activeDataScope() === 'system'"
-        (click)="authService.setDataScope('system')"
+        [class.active]="authService.activeViewScope() === 'system'"
+        (click)="authService.setViewScope('system')"
       >
         <mat-icon>public</mat-icon>
-        System Catalog
+        System
+      </button>
+    </div>
+
+    <!-- Admin Write Target Scope Switcher (Option 5A) -->
+    <div class="data-scope-switcher write-scope-switcher" *ngIf="authService.isAdmin()" title="Admin Write Target: Choose whether newly stored objects go to Personal space or directly to System Catalog">
+      <button
+        type="button"
+        class="scope-pill"
+        [class.active]="authService.activeWriteScope() === 'personal'"
+        (click)="authService.setWriteScope('personal')"
+      >
+        <mat-icon>edit_note</mat-icon>
+        Write: Personal
+      </button>
+      <button
+        type="button"
+        class="scope-pill system-scope"
+        [class.active]="authService.activeWriteScope() === 'system'"
+        (click)="authService.setWriteScope('system')"
+      >
+        <mat-icon>cloud_upload</mat-icon>
+        Write: System
       </button>
     </div>
 

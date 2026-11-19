@@ -315,6 +315,23 @@ export class AdministrationPanelComponent implements OnInit {
     return temps;
   });
 
+  // Filtered Personal Overrides of System Objects
+  public currentPersonalOverrides = computed<any[]>(() => {
+    const res = this.auditResults() || {};
+    const sel = this.selectedDatabase();
+    const overrides: any[] = [];
+    if (sel === 'ALL') {
+      for (const k of Object.keys(res)) {
+        if (res[k] && Array.isArray((res[k] as any).personalOverrides)) {
+          overrides.push(...(res[k] as any).personalOverrides);
+        }
+      }
+    } else if (res[sel] && Array.isArray((res[sel] as any).personalOverrides)) {
+      overrides.push(...(res[sel] as any).personalOverrides);
+    }
+    return overrides;
+  });
+
   // Filtered Molecules
   public filteredMolecules = computed(() => {
     const lists = this.catalogLists();
@@ -430,6 +447,68 @@ export class AdministrationPanelComponent implements OnInit {
     if (section !== 'verify' && !this.catalogLists() && !this.isLoadingLists()) {
       this.fetchCatalogLists();
     }
+  }
+
+  switchAdminScope(scope: 'personal' | 'system'): void {
+    this.authService.setDataScope(scope);
+    this.runAudit(true);
+    if (this.activeSection() !== 'verify') {
+      this.fetchCatalogLists();
+    } else {
+      this.catalogLists.set(null);
+    }
+  }
+
+  promotePersonalRecordToSystem(override: any): void {
+    const db = override.database || (this.selectedDatabase() === 'ALL' ? 'Molecules' : this.selectedDatabase());
+    this.isRemediating.set(true);
+    this.adminService.remediate('promote_to_system', db, {
+      id: override.id,
+      name: override.name,
+      recordDocId: override.docId || String(override.id)
+    }).subscribe({
+      next: (res) => {
+        this.isRemediating.set(false);
+        this.statusMessage.set({
+          type: 'success',
+          text: res?.result?.message || `Promoted '${override.name}' to System database.`
+        });
+        this.runAudit(false);
+      },
+      error: (err) => {
+        this.isRemediating.set(false);
+        this.statusMessage.set({
+          type: 'error',
+          text: `Failed to promote '${override.name}' to System: ${err.error?.error || err.message}`
+        });
+      }
+    });
+  }
+
+  revertPersonalOverride(override: any): void {
+    const db = override.database || (this.selectedDatabase() === 'ALL' ? 'Molecules' : this.selectedDatabase());
+    this.isRemediating.set(true);
+    this.adminService.remediate('revert_personal_override', db, {
+      id: override.id,
+      name: override.name,
+      recordDocId: override.docId || String(override.id)
+    }).subscribe({
+      next: (res) => {
+        this.isRemediating.set(false);
+        this.statusMessage.set({
+          type: 'success',
+          text: res?.result?.message || `Reverted personal override '${override.name}'. System default restored.`
+        });
+        this.runAudit(false);
+      },
+      error: (err) => {
+        this.isRemediating.set(false);
+        this.statusMessage.set({
+          type: 'error',
+          text: `Failed to revert personal override '${override.name}': ${err.error?.error || err.message}`
+        });
+      }
+    });
   }
 
   // -------------------------------------------------------------

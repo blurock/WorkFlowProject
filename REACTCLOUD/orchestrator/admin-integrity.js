@@ -3,6 +3,14 @@
  * For REACTCLOUD Node.js Orchestrator.
  */
 
+const {
+  SYSTEM_UID,
+  PERSONAL_ID_START,
+  SYSTEM_ID_START,
+  getPersonalNamespaceUid,
+  createScopedDatabaseResolver
+} = require('./scoped-db-resolver');
+
 const DATABASE_INDEX_MAP = {
   Substructures: {
     dbName: 'Substructures',
@@ -60,13 +68,32 @@ async function auditDatabase(firestore, uid, dbKey) {
     throw new Error(`Unknown database key: ${dbKey}. Valid choices: ${Object.keys(DATABASE_INDEX_MAP).join(', ')}`);
   }
 
+  const isSystemScope = (uid === SYSTEM_UID);
+  const scopeLabel = isSystemScope ? 'system' : 'personal';
+
   const recordsCol = firestore.collection(`users/${uid}/databases/${cfg.dbName}/records`);
   const classCol = firestore.collection(`users/${uid}/classifications/database/${cfg.classIndex}`);
+  const sysRecordsCol = !isSystemScope
+    ? firestore.collection(`users/${SYSTEM_UID}/databases/${cfg.dbName}/records`)
+    : null;
 
-  const [recordsSnap, classSnap] = await Promise.all([
+  const [recordsSnap, classSnap, sysRecordsSnap] = await Promise.all([
     recordsCol.get(),
-    classCol.get()
+    classCol.get(),
+    sysRecordsCol ? sysRecordsCol.get() : Promise.resolve(null)
   ]);
+
+  const sysRecordsByName = new Map();
+  if (sysRecordsSnap) {
+    sysRecordsSnap.forEach(sDoc => {
+      const sData = sDoc.data() || {};
+      const sId = sData.ID ?? sData.keyId ?? (sData.key ? parseInt(sData.key, 10) : null);
+      const sName = (sData.Name ?? sData.name ?? '').trim();
+      if (sName) {
+        sysRecordsByName.set(sName, { id: sId, docId: sDoc.id, name: sName });
+      }
+    });
+  }
 
   const recordsById = new Map();
   const recordsByName = new Map();
@@ -381,6 +408,40 @@ async function auditDatabase(firestore, uid, dbKey) {
     }
   });
 
+  // 5. Personal Overrides of System Objects & ID Range Partition Checks
+  const personalOverrides = [];
+  if (!isSystemScope) {
+    recordsById.forEach((rec, id) => {
+      const cleanName = (rec.name || '').trim();
+      const sysMatch = cleanName ? sysRecordsByName.get(cleanName) : null;
+      if (sysMatch) {
+        personalOverrides.push({
+          id,
+          name: cleanName,
+          docId: rec.docId,
+          systemId: sysMatch.id,
+          systemDocId: sysMatch.docId,
+          database: dbKey,
+          scope: 'personal'
+        });
+      }
+      if (typeof id === 'number' && !isNaN(id) && id > 0 && id < PERSONAL_ID_START) {
+        issues.push({
+          type: 'PERSONAL_RECORD_IN_SYSTEM_ID_RANGE',
+          database: dbKey,
+          classIndex: cfg.classIndex,
+          severity: 'warning',
+          message: `Personal record '${rec.name}' (ID: ${id}) is below the personal ID range (${PERSONAL_ID_START}+)`,
+          id,
+          name: rec.name,
+          docId: rec.docId,
+          safeToAutoSync: false,
+          suggestedFix: 'promote_to_system'
+        });
+      }
+    });
+  }
+
   // Side-by-side reconciliation list
   const allIds = new Set([...recordsById.keys(), ...classKeysById.keys()]);
   const reconciliation = [];
@@ -393,12 +454,18 @@ async function auditDatabase(firestore, uid, dbKey) {
     else if (!r && c) status = 'MISSING_IN_RECORDS';
     else if (r && c && r.name !== c.name) status = 'NAME_MISMATCH';
 
+    const rName = r?.name || c?.name || null;
+    const sysMatch = (!isSystemScope && rName) ? sysRecordsByName.get(rName) : null;
+
     reconciliation.push({
       id,
       recordDocId: r?.docId || null,
       recordName: r?.name || null,
       classDocId: c?.docId || null,
       className: c?.name || null,
+      scope: scopeLabel,
+      overridesSystem: Boolean(sysMatch),
+      overriddenSystemId: sysMatch ? sysMatch.id : null,
       status
     });
   });
@@ -413,6 +480,8 @@ async function auditDatabase(firestore, uid, dbKey) {
     dbName: cfg.dbName,
     classIndex: cfg.classIndex,
     label: cfg.label,
+    scope: scopeLabel,
+    targetUid: uid,
     auditedAt: new Date().toISOString(),
     summary: {
       totalRecords: recordsSnap.size,
@@ -426,10 +495,12 @@ async function auditDatabase(firestore, uid, dbKey) {
       ghostIndexKeysCount: ghosts.length,
       nameMismatchesCount: nameMismatches.length,
       temporaryRecordsCount: temporaryRecords.length,
+      personalOverridesCount: personalOverrides.length,
       totalIssuesCount: issues.length
     },
     issues,
     temporaryRecords,
+    personalOverrides,
     reconciliation
   };
 }
@@ -443,6 +514,42 @@ async function remediateIssue(firestore, uid, action, params = {}) {
   if (!cfg) throw new Error(`Invalid dbKey: ${dbKey}`);
 
   switch (action) {
+    case 'promote_to_system': {
+      const resolver = createScopedDatabaseResolver({ firestore });
+      const ctx = {
+        callerUid: SYSTEM_UID,
+        isAdmin: true,
+        systemUid: SYSTEM_UID,
+        personalUid: uid === SYSTEM_UID ? `${SYSTEM_UID}_personal` : uid,
+        targetWriteUid: SYSTEM_UID,
+        isSystemWrite: true
+      };
+      const lookupKey = recordDocId || id || name;
+      return resolver.promoteToSystem(ctx, {
+        dbName: cfg.dbName,
+        key: lookupKey,
+        id
+      });
+    }
+
+    case 'revert_personal_override': {
+      const resolver = createScopedDatabaseResolver({ firestore });
+      const ctx = {
+        callerUid: uid,
+        isAdmin: true,
+        systemUid: SYSTEM_UID,
+        personalUid: uid === SYSTEM_UID ? `${SYSTEM_UID}_personal` : uid,
+        targetWriteUid: uid === SYSTEM_UID ? `${SYSTEM_UID}_personal` : uid,
+        isSystemWrite: false
+      };
+      const lookupKey = recordDocId || id || name;
+      return resolver.revertPersonalOverride(ctx, {
+        dbName: cfg.dbName,
+        key: lookupKey,
+        id
+      });
+    }
+
     case 'delete_record': {
       const colRef = firestore.collection(`users/${uid}/databases/${cfg.dbName}/records`);
       let deletedDocId = null;
@@ -853,16 +960,68 @@ async function autoSyncSafe(firestore, uid, dbKey) {
 
 /**
  * Generates all structured catalog lists and hierarchies as specified in AdministrationPanel.md
+ * Supports scope: 'system' | 'personal' | 'all' (combined)
  */
-async function generateCatalogLists(firestore, uid) {
+async function generateCatalogLists(firestore, uid, options = {}) {
   const startTime = Date.now();
+  const requestedScope = String(options.scope || (uid === SYSTEM_UID ? 'system' : 'personal')).toLowerCase();
+  const personalUid = uid.endsWith('_personal') ? uid : getPersonalNamespaceUid(uid);
+  const systemUid = SYSTEM_UID;
+
+  // Helper to load and merge collection snapshots according to scope
+  const loadScopedDocs = async (subPath) => {
+    const needSys = requestedScope === 'all' || requestedScope === 'combined' || requestedScope === 'system';
+    const needPer = requestedScope === 'all' || requestedScope === 'combined' || requestedScope === 'personal';
+
+    const [sysSnap, perSnap] = await Promise.all([
+      needSys ? firestore.collection(`users/${systemUid}/${subPath}`).get() : Promise.resolve(null),
+      needPer ? firestore.collection(`users/${personalUid}/${subPath}`).get() : Promise.resolve(null)
+    ]);
+
+    const byName = new Map();
+    const sysNames = new Set();
+
+    if (sysSnap) {
+      sysSnap.forEach(d => {
+        const data = d.data() || {};
+        const name = String(data.Name ?? data.name ?? data.mechName ?? d.id).trim();
+        sysNames.add(name);
+        byName.set(name, {
+          id: d.id,
+          data: { ...data, scope: 'system', overridesSystem: false }
+        });
+      });
+    }
+
+    if (perSnap) {
+      perSnap.forEach(d => {
+        const data = d.data() || {};
+        const name = String(data.Name ?? data.name ?? data.mechName ?? d.id).trim();
+        byName.set(name, {
+          id: d.id,
+          data: { ...data, scope: 'personal', overridesSystem: sysNames.has(name) }
+        });
+      });
+    }
+
+    const docs = Array.from(byName.values()).map(entry => ({
+      id: entry.id,
+      data: () => entry.data
+    }));
+
+    return {
+      size: docs.length,
+      docs,
+      forEach: (cb) => docs.forEach(cb)
+    };
+  };
 
   const [molSnap, subSnap, rxnSnap, pathSnap, mechMetaSnap] = await Promise.all([
-    firestore.collection(`users/${uid}/databases/Molecules/records`).get(),
-    firestore.collection(`users/${uid}/databases/Substructures/records`).get(),
-    firestore.collection(`users/${uid}/databases/ReactionPatterns/records`).get(),
-    firestore.collection(`users/${uid}/databases/MechanismPathway/records`).get(),
-    firestore.collection(`users/${uid}/databases/Mechanisms/metadata`).get()
+    loadScopedDocs('databases/Molecules/records'),
+    loadScopedDocs('databases/Substructures/records'),
+    loadScopedDocs('databases/ReactionPatterns/records'),
+    loadScopedDocs('databases/MechanismPathway/records'),
+    loadScopedDocs('mechanisms')
   ]);
 
   // 1. Molecules Simple List
@@ -873,7 +1032,13 @@ async function generateCatalogLists(firestore, uid) {
     const id = data.ID ?? data.keyId ?? d.id;
     const name = (data.Name ?? data.name ?? d.id).trim();
     moleculeNamesSet.add(name.toLowerCase());
-    moleculesList.push({ id, name, docId: d.id });
+    moleculesList.push({
+      id,
+      name,
+      docId: d.id,
+      scope: data.scope || 'system',
+      overridesSystem: Boolean(data.overridesSystem)
+    });
   });
   moleculesList.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -889,9 +1054,11 @@ async function generateCatalogLists(firestore, uid) {
     const name = (data.Name ?? data.name ?? d.id).trim();
     const family = getSubstructureFamily(name);
     const isMolecule = moleculeNamesSet.has(name.toLowerCase());
+    const itemScope = data.scope || 'system';
+    const overridesSystem = Boolean(data.overridesSystem);
 
     if (isMolecule) {
-      substructuresMoleculeIntersection.push({ id, name, family });
+      substructuresMoleculeIntersection.push({ id, name, family, scope: itemScope, overridesSystem });
     }
 
     substructureMasterMap[id] = {
@@ -899,6 +1066,8 @@ async function generateCatalogLists(firestore, uid) {
       name,
       family,
       isMolecule,
+      scope: itemScope,
+      overridesSystem,
       atomCount: data.Molfile?.NAtoms,
       bondCount: data.Molfile?.NBonds
     };
@@ -906,7 +1075,7 @@ async function generateCatalogLists(firestore, uid) {
     if (!subFamiliesMap.has(family)) {
       subFamiliesMap.set(family, []);
     }
-    subFamiliesMap.get(family).push({ id, name, isMolecule });
+    subFamiliesMap.get(family).push({ id, name, isMolecule, scope: itemScope, overridesSystem });
   });
 
   const substructureFamilies = [];
@@ -932,11 +1101,13 @@ async function generateCatalogLists(firestore, uid) {
     const data = d.data();
     const id = data.ID ?? data.keyId ?? d.id;
     const name = (data.Name ?? data.name ?? d.id).trim();
+    const itemScope = data.scope || 'system';
+    const overridesSystem = Boolean(data.overridesSystem);
 
     // Prefix group
     const prefix = name.split('-')[0] || 'Other';
     if (!rxnPrefixMap.has(prefix)) rxnPrefixMap.set(prefix, []);
-    rxnPrefixMap.get(prefix).push({ id, name });
+    rxnPrefixMap.get(prefix).push({ id, name, scope: itemScope, overridesSystem });
 
     // Substructures mapping
     const reactants = data.Reactants || [];
@@ -948,7 +1119,7 @@ async function generateCatalogLists(firestore, uid) {
       if (subInfo && !subInfo.isMolecule) {
         const fam = subInfo.family || 'Other';
         if (!rxnSubstructReactantsMap.has(fam)) rxnSubstructReactantsMap.set(fam, []);
-        rxnSubstructReactantsMap.get(fam).push({ id, name, substructureName: subInfo.name });
+        rxnSubstructReactantsMap.get(fam).push({ id, name, substructureName: subInfo.name, scope: itemScope, overridesSystem });
       }
     });
 
@@ -958,7 +1129,7 @@ async function generateCatalogLists(firestore, uid) {
       if (subInfo && !subInfo.isMolecule) {
         const fam = subInfo.family || 'Other';
         if (!rxnSubstructProductsMap.has(fam)) rxnSubstructProductsMap.set(fam, []);
-        rxnSubstructProductsMap.get(fam).push({ id, name, substructureName: subInfo.name });
+        rxnSubstructProductsMap.get(fam).push({ id, name, substructureName: subInfo.name, scope: itemScope, overridesSystem });
       }
     });
   });
@@ -986,7 +1157,8 @@ async function generateCatalogLists(firestore, uid) {
   // 4. Mechanism Pathways Version Clustering
   const pathwayBaseMap = new Map();
   pathSnap.forEach(d => {
-    const name = d.id;
+    const data = d.data() || {};
+    const name = data.Name || data.key || d.id;
     const parsed = parsePathwayVersion(name);
     if (!pathwayBaseMap.has(parsed.baseName)) {
       pathwayBaseMap.set(parsed.baseName, []);
@@ -994,7 +1166,9 @@ async function generateCatalogLists(firestore, uid) {
     pathwayBaseMap.get(parsed.baseName).push({
       name,
       versionLabel: parsed.versionLabel,
-      versionNum: parsed.versionNum
+      versionNum: parsed.versionNum,
+      scope: data.scope || 'system',
+      overridesSystem: Boolean(data.overridesSystem)
     });
   });
 
@@ -1023,7 +1197,9 @@ async function generateCatalogLists(firestore, uid) {
       type: data.type || 'submechanism',
       pathwayName: data.pathwayName || null,
       filesCount: data.files?.length || 0,
-      createdAt: data.createdAt || null
+      createdAt: data.createdAt || null,
+      scope: data.scope || 'system',
+      overridesSystem: Boolean(data.overridesSystem)
     });
   });
 
@@ -1049,12 +1225,12 @@ async function generateCatalogLists(firestore, uid) {
     ...rxnPatternsBySubstructure.reactants.map(r => ({
       substructure: r.family,
       count: r.count,
-      patterns: r.patterns.map(p => ({ id: p.id, name: p.name, role: 'reactant' }))
+      patterns: r.patterns.map(p => ({ id: p.id, name: p.name, role: 'reactant', scope: p.scope, overridesSystem: p.overridesSystem }))
     })),
     ...rxnPatternsBySubstructure.products.map(p => ({
       substructure: p.family,
       count: p.count,
-      patterns: p.patterns.map(p => ({ id: p.id, name: p.name, role: 'product' }))
+      patterns: p.patterns.map(p => ({ id: p.id, name: p.name, role: 'product', scope: p.scope, overridesSystem: p.overridesSystem }))
     }))
   ];
 
@@ -1062,20 +1238,21 @@ async function generateCatalogLists(firestore, uid) {
   const pathwayClusters = pathwayGroups.map(g => ({
     baseName: g.baseName,
     count: g.count,
-    pathways: g.versions.map(v => ({ id: v.name, name: v.name, version: v.versionLabel }))
+    pathways: g.versions.map(v => ({ id: v.name, name: v.name, version: v.versionLabel, scope: v.scope, overridesSystem: v.overridesSystem }))
   }));
 
   // Flatten mechanism clusters
   const mechanismClusters = mechanismGroups.map(g => ({
     targetMolecule: g.targetMolecule,
     count: g.count,
-    mechanisms: g.mechanisms.map(m => ({ id: m.mechName, name: m.mechName }))
+    mechanisms: g.mechanisms.map(m => ({ id: m.mechName, name: m.mechName, scope: m.scope, overridesSystem: m.overridesSystem }))
   }));
 
   const generatedPayload = {
     generatedAt: new Date().toISOString(),
     generationTimeMs: Date.now() - startTime,
     targetUid: uid,
+    scope: requestedScope,
     // Top-level direct arrays for frontend
     molecules: moleculesList,
     moleculesTotal: moleculesList.length,
@@ -1086,7 +1263,8 @@ async function generateCatalogLists(firestore, uid) {
       moleculesInSubstructures: substructuresMoleculeIntersection.map(m => ({
         id: m.id,
         name: m.name,
-        moleculeId: m.id
+        moleculeId: m.id,
+        scope: m.scope
       })),
       moleculesIntersection: substructuresMoleculeIntersection,
       substructureMap: simpleSubstructureMap,
@@ -1119,8 +1297,9 @@ async function generateCatalogLists(firestore, uid) {
     }
   };
 
-  // Cache to Firestore under users/{uid}/cached_lists/master_catalog_lists
-  await firestore.collection(`users/${uid}/cached_lists`).doc('master_catalog_lists').set(generatedPayload);
+  // Cache to Firestore under users/{uid}/cached_lists/master_catalog_lists_{scope}
+  const cacheDocId = requestedScope === 'system' ? 'master_catalog_lists' : `master_catalog_lists_${requestedScope}`;
+  await firestore.collection(`users/${uid}/cached_lists`).doc(cacheDocId).set(generatedPayload);
 
   return generatedPayload;
 }
@@ -1129,17 +1308,31 @@ async function generateCatalogLists(firestore, uid) {
  * Setup Admin & Integrity REST Endpoints on Express App
  */
 function setupAdminIntegrityRoutes(app, { firestore, authenticateUser, requireAdmin }) {
-  // Helper to resolve target UID according to scope and admin rights
+  // Helper to resolve target UID and requested scope ('system' | 'personal' | 'all')
+  const resolveRequestedScope = (req) => {
+    const raw = (
+      req.body?.scope ||
+      req.query?.scope ||
+      req.headers?.['x-react-data-scope'] ||
+      req.headers?.['x-react-view-scope'] ||
+      'system'
+    ).toLowerCase();
+    if (raw === 'personal' || raw === 'user') return 'personal';
+    if (raw === 'all' || raw === 'combined') return 'all';
+    return 'system';
+  };
+
   const resolveTargetUid = (req) => {
-    const scope = (req.headers['x-react-data-scope'] || req.body?.scope || req.query?.scope || 'personal').toLowerCase();
     const explicitTarget = req.body?.targetUid || req.query?.targetUid;
     if (explicitTarget && req.user?.isAdmin) {
       return explicitTarget;
     }
-    if (scope === 'system' && req.user?.isAdmin) {
-      return process.env.SYSTEM_CATALOG_UID || 'UOqk0KtFtaXma5TGsi8Seh9RMbx1';
+    const scope = resolveRequestedScope(req);
+    const callerUid = req.user?.uid || SYSTEM_UID;
+    if (scope === 'personal') {
+      return getPersonalNamespaceUid(callerUid);
     }
-    return req.user?.uid || 'UOqk0KtFtaXma5TGsi8Seh9RMbx1';
+    return SYSTEM_UID;
   };
 
   /**
@@ -1322,8 +1515,9 @@ function setupAdminIntegrityRoutes(app, { firestore, authenticateUser, requireAd
   app.post('/api/admin/lists/generate', authenticateUser, requireAdmin, async (req, res) => {
     try {
       const targetUid = resolveTargetUid(req);
-      const payload = await generateCatalogLists(firestore, targetUid);
-      return res.json({ success: true, targetUid, lists: payload });
+      const scope = resolveRequestedScope(req);
+      const payload = await generateCatalogLists(firestore, targetUid, { scope });
+      return res.json({ success: true, targetUid, scope, lists: payload });
     } catch (err) {
       console.error('[POST /api/admin/lists/generate Error]', err);
       return res.status(500).json({ error: err.message });
@@ -1337,23 +1531,25 @@ function setupAdminIntegrityRoutes(app, { firestore, authenticateUser, requireAd
   app.get('/api/admin/lists/:listType', authenticateUser, async (req, res) => {
     try {
       const targetUid = resolveTargetUid(req);
+      const scope = resolveRequestedScope(req);
       const listType = req.params.listType;
+      const cacheDocId = scope === 'system' ? 'master_catalog_lists' : `master_catalog_lists_${scope}`;
 
-      const cacheDoc = await firestore.collection(`users/${targetUid}/cached_lists`).doc('master_catalog_lists').get();
+      const cacheDoc = await firestore.collection(`users/${targetUid}/cached_lists`).doc(cacheDocId).get();
       let payload = null;
 
       if (cacheDoc.exists) {
         payload = cacheDoc.data();
       } else {
-        payload = await generateCatalogLists(firestore, targetUid);
+        payload = await generateCatalogLists(firestore, targetUid, { scope });
       }
 
       if (listType === 'all') {
-        return res.json({ success: true, lists: payload });
+        return res.json({ success: true, scope, lists: payload });
       }
 
       if (payload[listType]) {
-        return res.json({ success: true, listType, data: payload[listType] });
+        return res.json({ success: true, scope, listType, data: payload[listType] });
       }
 
       return res.status(404).json({ error: `List type '${listType}' not found in catalog lists` });

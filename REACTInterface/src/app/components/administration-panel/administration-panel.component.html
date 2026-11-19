@@ -7,11 +7,25 @@
         <h2>Database Administration & Catalog Integrity</h2>
       </div>
       <div class="scope-indicator">
-        <span class="scope-label">Scope:</span>
-        <span class="scope-badge" [ngClass]="authService.activeDataScope() === 'system' ? 'scope-system' : 'scope-personal'">
-          <mat-icon class="tiny-icon">{{ authService.activeDataScope() === 'system' ? 'public' : 'lock' }}</mat-icon>
-          {{ authService.activeDataScope() === 'system' ? 'System Shared Catalog' : 'Personal Workspace' }}
-        </span>
+        <span class="scope-label">Audit & Catalog Scope:</span>
+        <button
+          type="button"
+          class="scope-badge"
+          [ngClass]="authService.activeDataScope() === 'system' ? 'scope-system' : 'scope-personal'"
+          (click)="switchAdminScope('system')"
+          title="Audit and inspect the System Shared Catalog (UOqk0KtFtaXma5TGsi8Seh9RMbx1)">
+          <mat-icon class="tiny-icon">public</mat-icon>
+          System Shared Catalog
+        </button>
+        <button
+          type="button"
+          class="scope-badge"
+          [ngClass]="authService.activeDataScope() === 'personal' ? 'scope-system' : 'scope-personal'"
+          (click)="switchAdminScope('personal')"
+          title="Audit and inspect Personal Workspace objects and overrides">
+          <mat-icon class="tiny-icon">person</mat-icon>
+          Personal Workspace
+        </button>
       </div>
     </div>
 
@@ -283,6 +297,54 @@
         </div>
       </div>
 
+      <!-- Dedicated Personal Overrides of System Objects Card (Option 3A & 5A) -->
+      <div *ngIf="currentPersonalOverrides().length > 0" class="personal-overrides-card card-panel mb-3">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+          <div class="d-flex align-items-center gap-2">
+            <mat-icon class="text-info" style="font-size: 28px; width: 28px; height: 28px; color: #38bdf8;">layers</mat-icon>
+            <div>
+              <h4 class="m-0 font-weight-bold">Personal Overrides of System Objects ({{ currentPersonalOverrides().length }})</h4>
+              <p class="m-0 text-muted small">
+                These personal records share a name with a System object and shadow it during execution. You can promote an override to the System Catalog or revert it to restore the System default.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="temp-records-list mt-3">
+          <div class="temp-record-pill d-flex align-items-center justify-content-between gap-3 w-100" *ngFor="let ov of currentPersonalOverrides()">
+            <div>
+              <span class="one-line-summary-badge badge-amber mr-2">Overrides System</span>
+              <span class="font-weight-bold">{{ ov.name }}</span>
+              <span class="text-muted small ml-2">
+                (Personal ID: #{{ ov.id }} &rarr; Shadows System ID: #{{ ov.systemId }})
+              </span>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <button
+                *ngIf="authService.isAdmin()"
+                type="button"
+                class="row-action-btn btn-success"
+                (click)="promotePersonalRecordToSystem(ov)"
+                [disabled]="isRemediating()"
+                title="Promote this personal override into the System Catalog">
+                <mat-icon>cloud_upload</mat-icon>
+                Promote to System
+              </button>
+              <button
+                type="button"
+                class="row-action-btn btn-warning"
+                (click)="revertPersonalOverride(ov)"
+                [disabled]="isRemediating()"
+                title="Delete personal override and restore the System default">
+                <mat-icon>restore</mat-icon>
+                Revert to System Default
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Issues Table Section -->
       <div class="issues-container card-panel">
         <div class="panel-header-row">
@@ -521,9 +583,22 @@
           class="one-line-summary-row molecule-row">
           <div class="one-line-summary-text">
             <span class="one-line-summary-badge badge-blue">#{{ mol.id }}</span>
+            <span class="one-line-summary-badge" [ngClass]="mol.scope === 'personal' ? 'badge-amber' : 'badge-purple'">
+              {{ mol.scope === 'personal' ? (mol.overridesSystem ? 'Personal (Overrides System)' : 'Personal') : 'System' }}
+            </span>
             <span class="one-line-summary-title">{{ mol.name }}</span>
           </div>
           <div class="one-line-summary-actions">
+            <button
+              *ngIf="mol.scope === 'personal' && authService.isAdmin()"
+              type="button"
+              class="row-action-btn btn-success mr-2"
+              (click)="promotePersonalRecordToSystem({ database: 'Molecules', id: mol.id, name: mol.name, docId: mol.docId || mol.id })"
+              [disabled]="isRemediating()"
+              title="Promote personal molecule to System Catalog">
+              <mat-icon>cloud_upload</mat-icon>
+              Promote to System
+            </button>
             <button class="action-icon-btn" (click)="copyToClipboard(mol.name)" [matTooltip]="'Copy name: ' + mol.name">
               <mat-icon>content_copy</mat-icon>
             </button>

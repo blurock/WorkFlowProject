@@ -31,14 +31,18 @@ export interface AuditSummary {
   duplicateNameCount: number;
   duplicateIdCount: number;
   temporaryRecordsCount?: number;
+  personalOverridesCount?: number;
 }
 
 export interface AuditResult {
   database: string;
   classIndex: string;
+  scope?: 'system' | 'personal';
+  targetUid?: string;
   summary: AuditSummary;
   issues: AuditIssue[];
   temporaryRecords?: any[];
+  personalOverrides?: any[];
 }
 
 export interface AutoSyncResult {
@@ -51,11 +55,12 @@ export interface AutoSyncResult {
 export interface CatalogListsPayload {
   generatedAt: string;
   targetUid: string;
-  molecules: { id: string; name: string }[];
+  scope?: string;
+  molecules: { id: string; name: string; docId?: string; scope?: 'system' | 'personal'; overridesSystem?: boolean }[];
   substructures: {
     total: number;
-    families: { family: string; count: number; items: { id: string; name: string }[] }[];
-    moleculesInSubstructures: { id: string; name: string; moleculeId: string }[];
+    families: { family: string; count: number; items: { id: string; name: string; scope?: 'system' | 'personal'; overridesSystem?: boolean }[] }[];
+    moleculesInSubstructures: { id: string; name: string; moleculeId: string; scope?: 'system' | 'personal'; overridesSystem?: boolean }[];
     substructureMap: { [id: string]: string };
   };
   reactionPatterns: {
@@ -63,12 +68,12 @@ export interface CatalogListsPayload {
     bySubstructure: {
       substructure: string;
       count: number;
-      patterns: { id: string; name: string; role: 'reactant' | 'product' }[];
+      patterns: { id: string; name: string; role: 'reactant' | 'product'; scope?: 'system' | 'personal'; overridesSystem?: boolean }[];
     }[];
     byPrefix: {
       prefix: string;
       count: number;
-      patterns: { id: string; name: string }[];
+      patterns: { id: string; name: string; scope?: 'system' | 'personal'; overridesSystem?: boolean }[];
     }[];
   };
   pathways: {
@@ -76,7 +81,7 @@ export interface CatalogListsPayload {
     clusters: {
       baseName: string;
       count: number;
-      pathways: { id: string; name: string; version: string }[];
+      pathways: { id: string; name: string; version: string; scope?: 'system' | 'personal'; overridesSystem?: boolean }[];
     }[];
   };
   mechanisms: {
@@ -84,7 +89,7 @@ export interface CatalogListsPayload {
     clusters: {
       targetMolecule: string;
       count: number;
-      mechanisms: { id: string; name: string }[];
+      mechanisms: { id: string; name: string; scope?: 'system' | 'personal'; overridesSystem?: boolean }[];
     }[];
   };
 }
@@ -188,6 +193,28 @@ export class AdminManagementService {
   getCatalogLists(listType: 'all' | 'molecules' | 'substructures' | 'reactionPatterns' | 'pathways' | 'mechanisms' = 'all'): Observable<any> {
     return this.http.get<any>(
       `${this.baseUrl}/api/admin/lists/${listType}`,
+      { headers: this.getHeaders() }
+    );
+  }
+
+  /**
+   * Promotes a personal record or override to the System database (Admin Only)
+   */
+  promoteToSystem(dbName: string, keyOrId: string | number): Observable<any> {
+    return this.http.post<any>(
+      `${this.baseUrl}/api/db/promoteToSystem`,
+      { dbName, key: keyOrId, id: keyOrId },
+      { headers: this.getHeaders() }
+    );
+  }
+
+  /**
+   * Reverts a personal override, restoring the System baseline
+   */
+  revertPersonalOverride(dbName: string, keyOrId: string | number): Observable<any> {
+    return this.http.post<any>(
+      `${this.baseUrl}/api/db/revertOverride`,
+      { dbName, key: keyOrId, id: keyOrId },
       { headers: this.getHeaders() }
     );
   }

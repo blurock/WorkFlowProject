@@ -24,12 +24,22 @@ export abstract class BaseCatalogService {
     } catch (e) {}
   }
 
+  private getActiveViewScope(): string {
+    try {
+      return localStorage.getItem('reactcloud_view_scope') || 'all';
+    } catch (e) {
+      return 'all';
+    }
+  }
+
   private getListStorageKey(taskId: string, rootName: string): string {
-    return `reactcloud_catalog_list_${this.CACHE_VERSION}_${taskId}_${rootName}`;
+    const scope = this.getActiveViewScope();
+    return `reactcloud_catalog_list_${this.CACHE_VERSION}_${scope}_${taskId}_${rootName}`;
   }
 
   private getDetailStorageKey(taskId: string, itemName: string, rootName: string): string {
-    return `reactcloud_detail_${this.CACHE_VERSION}_${taskId}_${rootName}_${itemName}`;
+    const scope = this.getActiveViewScope();
+    return `reactcloud_detail_${this.CACHE_VERSION}_${scope}_${taskId}_${rootName}_${itemName}`;
   }
 
   /**
