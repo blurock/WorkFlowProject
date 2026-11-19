@@ -777,7 +777,7 @@
     </section>
 
     <!-- ====================================================================== -->
-    <!-- 5. MECHANISM PATHS LIST                                                -->
+    <!-- 5. MECHANISM PATHS LIST (Tree Hierarchy: Level 1 Base Name -> Level 2 Versions) -->
     <!-- ====================================================================== -->
     <section *ngIf="activeSection() === 'mechanism-paths'" class="section-container">
       <div class="list-controls-bar">
@@ -790,10 +790,18 @@
             (ngModelChange)="listSearchQuery.set($event)" />
         </div>
 
-        <button type="button" class="action-btn secondary-btn" (click)="regenerateCatalogLists()" [disabled]="isLoadingLists()">
-          <mat-icon>cached</mat-icon>
-          Refresh Lists
-        </button>
+        <div class="toolbar-actions-group">
+          <button type="button" class="action-btn-text" (click)="expandAllPathways()" title="Expand all pathway groups">
+            <mat-icon>unfold_more</mat-icon> Expand All
+          </button>
+          <button type="button" class="action-btn-text" (click)="collapseAllPathways()" title="Collapse all pathway groups">
+            <mat-icon>unfold_less</mat-icon> Collapse All
+          </button>
+          <button type="button" class="action-btn secondary-btn" (click)="regenerateCatalogLists()" [disabled]="isLoadingLists()">
+            <mat-icon>cached</mat-icon>
+            Refresh Lists
+          </button>
+        </div>
       </div>
 
       <div *ngIf="isLoadingLists()" class="lists-loading-indicator">
@@ -801,26 +809,29 @@
         <span>Loading mechanism pathways from database...</span>
       </div>
 
-      <div *ngIf="!isLoadingLists()" class="families-container">
-        <div *ngFor="let cluster of filteredPathways()" class="family-block">
+      <div *ngIf="!isLoadingLists()" class="families-container tree-hierarchy-container">
+        <!-- Tree Node Level 1: Base Pathway Name (without versions) -->
+        <div *ngFor="let cluster of filteredPathways()" class="family-block tree-group-card">
           <div 
-            class="one-line-summary-row family-header-row" 
+            class="one-line-summary-row family-header-row tree-node-header" 
             (click)="togglePathway(cluster.baseName)">
             <div class="one-line-summary-text">
-              <span class="one-line-summary-badge badge-purple">Pathway</span>
-              <span class="one-line-summary-title font-bold">{{ cluster.baseName }}</span>
-              <span class="count-tag">({{ cluster.count }} versions)</span>
+              <mat-icon class="tree-node-icon">alt_route</mat-icon>
+              <span class="one-line-summary-title font-bold tree-base-name">{{ cluster.baseName }}</span>
+              <span class="count-tag">({{ cluster.count }} {{ cluster.count === 1 ? 'version' : 'versions' }})</span>
             </div>
             <div class="one-line-summary-actions">
               <mat-icon class="chevron-icon">{{ isPathwayExpanded(cluster.baseName) ? 'expand_less' : 'expand_more' }}</mat-icon>
             </div>
           </div>
 
-          <div *ngIf="isPathwayExpanded(cluster.baseName)" class="family-members-card">
-            <div *ngFor="let p of cluster.pathways" class="substructure-member-row">
-              <span class="version-tag badge-amber">{{ p.version }}</span>
-              <span class="member-name">{{ p.name }}</span>
-              <button class="action-icon-btn" (click)="copyToClipboard(p.name)">
+          <!-- Tree Node Level 2: Versions under Base Pathway -->
+          <div *ngIf="isPathwayExpanded(cluster.baseName)" class="family-members-card tree-children-card">
+            <div *ngFor="let p of cluster.pathways" class="substructure-member-row tree-leaf-row">
+              <div class="tree-branch-line"></div>
+              <span class="version-tag badge-amber font-bold">{{ p.version }}</span>
+              <span class="member-name font-mono">{{ p.name }}</span>
+              <button class="action-icon-btn copy-btn" (click)="copyToClipboard(p.name)" title="Copy pathway name">
                 <mat-icon>content_copy</mat-icon>
               </button>
             </div>

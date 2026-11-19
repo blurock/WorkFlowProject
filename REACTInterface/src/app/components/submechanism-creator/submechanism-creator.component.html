@@ -67,13 +67,24 @@
                     [matAutocomplete]="autoPath"
                     placeholder="Type or select pathway from Firestore..."
                     required />
-                  <mat-icon matSuffix color="primary">alt_route</mat-icon>
+                  <button
+                    mat-icon-button
+                    matSuffix
+                    color="primary"
+                    (click)="openPathwayTreeDialog()"
+                    matTooltip="Browse Pathway Tree (Level 1: Base Name -> Level 2: Versions)"
+                    type="button">
+                    <mat-icon>account_tree</mat-icon>
+                  </button>
 
                   <mat-autocomplete #autoPath="matAutocomplete" (optionSelected)="onPathSelected($event)">
-                    <mat-option *ngFor="let p of filteredPaths" [value]="p" class="large-option">
-                      <mat-icon color="accent" class="option-icon">alt_route</mat-icon>
-                      <span class="option-name">{{ p }}</span>
-                    </mat-option>
+                    <mat-optgroup *ngFor="let group of filteredGroupedPaths" [label]="group.baseName + ' (' + group.count + ')'">
+                      <mat-option *ngFor="let p of group.versions" [value]="p.name" class="large-option">
+                        <mat-icon color="accent" class="option-icon">alt_route</mat-icon>
+                        <span class="version-badge">{{ p.versionLabel }}</span>
+                        <span class="option-name">{{ p.name }}</span>
+                      </mat-option>
+                    </mat-optgroup>
                   </mat-autocomplete>
 
                   <mat-hint>

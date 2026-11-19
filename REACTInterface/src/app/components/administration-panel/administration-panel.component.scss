@@ -772,6 +772,65 @@
       }
     }
   }
+
+  /* Tree hierarchy styling for Mechanism Paths */
+  &.tree-hierarchy-container {
+    .tree-group-card {
+      border-color: #3b4252;
+      background: #182234;
+
+      .tree-node-header {
+        .tree-node-icon {
+          color: #818cf8;
+          font-size: 20px;
+          width: 20px;
+          height: 20px;
+          margin-right: 6px;
+        }
+
+        .tree-base-name {
+          font-size: 14px;
+          color: #f8fafc;
+        }
+      }
+
+      .tree-children-card {
+        position: relative;
+        padding-left: 28px;
+        background: #101726;
+
+        &::before {
+          content: '';
+          position: absolute;
+          left: 18px;
+          top: 0;
+          bottom: 12px;
+          width: 2px;
+          background: #334155;
+        }
+
+        .tree-leaf-row {
+          position: relative;
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(255, 255, 255, 0.06);
+
+          .tree-branch-line {
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            width: 8px;
+            height: 2px;
+            background: #334155;
+          }
+
+          &:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: #6366f1;
+          }
+        }
+      }
+    }
+  }
 }
 
 /* Map Grid */

@@ -14,14 +14,17 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 import { ReactCloudApiService, CatalogItem, ApiRunCombineSubmechanismResponse } from '../../services/react-cloud-api.service';
+import { GroupedPathway, groupPathwayItems, filterGroupedPathways } from '../../services/mechanism-pathways.service';
 import { MechanismsService } from '../../services/catalog/mechanisms.service';
 import { MoleculesService } from '../../services/catalog/molecules.service';
 import { TaskOutputParserService } from '../../services/task-output-parser.service';
 import { ChemStructureParserService } from '../../services/chem-structure-parser.service';
 import { MoleculeSection } from '../../models/task-list.models';
 import { BensonGroupDetailComponent } from '../task-list-view/details/benson-group-detail.component';
+import { MechanismPathwayTreeComponent } from '../mechanism-pathway-tree/mechanism-pathway-tree.component';
 
 export interface CombineListItem {
   name: string;
@@ -48,6 +51,8 @@ export interface CombineListItem {
     MatChipsModule,
     MatBadgeModule,
     MatTooltipModule,
+    MatDialogModule,
+    MechanismPathwayTreeComponent,
     BensonGroupDetailComponent
   ],
   templateUrl: './combine-submechanisms.component.html',
@@ -80,6 +85,8 @@ export class CombineSubmechanismsComponent implements OnInit {
 
   public availablePaths: string[] = [];
   public filteredPathsToAdd: string[] = [];
+  public groupedPathsToAdd: GroupedPathway[] = [];
+  public filteredGroupedPathsToAdd: GroupedPathway[] = [];
   public isPathsLoading: boolean = false;
 
   // Method 2: Direct Database Mechanism Selection
@@ -113,8 +120,38 @@ export class CombineSubmechanismsComponent implements OnInit {
     private moleculesService: MoleculesService,
     private taskOutputParser: TaskOutputParserService,
     private chemParser: ChemStructureParserService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) {}
+
+  public openPathwayTreeDialog(): void {
+    const dialogRef = this.dialog.open(MechanismPathwayTreeComponent, {
+      width: '680px',
+      data: {
+        title: 'Select Mechanism Pathways to Combine (Tree)',
+        pathways: this.availablePaths,
+        multiSelect: true,
+        selected: this.selectedPaths
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((selected: string[] | string | null) => {
+      if (selected) {
+        const arr = Array.isArray(selected) ? selected : [selected];
+        let addedCount = 0;
+        arr.forEach(p => {
+          if (!this.selectedPaths.includes(p)) {
+            this.selectedPaths.push(p);
+            addedCount++;
+          }
+        });
+        if (addedCount > 0) {
+          this.filterPathsToAdd(this.pathInput);
+          this.snackBar.open(`Added ${addedCount} pathway${addedCount === 1 ? '' : 's'} to Cartesian matrix.`, 'OK', { duration: 2500 });
+        }
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.loadDatabaseMolecules();
@@ -189,6 +226,8 @@ export class CombineSubmechanismsComponent implements OnInit {
   public filterPathsToAdd(query: string): void {
     const q = (query || '').trim().toLowerCase();
     const remaining = this.availablePaths.filter(p => !this.selectedPaths.includes(p));
+    this.groupedPathsToAdd = groupPathwayItems(remaining);
+    this.filteredGroupedPathsToAdd = filterGroupedPathways(this.groupedPathsToAdd, q);
     if (!q) {
       this.filteredPathsToAdd = remaining.slice(0, 15);
       return;

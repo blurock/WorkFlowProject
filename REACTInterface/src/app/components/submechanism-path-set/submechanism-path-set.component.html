@@ -157,10 +157,13 @@
                   <mat-icon matSuffix color="accent">add_circle_outline</mat-icon>
 
                   <mat-autocomplete #autoAddPath="matAutocomplete" (optionSelected)="onPathOptionSelected($event)">
-                    <mat-option *ngFor="let p of filteredPathsToAdd" [value]="p">
-                      <mat-icon color="accent" class="option-icon">alt_route</mat-icon>
-                      <span>{{ p }}</span>
-                    </mat-option>
+                    <mat-optgroup *ngFor="let group of filteredGroupedPathsToAdd" [label]="group.baseName + ' (' + group.count + ')'">
+                      <mat-option *ngFor="let p of group.versions" [value]="p.name">
+                        <mat-icon color="accent" class="option-icon">alt_route</mat-icon>
+                        <span class="version-badge">{{ p.versionLabel }}</span>
+                        <span>{{ p.name }}</span>
+                      </mat-option>
+                    </mat-optgroup>
                   </mat-autocomplete>
                 </mat-form-field>
 
@@ -171,6 +174,16 @@
                   (click)="addPath()"
                   [disabled]="!newPathInput.trim()">
                   <mat-icon>add</mat-icon> Add Path
+                </button>
+
+                <button
+                  mat-stroked-button
+                  color="accent"
+                  class="browse-tree-btn"
+                  (click)="openPathwayTreeDialog()"
+                  matTooltip="Browse and select mechanism pathways from tree (Level 1: Base Name -> Level 2: Versions)"
+                  type="button">
+                  <mat-icon>account_tree</mat-icon> Browse Pathway Tree
                 </button>
               </div>
 

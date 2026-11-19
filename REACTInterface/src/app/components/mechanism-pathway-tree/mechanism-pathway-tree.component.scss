@@ -1,0 +1,402 @@
+.pathway-tree-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 80vh;
+  box-sizing: border-box;
+
+  &.dialog-mode {
+    min-width: 580px;
+    padding: 8px 16px;
+  }
+}
+
+.tree-header {
+  margin-bottom: 12px;
+
+  .header-title-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .header-icon {
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
+      color: #3b82f6;
+    }
+
+    .tree-title {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .count-badge {
+      margin-left: auto;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      background: #e0e7ff;
+      color: #4338ca;
+
+      &.info {
+        background: #f1f5f9;
+        color: #475569;
+      }
+    }
+  }
+}
+
+.search-toolbar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+
+  .search-field {
+    flex: 1;
+    min-width: 240px;
+    margin-bottom: -1.25em;
+  }
+
+  .toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .action-btn-text {
+      font-size: 13px;
+      color: #475569;
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+        margin-right: 4px;
+      }
+    }
+
+    .action-btn {
+      font-size: 13px;
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+        margin-right: 4px;
+      }
+    }
+  }
+}
+
+.tree-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
+  padding: 8px;
+  min-height: 280px;
+  max-height: 520px;
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 16px;
+    color: #94a3b8;
+
+    .empty-icon {
+      font-size: 40px;
+      width: 40px;
+      height: 40px;
+      margin-bottom: 8px;
+    }
+
+    p {
+      margin: 0;
+      font-size: 14px;
+    }
+  }
+
+  .tree-nodes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .tree-node-group {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    overflow: hidden;
+    transition: box-shadow 0.15s ease, border-color 0.15s ease;
+
+    &:hover {
+      border-color: #cbd5e1;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+  }
+
+  /* LEVEL 1: Root Base Name */
+  .tree-level-1-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    user-select: none;
+    background: #ffffff;
+    border-bottom: 1px solid transparent;
+
+    &:hover {
+      background: #f1f5f9;
+    }
+
+    .toggle-chevron {
+      width: 28px;
+      height: 28px;
+      line-height: 28px;
+      padding: 0;
+      color: #64748b;
+
+      mat-icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .group-checkbox {
+      margin-right: 2px;
+    }
+
+    .node-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      color: #6366f1;
+    }
+
+    .base-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1e293b;
+      letter-spacing: -0.01em;
+    }
+
+    .version-count-tag {
+      font-size: 12px;
+      color: #64748b;
+      margin-left: 4px;
+    }
+  }
+
+  /* LEVEL 2: Children Versions */
+  .tree-level-2-children {
+    position: relative;
+    padding: 4px 8px 8px 36px;
+    background: #fafafa;
+    border-top: 1px solid #f1f5f9;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    /* Tree vertical connector line */
+    &::before {
+      content: '';
+      position: absolute;
+      left: 24px;
+      top: 0;
+      bottom: 12px;
+      width: 2px;
+      background: #cbd5e1;
+    }
+  }
+
+  .tree-leaf-row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    cursor: pointer;
+    transition: all 0.12s ease;
+
+    /* Tree branch horizontal connector marker */
+    .tree-guide-marker {
+      position: absolute;
+      left: -12px;
+      top: 50%;
+      width: 10px;
+      height: 2px;
+      background: #cbd5e1;
+    }
+
+    &:hover {
+      background: #eff6ff;
+      border-color: #93c5fd;
+    }
+
+    &.selected {
+      background: #e0e7ff;
+      border-color: #818cf8;
+    }
+
+    .leaf-checkbox {
+      margin-right: -2px;
+    }
+
+    .version-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      background: #fef3c7;
+      color: #b45309;
+      border: 1px solid #fde68a;
+      letter-spacing: 0.02em;
+
+      &.base-version {
+        background: #e0e7ff;
+        color: #4338ca;
+        border-color: #c7d2fe;
+      }
+    }
+
+    .leaf-pathway-name {
+      flex: 1;
+      font-size: 13px;
+      color: #334155;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-weight: 500;
+    }
+
+    .steps-tag {
+      font-size: 11px;
+      color: #64748b;
+      background: #f1f5f9;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .leaf-actions {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: auto;
+
+      .copy-btn {
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        color: #64748b;
+
+        mat-icon {
+          font-size: 16px;
+          width: 16px;
+          height: 16px;
+        }
+
+        &:hover {
+          color: #1e293b;
+        }
+      }
+
+      .select-btn {
+        height: 28px;
+        padding: 0 10px;
+        font-size: 12px;
+        line-height: 28px;
+
+        mat-icon {
+          font-size: 15px;
+          width: 15px;
+          height: 15px;
+          margin-right: 2px;
+        }
+      }
+    }
+  }
+}
+
+.dialog-actions-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 14px;
+  margin-top: 8px;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* Dark Theme Adjustments (if inside dark theme container) */
+:host-context(.dark-theme) {
+  .tree-header .header-title-row .tree-title {
+    color: #f8fafc;
+  }
+
+  .tree-scroll-area {
+    background: #0f172a;
+    border-color: #334155;
+
+    .tree-node-group {
+      background: #1e293b;
+      border-color: #334155;
+    }
+
+    .tree-level-1-header {
+      background: #1e293b;
+      &:hover {
+        background: #273549;
+      }
+
+      .base-name {
+        color: #f1f5f9;
+      }
+      .version-count-tag {
+        color: #94a3b8;
+      }
+    }
+
+    .tree-level-2-children {
+      background: #131d2e;
+      border-top-color: #273549;
+
+      &::before {
+        background: #475569;
+      }
+    }
+
+    .tree-leaf-row {
+      background: #1e293b;
+      border-color: #334155;
+
+      .tree-guide-marker {
+        background: #475569;
+      }
+
+      &:hover {
+        background: #273549;
+        border-color: #60a5fa;
+      }
+
+      &.selected {
+        background: #312e81;
+        border-color: #818cf8;
+      }
+
+      .leaf-pathway-name {
+        color: #e2e8f0;
+      }
+    }
+  }
+}

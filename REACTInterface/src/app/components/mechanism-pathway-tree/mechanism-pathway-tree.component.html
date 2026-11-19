@@ -1,0 +1,169 @@
+<div class="pathway-tree-container" [class.dialog-mode]="isDialogMode">
+  <!-- Dialog Header (if in dialog mode or showHeader is true) -->
+  <div class="tree-header" *ngIf="showHeader">
+    <div class="header-title-row">
+      <mat-icon color="primary" class="header-icon">account_tree</mat-icon>
+      <h2 class="tree-title" [attr.mat-dialog-title]="isDialogMode ? '' : null">
+        {{ title }}
+      </h2>
+      <span class="count-badge" *ngIf="multiSelect">
+        {{ selectedNames.size }} selected
+      </span>
+      <span class="count-badge info" *ngIf="!multiSelect && totalPathwaysCount > 0">
+        {{ totalPathwaysCount }} pathways
+      </span>
+    </div>
+  </div>
+
+  <!-- Search & Toolbar Row -->
+  <div class="search-toolbar-row">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search pathway name or version...</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <input
+        matInput
+        [(ngModel)]="searchQuery"
+        (ngModelChange)="onSearchChange($event)"
+        placeholder="e.g. BasicLowTemp, Aldehyde, V2..." />
+      <button
+        *ngIf="searchQuery"
+        matSuffix
+        mat-icon-button
+        (click)="clearSearch()"
+        matTooltip="Clear search"
+        type="button">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <div class="toolbar-actions">
+      <button mat-button (click)="expandAll()" class="action-btn-text" type="button">
+        <mat-icon>unfold_more</mat-icon>
+        Expand All
+      </button>
+      <button mat-button (click)="collapseAll()" class="action-btn-text" type="button">
+        <mat-icon>unfold_less</mat-icon>
+        Collapse All
+      </button>
+
+      <ng-container *ngIf="multiSelect">
+        <button mat-stroked-button (click)="selectAll()" class="action-btn" type="button">
+          <mat-icon>select_all</mat-icon>
+          Select All
+        </button>
+        <button mat-stroked-button (click)="clearAll()" class="action-btn" type="button">
+          <mat-icon>deselect</mat-icon>
+          Clear All
+        </button>
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- Tree Content Area -->
+  <div class="tree-scroll-area">
+    <!-- Empty state -->
+    <div *ngIf="filteredTreeNodes.length === 0" class="empty-state">
+      <mat-icon class="empty-icon">search_off</mat-icon>
+      <p>No mechanism pathways found matching "{{ searchQuery }}".</p>
+    </div>
+
+    <!-- Tree Hierarchy -->
+    <div *ngIf="filteredTreeNodes.length > 0" class="tree-nodes-list">
+      <!-- LEVEL 1: Base Pathway Name (without versions) -->
+      <div *ngFor="let node of filteredTreeNodes" class="tree-node-group">
+        <div class="tree-level-1-header" (click)="toggleGroup(node)">
+          <button
+            mat-icon-button
+            class="toggle-chevron"
+            (click)="$event.stopPropagation(); toggleGroup(node)"
+            [matTooltip]="node.isExpanded ? 'Collapse' : 'Expand'"
+            type="button">
+            <mat-icon>{{ node.isExpanded ? 'expand_more' : 'chevron_right' }}</mat-icon>
+          </button>
+
+          <mat-checkbox
+            *ngIf="multiSelect"
+            class="group-checkbox"
+            [checked]="isGroupChecked(node)"
+            [indeterminate]="isGroupIndeterminate(node)"
+            (click)="$event.stopPropagation()"
+            (change)="toggleGroupSelection(node)">
+          </mat-checkbox>
+
+          <mat-icon class="node-icon">alt_route</mat-icon>
+          <span class="base-name font-bold">{{ node.baseName }}</span>
+          <span class="version-count-tag">({{ node.count }} {{ node.count === 1 ? 'version' : 'versions' }})</span>
+        </div>
+
+        <!-- LEVEL 2: Children Versions -->
+        <div *ngIf="node.isExpanded" class="tree-level-2-children">
+          <div
+            *ngFor="let v of node.versions"
+            class="tree-leaf-row"
+            [class.selected]="isVersionSelected(v.name)"
+            (click)="toggleVersion(v)">
+            
+            <div class="tree-guide-marker"></div>
+
+            <mat-checkbox
+              *ngIf="multiSelect"
+              class="leaf-checkbox"
+              [checked]="isVersionSelected(v.name)"
+              (click)="$event.stopPropagation()"
+              (change)="toggleVersion(v)">
+            </mat-checkbox>
+
+            <span class="version-badge" [class.base-version]="v.versionLabel === 'Base'">
+              {{ v.versionLabel }}
+            </span>
+
+            <span class="leaf-pathway-name font-mono">{{ v.name }}</span>
+
+            <span *ngIf="v.stepsCount" class="steps-tag">
+              {{ v.stepsCount }} steps
+            </span>
+
+            <div class="leaf-actions" (click)="$event.stopPropagation()">
+              <button
+                mat-icon-button
+                class="copy-btn"
+                (click)="copyPathwayName(v.name, $event)"
+                matTooltip="Copy pathway name"
+                type="button">
+                <mat-icon>content_copy</mat-icon>
+              </button>
+
+              <button
+                *ngIf="!multiSelect"
+                mat-flat-button
+                color="primary"
+                class="select-btn"
+                (click)="selectSingle(v)"
+                type="button">
+                <mat-icon>check</mat-icon>
+                Select
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dialog Action Footer -->
+  <div class="dialog-actions-row" *ngIf="isDialogMode || showActions">
+    <button mat-button (click)="onCancel()" type="button">Cancel</button>
+
+    <button
+      *ngIf="multiSelect"
+      mat-flat-button
+      color="primary"
+      (click)="onConfirmDialog()"
+      [disabled]="selectedNames.size === 0"
+      type="button">
+      <mat-icon>playlist_add_check</mat-icon>
+      Add Selected Pathways ({{ selectedNames.size }})
+    </button>
+  </div>
+</div>
+

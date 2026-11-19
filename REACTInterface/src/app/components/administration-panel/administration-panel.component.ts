@@ -981,6 +981,16 @@ export class AdministrationPanelComponent implements OnInit {
     return this.expandedPathways().has(baseName);
   }
 
+  expandAllPathways(): void {
+    const s = new Set<string>();
+    this.filteredPathways().forEach(c => s.add(c.baseName));
+    this.expandedPathways.set(s);
+  }
+
+  collapseAllPathways(): void {
+    this.expandedPathways.set(new Set<string>());
+  }
+
   toggleMechanism(targetMolecule: string): void {
     const s = new Set(this.expandedMechanisms());
     if (s.has(targetMolecule)) s.delete(targetMolecule);

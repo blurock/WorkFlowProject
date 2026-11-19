@@ -40,15 +40,15 @@ function getSubstructureFamily(name) {
  * Parse base name and version for mechanism pathway
  */
 function parsePathwayVersion(name) {
-  if (!name) return { baseName: 'Other', versionNum: 1.0, versionLabel: 'V1.0' };
-  const match = name.match(/^(.*?)(?:[Vv](\d+(?:\.\d+)?))?$/);
-  if (match) {
+  if (!name) return { baseName: 'Other', versionNum: 1.0, versionLabel: 'Base' };
+  const match = name.match(/^(.*?)(?:[_-]?[Vv](\d+(?:\.\d+)*))?$/);
+  if (match && match[2]) {
     const baseName = (match[1] || name).replace(/[-_]$/, '');
-    const versionNum = match[2] ? parseFloat(match[2]) : 1.0;
-    const versionLabel = match[2] ? `V${match[2]}` : 'V1.0';
+    const versionNum = parseFloat(match[2]) || 1.0;
+    const versionLabel = `V${match[2]}`;
     return { baseName, versionNum, versionLabel };
   }
-  return { baseName: name, versionNum: 1.0, versionLabel: 'V1.0' };
+  return { baseName: name, versionNum: 1.0, versionLabel: 'Base' };
 }
 
 /**

@@ -65,12 +65,24 @@
         <mat-form-field appearance="outline" class="select-existing-field">
           <mat-label>Load Stored Pathway from Firestore</mat-label>
           <mat-select [(ngModel)]="selectedPathwayToLoad" placeholder="Select stored pathway">
-            <mat-option *ngFor="let p of storedPathways" [value]="p.Name">
-              {{ p.Name }}
-            </mat-option>
+            <mat-optgroup *ngFor="let group of groupedStoredPathways" [label]="group.baseName + ' (' + group.count + ')'">
+              <mat-option *ngFor="let p of group.versions" [value]="p.name">
+                <span class="version-badge">{{ p.versionLabel }}</span>
+                <span>{{ p.name }}</span>
+              </mat-option>
+            </mat-optgroup>
           </mat-select>
           <mat-icon matPrefix>folder</mat-icon>
         </mat-form-field>
+
+        <button
+          mat-stroked-button
+          color="primary"
+          (click)="openPathwayTreeDialog()"
+          matTooltip="Browse pathways as a tree (Level 1: Base Name -> Level 2: Versions)"
+          type="button">
+          <mat-icon>account_tree</mat-icon> Tree
+        </button>
 
         <button
           mat-stroked-button

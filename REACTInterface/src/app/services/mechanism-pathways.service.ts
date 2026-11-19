@@ -52,6 +52,114 @@ export interface PathwaySummaryItem {
   Name: string;
 }
 
+export interface PathwayVersionItem {
+  name: string;
+  versionLabel: string;
+  versionNum: number;
+  stepsCount?: number;
+}
+
+export interface GroupedPathway {
+  baseName: string;
+  count: number;
+  versions: PathwayVersionItem[];
+}
+
+/**
+ * Parse base name and version for mechanism pathway
+ * e.g. "BasicLowTemperatureV2.1" -> { baseName: "BasicLowTemperature", versionNum: 2.1, versionLabel: "V2.1" }
+ * e.g. "AldehydeDecomposition" -> { baseName: "AldehydeDecomposition", versionNum: 1.0, versionLabel: "Base" }
+ */
+export function parsePathwayVersion(name: string): { baseName: string; versionNum: number; versionLabel: string } {
+  if (!name) return { baseName: 'Other', versionNum: 1.0, versionLabel: 'Base' };
+  const match = name.match(/^(.*?)(?:[_-]?[Vv](\d+(?:\.\d+)*))?$/);
+  if (match && match[2]) {
+    const baseName = (match[1] || name).replace(/[-_]$/, '');
+    const versionStr = match[2];
+    const versionNum = parseFloat(versionStr) || 1.0;
+    const versionLabel = `V${versionStr}`;
+    return { baseName, versionNum, versionLabel };
+  }
+  return { baseName: name, versionNum: 1.0, versionLabel: 'Base' };
+}
+
+/**
+ * Groups an array of pathway names or items by their common base name,
+ * and sorts the versions within each group numerically.
+ */
+export function groupPathwayItems<T extends { Name?: string; name?: string; stepsCount?: number } | string>(
+  items: T[]
+): GroupedPathway[] {
+  const map = new Map<string, PathwayVersionItem[]>();
+
+  for (const item of items) {
+    const rawName = typeof item === 'string'
+      ? item
+      : ((item as any).Name || (item as any).name || '');
+    const stepsCount = typeof item === 'object' && (item as any).stepsCount ? (item as any).stepsCount : undefined;
+    if (!rawName) continue;
+
+    const parsed = parsePathwayVersion(rawName);
+    if (!map.has(parsed.baseName)) {
+      map.set(parsed.baseName, []);
+    }
+    map.get(parsed.baseName)!.push({
+      name: rawName,
+      versionLabel: parsed.versionLabel,
+      versionNum: parsed.versionNum,
+      stepsCount
+    });
+  }
+
+  const grouped: GroupedPathway[] = [];
+  map.forEach((versions, baseName) => {
+    versions.sort((a, b) => {
+      if (a.versionNum !== b.versionNum) {
+        return a.versionNum - b.versionNum;
+      }
+      return a.name.localeCompare(b.name);
+    });
+    grouped.push({
+      baseName,
+      count: versions.length,
+      versions
+    });
+  });
+
+  grouped.sort((a, b) => a.baseName.localeCompare(b.baseName));
+  return grouped;
+}
+
+/**
+ * Filters grouped pathways by a search query against base name, version label, or full pathway name.
+ */
+export function filterGroupedPathways(
+  grouped: GroupedPathway[],
+  query: string
+): GroupedPathway[] {
+  const q = (query || '').trim().toLowerCase();
+  if (!q) return grouped;
+
+  const results: GroupedPathway[] = [];
+  for (const group of grouped) {
+    const baseMatches = group.baseName.toLowerCase().includes(q);
+    const matchingVersions = group.versions.filter(v =>
+      v.name.toLowerCase().includes(q) ||
+      v.versionLabel.toLowerCase().includes(q) ||
+      baseMatches
+    );
+
+    if (matchingVersions.length > 0) {
+      results.push({
+        baseName: group.baseName,
+        count: matchingVersions.length,
+        versions: matchingVersions
+      });
+    }
+  }
+  return results;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -59,6 +167,15 @@ export class MechanismPathwaysService {
   private readonly baseUrl = environment.apiBaseUrl || 'http://127.0.0.1:8085';
 
   constructor(private http: HttpClient) {}
+
+  /**
+   * Lists all MechanismPathway records stored in Firestore, grouped by base name and version
+   */
+  public getGroupedPathways(): Observable<GroupedPathway[]> {
+    return this.listPathways().pipe(
+      map(items => groupPathwayItems(items))
+    );
+  }
 
   /**
    * Lists all MechanismPathway records stored in Firestore

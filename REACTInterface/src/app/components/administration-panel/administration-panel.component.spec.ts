@@ -252,6 +252,7 @@ describe('AdministrationPanelComponent', () => {
   });
 
   it('should toggle accordion states for families and pathways', () => {
+    component.catalogLists.set(mockCatalogLists);
     expect(component.isFamilyExpanded('betaradical(X)')).toBeFalse();
     component.toggleFamily('betaradical(X)');
     expect(component.isFamilyExpanded('betaradical(X)')).toBeTrue();
@@ -261,6 +262,11 @@ describe('AdministrationPanelComponent', () => {
     expect(component.isPathwayExpanded('BasicLowTemperature')).toBeFalse();
     component.togglePathway('BasicLowTemperature');
     expect(component.isPathwayExpanded('BasicLowTemperature')).toBeTrue();
+
+    component.expandAllPathways();
+    expect(component.isPathwayExpanded('BasicLowTemperature')).toBeTrue();
+    component.collapseAllPathways();
+    expect(component.isPathwayExpanded('BasicLowTemperature')).toBeFalse();
   });
 
   it('should handle autoSyncSafe action and trigger audit re-run', () => {

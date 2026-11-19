@@ -12,16 +12,19 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 import { ReactCloudApiService, CatalogItem, MechanismStorageFile } from '../../services/react-cloud-api.service';
 import { MechanismsService } from '../../services/catalog/mechanisms.service';
 import { MoleculesService } from '../../services/catalog/molecules.service';
 import { TaskOutputParserService } from '../../services/task-output-parser.service';
 import { ChemStructureParserService } from '../../services/chem-structure-parser.service';
+import { GroupedPathway, groupPathwayItems, filterGroupedPathways } from '../../services/mechanism-pathways.service';
 import { MoleculeSection } from '../../models/task-list.models';
 import { BensonGroupDetailComponent } from '../task-list-view/details/benson-group-detail.component';
 import { MechanismArtifactViewerComponent } from '../mechanism-artifact-viewer/mechanism-artifact-viewer.component';
 import { DatabaseStructureSelectorComponent } from '../database-structure-selector/database-structure-selector.component';
+import { MechanismPathwayTreeComponent } from '../mechanism-pathway-tree/mechanism-pathway-tree.component';
 
 @Component({
   selector: 'app-submechanism-creator',
@@ -40,6 +43,8 @@ import { DatabaseStructureSelectorComponent } from '../database-structure-select
     MatSnackBarModule,
     MatTabsModule,
     MatChipsModule,
+    MatDialogModule,
+    MechanismPathwayTreeComponent,
     BensonGroupDetailComponent,
     MechanismArtifactViewerComponent,
     DatabaseStructureSelectorComponent
@@ -58,6 +63,8 @@ export class SubmechanismCreatorComponent implements OnInit {
 
   public availablePaths: string[] = [];
   public filteredPaths: string[] = [];
+  public groupedPaths: GroupedPathway[] = [];
+  public filteredGroupedPaths: GroupedPathway[] = [];
   public isPathsLoading: boolean = false;
 
   public presetPaths: string[] = [
@@ -102,9 +109,29 @@ export class SubmechanismCreatorComponent implements OnInit {
     private moleculesService: MoleculesService,
     private taskOutputParser: TaskOutputParserService,
     private chemParser: ChemStructureParserService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) {
     this.updateMechName();
+  }
+
+  public openPathwayTreeDialog(): void {
+    const dialogRef = this.dialog.open(MechanismPathwayTreeComponent, {
+      width: '680px',
+      data: {
+        title: 'Select Mechanism Pathway from Tree',
+        pathways: this.availablePaths,
+        multiSelect: false,
+        selected: this.rootName
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((selected: string | null) => {
+      if (selected) {
+        this.rootName = selected;
+        this.onPathInputChange(selected);
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -131,6 +158,7 @@ export class SubmechanismCreatorComponent implements OnInit {
     this.apiService.getSubmechanismPaths().subscribe({
       next: (paths) => {
         this.availablePaths = paths || [];
+        this.groupedPaths = groupPathwayItems(this.availablePaths);
         this.filterPaths(this.rootName);
         this.isPathsLoading = false;
       },
@@ -153,6 +181,7 @@ export class SubmechanismCreatorComponent implements OnInit {
 
   public filterPaths(query: string): void {
     const q = (query || '').trim().toLowerCase();
+    this.filteredGroupedPaths = filterGroupedPathways(this.groupedPaths, q);
     if (!q) {
       this.filteredPaths = this.availablePaths.slice(0, 15);
       return;

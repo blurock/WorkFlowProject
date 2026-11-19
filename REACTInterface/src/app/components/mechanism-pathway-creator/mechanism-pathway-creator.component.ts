@@ -21,7 +21,9 @@ import {
   MechanismPathwaysService,
   ReadChainSet,
   ReadChainReactionStep,
-  PathwaySummaryItem
+  PathwaySummaryItem,
+  GroupedPathway,
+  groupPathwayItems
 } from '../../services/mechanism-pathways.service';
 import { RxnPatternSelectionDialogComponent } from '../rxn-pattern-selection-dialog/rxn-pattern-selection-dialog.component';
 import { MoleculesService } from '../../services/catalog/molecules.service';
@@ -32,6 +34,7 @@ import { MechanismOutputParser } from '../../services/parsers/mechanism-output-p
 import { ChemStructureParserService } from '../../services/chem-structure-parser.service';
 import { MechReactionClassGroup, MechSdfBlock } from '../../models/task-list.models';
 import { KetcherViewerComponent } from '../ketcher-viewer/ketcher-viewer.component';
+import { MechanismPathwayTreeComponent } from '../mechanism-pathway-tree/mechanism-pathway-tree.component';
 
 export interface MechanismPathwayStep {
   id: number;
@@ -72,7 +75,8 @@ export interface MechanismPathwayStep {
     MatProgressBarModule,
     MatSelectModule,
     MatDividerModule,
-    KetcherViewerComponent
+    KetcherViewerComponent,
+    MechanismPathwayTreeComponent
   ],
   templateUrl: './mechanism-pathway-creator.component.html',
   styleUrls: ['./mechanism-pathway-creator.component.scss']
@@ -112,6 +116,7 @@ export class MechanismPathwayCreatorComponent implements OnInit {
 
   // Firestore pathways list & loader UI toggle
   public storedPathways: PathwaySummaryItem[] = [];
+  public groupedStoredPathways: GroupedPathway[] = [];
   public selectedPathwayToLoad: string = '';
   public isLoadingList: boolean = false;
   public isSaving: boolean = false;
@@ -149,11 +154,32 @@ export class MechanismPathwayCreatorComponent implements OnInit {
     this.pathwayService.listPathways().subscribe({
       next: (list) => {
         this.storedPathways = list || [];
+        this.groupedStoredPathways = groupPathwayItems(this.storedPathways);
         this.isLoadingList = false;
       },
       error: (err) => {
         console.error('[PathwayCreator] Failed to load stored pathways:', err);
         this.isLoadingList = false;
+      }
+    });
+  }
+
+  public openPathwayTreeDialog(): void {
+    const dialogRef = this.dialog.open(MechanismPathwayTreeComponent, {
+      width: '680px',
+      data: {
+        title: 'Load Stored Pathway from Tree',
+        groupedPathways: this.groupedStoredPathways,
+        pathways: this.storedPathways.map(p => p.Name),
+        multiSelect: false,
+        selected: this.selectedPathwayToLoad
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((selected: string | null) => {
+      if (selected) {
+        this.selectedPathwayToLoad = selected;
+        this.loadSelectedPathway();
       }
     });
   }
