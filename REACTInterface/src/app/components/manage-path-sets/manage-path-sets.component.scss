@@ -1,0 +1,583 @@
+.manage-path-sets-container {
+  padding: 16px;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.banner-card {
+  border-radius: 8px;
+  border-left: 5px solid #ff4081;
+
+  .avatar-icon {
+    font-size: 32px;
+    height: 32px;
+    width: 32px;
+  }
+
+  .banner-title {
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .banner-subtitle {
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.6);
+
+    code {
+      background: rgba(0, 0, 0, 0.06);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+  }
+
+  .banner-description {
+    margin-top: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}
+
+.workspace-grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 16px;
+  align-items: start;
+
+  @media (max-width: 960px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Left Browse Panel
+.browse-panel {
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 220px);
+
+  .panel-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    padding-bottom: 12px;
+  }
+
+  .browse-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 12px;
+    overflow: hidden;
+  }
+
+  .new-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 600;
+  }
+
+  .search-field {
+    margin-bottom: -10px;
+  }
+
+  .sets-list-scroll {
+    overflow-y: auto;
+    max-height: 520px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-right: 4px;
+  }
+
+  .set-list-item {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: #ffffff;
+
+    &:hover {
+      border-color: #3f51b5;
+      background: rgba(63, 81, 181, 0.04);
+    }
+
+    &.selected {
+      border-color: #ff4081;
+      background: rgba(255, 64, 129, 0.08);
+      box-shadow: 0 2px 6px rgba(255, 64, 129, 0.15);
+    }
+
+    .item-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+
+      .set-name-title {
+        font-weight: 600;
+        font-size: 14px;
+        color: #212121;
+      }
+
+      .count-badge {
+        font-size: 11px;
+        font-weight: 600;
+        padding: 2px 6px;
+        border-radius: 10px;
+        background: rgba(63, 81, 181, 0.12);
+        color: #3f51b5;
+      }
+    }
+
+    .item-id-row {
+      font-size: 11px;
+      color: rgba(0, 0, 0, 0.55);
+      margin-bottom: 6px;
+
+      code {
+        background: rgba(0, 0, 0, 0.05);
+        padding: 1px 4px;
+        border-radius: 3px;
+      }
+    }
+
+    .item-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      margin-top: 4px;
+    }
+
+    .set-desc-preview {
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.65);
+      margin: 6px 0 0 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 24px 12px;
+    color: rgba(0, 0, 0, 0.5);
+
+    .empty-icon {
+      font-size: 36px;
+      height: 36px;
+      width: 36px;
+    }
+  }
+}
+
+// Scope Badges
+.scope-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+
+  mat-icon {
+    font-size: 12px;
+    height: 12px;
+    width: 12px;
+  }
+
+  &.system-badge {
+    background: #e0f2fe;
+    color: #0369a1;
+    border: 1px solid #bae6fd;
+  }
+
+  &.personal-badge {
+    background: #fef3c7;
+    color: #b45309;
+    border: 1px solid #fde68a;
+  }
+
+  &.override-badge {
+    background: #fef08a;
+    color: #854d0e;
+    border: 1px solid #eab308;
+    font-weight: 800;
+  }
+}
+
+.target-mol-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.7);
+
+  mat-icon {
+    font-size: 12px;
+    height: 12px;
+    width: 12px;
+  }
+}
+
+// Right Editor Panel
+.editor-panel {
+  border-radius: 8px;
+  position: relative;
+
+  .loading-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+  }
+
+  .editor-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    padding-bottom: 12px;
+    gap: 12px;
+
+    .dirty-indicator {
+      font-size: 12px;
+      color: #e65100;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+
+    .header-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-left: auto;
+    }
+  }
+
+  .editor-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 16px;
+  }
+
+  .system-notice-banner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    background: #e0f2fe;
+    color: #0369a1;
+    font-size: 13px;
+    border: 1px solid #bae6fd;
+
+    mat-icon {
+      font-size: 20px;
+      height: 20px;
+      width: 20px;
+      flex-shrink: 0;
+    }
+  }
+
+  .meta-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .full-width {
+    width: 100%;
+  }
+
+  .section-divider {
+    margin: 8px 0;
+  }
+
+  // Pathway Section
+  .pathway-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    .section-title-col {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      .section-title {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .count-tag {
+          font-size: 12px;
+          background: #3f51b5;
+          color: #ffffff;
+          padding: 2px 8px;
+          border-radius: 12px;
+          font-weight: 700;
+        }
+      }
+
+      .warning-tag {
+        font-size: 12px;
+        color: #c62828;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-weight: 600;
+
+        mat-icon {
+          font-size: 16px;
+          height: 16px;
+          width: 16px;
+        }
+      }
+    }
+
+    .section-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+  }
+
+  .add-pathway-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+
+    .add-field {
+      flex: 1;
+      margin-bottom: -10px;
+    }
+
+    .add-btn {
+      height: 54px;
+      padding: 0 20px;
+    }
+  }
+
+  // Pathways Table
+  .pathways-table-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 440px;
+    overflow-y: auto;
+    padding-right: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 6px;
+    padding: 8px;
+    background: #fafafa;
+  }
+
+  .pathway-item-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    transition: background 0.15s ease;
+
+    &:hover {
+      background: #f5f5f5;
+    }
+
+    .order-col {
+      width: 24px;
+      text-align: center;
+
+      .step-num {
+        font-size: 12px;
+        font-weight: 700;
+        color: rgba(0, 0, 0, 0.45);
+      }
+    }
+
+    .pathway-info-col {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .path-icon {
+        font-size: 18px;
+        height: 18px;
+        width: 18px;
+      }
+
+      .pathway-name {
+        font-size: 14px;
+        font-weight: 500;
+        font-family: monospace;
+
+        &.path-missing {
+          color: #c62828;
+          font-weight: 600;
+        }
+      }
+
+      .missing-chip {
+        font-size: 10px;
+        font-weight: 700;
+        padding: 1px 6px;
+        border-radius: 4px;
+        background: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #fca5a5;
+      }
+    }
+
+    .reorder-controls {
+      display: flex;
+      gap: 2px;
+    }
+
+    .remove-col {
+      button {
+        color: rgba(0, 0, 0, 0.4);
+        &:hover {
+          color: #c62828;
+        }
+      }
+    }
+  }
+
+  .empty-pathway-set {
+    text-align: center;
+    padding: 36px 16px;
+    color: rgba(0, 0, 0, 0.5);
+
+    .empty-set-icon {
+      font-size: 48px;
+      height: 48px;
+      width: 48px;
+      color: rgba(0, 0, 0, 0.25);
+    }
+
+    h4 {
+      margin: 8px 0 4px 0;
+      font-size: 16px;
+      color: rgba(0, 0, 0, 0.7);
+    }
+
+    p {
+      margin: 0;
+      font-size: 13px;
+    }
+  }
+}
+
+.autocomplete-option-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .ver-label-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 4px;
+    background: rgba(63, 81, 181, 0.12);
+    color: #3f51b5;
+  }
+
+  .ver-full-name {
+    font-size: 13px;
+  }
+}
+
+// Dark Mode Support
+:host-context(.dark-theme) {
+  .banner-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+    code {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+  }
+
+  .browse-panel {
+    .set-list-item {
+      background: #2a2a2a;
+      border-color: rgba(255, 255, 255, 0.12);
+
+      &:hover {
+        background: #333333;
+      }
+
+      &.selected {
+        background: rgba(255, 64, 129, 0.15);
+        border-color: #ff4081;
+      }
+
+      .item-header-row .set-name-title {
+        color: #ffffff;
+      }
+
+      .item-id-row {
+        color: rgba(255, 255, 255, 0.6);
+        code {
+          background: rgba(255, 255, 255, 0.1);
+        }
+      }
+
+      .set-desc-preview {
+        color: rgba(255, 255, 255, 0.65);
+      }
+    }
+  }
+
+  .editor-panel {
+    .pathways-table-container {
+      background: #1e1e1e;
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .pathway-item-row {
+      background: #2a2a2a;
+      border-color: rgba(255, 255, 255, 0.08);
+
+      &:hover {
+        background: #333333;
+      }
+
+      .order-col .step-num {
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      .pathway-info-col .pathway-name {
+        color: #e0e0e0;
+      }
+    }
+  }
+}
+

@@ -1,33 +1,24 @@
-version: '3.8'
+# ==============================================================================
+# Local Docker Compose for Testing the Unified REACT Cloud Run Container
+# ==============================================================================
+# Runs the exact same all-in-one container deployed to Google Cloud Run:
+#   - REACTInterface Frontend:  http://localhost:8080/
+#   - REACTCLOUD API:           http://localhost:8080/api/health
+#   - Ketcher Standalone:       http://localhost:8080/ketcher/
+# ==============================================================================
 
 services:
-  orchestrator:
+  reactcloud:
     build:
-      context: ./REACTCLOUD
-      dockerfile: Dockerfile
-    container_name: react-orchestrator
+      context: .
+      dockerfile: REACTCLOUD/Dockerfile
+    container_name: react-complete-stack
     ports:
-      - "8085:8085"
+      - "8080:8080"
     environment:
-      - PORT=8085
+      - PORT=8080
       - REACTROOT=/opt/react
       - CCROOT=/opt/react
+      - GCP_PROJECT=blurock-database
       - GCS_BUCKET=blurock-database.appspot.com
-    volumes:
-      - ./REACTCLOUD/data:/opt/react/data
     restart: unless-stopped
-
-  frontend:
-    build:
-      context: ./REACTInterface
-      dockerfile: Dockerfile
-    container_name: react-interface
-    ports:
-      - "4200:80"
-    depends_on:
-      - orchestrator
-    restart: unless-stopped
-
-networks:
-  default:
-    name: react-stack-network

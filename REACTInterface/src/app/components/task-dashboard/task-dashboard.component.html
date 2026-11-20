@@ -169,6 +169,11 @@
           <app-submechanism-path-set></app-submechanism-path-set>
         </ng-container>
 
+        <!-- 3b. Manage Path Sets Task -->
+        <ng-container *ngIf="selectedTask.type === 'manage-path-sets'">
+          <app-manage-path-sets></app-manage-path-sets>
+        </ng-container>
+
         <!-- 4. Combine Submechanisms Task -->
         <ng-container *ngIf="selectedTask.type === 'combine-submechanisms'">
           <app-combine-submechanisms></app-combine-submechanisms>

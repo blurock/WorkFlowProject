@@ -40,7 +40,7 @@ ULong size;
      if(size == 0)
 	  return(0);
      else
-	  return((void *)malloc(size));
+	  return((void *)calloc(1, size));
 }
  
 

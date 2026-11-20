@@ -23,12 +23,30 @@ const {
 } = require('./scoped-db-resolver');
 
 const PORT = process.env.PORT || 8085;
+// Ensure spawned C binaries (chemdb) connect back to the exact port this Orchestrator listens on
+process.env.REACT_ORCHESTRATOR_PORT = String(PORT);
+
 const PROJECT_ID = process.env.GCP_PROJECT || 'blurock-database';
 const BUCKET_NAME = process.env.GCS_BUCKET || `${PROJECT_ID}.appspot.com`;
 const REACTROOT = process.env.REACTROOT || path.resolve(__dirname, '..');
 const CHEMDB_BIN = process.env.CHEMDB_BIN || path.join(REACTROOT, 'bin', 'chemdb');
 const INTERNAL_IPC_SECRET = process.env.REACT_IPC_SECRET || 'react-cloud-internal-ipc-shared-secret';
 const IS_CLOUD_RUN = Boolean(process.env.K_SERVICE);
+
+// Bundled static web assets (present in unified Docker / Cloud Run container)
+const PUBLIC_ROOT = process.env.REACT_PUBLIC_DIR || path.join(REACTROOT, 'public');
+const KETCHER_PUBLIC_DIR = process.env.KETCHER_PUBLIC_DIR || path.join(PUBLIC_ROOT, 'ketcher');
+const FRONTEND_PUBLIC_DIR = process.env.FRONTEND_PUBLIC_DIR || path.join(PUBLIC_ROOT, 'frontend');
+const HAS_KETCHER_BUNDLE = fs.existsSync(path.join(KETCHER_PUBLIC_DIR, 'index.html'));
+const HAS_FRONTEND_BUNDLE = fs.existsSync(path.join(FRONTEND_PUBLIC_DIR, 'index.html'));
+const PUBLIC_BASE_URL = (process.env.PUBLIC_BASE_URL || '').replace(/\/$/, '');
+
+function buildLogContentUrl(gcsPath) {
+  const rel = `/api/logs/content?gcsPath=${encodeURIComponent(gcsPath)}&t=${Date.now()}`;
+  if (PUBLIC_BASE_URL) return `${PUBLIC_BASE_URL}${rel}`;
+  if (IS_CLOUD_RUN || HAS_FRONTEND_BUNDLE) return rel;
+  return `http://localhost:${PORT}${rel}`;
+}
 
 // Optional environment-driven bootstrap list of admin UIDs/emails (comma-separated, never hardcoded)
 const ADMIN_BOOTSTRAP_UIDS = (process.env.ADMIN_BOOTSTRAP_UIDS || '').split(',').map(s => s.trim()).filter(Boolean);
@@ -1184,7 +1202,7 @@ async function persistUserWorkspace(
     for (const mf of mechanismMetadata.files) {
       fileManifest.push({
         ...mf,
-        downloadUrl: mf.downloadUrl || (mf.gcsPath ? `http://localhost:8085/api/logs/content?gcsPath=${encodeURIComponent(mf.gcsPath)}&t=${Date.now()}` : undefined)
+        downloadUrl: mf.downloadUrl || (mf.gcsPath ? buildLogContentUrl(mf.gcsPath) : undefined)
       });
     }
   }
@@ -1252,7 +1270,7 @@ async function persistUserWorkspace(
 
       await bucket.upload(filePath, { destination: gcsPath });
       const downloadUrl = (await getSignedDownloadUrl(BUCKET_NAME, gcsPath)) ||
-        `http://localhost:8085/api/logs/content?gcsPath=${encodeURIComponent(`gs://${BUCKET_NAME}/${gcsPath}`)}&t=${Date.now()}`;
+        buildLogContentUrl(`gs://${BUCKET_NAME}/${gcsPath}`);
 
       if (!fileManifest.some(existing => existing.filename === file)) {
         let fileType = 'artifact';
@@ -1364,8 +1382,11 @@ function cleanupWorkspace(workspaceDir) {
   }
 }
 
-// Root API Overview and Status Page
-app.get('/', (req, res) => {
+// Root API Overview and Status Page (only when frontend SPA bundle is not mounted at /)
+app.get('/', (req, res, next) => {
+  if (HAS_FRONTEND_BUNDLE) {
+    return res.sendFile(path.join(FRONTEND_PUBLIC_DIR, 'index.html'));
+  }
   res.setHeader('Content-Type', 'text/html');
   res.send(`
     <!DOCTYPE html>
@@ -1399,18 +1420,31 @@ app.get('/', (req, res) => {
   `);
 });
 
-// Quiet handle favicon.ico request
-app.get('/favicon.ico', (req, res) => res.status(204).end());
+// Quiet handle favicon.ico request if frontend bundle is absent
+app.get('/favicon.ico', (req, res, next) => {
+  if (HAS_FRONTEND_BUNDLE && fs.existsSync(path.join(FRONTEND_PUBLIC_DIR, 'favicon.ico'))) {
+    return res.sendFile(path.join(FRONTEND_PUBLIC_DIR, 'favicon.ico'));
+  }
+  return res.status(204).end();
+});
 
 // REST Endpoints
-app.get('/api/health', (req, res) => {
+const handleHealthCheck = (req, res) => {
   res.json({
     status: 'UP',
     backend: 'REACTCLOUD Orchestrator',
     project: PROJECT_ID,
+    components: {
+      chemdb: fs.existsSync(CHEMDB_BIN),
+      orchestrator: true,
+      frontend: HAS_FRONTEND_BUNDLE,
+      ketcher: HAS_KETCHER_BUNDLE
+    },
     timestamp: new Date().toISOString()
   });
-});
+};
+app.get('/api/health', handleHealthCheck);
+app.get('/health', handleHealthCheck);
 
 // ============================================================================
 // Authentication Session & Admin User / Quota Management Endpoints
@@ -1753,7 +1787,7 @@ app.get('/api/logs/list', authenticateUser, async (req, res) => {
             file.downloadUrl = await getSignedDownloadUrl(BUCKET_NAME, rawPath).catch(() => null);
           }
           if (!file.downloadUrl && file.gcsPath) {
-            file.downloadUrl = `http://localhost:8085/api/logs/content?gcsPath=${encodeURIComponent(file.gcsPath)}&t=${Date.now()}`;
+            file.downloadUrl = buildLogContentUrl(file.gcsPath);
           }
         }
       }
@@ -1764,7 +1798,7 @@ app.get('/api/logs/list', authenticateUser, async (req, res) => {
           data.executionLog.downloadUrl = await getSignedDownloadUrl(BUCKET_NAME, rawPath).catch(() => null);
         }
         if (!data.executionLog.downloadUrl && data.executionLog.gcsPath) {
-          data.executionLog.downloadUrl = `http://localhost:8085/api/logs/content?gcsPath=${encodeURIComponent(data.executionLog.gcsPath)}&t=${Date.now()}`;
+          data.executionLog.downloadUrl = buildLogContentUrl(data.executionLog.gcsPath);
         }
       }
 
@@ -2860,7 +2894,7 @@ async function uploadMechanismArtifacts(uid, mechName, workspaceDir, actualRunRo
         fileType: art.fileType,
         sizeBytes: art.sizeBytes,
         gcsPath: `gs://${BUCKET_NAME}/${gcsPath}`,
-        downloadUrl: downloadUrl || `http://localhost:8085/api/logs/content?gcsPath=${encodeURIComponent(`gs://${BUCKET_NAME}/${gcsPath}`)}&t=${Date.now()}`
+        downloadUrl: downloadUrl || buildLogContentUrl(`gs://${BUCKET_NAME}/${gcsPath}`)
       });
     } catch (uploadErr) {
       console.warn(`[Mechanism GCS Upload Error] ${art.filename}: ${uploadErr.message}`);
@@ -4533,6 +4567,29 @@ setupAdminIntegrityRoutes(app, {
   scopedResolver,
   resolveScopeContext
 });
+
+// ============================================================================
+// Bundled Static Web Assets: Ketcher Standalone (/ketcher) & REACTInterface (/)
+// ============================================================================
+if (HAS_KETCHER_BUNDLE) {
+  console.log(`[Orchestrator] Mounting Ketcher Standalone at /ketcher from ${KETCHER_PUBLIC_DIR}`);
+  app.get('/ketcher', (req, res) => res.redirect(301, '/ketcher/'));
+  app.use('/ketcher', express.static(KETCHER_PUBLIC_DIR, { maxAge: '1h' }));
+  app.get('/ketcher/*', (req, res) => {
+    res.sendFile(path.join(KETCHER_PUBLIC_DIR, 'index.html'));
+  });
+}
+
+if (HAS_FRONTEND_BUNDLE) {
+  console.log(`[Orchestrator] Mounting REACTInterface Frontend at / from ${FRONTEND_PUBLIC_DIR}`);
+  app.use(express.static(FRONTEND_PUBLIC_DIR, { maxAge: '1h' }));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api/') || req.path.startsWith('/ketcher')) {
+      return next();
+    }
+    return res.sendFile(path.join(FRONTEND_PUBLIC_DIR, 'index.html'));
+  });
+}
 
 app.use((err, req, res, next) => {
   console.error('[Orchestrator Global Error]', err);

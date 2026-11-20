@@ -1,5 +1,5 @@
-BetaHPeroxyToOlefinV2:
-oxygen
+2ary Level Side Reaction:
+oxygen,hydroxyl-radical
 %%% ----------------------------------------------------
 %%% Step 1: Step 1
 %%% ----------------------------------------------------
@@ -19,16 +19,65 @@ Activated-Tertiary-Carbon-Radical-(R.+O2-->RO2.)\
 %%% ----------------------------------------------------
 RO2-Isomerization-5RingPrimary,\
 RO2-Isomerization-5RingSecondary,\
-RO2-Isomerization-5RingTertiary
+RO2-Isomerization-5RingTertiary,\
+RO2-Isomerization-6RingPrimary,\
+RO2-Isomerization-6RingSecondary,\
+RO2-Isomerization-6RingTertiary,\
+RO2-Isomerization-7RingPrimary,\
+RO2-Isomerization-7RingSecondary,\
+RO2-Isomerization-7RingTertiary,\
+RO2-Isomerization-8RingPrimary,\
+RO2-Isomerization-8RingSecondary,\
+RO2-Isomerization-8RingTertiary
 %%% ----------------------------------------------------
 %%% Step 4: Step 4
 %%% ----------------------------------------------------
-BetaHPeroxyToOlefin-HHHH,\
-BetaHPeroxyToOlefin-RHHH,\
-BetaHPeroxyToOlefin-RRHH,\
-BetaHPeroxyToOlefin-HHRH,\
-BetaHPeroxyToOlefin-RHRH,\
-BetaHPeroxyToOlefin-RRRH,\
-BetaHPeroxyToOlefin-HHRR,\
-BetaHPeroxyToOlefin-RHRR,\
-BetaHPeroxyToOlefin-RRRR
+CyclicEtherFromQOOH-3Ring,\
+CyclicEtherFromQOOH-4Ring,\
+CyclicEtherFromQOOH-5Ring,\
+CyclicEtherFromQOOH-6Ring
+%%% ----------------------------------------------------
+%%% Step 5: Step 5
+%%% ----------------------------------------------------
+CyclicEther-3Ring-(hh),\
+CyclicEther-3Ring-(rh),\
+CyclicEther-4Ring-(h),\
+CyclicEther-4Ring-(r),\
+CyclicEther-5Ring-(h),\
+CyclicEther-5Ring-(r),\
+CyclicEther-6Ring-(h),\
+CyclicEther-6Ring-(r),\
+CyclicEther-3RingDecomp-(hh)(h)(hhh),\
+CyclicEther-3RingDecomp-(hh)(h)(rhh),\
+CyclicEther-3RingDecomp-(hh)(h)(rrh),\
+CyclicEther-3RingDecomp-(hh)(h)(rrr),\
+CyclicEther-3RingDecomp-(rh)(h)(hhh),\
+CyclicEther-3RingDecomp-(rh)(h)(rhh),\
+CyclicEther-3RingDecomp-(rh)(h)(rrh),\
+CyclicEther-3RingDecomp-(rh)(h)(rrr),\
+CyclicEther-3RingDecomp-(rr)(h)(hhh),\
+CyclicEther-3RingDecomp-(rr)(h)(rhh),\
+CyclicEther-3RingDecomp-(rr)(h)(rrh),\
+CyclicEther-3RingDecomp-(rr)(h)(rrr)\
+:hydroxyl-radical
+%%% ----------------------------------------------------
+%%% Step 6: Step 6
+%%% ----------------------------------------------------
+KetoneAdditionOH-Alpha-(h)(hh),\
+KetoneAdditionOH-Alpha-(r)(hh),\
+KetoneAdditionOH-Alpha-(h)(rh),\
+KetoneAdditionOH-Alpha-(r)(rh),\
+KetoneAdditionOH-Alpha-(h)(rr),\
+KetoneAdditionOH-Alpha-(r)(rr),\
+KeteneDecompHOToCO2-(hhh)(h),\
+KeteneDecompHOToCO2-(rhh)(h),\
+KeteneDecompHOToCO2-(rrh)(h),\
+KeteneDecompHOToCO2-(rrr)(h),\
+KeteneDecompHOToCO2-(hhh)(r),\
+KeteneDecompHOToCO2-(rhh)(r),\
+KeteneDecompHOToCO2-(rrh)(r),\
+KeteneDecompHOToCO2-(rrr)(r),\
+KeteneDecompHToCO-(hh),\
+KeteneDecompHToCO-(rh),\
+KeteneDecompHToCO-(rr)\
+:hydrogen-radical,hydroxyl-radical

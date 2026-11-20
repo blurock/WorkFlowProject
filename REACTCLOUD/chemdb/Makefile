@@ -58,7 +58,7 @@ redo: rmchemdb $(PROGNAME)
 $(PROGNAME): $(ALL_OBJECTS) main.o
 	$(CC) -o $(PROGNAME) $(CCFLAGS) $(ALL_OBJECTS) main.o $(DEPLIBS)
 	cp $(PROGNAME) $(CCROOT)/bin/$(PROGNAME)
-	codesign -s - -f $(CCROOT)/bin/$(PROGNAME)
+	@if [ "$(OSNAME)" = "Darwin" ]; then codesign -s - -f $(CCROOT)/bin/$(PROGNAME); fi
 
 str_form:
 	cd $(CCROOT); $(CREATESTRUCT) $(PROGNAME) Str

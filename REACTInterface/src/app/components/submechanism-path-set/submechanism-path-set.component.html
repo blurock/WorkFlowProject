@@ -111,15 +111,69 @@
           <!-- Panel 2: Submechanism Path Set Panel (List of Paths to be used) -->
           <mat-card class="input-form-card pathset-panel">
             <mat-card-header>
-              <mat-icon mat-card-avatar color="accent">alt_route</mat-icon>
+              <mat-icon mat-card-avatar color="accent">collections_bookmark</mat-icon>
               <mat-card-title class="pathset-title">
                 <span>2. Submechanism Path Set</span>
                 <span class="path-count-badge">{{ selectedPaths.length }} Paths Selected</span>
               </mat-card-title>
-              <mat-card-subtitle>Manage list of mechanism pathways from Firestore to generate submechanisms for</mat-card-subtitle>
+              <mat-card-subtitle>Select a saved path suite from the database or customize individual pathways</mat-card-subtitle>
             </mat-card-header>
 
             <mat-card-content class="form-content">
+              <!-- Saved Path Set Dropdown Selector -->
+              <div class="saved-pathset-selector-box">
+                <mat-form-field appearance="outline" class="form-field full-width large-form-field">
+                  <mat-label>Select Mechanism Path Set (from Database)</mat-label>
+                  <mat-select [(ngModel)]="selectedPathSetName" (selectionChange)="onSelectPathSet($event.value)">
+                    <mat-option *ngFor="let s of availablePathSets" [value]="s.Name">
+                      <div class="pathset-dropdown-option">
+                        <mat-icon color="accent" class="opt-icon">collections_bookmark</mat-icon>
+                        <span class="opt-title">{{ s.Title || s.Name }}</span>
+                        <span class="opt-count">({{ s.Count || 0 }} paths)</span>
+                        <span class="opt-badge" [class.system]="s.scope === 'system'">
+                          {{ (s.scope || 'system') | uppercase }}
+                        </span>
+                      </div>
+                    </mat-option>
+                  </mat-select>
+                  <mat-icon matSuffix color="accent">collections_bookmark</mat-icon>
+                  <mat-hint>Load an existing suite of pathways from System or Personal database</mat-hint>
+                </mat-form-field>
+
+                <!-- Active Set Status & Action Toolbar -->
+                <div class="active-set-status-toolbar" *ngIf="selectedPathSetName">
+                  <div class="status-left">
+                    <span class="active-set-chip">
+                      <mat-icon>verified</mat-icon>
+                      Loaded: <strong>{{ selectedPathSetName }}</strong>
+                    </span>
+                    <span class="modified-tag" *ngIf="isModifiedFromSavedSet">
+                      <mat-icon>edit_note</mat-icon> Customized for this run
+                    </span>
+                  </div>
+
+                  <div class="status-right-actions">
+                    <button
+                      mat-button
+                      color="accent"
+                      class="mini-btn"
+                      (click)="reloadCurrentPathSet()"
+                      *ngIf="isModifiedFromSavedSet"
+                      matTooltip="Restore active paths to match saved set definition">
+                      <mat-icon>restore</mat-icon> Reload Set
+                    </button>
+                    <button
+                      mat-button
+                      color="primary"
+                      class="mini-btn"
+                      (click)="saveAsNewPathSet()"
+                      matTooltip="Save this current selection of pathways as a new Path Set in Firestore">
+                      <mat-icon>bookmark_add</mat-icon> Save as New Set...
+                    </button>
+                  </div>
+                </div>
+              </div>
+
               <!-- Active Selected Paths List (Chips with Remove Buttons) -->
               <div class="paths-list-container">
                 <label class="section-sublabel">Active Paths in Set (Click X to remove):</label>

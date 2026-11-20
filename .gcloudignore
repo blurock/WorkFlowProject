@@ -1,0 +1,54 @@
+# ==============================================================================
+# Root .gcloudignore for Google Cloud Build (`gcloud builds submit`)
+# Prevents uploading 30+ GB of node_modules, .angular caches, 21 GB .rawout,
+# and unrelated sibling Java repositories to Cloud Build.
+# ==============================================================================
+*
+
+!cloudbuild.yaml
+!.dockerignore
+
+# --- 1. REACTCLOUD (C backend + Node.js Orchestrator) ---
+!REACTCLOUD/
+!REACTCLOUD/**
+REACTCLOUD/.git/
+REACTCLOUD/.vscode/
+REACTCLOUD/.firebase/
+REACTCLOUD/genc/
+REACTCLOUD/genh/
+REACTCLOUD/tmp/
+REACTCLOUD/runs/
+REACTCLOUD/orchestrator/node_modules/
+REACTCLOUD/orchestrator/*.log
+REACTCLOUD/data/DB-old/
+REACTCLOUD/**/*.rawout
+REACTCLOUD/**/*.o
+REACTCLOUD/**/*.a
+REACTCLOUD/bin/chemdb
+REACTCLOUD/bin/createstructures
+REACTCLOUD/bin/http-server
+REACTCLOUD/bin/naming
+REACTCLOUD/chemdb/chemdb
+
+# --- 2. REACTInterface (Angular 18 Frontend) ---
+!REACTInterface/
+!REACTInterface/**
+REACTInterface/node_modules/
+REACTInterface/.angular/
+REACTInterface/dist/
+REACTInterface/.firebase/
+REACTInterface/.vscode/
+
+# --- 3. Ketcher Standalone (Pre-built 2D Chemical Structure Editor) ---
+!ketcher/
+ketcher/*
+!ketcher/example/
+ketcher/example/*
+!ketcher/example/dist/
+ketcher/example/dist/*
+!ketcher/example/dist/standalone/
+!ketcher/example/dist/standalone/**
+
+# Common OS/IDE artifacts
+**/.DS_Store
+

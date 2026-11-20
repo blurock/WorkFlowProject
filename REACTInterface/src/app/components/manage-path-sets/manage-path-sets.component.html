@@ -1,0 +1,352 @@
+<div class="manage-path-sets-container">
+  <!-- Task Header Banner -->
+  <mat-card class="banner-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar color="accent" class="avatar-icon">collections_bookmark</mat-icon>
+      <mat-card-title class="banner-title">Manage Mechanism Path Sets</mat-card-title>
+      <mat-card-subtitle class="banner-subtitle">
+        Database: <code>MechanismPathSet</code> &bull; Scope: <strong>{{ authService.activeViewScope() | uppercase }}</strong> &bull; Category: <strong>Create & Generate</strong>
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="banner-description">
+      <p>
+        Define, examine, and customize reusable sets of reaction mechanism pathways. A Path Set groups pathways into a single package used by <strong>Submechanism Path Set</strong> to generate submechanisms for target reactants.
+      </p>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Main Workspace Grid -->
+  <div class="workspace-grid">
+
+    <!-- Left Column: Browse & Select Path Sets -->
+    <mat-card class="browse-panel">
+      <mat-card-header class="panel-header">
+        <mat-icon mat-card-avatar color="primary">folder_special</mat-icon>
+        <mat-card-title>Saved Path Sets</mat-card-title>
+        <mat-card-subtitle>{{ filteredPathSets.length }} of {{ pathSets.length }} available</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content class="browse-content">
+        <!-- New Path Set Action -->
+        <button mat-raised-button color="primary" class="full-width action-button new-btn" (click)="startNewPathSet()">
+          <mat-icon>add_circle</mat-icon>
+          New Path Set
+        </button>
+
+        <!-- Search / Filter Input -->
+        <mat-form-field appearance="outline" class="search-field full-width">
+          <mat-label>Search sets...</mat-label>
+          <input matInput [(ngModel)]="searchFilter" (ngModelChange)="applyFilter()" placeholder="Filter by name, molecule..." />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <mat-progress-bar mode="indeterminate" *ngIf="isLoadingList" class="loading-bar"></mat-progress-bar>
+
+        <!-- Sets List -->
+        <div class="sets-list-scroll">
+          <div
+            *ngFor="let s of filteredPathSets"
+            class="set-list-item"
+            [class.selected]="selectedSetName === s.Name"
+            (click)="selectPathSet(s.Name)">
+            
+            <div class="item-header-row">
+              <span class="set-name-title">{{ s.Title || s.Name }}</span>
+              <span class="count-badge">{{ s.Count || 0 }} paths</span>
+            </div>
+
+            <div class="item-id-row" *ngIf="s.Title && s.Title !== s.Name">
+              <code>{{ s.Name }}</code>
+            </div>
+
+            <div class="item-meta-row">
+              <!-- Scope Badge -->
+              <span class="scope-badge system-badge" *ngIf="s.scope === 'system'">
+                <mat-icon>public</mat-icon> SYSTEM
+              </span>
+              <span class="scope-badge personal-badge" *ngIf="s.scope === 'personal' && !s.overridesSystem">
+                <mat-icon>person</mat-icon> PERSONAL
+              </span>
+              <span class="scope-badge override-badge" *ngIf="s.overridesSystem">
+                <mat-icon>layers</mat-icon> OVERRIDES SYSTEM
+              </span>
+
+              <span class="target-mol-tag" *ngIf="s.TargetMolecule">
+                <mat-icon>science</mat-icon> {{ s.TargetMolecule }}
+              </span>
+            </div>
+
+            <p class="set-desc-preview" *ngIf="s.Description">
+              {{ s.Description }}
+            </p>
+          </div>
+
+          <div class="empty-state" *ngIf="!isLoadingList && filteredPathSets.length === 0">
+            <mat-icon class="empty-icon">search_off</mat-icon>
+            <p>No path sets found.</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Right Column: Detail & Editor Panel -->
+    <mat-card class="editor-panel">
+      <!-- Loading Bar -->
+      <mat-progress-bar mode="indeterminate" *ngIf="isLoadingSet || isSaving" class="loading-bar"></mat-progress-bar>
+
+      <mat-card-header class="editor-header">
+        <mat-icon mat-card-avatar color="accent">tune</mat-icon>
+        <mat-card-title>
+          {{ isEditingExisting ? (currentSet.Title || currentSet.Name) : 'Create New Path Set' }}
+          <span class="dirty-indicator" *ngIf="isDirty">&bull; Unsaved Changes</span>
+        </mat-card-title>
+        <mat-card-subtitle>
+          <span *ngIf="isEditingExisting">
+            Document ID: <code>{{ currentSet.Name }}</code> &bull; Origin:
+            <strong>{{ (currentSet.scope || 'personal') | uppercase }}</strong>
+          </span>
+          <span *ngIf="!isEditingExisting">Drafting new mechanism pathway set</span>
+        </mat-card-subtitle>
+
+        <!-- Right Header Action Buttons -->
+        <div class="header-actions">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="savePathSet()"
+            [disabled]="isSaving || !currentSet.Name || currentSet.Paths.length === 0">
+            <mat-icon>save</mat-icon>
+            Save to Database
+          </button>
+
+          <button
+            mat-stroked-button
+            (click)="duplicateCurrentSet()"
+            *ngIf="isEditingExisting"
+            matTooltip="Clone current set into a new personal copy">
+            <mat-icon>content_copy</mat-icon>
+            Duplicate
+          </button>
+
+          <!-- Admin: Promote to System -->
+          <button
+            mat-stroked-button
+            color="accent"
+            *ngIf="authService.isAdmin() && currentSet.scope === 'personal'"
+            (click)="promoteToSystem()"
+            matTooltip="Promote this personal set to the System baseline catalog">
+            <mat-icon>upload</mat-icon>
+            Promote to System
+          </button>
+
+          <!-- Revert Override -->
+          <button
+            mat-stroked-button
+            color="warn"
+            *ngIf="currentSet.overridesSystem"
+            (click)="revertOverride()"
+            matTooltip="Delete personal customization and restore System default">
+            <mat-icon>restore</mat-icon>
+            Revert to System
+          </button>
+
+          <!-- Delete Personal Set -->
+          <button
+            mat-button
+            color="warn"
+            *ngIf="isEditingExisting && currentSet.scope === 'personal' && !currentSet.overridesSystem"
+            (click)="deletePathSet()"
+            matTooltip="Delete this personal path set from Firestore">
+            <mat-icon>delete_outline</mat-icon>
+            Delete
+          </button>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content class="editor-content">
+
+        <!-- System Notice Banner (if viewing read-only System set as non-admin) -->
+        <div class="system-notice-banner" *ngIf="currentSet.scope === 'system' && !authService.isAdmin()">
+          <mat-icon>info</mat-icon>
+          <div>
+            <strong>System Baseline Record:</strong> This path set is provided by the System catalog. Editing and clicking "Save" will save your changes as a <strong>Personal Override</strong> in your private database.
+          </div>
+        </div>
+
+        <!-- Metadata Form -->
+        <div class="meta-form-row">
+          <mat-form-field appearance="outline" class="field-name">
+            <mat-label>Path Set Name (ID)</mat-label>
+            <input
+              matInput
+              [(ngModel)]="currentSet.Name"
+              (ngModelChange)="isDirty = true"
+              [disabled]="isEditingExisting && currentSet.scope === 'system' && !authService.isAdmin()"
+              placeholder="e.g. StandardLowTemperature"
+              required />
+            <mat-icon matSuffix>badge</mat-icon>
+            <mat-hint>Unique alphanumeric ID in Firestore (no spaces)</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="field-title">
+            <mat-label>Title / Human Name</mat-label>
+            <input
+              matInput
+              [(ngModel)]="currentSet.Title"
+              (ngModelChange)="isDirty = true"
+              placeholder="e.g. Standard Low-Temperature Oxidation Suite" />
+            <mat-icon matSuffix>title</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="field-mol">
+            <mat-label>Target Molecule Hint (Optional)</mat-label>
+            <input
+              matInput
+              [(ngModel)]="currentSet.TargetMolecule"
+              (ngModelChange)="isDirty = true"
+              placeholder="e.g. propane or alkane" />
+            <mat-icon matSuffix>science</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Description / Usage Notes</mat-label>
+          <textarea
+            matInput
+            rows="2"
+            [(ngModel)]="currentSet.Description"
+            (ngModelChange)="isDirty = true"
+            placeholder="Describe what chemical mechanism steps or reactions are captured by this path set..."></textarea>
+          <mat-icon matSuffix>notes</mat-icon>
+        </mat-form-field>
+
+        <mat-divider class="section-divider"></mat-divider>
+
+        <!-- Pathway Management Section -->
+        <div class="pathway-section-header">
+          <div class="section-title-col">
+            <h3 class="section-title">
+              <mat-icon color="accent">alt_route</mat-icon>
+              Mechanism Pathways in Set
+              <span class="count-tag">{{ currentSet.Paths.length }}</span>
+            </h3>
+            <span class="warning-tag" *ngIf="getMissingPathwaysCount() > 0">
+              <mat-icon>warning</mat-icon>
+              {{ getMissingPathwaysCount() }} pathway(s) not found in Firestore database
+            </span>
+          </div>
+
+          <div class="section-actions">
+            <!-- Open Tree Dialog -->
+            <button mat-raised-button color="accent" class="tree-picker-btn" (click)="openPathwayTreeDialog()">
+              <mat-icon>account_tree</mat-icon>
+              Select Pathways (Tree Dialog)
+            </button>
+
+            <!-- Clear All -->
+            <button
+              mat-stroked-button
+              color="warn"
+              (click)="clearAllPaths()"
+              [disabled]="currentSet.Paths.length === 0">
+              <mat-icon>clear_all</mat-icon>
+              Clear All
+            </button>
+          </div>
+        </div>
+
+        <!-- Add Single Pathway Autocomplete Row -->
+        <div class="add-pathway-row">
+          <mat-form-field appearance="outline" class="full-width add-field">
+            <mat-label>Add Mechanism Pathway (from Database)</mat-label>
+            <input
+              matInput
+              [ngModel]="newPathInput"
+              (ngModelChange)="onNewPathInputChange($event)"
+              (keyup.enter)="addPath()"
+              [matAutocomplete]="autoAddPath"
+              placeholder="Type pathway name or select from version groups..." />
+            <mat-icon matSuffix color="accent">add_circle_outline</mat-icon>
+
+            <mat-autocomplete #autoAddPath="matAutocomplete" (optionSelected)="onPathOptionSelected($event)">
+              <mat-optgroup *ngFor="let group of filteredGroupedPathwaysToAdd" [label]="group.baseName + ' (' + group.count + ')'">
+                <mat-option *ngFor="let ver of group.versions" [value]="ver.name">
+                  <div class="autocomplete-option-row">
+                    <span class="ver-label-badge">{{ ver.versionLabel }}</span>
+                    <span class="ver-full-name">{{ ver.name }}</span>
+                  </div>
+                </mat-option>
+              </mat-optgroup>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <button mat-raised-button color="primary" class="add-btn" (click)="addPath()" [disabled]="!newPathInput.trim()">
+            <mat-icon>add</mat-icon>
+            Add
+          </button>
+        </div>
+
+        <!-- Pathways List (Ordered Table / Cards) -->
+        <div class="pathways-table-container">
+          <div class="pathway-item-row" *ngFor="let p of currentSet.Paths; let i = index">
+            <!-- Drag / Index -->
+            <div class="order-col">
+              <span class="step-num">{{ i + 1 }}</span>
+            </div>
+
+            <!-- Pathway Info -->
+            <div class="pathway-info-col">
+              <mat-icon class="path-icon" [color]="isPathKnown(p) ? 'accent' : 'warn'">
+                {{ isPathKnown(p) ? 'alt_route' : 'warning' }}
+              </mat-icon>
+              <span class="pathway-name" [class.path-missing]="!isPathKnown(p)">{{ p }}</span>
+
+              <span class="missing-chip" *ngIf="!isPathKnown(p)" matTooltip="This pathway is referenced in the set but was not found in Firestore.">
+                Missing from DB
+              </span>
+            </div>
+
+            <!-- Reorder Controls -->
+            <div class="reorder-controls">
+              <button
+                mat-icon-button
+                (click)="movePathUp(i)"
+                [disabled]="i === 0"
+                matTooltip="Move pathway up">
+                <mat-icon>arrow_upward</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                (click)="movePathDown(i)"
+                [disabled]="i === currentSet.Paths.length - 1"
+                matTooltip="Move pathway down">
+                <mat-icon>arrow_downward</mat-icon>
+              </button>
+            </div>
+
+            <!-- Remove Button -->
+            <div class="remove-col">
+              <button
+                mat-icon-button
+                color="warn"
+                (click)="removePath(p)"
+                matTooltip="Remove pathway from set">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <!-- Empty State -->
+          <div class="empty-pathway-set" *ngIf="currentSet.Paths.length === 0">
+            <mat-icon class="empty-set-icon">playlist_add</mat-icon>
+            <h4>No pathways in this set yet</h4>
+            <p>Click <strong>Select Pathways (Tree Dialog)</strong> to pick mechanism pathways grouped by versions, or type a pathway name above.</p>
+          </div>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+</div>
+

@@ -1247,6 +1247,7 @@ static void OutputReadJSONRoutine(StructureSet *set, FILE *file)
 
     fprintf(file, "     if(json_obj == NULL || cJSON_IsNull(json_obj) || eleptr == NULL)\n");
     fprintf(file, "          return NO_STRUCTURE_CODE;\n\n");
+    fprintf(file, "     memset(eleptr, 0, sizeof(%s));\n\n", name);
 
     fprintf(file, "     item = cJSON_GetObjectItemCaseSensitive(json_obj, \"ID\");\n");
     fprintf(file, "     if(cJSON_IsNumber(item)) eleptr->ID = item->valueint;\n");

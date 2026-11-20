@@ -1,0 +1,41 @@
+# ==============================================================================
+# Google Cloud Build Configuration for the Unified REACT Stack
+# ==============================================================================
+# Builds REACTCLOUD (C engine + Orchestrator), REACTInterface (Angular 18),
+# and Ketcher Standalone into a single Docker image in the cloud (NO local
+# Docker required!) and pushes it to Artifact Registry.
+#
+# Usage (run from /Users/edwardblurock/git/WorkFlowProject):
+#   gcloud builds submit --config=cloudbuild.yaml .
+#
+# Optional substitutions:
+#   gcloud builds submit --config=cloudbuild.yaml \
+#     --substitutions=_REGION=europe-west1,_REPO=react-images,_IMAGE=reactcloud,_TAG=latest .
+# ==============================================================================
+
+substitutions:
+  _REGION: europe-west1
+  _REPO: react-images
+  _IMAGE: reactcloud
+  _TAG: latest
+
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'build-unified-react-image'
+    args:
+      - 'build'
+      - '-f'
+      - 'REACTCLOUD/Dockerfile'
+      - '-t'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_IMAGE}:${_TAG}'
+      - '.'
+
+images:
+  - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_IMAGE}:${_TAG}'
+
+options:
+  machineType: 'E2_HIGHCPU_8'
+  logging: CLOUD_LOGGING_ONLY
+
+timeout: '1800s'
+

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { firstValueFrom, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from './auth.service';
+import { environment } from '../../environments/environment';
 import { isGenericAtomSymbol, normalizeAtomSymbol } from './atom-correspondence.service';
 
 export interface SubstructureAtom {
@@ -77,7 +78,7 @@ export interface PatternAlignmentResult {
 export class ReactionPatternAlignmentService {
   private http = inject(HttpClient);
   private authService = inject(AuthService);
-  private readonly baseUrl = 'http://localhost:8085';
+  private readonly baseUrl = environment.apiBaseUrl ?? 'http://localhost:8085';
 
   // In-memory cache for substructures and DB reaction patterns to prevent repeated network calls
   private substructureCache = new Map<string, MoleculeSubstructureData>();

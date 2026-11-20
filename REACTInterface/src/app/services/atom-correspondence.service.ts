@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 export interface AtomInfo {
   atomNumber: number;        // Global 1-based index (across all reactants or all products)
@@ -109,7 +110,7 @@ export interface ParsedRxnStructure {
 })
 export class AtomCorrespondenceService {
   private http = inject(HttpClient);
-  private readonly baseUrl = 'http://localhost:8085';
+  private readonly baseUrl = environment.apiBaseUrl ?? 'http://localhost:8085';
 
   /**
    * Translates atomic number to standard chemical symbol.

@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of, map, switchMap, tap, catchError, from } from 'rxjs';
 import { CommandTemplatesRegistry } from '../templates/command-templates.registry';
 import { AuthService } from './auth.service';
+import { environment } from '../../environments/environment';
 
 export interface CatalogItem {
   id: string;
@@ -129,7 +130,7 @@ export interface DeleteRecordResponse {
   providedIn: 'root'
 })
 export class ReactCloudApiService {
-  private readonly baseUrl = 'http://localhost:8085';
+  private readonly baseUrl = environment.apiBaseUrl ?? 'http://localhost:8085';
 
   public readonly CATALOG_TASKS: CatalogTask[] = [
     {

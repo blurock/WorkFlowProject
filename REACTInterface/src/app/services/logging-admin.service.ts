@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, from, map, catchError, of } from 'rxjs';
+import { environment } from '../../environments/environment';
 import { initializeApp, getApps } from 'firebase/app';
 import { 
   getFirestore, 
@@ -58,7 +59,7 @@ const firebaseConfig = {
 export class LoggingAdminService {
   private http = inject(HttpClient);
   private authService = inject(AuthService);
-  private readonly baseUrl = 'http://localhost:8085';
+  private readonly baseUrl = environment.apiBaseUrl ?? 'http://localhost:8085';
 
   private firebaseApp = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
   private db = getFirestore(this.firebaseApp);

@@ -21,6 +21,11 @@ import { MoleculesService } from '../../services/catalog/molecules.service';
 import { TaskOutputParserService } from '../../services/task-output-parser.service';
 import { ChemStructureParserService } from '../../services/chem-structure-parser.service';
 import { GroupedPathway, groupPathwayItems, filterGroupedPathways } from '../../services/mechanism-pathways.service';
+import {
+  MechanismPathSetsService,
+  MechanismPathSet,
+  PathSetSummaryItem
+} from '../../services/mechanism-path-sets.service';
 import { MoleculeSection } from '../../models/task-list.models';
 import { BensonGroupDetailComponent } from '../task-list-view/details/benson-group-detail.component';
 import { MechanismArtifactViewerComponent } from '../mechanism-artifact-viewer/mechanism-artifact-viewer.component';
@@ -92,6 +97,12 @@ export class SubmechanismPathSetComponent implements OnInit {
   // Active user-configurable list of paths to process
   public selectedPaths: string[] = [...this.INITIAL_PATHS];
 
+  // Saved Path Sets from Database
+  public availablePathSets: PathSetSummaryItem[] = [];
+  public selectedPathSetName: string = 'StandardLowTemperature';
+  public isPathSetsLoading: boolean = false;
+  public isModifiedFromSavedSet: boolean = false;
+
   // Input state for adding new paths
   public newPathInput: string = '';
 
@@ -131,6 +142,7 @@ export class SubmechanismPathSetComponent implements OnInit {
     private apiService: ReactCloudApiService,
     private mechanismsService: MechanismsService,
     private moleculesService: MoleculesService,
+    private pathSetsService: MechanismPathSetsService,
     private taskOutputParser: TaskOutputParserService,
     private chemParser: ChemStructureParserService,
     private snackBar: MatSnackBar,
@@ -159,6 +171,7 @@ export class SubmechanismPathSetComponent implements OnInit {
           }
         });
         if (addedCount > 0) {
+          this.isModifiedFromSavedSet = true;
           this.filterPathsToAdd(this.newPathInput);
           this.snackBar.open(`Added ${addedCount} pathway${addedCount === 1 ? '' : 's'} to set.`, 'OK', { duration: 2500 });
         }
@@ -169,6 +182,88 @@ export class SubmechanismPathSetComponent implements OnInit {
   ngOnInit(): void {
     this.loadDatabaseMolecules();
     this.loadSubmechanismPaths();
+    this.loadDatabasePathSets();
+  }
+
+  public loadDatabasePathSets(): void {
+    this.isPathSetsLoading = true;
+    this.pathSetsService.listPathSets().subscribe({
+      next: (sets) => {
+        this.availablePathSets = sets || [];
+        this.isPathSetsLoading = false;
+        // Auto-select StandardLowTemperature if available, or first available set
+        if (this.availablePathSets.length > 0) {
+          const match = this.availablePathSets.find(s => s.Name === 'StandardLowTemperature') || this.availablePathSets[0];
+          this.selectedPathSetName = match.Name;
+          this.onSelectPathSet(match.Name);
+        }
+      },
+      error: (err) => {
+        console.error('[SubmechanismPathSet] Failed to load path sets:', err);
+        this.isPathSetsLoading = false;
+      }
+    });
+  }
+
+  public onSelectPathSet(name: string): void {
+    if (!name) return;
+    this.selectedPathSetName = name;
+    this.pathSetsService.fetchPathSet(name).subscribe({
+      next: (set) => {
+        if (set && Array.isArray(set.Paths)) {
+          this.selectedPaths = [...set.Paths];
+          this.isModifiedFromSavedSet = false;
+          this.filterPathsToAdd(this.newPathInput);
+          this.snackBar.open(`Loaded Path Set '${set.Title || set.Name}' (${set.Paths.length} paths).`, 'OK', { duration: 2500 });
+        }
+      },
+      error: (err) => {
+        console.error(`[SubmechanismPathSet] Failed to load path set ${name}:`, err);
+        this.snackBar.open(`Failed to load Path Set '${name}'.`, 'Close', { duration: 3000 });
+      }
+    });
+  }
+
+  public reloadCurrentPathSet(): void {
+    if (this.selectedPathSetName) {
+      this.onSelectPathSet(this.selectedPathSetName);
+    } else {
+      this.resetDefaultPaths();
+    }
+  }
+
+  public saveAsNewPathSet(): void {
+    if (this.selectedPaths.length === 0) {
+      this.snackBar.open('Cannot save an empty path set. Add pathways first.', 'Close', { duration: 3000 });
+      return;
+    }
+    const proposedName = prompt('Enter a unique name for this new Path Set:', `${this.molecule || 'Custom'}LowTempSet`);
+    if (!proposedName) return;
+    const cleanName = proposedName.trim().replace(/\s+/g, '_');
+    if (!cleanName) return;
+
+    const newSet: MechanismPathSet = {
+      Name: cleanName,
+      Title: cleanName.replace(/_/g, ' '),
+      Description: `Path set customized for ${this.molecule || 'reactants'} with ${this.selectedPaths.length} pathways`,
+      TargetMolecule: this.molecule || '',
+      Paths: [...this.selectedPaths],
+      Count: this.selectedPaths.length
+    };
+
+    this.pathSetsService.storePathSet(newSet).subscribe({
+      next: () => {
+        this.snackBar.open(`Saved Path Set '${cleanName}' to database!`, 'OK', { duration: 3000 });
+        this.loadDatabasePathSets();
+        this.selectedPathSetName = cleanName;
+        this.isModifiedFromSavedSet = false;
+      },
+      error: (err) => {
+        console.error('[SubmechanismPathSet] Save new set error:', err);
+        const msg = err?.error?.error || 'Failed to save Path Set.';
+        this.snackBar.open(`Error: ${msg}`, 'Close', { duration: 4000 });
+      }
+    });
   }
 
   public loadDatabaseMolecules(): void {
@@ -269,6 +364,7 @@ export class SubmechanismPathSetComponent implements OnInit {
       return;
     }
     this.selectedPaths.push(targetPath);
+    this.isModifiedFromSavedSet = true;
     this.newPathInput = '';
     this.filterPathsToAdd('');
     this.snackBar.open(`Added path "${targetPath}" to path set.`, 'OK', { duration: 2000 });
@@ -278,6 +374,7 @@ export class SubmechanismPathSetComponent implements OnInit {
     const index = this.selectedPaths.indexOf(pathName);
     if (index !== -1) {
       this.selectedPaths.splice(index, 1);
+      this.isModifiedFromSavedSet = true;
       this.filterPathsToAdd(this.newPathInput);
       this.snackBar.open(`Removed path "${pathName}" from set.`, 'OK', { duration: 2000 });
     }
@@ -285,12 +382,14 @@ export class SubmechanismPathSetComponent implements OnInit {
 
   public resetDefaultPaths(): void {
     this.selectedPaths = [...this.INITIAL_PATHS];
+    this.isModifiedFromSavedSet = false;
     this.filterPathsToAdd(this.newPathInput);
     this.snackBar.open('Reset path set to default 9 submechanisms.', 'OK', { duration: 2500 });
   }
 
   public clearAllPaths(): void {
     this.selectedPaths = [];
+    this.isModifiedFromSavedSet = true;
     this.filterPathsToAdd(this.newPathInput);
     this.snackBar.open('Cleared all paths from set.', 'OK', { duration: 2000 });
   }

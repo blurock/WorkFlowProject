@@ -103,6 +103,15 @@ const CATALOG_OBJECT_REGISTRY = {
     idOffset: PERSONAL_ID_START,
     keyByName: true
   },
+  MechanismPathSet: {
+    dbKey: 'MechanismPathSet',
+    dbName: 'MechanismPathSet',
+    aliases: ['MechanismPathSets', 'PathSets', 'PathSet'],
+    classIndex: null,
+    hasSearchKeys: false,
+    idOffset: PERSONAL_ID_START,
+    keyByName: true
+  },
   RxnMechanism: {
     dbKey: 'RxnMechanism',
     dbName: 'RxnMechanism',
@@ -464,17 +473,26 @@ function createScopedDatabaseResolver({ firestore, convertBytesObjectsToBlobs, c
       const found = await findRecordInNamespace(ns.uid, dbName, key, type);
       if (found && found.data) {
         const data = convertBlobsToBytesObjects ? convertBlobsToBytesObjects(found.data) : found.data;
+        let overridesSystem = false;
+        if (ns.scope === 'personal' && ctx.systemUid && ctx.systemUid !== ctx.personalUid) {
+          const sysFound = await findRecordInNamespace(ctx.systemUid, dbName, key, type);
+          if (sysFound && sysFound.data) {
+            overridesSystem = true;
+          }
+        }
         return {
           found: true,
           dbName,
           key,
           type,
           scope: ns.scope,
+          overridesSystem,
           ownerUid: ns.uid,
           keyId: data.keyId || data.ID || 0,
           data: {
             ...data,
-            scope: ns.scope
+            scope: ns.scope,
+            overridesSystem
           },
           updatedAt: data.updatedAt
         };

@@ -17,6 +17,7 @@ import { CatalogTask, TaskCategory } from '../../models/task-category.models';
 import { TaskListViewComponent } from '../task-list-view/task-list-view.component';
 import { SubmechanismCreatorComponent } from '../submechanism-creator/submechanism-creator.component';
 import { SubmechanismPathSetComponent } from '../submechanism-path-set/submechanism-path-set.component';
+import { ManagePathSetsComponent } from '../manage-path-sets/manage-path-sets.component';
 import { CombineSubmechanismsComponent } from '../combine-submechanisms/combine-submechanisms.component';
 import { GenericFileInputComponent } from '../generic-file-input/generic-file-input.component';
 import { ReadCheckStoreComponent } from '../read-check-store/read-check-store.component';
@@ -45,6 +46,7 @@ import { AdministrationPanelComponent } from '../administration-panel/administra
     TaskListViewComponent,
     SubmechanismCreatorComponent,
     SubmechanismPathSetComponent,
+    ManagePathSetsComponent,
     CombineSubmechanismsComponent,
     GenericFileInputComponent,
     ReadCheckStoreComponent,

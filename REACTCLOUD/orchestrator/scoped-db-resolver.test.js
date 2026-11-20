@@ -265,6 +265,54 @@ async function runTests() {
   const listPerAfter = await resolver.listSummary({ ...aliceCtx, viewScope: 'personal' }, { dbName: 'Molecules' });
   assert.strictEqual(listPerAfter.count, 1); // only 'propane' override remains in Alice's personal DB
 
+  // 4. Test MechanismPathSet Registration & keyByName Resolution
+  const pathSetConfig = getObjectConfig('MechanismPathSet');
+  assert.ok(pathSetConfig, 'MechanismPathSet must be registered in CATALOG_OBJECT_REGISTRY');
+  assert.strictEqual(pathSetConfig.keyByName, true);
+  assert.strictEqual(getObjectConfig('MechanismPathSets').dbKey, 'MechanismPathSet');
+  assert.strictEqual(getObjectConfig('PathSets').dbKey, 'MechanismPathSet');
+
+  // 4a. Store System Path Set
+  await mockFs.doc(`users/${SYSTEM_UID}/databases/MechanismPathSet/records/StandardLowTemp`).set({
+    Name: 'StandardLowTemp',
+    Title: 'Standard Low Temp',
+    Paths: ['BetaHPeroxyToOlefin', 'AlkoxyFromPeroxy']
+  });
+
+  // 4b. Alice fetches System Path Set via fallback
+  const fetchedSysSet = await resolver.fetchRecord(aliceCtx, { dbName: 'MechanismPathSet', key: 'StandardLowTemp', type: 'string' });
+  assert.ok(fetchedSysSet.found);
+  assert.strictEqual(fetchedSysSet.scope, 'system');
+  assert.strictEqual(fetchedSysSet.data.Paths.length, 2);
+
+  // 4c. Alice stores personal override for StandardLowTemp
+  await resolver.storeRecord(aliceCtx, {
+    dbName: 'MechanismPathSet',
+    key: 'StandardLowTemp',
+    jsonStr: JSON.stringify({
+      Name: 'StandardLowTemp',
+      Title: 'Alice Custom Low Temp',
+      Paths: ['BetaHPeroxyToOlefin']
+    })
+  });
+
+  // 4d. Alice fetches merged view (Personal shadows System)
+  const fetchedOverridden = await resolver.fetchRecord(aliceCtx, { dbName: 'MechanismPathSet', key: 'StandardLowTemp', type: 'string' });
+  assert.ok(fetchedOverridden.found);
+  assert.strictEqual(fetchedOverridden.scope, 'personal');
+  assert.strictEqual(fetchedOverridden.overridesSystem, true);
+  assert.strictEqual(fetchedOverridden.data.Title, 'Alice Custom Low Temp');
+  assert.strictEqual(fetchedOverridden.data.Paths.length, 1);
+
+  // 4e. Alice reverts personal override
+  const revertSetRes = await resolver.revertPersonalOverride(aliceCtx, { dbName: 'MechanismPathSet', key: 'StandardLowTemp' });
+  assert.strictEqual(revertSetRes.success, true);
+
+  const fetchedAfterRevert = await resolver.fetchRecord(aliceCtx, { dbName: 'MechanismPathSet', key: 'StandardLowTemp', type: 'string' });
+  assert.strictEqual(fetchedAfterRevert.scope, 'system');
+  assert.strictEqual(fetchedAfterRevert.overridesSystem, false);
+  assert.strictEqual(fetchedAfterRevert.data.Title, 'Standard Low Temp');
+
   console.log('ALL ScopedDatabaseResolver tests passed!');
 }
 

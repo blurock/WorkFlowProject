@@ -116,6 +116,13 @@ export class TaskCategoryRegistry {
           type: 'submechanism-path-set'
         },
         {
+          id: 'manage-path-sets',
+          title: 'Manage Path Sets',
+          description: 'Create, examine, edit, and store reusable sets of mechanism pathways in Firestore',
+          icon: 'collections_bookmark',
+          type: 'manage-path-sets'
+        },
+        {
           id: 'combine-submechanisms',
           title: 'Combine Submechanisms',
           inpFile: 'CombineMechanisms.inp',

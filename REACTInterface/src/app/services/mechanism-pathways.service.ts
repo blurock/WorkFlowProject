@@ -164,7 +164,7 @@ export function filterGroupedPathways(
   providedIn: 'root'
 })
 export class MechanismPathwaysService {
-  private readonly baseUrl = environment.apiBaseUrl || 'http://127.0.0.1:8085';
+  private readonly baseUrl = environment.apiBaseUrl ?? 'http://127.0.0.1:8085';
 
   constructor(private http: HttpClient) {}
 

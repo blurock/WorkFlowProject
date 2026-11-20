@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import { environment } from '../../environments/environment';
 
 export interface AuditIssue {
   type: 'GHOST_INDEX_KEY' | 'ORPHAN_RECORD' | 'NAME_MISMATCH' | 'DUPLICATE_NAME_IN_INDEX' | 'DUPLICATE_ID_IN_INDEX' | 'DUPLICATE_NAME_IN_RECORDS' | 'DUPLICATE_RECORD_NAME' | 'DUPLICATE_RECORD_ID' | 'DUPLICATE_INDEX_NAME' | 'DUPLICATE_INDEX_ID' | 'MISSING_NAME_IN_RECORD' | string;
@@ -100,7 +101,7 @@ export interface CatalogListsPayload {
 export class AdminManagementService {
   private http = inject(HttpClient);
   private authService = inject(AuthService);
-  private readonly baseUrl = 'http://localhost:8085';
+  private readonly baseUrl = environment.apiBaseUrl ?? 'http://localhost:8085';
 
   private getHeaders(): HttpHeaders {
     const token = this.authService.getToken() || '';

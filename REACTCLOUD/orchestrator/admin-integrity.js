@@ -1016,12 +1016,13 @@ async function generateCatalogLists(firestore, uid, options = {}) {
     };
   };
 
-  const [molSnap, subSnap, rxnSnap, pathSnap, mechMetaSnap] = await Promise.all([
+  const [molSnap, subSnap, rxnSnap, pathSnap, mechMetaSnap, pathSetSnap] = await Promise.all([
     loadScopedDocs('databases/Molecules/records'),
     loadScopedDocs('databases/Substructures/records'),
     loadScopedDocs('databases/ReactionPatterns/records'),
     loadScopedDocs('databases/MechanismPathway/records'),
-    loadScopedDocs('mechanisms')
+    loadScopedDocs('mechanisms'),
+    loadScopedDocs('databases/MechanismPathSet/records')
   ]);
 
   // 1. Molecules Simple List
@@ -1248,6 +1249,27 @@ async function generateCatalogLists(firestore, uid, options = {}) {
     mechanisms: g.mechanisms.map(m => ({ id: m.mechName, name: m.mechName, scope: m.scope, overridesSystem: m.overridesSystem }))
   }));
 
+  // 6. Mechanism Path Sets
+  const pathSetsList = [];
+  pathSetSnap.forEach(d => {
+    const data = d.data();
+    const name = (data.Name ?? data.name ?? d.id).trim();
+    const paths = Array.isArray(data.Paths) ? data.Paths : [];
+    pathSetsList.push({
+      name,
+      title: data.Title || name,
+      description: data.Description || '',
+      paths,
+      count: paths.length,
+      docId: d.id,
+      targetMolecule: data.TargetMolecule || null,
+      createdAt: data.CreatedAt || null,
+      scope: data.scope || 'system',
+      overridesSystem: Boolean(data.overridesSystem)
+    });
+  });
+  pathSetsList.sort((a, b) => a.name.localeCompare(b.name));
+
   const generatedPayload = {
     generatedAt: new Date().toISOString(),
     generationTimeMs: Date.now() - startTime,
@@ -1288,6 +1310,10 @@ async function generateCatalogLists(firestore, uid, options = {}) {
       totalGroups: pathwayGroups.length,
       groups: pathwayGroups,
       clusters: pathwayClusters
+    },
+    mechanismPathSets: {
+      total: pathSetsList.length,
+      pathSets: pathSetsList
     },
     mechanisms: {
       total: mechMetaSnap.size,

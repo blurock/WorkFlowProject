@@ -1,0 +1,69 @@
+# ==============================================================================
+# Root .dockerignore for Unified REACT Cloud Run Build
+# Context: /Users/edwardblurock/git/WorkFlowProject
+# Dockerfile: REACTCLOUD/Dockerfile
+# ==============================================================================
+# Ignore everything by default, then explicitly allow ONLY the 3 REACT projects
+# to keep the Docker / Cloud Build context small (~130 MB instead of 30+ GB).
+*
+
+!cloudbuild.yaml
+
+# --- 1. REACTCLOUD (C backend + Node.js Orchestrator) ---
+!REACTCLOUD/
+!REACTCLOUD/**
+REACTCLOUD/.git
+REACTCLOUD/.git/**
+REACTCLOUD/.vscode
+REACTCLOUD/.vscode/**
+REACTCLOUD/.firebase
+REACTCLOUD/.firebase/**
+REACTCLOUD/genc
+REACTCLOUD/genc/**
+REACTCLOUD/genh
+REACTCLOUD/genh/**
+REACTCLOUD/tmp
+REACTCLOUD/tmp/**
+REACTCLOUD/runs
+REACTCLOUD/runs/**
+REACTCLOUD/orchestrator/node_modules
+REACTCLOUD/orchestrator/node_modules/**
+REACTCLOUD/orchestrator/*.log
+REACTCLOUD/data/DB-old
+REACTCLOUD/data/DB-old/**
+REACTCLOUD/**/*.rawout
+REACTCLOUD/**/*.o
+REACTCLOUD/**/*.a
+REACTCLOUD/bin/chemdb
+REACTCLOUD/bin/createstructures
+REACTCLOUD/bin/http-server
+REACTCLOUD/bin/naming
+REACTCLOUD/chemdb/chemdb
+
+# --- 2. REACTInterface (Angular 18 Frontend) ---
+!REACTInterface/
+!REACTInterface/**
+REACTInterface/node_modules
+REACTInterface/node_modules/**
+REACTInterface/.angular
+REACTInterface/.angular/**
+REACTInterface/dist
+REACTInterface/dist/**
+REACTInterface/.firebase
+REACTInterface/.firebase/**
+REACTInterface/.vscode
+REACTInterface/.vscode/**
+
+# --- 3. Ketcher Standalone (Pre-built 2D Chemical Structure Editor) ---
+!ketcher/
+ketcher/*
+!ketcher/example/
+ketcher/example/*
+!ketcher/example/dist/
+ketcher/example/dist/*
+!ketcher/example/dist/standalone/
+!ketcher/example/dist/standalone/**
+
+# Common OS/IDE artifacts
+**/.DS_Store
+

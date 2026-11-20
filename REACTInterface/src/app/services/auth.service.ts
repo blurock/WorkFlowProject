@@ -1,5 +1,6 @@
 import { Injectable, signal, computed, isDevMode, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 import { initializeApp, getApps } from 'firebase/app';
 import {
   getAuth,
@@ -65,7 +66,7 @@ export class AuthService {
   private readonly SCOPE_KEY = 'reactcloud_data_scope';
   private readonly VIEW_SCOPE_KEY = 'reactcloud_view_scope';
   private readonly WRITE_SCOPE_KEY = 'reactcloud_write_scope';
-  private readonly apiBaseUrl = 'http://localhost:8085';
+  private readonly apiBaseUrl = environment.apiBaseUrl ?? 'http://localhost:8085';
   private router = inject(Router);
 
   private firebaseApp = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
