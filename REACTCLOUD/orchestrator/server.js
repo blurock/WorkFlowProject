@@ -1031,9 +1031,67 @@ function matchCatalogPattern(filename, pattern) {
   return false;
 }
 
+function normalizeTaxonomyToken(val, fallback = 'General') {
+  if (val === undefined || val === null) return fallback;
+  const cleaned = String(val).trim();
+  return cleaned.length > 0 ? cleaned : fallback;
+}
+
+function inferEntityType(ctx = {}) {
+  const text = `${ctx.inputFile || ''} ${ctx.commandText || ''} ${ctx.root || ''} ${ctx.targetItem || ''} ${(ctx.files || []).map(f => f.filename || '').join(' ')}`.toLowerCase();
+  if (text.includes('substructure') || text.includes('subs') || text.includes('readsubs')) return 'Substructures';
+  if (text.includes('rxnpat') || text.includes('reactionpattern') || text.includes('rxnpattern') || text.includes('pat')) return 'ReactionPatterns';
+  if (text.includes('reaction') || text.includes('rxn')) return 'Reactions';
+  if (text.includes('benson') || text.includes('thermo') || text.includes('.thm')) return 'Thermodynamics';
+  if (text.includes('mech') || text.includes('pathway') || text.includes('.lsr')) return 'Mechanisms';
+  if (text.includes('mol') || text.includes('.sdf')) return 'Molecules';
+  return 'General';
+}
+
+function inferThermoType(ctx = {}) {
+  const text = `${ctx.inputFile || ''} ${ctx.commandText || ''} ${ctx.root || ''} ${ctx.targetItem || ''}`.toLowerCase();
+  if (text.includes('benson')) return 'Benson';
+  if (text.includes('nasa') || text.includes('chemkin') || text.includes('.thm')) return 'NASA';
+  return 'General';
+}
+
+function inferTargetName(ctx = {}, fallback = 'default') {
+  if (ctx.targetName) return normalizeTaxonomyToken(ctx.targetName, fallback);
+  if (ctx.targetItem) return normalizeTaxonomyToken(ctx.targetItem, fallback);
+  if (ctx.rootName) return normalizeTaxonomyToken(ctx.rootName, fallback);
+  if (ctx.mechName) return normalizeTaxonomyToken(ctx.mechName, fallback);
+  if (ctx.inputFile) return normalizeTaxonomyToken(String(ctx.inputFile).replace(/\.[^.]+$/, ''), fallback);
+  if (ctx.root && ctx.root !== 'ROOT' && ctx.root !== 'api') return normalizeTaxonomyToken(ctx.root, fallback);
+  if (Array.isArray(ctx.files)) {
+    const nonLog = ctx.files.find(f =>
+      f && f.filename &&
+      f.filename !== 'execution.log' &&
+      f.filename !== 'run.inp' &&
+      !f.filename.endsWith('.api.inp')
+    );
+    if (nonLog) {
+      return normalizeTaxonomyToken(String(nonLog.filename).replace(/\.(Format\.out|out|ans|mech|sdf|thm|corrs|lsr)$/i, ''), fallback);
+    }
+  }
+  return fallback;
+}
+
 const TASK_OUTPUT_CATALOG = {
   submechanism_generation: {
     label: 'Submechanism Generation',
+    defaultAccessMode: 'db-modifying',
+    subCategoryField: 'molecule',
+    targetField: 'rootName',
+    signatureFormat: 'submechanism_generation::<molecule>::<rootName>',
+    extractTaxonomy: (ctx) => {
+      const subCategory = normalizeTaxonomyToken(ctx.molecule, 'Unknown Molecule');
+      const targetName = normalizeTaxonomyToken(ctx.rootName || ctx.mechName, 'Unknown Pathway');
+      return {
+        subCategory,
+        targetName,
+        jobSignature: `submechanism_generation::${subCategory}::${targetName}`
+      };
+    },
     getArtifactPatterns: (meta) => {
       const patterns = [];
       if (meta?.mechName) {
@@ -1057,6 +1115,19 @@ const TASK_OUTPUT_CATALOG = {
 
   mechanism_combine: {
     label: 'Combine Submechanisms',
+    defaultAccessMode: 'db-modifying',
+    subCategoryField: 'mechName',
+    targetField: 'rootName',
+    signatureFormat: 'mechanism_combine::<mechName>',
+    extractTaxonomy: (ctx) => {
+      const subCategory = normalizeTaxonomyToken(ctx.mechName, 'Combined Mechanism');
+      const targetName = normalizeTaxonomyToken(ctx.rootName || ctx.mechName, 'combine');
+      return {
+        subCategory,
+        targetName,
+        jobSignature: `mechanism_combine::${subCategory}`
+      };
+    },
     getArtifactPatterns: (meta) => {
       const patterns = [];
       if (meta?.mechName) {
@@ -1076,66 +1147,209 @@ const TASK_OUTPUT_CATALOG = {
 
   format_check: {
     label: 'Catalog Format Check',
+    defaultAccessMode: 'read-only',
+    subCategoryField: 'entityType',
+    targetField: 'targetName / inputFile',
+    signatureFormat: 'format_check::<entityType>::<targetName>',
+    extractTaxonomy: (ctx) => {
+      const subCategory = inferEntityType(ctx);
+      const targetName = inferTargetName(ctx, 'format_check');
+      return {
+        subCategory,
+        targetName,
+        jobSignature: `format_check::${subCategory}::${targetName}`
+      };
+    },
     getArtifactPatterns: () => ['*.Format.out'],
     getLogPatterns: () => ['execution.log', 'run.inp']
   },
 
   catalog_print: {
     label: 'Catalog Print / Query',
+    defaultAccessMode: 'read-only',
+    subCategoryField: 'entityType',
+    targetField: 'targetName / List All',
+    signatureFormat: 'catalog_print::<entityType>::<targetName>',
+    extractTaxonomy: (ctx) => {
+      const subCategory = inferEntityType(ctx);
+      const targetName = inferTargetName(ctx, 'List All');
+      return {
+        subCategory,
+        targetName,
+        jobSignature: `catalog_print::${subCategory}::${targetName}`
+      };
+    },
     getArtifactPatterns: () => ['*.ans', '*.out'],
     getLogPatterns: () => ['execution.log', 'run.inp']
   },
 
   thermo_calc: {
     label: 'Thermodynamics Calculation',
+    defaultAccessMode: 'read-only',
+    subCategoryField: 'thermoType',
+    targetField: 'targetName',
+    signatureFormat: 'thermo_calc::<thermoType>::<targetName>',
+    extractTaxonomy: (ctx) => {
+      const subCategory = inferThermoType(ctx);
+      const targetName = inferTargetName(ctx, 'thermo_calc');
+      return {
+        subCategory,
+        targetName,
+        jobSignature: `thermo_calc::${subCategory}::${targetName}`
+      };
+    },
     getArtifactPatterns: () => ['*.thm', '*.ans', '*.out'],
     getLogPatterns: () => ['execution.log', 'run.inp']
   },
 
   thermo_store: {
     label: 'Thermodynamics Storage',
+    defaultAccessMode: 'db-modifying',
+    subCategoryField: 'thermoType',
+    targetField: 'targetName',
+    signatureFormat: 'thermo_store::<thermoType>::<targetName>',
+    extractTaxonomy: (ctx) => {
+      const subCategory = inferThermoType(ctx);
+      const targetName = inferTargetName(ctx, 'thermo_store');
+      return {
+        subCategory,
+        targetName,
+        jobSignature: `thermo_store::${subCategory}::${targetName}`
+      };
+    },
     getArtifactPatterns: () => ['*.thm', '*.ans', '*.out'],
     getLogPatterns: () => ['execution.log', 'run.inp']
   },
 
   mechanism_query: {
     label: 'Mechanism Query',
+    defaultAccessMode: 'read-only',
+    subCategoryField: 'entityType / mechName',
+    targetField: 'targetName',
+    signatureFormat: 'mechanism_query::<targetName>',
+    extractTaxonomy: (ctx) => {
+      const subCategory = normalizeTaxonomyToken(ctx.mechName || ctx.molecule, 'Mechanisms');
+      const targetName = inferTargetName(ctx, 'query');
+      return {
+        subCategory,
+        targetName,
+        jobSignature: `mechanism_query::${targetName}`
+      };
+    },
     getArtifactPatterns: () => ['*.mech', '*.ans', '*.out'],
     getLogPatterns: () => ['execution.log', 'run.inp']
   },
 
   mechanism_store: {
     label: 'Mechanism Storage',
+    defaultAccessMode: 'db-modifying',
+    subCategoryField: 'entityType / mechName',
+    targetField: 'targetName',
+    signatureFormat: 'mechanism_store::<targetName>',
+    extractTaxonomy: (ctx) => {
+      const subCategory = normalizeTaxonomyToken(ctx.mechName || ctx.molecule, 'Mechanisms');
+      const targetName = inferTargetName(ctx, 'store');
+      return {
+        subCategory,
+        targetName,
+        jobSignature: `mechanism_store::${targetName}`
+      };
+    },
     getArtifactPatterns: () => ['*.mech', '*.sdf', '*.thm', '*.corrs', '*.ans', '*.out'],
     getLogPatterns: () => ['execution.log', 'run.inp']
   },
 
   script_runner: {
     label: 'Generic Script Runner',
+    defaultAccessMode: 'read-only',
+    subCategoryField: 'inputFile',
+    targetField: 'root',
+    signatureFormat: 'script_runner::<inputFile>::<root>',
+    extractTaxonomy: (ctx) => {
+      const subCategory = normalizeTaxonomyToken(ctx.inputFile, 'Ad-hoc Script');
+      const targetName = inferTargetName(ctx, 'run');
+      return {
+        subCategory,
+        targetName,
+        jobSignature: `script_runner::${subCategory}::${targetName}`
+      };
+    },
     getArtifactPatterns: () => ['*.Format.out', '*.ans', '*.out', '*.dat'],
     getLogPatterns: () => ['execution.log', 'run.inp']
   },
 
   catalog_store: {
     label: 'Catalog Storage',
+    defaultAccessMode: 'db-modifying',
+    subCategoryField: 'entityType',
+    targetField: 'targetName / inputFile',
+    signatureFormat: 'catalog_store::<entityType>::<targetName>',
+    extractTaxonomy: (ctx) => {
+      const subCategory = inferEntityType(ctx);
+      const targetName = inferTargetName(ctx, 'store');
+      return {
+        subCategory,
+        targetName,
+        jobSignature: `catalog_store::${subCategory}::${targetName}`
+      };
+    },
     getArtifactPatterns: () => ['*.ans', '*.out', '*.Format.out'],
     getLogPatterns: () => ['execution.log', 'run.inp']
   },
 
   db_mutation: {
     label: 'Database Mutation',
+    defaultAccessMode: 'db-modifying',
+    subCategoryField: 'entityType',
+    targetField: 'targetName',
+    signatureFormat: 'db_mutation::<entityType>::<targetName>',
+    extractTaxonomy: (ctx) => {
+      const subCategory = inferEntityType(ctx);
+      const targetName = inferTargetName(ctx, 'mutation');
+      return {
+        subCategory,
+        targetName,
+        jobSignature: `db_mutation::${subCategory}::${targetName}`
+      };
+    },
     getArtifactPatterns: () => ['*.ans', '*.out', '*.Format.out'],
     getLogPatterns: () => ['execution.log', 'run.inp']
   },
 
   read_query: {
     label: 'Database Read Query',
+    defaultAccessMode: 'read-only',
+    subCategoryField: 'entityType',
+    targetField: 'targetName',
+    signatureFormat: 'read_query::<entityType>::<targetName>',
+    extractTaxonomy: (ctx) => {
+      const subCategory = inferEntityType(ctx);
+      const targetName = inferTargetName(ctx, 'query');
+      return {
+        subCategory,
+        targetName,
+        jobSignature: `read_query::${subCategory}::${targetName}`
+      };
+    },
     getArtifactPatterns: () => ['*.ans', '*.out'],
     getLogPatterns: () => ['execution.log', 'run.inp']
   },
 
   default: {
     label: 'General Task',
+    defaultAccessMode: 'read-only',
+    subCategoryField: 'entityType',
+    targetField: 'targetName',
+    signatureFormat: 'default::<targetName>',
+    extractTaxonomy: (ctx) => {
+      const subCategory = inferEntityType(ctx);
+      const targetName = inferTargetName(ctx, 'task');
+      return {
+        subCategory,
+        targetName,
+        jobSignature: `default::${targetName}`
+      };
+    },
     getArtifactPatterns: () => ['*.Format.out', '*.ans', '*.out'],
     getLogPatterns: () => ['execution.log', 'run.inp', '*.api.inp']
   }
@@ -1143,6 +1357,19 @@ const TASK_OUTPUT_CATALOG = {
 
 function getTaskCatalogEntry(jobCategory) {
   return TASK_OUTPUT_CATALOG[jobCategory] || TASK_OUTPUT_CATALOG.default;
+}
+
+function resolveJobTaxonomy(jobCategory, ctx = {}) {
+  const entry = getTaskCatalogEntry(jobCategory);
+  const extracted = typeof entry.extractTaxonomy === 'function'
+    ? entry.extractTaxonomy(ctx)
+    : { subCategory: 'General', targetName: 'task', jobSignature: `${jobCategory || 'default'}::task` };
+  return {
+    catalogLabel: entry.label,
+    subCategory: ctx.subCategory || extracted.subCategory,
+    targetName: ctx.targetName || extracted.targetName,
+    jobSignature: ctx.jobSignature || extracted.jobSignature
+  };
 }
 
 /**
@@ -1305,6 +1532,11 @@ async function persistUserWorkspace(
   // Mirrored subcollection doc path: users/{uid}/logs/{accessMode}/years/{year}/months/{month}/days/{day}/categories/{jobCategory}/jobs/{jobId}
   const mirroredDocPath = `users/${uid}/logs/${accessMode}/years/${year}/months/${month}/days/${day}/categories/${jobCategory}/jobs/${jobId}`;
 
+  const taxonomy = resolveJobTaxonomy(jobCategory, {
+    ...(mechanismMetadata || {}),
+    files: fileManifest
+  });
+
   try {
     const jobData = {
       jobId,
@@ -1319,7 +1551,10 @@ async function persistUserWorkspace(
       accessMode,
       jobCategory,
       taskCatalog: jobCategory,
-      catalogLabel: catalogEntry.label,
+      catalogLabel: taxonomy.catalogLabel,
+      subCategory: taxonomy.subCategory,
+      targetName: taxonomy.targetName,
+      jobSignature: taxonomy.jobSignature,
       expectedArtifactPatterns,
       isReadOnly,
       gcsPrefix: `gs://${BUCKET_NAME}/${gcsPrefix}`,
@@ -1332,10 +1567,13 @@ async function persistUserWorkspace(
       files: fileManifest,
       artifacts: artifactPaths,
       ...(mechanismMetadata ? {
-        mechName: mechanismMetadata.mechName,
-        molecule: mechanismMetadata.molecule,
-        rootName: mechanismMetadata.rootName,
-        mechanism: mechanismMetadata
+        ...(mechanismMetadata.mechName ? { mechName: mechanismMetadata.mechName } : {}),
+        ...(mechanismMetadata.molecule ? { molecule: mechanismMetadata.molecule } : {}),
+        ...(mechanismMetadata.rootName ? { rootName: mechanismMetadata.rootName } : {}),
+        ...(mechanismMetadata.inputFile ? { inputFile: mechanismMetadata.inputFile } : {}),
+        ...(mechanismMetadata.root ? { root: mechanismMetadata.root } : {}),
+        ...(mechanismMetadata.targetItem ? { targetItem: mechanismMetadata.targetItem } : {}),
+        ...(mechanismMetadata.storageDirectory ? { mechanism: mechanismMetadata } : {})
       } : {})
     };
 
@@ -1713,10 +1951,32 @@ app.get('/api/catalog/task-outputs', authenticateUser, (req, res) => {
   const catalogList = Object.entries(TASK_OUTPUT_CATALOG).map(([key, item]) => ({
     category: key,
     label: item.label,
+    defaultAccessMode: item.defaultAccessMode || 'read-only',
+    subCategoryField: item.subCategoryField || 'entityType',
+    targetField: item.targetField || 'targetName',
+    signatureFormat: item.signatureFormat || `${key}::<targetName>`,
     artifactPatterns: item.getArtifactPatterns({ mechName: '<mechName>', rootName: '<rootName>' }),
     logPatterns: item.getLogPatterns({ mechName: '<mechName>', rootName: '<rootName>' })
   }));
   return res.json({ success: true, catalog: catalogList });
+});
+
+/**
+ * GET /api/logs/taxonomy
+ * Returns the declarative Job Category Subdivision Table for UI tree grouping & reference.
+ */
+app.get('/api/logs/taxonomy', authenticateUser, (req, res) => {
+  const taxonomy = Object.entries(TASK_OUTPUT_CATALOG)
+    .filter(([key]) => key !== 'default')
+    .map(([key, item]) => ({
+      jobCategory: key,
+      label: item.label,
+      defaultAccessMode: item.defaultAccessMode || 'read-only',
+      subCategoryField: item.subCategoryField || 'entityType',
+      targetField: item.targetField || 'targetName',
+      signatureFormat: item.signatureFormat || `${key}::<targetName>`
+    }));
+  return res.json({ success: true, taxonomy });
 });
 
 /**
@@ -1805,11 +2065,16 @@ app.get('/api/logs/list', authenticateUser, async (req, res) => {
       const datePart = data.datePartition || (data.timestamp ? data.timestamp.substring(0, 10).replace(/-/g, '/') : '2026/09/27');
       const accessMode = data.accessMode || 'read-only';
       const jobCategory = data.jobCategory || 'script_runner';
+      const taxonomy = resolveJobTaxonomy(jobCategory, data);
 
       jobsMap.set(jobId, {
         ...data,
         accessMode,
         jobCategory,
+        catalogLabel: data.catalogLabel || taxonomy.catalogLabel,
+        subCategory: data.subCategory || taxonomy.subCategory,
+        targetName: data.targetName || taxonomy.targetName,
+        jobSignature: data.jobSignature || taxonomy.jobSignature,
         datePartition: datePart,
         docPath: data.docPath || doc.ref.path
       });
@@ -1871,6 +2136,78 @@ app.get('/api/logs/content', authenticateUser, async (req, res) => {
  * DELETE /api/logs/job
  * Deletes a single job execution log record and purges all GCS artifacts under gcsPrefix.
  */
+/**
+ * Shared 5-step hard deletion helper following REACTCloudLoggingStrategy:
+ * 1. GCS prefix purge
+ * 2. Primary mirrored Firestore doc
+ * 3. Flat user job doc
+ * 4. collectionGroup('jobs') sweep
+ * 5. Session subcollection sweep (users/{uid}/sessions/{sessionId}/jobs/{jobId})
+ */
+async function hardDeleteJobRecord({ jobId, gcsPrefix, docPath, targetUserId, isSuperAdmin }) {
+  const bucket = storage.bucket(BUCKET_NAME);
+  let deletedFilesCount = 0;
+
+  // 1. Purge GCS Cloud Storage files
+  if (gcsPrefix) {
+    let rawPrefix = String(gcsPrefix).replace(`gs://${BUCKET_NAME}/`, '');
+    if (rawPrefix.startsWith('/')) rawPrefix = rawPrefix.slice(1);
+    if (!rawPrefix.endsWith('/')) rawPrefix = `${rawPrefix}/`;
+
+    if (!isSuperAdmin && !rawPrefix.startsWith(`users/${targetUserId}/`)) {
+      const err = new Error('Forbidden: GCS prefix does not match user namespace');
+      err.statusCode = 403;
+      throw err;
+    }
+
+    try {
+      const [files] = await bucket.getFiles({ prefix: rawPrefix });
+      await bucket.deleteFiles({ prefix: rawPrefix });
+      deletedFilesCount = files.length;
+      console.log(`[Log Purge] Purged ${deletedFilesCount} files under GCS prefix: ${rawPrefix}`);
+    } catch (gcsErr) {
+      console.warn(`[Log Purge Warning] GCS cleanup error: ${gcsErr.message}`);
+    }
+  }
+
+  // 2. Delete Primary Firestore Document
+  if (docPath) {
+    if (isSuperAdmin || String(docPath).startsWith(`users/${targetUserId}/`)) {
+      await firestore.doc(docPath).delete().catch(() => {});
+    }
+  }
+
+  // 3. Secondary cleanup of flat user job doc
+  await firestore.collection('users').doc(targetUserId).collection('jobs').doc(jobId).delete().catch(() => {});
+
+  // 4. Clean up all matching job documents across collectionGroup('jobs')
+  try {
+    const groupSnap = await firestore.collectionGroup('jobs')
+      .where('jobId', '==', jobId)
+      .get();
+    for (const d of groupSnap.docs) {
+      const data = d.data();
+      if (isSuperAdmin || data.userId === targetUserId || d.ref.path.includes(`users/${targetUserId}/`)) {
+        await d.ref.delete().catch(() => {});
+      }
+    }
+  } catch (cgErr) {
+    console.warn(`[Delete Log Job Warning] collectionGroup cleanup for ${jobId}: ${cgErr.message}`);
+  }
+
+  // 5. Sweep all session job documents under users/{targetUserId}/sessions/*/jobs/{jobId}
+  try {
+    const sessionsSnap = await firestore.collection('users').doc(targetUserId).collection('sessions').get();
+    for (const sessDoc of sessionsSnap.docs) {
+      await sessDoc.ref.collection('jobs').doc(jobId).delete().catch(() => {});
+    }
+  } catch (sessErr) {
+    console.warn(`[Delete Log Job Warning] Session cleanup error: ${sessErr.message}`);
+  }
+
+  return { deletedFilesCount };
+}
+
 app.delete('/api/logs/job', authenticateUser, async (req, res) => {
   try {
     const { jobId, gcsPrefix, docPath, userId } = req.body;
@@ -1886,63 +2223,13 @@ app.delete('/api/logs/job', authenticateUser, async (req, res) => {
       return res.status(403).json({ error: 'Unauthorized: Cannot delete logs belonging to another user' });
     }
 
-    const bucket = storage.bucket(BUCKET_NAME);
-    let deletedFilesCount = 0;
-
-    // 1. Purge GCS Cloud Storage files (verify prefix belongs to targetUserId unless admin)
-    if (gcsPrefix) {
-      let rawPrefix = String(gcsPrefix).replace(`gs://${BUCKET_NAME}/`, '');
-      if (rawPrefix.startsWith('/')) rawPrefix = rawPrefix.slice(1);
-      if (!rawPrefix.endsWith('/')) rawPrefix = `${rawPrefix}/`;
-
-      if (!isSuperAdmin && !rawPrefix.startsWith(`users/${targetUserId}/`)) {
-        return res.status(403).json({ error: 'Forbidden: GCS prefix does not match user namespace' });
-      }
-
-      try {
-        const [files] = await bucket.getFiles({ prefix: rawPrefix });
-        await bucket.deleteFiles({ prefix: rawPrefix });
-        deletedFilesCount = files.length;
-        console.log(`[Log Purge] Purged ${deletedFilesCount} files under GCS prefix: ${rawPrefix}`);
-      } catch (gcsErr) {
-        console.warn(`[Log Purge Warning] GCS cleanup error: ${gcsErr.message}`);
-      }
-    }
-
-    // 2. Delete Primary Firestore Document (verify docPath belongs to targetUserId unless admin)
-    if (docPath) {
-      if (isSuperAdmin || String(docPath).startsWith(`users/${targetUserId}/`)) {
-        await firestore.doc(docPath).delete().catch(() => {});
-      }
-    }
-
-    // 3. Secondary cleanup of flat user job doc
-    await firestore.collection('users').doc(targetUserId).collection('jobs').doc(jobId).delete().catch(() => {});
-
-    // 4. Clean up all matching job documents across collectionGroup('jobs') (includes session job subcollections)
-    try {
-      const groupSnap = await firestore.collectionGroup('jobs')
-        .where('jobId', '==', jobId)
-        .get();
-      for (const d of groupSnap.docs) {
-        const data = d.data();
-        if (isSuperAdmin || data.userId === targetUserId || d.ref.path.includes(`users/${targetUserId}/`)) {
-          await d.ref.delete().catch(() => {});
-        }
-      }
-    } catch (cgErr) {
-      console.warn(`[Delete Log Job Warning] collectionGroup cleanup for ${jobId}: ${cgErr.message}`);
-    }
-
-    // 5. Sweep all session job documents under users/{targetUserId}/sessions/*/jobs/{jobId}
-    try {
-      const sessionsSnap = await firestore.collection('users').doc(targetUserId).collection('sessions').get();
-      for (const sessDoc of sessionsSnap.docs) {
-        await sessDoc.ref.collection('jobs').doc(jobId).delete().catch(() => {});
-      }
-    } catch (sessErr) {
-      console.warn(`[Delete Log Job Warning] Session cleanup error: ${sessErr.message}`);
-    }
+    const { deletedFilesCount } = await hardDeleteJobRecord({
+      jobId,
+      gcsPrefix,
+      docPath,
+      targetUserId,
+      isSuperAdmin
+    });
 
     return res.json({
       success: true,
@@ -1952,7 +2239,80 @@ app.delete('/api/logs/job', authenticateUser, async (req, res) => {
     });
   } catch (err) {
     console.error('[Delete Log Job Error]', err);
-    return res.status(500).json({ error: err.message });
+    return res.status(err.statusCode || 500).json({ error: err.message });
+  }
+});
+
+/**
+ * POST /api/logs/prune-superseded
+ * Deletes older (non-latest) runs sharing the same (jobCategory, jobSignature) for a user.
+ * Keeps the single most recent run per signature. Optionally scoped by jobCategory and/or jobSignature.
+ */
+app.post('/api/logs/prune-superseded', authenticateUser, async (req, res) => {
+  try {
+    const requestingUid = req.user.uid;
+    const isSuperAdmin = Boolean(req.user.isAdmin);
+    const { targetUserId: requestedUid, jobCategory: filterCategory, jobSignature: filterSignature } = req.body || {};
+
+    const targetUserId = (isSuperAdmin && requestedUid) ? requestedUid : requestingUid;
+    if (!isSuperAdmin && targetUserId !== requestingUid) {
+      return res.status(403).json({ error: 'Unauthorized: Cannot prune logs belonging to another user' });
+    }
+
+    const snap = await firestore.collection('users').doc(targetUserId).collection('jobs').get();
+    const groups = new Map();
+
+    for (const doc of snap.docs) {
+      const data = doc.data();
+      const jobId = data.jobId || doc.id;
+      const jobCategory = data.jobCategory || 'script_runner';
+      const taxonomy = resolveJobTaxonomy(jobCategory, data);
+      const jobSignature = data.jobSignature || taxonomy.jobSignature;
+
+      if (filterCategory && jobCategory !== filterCategory) continue;
+      if (filterSignature && jobSignature !== filterSignature) continue;
+
+      const groupKey = `${jobCategory}::${jobSignature}`;
+      if (!groups.has(groupKey)) groups.set(groupKey, []);
+      groups.get(groupKey).push({
+        ...data,
+        jobId,
+        jobCategory,
+        jobSignature,
+        docPath: data.docPath || doc.ref.path
+      });
+    }
+
+    const prunedJobIds = [];
+    let totalDeletedFiles = 0;
+
+    for (const groupJobs of groups.values()) {
+      if (groupJobs.length <= 1) continue;
+      groupJobs.sort((a, b) => new Date(b.timestamp || 0).getTime() - new Date(a.timestamp || 0).getTime());
+      const superseded = groupJobs.slice(1);
+      for (const oldJob of superseded) {
+        const { deletedFilesCount } = await hardDeleteJobRecord({
+          jobId: oldJob.jobId,
+          gcsPrefix: oldJob.rawGcsPrefix || oldJob.gcsPrefix,
+          docPath: oldJob.docPath,
+          targetUserId,
+          isSuperAdmin
+        });
+        prunedJobIds.push(oldJob.jobId);
+        totalDeletedFiles += deletedFilesCount;
+      }
+    }
+
+    console.log(`[Prune Superseded] Pruned ${prunedJobIds.length} superseded jobs (${totalDeletedFiles} GCS files) for user ${targetUserId}`);
+    return res.json({
+      success: true,
+      prunedCount: prunedJobIds.length,
+      deletedFilesCount: totalDeletedFiles,
+      prunedJobIds
+    });
+  } catch (err) {
+    console.error('[Prune Superseded Error]', err);
+    return res.status(err.statusCode || 500).json({ error: err.message });
   }
 });
 
@@ -2368,7 +2728,11 @@ app.post('/api/run-input', authenticateUser, async (req, res) => {
 
       // Async background persistence & cleanup
       const classification = classifyJob(req.body, '', inputFile);
-      persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classification, inputFileManifest, null, initialWorkspaceFiles)
+      persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classification, inputFileManifest, {
+        inputFile,
+        root: root || '',
+        targetItem: req.body?.targetItem || ''
+      }, initialWorkspaceFiles)
         .then(fileManifest => {
           res.json({
             jobId,
@@ -2609,7 +2973,11 @@ app.post('/api/run-commands', authenticateUser, async (req, res) => {
 
       // Async background GCS persistence & cleanup
       const classification = classifyJob(req.body, commandText, '');
-      persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classification, inputFileManifest, null, preExistingFiles)
+      persistUserWorkspace(uid, sessionId, workspaceDir, jobId, classification, inputFileManifest, {
+        root: root || '',
+        targetItem: req.body?.targetItem || '',
+        commandText
+      }, preExistingFiles)
         .catch(err => {
           console.warn(`[GCS Persist Warning] ${err.message}`);
         })

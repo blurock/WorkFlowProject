@@ -17,6 +17,15 @@ export interface LogExecutionSummary {
   errorSnippet?: string;
 }
 
+export interface JobCategoryTaxonomyItem {
+  jobCategory: string;
+  label: string;
+  defaultAccessMode: 'read-only' | 'db-modifying';
+  subCategoryField: string;
+  targetField: string;
+  signatureFormat: string;
+}
+
 export interface LogJobDocument {
   jobId: string;
   sessionId: string;
@@ -29,6 +38,16 @@ export interface LogJobDocument {
   day?: string;
   accessMode: 'read-only' | 'db-modifying';
   jobCategory: string;
+  catalogLabel?: string;
+  subCategory?: string;
+  targetName?: string;
+  jobSignature?: string;
+  molecule?: string;
+  rootName?: string;
+  mechName?: string;
+  inputFile?: string;
+  root?: string;
+  targetItem?: string;
   isReadOnly?: boolean;
   gcsPrefix: string;
   rawGcsPrefix?: string;
@@ -44,10 +63,18 @@ export interface LogTreeNode {
   id: string;
   label: string;
   path: string;
-  type: 'user' | 'logs' | 'accessMode' | 'year' | 'month' | 'day' | 'category' | 'job';
+  type: 'user' | 'logs' | 'accessMode' | 'year' | 'month' | 'day' | 'category' | 'subCategory' | 'jobGroup' | 'job';
   children?: LogTreeNode[];
   data?: LogJobDocument;
   isExpanded?: boolean;
+  count?: number;
+  accessMode?: 'read-only' | 'db-modifying';
+  jobCategory?: string;
+  jobSignature?: string;
+  status?: 'SUCCESS' | 'FAILED' | 'RUNNING';
+  timestamp?: string;
+  supersededJobs?: LogJobDocument[];
+  showSuperseded?: boolean;
 }
 
 export interface LogFilterQuery {
@@ -59,4 +86,5 @@ export interface LogFilterQuery {
   userId?: string;
   userEmail?: string;
   searchTerm?: string;
+  latestOnly?: boolean;
 }

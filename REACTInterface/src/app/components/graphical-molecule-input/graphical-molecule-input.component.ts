@@ -22,6 +22,7 @@ import { ExecutionOutputParserService, ExecutionOutputSections, MoleculeSubSecti
 import { TaskOutputParserService } from '../../services/task-output-parser.service';
 import { ChemStructureParserService } from '../../services/chem-structure-parser.service';
 import { TargetMoleculeService } from '../../services/target-molecule.service';
+import { AuthService } from '../../services/auth.service';
 import { CommandTemplatesRegistry } from '../../templates/command-templates.registry';
 import { MoleculeSection } from '../../models/task-list.models';
 import { ElectronicPropertiesCardComponent } from '../task-list-view/cards/electronic-properties-card.component';
@@ -131,8 +132,16 @@ export class GraphicalMoleculeInputComponent implements OnInit {
     private taskOutputParser: TaskOutputParserService,
     private chemParser: ChemStructureParserService,
     private targetMoleculeService: TargetMoleculeService,
+    public authService: AuthService,
     private snackBar: MatSnackBar
   ) {}
+
+  public get checkDatabaseScopeLabel(): string {
+    const scope = this.authService.activeViewScope();
+    if (scope === 'personal') return 'Personal';
+    if (scope === 'system') return 'System';
+    return 'Combined';
+  }
 
   ngOnInit(): void {
     this.resetThermodynamicDefaults();
@@ -344,12 +353,13 @@ export class GraphicalMoleculeInputComponent implements OnInit {
       this.checkCompleted = true;
       this.inDatabase = foundExact;
 
+      const scopeLabel = this.checkDatabaseScopeLabel;
       if (this.inDatabase) {
-        this.statusMessage = `Structure already exists in REACT database (${this.matchedDbId}).`;
-        this.snackBar.open(`Structure already exists in DB (${this.matchedDbId})`, 'Dismiss', { duration: 4000 });
+        this.statusMessage = `Structure already exists in ${scopeLabel} database (${this.matchedDbId}).`;
+        this.snackBar.open(`Structure already exists in ${scopeLabel} DB (${this.matchedDbId})`, 'Dismiss', { duration: 4000 });
       } else {
-        this.statusMessage = 'Structure is NEW. Ready to store in database!';
-        this.snackBar.open('Structure is NEW. You can now store it in the database.', 'OK', { duration: 3500 });
+        this.statusMessage = `Structure is NEW in ${scopeLabel} database. Ready to store!`;
+        this.snackBar.open(`Structure is NEW in ${scopeLabel} DB. You can now store it in the database.`, 'OK', { duration: 3500 });
       }
 
     } catch (err: any) {

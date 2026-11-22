@@ -39,7 +39,7 @@ export class LandingPageComponent {
   public passwordInput: string = '';
   public displayNameInput: string = '';
 
-  public activeProviderLoading: 'google' | 'github' | 'microsoft' | 'email' | null = null;
+  public activeProviderLoading: 'google' | 'github' | 'facebook' | 'email' | null = null;
   public authError: string | null = null;
   public authSuccessMsg: string | null = null;
 
@@ -67,8 +67,8 @@ export class LandingPageComponent {
     await this.runProviderLogin('github', () => this.authService.loginWithGithub());
   }
 
-  public async onMicrosoftLogin(): Promise<void> {
-    await this.runProviderLogin('microsoft', () => this.authService.loginWithMicrosoft());
+  public async onFacebookLogin(): Promise<void> {
+    await this.runProviderLogin('facebook', () => this.authService.loginWithFacebook());
   }
 
   public async onEmailSubmit(): Promise<void> {
@@ -110,7 +110,7 @@ export class LandingPageComponent {
   }
 
   private async runProviderLogin(
-    provider: 'google' | 'github' | 'microsoft' | 'email',
+    provider: 'google' | 'github' | 'facebook' | 'email',
     action: () => Promise<any>
   ): Promise<void> {
     this.activeProviderLoading = provider;

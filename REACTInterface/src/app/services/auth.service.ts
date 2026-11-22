@@ -6,7 +6,7 @@ import {
   getAuth,
   GoogleAuthProvider,
   GithubAuthProvider,
-  OAuthProvider,
+  FacebookAuthProvider,
   signInWithPopup,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -317,11 +317,10 @@ export class AuthService {
   }
 
   /**
-   * 3. Microsoft Sign-In (OAuth Popup)
+   * 3. Facebook Sign-In (OAuth Popup)
    */
-  public async loginWithMicrosoft(): Promise<UserProfile> {
-    const provider = new OAuthProvider('microsoft.com');
-    provider.setCustomParameters({ prompt: 'select_account' });
+  public async loginWithFacebook(): Promise<UserProfile> {
+    const provider = new FacebookAuthProvider();
     const result = await signInWithPopup(this.firebaseAuth, provider);
     return this.hydrateProfileFromFirebaseUser(result.user, true);
   }

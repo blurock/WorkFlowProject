@@ -250,7 +250,7 @@
             [disabled]="isChecking || isStoring"
             class="action-btn">
             <mat-icon>{{ isChecking ? 'hourglass_top' : 'search' }}</mat-icon>
-            {{ isChecking ? 'Checking Existence...' : 'Check Database' }}
+            {{ isChecking ? 'Checking ' + checkDatabaseScopeLabel + ' Database...' : 'Check ' + checkDatabaseScopeLabel + ' Database' }}
           </button>
 
           <!-- Step 2 Button: Store in Database (Appears ONLY if NOT in database) -->

@@ -40,6 +40,10 @@
         <span class="metric-label">Storage Consumed</span>
         <span class="metric-value highlight">{{ totalStorageFormatted() }}</span>
       </div>
+      <button class="btn btn-secondary btn-sm" (click)="showTaxonomyModal.set(true)"
+        title="View how each job category subdivides and groups repeated runs">
+        Category Rules
+      </button>
       <button class="btn btn-secondary btn-sm" (click)="loadLogs(true)" [disabled]="isLoading()">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
           stroke="currentColor" stroke-width="2">
@@ -71,16 +75,32 @@
         <circle cx="11" cy="11" r="8" />
         <path d="m21 21-4.3-4.3" />
       </svg>
-      <input type="text" placeholder="Search by Job ID, email, or filename..." [(ngModel)]="filter().searchTerm"
-        (input)="onFilterChange()" />
+      <input type="text" placeholder="Search by target, molecule, pathway, category, job ID, or file..."
+        [(ngModel)]="filter().searchTerm" (input)="onFilterChange()" />
     </div>
 
     <div class="filter-group">
+      <!-- Super Admin Single-User Selector (defaults to Admin's own logs) -->
+      <ng-container *ngIf="isSuperAdmin()">
+        <label for="admin-user-select">User:</label>
+        <select id="admin-user-select" [ngModel]="selectedUserId()" (ngModelChange)="onSelectedUserChange($event)">
+          <option *ngFor="let u of selectableUsers()" [value]="u.uid">
+            {{ u.email || u.displayName || u.uid }}{{ u.uid === authService.currentUser()?.uid ? ' (You)' : '' }}
+          </option>
+        </select>
+      </ng-container>
+
       <label>Access Mode:</label>
       <select [(ngModel)]="filter().accessMode" (change)="onFilterChange()">
         <option value="all">All Modes</option>
-        <option value="read-only">Read Only</option>
         <option value="db-modifying">DB Modifying</option>
+        <option value="read-only">Read Only</option>
+      </select>
+
+      <label>Category:</label>
+      <select [(ngModel)]="filter().jobCategory" (change)="onFilterChange()">
+        <option value="all">All Categories</option>
+        <option *ngFor="let item of taxonomy()" [value]="item.jobCategory">{{ item.label }}</option>
       </select>
 
       <label>Status:</label>
@@ -89,6 +109,17 @@
         <option value="SUCCESS">Success</option>
         <option value="FAILED">Failed</option>
       </select>
+
+      <label class="latest-only-toggle" title="Collapse older repeated runs of the same job behind the latest run">
+        <input type="checkbox" [(ngModel)]="filter().latestOnly" (change)="onFilterChange()" />
+        <span>Latest Only</span>
+      </label>
+
+      <button *ngIf="supersededCount() > 0" type="button" class="btn btn-warning btn-sm"
+        (click)="promptPruneAllSuperseded()" [disabled]="isPruning()"
+        title="Permanently delete older superseded runs while keeping the most recent run for each job">
+        Prune Superseded ({{ supersededCount() }})
+      </button>
     </div>
 
     <!-- View Mode Switcher -->
@@ -288,40 +319,90 @@
       </div>
     </div>
 
-    <!-- JOB DOCUMENT VIEW (FIRESTORE DOCUMENT INSPECTOR) -->
+    <!-- JOB DOCUMENT VIEW (HIERARCHICAL TREE + FIRESTORE DOCUMENT INSPECTOR) -->
     <div *ngIf="!isLoading() && viewMode() === 'jobs' && jobs().length > 0" class="job-doc-view-container">
-      <!-- Master: Firestore Job Documents List -->
+      <!-- Master: Hierarchical Execution Tree Sidebar -->
       <aside class="job-doc-list-sidebar">
         <div class="sidebar-header">
-          <h3>Firestore Job Documents</h3>
-          <span class="count-badge">{{ jobs().length }}</span>
-        </div>
-        <div class="job-doc-cards">
-          <div *ngFor="let job of jobs()" class="job-doc-card" [class.active]="selectedJob()?.jobId === job.jobId"
-            (click)="selectJob(job)">
-            <div class="card-top">
-              <span class="status-indicator" [class.success]="job.status === 'SUCCESS'"
-                [class.failed]="job.status === 'FAILED'"></span>
-              <span class="category-tag">{{ job.jobCategory }}</span>
-              <span class="mode-tag-sm" [class.db-modifying]="job.accessMode === 'db-modifying'">{{ job.accessMode
-                }}</span>
-            </div>
-            <div class="card-title">
-              <code>{{ job.jobId }}</code>
-            </div>
-            <div class="card-meta">
-              <span class="user-meta" *ngIf="isSuperAdmin()">{{ job.userEmail || job.userId }}</span>
-              <span class="time-meta">{{ formatDate(job.timestamp) }}</span>
-            </div>
-            <div class="card-path" *ngIf="job.docPath">
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2">
-                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
-              </svg>
-              <code>{{ job.docPath }}</code>
-            </div>
+          <div class="sidebar-title-row">
+            <h3>Execution Tree</h3>
+            <span class="count-badge">{{ jobs().length }}</span>
+          </div>
+          <div class="sidebar-tree-actions">
+            <button type="button" class="mini-tree-btn" (click)="expandAllJobTree()" title="Expand all branches">Expand</button>
+            <button type="button" class="mini-tree-btn" (click)="collapseAllJobTree()" title="Collapse all branches">Collapse</button>
           </div>
         </div>
+        <div class="job-tree-scroll">
+          <ng-container *ngTemplateOutlet="jobTreeRecursive; context: { nodes: jobTreeNodes(), depth: 0 }"></ng-container>
+        </div>
+
+        <ng-template #jobTreeRecursive let-nodes="nodes" let-depth="depth">
+          <ul class="job-tree-list" [class.root-level]="depth === 0">
+            <li *ngFor="let node of nodes" class="job-tree-item">
+              <!-- Branch Nodes: Access Mode -> Display Label (Category) -> Subcategory -->
+              <div *ngIf="node.type !== 'job' && node.type !== 'jobGroup'"
+                class="job-tree-branch"
+                [class.branch-mode]="node.type === 'accessMode'"
+                [class.branch-category]="node.type === 'category'"
+                [class.branch-subcategory]="node.type === 'subCategory'"
+                [class.mode-modifying]="node.type === 'accessMode' && node.accessMode === 'db-modifying'"
+                [class.mode-readonly]="node.type === 'accessMode' && node.accessMode === 'read-only'"
+                (click)="toggleTreeNode(node, $event)">
+                <svg class="chevron-icon" [class.expanded]="node.isExpanded" xmlns="http://www.w3.org/2000/svg"
+                  width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="m9 18 6-6-6-6" />
+                </svg>
+                <span class="branch-label" [title]="node.label">{{ node.label }}</span>
+                <span class="branch-count">{{ node.count || 0 }}</span>
+              </div>
+
+              <!-- Leaf Node: Target / Job Group (Latest Run + Optional Expandable Older Runs) -->
+              <div *ngIf="node.type === 'job' || node.type === 'jobGroup'"
+                class="job-tree-leaf"
+                [class.active]="selectedJob()?.jobId === node.data?.jobId"
+                (click)="toggleTreeNode(node, $event)">
+                <div class="leaf-main-row">
+                  <span class="status-indicator"
+                    [class.success]="node.data?.status === 'SUCCESS'"
+                    [class.failed]="node.data?.status === 'FAILED'"></span>
+                  <span class="leaf-label" [title]="node.label">{{ node.label }}</span>
+                  <span class="leaf-time">{{ formatShortTime(node.data?.timestamp) }}</span>
+                </div>
+                <div *ngIf="node.supersededJobs && node.supersededJobs.length > 0" class="leaf-superseded-row">
+                  <button type="button" class="superseded-pill" (click)="toggleSupersededRuns(node, $event)"
+                    [title]="node.showSuperseded ? 'Hide older runs' : 'Show older runs of this job'">
+                    {{ node.showSuperseded ? 'Hide' : '+' + node.supersededJobs.length + ' older' }}
+                  </button>
+                  <button type="button" class="prune-group-btn" (click)="promptPruneGroupSuperseded(node, $event)"
+                    [title]="'Permanently delete ' + node.supersededJobs.length + ' older run(s) of ' + node.label">
+                    Prune
+                  </button>
+                </div>
+              </div>
+
+              <!-- Expanded Superseded Older Runs under a Job Group -->
+              <ul *ngIf="node.type === 'jobGroup' && node.showSuperseded && node.supersededJobs && node.supersededJobs.length > 0"
+                class="superseded-list">
+                <li *ngFor="let oldJob of node.supersededJobs"
+                  class="superseded-item"
+                  [class.active]="selectedJob()?.jobId === oldJob.jobId"
+                  (click)="selectJob(oldJob)">
+                  <span class="status-indicator"
+                    [class.success]="oldJob.status === 'SUCCESS'"
+                    [class.failed]="oldJob.status === 'FAILED'"></span>
+                  <span class="superseded-time">{{ formatShortTime(oldJob.timestamp) }}</span>
+                  <code class="superseded-id">{{ oldJob.jobId }}</code>
+                </li>
+              </ul>
+
+              <!-- Recursive Children -->
+              <div *ngIf="node.children && node.children.length > 0 && node.isExpanded" class="job-tree-children">
+                <ng-container *ngTemplateOutlet="jobTreeRecursive; context: { nodes: node.children, depth: depth + 1 }"></ng-container>
+              </div>
+            </li>
+          </ul>
+        </ng-template>
       </aside>
 
       <!-- Detail: Firestore Job Document Inspector & File Viewer -->
@@ -409,7 +490,15 @@
             </div>
             <div class="field-item">
               <span class="f-label">Job Category</span>
-              <span class="f-val"><span class="category-pill">{{ job.jobCategory }}</span></span>
+              <span class="f-val"><span class="category-pill">{{ job.catalogLabel || job.jobCategory }}</span></span>
+            </div>
+            <div class="field-item">
+              <span class="f-label">Subcategory / Target</span>
+              <span class="f-val">{{ job.subCategory || 'General' }} &rarr; <strong>{{ job.targetName || job.jobId }}</strong></span>
+            </div>
+            <div class="field-item">
+              <span class="f-label">Job Signature</span>
+              <span class="f-val"><code>{{ job.jobSignature || job.jobId }}</code></span>
             </div>
             <div class="field-item">
               <span class="f-label">Timestamp</span>
@@ -497,53 +586,56 @@
     </div>
 
     <!-- DATA GRID VIEW -->
-    <div *ngIf="!isLoading() && viewMode() === 'grid' && jobs().length > 0" class="grid-view-container">
+    <div *ngIf="!isLoading() && viewMode() === 'grid' && displayedGridJobs().length > 0" class="grid-view-container">
       <table class="logs-table">
         <thead>
           <tr>
             <th>Status</th>
-            <th>Job ID</th>
-            <th *ngIf="isSuperAdmin()">User</th>
             <th>Category</th>
+            <th>Subcategory / Target</th>
             <th>Access Mode</th>
+            <th>Job ID</th>
             <th>Date & Time</th>
             <th>Total Size</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let job of jobs()" (click)="selectJob(job)" [class.selected]="selectedJob()?.jobId === job.jobId">
+          <tr *ngFor="let row of displayedGridJobs()" (click)="selectJob(row.job)" [class.selected]="selectedJob()?.jobId === row.job.jobId">
             <td>
-              <span class="status-badge" [class.success]="job.status === 'SUCCESS'"
-                [class.failed]="job.status === 'FAILED'">
-                {{ job.status || 'SUCCESS' }}
+              <span class="status-badge" [class.success]="row.job.status === 'SUCCESS'"
+                [class.failed]="row.job.status === 'FAILED'">
+                {{ row.job.status || 'SUCCESS' }}
+              </span>
+            </td>
+            <td>
+              <span class="category-pill">{{ row.job.catalogLabel || row.job.jobCategory }}</span>
+            </td>
+            <td class="target-cell">
+              <span class="subcat-label">{{ row.job.subCategory || 'General' }}</span>
+              <span class="target-sep">/</span>
+              <strong>{{ row.job.targetName || row.job.jobId }}</strong>
+              <span *ngIf="row.olderCount > 0" class="superseded-pill inline-pill">+{{ row.olderCount }} older</span>
+            </td>
+            <td>
+              <span class="mode-tag" [class.db-modifying]="row.job.accessMode === 'db-modifying'">
+                {{ row.job.accessMode }}
               </span>
             </td>
             <td class="job-id-cell">
-              <code>{{ job.jobId }}</code>
+              <code>{{ row.job.jobId }}</code>
             </td>
-            <td *ngIf="isSuperAdmin()" class="user-cell">
-              {{ job.userEmail || job.userId }}
-            </td>
-            <td>
-              <span class="category-pill">{{ job.jobCategory }}</span>
-            </td>
-            <td>
-              <span class="mode-tag" [class.db-modifying]="job.accessMode === 'db-modifying'">
-                {{ job.accessMode }}
-              </span>
-            </td>
-            <td class="date-cell">{{ formatDate(job.timestamp) }}</td>
-            <td class="size-cell">{{ formatBytes(job.totalSizeBytes) }}</td>
+            <td class="date-cell">{{ formatDate(row.job.timestamp) }}</td>
+            <td class="size-cell">{{ formatBytes(row.job.totalSizeBytes) }}</td>
             <td class="actions-cell">
-              <button class="btn-icon view-btn" (click)="selectJob(job)" title="View Log Details & Content">
+              <button class="btn-icon view-btn" (click)="selectJob(row.job)" title="View Log Details & Content">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2">
                   <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
                   <circle cx="12" cy="12" r="3" />
                 </svg>
               </button>
-              <button class="btn-icon delete-btn" (click)="promptDeleteJob(job, $event)"
+              <button class="btn-icon delete-btn" (click)="promptDeleteJob(row.job, $event)"
                 title="Hard Delete GCS & Firestore Log">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2">
@@ -727,6 +819,76 @@
       <div class="modal-footer">
         <button class="btn btn-secondary" (click)="cancelPurgeAll()">Cancel</button>
         <button class="btn btn-danger" (click)="confirmPurgeAll()">Purge All Logs & Session Jobs</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRUNE SUPERSEDED CONFIRMATION MODAL -->
+  <div *ngIf="pruneConfirmContext() as ctx" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b"
+          stroke-width="2">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+          <line x1="12" y1="9" x2="12" y2="13" />
+          <line x1="12" y1="17" x2="12.01" y2="17" />
+        </svg>
+        <h3>Prune Superseded Runs</h3>
+      </div>
+      <div class="modal-body">
+        <p>Permanently delete <strong>{{ ctx.count }}</strong> older superseded run(s) for <strong>{{ ctx.label }}</strong>?</p>
+        <p class="warning-text">The most recent run for each job signature will be kept. All older runs will be purged
+          from Firestore (mirrored logs, flat jobs, and session jobs) and Cloud Storage.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="cancelPruneSuperseded()" [disabled]="isPruning()">Cancel</button>
+        <button class="btn btn-warning" (click)="confirmPruneSuperseded()" [disabled]="isPruning()">
+          {{ isPruning() ? 'Pruning...' : 'Prune ' + ctx.count + ' Older Run(s)' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORY SUBDIVISION RULES REFERENCE MODAL -->
+  <div *ngIf="showTaxonomyModal()" class="modal-overlay" (click)="showTaxonomyModal.set(false)">
+    <div class="modal-card taxonomy-modal-card" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Job Category Subdivision &amp; Deduplication Rules</h3>
+      </div>
+      <div class="modal-body taxonomy-modal-body">
+        <p class="taxonomy-intro">
+          Execution logs are organized in the tree as <strong>Access Mode &rarr; Display Label &rarr; Subcategory &rarr; Target</strong>.
+          Runs sharing the same <code>Job Signature</code> are grouped together so only the latest run appears by default.
+        </p>
+        <table class="logs-table taxonomy-table">
+          <thead>
+            <tr>
+              <th>Display Label</th>
+              <th>Category ID</th>
+              <th>Default Mode</th>
+              <th>Subcategory</th>
+              <th>Target</th>
+              <th>Same-Job Signature</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of taxonomy()">
+              <td><strong>{{ item.label }}</strong></td>
+              <td><code>{{ item.jobCategory }}</code></td>
+              <td>
+                <span class="mode-tag" [class.db-modifying]="item.defaultAccessMode === 'db-modifying'">
+                  {{ item.defaultAccessMode }}
+                </span>
+              </td>
+              <td>{{ item.subCategoryField }}</td>
+              <td>{{ item.targetField }}</td>
+              <td><code>{{ item.signatureFormat }}</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" (click)="showTaxonomyModal.set(false)">Close</button>
       </div>
     </div>
   </div>

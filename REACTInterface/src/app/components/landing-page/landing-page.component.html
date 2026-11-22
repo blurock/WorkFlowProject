@@ -90,12 +90,12 @@
 
               <button
                 mat-stroked-button
-                class="provider-btn microsoft-btn"
-                (click)="onMicrosoftLogin()"
+                class="provider-btn facebook-btn"
+                (click)="onFacebookLogin()"
                 [disabled]="activeProviderLoading !== null">
-                <mat-icon>business</mat-icon>
-                <span>Continue with Microsoft</span>
-                <mat-spinner *ngIf="activeProviderLoading === 'microsoft'" diameter="18" class="btn-spinner"></mat-spinner>
+                <mat-icon>facebook</mat-icon>
+                <span>Continue with Facebook</span>
+                <mat-spinner *ngIf="activeProviderLoading === 'facebook'" diameter="18" class="btn-spinner"></mat-spinner>
               </button>
             </div>
 
