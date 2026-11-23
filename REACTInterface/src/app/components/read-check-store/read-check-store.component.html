@@ -42,7 +42,24 @@
       </mat-form-field>
     </div>
 
-    <!-- File Drop Zone -->
+    <!-- Molecule Input Mode Toggle (Single Enriched SDF vs All Three Files) -->
+    <div class="molecule-mode-toggle-bar" *ngIf="dataType === 'molecule'">
+      <span class="toggle-label">Molecule Input Mode:</span>
+      <div class="toggle-buttons">
+        <button type="button" class="mode-toggle-btn" [class.active]="moleculeInputMode === 'single_sdf'"
+          (click)="onMoleculeInputModeChange('single_sdf')">
+          <mat-icon>description</mat-icon>
+          Single SDF (supports Enriched &gt; &lt;AlternativeNames&gt; / &gt; &lt;NASA_THERMO&gt;)
+        </button>
+        <button type="button" class="mode-toggle-btn" [class.active]="moleculeInputMode === 'three_files'"
+          (click)="onMoleculeInputModeChange('three_files')">
+          <mat-icon>library_books</mat-icon>
+          All Three Files (.sdf + -names.lst + .thm)
+        </button>
+      </div>
+    </div>
+
+    <!-- File Drop Zone (Primary SDF / Source File) -->
     <div class="file-upload-zone" [class.file-selected]="!!selectedFile">
       <div class="upload-info">
         <mat-icon class="upload-icon">upload_file</mat-icon>
@@ -56,6 +73,39 @@
       <button mat-stroked-button color="accent" (click)="fileInput.click()">
         <mat-icon>folder_open</mat-icon> Browse File
       </button>
+    </div>
+
+    <!-- Additional File Drop Zones for All Three Files Mode (-names.lst and .thm; -names.mol auto-generated) -->
+    <div class="three-files-grid" *ngIf="dataType === 'molecule' && moleculeInputMode === 'three_files'">
+      <div class="file-upload-zone compact-zone" [class.file-selected]="!!selectedNamesLstFile">
+        <div class="upload-info">
+          <mat-icon class="upload-icon">label</mat-icon>
+          <div>
+            <span class="file-name" *ngIf="selectedNamesLstFile">{{ selectedNamesLstFile.name }}</span>
+            <span class="upload-prompt" *ngIf="!selectedNamesLstFile">Alternative Names File (<code>-names.lst</code>)</span>
+            <p class="upload-subtext">Index list <code>-names.mol</code> is auto-generated automatically</p>
+          </div>
+        </div>
+        <input type="file" #namesLstInput accept=".lst,.txt" (change)="onNamesLstSelected($event)" class="hidden-file-input">
+        <button mat-stroked-button color="accent" (click)="namesLstInput.click()">
+          <mat-icon>folder_open</mat-icon> Browse -names.lst
+        </button>
+      </div>
+
+      <div class="file-upload-zone compact-zone" [class.file-selected]="!!selectedThmFile">
+        <div class="upload-info">
+          <mat-icon class="upload-icon">thermostat</mat-icon>
+          <div>
+            <span class="file-name" *ngIf="selectedThmFile">{{ selectedThmFile.name }}</span>
+            <span class="upload-prompt" *ngIf="!selectedThmFile">Thermodynamics File (<code>.thm</code>)</span>
+            <p class="upload-subtext">NASA / CHEMKIN polynomials (<code>.mol</code> list auto-generated)</p>
+          </div>
+        </div>
+        <input type="file" #thmInput accept=".thm,.txt" (change)="onThmFileSelected($event)" class="hidden-file-input">
+        <button mat-stroked-button color="accent" (click)="thmInput.click()">
+          <mat-icon>folder_open</mat-icon> Browse .thm
+        </button>
+      </div>
     </div>
   </div>
 
@@ -114,6 +164,20 @@
       <div class="visualizer-card" *ngIf="step1Completed">
         <div class="summary-badge success">
           <mat-icon>verified</mat-icon> Format Validated (Found {{ parsedStructuresCount }} Data Structure(s))
+        </div>
+        <div class="bundle-summary-strip" *ngIf="dataType === 'molecule' && bundleValidationReport">
+          <span class="bundle-chip">Molecules: <strong>{{ bundleValidationReport.summary.moleculeCount }}</strong></span>
+          <span class="bundle-chip" *ngIf="bundleValidationReport.hasAltNames || moleculeInputMode === 'three_files'">
+            Alternative Names: <strong>{{ bundleValidationReport.summary.altNameEntriesCount }}</strong>
+          </span>
+          <span class="bundle-chip" *ngIf="bundleValidationReport.hasThermo || moleculeInputMode === 'three_files'">
+            NASA/CHEMKIN Thermo: <strong>{{ bundleValidationReport.summary.thermoEntriesCount }}</strong>
+          </span>
+          <div class="bundle-warnings" *ngIf="bundleValidationReport.warnings.length > 0">
+            <div *ngFor="let w of bundleValidationReport.warnings" class="bundle-warning-line">
+              <mat-icon>warning</mat-icon> {{ w }}
+            </div>
+          </div>
         </div>
       </div>
 

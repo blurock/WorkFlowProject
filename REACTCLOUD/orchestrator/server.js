@@ -4936,6 +4936,26 @@ setupAdminIntegrityRoutes(app, {
   resolveScopeContext
 });
 
+// Database Dump/Recover & Molecule Bundle Routes
+const { setupDbBackupAndMoleculeBundleRoutes } = require('./db-backup-routes');
+setupDbBackupAndMoleculeBundleRoutes(app, {
+  firestore,
+  storage,
+  BUCKET_NAME,
+  authenticateUser,
+  scopedResolver,
+  resolveScopeContext,
+  setActiveJobScope,
+  hydrateUserWorkspace,
+  cleanupWorkspace,
+  persistUserWorkspace,
+  getSignedDownloadUrl,
+  buildLogContentUrl,
+  CHEMDB_BIN,
+  REACTROOT,
+  PORT
+});
+
 // ============================================================================
 // Bundled Static Web Assets: Ketcher Standalone (/ketcher) & REACTInterface (/)
 // ============================================================================

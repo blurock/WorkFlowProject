@@ -1356,3 +1356,105 @@
     }
   }
 }
+
+
+/* Molecule Input Mode Toggle & Three-Files Upload Grid */
+.molecule-mode-toggle-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+
+  .toggle-label {
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: #334155;
+  }
+
+  .toggle-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .mode-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #475569;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.15s;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+
+    &.active {
+      background: #1d4ed8;
+      border-color: #1d4ed8;
+      color: #ffffff;
+      font-weight: 600;
+    }
+  }
+}
+
+.three-files-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+
+  .compact-zone {
+    margin-top: 0;
+    padding: 12px 14px;
+  }
+}
+
+.bundle-summary-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+
+  .bundle-chip {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #1e40af;
+    padding: 4px 10px;
+    border-radius: 14px;
+    font-size: 0.82rem;
+  }
+
+  .bundle-warnings {
+    width: 100%;
+    margin-top: 6px;
+  }
+
+  .bundle-warning-line {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    color: #b45309;
+    margin-top: 4px;
+
+    mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+    }
+  }
+}

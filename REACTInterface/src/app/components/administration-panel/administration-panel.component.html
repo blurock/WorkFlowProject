@@ -88,6 +88,15 @@
         Mechanisms
       </button>
 
+      <button 
+        type="button" 
+        class="nav-tab-btn" 
+        [class.active]="activeSection() === 'backup'" 
+        (click)="openBackupSection()">
+        <mat-icon>backup</mat-icon>
+        Dump &amp; Recover
+      </button>
+
       <!-- Dynamic Tabs (Deduplication & Adjust Pattern) -->
       <button 
         *ngFor="let tab of dynamicTabs()" 
@@ -1127,6 +1136,173 @@
       </div>
     </div>
   </div>
+
+  <!-- ====================================================================== -->
+  <!-- SECTION: DATABASE DUMP & PARALLEL RECOVERY                             -->
+  <!-- ====================================================================== -->
+  <section *ngIf="activeSection() === 'backup'" class="backup-recover-grid">
+    <!-- Left Card: Dump Database -->
+    <div class="backup-card">
+      <div class="backup-card-header">
+        <mat-icon color="primary">cloud_download</mat-icon>
+        <div>
+          <h3>Dump Database to ASCII / Cloud Storage</h3>
+          <p>Export database collections as lossless Canonical JSON or Scientific ASCII (input-mirroring directories, molecules grouped by isomers).</p>
+        </div>
+      </div>
+
+      <div class="backup-form-group">
+        <label>Dump Format</label>
+        <select [ngModel]="dumpFormat()" (ngModelChange)="dumpFormat.set($event)">
+          <option value="json">Canonical JSON (1 .json per collection — lossless, instant recovery)</option>
+          <option value="ascii">Scientific ASCII (mol/molsdf by isomers, mol/subs, rxn/rxnpats, mech/pathways)</option>
+        </select>
+      </div>
+
+      <div class="backup-form-group">
+        <label>Database Scope</label>
+        <select *ngIf="authService.isAdmin()" [ngModel]="dumpScope()" (ngModelChange)="dumpScope.set($event)">
+          <option value="both">System + Personal Objects (Admin)</option>
+          <option value="system">System Shared Objects Only</option>
+          <option value="personal">Personal Workspace Objects Only</option>
+        </select>
+        <div *ngIf="!authService.isAdmin()" class="scope-readonly-pill">
+          <mat-icon>person</mat-icon> Personal Workspace Objects Only
+        </div>
+      </div>
+
+      <div class="backup-form-group">
+        <label>Top Directory Name</label>
+        <input type="text" [ngModel]="dumpTopDirectory()" (ngModelChange)="dumpTopDirectory.set($event)"
+          placeholder="e.g. reactcloud_backup_2026" />
+      </div>
+
+      <div class="backup-form-group">
+        <label>Output Destination</label>
+        <select [ngModel]="dumpDestination()" (ngModelChange)="dumpDestination.set($event)">
+          <option value="both">Save to Firebase / Cloud Storage + Download ZIP</option>
+          <option value="firestore_storage">Save to Firebase / Cloud Storage Only</option>
+          <option value="download">Download ZIP Archive Only</option>
+        </select>
+      </div>
+
+      <div class="backup-actions-row">
+        <button type="button" class="btn-primary" (click)="executeDatabaseDump()" [disabled]="isDumping()">
+          <mat-icon>archive</mat-icon>
+          {{ isDumping() ? 'Dumping Database...' : 'Dump Database' }}
+        </button>
+      </div>
+
+      <div *ngIf="lastDumpResult() as dumpRes" class="backup-result-box">
+        <strong>Dump Saved:</strong> <code>{{ dumpRes.backup?.topDirectory }}</code> ({{ dumpRes.fileCount }} files)
+        <a *ngIf="dumpRes.backup?.downloadUrl" [href]="dumpRes.backup.downloadUrl" target="_blank" class="backup-dl-link">
+          Download ZIP
+        </a>
+      </div>
+    </div>
+
+    <!-- Right Card: Parallel Recover Database -->
+    <div class="backup-card">
+      <div class="backup-card-header">
+        <mat-icon color="accent">restore</mat-icon>
+        <div>
+          <h3>Recover Database from Dump</h3>
+          <p>Restore from a saved Firebase / Cloud Storage JSON backup or uploaded collection JSON files with a dry-run preview.</p>
+        </div>
+      </div>
+
+      <div class="backup-form-group">
+        <label>Recovery Source</label>
+        <div class="inline-radio-row">
+          <label><input type="radio" name="recSrc" [checked]="recoverSourceMode() === 'cloud'" (change)="recoverSourceMode.set('cloud'); recoveryPreview.set(null)" /> Firebase / Cloud Storage Backup</label>
+          <label><input type="radio" name="recSrc" [checked]="recoverSourceMode() === 'upload'" (change)="recoverSourceMode.set('upload'); recoveryPreview.set(null)" /> Upload Local JSON File(s)</label>
+        </div>
+      </div>
+
+      <div class="backup-form-group" *ngIf="recoverSourceMode() === 'cloud'">
+        <label>Saved Cloud Backups</label>
+        <div class="inline-select-row">
+          <select [ngModel]="selectedBackupId()" (ngModelChange)="selectedBackupId.set($event); recoveryPreview.set(null)">
+            <option value="">-- Select a JSON backup --</option>
+            <option *ngFor="let b of savedBackups()" [value]="b.backupId" [disabled]="b.format !== 'json'">
+              {{ b.topDirectory }} ({{ b.format | uppercase }} • {{ b.scope }})
+            </option>
+          </select>
+          <button type="button" class="btn-secondary" (click)="loadSavedBackups()" [disabled]="isLoadingBackups()">Refresh</button>
+        </div>
+      </div>
+
+      <div class="backup-form-group" *ngIf="recoverSourceMode() === 'upload'">
+        <label>Upload Collection JSON Files (e.g. Molecules.json, Substructures.json, ObjectIDClasses.json)</label>
+        <input type="file" multiple accept=".json" (change)="onRecoveryJsonFilesSelected($event)" />
+        <div *ngIf="uploadedFileNames().length > 0" class="uploaded-files-hint">
+          Loaded {{ uploadedFileNames().length }} file(s): {{ uploadedFileNames().join(', ') }}
+        </div>
+      </div>
+
+      <div class="backup-form-row">
+        <div class="backup-form-group" *ngIf="authService.isAdmin()">
+          <label>Target Scope</label>
+          <select [ngModel]="recoverTargetScope()" (ngModelChange)="recoverTargetScope.set($event); recoveryPreview.set(null)">
+            <option value="personal">Personal Workspace</option>
+            <option value="system">System Shared Database</option>
+          </select>
+        </div>
+
+        <div class="backup-form-group">
+          <label>Restore Mode</label>
+          <select [ngModel]="recoverRestoreMode()" (ngModelChange)="recoverRestoreMode.set($event)">
+            <option value="merge">Merge / Upsert (safe)</option>
+            <option value="replace">Clean Replace (wipe scope first)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="backup-actions-row">
+        <button type="button" class="btn-secondary" (click)="runRecoveryPreview()"
+          [disabled]="isPreviewingRecovery() || (recoverSourceMode() === 'cloud' ? !selectedBackupId() : !uploadedJsonPayload())">
+          <mat-icon>preview</mat-icon>
+          {{ isPreviewingRecovery() ? 'Analyzing...' : '1. Dry-Run Preview' }}
+        </button>
+        <button type="button" class="btn-primary" (click)="runRecoveryExecute()"
+          [disabled]="isRecovering() || !recoveryPreview()">
+          <mat-icon>cloud_upload</mat-icon>
+          {{ isRecovering() ? 'Recovering...' : '2. Recover Database' }}
+        </button>
+      </div>
+
+      <!-- Dry-Run Preview Table -->
+      <div *ngIf="recoveryPreview() as previewRows" class="preview-table-wrap">
+        <table class="preview-table">
+          <thead>
+            <tr>
+              <th>Collection</th>
+              <th>Incoming</th>
+              <th>New</th>
+              <th>Overwrite</th>
+              <th>Current</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let r of previewRows">
+              <td><strong>{{ r.label }}</strong></td>
+              <td>{{ r.incomingCount }}</td>
+              <td class="text-new">+{{ r.newCount }}</td>
+              <td class="text-overwrite">{{ r.existingCount }}</td>
+              <td>{{ r.existingTotalInScope }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div *ngIf="recoveryResult() as recRes" class="backup-result-box success">
+        <strong>Recovery Complete ({{ recRes.restoreMode }} &rarr; {{ recRes.targetScope }}):</strong>
+        <span *ngFor="let r of recRes.results" class="rec-stat-chip">
+          {{ r.collection }}: {{ r.writtenCount }} written{{ r.deletedCount ? ', ' + r.deletedCount + ' wiped' : '' }}
+        </span>
+      </div>
+    </div>
+  </section>
 
   <!-- ====================================================================== -->
   <!-- MODAL: RENAME RECORD                                                   -->

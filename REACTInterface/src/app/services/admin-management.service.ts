@@ -219,5 +219,82 @@ export class AdminManagementService {
       { headers: this.getHeaders() }
     );
   }
+
+  /**
+   * Dump database to Download ZIP (Blob)
+   */
+  dumpDatabaseAsZip(payload: {
+    format: 'json' | 'ascii';
+    scope: 'personal' | 'system' | 'both';
+    topDirectory: string;
+    collections?: string[];
+  }): Observable<Blob> {
+    return this.http.post(
+      `${this.baseUrl}/api/admin/db-dump`,
+      { ...payload, destination: 'download' },
+      { headers: this.getHeaders(), responseType: 'blob' }
+    );
+  }
+
+  /**
+   * Dump database to Firebase / Cloud Storage (or both Storage + Download URL)
+   */
+  dumpDatabaseToStorage(payload: {
+    format: 'json' | 'ascii';
+    destination: 'firestore_storage' | 'both';
+    scope: 'personal' | 'system' | 'both';
+    topDirectory: string;
+    collections?: string[];
+  }): Observable<any> {
+    return this.http.post<any>(
+      `${this.baseUrl}/api/admin/db-dump`,
+      payload,
+      { headers: this.getHeaders() }
+    );
+  }
+
+  /**
+   * List saved Firebase / Cloud Storage backups
+   */
+  listDatabaseBackups(): Observable<{ success: boolean; backups: any[] }> {
+    return this.http.get<{ success: boolean; backups: any[] }>(
+      `${this.baseUrl}/api/admin/db-backups`,
+      { headers: this.getHeaders() }
+    );
+  }
+
+  /**
+   * Dry-run recovery preview (counts new vs existing records per collection)
+   */
+  previewDatabaseRecovery(payload: {
+    targetScope: 'personal' | 'system';
+    sourceScope?: 'personal' | 'system';
+    backupId?: string;
+    filesPayload?: any;
+  }): Observable<any> {
+    return this.http.post<any>(
+      `${this.baseUrl}/api/admin/db-recover/preview`,
+      payload,
+      { headers: this.getHeaders() }
+    );
+  }
+
+  /**
+   * Execute database recovery ('merge' or 'replace')
+   */
+  executeDatabaseRecovery(payload: {
+    targetScope: 'personal' | 'system';
+    sourceScope?: 'personal' | 'system';
+    restoreMode: 'merge' | 'replace';
+    backupId?: string;
+    filesPayload?: any;
+    selectedCollections?: string[];
+  }): Observable<any> {
+    return this.http.post<any>(
+      `${this.baseUrl}/api/admin/db-recover/execute`,
+      payload,
+      { headers: this.getHeaders() }
+    );
+  }
 }
 

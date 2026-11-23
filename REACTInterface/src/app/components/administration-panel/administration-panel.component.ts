@@ -21,7 +21,7 @@ import { ReactCloudApiService } from '../../services/react-cloud-api.service';
 import { KetcherViewerComponent } from '../ketcher-viewer/ketcher-viewer.component';
 import { AtomCorrespondencesCardComponent } from '../task-list-view/cards/atom-correspondences-card.component';
 
-export type AdminSection = 'verify' | 'molecules' | 'substructures' | 'reaction-patterns' | 'mechanism-paths' | 'mechanisms' | string;
+export type AdminSection = 'verify' | 'molecules' | 'substructures' | 'reaction-patterns' | 'mechanism-paths' | 'mechanisms' | 'backup' | string;
 
 export interface DuplicateSubstructureItem {
   id: string;
@@ -1079,6 +1079,211 @@ export class AdministrationPanelComponent implements OnInit {
 
   isMechanismExpanded(targetMolecule: string): boolean {
     return this.expandedMechanisms().has(targetMolecule);
+  }
+
+  // ============================================================================
+  // DATABASE DUMP & PARALLEL RECOVERY STATE
+  // ============================================================================
+  public dumpFormat = signal<'json' | 'ascii'>('json');
+  public dumpDestination = signal<'download' | 'firestore_storage' | 'both'>('both');
+  public dumpScope = signal<'personal' | 'system' | 'both'>('personal');
+  public dumpTopDirectory = signal<string>(`reactcloud_dump_${new Date().toISOString().slice(0, 10)}`);
+  public isDumping = signal<boolean>(false);
+  public lastDumpResult = signal<any | null>(null);
+
+  public savedBackups = signal<any[]>([]);
+  public isLoadingBackups = signal<boolean>(false);
+  public recoverSourceMode = signal<'cloud' | 'upload'>('cloud');
+  public selectedBackupId = signal<string>('');
+  public recoverSourceScope = signal<'personal' | 'system'>('personal');
+  public recoverTargetScope = signal<'personal' | 'system'>('personal');
+  public recoverRestoreMode = signal<'merge' | 'replace'>('merge');
+  public uploadedJsonPayload = signal<any | null>(null);
+  public uploadedFileNames = signal<string[]>([]);
+  public isPreviewingRecovery = signal<boolean>(false);
+  public isRecovering = signal<boolean>(false);
+  public recoveryPreview = signal<any[] | null>(null);
+  public recoveryResult = signal<any | null>(null);
+
+  public openBackupSection(): void {
+    this.activeSection.set('backup');
+    if (this.authService.isAdmin()) {
+      this.dumpScope.set('both');
+    } else {
+      this.dumpScope.set('personal');
+      this.recoverTargetScope.set('personal');
+    }
+    this.loadSavedBackups();
+  }
+
+  public loadSavedBackups(): void {
+    this.isLoadingBackups.set(true);
+    this.adminService.listDatabaseBackups().subscribe({
+      next: (res) => {
+        this.savedBackups.set(res.backups || []);
+        if (!this.selectedBackupId() && res.backups && res.backups.length > 0) {
+          const jsonBackup = res.backups.find(b => b.format === 'json') || res.backups[0];
+          this.selectedBackupId.set(jsonBackup.backupId);
+        }
+        this.isLoadingBackups.set(false);
+      },
+      error: () => {
+        this.isLoadingBackups.set(false);
+      }
+    });
+  }
+
+  public executeDatabaseDump(): void {
+    this.isDumping.set(true);
+    this.lastDumpResult.set(null);
+    const scope = this.authService.isAdmin() ? this.dumpScope() : 'personal';
+    const format = this.dumpFormat();
+    const destination = this.dumpDestination();
+    const topDirectory = (this.dumpTopDirectory() || `reactcloud_${format}_${scope}`).trim();
+
+    if (destination === 'download') {
+      this.adminService.dumpDatabaseAsZip({ format, scope, topDirectory }).subscribe({
+        next: (blob) => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `${topDirectory}.zip`;
+          a.click();
+          window.URL.revokeObjectURL(url);
+          this.isDumping.set(false);
+          this.statusMessage.set({ type: 'success', text: `Downloaded ${topDirectory}.zip (${format.toUpperCase()}, scope: ${scope}).` });
+        },
+        error: (err) => {
+          this.isDumping.set(false);
+          this.statusMessage.set({ type: 'error', text: err?.error?.error || err?.message || 'Database dump failed.' });
+        }
+      });
+      return;
+    }
+
+    this.adminService.dumpDatabaseToStorage({ format, destination, scope, topDirectory }).subscribe({
+      next: (res) => {
+        this.isDumping.set(false);
+        this.lastDumpResult.set(res);
+        this.loadSavedBackups();
+        this.statusMessage.set({
+          type: 'success',
+          text: `Database dumped to Cloud Storage (${res.fileCount || 0} files under ${topDirectory}).`
+        });
+        if (destination === 'both' && res.backup?.downloadUrl) {
+          window.open(res.backup.downloadUrl, '_blank');
+        }
+      },
+      error: (err) => {
+        this.isDumping.set(false);
+        this.statusMessage.set({ type: 'error', text: err?.error?.error || err?.message || 'Cloud Storage dump failed.' });
+      }
+    });
+  }
+
+  public async onRecoveryJsonFilesSelected(event: Event): Promise<void> {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
+
+    const collections: Record<string, any[]> = {};
+    let objectIDClasses: any[] = [];
+    let searchKeys: Record<string, any[]> = {};
+    const names: string[] = [];
+
+    for (const file of Array.from(input.files)) {
+      names.push(file.name);
+      try {
+        const text = await file.text();
+        const parsed = JSON.parse(text);
+        const base = file.name.replace(/\.json$/i, '');
+        if (base === 'ObjectIDClasses' && Array.isArray(parsed)) {
+          objectIDClasses = parsed;
+        } else if (base === 'SearchKeys' && parsed && typeof parsed === 'object') {
+          searchKeys = parsed;
+        } else if (Array.isArray(parsed)) {
+          collections[base] = parsed;
+        } else if (parsed && typeof parsed === 'object' && parsed.collections) {
+          Object.assign(collections, parsed.collections);
+        }
+      } catch (e: any) {
+        this.statusMessage.set({ type: 'error', text: `Failed to parse ${file.name}: ${e.message}` });
+      }
+    }
+
+    this.uploadedFileNames.set(names);
+    this.uploadedJsonPayload.set({ collections, objectIDClasses, searchKeys });
+    this.recoveryPreview.set(null);
+    this.recoveryResult.set(null);
+  }
+
+  public runRecoveryPreview(): void {
+    this.isPreviewingRecovery.set(true);
+    this.recoveryPreview.set(null);
+    this.recoveryResult.set(null);
+
+    const targetScope = this.authService.isAdmin() ? this.recoverTargetScope() : 'personal';
+    const payload: any = {
+      targetScope,
+      sourceScope: this.recoverSourceScope()
+    };
+    if (this.recoverSourceMode() === 'cloud') {
+      payload.backupId = this.selectedBackupId();
+    } else {
+      payload.filesPayload = this.uploadedJsonPayload();
+    }
+
+    this.adminService.previewDatabaseRecovery(payload).subscribe({
+      next: (res) => {
+        this.isPreviewingRecovery.set(false);
+        this.recoveryPreview.set(res.preview || []);
+        this.statusMessage.set({ type: 'info', text: `Dry-run preview ready for '${targetScope}' scope.` });
+      },
+      error: (err) => {
+        this.isPreviewingRecovery.set(false);
+        this.statusMessage.set({ type: 'error', text: err?.error?.error || err?.message || 'Recovery preview failed.' });
+      }
+    });
+  }
+
+  public runRecoveryExecute(): void {
+    const targetScope = this.authService.isAdmin() ? this.recoverTargetScope() : 'personal';
+    const restoreMode = this.recoverRestoreMode();
+
+    if (restoreMode === 'replace') {
+      const ok = window.confirm(
+        `Clean Replace will permanently wipe existing records in the '${targetScope.toUpperCase()}' database before restoring the dump. Continue?`
+      );
+      if (!ok) return;
+    }
+
+    this.isRecovering.set(true);
+    this.recoveryResult.set(null);
+
+    const payload: any = {
+      targetScope,
+      sourceScope: this.recoverSourceScope(),
+      restoreMode
+    };
+    if (this.recoverSourceMode() === 'cloud') {
+      payload.backupId = this.selectedBackupId();
+    } else {
+      payload.filesPayload = this.uploadedJsonPayload();
+    }
+
+    this.adminService.executeDatabaseRecovery(payload).subscribe({
+      next: (res) => {
+        this.isRecovering.set(false);
+        this.recoveryResult.set(res);
+        this.statusMessage.set({
+          type: 'success',
+          text: `Database recovery (${restoreMode}) into '${targetScope}' completed successfully.`
+        });
+      },
+      error: (err) => {
+        this.isRecovering.set(false);
+        this.statusMessage.set({ type: 'error', text: err?.error?.error || err?.message || 'Database recovery failed.' });
+      }
+    });
   }
 
   copyToClipboard(text: string): void {

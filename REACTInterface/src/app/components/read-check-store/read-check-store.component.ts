@@ -24,6 +24,23 @@ import {
 
 export type DataTypeOption = 'molecule' | 'substructure' | 'rxn-pattern' | 'reaction' | 'mechanism-pathway';
 export type FormatOption = 'sdf' | 'ascii';
+export type MoleculeInputMode = 'single_sdf' | 'three_files';
+
+export interface MoleculeBundleValidationReport {
+  success: boolean;
+  mode: MoleculeInputMode;
+  moleculeNames: string[];
+  summary: {
+    moleculeCount: number;
+    altNameEntriesCount: number;
+    thermoEntriesCount: number;
+    thermoSpeciesCount?: number;
+  };
+  warnings: string[];
+  errors: string[];
+  hasAltNames: boolean;
+  hasThermo: boolean;
+}
 
 export interface StoredRecordItem {
   name: string;
@@ -63,9 +80,15 @@ export class ReadCheckStoreComponent implements OnInit {
   // Configuration & Common State
   public dataType: DataTypeOption = 'molecule';
   public format: FormatOption = 'sdf';
+  public moleculeInputMode: MoleculeInputMode = 'single_sdf';
   public rootName: string = '22dimethylC3C4';
   public selectedFile: File | null = null;
   public fileContent: string | null = null;
+  public selectedNamesLstFile: File | null = null;
+  public namesLstContent: string = '';
+  public selectedThmFile: File | null = null;
+  public thmContent: string = '';
+  public bundleValidationReport: MoleculeBundleValidationReport | null = null;
   public uploadedGcsUrl: string = '';
 
   // Cached Options & Labels for Stable Template Rendering
@@ -315,6 +338,40 @@ export class ReadCheckStoreComponent implements OnInit {
     this.resetWorkflow();
   }
 
+  public onMoleculeInputModeChange(mode: MoleculeInputMode): void {
+    this.moleculeInputMode = mode;
+    this.bundleValidationReport = null;
+    this.resetWorkflow();
+  }
+
+  public onNamesLstSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      this.selectedNamesLstFile = file;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.namesLstContent = String(e.target?.result || '');
+        this.resetWorkflow();
+      };
+      reader.readAsText(file);
+    }
+  }
+
+  public onThmFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      this.selectedThmFile = file;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.thmContent = String(e.target?.result || '');
+        this.resetWorkflow();
+      };
+      reader.readAsText(file);
+    }
+  }
+
   private updateFormatDefaults(): void {
     if (this.dataType === 'mechanism-pathway') {
       this.format = 'ascii';
@@ -401,6 +458,7 @@ export class ReadCheckStoreComponent implements OnInit {
     this.errorMessage = '';
     this.statusMessage = '';
     this.orchestratorWarning = false;
+    this.bundleValidationReport = null;
     this.expandedParsedItems = {};
     this.pathwayReport = null;
     this.moleculeSearchText = '';
@@ -449,6 +507,40 @@ export class ReadCheckStoreComponent implements OnInit {
     this.errorMessage = '';
 
     try {
+      // 0. For Molecule data type, validate Single Enriched SDF or All Three Files (.sdf + -names.lst + .thm)
+      if (this.dataType === 'molecule') {
+        if (!this.fileContent && this.selectedFile) {
+          this.fileContent = await this.selectedFile.text();
+        }
+        if (this.moleculeInputMode === 'three_files') {
+          if (!this.namesLstContent && this.selectedNamesLstFile) {
+            this.namesLstContent = await this.selectedNamesLstFile.text();
+          }
+          if (!this.thmContent && this.selectedThmFile) {
+            this.thmContent = await this.selectedThmFile.text();
+          }
+        }
+        if (this.fileContent) {
+          const valRes = await firstValueFrom(this.reactCloudApi.validateMoleculeBundle({
+            mode: this.moleculeInputMode,
+            rootName: this.rootName.trim(),
+            sdfContent: this.fileContent,
+            namesLstContent: this.moleculeInputMode === 'three_files' ? this.namesLstContent : undefined,
+            thmContent: this.moleculeInputMode === 'three_files' ? this.thmContent : undefined
+          }));
+          this.bundleValidationReport = valRes;
+          if (!valRes.success) {
+            this.isExecuting = false;
+            this.errorMessage = `Validation failed: ${(valRes.errors || []).join(' | ')}`;
+            return;
+          }
+        } else if (this.moleculeInputMode === 'three_files') {
+          this.isExecuting = false;
+          this.errorMessage = 'Please select all three files (.sdf, -names.lst, and .thm) before running Step 1.';
+          return;
+        }
+      }
+
       // 1. Upload file to Cloud Storage (Zero-POST direct upload)
       const ext = this.getTargetFileExtension();
       const targetFilename = `${this.rootName.trim()}${ext}`;
@@ -763,6 +855,39 @@ export class ReadCheckStoreComponent implements OnInit {
     this.orchestratorWarning = false;
 
     try {
+      // For Molecules with Alternative Names and/or Thermodynamics (3-file mode or Enriched Single SDF),
+      // use atomic /api/molecules/store-bundle endpoint (auto-generates .mol / -names.mol lists)
+      const useMoleculeBundleStore = this.dataType === 'molecule' && (
+        this.moleculeInputMode === 'three_files' ||
+        Boolean(this.bundleValidationReport?.hasAltNames) ||
+        Boolean(this.bundleValidationReport?.hasThermo)
+      );
+
+      if (useMoleculeBundleStore) {
+        if (!this.fileContent && this.selectedFile) {
+          this.fileContent = await this.selectedFile.text();
+        }
+        const bundleRes = await firstValueFrom(this.reactCloudApi.storeMoleculeBundle({
+          mode: this.moleculeInputMode,
+          rootName: this.rootName.trim(),
+          sdfContent: this.fileContent || '',
+          namesLstContent: this.moleculeInputMode === 'three_files' ? this.namesLstContent : undefined,
+          thmContent: this.moleculeInputMode === 'three_files' ? this.thmContent : undefined
+        }));
+        this.isExecuting = false;
+        this.step3Log = bundleRes.output || 'Molecule bundle store completed.';
+        this.step3Lines = this.parseLogToLines(this.step3Log);
+        if (bundleRes.success) {
+          this.step3Completed = true;
+          this.statusMessage = `Step 3 Store completed (${bundleRes.summary?.moleculeCount || 0} molecule(s), ${bundleRes.summary?.altNameEntriesCount || 0} alt name(s), ${bundleRes.summary?.thermoEntriesCount || 0} thermo record(s)).`;
+          this.parseStoredRecordsOutput(bundleRes.output || '');
+        } else {
+          this.errorMessage = bundleRes.error || 'Step 3 Molecule Bundle Store failed.';
+          this.orchestratorWarning = true;
+        }
+        return;
+      }
+
       const ext = this.getTargetFileExtension();
       const targetFilename = `${this.rootName.trim()}${ext}`;
       if (!this.uploadedGcsUrl && (this.selectedFile || this.fileContent !== null)) {

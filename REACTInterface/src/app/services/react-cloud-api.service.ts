@@ -708,5 +708,31 @@ export class ReactCloudApiService {
     }
     return Array.from(missing);
   }
+
+  public validateMoleculeBundle(payload: {
+    mode: 'single_sdf' | 'three_files';
+    rootName: string;
+    sdfContent: string;
+    namesLstContent?: string;
+    thmContent?: string;
+  }): Observable<any> {
+    return this.http.post<any>(
+      `${this.baseUrl}/api/molecules/validate-bundle`,
+      payload
+    );
+  }
+
+  public storeMoleculeBundle(payload: {
+    mode: 'single_sdf' | 'three_files';
+    rootName: string;
+    sdfContent: string;
+    namesLstContent?: string;
+    thmContent?: string;
+  }): Observable<any> {
+    return this.http.post<any>(
+      `${this.baseUrl}/api/molecules/store-bundle`,
+      payload
+    );
+  }
 }
 
